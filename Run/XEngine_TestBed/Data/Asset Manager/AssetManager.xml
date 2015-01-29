@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<AssetManager>
+  <Config PersistantUniqueID="10004"/>
+  <RawFiles>
+    <RawFile Name="DeerTexture" ContentType="5" ContentSubtype="9" GameContextFileExt="6" LastModifiedTimeStamp="2012-8-26 17:42:45" FilePath=".\..\Data\Raw Files\DeerTexture.dds" OutputDirectory="..\Data\Assets\" OutputFileName="DeerTexture" ReloadNeeded="false" OutputDirChanged="false" ContentSubtypeChanged="false" AssociatedAssetID="10000"/>
+    <RawFile Name="ModelPS" ContentType="6" ContentSubtype="4" GameContextFileExt="4" LastModifiedTimeStamp="2014-9-11 7:41:47" FilePath=".\..\Data\Raw Files\ModelPS.fx" OutputDirectory="..\Data\Assets\" OutputFileName="ModelPS" ReloadNeeded="false" OutputDirChanged="false" ContentSubtypeChanged="false" AssociatedAssetID="10001"/>
+    <RawFile Name="box" ContentType="1" ContentSubtype="1" GameContextFileExt="2" LastModifiedTimeStamp="2014-11-13 8:24:45" FilePath=".\..\Data\Raw Files\box.DAE" OutputDirectory="..\Data\Assets\" OutputFileName="box" ReloadNeeded="false" OutputDirChanged="false" ContentSubtypeChanged="false" AssociatedAssetID="10002"/>
+  </RawFiles>
+  <Assets>
+    <Asset Name="DeerTexture" AssociatedAssetID="10000" ParentAssetID="0" GameContentType="5" IsLoaded="true"/>
+    <Asset Name="ModelPS" AssociatedAssetID="10001" ParentAssetID="0" GameContentType="6" IsLoaded="true"/>
+    <Asset Name="box" AssociatedAssetID="10002" ParentAssetID="0" GameContentType="1" IsLoaded="true"/>
+    <Asset Name="Box001" AssociatedAssetID="10003" ParentAssetID="10002" GameContentType="2" IsLoaded="true"/>
+  </Assets>
+</AssetManager>

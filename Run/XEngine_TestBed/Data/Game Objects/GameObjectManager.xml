@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<GameObjectManager>
+  
+	<GameObject>	
+	
+		<Components>		
+		</Components>
+		
+		<Childs>
+		</Childs>
+		
+	</GameObject>
+  
+</GameObjectManager>
+
+<!--  
+<GameObjectManager>
+  
+	<GameObject Name="Empty" Position="1 1 1" Rotation="2 2 2" Scale="3 3 3" >
+		
+		<Components>
+		
+			<Component Type="Mesh" AssetID="2" />
+		
+		</Components>
+		
+		<Childs>
+		
+			<GameObject ....>
+				....			
+			</GameObject>
+		
+		</Childs>
+		
+	</GameObject>
+  
+</GameObjectManager>
+-->

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GameObjectBoxColliderComponentWidgetQt</class>
+ <widget class="QWidget" name="GameObjectBoxColliderComponentWidgetQt">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>404</width>
+    <height>86</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>404</width>
+    <height>86</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Game Object Box Collider Component</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow, QWidget, QDialog, QMenuBar::item
+{
+	background-color: rgb(50, 50, 50);
+	color: rgb(255, 255, 255);
+}
+
+QHeaderView::section
+{
+	background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:0, y2:0.5, stop:0 rgba(50, 50, 50, 255), stop:1 rgba(75, 75, 75, 255));
+	padding-left: 4px;
+	border: 1px solid rgb(110, 110, 110);
+}
+
+QMenuBar::item:selected, QMenu::item:selected
+{
+    background-color: rgb(120, 120, 120);
+	border: 1px solid rgb(200, 200, 200);
+}
+
+QPushButton:hover
+{
+    background-color: rgb(75, 75, 75);
+}
+
+QPushButton:pressed
+{
+    background-color: rgb(100, 100, 100);
+}
+
+QLineEdit
+{
+	border-width: 2px;
+	border-style: inset;
+	border-color: rgb(60, 60, 60);
+	border-radius: 5px;
+	padding: 1px;
+}
+
+QLineEdit:focus
+{
+	background-color: rgb(75, 75, 75);
+}
+
+QDockWidget::title
+{
+	background-color: rgb(65, 65, 65);
+	padding: 5px;
+}
+
+QTabBar::tab 
+{
+	background-color: qlineargradient(spread:pad, x1:1, y1:0.5, x2:0, y2:0.5, stop:0 rgba(60, 60, 60, 255), stop:0.5 rgba(80, 80, 80, 255), stop:1 rgba(60, 60, 60, 255));
+	padding: 5px;
+	borde-width: 3px; 
+	border-color: rgb(110, 110, 110);
+	border-style: inset;
+	border-radius: 8px;
+	font-size: 11px;
+}
+
+QTabBar::tab:selected 
+{
+	background-color: qlineargradient(spread:pad, x1:1, y1:0.5, x2:0, y2:0.5, stop:0 rgba(60, 60, 60, 255), stop:0.5 rgba(120, 120, 120, 255), stop:1 rgba(60, 60, 60, 255));
+	border-style: outset;
+    border-bottom-color: rgb(60, 60, 60);
+}
+
+QTreeWidget
+{
+	alternate-background-color: rgb(60, 60, 60);
+}
+
+QTreeWidget::branch:has-children
+{
+	image: url(:/XEngine_Editor/Resources/Images/branch-closegrey.png) 0;
+}
+
+QTreeWidget::branch:has-children:open
+{
+	image: url(:/XEngine_Editor/Resources/Images/branch-opengrey.png) 0;
+}
+
+QTreeWidget::branch:has-children:open:selected
+{
+	image: url(:/XEngine_Editor/Resources/Images/branch-openblue.png) 0;
+}
+
+QTreeWidget::branch:has-children:!open:selected
+{
+	image: url(:/XEngine_Editor/Resources/Images/branch-closeblue.png) 0;
+}
+</string>
+  </property>
+  <widget class="QDoubleSpinBox" name="m_SizeYSB">
+   <property name="geometry">
+    <rect>
+     <x>163</x>
+     <y>38</y>
+     <width>101</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>4</number>
+   </property>
+   <property name="minimum">
+    <double>-50000.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>50000.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="m_SizeXSB">
+   <property name="geometry">
+    <rect>
+     <x>38</x>
+     <y>38</y>
+     <width>101</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>4</number>
+   </property>
+   <property name="minimum">
+    <double>-50000.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>50000.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="m_SizeZSB">
+   <property name="geometry">
+    <rect>
+     <x>288</x>
+     <y>38</y>
+     <width>101</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>4</number>
+   </property>
+   <property name="minimum">
+    <double>-50000.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>50000.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="m_SizeZLB">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>40</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Z:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="m_SizeLB">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Size</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="m_SizeYLB">
+   <property name="geometry">
+    <rect>
+     <x>145</x>
+     <y>40</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Y:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="m_SizeXLB">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>X:</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

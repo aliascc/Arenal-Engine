@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<DevCaps>
+	<PixelFormat DisplayFormat="XE_PX_FMT_X8R8G8B8" BackBufferFormat="XE_PX_FMT_X8R8G8B8" Windowed="false" />
+  <PixelFormat DisplayFormat="XE_PX_FMT_X8R8G8B8" BackBufferFormat="XE_PX_FMT_A8R8G8B8" Windowed="false" />
+	<VertexShader Ver="3 0" />
+	<PixelShader Ver="3 0" />
+	<PureDevice />
+	<HWTransformedLight />
+  <ScissorTest />
+	<MAXRTS num="4" />
+</DevCaps>

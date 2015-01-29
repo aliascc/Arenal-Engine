@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="GameContentDefs.cpp" />
+    <ClCompile Include="Content\MeshContent.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\MeshPartContent.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\ModelContent.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\ShaderContent.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\SkeletonContent.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\VertexBufferContent.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\AnimationContent.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\ContentDefs.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\GameContent.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Writers\WriterXE3D.cpp">
+      <Filter>Writers</Filter>
+    </ClCompile>
+    <ClCompile Include="Importers\ImporterHLSL.cpp">
+      <Filter>Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Importers\ImporterAssimp.cpp">
+      <Filter>Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Importers\IncludeInterfaceHLSL.cpp">
+      <Filter>Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Writers\WriterHLSL.cpp">
+      <Filter>Writers</Filter>
+    </ClCompile>
+    <ClCompile Include="Importers\ImporterFBX.cpp">
+      <Filter>Importers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameContentDefs.h" />
+    <ClInclude Include="Content\MeshContent.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\MeshPartContent.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\ModelContent.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\ShaderContent.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\SkeletonContent.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\VertexBufferContent.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\AnimationContent.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\ContentDefs.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\GameContent.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Writers\WriterXE3D.h">
+      <Filter>Writers</Filter>
+    </ClInclude>
+    <ClInclude Include="Importers\ImporterHLSL.h">
+      <Filter>Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Importers\ImporterAssimp.h">
+      <Filter>Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Importers\IncludeInterfaceHLSL.h">
+      <Filter>Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Writers\WriterHLSL.h">
+      <Filter>Writers</Filter>
+    </ClInclude>
+    <ClInclude Include="Importers\ImportersDefs.h">
+      <Filter>Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Importers\ImporterFBX.h">
+      <Filter>Importers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Content">
+      <UniqueIdentifier>{94fafe69-ba22-4e6f-86f4-391d6729997f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Writers">
+      <UniqueIdentifier>{32c74e39-0e3a-4c72-89ea-4e2036f44382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Importers">
+      <UniqueIdentifier>{7f69d4cd-c883-422b-a593-5301c657d500}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

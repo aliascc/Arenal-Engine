@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameApp\GameApp.cpp" />
+    <ClCompile Include="GameApp\GameAppDefs.cpp" />
+    <ClCompile Include="GameASAddOns\AudioAddOnAS.cpp" />
+    <ClCompile Include="GameASAddOns\BaseAddOnAS.cpp" />
+    <ClCompile Include="GameASAddOns\ColorAddOnAS.cpp" />
+    <ClCompile Include="GameASAddOns\GameCoreAddOnAS.cpp" />
+    <ClCompile Include="GameASAddOns\GLMAddOnAS.cpp" />
+    <ClCompile Include="GameASAddOns\InputAddOnAS.cpp" />
+    <ClCompile Include="GameASAddOns\LocalizationAddOnAS.cpp" />
+    <ClCompile Include="GameASAddOns\LogAddOnAS.cpp" />
+    <ClCompile Include="GameASAddOns\TimeAddOnAS.cpp" />
+    <ClCompile Include="GameAssets\Assets\AnimationAsset.cpp" />
+    <ClCompile Include="GameAssets\Assets\AudioAsset.cpp" />
+    <ClCompile Include="GameAssets\Assets\GameObjectScriptAsset.cpp" />
+    <ClCompile Include="GameAssets\Assets\ShaderAsset.cpp" />
+    <ClCompile Include="GameAssets\Assets\MeshAsset.cpp" />
+    <ClCompile Include="GameAssets\Assets\ModelAsset.cpp" />
+    <ClCompile Include="GameAssets\Assets\SkeletonAsset.cpp" />
+    <ClCompile Include="GameAssets\Assets\TextureAsset.cpp" />
+    <ClCompile Include="GameAssets\GameAsset.cpp" />
+    <ClCompile Include="GameAssets\GameAssetDefs.cpp" />
+    <ClCompile Include="GameAssets\GameAssetManager.cpp" />
+    <ClCompile Include="GameAssets\RawGameAsset.cpp" />
+    <ClCompile Include="GameObject\Components\AudioListenerGOC.cpp" />
+    <ClCompile Include="GameObject\Components\AudioSourceGOC.cpp" />
+    <ClCompile Include="GameObject\Components\CameraGOC.cpp" />
+    <ClCompile Include="GameObject\Components\LightGOC.cpp" />
+    <ClCompile Include="GameObject\Components\MeshAnimationGOC.cpp" />
+    <ClCompile Include="GameObject\Components\MeshMaterialGOC.cpp" />
+    <ClCompile Include="GameObject\Components\MeshGOC.cpp" />
+    <ClCompile Include="GameObject\Components\GameObjectScriptGOC.cpp" />
+    <ClCompile Include="GameObject\Components\PhysicsGOC.cpp" />
+    <ClCompile Include="GameObject\GameObject.cpp" />
+    <ClCompile Include="GameObject\GameObjectManager.cpp" />
+    <ClCompile Include="GameObject\GameObjectComponent.cpp" />
+    <ClCompile Include="GameObject\Scripts\GameObjectScript.cpp" />
+    <ClCompile Include="GameObject\Scripts\GameObjectScriptDefs.cpp" />
+    <ClCompile Include="GameObject\Scripts\GameObjectScriptManager.cpp" />
+    <ClCompile Include="GameUtils\DrawableGameComponent.cpp" />
+    <ClCompile Include="GameUtils\GameComponent.cpp" />
+    <ClCompile Include="GameUtils\GameComponentCollection.cpp" />
+    <ClCompile Include="GameUtils\GameService.cpp" />
+    <ClCompile Include="GameUtils\GameServiceCollection.cpp" />
+    <ClCompile Include="GameUtils\GameUtilsDefs.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Basic\BasicColorMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Basic\BasicLineMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Basic\DiffuseTextureBasicMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Basic\DiffuseTextureMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Basic\QuadColorMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Basic\QuadTextureMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\BuiltInMaterialsDefs.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusLightCullingMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusZPrePassMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusZPrePassSkinningMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Material.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Shadows\VarianceShadowMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Shadows\VarianceSkinningShadowMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Materials\Skinning\SkinningMaterial.cpp" />
+    <ClCompile Include="Graphic Extensions\Shader Extensions\Properties\ShaderProperties.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameApp\GameApp.h" />
+    <ClInclude Include="GameApp\GameAppDefs.h" />
+    <ClInclude Include="GameASAddOns\AudioAddOnAS.h" />
+    <ClInclude Include="GameASAddOns\BaseAddOnAS.h" />
+    <ClInclude Include="GameASAddOns\ColorAddOnAS.h" />
+    <ClInclude Include="GameASAddOns\GameASAddOnsDefs.h" />
+    <ClInclude Include="GameASAddOns\GameCoreAddOnAS.h" />
+    <ClInclude Include="GameASAddOns\GLMAddOnAS.h" />
+    <ClInclude Include="GameASAddOns\InputAddOnAS.h" />
+    <ClInclude Include="GameASAddOns\LocalizationAddOnAS.h" />
+    <ClInclude Include="GameASAddOns\LogAddOnAS.h" />
+    <ClInclude Include="GameASAddOns\TimeAddOnAS.h" />
+    <ClInclude Include="GameAssets\Assets\AnimationAsset.h" />
+    <ClInclude Include="GameAssets\Assets\AudioAsset.h" />
+    <ClInclude Include="GameAssets\Assets\GameObjectScriptAsset.h" />
+    <ClInclude Include="GameAssets\Assets\ShaderAsset.h" />
+    <ClInclude Include="GameAssets\Assets\MeshAsset.h" />
+    <ClInclude Include="GameAssets\Assets\ModelAsset.h" />
+    <ClInclude Include="GameAssets\Assets\SkeletonAsset.h" />
+    <ClInclude Include="GameAssets\Assets\TextureAsset.h" />
+    <ClInclude Include="GameAssets\GameAsset.h" />
+    <ClInclude Include="GameAssets\GameAssetDefs.h" />
+    <ClInclude Include="GameAssets\GameAssetManager.h" />
+    <ClInclude Include="GameAssets\RawGameAsset.h" />
+    <ClInclude Include="GameObject\Components\AudioListenerGOC.h" />
+    <ClInclude Include="GameObject\Components\AudioSourceGOC.h" />
+    <ClInclude Include="GameObject\Components\CameraGOC.h" />
+    <ClInclude Include="GameObject\Components\LightGOC.h" />
+    <ClInclude Include="GameObject\Components\MeshAnimationGOC.h" />
+    <ClInclude Include="GameObject\Components\MeshMaterialGOC.h" />
+    <ClInclude Include="GameObject\Components\MeshGOC.h" />
+    <ClInclude Include="GameObject\Components\GameObjectScriptGOC.h" />
+    <ClInclude Include="GameObject\Components\PhysicsGOC.h" />
+    <ClInclude Include="GameObject\GameObject.h" />
+    <ClInclude Include="GameObject\GameObjectManager.h" />
+    <ClInclude Include="GameObject\GameObjectComponent.h" />
+    <ClInclude Include="GameObject\GameObjectDefs.h" />
+    <ClInclude Include="GameObject\Scripts\GameObjectScript.h" />
+    <ClInclude Include="GameObject\Scripts\GameObjectScriptDefs.h" />
+    <ClInclude Include="GameObject\Scripts\GameObjectScriptManager.h" />
+    <ClInclude Include="GameUtils\DrawableGameComponent.h" />
+    <ClInclude Include="GameUtils\GameComponent.h" />
+    <ClInclude Include="GameUtils\GameComponentCollection.h" />
+    <ClInclude Include="GameUtils\GameService.h" />
+    <ClInclude Include="GameUtils\GameServiceCollection.h" />
+    <ClInclude Include="GameUtils\GameUtilsDefs.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Basic\BasicColorMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Basic\BasicLineMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Basic\DiffuseTextureBasicMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Basic\DiffuseTextureMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Basic\QuadColorMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Basic\QuadTextureMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Materials\BuiltInMaterialsDefs.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusLightCullingMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusZPrePassMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusZPrePassSkinningMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Material.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Shadows\VarianceShadowMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Shadows\VarianceSkinningShadowMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Materials\Skinning\SkinningMaterial.h" />
+    <ClInclude Include="Graphic Extensions\Shader Extensions\Properties\ShaderProperties.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0173BBDA-4173-4E88-959B-91CE221A6894}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>XEngine_Core</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)_x86_d</TargetName>
+    <OutDir>$(SolutionDir)\Bin\Lib\$(Configuration)\x86\</OutDir>
+    <IntDir>$(SolutionDir)\Bin\Intermediate\$(ProjectName)\$(Configuration)\x86\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>$(ProjectName)_x64_d</TargetName>
+    <OutDir>$(SolutionDir)\Bin\Lib\$(Configuration)\x64\</OutDir>
+    <IntDir>$(SolutionDir)\Bin\Intermediate\$(ProjectName)\$(Configuration)\x64\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)\Bin\Lib\$(Configuration)\x86\</OutDir>
+    <IntDir>$(SolutionDir)\Bin\Intermediate\$(ProjectName)\$(Configuration)\x86\</IntDir>
+    <TargetName>$(ProjectName)_x86</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)\Bin\Lib\$(Configuration)\x64\</OutDir>
+    <IntDir>$(SolutionDir)\Bin\Intermediate\$(ProjectName)\$(Configuration)\x64\</IntDir>
+    <TargetName>$(ProjectName)_x64</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>GLM_FORCE_RADIANS;FASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS;FASTFORMAT_NO_VERSION_NAG;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\XEngine_Base\;$(SolutionDir)\Code\XEngine_Scripting\;$(SolutionDir)\Code\XEngine_Input\;$(SolutionDir)\Code\XEngine_Shaders\;$(SolutionDir)\Code\XEngine_GameContent\;$(SolutionDir)\Code\XEngine_Graphics\;$(SolutionDir)\Code\XEngine_Audio\;$(SolutionDir)\Code\XEngine_Physics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\FastFormat\include;$(SolutionDir)\Code\3rdParty\STLSoft\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>
+      </MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>GLM_FORCE_RADIANS;FASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS;FASTFORMAT_NO_VERSION_NAG;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\XEngine_Base\;$(SolutionDir)\Code\XEngine_Scripting\;$(SolutionDir)\Code\XEngine_Input\;$(SolutionDir)\Code\XEngine_Shaders\;$(SolutionDir)\Code\XEngine_GameContent\;$(SolutionDir)\Code\XEngine_Graphics\;$(SolutionDir)\Code\XEngine_Audio\;$(SolutionDir)\Code\XEngine_Physics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\FastFormat\include;$(SolutionDir)\Code\3rdParty\STLSoft\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>
+      </MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>GLM_FORCE_RADIANS;FASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS;FASTFORMAT_NO_VERSION_NAG;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\XEngine_Base\;$(SolutionDir)\Code\XEngine_Scripting\;$(SolutionDir)\Code\XEngine_Input\;$(SolutionDir)\Code\XEngine_Shaders\;$(SolutionDir)\Code\XEngine_GameContent\;$(SolutionDir)\Code\XEngine_Graphics\;$(SolutionDir)\Code\XEngine_Audio\;$(SolutionDir)\Code\XEngine_Physics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\FastFormat\include;$(SolutionDir)\Code\3rdParty\STLSoft\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>
+      </MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>GLM_FORCE_RADIANS;FASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS;FASTFORMAT_NO_VERSION_NAG;WIN32;WIN64;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\XEngine_Base\;$(SolutionDir)\Code\XEngine_Scripting\;$(SolutionDir)\Code\XEngine_Input\;$(SolutionDir)\Code\XEngine_Shaders\;$(SolutionDir)\Code\XEngine_GameContent\;$(SolutionDir)\Code\XEngine_Graphics\;$(SolutionDir)\Code\XEngine_Audio\;$(SolutionDir)\Code\XEngine_Physics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\FastFormat\include;$(SolutionDir)\Code\3rdParty\STLSoft\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>
+      </MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,529 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Textures">
+      <UniqueIdentifier>{dc621034-00ea-467e-88c3-e95af6e8bc8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{da92d43f-4d41-4171-b8a4-b790a2b340a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vertex">
+      <UniqueIdentifier>{5783d5d6-b08b-42d7-be7c-3e72da09387c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vertex\Types">
+      <UniqueIdentifier>{41ddb3b7-ece6-41fc-a1e7-8ab53eb0e0a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lights">
+      <UniqueIdentifier>{09394e59-be97-4feb-b588-6209c685e860}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shapes">
+      <UniqueIdentifier>{25c8da15-7d2c-4cd9-9f47-afffa6a063ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{3c865bc2-f6a4-4e43-8e12-35998af8a437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Wrappers">
+      <UniqueIdentifier>{ab9d7e90-aa2c-4dda-9e4b-c031bccd81d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models\Animation">
+      <UniqueIdentifier>{e42bff7a-8d65-4969-8f47-a9695388a622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models\Skinning">
+      <UniqueIdentifier>{67406207-e208-45e9-931c-5b37825c5664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{551ada53-ca84-4ca7-b155-d267bc6d0dae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Buffers">
+      <UniqueIdentifier>{aa45a349-7d81-416f-b810-20e51c2cac47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Bindings">
+      <UniqueIdentifier>{1578f92d-c2b1-4d94-bad8-ffd5667fb822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Variables">
+      <UniqueIdentifier>{74b5ba20-37c8-490d-90d0-8f04ff95ba92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{8defecf9-b710-47f4-af7b-16eb564aaf10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models\Custom">
+      <UniqueIdentifier>{8b3b5d8f-7ffa-4e29-8a9e-84ed52200cdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Custom">
+      <UniqueIdentifier>{5491a0c3-f0de-4d1f-9fbd-b149769510be}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GraphicsDefs.h" />
+    <ClInclude Include="GraphicDevice.h" />
+    <ClInclude Include="Textures\RenderTarget.h">
+      <Filter>Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Mesh.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\MeshPart.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures\Texture2D.h">
+      <Filter>Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures\Texture.h">
+      <Filter>Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\IndexBuffer.h">
+      <Filter>Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\VertexBuffer.h">
+      <Filter>Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\VertexDefs.h">
+      <Filter>Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\IVertexBuffer.h">
+      <Filter>Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures\TextureCube.h">
+      <Filter>Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\Light.h">
+      <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\SpotLight.h">
+      <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\OmniLight.h">
+      <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\DirectionalLight.h">
+      <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures\DepthStencilSurface.h">
+      <Filter>Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\SphereShape.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\QuadShape2D.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\VertexLayout.h">
+      <Filter>Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexPositionNormalTangentBinormalTexture.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexPositionNormalTexture.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexPositionNormalTextureTexture2.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexPositionTexture.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexPosition.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexPositionColor.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexPositionNormal.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexPositionNormalColor.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexPositionNormalTangentBinormalTextureTexture2.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Wrappers\SpriteFontXE.h">
+      <Filter>Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Wrappers\SpriteDefs.h">
+      <Filter>Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Wrappers\SpriteBatchXE.h">
+      <Filter>Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexTypes.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Animation\AnimationDefs.h">
+      <Filter>Models\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Animation\KeyFrame.h">
+      <Filter>Models\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Skinning\Bone.h">
+      <Filter>Models\Skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Skinning\Skeleton.h">
+      <Filter>Models\Skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Skinning\SkinningDefs.h">
+      <Filter>Models\Skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexPositionNormalTangentBinormalTextureIndicesWeight.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex\Types\VertexPositionNormalTextureIndicesWeight.h">
+      <Filter>Vertex\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Animation\AnimationPlayer.h">
+      <Filter>Models\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\LightDefs.h">
+      <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\ComputeShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\DomainShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\GeometryShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\HullShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\PixelShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Shader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\VertexShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Buffers\ConstantBuffer.h">
+      <Filter>Shaders\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Bindings\ShaderBinding.h">
+      <Filter>Shaders\Bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Variables\ShaderCustomVariable.h">
+      <Filter>Shaders\Variables</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\ShaderDefs.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures\TextureDefs.h">
+      <Filter>Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Bindings\ShaderTextureBinding.h">
+      <Filter>Shaders\Bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Animation\Animation.h">
+      <Filter>Models\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\ShaderSignatures.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Buffers\StructuredBuffer.h">
+      <Filter>Shaders\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\LightManager.h">
+      <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Buffers\SimpleBuffer.h">
+      <Filter>Shaders\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Buffers\ShaderBuffer.h">
+      <Filter>Shaders\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\QuadShape3D.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\QuadShape.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\LightShape.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\OmniLightShape.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\ShapesDefs.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\SpotLightShape.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\DirectionalLightShape.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures\ITexture2D.h">
+      <Filter>Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Variables\Texture2DArray.h">
+      <Filter>Shaders\Variables</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Variables\TextureArray.h">
+      <Filter>Shaders\Variables</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Frustum.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\FrustumDefs.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\FrustumShape.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Viewport.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Variables\Sampler.h">
+      <Filter>Shaders\Variables</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\CameraDefs.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\CameraManager.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\GameObjectCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\EditorCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Custom\CubeMesh.h">
+      <Filter>Models\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Custom\DiffuseTextureVS.h">
+      <Filter>Shaders\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\Custom\DiffuseTexturePS.h">
+      <Filter>Shaders\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Object3D.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\BoundingSphere.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\BoundingBox.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\GraphicUtilsDefs.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Custom\IcoSphereMesh.h">
+      <Filter>Models\Custom</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GraphicDevice.cpp" />
+    <ClCompile Include="Textures\RenderTarget.cpp">
+      <Filter>Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Mesh.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\MeshPart.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures\Texture2D.cpp">
+      <Filter>Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures\Texture.cpp">
+      <Filter>Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex\IndexBuffer.cpp">
+      <Filter>Vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures\TextureCube.cpp">
+      <Filter>Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\Light.cpp">
+      <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\SpotLight.cpp">
+      <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\OmniLight.cpp">
+      <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\DirectionalLight.cpp">
+      <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures\DepthStencilSurface.cpp">
+      <Filter>Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsDefs.cpp" />
+    <ClCompile Include="Shapes\SphereShape.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\QuadShape2D.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex\VertexLayout.cpp">
+      <Filter>Vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex\Types\VertexTypes.cpp">
+      <Filter>Vertex\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Wrappers\SpriteFontXE.cpp">
+      <Filter>Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Wrappers\SpriteBatchXE.cpp">
+      <Filter>Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Animation\AnimationDefs.cpp">
+      <Filter>Models\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Animation\KeyFrame.cpp">
+      <Filter>Models\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Skinning\Bone.cpp">
+      <Filter>Models\Skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Skinning\Skeleton.cpp">
+      <Filter>Models\Skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Skinning\SkinningDefs.cpp">
+      <Filter>Models\Skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Animation\AnimationPlayer.cpp">
+      <Filter>Models\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex\VertexDefs.cpp">
+      <Filter>Vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\DomainShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\GeometryShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\HullShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\PixelShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Shader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\VertexShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\ComputeShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Buffers\ConstantBuffer.cpp">
+      <Filter>Shaders\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Bindings\ShaderBinding.cpp">
+      <Filter>Shaders\Bindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Variables\ShaderCustomVariable.cpp">
+      <Filter>Shaders\Variables</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Bindings\ShaderTextureBinding.cpp">
+      <Filter>Shaders\Bindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Animation\Animation.cpp">
+      <Filter>Models\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Buffers\StructuredBuffer.cpp">
+      <Filter>Shaders\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\LightManager.cpp">
+      <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\LightDefs.cpp">
+      <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Buffers\SimpleBuffer.cpp">
+      <Filter>Shaders\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Buffers\ShaderBuffer.cpp">
+      <Filter>Shaders\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\QuadShape3D.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\QuadShape.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\LightShape.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\OmniLightShape.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\SpotLightShape.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\DirectionalLightShape.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures\ITexture2D.cpp">
+      <Filter>Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Variables\Texture2DArray.cpp">
+      <Filter>Shaders\Variables</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Variables\TextureArray.cpp">
+      <Filter>Shaders\Variables</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Frustum.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\FrustumShape.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Viewport.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Variables\Sampler.cpp">
+      <Filter>Shaders\Variables</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\ShaderDefs.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\Camera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\CameraManager.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\GameObjectCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\EditorCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Custom\CubeMesh.cpp">
+      <Filter>Models\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Custom\DiffuseTextureVS.cpp">
+      <Filter>Shaders\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\ShaderSignatures.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\Custom\DiffuseTexturePS.cpp">
+      <Filter>Shaders\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Object3D.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\BoundingSphere.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\BoundingBox.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Custom\IcoSphereMesh.cpp">
+      <Filter>Models\Custom</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

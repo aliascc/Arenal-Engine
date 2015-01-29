@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<GameOpts>
+  <WindowsPosition Pos="100 100" />
+  <WinCaption WP="XE_Editor" />
+  <WinClassName WCN="3DWndClassName" />
+  <SampleFPS />
+  <Log Level="DEBUG" Capacity="500" LogToFile="true" />
+</GameOpts>
+
+<!-- 
+Example with All parameters
+
+<GameOpts>
+  <WindowsPosition Pos="100 100" />
+	<WinCaption WP="XE_Viewer" />
+	<WinClassName WCN="3DWndClassName" />
+  <SampleFPS />
+  <ShowConsole />
+  <Log Level="DEBUG" Capacity="500" LogFile="Data/Logs/Logs.txt" LogToFile="true" /> 
+</GameOpts>
+-->

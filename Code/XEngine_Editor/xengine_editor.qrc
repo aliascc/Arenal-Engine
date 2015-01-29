@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="XEngine_Editor">
+    <file>Resources/Images/button_black_pause.png</file>
+    <file>Resources/Images/button_black_play.png</file>
+    <file>Resources/Images/button_black_stop.png</file>
+    <file>Resources/Images/floppy_disk_save_128x128.png</file>
+    <file>Resources/Images/branch-closeblue.png</file>
+    <file>Resources/Images/branch-closegrey.png</file>
+    <file>Resources/Images/branch-openblue.png</file>
+    <file>Resources/Images/branch-opengrey.png</file>
+  </qresource>
+</RCC>

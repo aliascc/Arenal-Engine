@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Localization>
+	<Default lang="English" />
+	<Language name="English" file="Data/Localization/English.xml" loc="1" />
+	<Language name="Spanish" file="Data/Localization/Spanish.xml" loc="1" />
+</Localization>

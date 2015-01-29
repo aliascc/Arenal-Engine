@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Vertex">
+      <UniqueIdentifier>{60dad085-050f-45eb-baa2-d8969a0cebdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vertex\HLSL">
+      <UniqueIdentifier>{28f6e482-eba1-4caa-87a4-511836125899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Built-in Materials">
+      <UniqueIdentifier>{e86cdaab-fd06-497d-b1e7-2530f58d5b1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Built-in Materials\Basic">
+      <UniqueIdentifier>{63deab00-f295-42df-848a-e6fe07dbe4d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Built-in Materials\Forward+ Rendering">
+      <UniqueIdentifier>{ef8c2c59-55fb-4705-a48c-9a3a1505befd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Built-in Materials\Include">
+      <UniqueIdentifier>{5cbdcd3f-4018-4637-9477-f2a12e4ef8c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Built-in Materials\Skinning">
+      <UniqueIdentifier>{80b074b3-2130-4ed6-8eb3-949511b00641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Built-in Materials\Skinning\HLSL">
+      <UniqueIdentifier>{250e51bb-abad-4b3a-8342-22014d70a502}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Built-in Materials\Include\HLSL">
+      <UniqueIdentifier>{9f95793b-6b5f-4c6f-ab09-3f915976e619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Built-in Materials\Forward+ Rendering\HLSL">
+      <UniqueIdentifier>{54de100d-434b-4a30-8b5d-bc5749d97ddf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Built-in Materials\Basic\HLSL">
+      <UniqueIdentifier>{2e2c7d32-5b77-43f6-9209-e6e2d0baad26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Built-in Materials\Shadows">
+      <UniqueIdentifier>{ce7f2117-076a-4562-ad09-bb9342bc7527}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Vertex\HLSL\DummyVertexPosition.fx">
+      <Filter>Vertex\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Vertex\HLSL\DummyVertexPositionColor.fx">
+      <Filter>Vertex\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Vertex\HLSL\DummyVertexPositionNormal.fx">
+      <Filter>Vertex\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Vertex\HLSL\DummyVertexPositionNormalColor.fx">
+      <Filter>Vertex\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Vertex\HLSL\DummyVertexPositionNormalTangentBinormalTexture.fx">
+      <Filter>Vertex\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Vertex\HLSL\DummyVertexPositionNormalTangentBinormalTextureTexture2.fx">
+      <Filter>Vertex\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Vertex\HLSL\DummyVertexPositionNormalTexture.fx">
+      <Filter>Vertex\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Vertex\HLSL\DummyVertexPositionNormalTextureTexture2.fx">
+      <Filter>Vertex\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Vertex\HLSL\DummyVertexPositionTexture.fx">
+      <Filter>Vertex\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Vertex\HLSL\DummyVertexPositionNormalTangentBinormalTextureIndicesWeight.fx">
+      <Filter>Vertex\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Vertex\HLSL\DummyVertexPositionNormalTextureIndicesWeight.fx">
+      <Filter>Vertex\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\BasicColorMaterialVS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\BasicLineMaterialPS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\BasicLineMaterialVS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\DiffuseTextureBasicMaterialPS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\DiffuseTextureBasicMaterialVS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\DiffuseTextureMaterialPS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\DiffuseTextureMaterialVS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\QuadColorMaterialPS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\QuadMaterialVS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\QuadTextureMaterialPS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\BasicColorMaterialPS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Skinning\HLSL\SkinningMaterialVS.fx">
+      <Filter>Built-in Materials\Skinning\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Skinning\HLSL\SkinningMaterialPS.fx">
+      <Filter>Built-in Materials\Skinning\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Forward+ Rendering\HLSL\ForwardPlusZPrePass.fx">
+      <Filter>Built-in Materials\Forward+ Rendering\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Forward+ Rendering\HLSL\ForwardPlusLightCulling.fx">
+      <Filter>Built-in Materials\Forward+ Rendering\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Shadows\VarianceShadowPS.fx">
+      <Filter>Built-in Materials\Shadows</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Shadows\VarianceShadowVS.fx">
+      <Filter>Built-in Materials\Shadows</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Shadows\VarianceSkinningShadowVS.fx">
+      <Filter>Built-in Materials\Shadows</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Forward+ Rendering\HLSL\ForwardPlusZPrePassSkinning.fx">
+      <Filter>Built-in Materials\Forward+ Rendering\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\DiffuseTextureNormalBasicMaterialVS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Built-in Materials\Basic\HLSL\DiffuseTextureNormalBasicMaterialPS.fx">
+      <Filter>Built-in Materials\Basic\HLSL</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Dummy.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Built-in Materials\Forward+ Rendering\HLSL\ForwardPlusCommon.fx">
+      <Filter>Built-in Materials\Forward+ Rendering\HLSL</Filter>
+    </None>
+    <None Include="Built-in Materials\Forward+ Rendering\HLSL\ForwardPlusLights.fx">
+      <Filter>Built-in Materials\Forward+ Rendering\HLSL</Filter>
+    </None>
+    <None Include="Built-in Materials\Include\HLSL\Structures.fx">
+      <Filter>Built-in Materials\Include\HLSL</Filter>
+    </None>
+    <None Include="Built-in Materials\Include\HLSL\ShadowFunctions.fx">
+      <Filter>Built-in Materials\Include\HLSL</Filter>
+    </None>
+    <None Include="Built-in Materials\Include\HLSL\Skinning.fx">
+      <Filter>Built-in Materials\Include\HLSL</Filter>
+    </None>
+  </ItemGroup>
+</Project>

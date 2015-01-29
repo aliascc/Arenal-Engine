@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GameApp">
+      <UniqueIdentifier>{65393677-617e-4a24-8c59-aae946edaf90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameUtils">
+      <UniqueIdentifier>{548c60f0-939d-41aa-b1c8-d8e6fe06c6fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{215ea18e-d7c4-4b17-ae1b-5f51d4f35ba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Components">
+      <UniqueIdentifier>{012497b5-5bea-4eac-82cb-dc650b7a8c91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameAssets">
+      <UniqueIdentifier>{f789fe6f-b833-4c84-9f56-cb88e1f5f910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameAssets\Assets">
+      <UniqueIdentifier>{89209a96-5787-45f2-ab29-a956bf713b7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic Extensions">
+      <UniqueIdentifier>{3077e5df-fad9-463a-8cd7-b772566e8be1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic Extensions\Materials">
+      <UniqueIdentifier>{47d2d22b-10fb-438d-9a85-76a969a5e4ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic Extensions\Materials\Basic">
+      <UniqueIdentifier>{1120a4c0-f366-4432-a0dc-7c9692bb7cb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic Extensions\Materials\Skinning">
+      <UniqueIdentifier>{1c54c126-9e2f-489e-8937-9767399bb178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic Extensions\Shader Extensions">
+      <UniqueIdentifier>{8a444f66-d2a8-4725-aa07-ceb47a667810}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic Extensions\Shader Extensions\Properties">
+      <UniqueIdentifier>{50bdca04-ee7c-4626-a43e-43f65fc1497c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic Extensions\Materials\Forward+ Rendering">
+      <UniqueIdentifier>{e4e85e99-281c-4c59-8b21-4b546fb9a4cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic Extensions\Materials\Shadows">
+      <UniqueIdentifier>{90308107-4edc-4c15-bdac-565d943efb4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Scripts">
+      <UniqueIdentifier>{bab2ff0d-6cd1-4fd7-b5b6-8cfe083aec96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameASAddOns">
+      <UniqueIdentifier>{66f4ec78-7151-42cf-95f4-d59d78f2495c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameApp\GameApp.cpp">
+      <Filter>GameApp</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUtils\GameComponent.cpp">
+      <Filter>GameUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUtils\GameComponentCollection.cpp">
+      <Filter>GameUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUtils\DrawableGameComponent.cpp">
+      <Filter>GameUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUtils\GameServiceCollection.cpp">
+      <Filter>GameUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="GameApp\GameAppDefs.cpp">
+      <Filter>GameApp</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUtils\GameUtilsDefs.cpp">
+      <Filter>GameUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\GameObjectComponent.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\GameObject.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Components\MeshGOC.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\Assets\ModelAsset.cpp">
+      <Filter>GameAssets\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\Assets\SkeletonAsset.cpp">
+      <Filter>GameAssets\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\Assets\AnimationAsset.cpp">
+      <Filter>GameAssets\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\Assets\MeshAsset.cpp">
+      <Filter>GameAssets\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\GameAsset.cpp">
+      <Filter>GameAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\GameAssetManager.cpp">
+      <Filter>GameAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\RawGameAsset.cpp">
+      <Filter>GameAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\GameObjectManager.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Components\MeshMaterialGOC.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\GameAssetDefs.cpp">
+      <Filter>GameAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\Assets\ShaderAsset.cpp">
+      <Filter>GameAssets\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\Assets\TextureAsset.cpp">
+      <Filter>GameAssets\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\BuiltInMaterialsDefs.cpp">
+      <Filter>Graphic Extensions\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Material.cpp">
+      <Filter>Graphic Extensions\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Basic\DiffuseTextureMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Basic\QuadColorMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Basic\QuadTextureMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Basic\BasicColorMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Basic\BasicLineMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Basic\DiffuseTextureBasicMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Skinning\SkinningMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Shader Extensions\Properties\ShaderProperties.cpp">
+      <Filter>Graphic Extensions\Shader Extensions\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Components\LightGOC.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUtils\GameService.cpp">
+      <Filter>GameUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusZPrePassMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Forward+ Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusLightCullingMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Forward+ Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Shadows\VarianceShadowMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Shadows</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Components\MeshAnimationGOC.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Shadows\VarianceSkinningShadowMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Shadows</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusZPrePassSkinningMaterial.cpp">
+      <Filter>Graphic Extensions\Materials\Forward+ Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Scripts\GameObjectScriptManager.cpp">
+      <Filter>GameObject\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\Assets\GameObjectScriptAsset.cpp">
+      <Filter>GameAssets\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Scripts\GameObjectScript.cpp">
+      <Filter>GameObject\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Components\GameObjectScriptGOC.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Scripts\GameObjectScriptDefs.cpp">
+      <Filter>GameObject\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="GameASAddOns\BaseAddOnAS.cpp">
+      <Filter>GameASAddOns</Filter>
+    </ClCompile>
+    <ClCompile Include="GameASAddOns\GLMAddOnAS.cpp">
+      <Filter>GameASAddOns</Filter>
+    </ClCompile>
+    <ClCompile Include="GameASAddOns\LogAddOnAS.cpp">
+      <Filter>GameASAddOns</Filter>
+    </ClCompile>
+    <ClCompile Include="GameASAddOns\TimeAddOnAS.cpp">
+      <Filter>GameASAddOns</Filter>
+    </ClCompile>
+    <ClCompile Include="GameASAddOns\ColorAddOnAS.cpp">
+      <Filter>GameASAddOns</Filter>
+    </ClCompile>
+    <ClCompile Include="GameASAddOns\LocalizationAddOnAS.cpp">
+      <Filter>GameASAddOns</Filter>
+    </ClCompile>
+    <ClCompile Include="GameASAddOns\GameCoreAddOnAS.cpp">
+      <Filter>GameASAddOns</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Components\CameraGOC.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameASAddOns\InputAddOnAS.cpp">
+      <Filter>GameASAddOns</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Components\AudioListenerGOC.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Components\AudioSourceGOC.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameASAddOns\AudioAddOnAS.cpp">
+      <Filter>GameASAddOns</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAssets\Assets\AudioAsset.cpp">
+      <Filter>GameAssets\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Components\PhysicsGOC.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameApp\GameApp.h">
+      <Filter>GameApp</Filter>
+    </ClInclude>
+    <ClInclude Include="GameApp\GameAppDefs.h">
+      <Filter>GameApp</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUtils\DrawableGameComponent.h">
+      <Filter>GameUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUtils\GameComponent.h">
+      <Filter>GameUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUtils\GameComponentCollection.h">
+      <Filter>GameUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUtils\GameServiceCollection.h">
+      <Filter>GameUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUtils\GameUtilsDefs.h">
+      <Filter>GameUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\GameObject.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\GameObjectComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\GameObjectDefs.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Components\MeshGOC.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\Assets\MeshAsset.h">
+      <Filter>GameAssets\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\Assets\ModelAsset.h">
+      <Filter>GameAssets\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\Assets\SkeletonAsset.h">
+      <Filter>GameAssets\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\Assets\AnimationAsset.h">
+      <Filter>GameAssets\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\GameAsset.h">
+      <Filter>GameAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\GameAssetManager.h">
+      <Filter>GameAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\RawGameAsset.h">
+      <Filter>GameAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\GameObjectManager.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\GameAssetDefs.h">
+      <Filter>GameAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Components\MeshMaterialGOC.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\Assets\ShaderAsset.h">
+      <Filter>GameAssets\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\Assets\TextureAsset.h">
+      <Filter>GameAssets\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\BuiltInMaterialsDefs.h">
+      <Filter>Graphic Extensions\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Material.h">
+      <Filter>Graphic Extensions\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Basic\DiffuseTextureBasicMaterial.h">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Basic\DiffuseTextureMaterial.h">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Basic\QuadColorMaterial.h">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Basic\QuadTextureMaterial.h">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Basic\BasicColorMaterial.h">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Basic\BasicLineMaterial.h">
+      <Filter>Graphic Extensions\Materials\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Skinning\SkinningMaterial.h">
+      <Filter>Graphic Extensions\Materials\Skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Shader Extensions\Properties\ShaderProperties.h">
+      <Filter>Graphic Extensions\Shader Extensions\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Components\LightGOC.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUtils\GameService.h">
+      <Filter>GameUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusZPrePassMaterial.h">
+      <Filter>Graphic Extensions\Materials\Forward+ Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusLightCullingMaterial.h">
+      <Filter>Graphic Extensions\Materials\Forward+ Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Shadows\VarianceShadowMaterial.h">
+      <Filter>Graphic Extensions\Materials\Shadows</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Components\MeshAnimationGOC.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Shadows\VarianceSkinningShadowMaterial.h">
+      <Filter>Graphic Extensions\Materials\Shadows</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic Extensions\Materials\Forward+ Rendering\ForwardPlusZPrePassSkinningMaterial.h">
+      <Filter>Graphic Extensions\Materials\Forward+ Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Scripts\GameObjectScriptDefs.h">
+      <Filter>GameObject\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Scripts\GameObjectScriptManager.h">
+      <Filter>GameObject\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\Assets\GameObjectScriptAsset.h">
+      <Filter>GameAssets\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Scripts\GameObjectScript.h">
+      <Filter>GameObject\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Components\GameObjectScriptGOC.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameASAddOns\GameASAddOnsDefs.h">
+      <Filter>GameASAddOns</Filter>
+    </ClInclude>
+    <ClInclude Include="GameASAddOns\BaseAddOnAS.h">
+      <Filter>GameASAddOns</Filter>
+    </ClInclude>
+    <ClInclude Include="GameASAddOns\GLMAddOnAS.h">
+      <Filter>GameASAddOns</Filter>
+    </ClInclude>
+    <ClInclude Include="GameASAddOns\LogAddOnAS.h">
+      <Filter>GameASAddOns</Filter>
+    </ClInclude>
+    <ClInclude Include="GameASAddOns\TimeAddOnAS.h">
+      <Filter>GameASAddOns</Filter>
+    </ClInclude>
+    <ClInclude Include="GameASAddOns\ColorAddOnAS.h">
+      <Filter>GameASAddOns</Filter>
+    </ClInclude>
+    <ClInclude Include="GameASAddOns\LocalizationAddOnAS.h">
+      <Filter>GameASAddOns</Filter>
+    </ClInclude>
+    <ClInclude Include="GameASAddOns\GameCoreAddOnAS.h">
+      <Filter>GameASAddOns</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Components\CameraGOC.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameASAddOns\InputAddOnAS.h">
+      <Filter>GameASAddOns</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Components\AudioListenerGOC.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Components\AudioSourceGOC.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameASAddOns\AudioAddOnAS.h">
+      <Filter>GameASAddOns</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAssets\Assets\AudioAsset.h">
+      <Filter>GameAssets\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Components\PhysicsGOC.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

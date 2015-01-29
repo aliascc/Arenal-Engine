@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="InputDefs.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="XBoxGamepadManager.h" />
+    <ClInclude Include="XBoxGamepad.h" />
+    <ClInclude Include="InputManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="XBoxGamepadManager.cpp" />
+    <ClCompile Include="XBoxGamepad.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+  </ItemGroup>
+</Project>

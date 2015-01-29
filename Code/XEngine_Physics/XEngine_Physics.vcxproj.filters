@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="PhysicsManager.cpp" />
+    <ClCompile Include="ErrorCallbackPhysX.cpp" />
+    <ClCompile Include="PhysicCollider.cpp" />
+    <ClCompile Include="PhysicColliderBox.cpp" />
+    <ClCompile Include="PhysicsActor.cpp" />
+    <ClCompile Include="PhysicColliderSphere.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PhysicsManager.h" />
+    <ClInclude Include="PhysicsDefs.h" />
+    <ClInclude Include="ErrorCallbackPhysX.h" />
+    <ClInclude Include="PhysicCollider.h" />
+    <ClInclude Include="PhysicColliderBox.h" />
+    <ClInclude Include="PhysicsActor.h" />
+    <ClInclude Include="PhysicColliderSphere.h" />
+  </ItemGroup>
+</Project>

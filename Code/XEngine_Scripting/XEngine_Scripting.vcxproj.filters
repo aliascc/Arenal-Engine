@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="AngelScript">
+      <UniqueIdentifier>{08af8cfc-cdb8-476c-9c1a-e55e97274cdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AngelScript\Add-ons">
+      <UniqueIdentifier>{a4f83f44-c2a7-4208-883c-474845cfc011}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AngelScript\AngelScriptManager.cpp">
+      <Filter>AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AngelScript\AngelScriptDefs.cpp">
+      <Filter>AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AngelScript\Add-ons\AngelScriptAddOn.cpp">
+      <Filter>AngelScript\Add-ons</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AngelScript\AngelScriptDefs.h">
+      <Filter>AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="AngelScript\AngelScriptManager.h">
+      <Filter>AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="AngelScript\Add-ons\AngelScriptAddOn.h">
+      <Filter>AngelScript\Add-ons</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
