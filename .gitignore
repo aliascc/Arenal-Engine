@@ -45,3 +45,5 @@ Code/3rdParty/SFML/
 Code/3rdParty/STLSoft/
 Code/3rdParty/zlib/
 Code/3rdParty/AngelScript/
+Run/XEngine_TestBed/bin_x64/AS_DEBUG/
+Run/XEngine_TestBed/bin_x86/AS_DEBUG/
