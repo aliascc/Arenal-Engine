@@ -26,3 +26,22 @@
 *.exe
 *.out
 *.app
+
+# XEngine Ignores
+*.opensdf
+*.sdf
+*.v12.suo
+Code/3rdParty/AngelScript/
+Code/3rdParty/Assimp/
+Code/3rdParty/Boost/
+Code/3rdParty/DirectXTK/
+Code/3rdParty/DirectXTex/
+Code/3rdParty/FastFormat/
+Code/3rdParty/GLM/
+Code/3rdParty/LibIconv/
+Code/3rdParty/LibXML2/
+Code/3rdParty/PhysX/
+Code/3rdParty/SFML/
+Code/3rdParty/STLSoft/
+Code/3rdParty/zlib/
+Code/3rdParty/AngelScript/
