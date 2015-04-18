@@ -1,0 +1,43 @@
+Tool:		FastFormat
+Last Updated:	Nov 2 2012
+Version:	0.7.1 Alpha 9
+Last Build:	Feb 2 2012
+
+Comments:
+
+ - General:
+  - Use DLL ONLY not MT libs!
+
+ - To use (If already built)
+  - Copy Binaries to project folder for Fast Format
+  - Extract Version from copy include folder to project directory fast format include
+   
+ - To build:
+  - If new version of Fast Format:
+   - Check if files in Extra folder need to be modify
+   - If so new files from Fast Format need the following added:
+    - In Build Targets line:
+     - Add "build.libs.core.d:          check.lib.dir           prep.files.for.os   $(TARGETS_LIB_CORE_D)"
+     - Add "build.libs.core.r:          check.lib.dir           prep.files.for.os   $(TARGETS_LIB_CORE_R)"
+    - In Libraries line:
+     - Add:
+         TARGETS_LIB_CORE_R = \
+          $(LIB_CORE_DLL_R)\
+          $(LIB_CORE_DLL_R_W)\
+          $(LIB_CORE_MT_R)\
+          $(LIB_CORE_MT_R_W)\
+           \
+         TARGETS_LIB_CORE_D = \
+          $(LIB_CORE_DLL_D)\
+          $(LIB_CORE_DLL_D_W)\
+          $(LIB_CORE_MT_D)\
+          $(LIB_CORE_MT_D_W)\
+          \
+  - Modify files in Extra folder for VS Version if needed. Change "COMP_TAG" to match VS Version
+  - Copy them to build folder for VS Project  (rename them to just makefile)
+  - Use VS Command Prompts x86 and x64
+   - set STLSOFT="<stlsoft path>"
+   - set FASTFORMAT_ROOT="<fast format path>"
+    - nmake /f <dir makefile>/<makefile_name> <option>
+     - Use build.libs.core.d for debug
+     - Use build.libs.core.r for release 

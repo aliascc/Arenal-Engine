@@ -1,0 +1,30 @@
+--- D:/VSSource/XEngine/3rdPartyTools/SFML/src/cmake/Macros.cmake.orig	Sun Jul 21 01:30:08 2013
++++ D:/VSSource/XEngine/3rdPartyTools/SFML/src/cmake/Macros.cmake	Tue Sep 16 23:18:28 2014
+@@ -117,11 +117,23 @@
+     # adjust the output file prefix/suffix to match our conventions
+     if(BUILD_SHARED_LIBS)
+         if(WINDOWS)
+-            # include the major version number in Windows shared library names (but not import library names)
+-            set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -d)
+-            set_target_properties(${target} PROPERTIES SUFFIX "-${VERSION_MAJOR}${CMAKE_SHARED_LIBRARY_SUFFIX}")
++			if(ARCH_64BITS)
++				# include the major version number in Windows shared library names (but not import library names)
++				set_target_properties(${target} PROPERTIES RELEASE_POSTFIX _x64)
++				set_target_properties(${target} PROPERTIES DEBUG_POSTFIX _x64_d)
++				#set_target_properties(${target} PROPERTIES SUFFIX "-${VERSION_MAJOR}${CMAKE_SHARED_LIBRARY_SUFFIX}")
++			else()
++				# include the major version number in Windows shared library names (but not import library names)
++				set_target_properties(${target} PROPERTIES RELEASE_POSTFIX _x86)
++				set_target_properties(${target} PROPERTIES DEBUG_POSTFIX _x86_d)
++				#set_target_properties(${target} PROPERTIES SUFFIX "-${VERSION_MAJOR}${CMAKE_SHARED_LIBRARY_SUFFIX}")
++			endif()
+         else()
+-            set_target_properties(${target} PROPERTIES DEBUG_POSTFIX -d)
++			if(ARCH_64BITS)
++				set_target_properties(${target} PROPERTIES DEBUG_POSTFIX _x64)
++			else()
++				set_target_properties(${target} PROPERTIES DEBUG_POSTFIX _x86)
++			endif()
+         endif()
+         if (WINDOWS AND COMPILER_GCC)
+             # on Windows/gcc get rid of "lib" prefix for shared libraries,

@@ -1,0 +1,33 @@
+Tool:		Boost
+Last Updated:	Jan 21 2014
+Version:	1.55_0
+Last Build:	
+		- Jan 21 2014 - System
+		- Jan 21 2014 - Chrono
+		- Jan 21 2014 - Date Time
+		- Jan 21 2014 - Threads
+		- Jan 21 2014 - Filesystem
+
+Comments:
+- To use (If already built):
+ - Copy Binaries to project folder for boost
+ - Extract Version from Zip and copy 'boost' folder to include folder for boost
+ - Uncomment in <Boost>\config\user.hpp "#define BOOST_ALL_NO_LIB"
+
+- To Build:
+ - See Code Modify Folders for Boost Modified Files
+ - Link Boost to Static Library using our own names, uncomment in <Boost>\config\user.hpp "#define BOOST_ALL_NO_LIB"
+ - Change Include Directory in Projects to reflect new Src folder
+ - Check that Projects have new cpps in boost folders if so add them
+ - Thread library select win32 for windows o pthread for MAC or Linux
+ - When Updating Boost be sure to also rebuil ASSIMP as it depends on Boost
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+To delete large files use 
+- DEL /f /q <full dir>
+
+To delete tree use
+- RD /S /Q <full dir>

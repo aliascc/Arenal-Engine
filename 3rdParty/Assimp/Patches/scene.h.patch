@@ -1,0 +1,36 @@
+--- ..//Src/include/assimp/scene.h	Sat Jun 14 11:00:09 2014
++++ ..//Src/include/assimp/scene.h	Fri Oct 10 19:07:50 2014
+@@ -112,6 +112,8 @@
+ 	/** The meshes of this node. Each entry is an index into the mesh */
+ 	unsigned int* mMeshes;
+ 
++	aiNodeType mNodeType;
++
+ 	/** Metadata associated with this node or NULL if there is no metadata.
+ 	  *  Whether any metadata is generated depends on the source file format. See the
+ 	  * @link importer_notes @endlink page for more information on every source file
+@@ -119,6 +121,8 @@
+ 	  */
+ 	C_STRUCT aiMetadata* mMetaData;
+ 
++	aiNodeType mNodeType;
++
+ #ifdef __cplusplus
+ 	/** Constructor */
+ 	aiNode() 
+@@ -130,6 +134,7 @@
+ 		, mNumMeshes(0)
+ 		, mMeshes(NULL)
+ 		, mMetaData(NULL)
++		, mNodeType(aiNodeType_Unknown)
+ 	{
+ 	}
+ 	
+@@ -144,6 +149,7 @@
+ 		, mNumMeshes(0)
+ 		, mMeshes(NULL)
+ 		, mMetaData(NULL)
++		, mNodeType(aiNodeType_Unknown)
+ 	{
+ 	}
+ 

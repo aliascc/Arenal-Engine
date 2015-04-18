@@ -1,0 +1,11 @@
+Tool:		zlib
+Last Updated:	Oct 11 2014
+Version:	1.2.8
+Last Build:	Oct 11 2014
+
+Notes:
+
+1- Rename Projects Target name to proper (i.e. "_x64_d, _x64")
+2- Use CMAKE to create targets for VS
+3- Rename install dirs to an internal one
+3- Copy static libs

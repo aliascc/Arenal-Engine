@@ -1,0 +1,112 @@
+--- ../Src/code/ColladaLoader.cpp	Sat May 05 09:38:16 2012
++++ ../Src/code/ColladaLoader.cpp	Sun Jan 20 15:59:48 2013
+@@ -103,6 +103,84 @@
+ 	return false;
+ }
+ 
++std::vector<std::string> ColladaLoader::GetNodeNames(const Collada::Node* pRootNode)
++{
++	std::vector<std::string> names;
++
++	GetNodeNames(pRootNode, names);
++
++	return names;
++}
++
++void ColladaLoader::GetNodeNames(const Collada::Node* pNode, std::vector<std::string>& pNames)
++{
++	if(pNode == NULL)
++	{
++		return;
++	}
++
++	pNames.push_back(pNode->mName);
++
++	for(unsigned int i = 0; i < pNode->mChildren.size(); i++)
++	{
++		GetNodeNames(pNode->mChildren[i], pNames);
++	}
++}
++
++std::vector<std::string> ColladaLoader::ResolveJointNames(std::string pJointNamesFullString, std::vector<std::string> pNodeNames)
++{
++	std::vector<std::string> jointNames;
++
++	std::string correctName;
++	std::vector<uint32_t> tempIdx;
++	unsigned int candidateIdx;
++
++	while(pJointNamesFullString.size() != 0)
++	{
++		std::string temp = "";
++		unsigned int lastKnown = 0;
++
++		//We need to go through all the string as names can have 2 blank spaces example: "Bone  003"
++		for(unsigned int i = 0; i < pJointNamesFullString.size(); i++)
++		{
++			temp += pJointNamesFullString[i];
++
++			for(unsigned int j = 0; j < pNodeNames.size(); j++)
++			{
++				if(temp.compare(pNodeNames[j]) == 0)
++				{
++					candidateIdx = j;
++
++					lastKnown = i;
++
++					break;
++				}
++			}
++		}
++
++		correctName = pNodeNames[candidateIdx];
++
++		std::vector<std::string>::iterator itPN = pNodeNames.begin();
++		itPN += candidateIdx;
++		pNodeNames.erase(itPN);
++
++		std::string::iterator itMyPos = pJointNamesFullString.begin();
++		for(unsigned int x = 0; x <= lastKnown + 1; x++) //+1 to delete the blank space between bones
++		{			
++			if(itMyPos != pJointNamesFullString.end())
++			{
++				pJointNamesFullString.erase(itMyPos);
++
++				itMyPos = pJointNamesFullString.begin();
++			}
++		}
++
++		jointNames.push_back(correctName);
++	}
++
++	return jointNames;
++}
++
+ // ------------------------------------------------------------------------------------------------
+ // Get file extension list
+ const aiImporterDesc* ColladaLoader::GetInfo () const
+@@ -195,6 +273,9 @@
+ 	// find a name for the new node. It's more complicated than you might think
+ 	node->mName.Set( FindNameForNode( pNode));
+ 
++	//Get Node Type
++	node->mNodeType = pNode->mNodeType;
++
+ 	// calculate the transformation matrix for it
+ 	node->mTransformation = pParser.CalculateResultTransform( pNode->mTransforms);
+ 
+@@ -609,7 +690,13 @@
+ 
+ 		// resolve references - joint names
+ 		const Collada::Accessor& jointNamesAcc = pParser.ResolveLibraryReference( pParser.mAccessorLibrary, pSrcController->mJointNameSource);
+-		const Collada::Data& jointNames = pParser.ResolveLibraryReference( pParser.mDataLibrary, jointNamesAcc.mSource);
++
++		Collada::Data jointNames = pParser.ResolveLibraryReference( pParser.mDataLibrary, jointNamesAcc.mSource);
++		std::vector<std::string> nodeNames = GetNodeNames(pParser.mRootNode);
++		std::vector<std::string> correntJointNames = ResolveJointNames(jointNames.mFullString, nodeNames);
++		assert(jointNames.mStrings.size() == correntJointNames.size());
++		jointNames.mStrings = correntJointNames;
++
+ 		// joint offset matrices
+ 		const Collada::Accessor& jointMatrixAcc = pParser.ResolveLibraryReference( pParser.mAccessorLibrary, pSrcController->mJointOffsetMatrixSource);
+ 		const Collada::Data& jointMatrices = pParser.ResolveLibraryReference( pParser.mDataLibrary, jointMatrixAcc.mSource);

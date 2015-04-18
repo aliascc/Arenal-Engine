@@ -1,0 +1,6 @@
+Tool:		DirectXTex
+Last Updated:	Jan 21 2014
+Version:	--
+Last Build:	Jan 21 2014
+
+Comments:

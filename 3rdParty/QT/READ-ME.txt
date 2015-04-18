@@ -1,0 +1,60 @@
+Tool:		QT 
+Last Updated:	Jan 21 2014
+Version:	5.2.0
+Last Build:	---Compiled Separately---
+
+Comments:
+ - If installation package is available use it, if not you have to build it
+
+ - General:
+  - QT Should be installed by every developer on his/her machine
+  - http://qt-project.org/wiki/Building_Qt_5_from_Git#aea23489ce3aa9b6406ebb28e0cda430
+  - http://qt-project.org/wiki/Building_Qt_Desktop_for_Windows_with_MSVC
+
+ - Pre-reqs:
+  - Have installed:
+   - Perl from: http://www.activestate.com/activeperl/downloads [activestate.com]	
+   - Python from: http://www.python.org/download/releases/ [python.org]
+   - Ruby from: http://www.rubyinstaller.org/downloads/ [rubyinstaller.org]
+
+ - To build:
+  - Use VS Command Prompts x86 and x64
+   - set CL=/MP
+   - configure -debug-and-release -c++11 -opensource -no-accessibility -mp -nomake examples -nomake tests
+   - nmake
+  - Extra Steps, just to save space in HDD
+   - nmake clean
+   - cd qttranslastions
+   - nmake
+   - cd ../qtbase/lib
+   - del *.dll
+
+ - VS Add in
+  - Use "QT 5.2.0-x64" and "QT 5.2.0-x64" as QT Names
+
+--------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------
+To delete large files use 
+- DEL /f /q <full dir>
+
+To delete tree use
+- RD /S <full dir>
+
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+-------------------------------------------------------------
+Configure
+VS2013 x86 cross (x64) Native Tools Command Prompt
+
+Target:		%comspec% /k "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" amd64_x86
+Start in:	"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC"
+Comment:	Open VS2013 x86 cross (x64) Native Tools Command Prompt
+
+-------------------------------------------------------------
+VS2013 x64 Native Tools Command Prompt
+
+Target:		%comspec% /k "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" amd64
+Start in:	"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC"
+Comment:	Open VS2013 x64 Native Tools Command Prompt

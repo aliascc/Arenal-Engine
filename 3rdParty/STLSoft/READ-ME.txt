@@ -1,0 +1,10 @@
+Tool:		STLSoft
+Last Updated:	Jun 19 2013
+Version:	1.9.117
+
+Comments:
+
+ - To use:
+  - Extract version of stl soft
+  - Apply Patches (Command using cygwin:  patch.exe --binary -p1 < "file.patch")
+  - Copy include folder to projects stlsoft directory

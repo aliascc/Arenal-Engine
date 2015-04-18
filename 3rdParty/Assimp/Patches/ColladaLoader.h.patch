@@ -1,0 +1,15 @@
+--- ../Src/code/ColladaLoader.h	Mon Apr 23 00:26:28 2012
++++ ../Src/code/ColladaLoader.h	Sun Jan 20 12:44:02 2013
+@@ -89,6 +89,12 @@
+ 	bool CanRead( const std::string& pFile, IOSystem* pIOHandler, bool checkSig) const;
+ 
+ protected:
++	std::vector<std::string> GetNodeNames(const Collada::Node* pRootNode);
++
++	void GetNodeNames(const Collada::Node* pNode, std::vector<std::string>& pNames);
++
++	std::vector<std::string> ResolveJointNames(std::string pJointNamesFullString, std::vector<std::string> pNodeNames);
++
+ 	/** Return importer meta information.
+ 	 * See #BaseImporter::GetInfo for the details
+ 	 */

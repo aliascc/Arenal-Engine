@@ -1,0 +1,11 @@
+Tool:		OpenGL Mathematics
+Last Updated:	Jan 28 2013
+Version:	0.9.5.1
+
+Comments:
+ - General Comments:
+   - Make sure to remove "GLM_FORCE_RADIANS" from projects when GLM no longer accepts degrees as parameter
+
+ - To use:
+  - Extract version
+  - Copy "glm" folder to glm project directory

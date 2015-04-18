@@ -1,0 +1,9 @@
+Tool:		SFML
+Last Updated:	Sept 2014
+Version:	2.1
+
+Notes:
+
+1- Patch the files
+2- Use CMAKE to create targets for VS
+3- Copy ext libs and DLLs

@@ -1,0 +1,19 @@
+Tool:		LibXML2
+Last Updated:	Feb 15 2012
+Version:	2.7.8
+
+Notes:
+
+1- Need to copy inconv.h to include directory
+2- Need to copy binaries of libinconv to lib directory
+3- Create a Makefile for each release/debug x86/x64
+	- Set extension for x64/x86 set extension for debug _d
+	- set extension for x64/x86 for iconv
+4- Copy libxml2.def.src and change names to match Makefile (libxml2_x64_d.def.src, etc...)
+
+Fast Copy:
+
+cd D:\MyStuff\SVN\XEngine\3rdPartyTools\LibXML2\Src-2.9.1\win32
+
+cscript configure.js compiler=msvc prefix=D:\MyStuff\SVN\XEngine\3rdPartyTools\LibXML2\Src-2.9.1 include=D:\MyStuff\SVN\XEngine\3rdPartyTools\LibXML2\Src-2.9.1\include lib=D:\MyStuff\SVN\XEngine\3rdPartyTools\LibXML2\Src-2.9.1\lib debug=yes
+nmake.exe /f Makefile.msvc all

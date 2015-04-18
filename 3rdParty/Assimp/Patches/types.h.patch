@@ -1,0 +1,26 @@
+--- ../Src/include/assimp/types.h	Fri Feb 03 19:04:08 2012
++++ ../Src/include/assimp/types.h	Sun Jan 20 15:57:38 2013
+@@ -431,6 +431,23 @@
+ 	_AI_DLS_ENFORCE_ENUM_SIZE = 0x7fffffff 
+ }; // !enum aiDefaultLogStream
+ 
++enum aiNodeType
++{
++	aiNodeType_Unknown = 0x0,
++	aiNodeType_MeshController = 0x1,
++	aiNodeType_Mesh = 0x2,
++	aiNodeType_Light = 0x3,
++	aiNodeType_Camera = 0x4,
++	aiNodeType_Bone = 0x5,	
++
++	//Like a Biped Object
++	aiNodeType_BoneHelper = 0x6,
++
++
++	
++	_AI_NT_ENFORCE_ENUM_SIZE = 0x7fffffff 
++};
++
+ // just for backwards compatibility, don't use these constants anymore
+ #define DLS_FILE     aiDefaultLogStream_FILE
+ #define DLS_STDOUT   aiDefaultLogStream_STDOUT

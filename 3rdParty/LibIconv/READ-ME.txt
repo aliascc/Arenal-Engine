@@ -1,0 +1,4 @@
+Tool:		Iconv
+Last Updated:	Feb 15 2012
+Version:	1.14
+Compile:	Nov 2 2012

@@ -1,0 +1,19 @@
+Tool:		ASSIMP (Open Assert Import Library)
+Last Updated:	Oct 10 2014
+Version:	3.1.1
+Last Build:	Oct 10 2014
+
+Comments:
+ - To use (If already built)
+  - Copy binaries to assimp project folder
+  - Extract assimp zip version
+  - Patch files in the <assimp folder>/include/
+  - Command using cygwin:  patch.exe --binary -p1 < "file.patch"
+  - Copy include "assimp" folder to assimp include project folder
+
+ - To Build:
+  - Use CMAKE
+  - Apply patches (patch.exe --binary -p1 < "file.patch")
+  - Change Charset to Unicode
+  - Only use "Release" and "Debug" Configurations
+  - Change zlib to use our current zlib headers
