@@ -39,6 +39,7 @@
 *   Forward Decls   *
 *********************/
 class GameAsset;
+class XEXMLParser;
 class XEXMLWriter;
 class AudioManager;
 class RawGameAsset;

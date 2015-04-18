@@ -52,6 +52,8 @@
 
 #define XE_PROJ_DATA_DIR				L"Data"
 
+#define XE_PROJ_ASSETS_DIR				L"Assets"
+
 #define XE_PROJ_INPUT_DIR				L"Input"
 
 #define XE_PROJ_GLOBAL_DIR				L"Global"
@@ -67,6 +69,8 @@
 #define XE_PROJ_CONFIG_PROJ_FILE		L"ConfigProject.xml"
 
 #define XE_PROJ_INPUT_DIR_LOC			(XE_PROJ_DATA_DIR L"/" XE_PROJ_INPUT_DIR)
+
+#define XE_PROJ_ASSETS_DIR_LOC			(XE_PROJ_DATA_DIR L"/" XE_PROJ_ASSETS_DIR)
 
 #define XE_PROJ_GLOBAL_DIR_LOC			(XE_PROJ_DATA_DIR L"/" XE_PROJ_GLOBAL_DIR)
 

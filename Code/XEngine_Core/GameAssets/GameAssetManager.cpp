@@ -1245,57 +1245,61 @@ XEResult GameAssetManager::LoadAssetManagerFile(const std::wstring& gameAssetsFi
 
 XEResult GameAssetManager::LoadRawAssets(XEXMLParser& rawAssetXML)
 {
-	uint32_t l_Count = rawAssetXML.GetNumChildren();
-	for (uint32_t i = 0; i < l_Count; ++i)
-	{
-		XEXMLParser child = rawAssetXML(i);
+	//uint32_t l_Count = rawAssetXML.GetNumChildren();
+	//for (uint32_t i = 0; i < l_Count; ++i)
+	//{
+	//	XEXMLParser child = rawAssetXML(i);
 
-		std::wstring l_Type = child.GetName();
+	//	std::wstring l_Type = child.GetName();
 
-		if (l_Type.compare(L"RawFile") == 0)
-		{
-			TimeStamp modTimeStamp(child.GetString(XE_RAW_FILE_LASTMODIFIEDTIMESTAMP_PROP));
-			std::wstring name			= child.GetString(XE_RAW_FILE_NAME_PROP);
-			std::wstring filepath		= child.GetString(XE_RAW_FILE_FILEPATH_PROP);
-			GameContentSubtype subType	= (GameContentSubtype)child.GetUInt(XE_RAW_FILE_CONTENTSUBTYPE_PROP);
-			std::wstring outputDir		= child.GetString(XE_RAW_FILE_OUTPUTDIRECTORY_PROP);
-			uint64_t uniqueAssociatedID	= child.GetUInt64(XE_RAW_FILE_ASSOCIATED_ASSET_ID_PROP);
-			GameContentType contentType	= (GameContentType)child.GetUInt(XE_RAW_FILE_CONTENTTYPE_PROP);
-			GameContextFileExt fileExt	= (GameContextFileExt)child.GetUInt(XE_RAW_FILE_GAMECONTEXTFILEEXT_PROP);
-			std::wstring outputFilename	= child.GetString(XE_RAW_FILE_OUTPUTFILENAME_PROP);
-			bool reloadNeeded			= child.GetBool(XE_RAW_FILE_RELOADNEEDED_PROP);
-			bool outputDirChanged		= child.GetBool(XE_RAW_FILE_OUTPUTDIRCHANGED_PROP);
-			bool contentSubtypeChanged	= child.GetBool(XE_RAW_FILE_CONTENTSUBTYPECHANGED_PROP);
+	//	if (l_Type.compare(L"RawFile") == 0)
+	//	{
+	//		TimeStamp modTimeStamp(child.GetString(XE_RAW_FILE_LASTMODIFIEDTIMESTAMP_PROP));
+	//		std::wstring name			= child.GetString(XE_RAW_FILE_NAME_PROP);
+	//		std::wstring filepath		= child.GetString(XE_RAW_FILE_FILEPATH_PROP);
+	//		GameContentSubtype subType	= (GameContentSubtype)child.GetUInt(XE_RAW_FILE_CONTENTSUBTYPE_PROP);
+	//		std::wstring outputDir		= child.GetString(XE_RAW_FILE_OUTPUTDIRECTORY_PROP);
+	//		uint64_t uniqueAssociatedID	= child.GetUInt64(XE_RAW_FILE_ASSOCIATED_ASSET_ID_PROP);
+	//		GameContentType contentType	= (GameContentType)child.GetUInt(XE_RAW_FILE_CONTENTTYPE_PROP);
+	//		GameContextFileExt fileExt	= (GameContextFileExt)child.GetUInt(XE_RAW_FILE_GAMECONTEXTFILEEXT_PROP);
+	//		std::wstring outputFilename	= child.GetString(XE_RAW_FILE_OUTPUTFILENAME_PROP);
+	//		bool reloadNeeded			= child.GetBool(XE_RAW_FILE_RELOADNEEDED_PROP);
+	//		bool outputDirChanged		= child.GetBool(XE_RAW_FILE_OUTPUTDIRCHANGED_PROP);
+	//		bool contentSubtypeChanged	= child.GetBool(XE_RAW_FILE_CONTENTSUBTYPECHANGED_PROP);
 
-			RawGameAsset* rawGameAsset = new RawGameAsset(filepath, m_ProjectDirectory, name);
+	//		RawGameAsset* rawGameAsset = new RawGameAsset(filepath, m_ProjectDirectory, name);
 
-			rawGameAsset->SetContentSubtype(subType);
-			rawGameAsset->SetOutputDirectory(outputDir);
-			rawGameAsset->SetUniqueAssociatedAssetID(uniqueAssociatedID);
-			rawGameAsset->SetContentType(contentType);
-			rawGameAsset->SetGameContextFileExt(fileExt);
-			rawGameAsset->SetLastModifiedTimeStamp(modTimeStamp);
-			rawGameAsset->SetOutputFileName(outputFilename);
-			rawGameAsset->SetReloadNeeded(reloadNeeded);
-			rawGameAsset->SetOutputDirChanged(outputDirChanged);
-			rawGameAsset->SetContentSubtypeChanged(contentSubtypeChanged);
+	//		rawGameAsset->SetContentSubtype(subType);
+	//		rawGameAsset->SetOutputDirectory(outputDir);
+	//		rawGameAsset->SetUniqueAssociatedAssetID(uniqueAssociatedID);
+	//		rawGameAsset->SetContentType(contentType);
+	//		rawGameAsset->SetGameContextFileExt(fileExt);
+	//		rawGameAsset->SetLastModifiedTimeStamp(modTimeStamp);
+	//		rawGameAsset->SetOutputFileName(outputFilename);
+	//		rawGameAsset->SetReloadNeeded(reloadNeeded);
+	//		rawGameAsset->SetOutputDirChanged(outputDirChanged);
+	//		rawGameAsset->SetContentSubtypeChanged(contentSubtypeChanged);
 
-			m_RawGameAssetMap[rawGameAsset->GetUniqueID()] = rawGameAsset;
-		}
-	}
+	//		m_RawGameAssetMap[rawGameAsset->GetUniqueID()] = rawGameAsset;
+	//	}
+	//}
+
+	return XEResult::Fail;
 }
 
 XEResult GameAssetManager::LoadGameAssets(XEXMLParser& gameAssetXML)
 {
-	uint32_t l_Count = gameAssetXML.GetNumChildren();
-	for (uint32_t i = 0; i < l_Count; ++i)
-	{
-		XEXMLParser child = gameAssetXML(i);
+	//uint32_t l_Count = gameAssetXML.GetNumChildren();
+	//for (uint32_t i = 0; i < l_Count; ++i)
+	//{
+	//	XEXMLParser child = gameAssetXML(i);
 
-		std::wstring l_Type = child.GetName();
+	//	std::wstring l_Type = child.GetName();
 
-		if (l_Type.compare(L"Asset") == 0)
-		{
-		}
-	}
+	//	if (l_Type.compare(L"Asset") == 0)
+	//	{
+	//	}
+	//}
+
+	return XEResult::Fail;
 }

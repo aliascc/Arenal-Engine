@@ -1386,6 +1386,12 @@ XEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const s
 		return XEResult::Fail;
 	}
 
+	if (!boost::filesystem::create_directory(projectFolder + L"/" + XE_PROJ_ASSETS_DIR_LOC))
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
 	if (!boost::filesystem::create_directory(projectFolder + L"/" + XE_PROJ_ASSET_MANAGER_DIR_LOC))
 	{
 		XETODO("Better return code");

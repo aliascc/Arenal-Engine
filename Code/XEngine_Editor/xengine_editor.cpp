@@ -106,12 +106,12 @@ void XEngine_Editor::Initialize()
 	m_CodeEditorMainWindow = new CodeEditorMainWindow();
 
 	////////////////////////////////////////
-	//Get Game Engine Viewer
-	EngineViewer* engineViewer = m_XEngineViewerWidget->GetEngineViewer();
-
-	////////////////////////////////////////
 	//Link Engine to Widget
 	m_XEngineViewerWidget->LinkEditorToEngine();
+
+	////////////////////////////////////////
+	//Get Game Engine Viewer
+	EngineViewer* engineViewer = m_XEngineViewerWidget->GetEngineViewer();
 
 	////////////////////////////////////////
 	//Raw Game Assets Tree Init
