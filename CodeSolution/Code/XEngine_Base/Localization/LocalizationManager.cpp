@@ -138,7 +138,6 @@ XEResult LocalizationManager::ReloadWithoutLock()
 				}
 
 				XEResult loadLangRet = LoadLanguageLiterals(language, langFile);
-
 				if(loadLangRet != XEResult::Ok)
 				{
 					/*Hard coded string Loc Manager not loaded*/

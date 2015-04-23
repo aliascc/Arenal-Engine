@@ -2,15 +2,11 @@
 /********************************************************
 *
 * Author: Carlos Chacón N.
-*
-* Created: 11/7/2012
-*
-* Last Major Update: 11/7/2012
 * 
 * Desc:
 *
 *
-* Copyright 2012
+* Copyright 2012-2015
 *
 *********************************************************/
 
@@ -22,10 +18,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
 #include <vector>
 #include <string>
 #include <d3d11_1.h>
+#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -55,7 +51,7 @@ class ConstantBuffer sealed : public Named
 	/// <summary>
 	/// Typedef for Shader Variable Map
 	/// </summary>
-	typedef std::map<std::wstring, ShaderCustomVariable*> VariableMap;
+	typedef std::unordered_map<std::wstring, ShaderCustomVariable*> VariableMap;
 	
 	/// <summary>
 	/// Typedef for Shader Variable Vector

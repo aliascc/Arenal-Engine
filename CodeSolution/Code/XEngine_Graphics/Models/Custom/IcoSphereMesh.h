@@ -18,10 +18,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
 #include <string>
 #include <vector>
 #include <stdint.h>
+#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -73,7 +73,7 @@ class IcoSphereMesh sealed : public Mesh
 
 		std::vector<uint16_t> m_IdxBuff;
 
-		std::map<std::wstring, uint16_t> m_VtxMap;
+		std::unordered_map<std::wstring, uint16_t> m_VtxMap;
 
 		void AddFace(const VertexPositionNormalTexture& vtx1, const VertexPositionNormalTexture& vtx2, const VertexPositionNormalTexture& vtx3);
 

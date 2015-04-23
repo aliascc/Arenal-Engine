@@ -19,9 +19,9 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
 #include <string>
 #include <stdint.h>
+#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -45,7 +45,7 @@ class LocalizationManager;
 class GameServiceCollection : public XEObject
 {
 	//Typedefs to handle Map Collection
-	typedef std::map<std::wstring, GameService*> GameServiceMap;
+	typedef std::unordered_map<std::wstring, GameService*> GameServiceMap;
 
 	private:
 

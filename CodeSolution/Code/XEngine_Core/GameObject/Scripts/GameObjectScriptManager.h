@@ -19,7 +19,7 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
+#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -40,7 +40,7 @@
 /***************
 *   Typedefs   *
 ****************/
-typedef std::map<std::wstring, GameObjectScriptInstance*> GameObjectScriptMap;
+typedef std::unordered_map<std::wstring, GameObjectScriptInstance*> GameObjectScriptMap;
 typedef GameObjectScriptMap::iterator GameObjectScriptMapIt;
 typedef GameObjectScriptMap::const_iterator GameObjectScriptMapItConst;
 

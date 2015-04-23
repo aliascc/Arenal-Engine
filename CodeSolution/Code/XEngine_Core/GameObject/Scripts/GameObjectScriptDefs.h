@@ -25,6 +25,7 @@
 ***********************/
 #include <map>
 #include <stdint.h>
+#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -219,7 +220,7 @@ struct GameObjectScriptProperties sealed : public XEObject
 	/// <summary>
 	/// Map Containing the Script Properties
 	/// </summary>
-	std::map<std::string, GameObjectScriptProperty*> m_PropertiesMap;
+	std::unordered_map<std::string, GameObjectScriptProperty*> m_PropertiesMap;
 
 	/// <summary>
 	/// Default Constructor
