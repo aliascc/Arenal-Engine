@@ -18,7 +18,7 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
+#include <unordered_map>
 #include <string>
 
 /***************************
@@ -65,7 +65,7 @@ struct LocalizationLiteral sealed : public Named
 /***************
 *   Typedefs   *
 ****************/
-typedef std::map<std::wstring, LocalizationLiteral>	LiteralMap;
-typedef std::map<std::wstring, LiteralMap>			LanguageMap;
+typedef std::unordered_map<std::wstring, LocalizationLiteral>	LiteralMap;
+typedef std::unordered_map<std::wstring, LiteralMap>			LanguageMap;
 
 #endif

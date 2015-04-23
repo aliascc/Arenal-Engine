@@ -198,8 +198,11 @@ XEResult LocalizationManager::LoadLanguageLiterals(const std::wstring& name, con
 
 	if ( languageXML.IsReady() )
 	{
-		//Create Literal Map
-		LiteralMap litMap;
+		//Create Literal Map and add it to Map
+		m_LanguagesMap[name] = LiteralMap();
+
+		//Get Reference to add Literals to the Map
+		LiteralMap& litMap = m_LanguagesMap[name];
 
 		uint16_t l_Count = languageXML.GetNumChildren();
 
@@ -243,9 +246,6 @@ XEResult LocalizationManager::LoadLanguageLiterals(const std::wstring& name, con
 				}
 			}
 		}
-
-		//Add Literal Map to Main Map
-		m_LanguagesMap[name] = litMap;
 
 		return XEResult::Ok;
 	}
