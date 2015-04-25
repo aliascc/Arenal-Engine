@@ -2,14 +2,10 @@
 *
 * Author: Carlos Chacón N.
 *
-* Created: 12/28/2012
-*
-* Desc:
-*
-*
-* Copyright 2012
+* Copyright 2012-2015
 *
 *********************************************************/
+
 #pragma once
 
 #ifndef _ANIMATION_DEFS_H

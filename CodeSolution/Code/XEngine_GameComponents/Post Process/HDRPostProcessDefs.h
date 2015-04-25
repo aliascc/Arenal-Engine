@@ -2,14 +2,10 @@
 *
 * Author: Carlos Chacón N.
 *
-* Created: 4/25/2012
-*
-* Desc:
-*
-*
-* Copyright 2012
+* Copyright 2012-2015
 *
 *********************************************************/
+
 #pragma once
 
 #ifndef _HDR_POST_PROCESS_DEFS_H

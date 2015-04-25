@@ -6,14 +6,10 @@
 *
 * Author: Carlos Chacón N.
 *
-* Created: 2/14/2012
-*
-* Desc:
-*
-*
-* Copyright 2012-2014
+* Copyright 2012-2015
 *
 *********************************************************/
+
 #pragma once
 
 #ifndef _LOGGER_DEFS_H

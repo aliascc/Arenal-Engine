@@ -2,14 +2,10 @@
 *
 * Author: Carlos Chacón N.
 *
-* Created: 5/12/2013
-*
-* Desc:
-*
-*
-* Copyright 2013
+* Copyright 2012-2015
 *
 *********************************************************/
+
 #pragma once
 
 #ifndef _XE_QT_DEFS_H

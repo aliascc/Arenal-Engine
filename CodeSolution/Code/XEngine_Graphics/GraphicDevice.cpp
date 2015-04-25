@@ -2,17 +2,9 @@
 *
 * Author: Carlos Chacón N.
 *
-* Created: 2/14/2012
-*
-* Last Major Update: 6/26/2012
-*
-* Desc:
-*
-*
-* Copyright 2012
+* Copyright 2012-2015
 *
 *********************************************************/
-
 
 /**********************
 *   System Includes   *

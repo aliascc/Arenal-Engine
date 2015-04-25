@@ -2,14 +2,10 @@
 *
 * Author: Carlos Chacón N.
 *
-* Created: 4/12/2012
-*
-* Desc:
-*
-*
-* Copyright 2012
+* Copyright 2012-2015
 *
 *********************************************************/
+
 #pragma once
 
 #ifndef _PARTICLE_SYSTEM_DEFS_H

@@ -2,14 +2,10 @@
 *
 * Author: Carlos Chacón N.
 *
-* Created: 2/21/2012
-*
-* Desc:
-*
-*
-* Copyright 2012
+* Copyright 2012-2015
 *
 *********************************************************/
+
 #pragma once
 
 #ifndef _INPUT_DEFS_H

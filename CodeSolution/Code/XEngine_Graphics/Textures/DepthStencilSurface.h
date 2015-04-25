@@ -1,16 +1,11 @@
-
 /********************************************************
 *
 * Author: Carlos Chacón N.
 *
-* Created: 3/26/2012
-*
-* Desc:
-*
-*
-* Copyright 2012
+* Copyright 2012-2015
 *
 *********************************************************/
+
 #pragma once
 
 #ifndef _DEPTH_STENCIL_SURFACE_H

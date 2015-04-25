@@ -6,12 +6,10 @@
 *
 * Author: Carlos Chacón N.
 *
-* Desc:
-*
-*
-* Copyright 2012-2014
+* Copyright 2012-2015
 *
 *********************************************************/
+
 #pragma once
 
 #ifndef _BASE_FUNCTIONS_H

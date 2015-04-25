@@ -1,15 +1,12 @@
 /** \file
-* Contains definitions for handling Game Objects
+* Contains definitions for handling Audio
 */
 
 /********************************************************
 *
 * Author: Carlos Chacón N.
 *
-* Desc:
-*
-*
-* Copyright 2012-2014
+* Copyright 2012-2015
 *
 *********************************************************/
 
