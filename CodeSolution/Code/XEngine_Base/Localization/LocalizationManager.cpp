@@ -55,7 +55,7 @@ XEResult LocalizationManager::Initialize(const std::wstring& file, const std::ws
 		m_ProjectDirectory.push_back(L'/');
 	}
 
-	m_Filename = file;
+	m_FilenameEngine = file;
 	
 	return ReloadWithoutLock();
 }
@@ -63,8 +63,8 @@ XEResult LocalizationManager::Initialize(const std::wstring& file, const std::ws
 void LocalizationManager::ClearAllMaps()
 {
 	m_DefaultLanguage = L"";
-	m_CurrentLiteralMap.clear();
 	m_LanguagesMap.clear();
+	m_CurrentLiteralMap = nullptr;
 }
 
 XEResult LocalizationManager::Reload()
@@ -76,7 +76,7 @@ XEResult LocalizationManager::Reload()
 
 XEResult LocalizationManager::ReloadWithoutLock()
 {
-	if(m_Filename.empty())
+	if(m_FilenameEngine.empty())
 	{
 		return XEResult::EmptyFilename;
 	}
@@ -84,11 +84,11 @@ XEResult LocalizationManager::ReloadWithoutLock()
 	m_IsReady = false;
 
 	XEXMLParser newFile;
-	if (newFile.LoadFile(m_Filename) != XEResult::Ok)
+	if (newFile.LoadFile(m_FilenameEngine) != XEResult::Ok)
 	{
 		/*Hard coded string Loc Manager not loaded*/
 		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, L"{0}: Could not read file: {1}", __FUNCTIONW__, m_Filename);
+		fastformat::fmt(msg_error, L"{0}: Could not read file: {1}", __FUNCTIONW__, m_FilenameEngine);
 
 		m_CallByLocManager = true;
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
@@ -193,14 +193,16 @@ XEResult LocalizationManager::LoadLanguageLiterals(const std::wstring& name, con
 
 	if ( languageXML.IsReady() )
 	{
-		//Create Literal Map and add it to Map
-		m_LanguagesMap[name] = LiteralMap();
+		if (m_LanguagesMap.find(name) == m_LanguagesMap.end())
+		{
+			//Create Literal Map and add it to Map
+			m_LanguagesMap[name] = LiteralMap();
+		}
 
 		//Get Reference to add Literals to the Map
 		LiteralMap& litMap = m_LanguagesMap[name];
 
 		uint16_t l_Count = languageXML.GetNumChildren();
-
 		for( uint16_t i = 0; i < l_Count; ++i )
 		{
 			XEXMLParser child = languageXML(i);
@@ -257,9 +259,9 @@ const std::wstring& LocalizationManager::GetLiteral(const std::wstring& literalN
 
 	std::lock_guard<std::mutex> lock(m_LocalizationMutex);
 
-	auto it = m_CurrentLiteralMap.find(literalName);
+	auto it = m_CurrentLiteralMap->find(literalName);
 
-	if(it != m_CurrentLiteralMap.end())
+	if(it != m_CurrentLiteralMap->end())
 	{
 		return it->second.m_Msg;
 	}
@@ -301,9 +303,191 @@ XEResult LocalizationManager::SetDefaultLanguageWithoutLock(const std::wstring& 
 	if(it != m_LanguagesMap.end())
 	{
 		m_DefaultLanguage = languageName;
-		m_CurrentLiteralMap = it->second;
+		m_CurrentLiteralMap = &it->second;
+
 		return XEResult::Ok;
 	}
 
 	return XEResult::NotFound;
+}
+
+XEResult LocalizationManager::AddExtendedLanguage(const std::wstring& languageName)
+{
+	//////////////////////////////////
+	//Pre-checks
+	if (!m_IsReady)
+	{
+		return XEResult::NotReady;
+	}
+
+	//////////////////////////////////
+	//Lock
+	std::lock_guard<std::mutex> lock(m_LocalizationMutex);
+
+	//////////////////////////////////
+	//Extended Language Does not exist
+	if (m_ExtendedLiteralsMap.find(languageName) != m_ExtendedLiteralsMap.end())
+	{
+		return XEResult::ObjExists;
+	}
+
+	//////////////////////////////////
+	//Create Extended Language
+	m_ExtendedLiteralsMap[languageName] = LiteralsSet();
+
+	//////////////////////////////////
+	//Create Language if none found in Language Map
+	if (m_LanguagesMap.find(languageName) == m_LanguagesMap.end())
+	{
+		m_LanguagesMap[languageName] = LiteralMap();
+	}
+
+	return XEResult::Ok;
+}
+
+XEResult LocalizationManager::AddExtendedLiteral(const std::wstring& languageName, const std::wstring& literalName, const std::wstring& literalMessage)
+{
+	//////////////////////////////////
+	//Pre-checks
+	if (!m_IsReady)
+	{
+		return XEResult::NotReady;
+	}
+
+	//////////////////////////////////
+	//Lock
+	std::lock_guard<std::mutex> lock(m_LocalizationMutex);
+
+	//////////////////////////////////
+	//Extended Language Exists
+	if (m_ExtendedLiteralsMap.find(languageName) == m_ExtendedLiteralsMap.end())
+	{
+		return XEResult::NotFound;
+	}
+
+	//////////////////////////////////
+	//Add or Modify Message
+	LiteralsSet& literalSet = m_ExtendedLiteralsMap[languageName];
+	LiteralMap& literalMap = m_LanguagesMap[languageName];
+
+	auto literalSetIt = literalSet.find(literalName);
+
+	if (literalSetIt != literalSet.end())
+	{
+		//////////////////////////////////
+		//Modify Message
+		literalMap[literalName].m_Msg = literalMessage;
+	}
+	else if (literalMap.find(literalName) == literalMap.end()) //If Literal Set 
+	{
+		//////////////////////////////////
+		//Add to Set
+		literalSet.insert(literalName);
+
+		//////////////////////////////////
+		//Add Message to Literal Language Map
+		literalMap[literalName] = LocalizationLiteral(literalName, literalMessage);
+	}
+	else
+	{
+		//////////////////////////////////
+		//Literal exists in default Engine config, invalid option
+
+		XETODO("Add log");
+
+		XETODO("Better return type");
+		return XEResult::Fail;
+	}
+
+	//////////////////////////////////
+	//Finish
+	return XEResult::Ok;
+}
+
+XEResult LocalizationManager::RemoveExtendedLanguage(const std::wstring& languageName)
+{
+	//////////////////////////////////
+	//Pre-checks
+	if (!m_IsReady)
+	{
+		return XEResult::NotReady;
+	}
+
+	//////////////////////////////////
+	//Lock
+	std::lock_guard<std::mutex> lock(m_LocalizationMutex);
+
+	//////////////////////////////////
+	//Extended Language Exists
+	if (m_ExtendedLiteralsMap.find(languageName) == m_ExtendedLiteralsMap.end())
+	{
+		return XEResult::NotFound;
+	}
+
+	//////////////////////////////////
+	//Remove Literals from Language Map
+	LiteralsSet& literalSet = m_ExtendedLiteralsMap[languageName];
+	LiteralMap& literalMap = m_LanguagesMap[languageName];
+
+	for (auto literalName : literalSet)
+	{
+		literalMap.erase(literalName);
+	}
+
+	//////////////////////////////////
+	//Remove Language Map if size is 0
+	if (literalMap.size() == 0)
+	{
+		m_LanguagesMap.erase(languageName);
+	}
+
+	//////////////////////////////////
+	//Remove Extended Literal Map
+	m_ExtendedLiteralsMap.erase(languageName);
+
+	//////////////////////////////////
+	//Finish
+	return XEResult::Ok;
+}
+
+XEResult LocalizationManager::RemoveExtendedLiteral(const std::wstring& languageName, const std::wstring& literalName)
+{
+	//////////////////////////////////
+	//Pre-checks
+	if (!m_IsReady)
+	{
+		return XEResult::NotReady;
+	}
+
+	//////////////////////////////////
+	//Lock
+	std::lock_guard<std::mutex> lock(m_LocalizationMutex);
+
+	//////////////////////////////////
+	//Extended Language Exists
+	if (m_ExtendedLiteralsMap.find(languageName) == m_ExtendedLiteralsMap.end())
+	{
+		return XEResult::NotFound;
+	}
+
+	//////////////////////////////////
+	//Find in Literal Set and Remove
+	LiteralsSet& literalSet = m_ExtendedLiteralsMap[languageName];
+
+	if (literalSet.find(literalName) == literalSet.end())
+	{
+		return XEResult::NotFound;
+	}
+
+	literalSet.erase(literalName);
+
+	//////////////////////////////////
+	//Remove from Language Map
+	LiteralMap& literalMap = m_LanguagesMap[languageName];
+
+	literalMap.erase(literalName);
+
+	//////////////////////////////////
+	//Finish
+	return XEResult::Ok;
 }

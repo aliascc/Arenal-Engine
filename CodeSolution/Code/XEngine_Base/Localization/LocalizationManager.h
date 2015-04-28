@@ -15,6 +15,7 @@
 *   System Includes   *
 ***********************/
 #include <map>
+#include <set>
 #include <mutex>
 #include <string>
 #include <stdint.h>
@@ -47,20 +48,29 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 
 	private:
 
+		typedef std::set<std::wstring> LiteralsSet;
+
+		typedef std::map<std::wstring, LiteralsSet> ExtendedLiteralsMap;
+
 		/************************
 		*   Private Variables   *
 		*************************/
 #pragma region Private Variables
 
 		/// <summary>
-		/// Contains the the Languages and the messages
+		/// Extended Languages Literals
+		/// </summary>
+		ExtendedLiteralsMap m_ExtendedLiteralsMap;
+
+		/// <summary>
+		/// Contains the Languages and the messages
 		/// </summary>
 		LanguageMap m_LanguagesMap;
 
 		/// <summary>
 		/// Contains all of the messages in the current specified language
 		/// </summary>
-		LiteralMap m_CurrentLiteralMap;
+		LiteralMap* m_CurrentLiteralMap = nullptr;
 
 		/// <summary>
 		/// Default Language
@@ -68,9 +78,14 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		std::wstring m_DefaultLanguage = L"";
 
 		/// <summary>
-		/// File name where the Languages and their messages are
+		/// Engine File name where the Languages and their messages are
 		/// </summary>
-		std::wstring m_Filename = L"";
+		std::wstring m_FilenameEngine = L"";
+
+		/// <summary>
+		/// Project File name where the Languages and their messages are
+		/// </summary>
+		std::wstring m_FilenameProject = L"";
 
 		/// <summary>
 		/// Defines if Localization Manager is ready to run
@@ -100,14 +115,14 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		*   Private Methods   *
 		***********************/
 #pragma region Private Variables
-		
+
 		/// <summary>
 		/// Loads and specific Language from a file, its literals and messages
 		/// </summary>
 		/// <param name="name">Name of the Language</param>
 		/// <returns>Returns XEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
 		XEResult LoadLanguageLiterals(const std::wstring& name, const std::wstring& file);
-		
+
 		/// <summary>
 		/// Clears all information from all of the Languages
 		/// </summary>
@@ -147,9 +162,9 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 
 #pragma endregion
 		
-		/*******************
-		 *   Get Methods   *
-		 *******************/
+		/******************
+		*   Get Methods   *
+		*******************/
 #pragma region Get Methods
 
 		/// <summary>
@@ -169,9 +184,9 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 
 #pragma endregion
 
-		/*************************
-		 *   Framework Methods   *
-		 *************************/
+		/************************
+		*   Framework Methods   *
+		*************************/
 #pragma region Framework Methods
 
 		/// <summary>
@@ -201,7 +216,16 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		/// <returns>Returns XEResult::OK if Languages was set successfully, if not an appropriate error code</returns>
 		XEResult SetDefaultLanguage(const std::wstring& languageName);
 
+		XEResult AddExtendedLanguage(const std::wstring& languageName);
+
+		XEResult AddExtendedLiteral(const std::wstring& languageName, const std::wstring& literalName, const std::wstring& literalMessage);
+
+		XEResult RemoveExtendedLanguage(const std::wstring& languageName);
+
+		XEResult RemoveExtendedLiteral(const std::wstring& languageName, const std::wstring& literalName);
+
 #pragma endregion
+
 };
 
 #endif
