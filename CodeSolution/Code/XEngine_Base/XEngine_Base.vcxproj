@@ -187,6 +187,7 @@
   <ItemGroup>
     <ClInclude Include="Base\Base.h" />
     <ClInclude Include="Base\BaseFunctions.h" />
+    <ClInclude Include="Base\BaseLocations.h" />
     <ClInclude Include="Base\Named.h" />
     <ClInclude Include="Base\UniqueXEObject.h" />
     <ClInclude Include="Base\UniqueXEObjectNamed.h" />

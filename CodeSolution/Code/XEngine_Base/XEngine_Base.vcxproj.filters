@@ -114,6 +114,9 @@
     <ClInclude Include="XML\XEXMLWriter.h">
       <Filter>XML</Filter>
     </ClInclude>
+    <ClInclude Include="Base\BaseLocations.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Memory\MemLeaks.cpp">

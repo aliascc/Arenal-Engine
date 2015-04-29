@@ -81,7 +81,7 @@ XEResult LocalizationAddOnAS::RegisterLocalizationObject(asIScriptEngine* engine
 		return XEResult::RegObjMethodFail;
 	}
 
-	ret = engine->RegisterObjectMethod("LocalizationManager", "XEResult Reload()", asMETHOD(LocalizationManager, Reload), asCALL_THISCALL);
+	ret = engine->RegisterObjectMethod("LocalizationManager", "XEResult ReloadAll()", asMETHOD(LocalizationManager, ReloadAll), asCALL_THISCALL);
 	if (ret < 0)
 	{
 		return XEResult::RegObjMethodFail;

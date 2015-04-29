@@ -23,6 +23,7 @@
 #include "Utils\XEQTDefs.h"
 #include "NewProjectDialog.h"
 #include "Base\BaseFunctions.h"
+#include "Base\BaseLocations.h"
 #include "Engine Viewer\EngineViewer.h"
 
 //Always include last

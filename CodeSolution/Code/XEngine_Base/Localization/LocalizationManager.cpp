@@ -21,8 +21,10 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Logger\Logger.h"
+#include "XML\XEXMLWriter.h"
 #include "XML\XEXMLParser.h"
 #include "Logger\LoggerDefs.h"
+#include "Base\BaseLocations.h"
 #include "LocalizationManager.h"
 
 //Always include last
@@ -39,7 +41,7 @@ LocalizationManager::~LocalizationManager()
 {
 }
 
-XEResult LocalizationManager::Initialize(const std::wstring& file, const std::wstring& projectDir)
+XEResult LocalizationManager::Initialize(const std::wstring& file)
 {
 	std::lock_guard<std::mutex> lock(m_LocalizationMutex);
 
@@ -49,15 +51,9 @@ XEResult LocalizationManager::Initialize(const std::wstring& file, const std::ws
 		return XEResult::EmptyFilename;
 	}
 
-	m_ProjectDirectory = projectDir;
-	if (m_ProjectDirectory.back() != L'\\' && m_ProjectDirectory.back() != L'/')
-	{
-		m_ProjectDirectory.push_back(L'/');
-	}
-
 	m_FilenameEngine = file;
-	
-	return ReloadWithoutLock();
+
+	return ReloadEngineWithoutLock();
 }
 
 void LocalizationManager::ClearAllMaps()
@@ -65,18 +61,79 @@ void LocalizationManager::ClearAllMaps()
 	m_DefaultLanguage = L"";
 	m_LanguagesMap.clear();
 	m_CurrentLiteralMap = nullptr;
+
+	CleanProjectInfo();
 }
 
-XEResult LocalizationManager::Reload()
+void LocalizationManager::CleanProjectInfo()
+{
+	for (auto literalSetIt : m_ExtendedLiteralsMap)
+	{
+		LiteralsSet& literalSet = literalSetIt.second;
+
+		auto languageMapIt = m_LanguagesMap.find(literalSetIt.first);
+		if (languageMapIt != m_LanguagesMap.end())
+		{
+			LiteralMap& literalMap = languageMapIt->second;
+			for (auto literalName : literalSet)
+			{
+				literalMap.erase(literalName);
+			}
+
+			if (literalMap.size() == 0)
+			{
+				m_LanguagesMap.erase(literalSetIt.first);
+			}
+		}
+	}
+
+	m_ExtendedLiteralsMap.clear();
+}
+
+XEResult LocalizationManager::LoadProjectFile(const std::wstring& filename)
 {
 	std::lock_guard<std::mutex> lock(m_LocalizationMutex);
 
-	return ReloadWithoutLock();
+	XEAssert(!filename.empty());
+	if (filename.empty())
+	{
+		return XEResult::EmptyFilename;
+	}
+
+	m_FilenameProject = filename;
+
+	return ReloadProjectWithoutLock();
 }
 
-XEResult LocalizationManager::ReloadWithoutLock()
+XEResult LocalizationManager::ReloadAll()
 {
-	if(m_FilenameEngine.empty())
+	std::lock_guard<std::mutex> lock(m_LocalizationMutex);
+
+	return ReloadAllWithoutLock();
+}
+
+XEResult LocalizationManager::ReloadAllWithoutLock()
+{
+	XEResult ret = XEResult::Ok;
+
+	ret = ReloadEngineWithoutLock();
+	if (ret != XEResult::Ok)
+	{
+		return ret;
+	}
+
+	ret = ReloadProjectWithoutLock();
+	if (ret != XEResult::Ok)
+	{
+		return ret;
+	}
+
+	return XEResult::Ok;
+}
+
+XEResult LocalizationManager::ReloadEngineWithoutLock()
+{
+	if (m_FilenameEngine.empty())
 	{
 		return XEResult::EmptyFilename;
 	}
@@ -102,39 +159,29 @@ XEResult LocalizationManager::ReloadWithoutLock()
 	//Clear all maps for new load
 	ClearAllMaps();
 
-	XEXMLParser localizationXML = newFile[L"Localization"];
-	if ( localizationXML.IsReady() )
+	XEXMLParser localizationXML = newFile[XE_LOC_LOCALIZATION_NODE_NAME];
+	if (localizationXML.IsReady())
 	{
 		uint16_t l_Count = localizationXML.GetNumChildren();
 
-		for( uint16_t i = 0; i < l_Count; ++i )
+		for (uint16_t i = 0; i < l_Count; ++i)
 		{
 			XEXMLParser child = localizationXML(i);
 
 			std::wstring l_Type = child.GetName();
 
-			if( l_Type.compare(L"Default") == 0 )
+			if (l_Type.compare(XE_LOC_DEFAULT_LANG_NODE_NAME) == 0)
 			{
-				m_DefaultLanguage = child.GetString(L"lang");
+				m_DefaultLanguage = child.GetString(XE_LOC_LANGUAGE_PROP_NAME);
 			}
-			else if ( l_Type.compare(L"Language") == 0 )
+			else if (l_Type.compare(XE_LOC_LANGUAGE_NODE_NAME) == 0)
 			{
-				std::wstring language = child.GetString(L"name");
-				uint32_t locFind = child.GetUInt(L"loc", 0, false);
+				std::wstring language = child.GetString(XE_LOC_LANG_NAME_PROP_NAME);
 
-				std::wstring langFile = L"";
-
-				if (locFind == 1)
-				{
-					langFile = XE_PREFIX_ENGINE_FILE_PATH + child.GetString(L"file");
-				}
-				else
-				{
-					langFile = m_ProjectDirectory + child.GetString(L"file");
-				}
+				std::wstring langFile = XE_PREFIX_ENGINE_FILE_PATH + child.GetString(XE_LOC_FILE_PROP_NAME);
 
 				XEResult loadLangRet = LoadLanguageLiterals(language, langFile);
-				if(loadLangRet != XEResult::Ok)
+				if (loadLangRet != XEResult::Ok)
 				{
 					/*Hard coded string Loc Manager not loaded*/
 					std::wstring msg_error = L"";
@@ -158,12 +205,96 @@ XEResult LocalizationManager::ReloadWithoutLock()
 	//Both ret and Set Default Language has to be true in order to return that loc manager was loaded
 	XEResult sdl = SetDefaultLanguageWithoutLock(m_DefaultLanguage);
 
-	if(!ret || sdl != XEResult::Ok)
+	if (!ret || sdl != XEResult::Ok)
 	{
 		return XEResult::Fail;
 	}
 
 	m_IsReady = true;
+
+	return XEResult::Ok;
+}
+
+XEResult LocalizationManager::ReloadProjectWithoutLock()
+{
+	//////////////////////////////////
+	//Pre-checks
+	if (!m_IsReady)
+	{
+		return XEResult::NotReady;
+	}
+
+	if (m_FilenameProject.empty())
+	{
+		return XEResult::EmptyFilename;
+	}
+
+	XEXMLParser newFile;
+	if (newFile.LoadFile(m_FilenameProject) != XEResult::Ok)
+	{
+		XETODO("Add literal");
+
+
+		std::wstring msg_error = L"";
+		fastformat::fmt(msg_error, L"{0}: Could not read file: {1}", __FUNCTIONW__, m_FilenameEngine);
+
+		m_CallByLocManager = true;
+		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
+		m_CallByLocManager = false;
+
+		return XEResult::OpenFileFail;
+	}
+
+	bool ret = false;
+
+	//Clear all maps for new load
+	CleanProjectInfo();
+
+	XEXMLParser localizationXML = newFile[XE_LOC_LOCALIZATION_NODE_NAME];
+	if (localizationXML.IsReady())
+	{
+		uint16_t l_Count = localizationXML.GetNumChildren();
+
+		for (uint16_t i = 0; i < l_Count; ++i)
+		{
+			XEXMLParser child = localizationXML(i);
+
+			std::wstring l_Type = child.GetName();
+
+			if (l_Type.compare(XE_LOC_LANGUAGE_NODE_NAME) == 0)
+			{
+				std::wstring language = child.GetString(XE_LOC_LANG_NAME_PROP_NAME);
+
+				std::wstring langFile = child.GetString(XE_LOC_FILE_PROP_NAME);
+
+				XEResult loadLangRet = LoadExtendedLanguageLiterals(language, langFile);
+				if (loadLangRet != XEResult::Ok)
+				{
+					XETODO("Add Literal");
+
+
+					std::wstring msg_error = L"";
+					fastformat::fmt(msg_error, L"{0}: Failed to read Language Literals: {1}, from file: {2}", __FUNCTIONW__, language, langFile);
+
+					m_CallByLocManager = true;
+					XELOGGER->AddNewLog(LogLevel::Error, msg_error);
+					m_CallByLocManager = false;
+
+					ret |= false;
+				}
+				else
+				{
+					//If at least 1 was loaded correctly than we can return true that language literals where loaded
+					ret |= true;
+				}
+			}
+		}
+	}
+
+	if (!ret)
+	{
+		return XEResult::Fail;
+	}
 
 	return XEResult::Ok;
 }
@@ -189,7 +320,7 @@ XEResult LocalizationManager::LoadLanguageLiterals(const std::wstring& name, con
 		return XEResult::OpenFileFail;
 	}
 
-	XEXMLParser languageXML = newFile[L"Language"];
+	XEXMLParser languageXML = newFile[XE_LOC_LANGUAGE_NODE_NAME];
 
 	if ( languageXML.IsReady() )
 	{
@@ -209,10 +340,10 @@ XEResult LocalizationManager::LoadLanguageLiterals(const std::wstring& name, con
 
 			std::wstring l_Type = child.GetName();
 
-			if ( l_Type.compare(L"Literal") == 0 )
+			if (l_Type.compare(XE_LOC_LITERAL_NODE_NAME) == 0)
 			{
-				std::wstring literalName = child.GetString(L"name");
-				std::wstring literalMsg = child.GetString(L"msg");
+				std::wstring literalName = child.GetString(XE_LOC_LITERAL_NAME_PROP_NAME);
+				std::wstring literalMsg = child.GetString(XE_LOC_LITERAL_MSG_PROP_NAME);
 
 				if(!name.empty())
 				{
@@ -234,6 +365,102 @@ XEResult LocalizationManager::LoadLanguageLiterals(const std::wstring& name, con
 				else
 				{
 					/*Hard coded string Loc Manager not loaded*/
+					std::wstring msg_error = L"";
+					fastformat::fmt(msg_error, L"{0}: Msg: {1} does not have a name", __FUNCTIONW__, literalMsg);
+
+					m_CallByLocManager = true;
+					XELOGGER->AddNewLog(LogLevel::Warning, msg_error);
+					m_CallByLocManager = false;
+				}
+			}
+		}
+
+		return XEResult::Ok;
+	}
+
+	return XEResult::Fail;
+}
+
+XEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::wstring& name, const std::wstring& file)
+{
+	if (file.empty() || name.empty())
+	{
+		return XEResult::EmptyFilename;
+	}
+
+	XEXMLParser newFile;
+	if (newFile.LoadFile(file) != XEResult::Ok)
+	{
+		XETODO("Add literal");
+
+
+		std::wstring msg_error = L"";
+		fastformat::fmt(msg_error, L"{0}: Could not read file: {1}", __FUNCTIONW__, file);
+
+		m_CallByLocManager = true;
+		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
+		m_CallByLocManager = false;
+
+		return XEResult::OpenFileFail;
+	}
+
+	XEXMLParser languageXML = newFile[XE_LOC_LANGUAGE_NODE_NAME];
+
+	if (languageXML.IsReady())
+	{
+		if (m_LanguagesMap.find(name) == m_LanguagesMap.end())
+		{
+			//Create Literal Map and add it to Map
+			m_LanguagesMap[name] = LiteralMap();
+		}
+
+		if (m_ExtendedLiteralsMap.find(name) != m_ExtendedLiteralsMap.end())
+		{
+			m_ExtendedLiteralsMap[name] = LiteralsSet();
+		}
+
+		//Get Reference to add Literals to the Map
+		LiteralMap& litMap = m_LanguagesMap[name];
+		LiteralsSet& litSet = m_ExtendedLiteralsMap[name];
+
+		uint16_t l_Count = languageXML.GetNumChildren();
+		for (uint16_t i = 0; i < l_Count; ++i)
+		{
+			XEXMLParser child = languageXML(i);
+
+			std::wstring l_Type = child.GetName();
+
+			if (l_Type.compare(XE_LOC_LITERAL_NODE_NAME) == 0)
+			{
+				std::wstring literalName = child.GetString(XE_LOC_LITERAL_NAME_PROP_NAME);
+				std::wstring literalMsg = child.GetString(XE_LOC_LITERAL_MSG_PROP_NAME);
+
+				if (!name.empty())
+				{
+					if (litMap.find(literalName) == litMap.end())
+					{
+						litSet.insert(literalName);
+
+						litMap[literalName] = LocalizationLiteral(literalName, literalMsg);
+					}
+					else
+					{
+						XETODO("Add literal");
+
+
+						std::wstring msg_error = L"";
+						fastformat::fmt(msg_error, L"{0}: Literal: {1}, already exists in the language collection", __FUNCTIONW__, literalName);
+
+						m_CallByLocManager = true;
+						XELOGGER->AddNewLog(LogLevel::Warning, msg_error);
+						m_CallByLocManager = false;
+					}
+				}
+				else
+				{
+					XETODO("Add literal");
+
+
 					std::wstring msg_error = L"";
 					fastformat::fmt(msg_error, L"{0}: Msg: {1} does not have a name", __FUNCTIONW__, literalMsg);
 
@@ -486,6 +713,161 @@ XEResult LocalizationManager::RemoveExtendedLiteral(const std::wstring& language
 	LiteralMap& literalMap = m_LanguagesMap[languageName];
 
 	literalMap.erase(literalName);
+
+	//////////////////////////////////
+	//Finish
+	return XEResult::Ok;
+}
+
+XEResult LocalizationManager::SaveToXML(const std::wstring& filename, const std::wstring& projectDir)
+{
+	//////////////////////////////////
+	//Pre-checks
+	if (!m_IsReady)
+	{
+		return XEResult::NotReady;
+	}
+
+	if (filename.empty())
+	{
+		return XEResult::EmptyFilename;
+	}
+
+	XEXMLWriter xmlWriter;
+	XEResult ret = XEResult::Ok;
+
+	ret = xmlWriter.CreateXML(filename, true);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	ret = xmlWriter.StartNode(XE_LOC_LOCALIZATION_NODE_NAME);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	ret = xmlWriter.StartNode(XE_LOC_LANGUAGE_NODE_NAME);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	for (auto extendedLiteralIt : m_ExtendedLiteralsMap)
+	{
+		xmlWriter.WriteString(XE_LOC_LANG_NAME_PROP_NAME, extendedLiteralIt.first);
+
+		std::wstring filename = XE_PROJ_LOCALIZATION_DIR_LOC;
+		filename += L"/" + extendedLiteralIt.first + L".xml";
+		xmlWriter.WriteString(XE_LOC_FILE_PROP_NAME, filename);
+
+		filename = projectDir + L"/" + filename;
+		ret = SaveToXMLExtentedLiteral(filename, extendedLiteralIt.second, extendedLiteralIt.first);
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Add error");
+
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
+	}
+
+	ret = xmlWriter.EndNode();
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	ret = xmlWriter.EndNode();
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	ret = xmlWriter.FinalizeXML();
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	//////////////////////////////////
+	//Finish
+	return XEResult::Ok;
+}
+
+XEResult LocalizationManager::SaveToXMLExtentedLiteral(const std::wstring& filename, const LiteralsSet& literalSet, const std::wstring& languageName)
+{
+	if (filename.empty())
+	{
+		return XEResult::EmptyFilename;
+	}
+
+	XEXMLWriter xmlWriter;
+	XEResult ret = XEResult::Ok;
+
+	ret = xmlWriter.CreateXML(filename, true);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	ret = xmlWriter.StartNode(XE_LOC_LANGUAGE_NODE_NAME);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	auto langMapIt = m_LanguagesMap.find(languageName);
+	if (langMapIt != m_LanguagesMap.end())
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	LiteralMap& literalMap = langMapIt->second;
+	for (auto literalSetName : literalSet)
+	{
+		ret = xmlWriter.StartNode(XE_LOC_LITERAL_NODE_NAME);
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
+
+		xmlWriter.WriteString(XE_LOC_LITERAL_NAME_PROP_NAME, literalSetName);
+
+		xmlWriter.WriteString(XE_LOC_LITERAL_MSG_PROP_NAME, literalMap[literalSetName].m_Msg);
+
+		ret = xmlWriter.EndNode();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
+	}
+
+	ret = xmlWriter.EndNode();
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	ret = xmlWriter.FinalizeXML();
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
 	//////////////////////////////////
 	//Finish

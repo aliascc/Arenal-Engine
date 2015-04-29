@@ -37,6 +37,7 @@
 #include "XML\XEXMLParser.h"
 #include "Time\XETimeDefs.h"
 #include "Logger\LoggerDefs.h"
+#include "Base\BaseLocations.h"
 #include "Base\BaseFunctions.h"
 #include "Lights\LightManager.h"
 #include "Camera\CameraManager.h"
@@ -749,7 +750,7 @@ XEResult GameApp::InitLocalizationManager()
 {
 	XEAssert(!m_GameEngineConfig.m_LocalizationFile.empty());
 
-	if (XELOCMAN->Initialize(m_GameEngineConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation) != XEResult::Ok)
+	if (XELOCMAN->Initialize(m_GameEngineConfig.m_LocalizationFile) != XEResult::Ok)
 	{
 		return XEResult::Fail;
 	}

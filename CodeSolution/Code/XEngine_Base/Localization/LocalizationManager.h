@@ -104,11 +104,6 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		/// </summary>
 		std::mutex m_LocalizationMutex;
 
-		/// <summary>
-		/// Project Directory
-		/// </summary>
-		std::wstring m_ProjectDirectory = L"";
-
 #pragma endregion
 
 		/**********************
@@ -123,16 +118,24 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		/// <returns>Returns XEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
 		XEResult LoadLanguageLiterals(const std::wstring& name, const std::wstring& file);
 
+		XEResult LoadExtendedLanguageLiterals(const std::wstring& name, const std::wstring& file);
+
 		/// <summary>
 		/// Clears all information from all of the Languages
 		/// </summary>
 		void ClearAllMaps();
 
+		void CleanProjectInfo();
+
 		/// <summary>
 		/// Reloads all of the information for Localization Manager, does not lock the thread
 		/// </summary>
 		/// <returns>Returns XEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-		XEResult ReloadWithoutLock();
+		XEResult ReloadAllWithoutLock();
+
+		XEResult ReloadEngineWithoutLock();
+
+		XEResult ReloadProjectWithoutLock();
 
 		/// <summary>
 		/// Sets the current default, does not lock the thread
@@ -140,6 +143,8 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		/// <param name='languageName'>Language to set</param>
 		/// <returns>Returns XEResult::OK if Languages was set successfully, if not an appropriate error code</returns>
 		XEResult SetDefaultLanguageWithoutLock(const std::wstring& languageName);
+
+		XEResult SaveToXMLExtentedLiteral(const std::wstring& filename, const LiteralsSet& literalSet, const std::wstring& languageName);
 
 #pragma endregion
 
@@ -192,15 +197,14 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		/// <summary>
 		/// Initializes the Localization Manager
 		/// </summary>
-		/// <param name='file'>File from where to load the Localization Information</param>
 		/// <returns>Returns XEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-		XEResult Initialize(const std::wstring& file, const std::wstring& projectDir);
+		XEResult Initialize(const std::wstring& file);
 
 		/// <summary>
 		/// Reloads all of the information for Localization Manager
 		/// </summary>
 		/// <returns>Returns XEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-		XEResult Reload();
+		XEResult ReloadAll();
 
 		/// <summary>
 		/// Gets a Literal
@@ -216,6 +220,8 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		/// <returns>Returns XEResult::OK if Languages was set successfully, if not an appropriate error code</returns>
 		XEResult SetDefaultLanguage(const std::wstring& languageName);
 
+		XEResult LoadProjectFile(const std::wstring& filename);
+
 		XEResult AddExtendedLanguage(const std::wstring& languageName);
 
 		XEResult AddExtendedLiteral(const std::wstring& languageName, const std::wstring& literalName, const std::wstring& literalMessage);
@@ -223,6 +229,8 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		XEResult RemoveExtendedLanguage(const std::wstring& languageName);
 
 		XEResult RemoveExtendedLiteral(const std::wstring& languageName, const std::wstring& literalName);
+
+		XEResult SaveToXML(const std::wstring& filename, const std::wstring& projectDir);
 
 #pragma endregion
 

@@ -1054,7 +1054,8 @@ XEResult GameAssetManager::SaveToXML(const std::wstring& gameAssetsFilename)
 	ret = xmlWriter.EndNode();
 	if (ret != XEResult::Ok)
 	{
-		XETODO("Add warning");
+		XETODO("Better return code");
+		return XEResult::Fail;
 	}
 
 	ret = SaveToXMLGameAssets(xmlWriter);
@@ -1074,7 +1075,8 @@ XEResult GameAssetManager::SaveToXML(const std::wstring& gameAssetsFilename)
 	ret = xmlWriter.EndNode();
 	if (ret != XEResult::Ok)
 	{
-		XETODO("Add warning");
+		XETODO("Better return code");
+		return XEResult::Fail;
 	}
 
 	ret = xmlWriter.FinalizeXML();
@@ -1110,9 +1112,8 @@ XEResult GameAssetManager::SaveToXMLGameAssets(XEXMLWriter& xmlWriter)
 		ret = xmlWriter.StartNode(XE_ASSET_NODE_NAME);
 		if (ret != XEResult::Ok)
 		{
-			XETODO("Add warning");
-
-			continue;
+			XETODO("Better return code");
+			return XEResult::Fail;
 		}
 
 		xmlWriter.WriteString(XE_ASSET_NAME_PROP, gameAsset->GetName());
@@ -1124,7 +1125,8 @@ XEResult GameAssetManager::SaveToXMLGameAssets(XEXMLWriter& xmlWriter)
 		ret = xmlWriter.EndNode();
 		if (ret != XEResult::Ok)
 		{
-			XETODO("Add warning");
+			XETODO("Better return code");
+			return XEResult::Fail;
 		}
 
 	}
@@ -1132,7 +1134,8 @@ XEResult GameAssetManager::SaveToXMLGameAssets(XEXMLWriter& xmlWriter)
 	ret = xmlWriter.EndNode();
 	if (ret != XEResult::Ok)
 	{
-		XETODO("Add warning");
+		XETODO("Better return code");
+		return XEResult::Fail;
 	}
 
 	return XEResult::Ok;
@@ -1156,9 +1159,8 @@ XEResult GameAssetManager::SaveToXMLRawGameAssets(XEXMLWriter& xmlWriter)
 		ret = xmlWriter.StartNode(XE_RAW_FILE_NODE_NAME);
 		if (ret != XEResult::Ok)
 		{
-			XETODO("Add warning");
-
-			continue;
+			XETODO("Better return code");
+			return XEResult::Fail;
 		}
 
 		xmlWriter.WriteString(XE_RAW_FILE_NAME_PROP, rawGameAsset->GetName());
@@ -1177,14 +1179,16 @@ XEResult GameAssetManager::SaveToXMLRawGameAssets(XEXMLWriter& xmlWriter)
 		ret = xmlWriter.EndNode();
 		if (ret != XEResult::Ok)
 		{
-			XETODO("Add warning");
+			XETODO("Better return code");
+			return XEResult::Fail;
 		}
 	}
 
 	ret = xmlWriter.EndNode();
 	if (ret != XEResult::Ok)
 	{
-		XETODO("Add warning");
+		XETODO("Better return code");
+		return XEResult::Fail;
 	}
 
 	return XEResult::Ok;
