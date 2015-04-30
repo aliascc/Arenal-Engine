@@ -1414,16 +1414,32 @@ XEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const s
 		return XEResult::Fail;
 	}
 
+	if (!boost::filesystem::create_directory(projectFolder + L"/" + XE_PROJ_LOCALIZATION_DIR_LOC))
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
 	//////////////////////////////////////
 	//Create XML Files
+
+	//Asset Manager File
 	std::wofstream assetManagerFile(projectFolder + L"/" + XE_PROJ_ASSET_MANAGER_FILE_LOC);
 	if (!assetManagerFile.is_open())
 	{
 		return XEResult::OpenFileFail;
 	}
-
 	assetManagerFile << XEGameAppHelpers::BuildAssetFile();
 	assetManagerFile.close();
+
+	//Localization File
+	std::wofstream projectLocalizationFile(projectFolder + L"/" + XE_PROJ_LOCALIZATION_FILE_LOC);
+	if (!projectLocalizationFile.is_open())
+	{
+		return XEResult::OpenFileFail;
+	}
+	projectLocalizationFile << XEGameAppHelpers::BuildLocalizationFile();
+	projectLocalizationFile.close();
 
 	//////////////////////////////////////
 	//Finish

@@ -20,7 +20,9 @@
 ****************************/
 #include "GameAppDefs.h"
 #include "Base\BaseFunctions.h"
+#include "Base\BaseLocations.h"
 #include "GameAssets\GameAssetDefs.h"
+#include "Localization\LocalizationManagerDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -105,7 +107,7 @@ namespace XEGameAppHelpers
 		xmlFile << L"<DevCaps file = \"Data/Global/DevCaps.xml\" />";
 		xmlFile << L"<GraphicOpts file = \"Data/Graphics/GraphicOpts.xml\" />";
 		xmlFile << L"<Input file = \"Data/Input/Input.xml\" />";
-		xmlFile << L"<Localization file = \"Data/Localization/Localization.xml\" />";
+		xmlFile << L"<Localization file = \"" << XE_PROJ_LOCALIZATION_DIR_LOC << "/" << XE_PROJ_LOCALIZATION_PROJ_FILE << "\" />";
 		xmlFile << L"<AssetManager file = \"Data/Asset Manager/AssetManager.xml\" />";
 		xmlFile << L"</ConfigProject>";
 
@@ -124,6 +126,17 @@ namespace XEGameAppHelpers
 		xmlFile << L"<RawFiles>";
 		xmlFile << L"</RawFiles>";
 		xmlFile << L"</AssetManager>";
+
+		return xmlFile.str();
+	}
+
+	std::wstring BuildLocalizationFile()
+	{
+		std::wstringstream xmlFile;
+
+		xmlFile << L"<?xml version = \"1.0\" encoding = \"iso-8859-1\"?>\n";
+		xmlFile << L"<" << XE_LOC_LOCALIZATION_NODE_NAME << ">";
+		xmlFile << L"</" << XE_LOC_LOCALIZATION_NODE_NAME  << ">";
 
 		return xmlFile.str();
 	}

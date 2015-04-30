@@ -36,22 +36,49 @@ class LocalizationManager;
 /// </summary>
 #define XELOCMAN	LocalizationManager::GetInstance()
 
+/// <summary>
+/// XML Localization Node Name
+/// </summary>
 #define XE_LOC_LOCALIZATION_NODE_NAME		L"Localization"
 
+/// <summary>
+/// XML Default Language Node Name
+/// </summary>
 #define XE_LOC_DEFAULT_LANG_NODE_NAME		L"Default"
 
+/// <summary>
+/// XML Language Property Name
+/// </summary>
 #define XE_LOC_LANGUAGE_PROP_NAME			L"lang"
 
+/// <summary>
+/// XML Language Property Node Name
+/// </summary>
 #define XE_LOC_LANGUAGE_NODE_NAME			L"Language"
 
+/// <summary>
+/// XML Language Name Property Name
+/// </summary>
 #define XE_LOC_LANG_NAME_PROP_NAME			L"name"
 
+/// <summary>
+/// XML File Property Name
+/// </summary>
 #define XE_LOC_FILE_PROP_NAME				L"file"
 
+/// <summary>
+/// XML Literal Node Name
+/// </summary>
 #define XE_LOC_LITERAL_NODE_NAME			L"Literal"
 
+/// <summary>
+/// XML Literal Property Name
+/// </summary>
 #define XE_LOC_LITERAL_NAME_PROP_NAME		L"name"
 
+/// <summary>
+/// XML Literal Message Property Name
+/// </summary>
 #define XE_LOC_LITERAL_MSG_PROP_NAME		L"msg"
 
 /****************

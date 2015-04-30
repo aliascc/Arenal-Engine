@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ConfigEngine>
   <GameOpts file="Data/Global/GameOpts.xml"/>
-  <Localization file="Data/Localization/Localization.xml" />
+  <Localization file="Data/Localization/LocalizationEngine.xml" />
 </ConfigEngine>

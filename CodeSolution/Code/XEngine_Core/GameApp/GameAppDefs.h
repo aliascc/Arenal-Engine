@@ -250,6 +250,8 @@ namespace XEGameAppHelpers
 	std::wstring BuildConfigProjectFile(const std::wstring& projectName);
 
 	std::wstring BuildAssetFile();
+
+	std::wstring BuildLocalizationFile();
 }
 
 #endif

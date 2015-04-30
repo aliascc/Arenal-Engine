@@ -90,7 +90,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Localization", "Localization", "{F5EB4D7E-5967-4DF4-9F85-C403C32779A5}"
 	ProjectSection(SolutionItems) = preProject
 		Run\XEngine_TestBed\Data\Localization\English.xml = Run\XEngine_TestBed\Data\Localization\English.xml
-		Run\XEngine_TestBed\Data\Localization\Localization.xml = Run\XEngine_TestBed\Data\Localization\Localization.xml
+		Run\XEngine_TestBed\Data\Localization\LocalizationEngine.xml = Run\XEngine_TestBed\Data\Localization\LocalizationEngine.xml
 		Run\XEngine_TestBed\Data\Localization\Spanish.xml = Run\XEngine_TestBed\Data\Localization\Spanish.xml
 	EndProjectSection
 EndProject
