@@ -14,10 +14,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
 #include <mutex>
 #include <string>
 #include <stdint.h>
+#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -46,8 +46,8 @@ class GameResourceManager;
 /**************
 *   Typedef   *
 ***************/
-typedef std::map<uint64_t, RawGameAsset*> RawGameAssetMap;
-typedef std::map<uint64_t, GameAsset*> GameAssetMap;
+typedef std::unordered_map<uint64_t, RawGameAsset*> RawGameAssetMap;
+typedef std::unordered_map<uint64_t, GameAsset*> GameAssetMap;
 
 /*****************
 *   Class Decl   *
