@@ -19,6 +19,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameAppDefs.h"
+#include "XML\XEXMLDefs.h"
 #include "Base\BaseFunctions.h"
 #include "Base\BaseLocations.h"
 #include "GameAssets\GameAssetDefs.h"
@@ -101,15 +102,17 @@ namespace XEGameAppHelpers
 	{
 		std::wstringstream xmlFile;
 
-		xmlFile << L"<?xml version = \"1.0\" encoding = \"iso-8859-1\"?>\n";
-		xmlFile << L"<ConfigProject>";
-		xmlFile << L"<Config name=\"" << projectName << "\" />";
-		xmlFile << L"<DevCaps file = \"Data/Global/DevCaps.xml\" />";
-		xmlFile << L"<GraphicOpts file = \"Data/Graphics/GraphicOpts.xml\" />";
-		xmlFile << L"<Input file = \"Data/Input/Input.xml\" />";
-		xmlFile << L"<Localization file = \"" << XE_PROJ_LOCALIZATION_DIR_LOC << "/" << XE_PROJ_LOCALIZATION_PROJ_FILE << "\" />";
-		xmlFile << L"<AssetManager file = \"Data/Asset Manager/AssetManager.xml\" />";
-		xmlFile << L"</ConfigProject>";
+		xmlFile << XE_XML_HEADER;
+		xmlFile << L"<"		<< XE_PROJ_CONFIG_MAIN_NODE		<< L">";
+
+		xmlFile << L"<"		<< XE_PROJ_CONFIG_NODE			<< L" " << XE_PROJ_CONFIG_NAME_PROP << L"=\""	<< projectName							<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_DEV_CAPS_NODE		<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_DEVCAPS_FILE_LOC				<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_GRAPHIC_OPTS_NODE	<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_GRAPHIC_OPTS_FILE_LOC		<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_INPUT_NODE			<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_INPUT_FILE_LOC				<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_LOCALIZATION_NODE	<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_LOCALIZATION_PROJ_FILE_LOC	<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_ASSET_MANAGER_NODE	<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_ASSET_MANAGER_FILE_LOC		<< L"\" />";
+
+		xmlFile << L"</"	<< XE_PROJ_CONFIG_MAIN_NODE		<< L">";
 
 		return xmlFile.str();
 	}
@@ -118,14 +121,16 @@ namespace XEGameAppHelpers
 	{
 		std::wstringstream xmlFile;
 
-		xmlFile << L"<?xml version = \"1.0\" encoding = \"iso-8859-1\"?>\n";
-		xmlFile << L"<AssetManager>";
-		xmlFile << L"<Config PersistantUniqueID=\"" << XE_GAME_ASSET_UNIQUE_ID_USER_START << "\"/>";
-		xmlFile << L"<Assets>";
-		xmlFile << L"</Assets>";
-		xmlFile << L"<RawFiles>";
-		xmlFile << L"</RawFiles>";
-		xmlFile << L"</AssetManager>";
+		xmlFile << XE_XML_HEADER;
+		xmlFile << L"<"		<< XE_ASSET_MANAGER_NODE_NAME	<< L">";
+
+		xmlFile << L"<"		<< XE_ASSET_CONFIG_NODE_NAME	<< L" "	<< XE_ASSET_PERSISTANTUNIQUEID_PROP_NAME	<< L"=\""	<< XE_GAME_ASSET_UNIQUE_ID_USER_START	<< L"\"/>";
+		xmlFile << L"<"		<< XE_ASSETS_NODE_NAME			<< L">";
+		xmlFile << L"</"	<< XE_ASSETS_NODE_NAME			<< L">";
+		xmlFile << L"<"		<< XE_RAW_FILES_NODE_NAME		<< L">";
+		xmlFile << L"</"	<< XE_RAW_FILES_NODE_NAME		<< L">";
+
+		xmlFile << L"</"	<< XE_ASSET_MANAGER_NODE_NAME << L">";
 
 		return xmlFile.str();
 	}
@@ -134,9 +139,9 @@ namespace XEGameAppHelpers
 	{
 		std::wstringstream xmlFile;
 
-		xmlFile << L"<?xml version = \"1.0\" encoding = \"iso-8859-1\"?>\n";
-		xmlFile << L"<" << XE_LOC_LOCALIZATION_NODE_NAME << ">";
-		xmlFile << L"</" << XE_LOC_LOCALIZATION_NODE_NAME  << ">";
+		xmlFile << XE_XML_HEADER;
+		xmlFile << L"<"		<< XE_LOC_LOCALIZATION_NODE_NAME	<< L">";
+		xmlFile << L"</"	<< XE_LOC_LOCALIZATION_NODE_NAME	<< L">";
 
 		return xmlFile.str();
 	}

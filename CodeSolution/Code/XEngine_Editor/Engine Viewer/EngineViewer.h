@@ -76,7 +76,7 @@ class EngineViewer sealed : public GameApp
 
 	public:
 		//Constructor and Destroyer
-		EngineViewer(HINSTANCE hInstance, const std::wstring& configEngineFile);
+		EngineViewer(HINSTANCE hInstance);
 		virtual ~EngineViewer();
 
 		//Override methods from parent class

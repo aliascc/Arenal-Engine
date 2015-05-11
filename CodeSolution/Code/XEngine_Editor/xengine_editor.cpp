@@ -96,7 +96,9 @@ void XEngine_Editor::Initialize()
 
 	////////////////////////////////////////
 	//Load Default Layout
-	LoadLayout(tr(XE_QT_UI_DEFAULT_LAYOUT_PATH));
+	std::wstring layoutFile = XE_ENGINE_BIN_TO_DATA_PATH_PREFIX;
+	layoutFile += XE_PROJ_DEFAULT_LAYOUT_FILE_LOC;;
+	LoadLayout(QString::fromStdWString(layoutFile));
 
 	////////////////////////////////////////
 	//Create Code Editor Window
@@ -158,7 +160,7 @@ void XEngine_Editor::closeEvent(QCloseEvent* cEvent)
 		m_CodeEditorMainWindow->close();
 	}
 
-	SaveLayout(tr(XE_QT_UI_DEFAULT_LAYOUT_PATH));
+	SaveLayout(QString::fromStdWString(XE_PROJ_DEFAULT_LAYOUT_FILE_LOC));
 
 	QMainWindow::closeEvent(cEvent);
 }
@@ -166,7 +168,7 @@ void XEngine_Editor::closeEvent(QCloseEvent* cEvent)
 void XEngine_Editor::on_m_SaveLayoutAction_triggered()
 {
 	QString extSelected;
-	QString fileName = QFileDialog::getSaveFileName(this, tr("Save layout"), tr(XE_QT_UI_LAYOUT_DIR), tr(XE_QT_UI_LAYOUT_EXT), &extSelected);
+	QString fileName = QFileDialog::getSaveFileName(this, tr("Save layout"), QString::fromStdWString(XE_PROJ_EDITOR_UI_LAYOUTS_DIR_LOC), QString::fromStdWString(XE_QT_UI_LAYOUT_EXT), &extSelected);
 	
 	if(!extSelected.isEmpty())
 	{
@@ -187,6 +189,7 @@ void XEngine_Editor::SaveLayout(const QString& fileName)
 
 	if(!file.open(QFile::WriteOnly))
 	{
+		XETODO("Use literal");
 		QString msg = tr("Failed to open %1\n%2")
 			.arg(fileName)
 			.arg(file.errorString());
@@ -213,6 +216,7 @@ void XEngine_Editor::SaveLayout(const QString& fileName)
 
 	if(!ok)
 	{
+		XETODO("Use literal");
 		QString msg = tr("Error writing to %1\n%2")
 			.arg(fileName)
 			.arg(file.errorString());
@@ -223,7 +227,7 @@ void XEngine_Editor::SaveLayout(const QString& fileName)
 
 void XEngine_Editor::on_m_LoadLayoutAction_triggered()
 {
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Load layout"), tr(XE_QT_UI_LAYOUT_DIR), tr(XE_QT_UI_LAYOUT_EXT));
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Load layout"), QString::fromStdWString(XE_PROJ_EDITOR_UI_LAYOUTS_DIR_LOC), QString::fromStdWString(XE_QT_UI_LAYOUT_EXT));
 
 	LoadLayout(fileName);
 }
@@ -239,6 +243,7 @@ void XEngine_Editor::LoadLayout(const QString& fileName)
 	
 	if(!file.open(QFile::ReadOnly)) 
 	{
+		XETODO("Use literal");
 		QString msg = tr("Failed to open %1\n%2")
 			.arg(fileName)
 			.arg(file.errorString());
@@ -278,6 +283,7 @@ void XEngine_Editor::LoadLayout(const QString& fileName)
 
 	if(!ok)
 	{
+		XETODO("Use literal");
 		QString msg = tr("Error reading %1")
 			.arg(fileName);
 		QMessageBox::warning(this, tr("Error"), msg);
@@ -552,7 +558,6 @@ void XEngine_Editor::on_m_MenuFileCreateProjectAction_triggered()
 	int result = newProject.exec();
 	if (result != QDialog::Accepted)
 	{
-		//XETODO("")
 		return;
 	}
 
@@ -564,7 +569,16 @@ void XEngine_Editor::on_m_MenuFileCreateProjectAction_triggered()
 
 void XEngine_Editor::on_m_MenuFileSaveProjectAction_triggered()
 {
-	m_XEngineViewerWidget->GetEngineViewer()->SaveGameInfo();
+	XEResult ret = m_XEngineViewerWidget->GetEngineViewer()->SaveGameInfo();
+
+	XETODO("Use literals");
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Use literal");
+		QString msg = tr("Unable to save project");
+
+		QMessageBox::warning(this, tr("Error"), msg);
+	}
 }
 
 void XEngine_Editor::LoadProject(const std::wstring& projectConfig)

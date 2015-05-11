@@ -788,6 +788,18 @@ XEResult BaseAddOnAS::RegisterXEResultEnum(asIScriptEngine* engine)
 		return XEResult::RegEnumValFail;
 	}
 
+	ret = engine->RegisterEnumValue("XEResult", "GameAssetIDInUse", static_cast<int32_t>(XEResult::GameAssetIDInUse));
+	if (ret < 0)
+	{
+		return XEResult::RegEnumValFail;
+	}
+
+	ret = engine->RegisterEnumValue("XEResult", "GameAssetInvalidID", static_cast<int32_t>(XEResult::GameAssetInvalidID));
+	if (ret < 0)
+	{
+		return XEResult::RegEnumValFail;
+	}
+
 	ret = engine->RegisterEnumValue("XEResult", "ShaderNull", static_cast<int32_t>(XEResult::ShaderNull));
 	if (ret < 0)
 	{

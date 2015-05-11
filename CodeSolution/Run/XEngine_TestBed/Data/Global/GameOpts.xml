@@ -4,7 +4,7 @@
   <WinCaption WP="XE_Editor" />
   <WinClassName WCN="3DWndClassName" />
   <SampleFPS />
-  <Log Level="DEBUG" Capacity="500" LogToFile="true" />
+  <Log Level="DEBUG" Capacity="500" LogToFile="true" LogFile="Data/Logs/Logs.txt" />
 </GameOpts>
 
 <!-- 

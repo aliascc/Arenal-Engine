@@ -96,7 +96,7 @@ void XEngineViewerWidget::LinkEditorToEngine()
 	//Get Handle Application Instance
 	HINSTANCE viewerWndInstance = reinterpret_cast<HINSTANCE>(GetWindowLongPtr(viewerWndHdlr, GWLP_HINSTANCE));
 
-	m_EngineViewer = new EngineViewer(viewerWndInstance, XE_CONFIG_ENGINE_FILE_PATH);
+	m_EngineViewer = new EngineViewer(viewerWndInstance);
 
 	m_EngineViewer->SetMainWindow(viewerWndHdlr);
 }
@@ -111,7 +111,7 @@ XEResult XEngineViewerWidget::StartEngineViewerThread(const std::wstring& config
 	XEResult ret = XEResult::Ok;
 	std::wstring errorMsg = L"";
 
-	ret = m_EngineViewer->InitGameApp(configProjFile, errorMsg);
+	ret = m_EngineViewer->InitGameApp(XE_CONFIG_ENGINE_DEFAULT_FILE_PATH, configProjFile, errorMsg);
 	if(ret != XEResult::Ok)
 	{
 		QMessageBox::warning(this->parentWidget(), tr("Error"), QString::fromStdWString(errorMsg));

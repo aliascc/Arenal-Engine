@@ -46,17 +46,21 @@ ModelAsset::~ModelAsset()
 
 void ModelAsset::CleanUp()
 {
-	for (size_t i = 0; i < m_MeshAssetVector.size(); i++)
+	for (auto gameAssetLoadedIt : m_MeshAssetMap)
 	{
-		DeleteMem(m_MeshAssetVector[i]);
-	}
-	m_MeshAssetVector.clear();
+		GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
 
-	for (size_t i = 0; i < m_AnimationAssetVector.size(); i++)
-	{
-		DeleteMem(m_AnimationAssetVector[i]);
+		DeleteMem(gameAssetLoaded.m_Asset);
 	}
-	m_AnimationAssetVector.clear();
+	m_MeshAssetMap.clear();
+
+	for (auto gameAssetLoadedIt : m_AnimationAssetMap)
+	{
+		GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
+
+		DeleteMem(gameAssetLoaded.m_Asset);
+	}
+	m_AnimationAssetMap.clear();
 
 	DeleteMem(m_SkeletonAsset);
 }
@@ -88,12 +92,12 @@ XEResult ModelAsset::LoadAssetResource()
 
 	////////////////////////////////////////
 	//Load Meshes
-	uint32_t numMeshes = (uint32_t)m_MeshAssetVector.size();
-	for (uint32_t i = 0; i < numMeshes; i++)
+	for (auto gameAssetLoadedIt : m_MeshAssetMap)
 	{
-		ret = m_MeshAssetVector[i]->LoadAsset();
-		
-		if(ret != XEResult::Ok)
+		GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
+
+		ret = gameAssetLoaded.m_Asset->LoadAsset();
+		if (ret != XEResult::Ok)
 		{
 			return ret;
 		}
@@ -113,12 +117,12 @@ XEResult ModelAsset::LoadAssetResource()
 
 	////////////////////////////////////////
 	//Load Animations
-	uint32_t numAnims = (uint32_t)m_AnimationAssetVector.size();
-	for (uint32_t i = 0; i < numAnims; i++)
+	for (auto gameAssetLoadedIt : m_AnimationAssetMap)
 	{
-		ret = m_AnimationAssetVector[i]->LoadAsset();
-		
-		if(ret != XEResult::Ok)
+		GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
+
+		ret = gameAssetLoaded.m_Asset->LoadAsset();
+		if (ret != XEResult::Ok)
 		{
 			return ret;
 		}
@@ -178,7 +182,11 @@ XEResult ModelAsset::LoadFile()
 	/////////////////////////////////////////////
 	//Read Name of Model
 	this->SetName(XEGameContentHelpers::ReadString(modelFile));
-	
+	if (m_CustomName.empty())
+	{
+		m_CustomName = this->GetName();
+	}
+
 	/////////////////////////////////////////////
 	//Read Meshes Filenames
 	ret = ReadModelMeshFiles(modelFile);
@@ -243,17 +251,10 @@ XEResult ModelAsset::ReadModelMeshFiles(std::ifstream& fileStream)
 	fileStream.read(tempPtr, sizeToRead);
 	
 	/////////////////////////////////////////////
-	//Set Vector Size and initialize unassigned to null
-	uint32_t originalMeshVectorSize = (uint32_t)m_MeshAssetVector.size();
-
-	if(originalMeshVectorSize < numMeshes)
+	//Set all Meshes to unloaded
+	for (auto gameAssetLoadedIt : m_MeshAssetMap)
 	{
-		m_MeshAssetVector.resize(numMeshes);
-
-		for (uint32_t i = originalMeshVectorSize; i < numMeshes; i++)
-		{
-			m_MeshAssetVector[i] = nullptr;
-		}
+		gameAssetLoadedIt.second.m_IsLoaded = false;
 	}
 
 	/////////////////////////////////////////////
@@ -264,34 +265,49 @@ XEResult ModelAsset::ReadModelMeshFiles(std::ifstream& fileStream)
 		//Read Mesh Name and File Name
 		std::wstring meshName = XEGameContentHelpers::ReadString(fileStream);
 		std::wstring meshPath = XEGameContentHelpers::ReadString(fileStream);
-		
-		MeshAsset* meshAsset = m_MeshAssetVector[i];
 
-		if(meshAsset == nullptr)
+		auto mapIt = m_MeshAssetMap.find(meshName);
+		if (mapIt != m_MeshAssetMap.end())
 		{
-			m_MeshAssetVector[i] = new MeshAsset(meshPath, m_GameResourceManager, m_GraphicDevice);
+			GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = mapIt->second;
+			MeshAsset* meshAsset = gameAssetLoaded.m_Asset;
 
-			meshAsset = m_MeshAssetVector[i];
-			meshAsset->SetName(meshName);
-			meshAsset->SetParentAssetID(this->GetUniqueAssetID());
+			XEAssert(meshAsset != nullptr);
+			if (meshAsset == nullptr)
+			{
+				return XEResult::NullObj;
+			}
+
+			meshAsset->SetFilePath(meshPath);
+
+			gameAssetLoaded.m_IsLoaded = true;
 		}
 		else
 		{
+			MeshAsset* meshAsset = new MeshAsset(meshPath, m_GameResourceManager, m_GraphicDevice);
+
 			meshAsset->SetFilePath(meshPath);
 			meshAsset->SetName(meshName);
+			meshAsset->SetCustomName(meshName);
+			meshAsset->SetParentAssetID(this->GetUniqueAssetID());
+
+			m_MeshAssetMap[meshName] = GameAssetLoadStatus<MeshAsset>(meshAsset, true);
+
+			AddChildGameAsset(meshAsset);
 		}
 	}
 
 	/////////////////////////////////////////////
 	//Remove any unused Asset
-	if(numMeshes < originalMeshVectorSize)
+	for (auto gameAssetLoadedIt : m_MeshAssetMap)
 	{
-		for (uint32_t i = originalMeshVectorSize - 1; i >= numMeshes; i--)
-		{
-			MeshAsset* meshAsset = m_MeshAssetVector[i];
-			m_MeshAssetVector.pop_back();
+		GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
 
-			DeleteMem(meshAsset);
+		if (!gameAssetLoaded.m_IsLoaded)
+		{
+			DeleteMem(gameAssetLoaded.m_Asset);
+
+			m_MeshAssetMap.erase(gameAssetLoadedIt.first);
 		}
 	}
 
@@ -321,16 +337,19 @@ XEResult ModelAsset::ReadModelSkeletonFile(std::ifstream& fileStream)
 	std::wstring skeletonName = XEGameContentHelpers::ReadString(fileStream);
 	std::wstring skeletonFile = XEGameContentHelpers::ReadString(fileStream);
 
-	if(m_SkeletonAsset == nullptr)
+	if(m_SkeletonAsset == nullptr || (m_SkeletonAsset->GetName().compare(skeletonName) != 0))
 	{
+		DeleteMem(m_SkeletonAsset);
+
 		m_SkeletonAsset = new SkeletonAsset(skeletonFile, m_GameResourceManager);
 		m_SkeletonAsset->SetName(skeletonName);
 		m_SkeletonAsset->SetParentAssetID(this->GetUniqueAssetID());
+
+		AddChildGameAsset(m_SkeletonAsset);
 	}
 	else
 	{
 		m_SkeletonAsset->SetFilePath(skeletonFile);
-		m_SkeletonAsset->SetName(skeletonName);
 	}
 
 	return XEResult::Ok;
@@ -350,54 +369,62 @@ XEResult ModelAsset::ReadModelAnimationFiles(std::ifstream& fileStream)
 	
 	/////////////////////////////////////////////
 	//Set Vector Size and initialize unassigned to null
-	uint32_t originalAnimationVectorSize = (uint32_t)m_AnimationAssetVector.size();
-
-	if(originalAnimationVectorSize < numAnim)
+	for (auto gameAssetLoadedIt : m_AnimationAssetMap)
 	{
-		m_AnimationAssetVector.resize(numAnim);
-
-		for (uint32_t i = originalAnimationVectorSize; i < numAnim; i++)
-		{
-			m_AnimationAssetVector[i] = nullptr;
-		}
+		gameAssetLoadedIt.second.m_IsLoaded = false;
 	}
 
 	/////////////////////////////////////////////
 	//Get Animations File Names
 	for(uint32_t i = 0; i < numAnim; ++i)
-	{		
+	{
 		/////////////////////////////////////////////
 		//Read Animation Name and File Name
 		std::wstring animName = XEGameContentHelpers::ReadString(fileStream);
 		std::wstring animFilePath = XEGameContentHelpers::ReadString(fileStream);
-		
-		AnimationAsset* animationAsset = m_AnimationAssetVector[i];
 
-		if(animationAsset == nullptr)
+		auto mapIt = m_AnimationAssetMap.find(animName);
+		if (mapIt != m_AnimationAssetMap.end())
 		{
-			m_AnimationAssetVector[i] = new AnimationAsset(animFilePath, m_GameResourceManager);
+			GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = mapIt->second;
+			AnimationAsset* animAsset = gameAssetLoaded.m_Asset;
 
-			animationAsset = m_AnimationAssetVector[i];
-			animationAsset->SetName(animName);
-			animationAsset->SetParentAssetID(this->GetUniqueAssetID());
+			XEAssert(animAsset != nullptr);
+			if (animAsset == nullptr)
+			{
+				return XEResult::NullObj;
+			}
+
+			animAsset->SetFilePath(animFilePath);
+
+			gameAssetLoaded.m_IsLoaded = true;
 		}
 		else
 		{
-			animationAsset->SetFilePath(animFilePath);
-			animationAsset->SetName(animName);
+			AnimationAsset* animAsset = new AnimationAsset(animFilePath, m_GameResourceManager);
+
+			animAsset->SetFilePath(animFilePath);
+			animAsset->SetName(animName);
+			animAsset->SetCustomName(animName);
+			animAsset->SetParentAssetID(this->GetUniqueAssetID());
+
+			m_AnimationAssetMap[animName] = GameAssetLoadStatus<AnimationAsset>(animAsset, true);
+
+			AddChildGameAsset(animAsset);
 		}
 	}
 
 	/////////////////////////////////////////////
 	//Remove any unused Asset
-	if(numAnim < originalAnimationVectorSize)
+	for (auto gameAssetLoadedIt : m_AnimationAssetMap)
 	{
-		for (uint32_t i = originalAnimationVectorSize - 1; i >= numAnim; i--)
-		{
-			AnimationAsset* animAsset = m_AnimationAssetVector[i];
-			m_AnimationAssetVector.pop_back();
+		GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
 
-			DeleteMem(animAsset);
+		if (!gameAssetLoaded.m_IsLoaded)
+		{
+			DeleteMem(gameAssetLoaded.m_Asset);
+
+			m_MeshAssetMap.erase(gameAssetLoadedIt.first);
 		}
 	}
 

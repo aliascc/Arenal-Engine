@@ -31,22 +31,6 @@
 *   Defines   *
 ***************/
 
-/// <summary>
-/// Prefix Paths for configuration files to be read by engine.
-/// </summary>
-#define XE_PREFIX_ENGINE_FILE_PATH			L"../"
-
-/// <summary>
-/// Prefix Paths for configuration files to be read by engine. 
-/// normal ASCII
-/// </summary>
-#define XE_PREFIX_ENGINE_FILE_PATH_ASCII	"../"
-
-/// <summary>
-/// Configuration File path for the Engine
-/// </summary>
-#define XE_CONFIG_ENGINE_FILE_PATH			XE_PREFIX_ENGINE_FILE_PATH L"ConfigEngine.xml"
-
 //Uncomment for verbose deleting and releasing
 //or define in the CPP where delete or release is
 //taking place
@@ -778,6 +762,16 @@ enum class XEResult : int32_t
 	/// Game Asset has not been loaded
 	/// </summary>
 	GameAssetNotLoaded,
+
+	/// <summary>
+	/// Game Asset ID is already in use
+	/// </summary>
+	GameAssetIDInUse,
+
+	/// <summary>
+	/// Game Asset ID is invalid
+	/// </summary>
+	GameAssetInvalidID,
 
 	/// <summary>
 	/// Shader Object is null

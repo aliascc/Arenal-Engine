@@ -41,7 +41,7 @@ LocalizationManager::~LocalizationManager()
 {
 }
 
-XEResult LocalizationManager::Initialize(const std::wstring& file)
+XEResult LocalizationManager::Initialize(const std::wstring& file, const std::wstring& enginePath)
 {
 	std::lock_guard<std::mutex> lock(m_LocalizationMutex);
 
@@ -53,7 +53,7 @@ XEResult LocalizationManager::Initialize(const std::wstring& file)
 
 	m_FilenameEngine = file;
 
-	return ReloadEngineWithoutLock();
+	return ReloadEngineWithoutLock(enginePath);
 }
 
 void LocalizationManager::ClearAllMaps()
@@ -90,7 +90,7 @@ void LocalizationManager::CleanProjectInfo()
 	m_ExtendedLiteralsMap.clear();
 }
 
-XEResult LocalizationManager::LoadProjectFile(const std::wstring& filename)
+XEResult LocalizationManager::LoadProjectFile(const std::wstring& filename, const std::wstring& projectPath)
 {
 	std::lock_guard<std::mutex> lock(m_LocalizationMutex);
 
@@ -102,27 +102,27 @@ XEResult LocalizationManager::LoadProjectFile(const std::wstring& filename)
 
 	m_FilenameProject = filename;
 
-	return ReloadProjectWithoutLock();
+	return ReloadProjectWithoutLock(projectPath);
 }
 
-XEResult LocalizationManager::ReloadAll()
+XEResult LocalizationManager::ReloadAll(const std::wstring& enginePath, const std::wstring& projectPath)
 {
 	std::lock_guard<std::mutex> lock(m_LocalizationMutex);
 
-	return ReloadAllWithoutLock();
+	return ReloadAllWithoutLock(enginePath, projectPath);
 }
 
-XEResult LocalizationManager::ReloadAllWithoutLock()
+XEResult LocalizationManager::ReloadAllWithoutLock(const std::wstring& enginePath, const std::wstring& projectPath)
 {
 	XEResult ret = XEResult::Ok;
 
-	ret = ReloadEngineWithoutLock();
+	ret = ReloadEngineWithoutLock(enginePath);
 	if (ret != XEResult::Ok)
 	{
 		return ret;
 	}
 
-	ret = ReloadProjectWithoutLock();
+	ret = ReloadProjectWithoutLock(projectPath);
 	if (ret != XEResult::Ok)
 	{
 		return ret;
@@ -131,11 +131,17 @@ XEResult LocalizationManager::ReloadAllWithoutLock()
 	return XEResult::Ok;
 }
 
-XEResult LocalizationManager::ReloadEngineWithoutLock()
+XEResult LocalizationManager::ReloadEngineWithoutLock(const std::wstring& enginePath)
 {
 	if (m_FilenameEngine.empty())
 	{
 		return XEResult::EmptyFilename;
+	}
+
+	XEAssert(!enginePath.empty());
+	if (enginePath.empty())
+	{
+		return XEResult::EmptyString;
 	}
 
 	m_IsReady = false;
@@ -178,7 +184,7 @@ XEResult LocalizationManager::ReloadEngineWithoutLock()
 			{
 				std::wstring language = child.GetString(XE_LOC_LANG_NAME_PROP_NAME);
 
-				std::wstring langFile = XE_PREFIX_ENGINE_FILE_PATH + child.GetString(XE_LOC_FILE_PROP_NAME);
+				std::wstring langFile = enginePath + child.GetString(XE_LOC_FILE_PROP_NAME);
 
 				XEResult loadLangRet = LoadLanguageLiterals(language, langFile);
 				if (loadLangRet != XEResult::Ok)
@@ -215,7 +221,7 @@ XEResult LocalizationManager::ReloadEngineWithoutLock()
 	return XEResult::Ok;
 }
 
-XEResult LocalizationManager::ReloadProjectWithoutLock()
+XEResult LocalizationManager::ReloadProjectWithoutLock(const std::wstring& projectPath)
 {
 	//////////////////////////////////
 	//Pre-checks
@@ -229,14 +235,19 @@ XEResult LocalizationManager::ReloadProjectWithoutLock()
 		return XEResult::EmptyFilename;
 	}
 
+	XEAssert(!projectPath.empty());
+	if (projectPath.empty())
+	{
+		return XEResult::EmptyString;
+	}
+
 	XEXMLParser newFile;
 	if (newFile.LoadFile(m_FilenameProject) != XEResult::Ok)
 	{
 		XETODO("Add literal");
 
-
 		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, L"{0}: Could not read file: {1}", __FUNCTIONW__, m_FilenameEngine);
+		fastformat::fmt(msg_error, L"{0}: Could not read file: {1}", __FUNCTIONW__, m_FilenameProject);
 
 		m_CallByLocManager = true;
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
@@ -265,13 +276,12 @@ XEResult LocalizationManager::ReloadProjectWithoutLock()
 			{
 				std::wstring language = child.GetString(XE_LOC_LANG_NAME_PROP_NAME);
 
-				std::wstring langFile = child.GetString(XE_LOC_FILE_PROP_NAME);
+				std::wstring langFile = projectPath + child.GetString(XE_LOC_FILE_PROP_NAME);
 
 				XEResult loadLangRet = LoadExtendedLanguageLiterals(language, langFile);
 				if (loadLangRet != XEResult::Ok)
 				{
 					XETODO("Add Literal");
-
 
 					std::wstring msg_error = L"";
 					fastformat::fmt(msg_error, L"{0}: Failed to read Language Literals: {1}, from file: {2}", __FUNCTIONW__, language, langFile);

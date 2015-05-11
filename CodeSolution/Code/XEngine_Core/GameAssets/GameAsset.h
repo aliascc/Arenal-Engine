@@ -101,9 +101,9 @@ class GameAsset abstract : public UniqueXEObjectNamed
 
 #pragma endregion
 
-		/***********************
-		*   Private Methods    *
-		************************/
+		/**********************
+		*   Private Methods   *
+		***********************/
 #pragma region Private Methods
 
 		void SetUniqueAssetID(uint64_t uniqueAssetID)
@@ -119,7 +119,7 @@ class GameAsset abstract : public UniqueXEObjectNamed
 		*   Protected Variables   *
 		***************************/
 #pragma region Protected Variables
-		
+
 		/// <summary>
 		/// File Path of the Game Asset
 		/// </summary>
@@ -135,6 +135,21 @@ class GameAsset abstract : public UniqueXEObjectNamed
 		/// </summary>
 		GameResourceManager* m_GameResourceManager = nullptr;
 
+		/// <summary>
+		/// Custom name of the Game Asset
+		/// </summary>
+		std::wstring m_CustomName = L"";
+
+		/// <summary>
+		/// Keeps track of the Child Game Assets
+		/// </summary>
+		GameAssetList m_ChildGameAssetList;
+
+		/// <summary>
+		/// Parent Game Asset
+		/// </summary>
+		GameAsset* m_ParentGameAsset = nullptr;
+
 #pragma endregion
 
 		/************************
@@ -147,14 +162,18 @@ class GameAsset abstract : public UniqueXEObjectNamed
 		/// </summary>
 		/// <returns>XEResult::OK if successful</returns>
 		virtual XEResult LoadAssetResource() = 0;
-		
+
+		XEResult AddChildGameAsset(GameAsset* gameAsset);
+
+		void RemoveChildGameAsset(GameAsset* gameAsset);
+
 #pragma endregion
 
 	public:
 
-		/*****************************************
-		 *   Constructor & Destructor Methods   *
-		 *****************************************/
+		/***************************************
+		*   Constructor & Destructor Methods   *
+		****************************************/
 #pragma region Constructor & Destructor Methods
 
 		/// <summary>
@@ -241,11 +260,29 @@ class GameAsset abstract : public UniqueXEObjectNamed
 			return m_IsBuiltInAsset;
 		}
 
+		/// <summary>
+		/// Custom Name of the Game Asset
+		/// </summary>
+		/// <returns>Custom Name of Game Asset</returns>
+		inline const std::wstring& GetCustomName() const
+		{
+			return m_CustomName;
+		}
+
+		/// <summary>
+		/// List of the Game Asset Children
+		/// </summary>
+		/// <returns>Children Game Assets</returns>
+		const GameAssetList& GetGameAssetChildren() const
+		{
+			return m_ChildGameAssetList;
+		}
+
 #pragma endregion
 
-		/*******************
-		*   Set Methods    *
-		********************/
+		/******************
+		*   Set Methods   *
+		*******************/
 #pragma region Set Methods
 		
 		/// <summary>
@@ -272,17 +309,25 @@ class GameAsset abstract : public UniqueXEObjectNamed
 			m_IsBuiltInAsset = isBuiltInAsset;
 		}
 
+		/// <summary>
+		/// Sets the Custom Name of the Game Asset
+		/// </summary>
+		inline void SetCustomName(const std::wstring& customName)
+		{
+			m_CustomName = customName;
+		}
+
 #pragma endregion
-		
-		/****************************
-		 *     Framework Methods    *
-		 ****************************/
+
+		/************************
+		*   Framework Methods   *
+		*************************/
 #pragma region Framework Methods
 
 		XEResult RegisterEventHandlers(uint64_t id, OnGameAssetDeletionEvent onGameAssetDeletionEvent, OnGameAssetReloadEvent onGameAssetReloadEvent = nullptr, OnGameAssetPreReloadEvent onGameAssetPreReloadEvent = nullptr);
 
 		XEResult UnregisterEventHandlers(uint64_t id);
-		
+
 		/// <summary>
 		/// Loads an Asset Resource to Memory and notifies any Game Object that is register with this 
 		/// asset about the loading

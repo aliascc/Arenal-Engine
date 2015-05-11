@@ -18,8 +18,10 @@
 /**********************
 *   System Includes   *
 ***********************/
+#include <list>
 #include <stdint.h>
 #include <functional>
+#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -105,6 +107,7 @@ class DiffuseTexturePS;
 #define XE_RAW_FILE_NAME_PROP						L"Name"
 
 #define XE_ASSET_NAME_PROP							L"Name"
+#define XE_ASSET_CUSTOM_NAME_PROP					L"CustomName"
 #define XE_ASSET_UNIQUEASSETID_PROP					L"UniqueAssetID"
 #define XE_ASSET_PARENTASSETID_PROP					L"ParentAssetID"
 #define XE_ASSET_GAMECONTENTTYPE_PROP				L"GameContentType"
@@ -129,6 +132,8 @@ enum class GameAssetDefaultIDs : uint64_t
 *   Typedef   *
 ***************/
 
+typedef std::list<GameAsset*> GameAssetList;
+typedef std::unordered_map<std::wstring, uint64_t> AssetIDMap;
 typedef std::function<void (uint64_t)> OnGameAssetDeletionNotifyManagerEvent;
 typedef std::function<XEResult (uint64_t)> OnListenerObjDeletionEvent;
 typedef std::function<void (GameAsset*)> OnGameAssetDeletionEvent;
@@ -160,6 +165,31 @@ struct GameAssetEventHandlers : public XEObject
 	GameAssetEventHandlers();
 
 	GameAssetEventHandlers(uint64_t objID, OnGameAssetDeletionEvent onGameAssetDeletionEvent, OnGameAssetReloadEvent onGameAssetReloadEvent, OnGameAssetPreReloadEvent onGameAssetPreReloadEvent);
+};
+
+template <class T>
+struct GameAssetLoadStatus
+{
+	bool m_IsLoaded = false;
+	T* m_Asset = nullptr;
+
+	GameAssetLoadStatus()
+	{
+	}
+
+	GameAssetLoadStatus(T* asset, bool isLoaded)
+		: m_Asset(asset)
+		, m_IsLoaded(isLoaded)
+	{
+	}
+};
+
+struct ModelAssetPreloadedIDs
+{
+	uint64_t m_ModelAssetID = 0;
+	uint64_t m_SkeletonAssetID = 0;
+	AssetIDMap m_MeshAssetIDs;
+	AssetIDMap m_AnimAssetIDs;
 };
 
 #endif

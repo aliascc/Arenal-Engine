@@ -76,7 +76,7 @@ class ViewerApp sealed : public GameApp
 
 	public:
 		//Constructor and Destroyer
-		ViewerApp(HINSTANCE hInstance, const std::wstring& configEngineFile);
+		ViewerApp(HINSTANCE hInstance);
 		virtual ~ViewerApp();
 
 		//

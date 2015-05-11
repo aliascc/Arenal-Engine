@@ -48,6 +48,21 @@
 *   Defines   *
 ***************/
 
+#define XE_PROJ_CONFIG_MAIN_NODE			L"ConfigProject"
+#define XE_PROJ_CONFIG_NODE					L"Config"
+#define XE_PROJ_ASSET_MANAGER_NODE			L"AssetManager"
+#define XE_PROJ_LOCALIZATION_NODE			L"Localization"
+#define XE_PROJ_INPUT_NODE					L"Input"
+#define XE_PROJ_DEV_CAPS_NODE				L"DevCaps"
+#define XE_PROJ_GRAPHIC_OPTS_NODE			L"GraphicOpts"
+#define XE_PROJ_CONFIG_NAME_PROP			L"name"
+#define XE_PROJ_CONFIG_FILE_PROP			L"file"
+
+#define XE_ENGINE_CONFIG_MAIN_NODE			L"ConfigProject"
+#define XE_ENGINE_LOCALIZATION_NODE			L"Localization"
+#define XE_ENGINE_GAMEOPTS					L"GameOpts"
+#define XE_ENGINE_CONFIG_FILE_PROP			L"file"
+
 /****************
 *   Constants   *
 *****************/
@@ -210,7 +225,7 @@ struct GameAppOpts sealed : public XEObject
 	/// <summary>
 	/// If saving the files to disk, this will store to which file it should be saved.
 	/// </summary>
-	std::wstring m_LogFilePath = XE_LOG_DEFAULT_PATH;
+	std::wstring m_LogFilePath = L"";
 	
 	/// <summary>
 	/// Maximum of logs to be kept in memory.
@@ -234,9 +249,14 @@ struct GameAppOpts sealed : public XEObject
 struct GameProject sealed : public XEObject
 {
 	std::wstring m_ProjectName = L"";
+	
 	std::wstring m_ProjectConfigFile = L"";
 	std::wstring m_ProjectLocation = L"";
 	GameProjectConfig m_GameProjectConfig;
+	
+	std::wstring m_EngineConfigFile = L"";
+	std::wstring m_EngineLocation = L"";
+	GameEngineConfig m_GameEngineConfig;
 
 	GameProject();
 };

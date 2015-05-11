@@ -55,11 +55,6 @@ class Logger;
 #define XE_LOG_CAPACITY				500
 
 /// <summary>
-/// Default Log File Path
-/// </summary>
-#define XE_LOG_DEFAULT_PATH			XE_PREFIX_ENGINE_FILE_PATH L"Data/Logs/Logs.txt"
-
-/// <summary>
 /// Define how many seconds a log with the same
 /// message will be counted as a duplicate
 /// </summary>

@@ -64,8 +64,8 @@
 /********************
 *   Function Defs   *
 *********************/
-ViewerApp::ViewerApp(HINSTANCE hInstance, const std::wstring& configEngineFile)
-	: GameApp(hInstance, configEngineFile, GameAppRunOpt::GameMode)
+ViewerApp::ViewerApp(HINSTANCE hInstance)
+	: GameApp(hInstance, GameAppRunOpt::GameMode)
 	, m_InputHandler(nullptr)
 	, m_SpriteBatchXE(nullptr)
 	, m_SpriteFontXE(nullptr)

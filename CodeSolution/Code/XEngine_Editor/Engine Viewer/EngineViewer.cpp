@@ -71,8 +71,8 @@
 /********************
 *   Function Defs   *
 *********************/
-EngineViewer::EngineViewer(HINSTANCE hInstance, const std::wstring& configEngineFile)
-	: GameApp(hInstance, configEngineFile, GameAppRunOpt::EditorMode)
+EngineViewer::EngineViewer(HINSTANCE hInstance)
+	: GameApp(hInstance, GameAppRunOpt::EditorMode)
 {
 }
 

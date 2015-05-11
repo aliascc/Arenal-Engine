@@ -140,11 +140,6 @@ uint64_t GameAssetManager::GetNextUniqueAssetID()
 	return m_UniqueAssetIDGen++;
 }
 
-bool GameAssetManager::RawGameAssetExists(uint64_t id) const
-{
-	return (m_RawGameAssetMap.find(id) != m_RawGameAssetMap.end());
-}
-
 RawGameAsset* GameAssetManager::GetRawGameAsset(uint64_t id)
 {
 	if(!m_IsReady)
@@ -160,11 +155,6 @@ RawGameAsset* GameAssetManager::GetRawGameAsset(uint64_t id)
 	}
 
 	return m_RawGameAssetMap[id];
-}
-
-bool GameAssetManager::GameAssetExists(uint64_t id) const
-{
-	return (m_GameAssetMap.find(id) != m_GameAssetMap.end());
 }
 
 GameAsset* GameAssetManager::GetGameAsset(uint64_t id)
@@ -482,7 +472,7 @@ XEResult GameAssetManager::CheckForLatestRawGameAssetsAndImport()
 	return XEResult::Ok;
 }
 
-XEResult GameAssetManager::ImportRawGameAsset(uint64_t id)
+XEResult GameAssetManager::ImportRawGameAsset(uint64_t rawAssetID)
 {
 	if(!m_IsReady)
 	{
@@ -491,17 +481,17 @@ XEResult GameAssetManager::ImportRawGameAsset(uint64_t id)
 
 	std::lock_guard<std::mutex> lock(m_GameAssetManagerMutex);
 
-	return ImportRawGameAssetWithoutLock(id);
+	return ImportRawGameAssetWithoutLock(rawAssetID);
 }
 
-XEResult GameAssetManager::ImportRawGameAssetWithoutLock(uint64_t id)
+XEResult GameAssetManager::ImportRawGameAssetWithoutLock(uint64_t rawAssetID)
 {
 	if(!m_IsReady)
 	{
 		return XEResult::NotReady;
 	}
 
-	if(!RawGameAssetExists(id))
+	if (!RawGameAssetExists(rawAssetID))
 	{
 		return XEResult::NotFound;
 	}
@@ -509,7 +499,7 @@ XEResult GameAssetManager::ImportRawGameAssetWithoutLock(uint64_t id)
 	XEResult ret = XEResult::Ok;
 
 	XETODO("Lock game loop when loading raw asset");
-	RawGameAsset* rawGA = m_RawGameAssetMap[id];
+	RawGameAsset* rawGA = m_RawGameAssetMap[rawAssetID];
 
 	ret = rawGA->CheckIfLatest();
 	if(ret != XEResult::Ok)
@@ -559,7 +549,7 @@ XEResult GameAssetManager::ImportRawGameAssetWithoutLock(uint64_t id)
 	return ret;
 }
 
-XEResult GameAssetManager::ImportModel(RawGameAsset* rawGA)
+XEResult GameAssetManager::ImportModel(RawGameAsset* rawGA, const ModelAssetPreloadedIDs* modelAssetIDs)
 {
 	if(!m_IsReady)
 	{
@@ -571,7 +561,46 @@ XEResult GameAssetManager::ImportModel(RawGameAsset* rawGA)
 	{
 		return XEResult::NullParameter;
 	}
-	
+
+	if (modelAssetIDs != nullptr)
+	{
+		if (modelAssetIDs->m_ModelAssetID == 0 || modelAssetIDs->m_SkeletonAssetID == 0)
+		{
+			return XEResult::GameAssetInvalidID;
+		}
+
+		if (GameAssetExists(modelAssetIDs->m_ModelAssetID) || GameAssetExists(modelAssetIDs->m_SkeletonAssetID))
+		{
+			return XEResult::GameAssetIDInUse;
+		}
+
+		for (auto gaIt : modelAssetIDs->m_MeshAssetIDs)
+		{
+			if (gaIt.second == 0)
+			{
+				return XEResult::GameAssetInvalidID;
+			}
+
+			if (GameAssetExists(gaIt.second))
+			{
+				return XEResult::GameAssetIDInUse;
+			}
+		}
+
+		for (auto gaIt : modelAssetIDs->m_AnimAssetIDs)
+		{
+			if (gaIt.second == 0)
+			{
+				return XEResult::GameAssetInvalidID;
+			}
+
+			if (GameAssetExists(gaIt.second))
+			{
+				return XEResult::GameAssetIDInUse;
+			}
+		}
+	}
+
 	/////////////////////////////////////////////////////////////
 	//Import Model from Raw File
 	XEResult ret = XEResult::Ok;
@@ -615,8 +644,15 @@ XEResult GameAssetManager::ImportModel(RawGameAsset* rawGA)
 		isNew = true;
 
 		modelAsset = new ModelAsset(writerXE3D.GetOutputFilePath(), m_GameResourceManager, m_GraphicDevice);
-		
-		modelAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+
+		if (modelAssetIDs != nullptr)
+		{
+			modelAsset->SetUniqueAssetID(modelAssetIDs->m_ModelAssetID);
+		}
+		else
+		{
+			modelAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+		}
 	}
 
 	ret = modelAsset->LoadAsset();
@@ -646,38 +682,77 @@ XEResult GameAssetManager::ImportModel(RawGameAsset* rawGA)
 	//Set IDs to Assets that have been recently imported
 	//
 
-	MeshAssetVector& meshAssetVector = modelAsset->GetMeshAssetVector();
-	uint32_t numMeshes = (uint32_t)meshAssetVector.size();
-	for (uint32_t i = 0; i < numMeshes; i++)
+	MeshAssetMap& meshAssetMap = modelAsset->GetMeshAssetMap();
+	for (auto gaIt : meshAssetMap)
 	{
-		if(meshAssetVector[i]->GetUniqueAssetID() == 0)
+		MeshAsset* meshAsset = gaIt.second.m_Asset;
+		if (meshAsset->GetUniqueAssetID() == 0)
 		{
-			meshAssetVector[i]->SetUniqueAssetID(this->GetNextUniqueAssetID());
+			if (modelAssetIDs != nullptr)
+			{
+				auto idIt = modelAssetIDs->m_MeshAssetIDs.find(meshAsset->GetName());
+				if (idIt != modelAssetIDs->m_MeshAssetIDs.end())
+				{
+					meshAsset->SetUniqueAssetID(idIt->second);
+				}
+				else
+				{
+					XETODO("Log warning of gameasset not found in preloaded map");
+					meshAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+				}
+			}
+			else
+			{
+				meshAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+			}
 
-			meshAssetVector[i]->m_OnGameAssetDeletionNotifyManagerEvent = std::bind(&GameAssetManager::GameAssetDeleted, this, std::placeholders::_1);
+			meshAsset->m_OnGameAssetDeletionNotifyManagerEvent = std::bind(&GameAssetManager::GameAssetDeleted, this, std::placeholders::_1);
 
-			m_GameAssetMap[meshAssetVector[i]->GetUniqueAssetID()] = meshAssetVector[i];
+			m_GameAssetMap[meshAsset->GetUniqueAssetID()] = meshAsset;
 		}
 	}
 
-	AnimationAssetVector& animAssetVector = modelAsset->GetAnimationAssetVector();
-	uint32_t numAnims = (uint32_t)animAssetVector.size();
-	for (uint32_t i = 0; i < numAnims; i++)
+	AnimationAssetMap& animAssetMap = modelAsset->GetAnimationAssetMap();
+	for (auto gaIt : animAssetMap)
 	{
-		if(animAssetVector[i]->GetUniqueAssetID() == 0)
+		AnimationAsset* animAsset = gaIt.second.m_Asset;
+		if (animAsset->GetUniqueAssetID() == 0)
 		{
-			animAssetVector[i]->SetUniqueAssetID(this->GetNextUniqueAssetID());
+			if (modelAssetIDs != nullptr)
+			{
+				auto idIt = modelAssetIDs->m_AnimAssetIDs.find(animAsset->GetName());
+				if (idIt != modelAssetIDs->m_AnimAssetIDs.end())
+				{
+					animAsset->SetUniqueAssetID(idIt->second);
+				}
+				else
+				{
+					XETODO("Log warning of gameasset not found in preloaded map");
+					animAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+				}
+			}
+			else
+			{
+				animAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+			}
 
-			animAssetVector[i]->m_OnGameAssetDeletionNotifyManagerEvent = std::bind(&GameAssetManager::GameAssetDeleted, this, std::placeholders::_1);
+			animAsset->m_OnGameAssetDeletionNotifyManagerEvent = std::bind(&GameAssetManager::GameAssetDeleted, this, std::placeholders::_1);
 
-			m_GameAssetMap[animAssetVector[i]->GetUniqueAssetID()] = animAssetVector[i];
+			m_GameAssetMap[animAsset->GetUniqueAssetID()] = animAsset;
 		}
 	}
 
 	SkeletonAsset* skeletonAsset = modelAsset->GetSkeletonAsset();
 	if(skeletonAsset != nullptr && skeletonAsset->GetUniqueAssetID() == 0)
 	{
-		skeletonAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+		if (modelAssetIDs != nullptr)
+		{
+			skeletonAsset->SetUniqueAssetID(modelAssetIDs->m_SkeletonAssetID);
+		}
+		else
+		{
+			skeletonAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+		}
 
 		skeletonAsset->m_OnGameAssetDeletionNotifyManagerEvent = std::bind(&GameAssetManager::GameAssetDeleted, this, std::placeholders::_1);
 
@@ -687,7 +762,7 @@ XEResult GameAssetManager::ImportModel(RawGameAsset* rawGA)
 	return XEResult::Ok;
 }
 
-XEResult GameAssetManager::ImportShader(RawGameAsset* rawGA)
+XEResult GameAssetManager::ImportShader(RawGameAsset* rawGA, uint64_t preloadGameAssetID)
 {
 	if(!m_IsReady)
 	{
@@ -699,7 +774,12 @@ XEResult GameAssetManager::ImportShader(RawGameAsset* rawGA)
 	{
 		return XEResult::NullParameter;
 	}
-	
+
+	if (preloadGameAssetID != 0 && GameAssetExists(preloadGameAssetID))
+	{
+		return XEResult::GameAssetIDInUse;
+	}
+
 	/////////////////////////////////////////////////////////////
 	//Import Shader from Raw File
 	ImporterHLSL importerHLSL;
@@ -778,8 +858,15 @@ XEResult GameAssetManager::ImportShader(RawGameAsset* rawGA)
 		isNew = true;
 
 		shaderAsset = new ShaderAsset(writerHLSL.GetOutputFilePath(), m_GameResourceManager, shaderType, m_GraphicDevice);
-		
-		shaderAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+
+		if (preloadGameAssetID != 0)
+		{
+			shaderAsset->SetUniqueAssetID(preloadGameAssetID);
+		}
+		else
+		{
+			shaderAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+		}
 	}
 
 	ret = shaderAsset->LoadAsset();
@@ -808,7 +895,7 @@ XEResult GameAssetManager::ImportShader(RawGameAsset* rawGA)
 	return XEResult::Ok;
 }
 
-XEResult GameAssetManager::ImportTexture(RawGameAsset* rawGA)
+XEResult GameAssetManager::ImportTexture(RawGameAsset* rawGA, uint64_t preloadGameAssetID)
 {
 	if(!m_IsReady)
 	{
@@ -819,6 +906,11 @@ XEResult GameAssetManager::ImportTexture(RawGameAsset* rawGA)
 	if(rawGA == nullptr)
 	{
 		return XEResult::NullParameter;
+	}
+
+	if (preloadGameAssetID != 0 && GameAssetExists(preloadGameAssetID))
+	{
+		return XEResult::GameAssetIDInUse;
 	}
 
 	XEResult ret = XEResult::Ok;
@@ -860,7 +952,14 @@ XEResult GameAssetManager::ImportTexture(RawGameAsset* rawGA)
 		textureAsset = new TextureAsset(rawGA->GetFilePath(), m_GameResourceManager, textureType, m_GraphicDevice);
 		textureAsset->SetName(textureName);
 
-		textureAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+		if (preloadGameAssetID != 0)
+		{
+			textureAsset->SetUniqueAssetID(preloadGameAssetID);
+		}
+		else
+		{
+			textureAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+		}
 	}
 
 	ret = textureAsset->LoadAsset();
@@ -888,7 +987,7 @@ XEResult GameAssetManager::ImportTexture(RawGameAsset* rawGA)
 	return XEResult::Ok;
 }
 
-XEResult GameAssetManager::ImportGameObjectScript(RawGameAsset* rawGA)
+XEResult GameAssetManager::ImportGameObjectScript(RawGameAsset* rawGA, uint64_t preloadGameAssetID)
 {
 	if (!m_IsReady)
 	{
@@ -899,6 +998,11 @@ XEResult GameAssetManager::ImportGameObjectScript(RawGameAsset* rawGA)
 	if (rawGA == nullptr)
 	{
 		return XEResult::NullParameter;
+	}
+
+	if (preloadGameAssetID != 0 && GameAssetExists(preloadGameAssetID))
+	{
+		return XEResult::GameAssetIDInUse;
 	}
 
 	XEResult ret = XEResult::Ok;
@@ -921,7 +1025,14 @@ XEResult GameAssetManager::ImportGameObjectScript(RawGameAsset* rawGA)
 		gosAsset = new GameObjectScriptAsset(rawGA->GetFilePath(), m_GameResourceManager, m_AngelScriptManager);
 		gosAsset->SetName(gameScriptObjectName);
 
-		gosAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+		if (preloadGameAssetID != 0)
+		{
+			gosAsset->SetUniqueAssetID(preloadGameAssetID);
+		}
+		else
+		{
+			gosAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+		}
 	}
 
 	ret = gosAsset->LoadAsset();
@@ -949,7 +1060,7 @@ XEResult GameAssetManager::ImportGameObjectScript(RawGameAsset* rawGA)
 	return XEResult::Ok;
 }
 
-XEResult GameAssetManager::ImportAudio(RawGameAsset* rawGA)
+XEResult GameAssetManager::ImportAudio(RawGameAsset* rawGA, uint64_t preloadGameAssetID)
 {
 	if (!m_IsReady)
 	{
@@ -960,6 +1071,11 @@ XEResult GameAssetManager::ImportAudio(RawGameAsset* rawGA)
 	if (rawGA == nullptr)
 	{
 		return XEResult::NullParameter;
+	}
+
+	if (preloadGameAssetID != 0 && GameAssetExists(preloadGameAssetID))
+	{
+		return XEResult::GameAssetIDInUse;
 	}
 
 	XEResult ret = XEResult::Ok;
@@ -985,7 +1101,14 @@ XEResult GameAssetManager::ImportAudio(RawGameAsset* rawGA)
 		audioAsset = new AudioAsset(rawGA->GetFilePath(), m_GameResourceManager, m_AudioManager);
 		audioAsset->SetName(audioName);
 
-		audioAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+		if (preloadGameAssetID != 0)
+		{
+			audioAsset->SetUniqueAssetID(preloadGameAssetID);
+		}
+		else
+		{
+			audioAsset->SetUniqueAssetID(this->GetNextUniqueAssetID());
+		}
 	}
 
 	ret = audioAsset->LoadAsset();
@@ -1104,31 +1227,62 @@ XEResult GameAssetManager::SaveToXMLGameAssets(XEXMLWriter& xmlWriter)
 	{
 		GameAsset* gameAsset = gameAssetPair.second;
 
-		if (gameAsset->IsBuiltInAsset())
+		if (gameAsset->IsBuiltInAsset() || gameAsset->GetParentAssetID() != 0)
 		{
 			continue;
 		}
 
-		ret = xmlWriter.StartNode(XE_ASSET_NODE_NAME);
+		ret = SaveToXMLGameAsset(xmlWriter, gameAsset);
 		if (ret != XEResult::Ok)
 		{
-			XETODO("Better return code");
-			return XEResult::Fail;
+			return ret;
 		}
+	}
 
-		xmlWriter.WriteString(XE_ASSET_NAME_PROP, gameAsset->GetName());
-		xmlWriter.WriteUInt64(XE_RAW_FILE_ASSOCIATED_ASSET_ID_PROP, gameAsset->GetUniqueAssetID());
-		xmlWriter.WriteUInt64(XE_ASSET_PARENTASSETID_PROP, gameAsset->GetParentAssetID());
-		xmlWriter.WriteUInt(XE_ASSET_GAMECONTENTTYPE_PROP, (uint32_t)gameAsset->GetGameContentType());
-		xmlWriter.WriteBool(XE_ASSET_ISLOADED_PROP, gameAsset->IsLoaded());
+	ret = xmlWriter.EndNode();
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
-		ret = xmlWriter.EndNode();
-		if (ret != XEResult::Ok)
+	return XEResult::Ok;
+}
+
+XEResult GameAssetManager::SaveToXMLGameAsset(XEXMLWriter& xmlWriter, GameAsset* gameAsset)
+{
+	if (gameAsset == nullptr)
+	{
+		return XEResult::NullParameter;
+	}
+
+	XEResult ret = XEResult::Ok;
+
+	ret = xmlWriter.StartNode(XE_ASSET_NODE_NAME);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	xmlWriter.WriteString(XE_ASSET_NAME_PROP, gameAsset->GetName());
+	xmlWriter.WriteString(XE_ASSET_CUSTOM_NAME_PROP, gameAsset->GetCustomName());
+	xmlWriter.WriteUInt64(XE_RAW_FILE_ASSOCIATED_ASSET_ID_PROP, gameAsset->GetUniqueAssetID());
+	xmlWriter.WriteUInt64(XE_ASSET_PARENTASSETID_PROP, gameAsset->GetParentAssetID());
+	xmlWriter.WriteUInt(XE_ASSET_GAMECONTENTTYPE_PROP, (uint32_t)gameAsset->GetGameContentType());
+	xmlWriter.WriteBool(XE_ASSET_ISLOADED_PROP, gameAsset->IsLoaded());
+
+	const GameAssetList& children = gameAsset->GetGameAssetChildren();
+	if (children.size() != 0)
+	{
+		for (auto gameAssetChild : children)
 		{
-			XETODO("Better return code");
-			return XEResult::Fail;
+			ret = SaveToXMLGameAsset(xmlWriter, gameAssetChild);
+			if (ret != XEResult::Ok)
+			{
+				return ret;
+			}
 		}
-
 	}
 
 	ret = xmlWriter.EndNode();
@@ -1244,46 +1398,46 @@ XEResult GameAssetManager::LoadAssetManagerFile(const std::wstring& gameAssetsFi
 
 XEResult GameAssetManager::LoadRawAssets(XEXMLParser& rawAssetXML)
 {
-	//uint32_t l_Count = rawAssetXML.GetNumChildren();
-	//for (uint32_t i = 0; i < l_Count; ++i)
-	//{
-	//	XEXMLParser child = rawAssetXML(i);
+	uint32_t l_Count = rawAssetXML.GetNumChildren();
+	for (uint32_t i = 0; i < l_Count; ++i)
+	{
+		XEXMLParser child = rawAssetXML(i);
 
-	//	std::wstring l_Type = child.GetName();
+		std::wstring l_Type = child.GetName();
 
-	//	if (l_Type.compare(L"RawFile") == 0)
-	//	{
-	//		TimeStamp modTimeStamp(child.GetString(XE_RAW_FILE_LASTMODIFIEDTIMESTAMP_PROP));
-	//		std::wstring name			= child.GetString(XE_RAW_FILE_NAME_PROP);
-	//		std::wstring filepath		= child.GetString(XE_RAW_FILE_FILEPATH_PROP);
-	//		GameContentSubtype subType	= (GameContentSubtype)child.GetUInt(XE_RAW_FILE_CONTENTSUBTYPE_PROP);
-	//		std::wstring outputDir		= child.GetString(XE_RAW_FILE_OUTPUTDIRECTORY_PROP);
-	//		uint64_t uniqueAssociatedID	= child.GetUInt64(XE_RAW_FILE_ASSOCIATED_ASSET_ID_PROP);
-	//		GameContentType contentType	= (GameContentType)child.GetUInt(XE_RAW_FILE_CONTENTTYPE_PROP);
-	//		GameContextFileExt fileExt	= (GameContextFileExt)child.GetUInt(XE_RAW_FILE_GAMECONTEXTFILEEXT_PROP);
-	//		std::wstring outputFilename	= child.GetString(XE_RAW_FILE_OUTPUTFILENAME_PROP);
-	//		bool reloadNeeded			= child.GetBool(XE_RAW_FILE_RELOADNEEDED_PROP);
-	//		bool outputDirChanged		= child.GetBool(XE_RAW_FILE_OUTPUTDIRCHANGED_PROP);
-	//		bool contentSubtypeChanged	= child.GetBool(XE_RAW_FILE_CONTENTSUBTYPECHANGED_PROP);
+		if (l_Type.compare(L"RawFile") == 0)
+		{
+			TimeStamp modTimeStamp(child.GetString(XE_RAW_FILE_LASTMODIFIEDTIMESTAMP_PROP));
+			std::wstring name			= child.GetString(XE_RAW_FILE_NAME_PROP);
+			std::wstring filepath		= child.GetString(XE_RAW_FILE_FILEPATH_PROP);
+			GameContentSubtype subType	= (GameContentSubtype)child.GetUInt(XE_RAW_FILE_CONTENTSUBTYPE_PROP);
+			std::wstring outputDir		= child.GetString(XE_RAW_FILE_OUTPUTDIRECTORY_PROP);
+			uint64_t uniqueAssociatedID	= child.GetUInt64(XE_RAW_FILE_ASSOCIATED_ASSET_ID_PROP);
+			GameContentType contentType	= (GameContentType)child.GetUInt(XE_RAW_FILE_CONTENTTYPE_PROP);
+			GameContextFileExt fileExt	= (GameContextFileExt)child.GetUInt(XE_RAW_FILE_GAMECONTEXTFILEEXT_PROP);
+			std::wstring outputFilename	= child.GetString(XE_RAW_FILE_OUTPUTFILENAME_PROP);
+			bool reloadNeeded			= child.GetBool(XE_RAW_FILE_RELOADNEEDED_PROP);
+			bool outputDirChanged		= child.GetBool(XE_RAW_FILE_OUTPUTDIRCHANGED_PROP);
+			bool contentSubtypeChanged	= child.GetBool(XE_RAW_FILE_CONTENTSUBTYPECHANGED_PROP);
 
-	//		RawGameAsset* rawGameAsset = new RawGameAsset(filepath, m_ProjectDirectory, name);
+			RawGameAsset* rawGameAsset = new RawGameAsset(filepath, m_ProjectDirectory, name);
 
-	//		rawGameAsset->SetContentSubtype(subType);
-	//		rawGameAsset->SetOutputDirectory(outputDir);
-	//		rawGameAsset->SetUniqueAssociatedAssetID(uniqueAssociatedID);
-	//		rawGameAsset->SetContentType(contentType);
-	//		rawGameAsset->SetGameContextFileExt(fileExt);
-	//		rawGameAsset->SetLastModifiedTimeStamp(modTimeStamp);
-	//		rawGameAsset->SetOutputFileName(outputFilename);
-	//		rawGameAsset->SetReloadNeeded(reloadNeeded);
-	//		rawGameAsset->SetOutputDirChanged(outputDirChanged);
-	//		rawGameAsset->SetContentSubtypeChanged(contentSubtypeChanged);
+			rawGameAsset->SetContentSubtype(subType);
+			rawGameAsset->SetOutputDirectory(outputDir);
+			rawGameAsset->SetUniqueAssociatedAssetID(uniqueAssociatedID);
+			rawGameAsset->SetContentType(contentType);
+			rawGameAsset->SetGameContextFileExt(fileExt);
+			rawGameAsset->SetLastModifiedTimeStamp(modTimeStamp);
+			rawGameAsset->SetOutputFileName(outputFilename);
+			rawGameAsset->SetReloadNeeded(reloadNeeded);
+			rawGameAsset->SetOutputDirChanged(outputDirChanged);
+			rawGameAsset->SetContentSubtypeChanged(contentSubtypeChanged);
 
-	//		m_RawGameAssetMap[rawGameAsset->GetUniqueID()] = rawGameAsset;
-	//	}
-	//}
+			m_RawGameAssetMap[rawGameAsset->GetUniqueID()] = rawGameAsset;
+		}
+	}
 
-	return XEResult::Fail;
+	return XEResult::Ok;
 }
 
 XEResult GameAssetManager::LoadGameAssets(XEXMLParser& gameAssetXML)

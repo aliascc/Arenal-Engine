@@ -67,9 +67,8 @@
 /********************
 *   Function Defs   *
 *********************/
-GameApp::GameApp(HINSTANCE hInstance, const std::wstring& configEngineFile, GameAppRunOpt gameAppRunOpt)
+GameApp::GameApp(HINSTANCE hInstance, GameAppRunOpt gameAppRunOpt)
 	: m_AppInst(hInstance)
-	, m_ConfigEngineFileName(configEngineFile)
 	, m_GameAppRunOpt(gameAppRunOpt)
 {
 	#if defined(_DEBUG)
@@ -167,23 +166,25 @@ void GameApp::ShutDownGameApp()
 
 XEResult GameApp::ExtractGameEngineConfig()
 {
-	XEAssert(!m_ConfigEngineFileName.empty());
+	XEAssert(!m_GameProject.m_EngineConfigFile.empty());
 
 	XEXMLParser newFile;
-	if (newFile.LoadFile(m_ConfigEngineFileName) != XEResult::Ok)
+	if (newFile.LoadFile(m_GameProject.m_EngineConfigFile) != XEResult::Ok)
 	{
 		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_ConfigEngineFileName);
+		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_EngineConfigFile);
 		
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 		return XEResult::OpenFileFail;
 	}
 
-	XEXMLParser configXML = newFile[L"ConfigEngine"];
+	XEXMLParser configXML = newFile[XE_ENGINE_CONFIG_MAIN_NODE];
 	if (!configXML.IsReady())
 	{
 		return XEResult::XMLReadError;
 	}
+
+	m_GameProject.m_EngineLocation = boost::filesystem::current_path().wstring();
 
 	uint32_t l_Count = configXML.GetNumChildren();
 	for (uint32_t i = 0; i < l_Count; ++i)
@@ -192,13 +193,13 @@ XEResult GameApp::ExtractGameEngineConfig()
 
 		std::wstring l_Type = child.GetName();
 		
-		if( l_Type.compare(L"Localization") == 0 )
+		if (l_Type.compare(XE_ENGINE_LOCALIZATION_NODE) == 0)
 		{
-			m_GameEngineConfig.m_LocalizationFile = XE_PREFIX_ENGINE_FILE_PATH + child.GetString(L"file");
+			m_GameProject.m_GameEngineConfig.m_LocalizationFile		= m_GameProject.m_EngineLocation + XE_ENGINE_BIN_TO_DATA_PATH_ADD + child.GetString(XE_ENGINE_CONFIG_FILE_PROP);
 		}
-		else if (l_Type.compare(L"GameOpts") == 0)
+		else if (l_Type.compare(XE_ENGINE_GAMEOPTS) == 0)
 		{
-			m_GameEngineConfig.m_GameOptsFile = XE_PREFIX_ENGINE_FILE_PATH + child.GetString(L"file");
+			m_GameProject.m_GameEngineConfig.m_GameOptsFile			= m_GameProject.m_EngineLocation + XE_ENGINE_BIN_TO_DATA_PATH_ADD + child.GetString(XE_ENGINE_CONFIG_FILE_PROP);
 		}
 	}
 
@@ -219,13 +220,13 @@ XEResult GameApp::ExtractGameProjectConfig()
 		return XEResult::OpenFileFail;
 	}
 
-	XEXMLParser configXML = newFile[L"ConfigProject"];
+	XEXMLParser configXML = newFile[XE_PROJ_CONFIG_MAIN_NODE];
 	if (!configXML.IsReady())
 	{
 		return XEResult::XMLReadError;
 	}
 
-	std::size_t foundPos = m_GameProject.m_ProjectConfigFile.find(L"/" XE_PROJ_CONFIG_PROJ_FILE);
+	std::size_t foundPos = m_GameProject.m_ProjectConfigFile.find(XE_PROJ_CONFIG_PROJ_FILE);
 	m_GameProject.m_ProjectLocation = m_GameProject.m_ProjectConfigFile.erase(foundPos);
 
 	uint32_t l_Count = configXML.GetNumChildren();
@@ -235,29 +236,29 @@ XEResult GameApp::ExtractGameProjectConfig()
 
 		std::wstring l_Type = child.GetName();
 
-		if (l_Type.compare(L"DevCaps") == 0)
+		if (l_Type.compare(XE_PROJ_DEV_CAPS_NODE) == 0)
 		{
-			m_GameProject.m_GameProjectConfig.m_DevCapFile			= child.GetString(L"file");
+			m_GameProject.m_GameProjectConfig.m_DevCapFile			= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
 		}
-		else if (l_Type.compare(L"Config") == 0)
+		else if (l_Type.compare(XE_PROJ_CONFIG_NODE) == 0)
 		{
-			m_GameProject.m_ProjectName								= child.GetString(L"name");
+			m_GameProject.m_ProjectName								= child.GetString(XE_PROJ_CONFIG_NAME_PROP);
 		}
-		else if (l_Type.compare(L"GraphicOpts") == 0)
+		else if (l_Type.compare(XE_PROJ_GRAPHIC_OPTS_NODE) == 0)
 		{
-			m_GameProject.m_GameProjectConfig.m_GraphicOptsFile		= child.GetString(L"file");
+			m_GameProject.m_GameProjectConfig.m_GraphicOptsFile		= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
 		}
-		else if (l_Type.compare(L"Input") == 0)
+		else if (l_Type.compare(XE_PROJ_INPUT_NODE) == 0)
 		{
-			m_GameProject.m_GameProjectConfig.m_InputFile			= child.GetString(L"file");
+			m_GameProject.m_GameProjectConfig.m_InputFile			= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
 		}
-		else if (l_Type.compare(L"Localization") == 0)
+		else if (l_Type.compare(XE_PROJ_LOCALIZATION_NODE) == 0)
 		{
-			m_GameProject.m_GameProjectConfig.m_LocalizationFile	= child.GetString(L"file");
+			m_GameProject.m_GameProjectConfig.m_LocalizationFile	= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
 		}
-		else if (l_Type.compare(L"AssetManager") == 0)
+		else if (l_Type.compare(XE_PROJ_ASSET_MANAGER_NODE) == 0)
 		{
-			m_GameProject.m_GameProjectConfig.m_AssetManagerFile	= child.GetString(L"file");
+			m_GameProject.m_GameProjectConfig.m_AssetManagerFile	= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
 		}
 	}
 
@@ -315,13 +316,13 @@ XEResult GameApp::ExtractGameConfigInput()
 
 XEResult GameApp::ExtractGameAppOpts()
 {
-	XEAssert(!m_GameEngineConfig.m_GameOptsFile.empty());
+	XEAssert(!m_GameProject.m_GameEngineConfig.m_GameOptsFile.empty());
 
 	XEXMLParser newFile;
-	if (newFile.LoadFile(m_GameEngineConfig.m_GameOptsFile) != XEResult::Ok)
+	if (newFile.LoadFile(m_GameProject.m_GameEngineConfig.m_GameOptsFile) != XEResult::Ok)
 	{
 		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameEngineConfig.m_GameOptsFile);
+		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_GameEngineConfig.m_GameOptsFile);
 
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 		return XEResult::OpenFileFail;
@@ -367,14 +368,10 @@ XEResult GameApp::ExtractGameAppOpts()
 			m_GameAppOpts.m_LogCapacity	= child.GetUInt(L"Capacity", XE_LOG_CAPACITY, false);
 			m_GameAppOpts.m_LogToFile	= child.GetBool(L"LogToFile", false, false);
 
-			m_GameAppOpts.m_LogFilePath = child.GetString(L"LogFile", L"", false);
-			if (m_GameAppOpts.m_LogFilePath.compare(L"") != 0)
+			m_GameAppOpts.m_LogFilePath = child.GetString(L"LogFile", L"", m_GameAppOpts.m_LogToFile);
+			if (m_GameAppOpts.m_LogFilePath.compare(L"") == 0)
 			{
-				m_GameAppOpts.m_LogFilePath = m_GameAppOpts.m_LogFilePath;
-			}
-			else
-			{
-				m_GameAppOpts.m_LogFilePath = XE_LOG_DEFAULT_PATH;
+				m_GameAppOpts.m_LogFilePath = m_GameProject.m_EngineLocation + XE_ENGINE_BIN_TO_DATA_PATH_ADD + XE_PROJ_LOG_FILE_LOC;
 			}
 		}
 	}
@@ -441,13 +438,20 @@ XEResult GameApp::ExtractGraphicOpts()
 	return XEResult::Ok;
 }
 
-XEResult GameApp::InitGameApp(const std::wstring& configProjFile, std::wstring& errorMsg)
+XEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::wstring& configProjFile, std::wstring& errorMsg)
 {
 	errorMsg = L"";
 
 	if(m_IsReady)
 	{
 		return XEResult::Ok;
+	}
+
+	XEAssert(!configEngineFile.empty());
+	XEAssert(!configProjFile.empty());
+	if (configEngineFile.empty() || configProjFile.empty())
+	{
+		return XEResult::EmptyFilename;
 	}
 
 	m_Quiting = false;
@@ -457,6 +461,7 @@ XEResult GameApp::InitGameApp(const std::wstring& configProjFile, std::wstring& 
 	XELOGGER;
 	XELOCMAN;
 
+	m_GameProject.m_EngineConfigFile = configEngineFile;
 	m_GameProject.m_ProjectConfigFile = configProjFile;
 
 	if (ExtractGameEngineConfig() != XEResult::Ok)
@@ -613,7 +618,7 @@ XEResult GameApp::InitGameApp(const std::wstring& configProjFile, std::wstring& 
 
 	////////////////////////////////////////////////
 	// Create and Initialize Game Asset Manager
-	m_GameAssetManager = new GameAssetManager(m_GraphicDevice, m_GameResourceManager, m_AngelScriptManager, m_AudioManager, m_GameProject.m_ProjectLocation, XE_ASSETS_DEFAULT_DIR);
+	m_GameAssetManager = new GameAssetManager(m_GraphicDevice, m_GameResourceManager, m_AngelScriptManager, m_AudioManager, m_GameProject.m_ProjectLocation, XE_PROJ_ASSETS_DIR_LOC);
 
 	if(m_GameAssetManager->Initialize() != XEResult::Ok)
 	{
@@ -748,9 +753,14 @@ XEResult GameApp::Init3D_Device()
 
 XEResult GameApp::InitLocalizationManager()
 {
-	XEAssert(!m_GameEngineConfig.m_LocalizationFile.empty());
+	XEAssert(!m_GameProject.m_GameEngineConfig.m_LocalizationFile.empty());
+	if (XELOCMAN->Initialize(m_GameProject.m_GameEngineConfig.m_LocalizationFile, m_GameProject.m_EngineLocation + XE_ENGINE_BIN_TO_DATA_PATH_ADD) != XEResult::Ok)
+	{
+		return XEResult::Fail;
+	}
 
-	if (XELOCMAN->Initialize(m_GameEngineConfig.m_LocalizationFile) != XEResult::Ok)
+	XEAssert(!m_GameProject.m_GameProjectConfig.m_LocalizationFile.empty());
+	if (XELOCMAN->LoadProjectFile(m_GameProject.m_GameProjectConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation) != XEResult::Ok)
 	{
 		return XEResult::Fail;
 	}
@@ -1075,6 +1085,11 @@ GameService* GameApp::GetGameServiceBase(const std::wstring& serviceName) const
 
 XEResult GameApp::EditorPlay()
 {
+	if (!m_IsReady || m_GameAppRunOpt == GameAppRunOpt::GameMode)
+	{
+		return XEResult::NotReady;
+	}
+
 	if (m_GameEditorPlayState == GameEditorPlayState::Playing)
 	{
 		return XEResult::Ok;
@@ -1091,6 +1106,11 @@ XEResult GameApp::EditorPlay()
 
 XEResult GameApp::EditorPause()
 {
+	if (!m_IsReady || m_GameAppRunOpt == GameAppRunOpt::GameMode)
+	{
+		return XEResult::NotReady;
+	}
+
 	if (m_GameEditorPlayState == GameEditorPlayState::Paused || m_GameEditorPlayState == GameEditorPlayState::Stop)
 	{
 		return XEResult::Ok;
@@ -1105,6 +1125,11 @@ XEResult GameApp::EditorPause()
 
 XEResult GameApp::EditorStop()
 {
+	if (!m_IsReady || m_GameAppRunOpt == GameAppRunOpt::GameMode)
+	{
+		return XEResult::NotReady;
+	}
+
 	if (m_GameEditorPlayState == GameEditorPlayState::Stop)
 	{
 		return XEResult::Ok;
@@ -1334,7 +1359,14 @@ XEResult GameApp::SaveGameInfo()
 		return XEResult::NotReady;
 	}
 
-	m_GameAssetManager->SaveToXML(m_GameProject.m_GameProjectConfig.m_AssetManagerFile);
+	XEResult ret = XEResult::Ok;
+
+	ret = m_GameAssetManager->SaveToXML(m_GameProject.m_GameProjectConfig.m_AssetManagerFile);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Log error");
+		return ret;
+	}
 
 	return XEResult::Ok;
 }
@@ -1433,7 +1465,7 @@ XEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const s
 	assetManagerFile.close();
 
 	//Localization File
-	std::wofstream projectLocalizationFile(projectFolder + L"/" + XE_PROJ_LOCALIZATION_FILE_LOC);
+	std::wofstream projectLocalizationFile(projectFolder + L"/" + XE_PROJ_LOCALIZATION_PROJ_FILE_LOC);
 	if (!projectLocalizationFile.is_open())
 	{
 		return XEResult::OpenFileFail;

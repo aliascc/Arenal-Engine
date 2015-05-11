@@ -109,21 +109,23 @@ class GameAssetManager sealed : public XEObject
 
 		XEResult ImportBuiltInDiffuseTextureShader();
 
-		XEResult ImportModel(RawGameAsset* rawGA);
+		XEResult ImportRawGameAssetWithoutLock(uint64_t rawAssetID);
 
-		XEResult ImportShader(RawGameAsset* rawGA);
+		XEResult ImportModel(RawGameAsset* rawGA, const ModelAssetPreloadedIDs* modelAssetIDs = nullptr);
 
-		XEResult ImportTexture(RawGameAsset* rawGA);
+		XEResult ImportShader(RawGameAsset* rawGA, uint64_t preloadGameAssetID = 0);
 
-		XEResult ImportGameObjectScript(RawGameAsset* rawGA);
+		XEResult ImportTexture(RawGameAsset* rawGA, uint64_t preloadGameAssetID = 0);
 
-		XEResult ImportAudio(RawGameAsset* rawGA);
+		XEResult ImportGameObjectScript(RawGameAsset* rawGA, uint64_t preloadGameAssetID = 0);
 
-		XEResult ImportRawGameAssetWithoutLock(uint64_t id);
+		XEResult ImportAudio(RawGameAsset* rawGA, uint64_t preloadGameAssetID = 0);
 
 		XEResult CheckForLatestRawGameAssets();
 
 		XEResult SaveToXMLGameAssets(XEXMLWriter& xmlWriter);
+
+		XEResult SaveToXMLGameAsset(XEXMLWriter& xmlWriter, GameAsset* gameAsset);
 
 		XEResult SaveToXMLRawGameAssets(XEXMLWriter& xmlWriter);
 
@@ -191,15 +193,21 @@ class GameAssetManager sealed : public XEObject
 		*************************/
 #pragma region Framework Methods
 
-		bool RawGameAssetExists(uint64_t id) const;
+		inline bool GameAssetManager::RawGameAssetExists(uint64_t id) const
+		{
+			return (m_RawGameAssetMap.find(id) != m_RawGameAssetMap.end());
+		}
 
-		bool GameAssetExists(uint64_t id) const;
+		inline bool GameAssetManager::GameAssetExists(uint64_t id) const
+		{
+			return (m_GameAssetMap.find(id) != m_GameAssetMap.end());
+		}
 
 		XEResult Initialize();
 
 		XEResult CreateNewRawGameAsset(const std::wstring& filePath, GameContentSubtype contentSubtype = GameContentSubtype::Unknown, uint64_t* rawAssetID = nullptr);
 
-		XEResult ImportRawGameAsset(uint64_t id);
+		XEResult ImportRawGameAsset(uint64_t rawAssetID);
 
 		XEResult CheckForLatestRawGameAssetsAndImport();
 

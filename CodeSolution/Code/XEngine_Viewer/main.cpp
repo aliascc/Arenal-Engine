@@ -32,7 +32,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 {
 	std::wstring errorMsg = L"";
 
-	ViewerApp app(hInstance, XE_CONFIG_ENGINE_FILE_PATH);
+	ViewerApp app(hInstance);
 
 	//if(app.InitGameApp(errorMsg) != XEResult::Ok)
 	{

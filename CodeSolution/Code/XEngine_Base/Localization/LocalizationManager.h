@@ -140,20 +140,24 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		/// <summary>
 		/// Reloads all of the information for Localization Manager, does not lock the thread
 		/// </summary>
+		/// <param name='enginePath'>Path to look for the language files for the engine localization file</param> 
+		/// <param name='projectPath'>Path to look for the language files for the project localization file</param> 
 		/// <returns>Returns XEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-		XEResult ReloadAllWithoutLock();
+		XEResult ReloadAllWithoutLock(const std::wstring& enginePath, const std::wstring& projectPath);
 
 		/// <summary>
 		/// Reloads Engine information for Localization Manager, does not lock the thread
 		/// </summary>
+		/// <param name='enginePath'>Path to look for the language files</param> 
 		/// <returns>Returns XEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-		XEResult ReloadEngineWithoutLock();
+		XEResult ReloadEngineWithoutLock(const std::wstring& enginePath);
 
 		/// <summary>
 		/// Reloads Project information for Localization Manager, does not lock the thread
 		/// </summary>
+		/// <param name='projectPath'>Path to look for the language files</param> 
 		/// <returns>Returns XEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-		XEResult ReloadProjectWithoutLock();
+		XEResult ReloadProjectWithoutLock(const std::wstring& projectPath);
 
 		/// <summary>
 		/// Sets the current default, does not lock the thread
@@ -223,14 +227,17 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		/// Initializes the Localization Manager
 		/// </summary>
 		/// <param name='file'>File from where to load the Localization Information</param> 
+		/// <param name='enginePath'>Path to look for the language files</param> 
 		/// <returns>Returns XEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-		XEResult Initialize(const std::wstring& file);
+		XEResult Initialize(const std::wstring& file, const std::wstring& enginePath);
 
 		/// <summary>
 		/// Reloads all of the information for Localization Manager
 		/// </summary>
+		/// <param name='enginePath'>Path to look for the language files for the engine localization file</param> 
+		/// <param name='projectPath'>Path to look for the language files for the project localization file</param> 
 		/// <returns>Returns XEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-		XEResult ReloadAll();
+		XEResult ReloadAll(const std::wstring& enginePath, const std::wstring& projectPath);
 
 		/// <summary>
 		/// Gets a Literal
@@ -250,8 +257,9 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		/// Load Project Localization
 		/// </summary>
 		/// <param name='filename'>Localization Project Filename</param>
+		/// <param name='projectPath'>Path to look for the language files for the project localization file</param> 
 		/// <returns>Returns XEResult::OK if it was successful</returns>
-		XEResult LoadProjectFile(const std::wstring& filename);
+		XEResult LoadProjectFile(const std::wstring& filename, const std::wstring& projectPath);
 
 		/// <summary>
 		/// Add a Language to Extend

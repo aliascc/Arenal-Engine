@@ -203,8 +203,6 @@ class GameApp abstract : public XEObject
 
 		//Application Init options
 		GameAppOpts m_GameAppOpts;
-		GameEngineConfig m_GameEngineConfig;
-		std::wstring m_ConfigEngineFileName = L"";
 
 		//3D App variables
 		GraphicOptsPreferred m_GraphicOptsPreferred;
@@ -224,6 +222,11 @@ class GameApp abstract : public XEObject
 		GameEditorPlayState m_GameEditorPlayState = GameEditorPlayState::Stop;
 
 		GameProject m_GameProject;
+
+		/// <summary>
+		/// Determine if the Engine is running under an editor or full game
+		/// </summary>
+		bool m_IsEditorActive = false;
 
 #pragma endregion
 
@@ -250,9 +253,8 @@ class GameApp abstract : public XEObject
 		/// GameApp Constructor
 		/// </summary>
 		/// <param name="hInstance">Handle to Instance for the Game App window</param>
-		/// <param name="configEngineFile">Configuration File for the Game Engine</param>
 		/// <param name="gameAppRunOpt">Game App Run Option</param>
-		GameApp(HINSTANCE hInstance, const std::wstring& configEngineFile, GameAppRunOpt gameAppRunOpt);
+		GameApp(HINSTANCE hInstance, GameAppRunOpt gameAppRunOpt);
 
 		/// <summary>
 		/// Default GameApp Destructor
@@ -372,6 +374,10 @@ class GameApp abstract : public XEObject
 			return (m_GameProject.m_ProjectName.compare(L"") == 0);
 		}
 
+		/// <summary>
+		/// Gets Game Application Running Mode (Game/Editor)
+		/// </summary>
+		/// <returns>Game App running mode</returns>
 		inline GameAppRunOpt GetGameAppRunOpt() const
 		{
 			return m_GameAppRunOpt;
@@ -437,7 +443,7 @@ class GameApp abstract : public XEObject
 
 		XEResult UnRegisterGameService(const std::wstring& serviceName);
 
-		XEResult InitGameApp(const std::wstring& configProjFile, std::wstring& errorMsg);
+		XEResult InitGameApp(const std::wstring& configEngineFile, const std::wstring& configProjFile, std::wstring& errorMsg);
 
 		GameService* GetGameServiceBase(const std::wstring& serviceName) const;
 

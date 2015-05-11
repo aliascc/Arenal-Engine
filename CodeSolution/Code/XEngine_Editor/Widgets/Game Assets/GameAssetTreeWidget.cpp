@@ -226,8 +226,8 @@ XEResult GameAssetTreeWidget::CreateModelGameAssetBranch(ModelAsset* gameAsset)
 
 	////////////////////////////////////////
 	//Meshes:
-	const MeshAssetVector& meshVector = gameAsset->GetMeshAssetVector();
-	uint32_t meshCount = (uint32_t)meshVector.size();
+	const MeshAssetMap& meshAssetMap = gameAsset->GetMeshAssetMap();
+	uint32_t meshCount = (uint32_t)meshAssetMap.size();
 
 	QTreeWidgetItem* meshesChildBranch = new QTreeWidgetItem();
 	meshesChildBranch->setData(0, Qt::ItemDataRole::DisplayRole, "Meshes");
@@ -240,9 +240,9 @@ XEResult GameAssetTreeWidget::CreateModelGameAssetBranch(ModelAsset* gameAsset)
 
 	////////////////////////////////////////
 	//Add Meshes
-	for (uint32_t i = 0; i < meshCount; i++)
+	for (auto gaIt : meshAssetMap)
 	{
-		MeshAsset* meshAsset = meshVector[i];
+		MeshAsset* meshAsset = gaIt.second.m_Asset;
 
 		////////////////////////////////////////
 		//Mesh Childs
@@ -270,8 +270,8 @@ XEResult GameAssetTreeWidget::CreateModelGameAssetBranch(ModelAsset* gameAsset)
 
 	////////////////////////////////////////
 	//Animations:
-	const AnimationAssetVector& animationAssetVector = gameAsset->GetAnimationAssetVector();
-	uint32_t animCount = (uint32_t)animationAssetVector.size();
+	const AnimationAssetMap& animationAssetMap = gameAsset->GetAnimationAssetMap();
+	uint32_t animCount = (uint32_t)animationAssetMap.size();
 
 	QTreeWidgetItem* animationsChildBranch = new QTreeWidgetItem();
 	animationsChildBranch->setData(0, Qt::ItemDataRole::DisplayRole, "Animations");
@@ -284,9 +284,9 @@ XEResult GameAssetTreeWidget::CreateModelGameAssetBranch(ModelAsset* gameAsset)
 
 	////////////////////////////////////////
 	//Add Animations
-	for (uint32_t i = 0; i < animCount; i++)
+	for (auto gaIt : animationAssetMap)
 	{
-		AnimationAsset* animAsset = animationAssetVector[i];
+		AnimationAsset* animAsset = gaIt.second.m_Asset;
 
 		////////////////////////////////////////
 		//Animation Childs

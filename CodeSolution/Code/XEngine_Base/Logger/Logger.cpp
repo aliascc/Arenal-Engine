@@ -61,6 +61,12 @@ XEResult Logger::ActivateLogToFile()
 		return XEResult::Ok;
 	}
 
+	XEAssert(!m_LogFilename.empty());
+	if (m_LogFilename.empty())
+	{
+		return XEResult::EmptyFilename;
+	}
+
 	m_FileStream = std::wofstream(m_LogFilename, std::ios::out | std::ios::app);
 
 	if(!m_FileStream.is_open())
@@ -98,13 +104,12 @@ XEResult Logger::SetLogFilename(const std::wstring& path)
 	std::lock_guard<std::mutex> lock(m_LogMutex);
 
 	XEAssert(!path.empty());
-
 	if(path.empty())
 	{
 		return XEResult::EmptyFilename;
 	}
 
-	m_LogFilename = path; 
+	m_LogFilename = path;
 
 	return XEResult::Ok;
 }
@@ -273,8 +278,13 @@ XEResult Logger::SaveLogsInFile()
 		return XEResult::Log2FileActive;
 	}
 
-	m_FileStream = std::wofstream(m_LogFilename, std::ios::out | std::ios::ate);
+	XEAssert(!m_LogFilename.empty());
+	if (m_LogFilename.empty())
+	{
+		return XEResult::EmptyFilename;
+	}
 
+	m_FileStream = std::wofstream(m_LogFilename, std::ios::out | std::ios::ate);
 	if(!m_FileStream.is_open())
 	{
 		return XEResult::OpenFileFail;

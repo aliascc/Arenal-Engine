@@ -500,10 +500,16 @@ namespace XE_Base
 				return L"FileNotPresent";
 
 			case XEResult::GameAssetManagerNull:
-				return L"GameAssetManagerNull";
+				return L"GameAssetManagerNull"; 
 
 			case XEResult::GameAssetNotLoaded:
-				return L"GameAssetNotLoaded";
+				return L"GameAssetNotLoaded"; 
+
+			case XEResult::GameAssetIDInUse:
+				return L"GameAssetIDInUse";
+
+			case XEResult::GameAssetInvalidID:
+				return L"GameAssetInvalidID";
 
 			case XEResult::ShaderNull:
 				return L"ShaderNull";

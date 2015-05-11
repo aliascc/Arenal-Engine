@@ -113,7 +113,7 @@ class Logger : public Singleton<Logger>
 		/// <summary>
 		/// Filename of the log file.
 		/// </summary>
-		std::wstring m_LogFilename = XE_LOG_DEFAULT_PATH;
+		std::wstring m_LogFilename = L"";
 
 		/// <summary>
 		/// Determines if the Logs need to be printed also in a file

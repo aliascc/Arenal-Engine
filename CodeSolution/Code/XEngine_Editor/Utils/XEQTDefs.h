@@ -30,6 +30,7 @@
 ****************************/
 #include "Color\Color.h"
 #include "Base\XEObject.h"
+#include "Base\BaseLocations.h"
 
 /**************
 *   Defines   *
@@ -39,9 +40,7 @@
 #define XE_QT_MIME_FILE_TYPE_1						"application/x-qt-windows-mime;value=\"FileName\""
 #define XE_QT_MIME_FILE_TYPE_2						"application/x-qt-windows-mime;value=\"FileNameW\""
 
-#define XE_QT_UI_LAYOUT_EXT							"qtl"
-#define XE_QT_UI_LAYOUT_DIR							XE_PREFIX_ENGINE_FILE_PATH_ASCII "Data\\Editor UI Layouts\\"
-#define XE_QT_UI_DEFAULT_LAYOUT_PATH				XE_QT_UI_LAYOUT_DIR "default.qtl"
+#define XE_QT_UI_LAYOUT_EXT							L"qtl"
 
 #define XE_QT_USER_DATA_SLOT_START					0
 #define XE_QT_USER_DATA_RAW_ASSET_ID_SLOT			XE_QT_USER_DATA_SLOT_START + 0

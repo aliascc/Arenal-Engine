@@ -14,9 +14,9 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
 #include <string>
 #include <stdint.h>
+#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -40,9 +40,9 @@ class GameResourceManager;
 /**************
 *   Typedef   *
 ***************/
-typedef std::vector<MeshAsset*> MeshAssetVector;
+typedef std::unordered_map<std::wstring, GameAssetLoadStatus<MeshAsset>> MeshAssetMap;
 
-typedef std::vector<AnimationAsset*> AnimationAssetVector;
+typedef std::unordered_map<std::wstring, GameAssetLoadStatus<AnimationAsset>> AnimationAssetMap;
 
 /*****************
 *   Class Decl   *
@@ -56,9 +56,9 @@ class ModelAsset sealed : public GameAsset
 		*************************/
 #pragma region Private Variables
 
-		MeshAssetVector m_MeshAssetVector;
+		MeshAssetMap m_MeshAssetMap;
 
-		AnimationAssetVector m_AnimationAssetVector;
+		AnimationAssetMap m_AnimationAssetMap;
 
 		SkeletonAsset* m_SkeletonAsset = nullptr;
 
@@ -119,9 +119,9 @@ class ModelAsset sealed : public GameAsset
 		*******************/
 #pragma region Get Methods
 
-		inline MeshAssetVector& GetMeshAssetVector()
+		inline MeshAssetMap& GetMeshAssetMap()
 		{
-			return m_MeshAssetVector;
+			return m_MeshAssetMap;
 		}
 
 		inline SkeletonAsset* GetSkeletonAsset()
@@ -129,9 +129,9 @@ class ModelAsset sealed : public GameAsset
 			return m_SkeletonAsset;
 		}
 
-		inline AnimationAssetVector& GetAnimationAssetVector()
+		inline AnimationAssetMap& GetAnimationAssetMap()
 		{
-			return m_AnimationAssetVector;
+			return m_AnimationAssetMap;
 		}
 
 #pragma endregion

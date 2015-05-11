@@ -27,6 +27,7 @@
 ****************************/
 #include "Base\Base.h"
 #include "Base\XEObject.h"
+#include "Base\BaseLocations.h"
 #include "Shaders\ShaderDefs.h"
 
 /************
@@ -36,10 +37,6 @@
 /**************
 *   Defines   *
 ***************/
-#define XE_ASSETS_DEFAULT_DIR				L"Data\\Assets\\"
-#define XE_RAW_ASSETS_DEFAULT_DIR			L"Data\\Raw Files\\"
-
-#define XE_SHADER_SYS_INC_PATH				XE_PREFIX_ENGINE_FILE_PATH L"Data\\Effects\\"
 #define XE_SHADER_SYS_INC_PATH_LEN			wcslen(XE_SHADER_SYS_INC_PATH)
 
 #define XE_CT_XE3D_FILE_HEADER				0xABB1 //Abby
