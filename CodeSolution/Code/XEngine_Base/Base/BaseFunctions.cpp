@@ -503,13 +503,16 @@ namespace XE_Base
 				return L"GameAssetManagerNull"; 
 
 			case XEResult::GameAssetNotLoaded:
-				return L"GameAssetNotLoaded"; 
+				return L"GameAssetNotLoaded";
 
 			case XEResult::GameAssetIDInUse:
 				return L"GameAssetIDInUse";
 
 			case XEResult::GameAssetInvalidID:
 				return L"GameAssetInvalidID";
+
+			case XEResult::RawGameAssetNotFound:
+				return L"RawGameAssetNotFound";
 
 			case XEResult::ShaderNull:
 				return L"ShaderNull";
@@ -537,6 +540,9 @@ namespace XE_Base
 
 			case XEResult::CameraNull:
 				return L"CameraNull";
+
+			case XEResult::WriteToFileFailed:
+				return L"WriteToFileFailed";
 
 			case XEResult::Ok:
 				return L"Ok";

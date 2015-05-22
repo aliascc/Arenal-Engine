@@ -141,11 +141,6 @@ class GameAsset abstract : public UniqueXEObjectNamed
 		std::wstring m_CustomName = L"";
 
 		/// <summary>
-		/// Keeps track of the Child Game Assets
-		/// </summary>
-		GameAssetList m_ChildGameAssetList;
-
-		/// <summary>
 		/// Parent Game Asset
 		/// </summary>
 		GameAsset* m_ParentGameAsset = nullptr;
@@ -162,10 +157,6 @@ class GameAsset abstract : public UniqueXEObjectNamed
 		/// </summary>
 		/// <returns>XEResult::OK if successful</returns>
 		virtual XEResult LoadAssetResource() = 0;
-
-		XEResult AddChildGameAsset(GameAsset* gameAsset);
-
-		void RemoveChildGameAsset(GameAsset* gameAsset);
 
 #pragma endregion
 
@@ -267,15 +258,6 @@ class GameAsset abstract : public UniqueXEObjectNamed
 		inline const std::wstring& GetCustomName() const
 		{
 			return m_CustomName;
-		}
-
-		/// <summary>
-		/// List of the Game Asset Children
-		/// </summary>
-		/// <returns>Children Game Assets</returns>
-		const GameAssetList& GetGameAssetChildren() const
-		{
-			return m_ChildGameAssetList;
 		}
 
 #pragma endregion

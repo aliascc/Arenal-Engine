@@ -141,8 +141,13 @@ class ModelAsset sealed : public GameAsset
 		*******************/
 #pragma region Set Methods
 
+		inline void SetSkeletonAsset(SkeletonAsset* skeletonAsset)
+		{
+			m_SkeletonAsset = skeletonAsset;
+		}
+
 #pragma endregion
-		
+
 		/************************
 		*   Framework Methods   *
 		*************************/

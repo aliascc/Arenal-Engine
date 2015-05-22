@@ -111,27 +111,45 @@ class GameAssetManager sealed : public XEObject
 
 		XEResult ImportRawGameAssetWithoutLock(uint64_t rawAssetID);
 
-		XEResult ImportModel(RawGameAsset* rawGA, const ModelAssetPreloadedIDs* modelAssetIDs = nullptr);
+		XEResult ImportModel(RawGameAsset* rawGA);
 
-		XEResult ImportShader(RawGameAsset* rawGA, uint64_t preloadGameAssetID = 0);
+		XEResult ImportShader(RawGameAsset* rawGA);
 
-		XEResult ImportTexture(RawGameAsset* rawGA, uint64_t preloadGameAssetID = 0);
+		XEResult ImportTexture(RawGameAsset* rawGA);
 
-		XEResult ImportGameObjectScript(RawGameAsset* rawGA, uint64_t preloadGameAssetID = 0);
+		XEResult ImportGameObjectScript(RawGameAsset* rawGA);
 
-		XEResult ImportAudio(RawGameAsset* rawGA, uint64_t preloadGameAssetID = 0);
+		XEResult ImportAudio(RawGameAsset* rawGA);
 
 		XEResult CheckForLatestRawGameAssets();
 
 		XEResult SaveToXMLGameAssets(XEXMLWriter& xmlWriter);
-
-		XEResult SaveToXMLGameAsset(XEXMLWriter& xmlWriter, GameAsset* gameAsset);
 
 		XEResult SaveToXMLRawGameAssets(XEXMLWriter& xmlWriter);
 
 		XEResult LoadRawAssets(XEXMLParser& rawAssetXML);
 
 		XEResult LoadGameAssets(XEXMLParser& gameAssetXML);
+
+		void SetAssetDetails(const GameAssetLoadingDetails& details, GameAsset* asset);
+
+		XEResult LoadModelAsset(const GameAssetLoadingDetails& details);
+
+		XEResult LoadMeshAsset(const GameAssetLoadingDetails& details);
+
+		XEResult LoadAnimationAsset(const GameAssetLoadingDetails& details);
+
+		XEResult LoadSkeletonAsset(const GameAssetLoadingDetails& details);
+
+		XEResult LoadShaderAsset(const GameAssetLoadingDetails& details);
+
+		XEResult LoadTextureAsset(const GameAssetLoadingDetails& details);
+
+		XEResult LoadGameObjectScriptAsset(const GameAssetLoadingDetails& details);
+
+		XEResult LoadAudioAsset(const GameAssetLoadingDetails& details);
+
+		RawGameAsset* GetRawGameAssetByGameAssetID(uint64_t gameAssetID);
 
 #pragma endregion
 

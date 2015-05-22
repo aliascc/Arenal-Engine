@@ -774,6 +774,11 @@ enum class XEResult : int32_t
 	GameAssetInvalidID,
 
 	/// <summary>
+	/// Raw Game Asset does not exist
+	/// </summary>
+	RawGameAssetNotFound,
+
+	/// <summary>
 	/// Shader Object is null
 	/// </summary>
 	ShaderNull,
@@ -817,6 +822,11 @@ enum class XEResult : int32_t
 	/// No Camera Obj is null
 	/// </summary>
 	CameraNull,
+
+	/// <summary>
+	/// Writing information to a file was not successful
+	/// </summary>
+	WriteToFileFailed,
 
 	/****************************************************
 	* Add new error above this line, 

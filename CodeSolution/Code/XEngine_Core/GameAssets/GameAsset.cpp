@@ -51,34 +51,6 @@ GameAsset::~GameAsset()
 	{
 		m_OnGameAssetDeletionNotifyManagerEvent(this->GetUniqueAssetID());
 	}
-
-	if (m_ParentGameAsset != nullptr)
-	{
-		m_ParentGameAsset->RemoveChildGameAsset(this);
-	}
-}
-
-void GameAsset::RemoveChildGameAsset(GameAsset* gameAsset)
-{
-	if (gameAsset == nullptr)
-	{
-		return;
-	}
-
-	m_ChildGameAssetList.remove(gameAsset);
-}
-
-XEResult GameAsset::AddChildGameAsset(GameAsset* gameAsset)
-{
-	if (gameAsset == nullptr)
-	{
-		return XEResult::NullParameter;
-	}
-
-	gameAsset->SetParentAssetID(this->m_UniqueAssetID);
-	gameAsset->m_ParentGameAsset = this;
-
-	return XEResult::Ok;
 }
 
 XEResult GameAsset::RegisterEventHandlers(uint64_t id, OnGameAssetDeletionEvent onGameAssetDeletionEvent, OnGameAssetReloadEvent onGameAssetReloadEvent, OnGameAssetPreReloadEvent onGameAssetPreReloadEvent)

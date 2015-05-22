@@ -182,10 +182,6 @@ XEResult ModelAsset::LoadFile()
 	/////////////////////////////////////////////
 	//Read Name of Model
 	this->SetName(XEGameContentHelpers::ReadString(modelFile));
-	if (m_CustomName.empty())
-	{
-		m_CustomName = this->GetName();
-	}
 
 	/////////////////////////////////////////////
 	//Read Meshes Filenames
@@ -292,8 +288,6 @@ XEResult ModelAsset::ReadModelMeshFiles(std::ifstream& fileStream)
 			meshAsset->SetParentAssetID(this->GetUniqueAssetID());
 
 			m_MeshAssetMap[meshName] = GameAssetLoadStatus<MeshAsset>(meshAsset, true);
-
-			AddChildGameAsset(meshAsset);
 		}
 	}
 
@@ -343,9 +337,8 @@ XEResult ModelAsset::ReadModelSkeletonFile(std::ifstream& fileStream)
 
 		m_SkeletonAsset = new SkeletonAsset(skeletonFile, m_GameResourceManager);
 		m_SkeletonAsset->SetName(skeletonName);
+		m_SkeletonAsset->SetCustomName(skeletonName);
 		m_SkeletonAsset->SetParentAssetID(this->GetUniqueAssetID());
-
-		AddChildGameAsset(m_SkeletonAsset);
 	}
 	else
 	{
@@ -409,8 +402,6 @@ XEResult ModelAsset::ReadModelAnimationFiles(std::ifstream& fileStream)
 			animAsset->SetParentAssetID(this->GetUniqueAssetID());
 
 			m_AnimationAssetMap[animName] = GameAssetLoadStatus<AnimationAsset>(animAsset, true);
-
-			AddChildGameAsset(animAsset);
 		}
 	}
 

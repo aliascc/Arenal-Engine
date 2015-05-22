@@ -800,6 +800,12 @@ XEResult BaseAddOnAS::RegisterXEResultEnum(asIScriptEngine* engine)
 		return XEResult::RegEnumValFail;
 	}
 
+	ret = engine->RegisterEnumValue("XEResult", "RawGameAssetNotFound", static_cast<int32_t>(XEResult::RawGameAssetNotFound));
+	if (ret < 0)
+	{
+		return XEResult::RegEnumValFail;
+	}
+
 	ret = engine->RegisterEnumValue("XEResult", "ShaderNull", static_cast<int32_t>(XEResult::ShaderNull));
 	if (ret < 0)
 	{
@@ -849,6 +855,12 @@ XEResult BaseAddOnAS::RegisterXEResultEnum(asIScriptEngine* engine)
 	}
 
 	ret = engine->RegisterEnumValue("XEResult", "CameraNull", static_cast<int32_t>(XEResult::CameraNull));
+	if (ret < 0)
+	{
+		return XEResult::RegEnumValFail;
+	}
+
+	ret = engine->RegisterEnumValue("XEResult", "WriteToFileFailed", static_cast<int32_t>(XEResult::WriteToFileFailed));
 	if (ret < 0)
 	{
 		return XEResult::RegEnumValFail;

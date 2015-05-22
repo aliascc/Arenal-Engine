@@ -112,6 +112,7 @@ class DiffuseTexturePS;
 #define XE_ASSET_PARENTASSETID_PROP					L"ParentAssetID"
 #define XE_ASSET_GAMECONTENTTYPE_PROP				L"GameContentType"
 #define XE_ASSET_ISLOADED_PROP						L"IsLoaded"
+#define XE_ASSET_FILEPATH_PROP						L"FilePath"
 
 /************
 *   Enums   *
@@ -132,7 +133,6 @@ enum class GameAssetDefaultIDs : uint64_t
 *   Typedef   *
 ***************/
 
-typedef std::list<GameAsset*> GameAssetList;
 typedef std::unordered_map<std::wstring, uint64_t> AssetIDMap;
 typedef std::function<void (uint64_t)> OnGameAssetDeletionNotifyManagerEvent;
 typedef std::function<XEResult (uint64_t)> OnListenerObjDeletionEvent;
@@ -155,7 +155,7 @@ struct GameAssetBuiltIns sealed : public XEObject
 	~GameAssetBuiltIns();
 };
 
-struct GameAssetEventHandlers : public XEObject
+struct GameAssetEventHandlers sealed : public XEObject
 {
 	uint64_t m_ObjID = 0;
 	OnGameAssetDeletionEvent m_OnGameAssetDeletionEvent = nullptr;
@@ -168,7 +168,7 @@ struct GameAssetEventHandlers : public XEObject
 };
 
 template <class T>
-struct GameAssetLoadStatus
+struct GameAssetLoadStatus sealed : public XEObject
 {
 	bool m_IsLoaded = false;
 	T* m_Asset = nullptr;
@@ -184,12 +184,14 @@ struct GameAssetLoadStatus
 	}
 };
 
-struct ModelAssetPreloadedIDs
+struct GameAssetLoadingDetails : public XEObject
 {
-	uint64_t m_ModelAssetID = 0;
-	uint64_t m_SkeletonAssetID = 0;
-	AssetIDMap m_MeshAssetIDs;
-	AssetIDMap m_AnimAssetIDs;
+	uint64_t m_AssetID = 0;
+	uint64_t m_ParentAssetID = 0;
+	std::wstring m_Name = L"";
+	std::wstring m_CustomName = L"";
+	std::wstring m_Filepath = L"";
+	bool m_IsLoaded = false;
 };
 
 #endif
