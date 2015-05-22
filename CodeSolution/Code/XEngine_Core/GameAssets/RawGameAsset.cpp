@@ -32,6 +32,7 @@
 XETODO("Check if this class needs a mutex");
 RawGameAsset::RawGameAsset(const std::wstring& filePath, const std::wstring& projectDirectory, const std::wstring& name)
 	: UniqueXEObjectNamed(name)
+	, m_CustomName(name)
 	, m_FilePath(filePath)
 {
 	XEAssert(!filePath.empty());

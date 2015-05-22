@@ -1553,6 +1553,7 @@ XEResult GameAssetManager::SaveToXMLRawGameAssets(XEXMLWriter& xmlWriter)
 		}
 
 		xmlWriter.WriteString(XE_RAW_FILE_NAME_PROP, rawGameAsset->GetName());
+		xmlWriter.WriteString(XE_RAW_FILE_CUSTOM_NAME_PROP, rawGameAsset->GetCustomName());
 		xmlWriter.WriteUInt(XE_RAW_FILE_CONTENTTYPE_PROP, (uint32_t)rawGameAsset->GetContentType());
 		xmlWriter.WriteUInt(XE_RAW_FILE_CONTENTSUBTYPE_PROP, (uint32_t)rawGameAsset->GetContentSubtype());
 		xmlWriter.WriteUInt(XE_RAW_FILE_GAMECONTEXTFILEEXT_PROP, (uint32_t)rawGameAsset->GetGameContextFileExt());
@@ -1644,6 +1645,7 @@ XEResult GameAssetManager::LoadRawAssets(XEXMLParser& rawAssetXML)
 		{
 			TimeStamp modTimeStamp(child.GetString(XE_RAW_FILE_LASTMODIFIEDTIMESTAMP_PROP));
 			std::wstring name				= child.GetString(XE_RAW_FILE_NAME_PROP);
+			std::wstring customName			= child.GetString(XE_RAW_FILE_CUSTOM_NAME_PROP);
 			std::wstring filepath			= child.GetString(XE_RAW_FILE_FILEPATH_PROP);
 			GameContentSubtype subType		= (GameContentSubtype)child.GetUInt(XE_RAW_FILE_CONTENTSUBTYPE_PROP);
 			std::wstring outputDir			= child.GetString(XE_RAW_FILE_OUTPUTDIRECTORY_PROP);

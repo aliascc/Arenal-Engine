@@ -105,6 +105,7 @@ class DiffuseTexturePS;
 #define XE_RAW_FILE_CONTENTSUBTYPECHANGED_PROP		L"ContentSubtypeChanged"
 #define XE_RAW_FILE_ASSOCIATED_ASSET_ID_PROP		L"AssociatedAssetID"
 #define XE_RAW_FILE_NAME_PROP						L"Name"
+#define XE_RAW_FILE_CUSTOM_NAME_PROP				L"CustomName"
 
 #define XE_ASSET_NAME_PROP							L"Name"
 #define XE_ASSET_CUSTOM_NAME_PROP					L"CustomName"

@@ -110,6 +110,11 @@ class RawGameAsset sealed : public UniqueXEObjectNamed
 		/// </remarks>
 		uint64_t m_UniqueAssociatedAssetID = 0;
 
+		/// <summary>
+		/// Custom name of the Game Asset
+		/// </summary>
+		std::wstring m_CustomName = L"";
+
 #pragma endregion
 
 		/**********************
@@ -256,6 +261,15 @@ class RawGameAsset sealed : public UniqueXEObjectNamed
 			return m_UniqueAssociatedAssetID;
 		}
 
+		/// <summary>
+		/// Custom Name of the Game Asset
+		/// </summary>
+		/// <returns>Custom Name of Game Asset</returns>
+		inline const std::wstring& GetCustomName() const
+		{
+			return m_CustomName;
+		}
+
 		bool GetOutputDirChanged() const
 		{
 			return m_OutputDirChanged;
@@ -296,6 +310,14 @@ class RawGameAsset sealed : public UniqueXEObjectNamed
 		void SetLastModifiedTimeStamp(TimeStamp lastModifiedTimeStamp);
 
 		void SetOutputFileName(std::wstring outputFileName);
+
+		/// <summary>
+		/// Sets the Custom Name of the Game Asset
+		/// </summary>
+		inline void SetCustomName(const std::wstring& customName)
+		{
+			m_CustomName = customName;
+		}
 
 		inline void SetReloadNeeded(bool reloadNeeded)
 		{
