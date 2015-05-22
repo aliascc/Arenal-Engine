@@ -1,0 +1,40 @@
+How To:
+	- Unzip 3rdParty.7z
+	- Copy from you PhysX Directory the following Files:
+		- To PhysX\include folder from: <PhysX>/include
+		- To PhysX\lib\Debug\x64 from: <PhysX>/Bin/vc12win64
+			- PhysX3CharacterKinematicCHECKED_x64.lib
+			- PhysX3CHECKED_x64.lib
+			- PhysX3CommonCHECKED_x64.lib
+			- PhysX3CookingCHECKED_x64.lib
+			- PhysX3ExtensionsDEBUG.lib
+			- physx3extensionsdebug.pdb
+			- PhysXVisualDebuggerSDKDEBUG.lib
+			- physxvisualdebuggersdkdebug.pdb			
+		- To PhysX\lib\Debug\x86 from: <PhysX>/Bin/vc12win32
+			- PhysX3CharacterKinematicCHECKED_x86.lib
+			- PhysX3CHECKED_x86.lib
+			- PhysX3CommonCHECKED_x86.lib
+			- PhysX3CookingCHECKED_x86.lib
+			- PhysX3ExtensionsDEBUG.lib
+			- physx3extensionsdebug.pdb
+			- PhysXVisualDebuggerSDKDEBUG.lib
+			- physxvisualdebuggersdkdebug.pdb	
+		- To PhysX\lib\Release\x64 from: <PhysX>/Bin/vc12win64
+			- PhysX3_x64.lib
+			- PhysX3CharacterKinematic_x64.lib
+			- PhysX3Common_x64.lib
+			- PhysX3Cooking_x64.lib
+			- PhysX3Extensions.lib
+			- physx3extensions.pdb
+			- PhysXVisualDebuggerSDK.lib
+			- physxvisualdebuggersdk.pdb
+		- To PhysX\lib\Release\x86 from: <PhysX>/Bin/vc12win32
+			- PhysX3_x86.lib
+			- PhysX3CharacterKinematic_x86.lib
+			- PhysX3Common_x86.lib
+			- PhysX3Cooking_x86.lib
+			- PhysX3Extensions.lib
+			- physx3extensions.pdb
+			- PhysXVisualDebuggerSDK.lib
+			- physxvisualdebuggersdk.pdb
