@@ -42,9 +42,9 @@ class MeshGOC sealed : public GameObjectComponent
 {
 	private:
 
-		/*************************
-		 *   Private Variables   *
-		 *************************/
+		/************************
+		*   Private Variables   *
+		*************************/
 #pragma region Private Variables
 
 		/// <summary>
@@ -59,9 +59,9 @@ class MeshGOC sealed : public GameObjectComponent
 
 #pragma endregion
 
-		/***********************
-		 *   Private Methods   *
-		 ***********************/
+		/**********************
+		*   Private Methods   *
+		***********************/
 #pragma region Private Methods
 
 		void MeshAssetDeletion(GameAsset* asset);
@@ -72,9 +72,9 @@ class MeshGOC sealed : public GameObjectComponent
 
 	public:
 
-		/****************************************
-		 *   Constructor & Destructor Methods   *
-		 ****************************************/
+		/***************************************
+		*   Constructor & Destructor Methods   *
+		****************************************/
 #pragma region Constructor & Destructor Methods
 
 		/// <summary>
@@ -90,14 +90,19 @@ class MeshGOC sealed : public GameObjectComponent
 
 #pragma endregion
 
-		/*******************
-		 *   Get Methods   *
-		 *******************/
+		/******************
+		*   Get Methods   *
+		*******************/
 #pragma region Get Methods
 
 		inline Mesh* GetMeshResource() const
 		{
 			return m_Mesh.m_ResourceAsset;
+		}
+
+		inline uint64_t GetMeshAssetID() const
+		{
+			return m_Mesh.m_AssetID;
 		}
 
 		std::wstring GetMeshName() const;

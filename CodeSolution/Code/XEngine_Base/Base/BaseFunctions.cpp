@@ -78,6 +78,34 @@ namespace XE_Base
 		return relativePath;
 	}
 
+	std::vector<std::string> SplitString(const std::string& s, char delim)
+	{
+		std::stringstream ss(s);
+		std::string item;
+		std::vector<std::string> elems;
+
+		while (std::getline(ss, item, delim))
+		{
+			elems.push_back(std::move(item));
+		}
+
+		return elems;
+	}
+
+	std::vector<std::wstring> SplitString(const std::wstring& s, wchar_t delim)
+	{
+		std::wstringstream ss(s);
+		std::wstring item;
+		std::vector<std::wstring> elems;
+
+		while (std::getline(ss, item, delim))
+		{
+			elems.push_back(std::move(item));
+		}
+
+		return elems;
+	}
+
 	void SplitString(const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& delimiters, bool trimEmpty)
 	{
 		std::wstring::size_type pos = 0;

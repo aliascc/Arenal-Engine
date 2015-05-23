@@ -123,6 +123,11 @@ class GameObject sealed : public Object3D
 		GameObjectChildMap m_GameObjectChilds;
 
 		/// <summary>
+		/// Callback Function to notify Manager that Game Object is becoming a child
+		/// </summary>
+		GameObjectMoveToChildCallback m_GameObjectMoveToChildCallback = nullptr;
+
+		/// <summary>
 		/// Mesh Game Objects Component associated with this Game Object
 		/// </summary>
 		MeshGOC* m_MeshGOC = nullptr;
@@ -136,11 +141,6 @@ class GameObject sealed : public Object3D
 		/// Script Game Objects Components List associated with this Game Object
 		/// </summary>
 		GameObjectScriptGOCList m_GameObjectScriptGOCList;
-
-		/// <summary>
-		/// Callback Function to notify Manager that Game Object is becoming a child
-		/// </summary>
-		GameObjectMoveToChildCallback m_GameObjectMoveToChildCallback = nullptr;
 
 		/// <summary>
 		/// Light Game Objects Component associated with this Game Object

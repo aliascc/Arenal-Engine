@@ -9,6 +9,7 @@
 /**********************
 *   System Includes   *
 ***********************/
+#include <vector>
 #include <fstream>
 #include <iostream>
 
@@ -17,6 +18,7 @@
 **************************/
 #include "boost\lexical_cast.hpp"
 #include "fastformat\fastformat.hpp"
+#include "boost/algorithm/string.hpp"
 #include "fastformat\sinks\ostream.hpp"
 #include "fastformat\shims\conversion\filter_type\bool.hpp"
 #include "fastformat\shims\conversion\filter_type\reals.hpp"
@@ -235,6 +237,52 @@ xmlChar* XEXMLParser::GetNodeProperty(const std::wstring& propName)
 	return prop;
 }
 
+int8_t XEXMLParser::GetInt8(const std::wstring& propName, int8_t defaultValue, bool warning)
+{
+	int8_t ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		ret = boost::lexical_cast<int8_t>(value);
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, (int32_t)defaultValue, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
+uint8_t XEXMLParser::GetUInt8(const std::wstring& propName, uint8_t defaultValue, bool warning)
+{
+	uint8_t ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		ret = boost::lexical_cast<uint8_t>(value);
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, (int32_t)defaultValue, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
 int32_t XEXMLParser::GetInt(const std::wstring& propName, int32_t defaultValue, bool warning)
 {
 	int32_t ret = defaultValue;
@@ -350,6 +398,29 @@ float XEXMLParser::GetFloat(const std::wstring& propName, float defaultValue, bo
 	return ret;
 }
 
+double XEXMLParser::GetDouble(const std::wstring& propName, double defaultValue, bool warning)
+{
+	double ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		ret = boost::lexical_cast<double>(value);
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
 bool XEXMLParser::GetBool(const std::wstring& propName, bool defaultValue, bool warning)
 {
 	bool ret = defaultValue;
@@ -360,14 +431,7 @@ bool XEXMLParser::GetBool(const std::wstring& propName, bool defaultValue, bool 
 	{
 		const char* pszValue = (const char*)value;
 		
-		if (strcmp("true", pszValue) == 0)
-		{
-			ret = true;
-		}
-		else
-		{
-			ret = false;
-		}
+		ret = (strcmp("true", pszValue) == 0);
 	}
 	else if(warning)
 	{
@@ -476,6 +540,162 @@ glm::vec4 XEXMLParser::GetVect4f(const std::wstring& propName, const glm::vec4& 
 	return ret;
 }
 
+glm::dvec2 XEXMLParser::GetVect2d(const std::wstring& propName, const glm::dvec2& defaultValue, bool warning)
+{
+	glm::dvec2 ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		sscanf_s((const char*)value, "%f %f", &ret.x, &ret.y);
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
+glm::dvec3 XEXMLParser::GetVect3d(const std::wstring& propName, const glm::dvec3& defaultValue, bool warning)
+{
+	glm::dvec3 ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		sscanf_s((const char*)value, "%f %f %f", &ret.x, &ret.y, &ret.z);
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
+glm::dvec4 XEXMLParser::GetVect4d(const std::wstring& propName, const glm::dvec4& defaultValue, bool warning)
+{
+	glm::dvec4 ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		sscanf_s((const char*)value, "%f %f %f %f", &ret.x, &ret.y, &ret.z, &ret.w);
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
+glm::bvec2 XEXMLParser::GetVect2b(const std::wstring& propName, const glm::bvec2& defaultValue, bool warning)
+{
+	glm::bvec2 ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		std::string values((const char*)value);
+		std::vector<std::string> strs = XE_Base::SplitString(values, ' ');
+
+		for (uint32_t i = 0; i < 2 && i < strs.size(); i++)
+		{
+			ret[i] = (strs[i].compare("true") == 0);
+		}
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
+glm::bvec3 XEXMLParser::GetVect3b(const std::wstring& propName, const glm::bvec3& defaultValue, bool warning)
+{
+	glm::bvec3 ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		std::string values((const char*)value);
+		std::vector<std::string> strs = XE_Base::SplitString(values, ' ');
+
+		for (uint32_t i = 0; i < 3 && i < strs.size(); i++)
+		{
+			ret[i] = (strs[i].compare("true") == 0);
+		}
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
+glm::bvec4 XEXMLParser::GetVect4b(const std::wstring& propName, const glm::bvec4& defaultValue, bool warning)
+{
+	glm::bvec4 ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		std::string values((const char*)value);
+		std::vector<std::string> strs = XE_Base::SplitString(values, ' ');
+
+		for (uint32_t i = 0; i < 4 && i < strs.size(); i++)
+		{
+			ret[i] = (strs[i].compare("true") == 0);
+		}
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
 glm::ivec2 XEXMLParser::GetVect2i(const std::wstring& propName, const glm::ivec2& defaultValue, bool warning)
 {
 	glm::ivec2 ret = defaultValue;
@@ -537,6 +757,102 @@ glm::ivec4 XEXMLParser::GetVect4i(const std::wstring& propName, const glm::ivec4
 		std::wstring msgerr = L""; 
 		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
 		
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
+glm::mat2 XEXMLParser::GetMat2f(const std::wstring& propName, const glm::mat2& defaultValue, bool warning)
+{
+	glm::mat2 ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		sscanf_s((const char*)value,
+			"%f %f ",
+			"%f %f",
+			&ret[0].x, &ret[0].y,
+			&ret[1].x, &ret[1].y);
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MATRIX_2_MSG"), __FUNCTIONW__,
+														defaultValue[0].x, defaultValue[0].y,
+														defaultValue[1].x, defaultValue[1].y, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
+glm::mat3 XEXMLParser::GetMat3f(const std::wstring& propName, const glm::mat3& defaultValue, bool warning)
+{
+	glm::mat3 ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		sscanf_s((const char*)value,
+			"%f %f %f ",
+			"%f %f %f ",
+			"%f %f %f",
+			&ret[0].x, &ret[0].y, &ret[0].z,
+			&ret[1].x, &ret[1].y, &ret[1].z,
+			&ret[2].x, &ret[2].y, &ret[2].z);
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MATRIX_3_MSG"), __FUNCTIONW__,
+														defaultValue[0].x, defaultValue[0].y, defaultValue[0].z,
+														defaultValue[1].x, defaultValue[1].y, defaultValue[1].z, 
+														defaultValue[2].x, defaultValue[2].y, defaultValue[2].z, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
+glm::mat4 XEXMLParser::GetMat4f(const std::wstring& propName, const glm::mat4& defaultValue, bool warning)
+{
+	glm::mat4 ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		sscanf_s((const char*)value,
+					"%f %f %f %f ",
+					"%f %f %f %f ", 
+					"%f %f %f %f ", 
+					"%f %f %f %f",
+					&ret[0].x, &ret[0].y, &ret[0].z, &ret[0].w,
+					&ret[1].x, &ret[1].y, &ret[1].z, &ret[1].w,
+					&ret[2].x, &ret[2].y, &ret[2].z, &ret[2].w,
+					&ret[3].x, &ret[3].y, &ret[3].z, &ret[3].w);
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MATRIX_4_MSG"), __FUNCTIONW__,
+														defaultValue[0].x, defaultValue[0].y, defaultValue[0].z, defaultValue[0].w,
+														defaultValue[1].x, defaultValue[1].y, defaultValue[1].z, defaultValue[1].w,
+														defaultValue[2].x, defaultValue[2].y, defaultValue[2].z, defaultValue[2].w,
+														defaultValue[3].x, defaultValue[3].y, defaultValue[3].z, defaultValue[3].w, propName);
+
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
 

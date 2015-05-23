@@ -28,15 +28,17 @@ namespace XEMathHelpers
 	/********************
 	*   Variable Defs   *
 	*********************/
+	const glm::dvec2 Vec2dZero				= glm::dvec2(0.0, 0.0);
+
+	const glm::bvec2 Vec2bZero				= glm::bvec2(false, false);
+
 	const glm::uvec2 Vec2uZero				= glm::uvec2(0, 0);
 
 	const glm::ivec2 Vec2iZero				= glm::ivec2(0, 0);
-	
-	const glm::ivec3 Vec3iZero				= glm::ivec3(0, 0, 0);
-	
-	const glm::ivec4 Vec4iZero				= glm::ivec4(0, 0, 0, 0);
 
 	const glm::vec2 Vec2fZero				= glm::vec2(0.0f, 0.0f);
+	
+	const glm::ivec3 Vec3iZero				= glm::ivec3(0, 0, 0);
 
 	const glm::vec3 Vec3fZero				= glm::vec3(0.0f, 0.0f, 0.0f);
 	const glm::vec3 Vec3fOne				= glm::vec3(1.0f, 1.0f, 1.0f);
@@ -48,12 +50,29 @@ namespace XEMathHelpers
 	const glm::vec3 Vec3fMin				= glm::vec3(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
 	const glm::vec3 Vec3fHalf				= glm::vec3(0.5f, 0.5f, 0.5f);
 
+	const glm::dvec3 Vec3dZero				= glm::dvec3(0.0, 0.0, 0.0);
+
+	const glm::bvec3 Vec3bZero				= glm::bvec3(false, false, false);
+
+	const glm::ivec4 Vec4iZero				= glm::ivec4(0, 0, 0, 0);
+
+	const glm::dvec4 Vec4dZero				= glm::dvec4(0.0, 0.0, 0.0, 0.0);
+
+	const glm::bvec4 Vec4bZero				= glm::bvec4(false, false, false, false);
+
 	const glm::vec4 Vec4fZero				= glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 	const glm::vec4 Vec4fOne				= glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	const glm::vec4 Vec4fInfite				= glm::vec4(std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity());
 	const glm::vec4 Vec4fMax				= glm::vec4(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
 	const glm::vec4 Vec4fMin				= glm::vec4(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max(), -std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
 	const glm::vec4 Vec4fHalf				= glm::vec4(0.5f, 0.5f, 0.5f, 0.5f);
+	
+	const glm::mat2 Mat2Identity			= glm::mat2(1.0f, 0.0f,
+														0.0f, 1.0f);
+	
+	const glm::mat3 Mat3Identity			= glm::mat3(1.0f, 0.0f, 0.0f,
+														0.0f, 1.0f, 0.0f,
+														0.0f, 0.0f, 1.0f);
 
 	const glm::mat4 Mat4Identity			= glm::mat4(1.0f, 0.0f, 0.0f, 0.0f,
 														0.0f, 1.0f, 0.0f, 0.0f,

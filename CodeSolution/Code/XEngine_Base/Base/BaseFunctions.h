@@ -311,6 +311,22 @@ namespace XE_Base
 	std::wstring GetRelativePath(const std::wstring& filepath);
 
 	/// <summary>
+	/// Splits the Strings with a delimiter
+	/// </summary>
+	/// <param name="s">String to split</param>
+	/// <param name="delim">Delimiter character</param>
+	/// <returns>Vector of strings that are split</returns>
+	std::vector<std::string> SplitString(const std::string& s, char delim);
+
+	/// <summary>
+	/// Splits the Strings with a delimiter
+	/// </summary>
+	/// <param name="s">String to split</param>
+	/// <param name="delim">Delimiter character</param>
+	/// <returns>Vector of strings that are split</returns>
+	std::vector<std::wstring> SplitString(const std::wstring& s, wchar_t delim);
+
+	/// <summary>
 	/// Splits a String into substrings by delimiters set
 	/// </summary>
 	/// <param name="str">String to Split</param>

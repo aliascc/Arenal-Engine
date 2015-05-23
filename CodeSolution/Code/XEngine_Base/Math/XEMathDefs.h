@@ -68,15 +68,17 @@ namespace XEMathHelpers
 	/***********************
 	*   Global Variables   *
 	************************/
+	extern const glm::dvec2 Vec2dZero;
+
+	extern const glm::bvec2 Vec2bZero;
+
 	extern const glm::uvec2 Vec2uZero;
 
 	extern const glm::ivec2 Vec2iZero;
-	
-	extern const glm::ivec3 Vec3iZero;
-	
-	extern const glm::ivec4 Vec4iZero;
 
 	extern const glm::vec2 Vec2fZero;
+	
+	extern const glm::ivec3 Vec3iZero;
 
 	extern const glm::vec3 Vec3fZero;
 	extern const glm::vec3 Vec3fOne;
@@ -88,12 +90,26 @@ namespace XEMathHelpers
 	extern const glm::vec3 Vec3fMin;
 	extern const glm::vec3 Vec3fHalf;
 
+	extern const glm::dvec3 Vec3dZero;
+
+	extern const glm::bvec3 Vec3bZero;
+
+	extern const glm::ivec4 Vec4iZero;
+
+	extern const glm::dvec4 Vec4dZero;
+
+	extern const glm::bvec4 Vec4bZero;
+
 	extern const glm::vec4 Vec4fZero;
 	extern const glm::vec4 Vec4fOne;
 	extern const glm::vec4 Vec4fInfite;
 	extern const glm::vec4 Vec4fMax;
 	extern const glm::vec4 Vec4fMin;
 	extern const glm::vec4 Vec4fHalf;
+
+	extern const glm::mat2 Mat2Identity;
+
+	extern const glm::mat3 Mat3Identity;
 
 	extern const glm::mat4 Mat4Identity;
 

@@ -1092,14 +1092,17 @@ XEResult GameAssetManager::LoadMeshAsset(const GameAssetLoadingDetails& details)
 
 	SetAssetDetails(details, asset);
 
-	ret = asset->LoadAsset();
-	if (ret != XEResult::Ok)
+	if (asset->IsLoaded())
 	{
-		XETODO("add log");
+		ret = asset->LoadAsset();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("add log");
 
-		DeleteMem(asset);
+			DeleteMem(asset);
 
-		return XEResult::LoadFileFailed;
+			return XEResult::LoadFileFailed;
+		}
 	}
 
 	MeshAssetMap& meshMap = modelAsset->GetMeshAssetMap();
@@ -1137,14 +1140,17 @@ XEResult GameAssetManager::LoadAnimationAsset(const GameAssetLoadingDetails& det
 
 	SetAssetDetails(details, asset);
 
-	ret = asset->LoadAsset();
-	if (ret != XEResult::Ok)
+	if (asset->IsLoaded())
 	{
-		XETODO("add log");
+		ret = asset->LoadAsset();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("add log");
 
-		DeleteMem(asset);
+			DeleteMem(asset);
 
-		return XEResult::LoadFileFailed;
+			return XEResult::LoadFileFailed;
+		}
 	}
 
 	AnimationAssetMap& animMap = modelAsset->GetAnimationAssetMap();
@@ -1182,14 +1188,17 @@ XEResult GameAssetManager::LoadSkeletonAsset(const GameAssetLoadingDetails& deta
 
 	SetAssetDetails(details, asset);
 
-	ret = asset->LoadAsset();
-	if (ret != XEResult::Ok)
+	if (asset->IsLoaded())
 	{
-		XETODO("add log");
+		ret = asset->LoadAsset();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("add log");
 
-		DeleteMem(asset);
+			DeleteMem(asset);
 
-		return XEResult::LoadFileFailed;
+			return XEResult::LoadFileFailed;
+		}
 	}
 
 	modelAsset->SetSkeletonAsset(asset);
@@ -1257,14 +1266,17 @@ XEResult GameAssetManager::LoadShaderAsset(const GameAssetLoadingDetails& detail
 
 	SetAssetDetails(details, asset);
 
-	ret = asset->LoadAsset();
-	if (ret != XEResult::Ok)
+	if (asset->IsLoaded())
 	{
-		XETODO("add log");
+		ret = asset->LoadAsset();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("add log");
 
-		DeleteMem(asset);
+			DeleteMem(asset);
 
-		return XEResult::LoadFileFailed;
+			return XEResult::LoadFileFailed;
+		}
 	}
 
 	asset->m_OnGameAssetDeletionNotifyManagerEvent = std::bind(&GameAssetManager::GameAssetDeleted, this, std::placeholders::_1);
@@ -1314,14 +1326,17 @@ XEResult GameAssetManager::LoadTextureAsset(const GameAssetLoadingDetails& detai
 
 	SetAssetDetails(details, asset);
 
-	ret = asset->LoadAsset();
-	if (ret != XEResult::Ok)
+	if (asset->IsLoaded())
 	{
-		XETODO("add log");
+		ret = asset->LoadAsset();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("add log");
 
-		DeleteMem(asset);
+			DeleteMem(asset);
 
-		return XEResult::LoadFileFailed;
+			return XEResult::LoadFileFailed;
+		}
 	}
 
 	asset->m_OnGameAssetDeletionNotifyManagerEvent = std::bind(&GameAssetManager::GameAssetDeleted, this, std::placeholders::_1);
@@ -1349,14 +1364,17 @@ XEResult GameAssetManager::LoadGameObjectScriptAsset(const GameAssetLoadingDetai
 
 	SetAssetDetails(details, asset);
 
-	ret = asset->LoadAsset();
-	if (ret != XEResult::Ok)
+	if (asset->IsLoaded())
 	{
-		XETODO("add log");
+		ret = asset->LoadAsset();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("add log");
 
-		DeleteMem(asset);
+			DeleteMem(asset);
 
-		return XEResult::LoadFileFailed;
+			return XEResult::LoadFileFailed;
+		}
 	}
 
 	asset->m_OnGameAssetDeletionNotifyManagerEvent = std::bind(&GameAssetManager::GameAssetDeleted, this, std::placeholders::_1);
@@ -1384,14 +1402,17 @@ XEResult GameAssetManager::LoadAudioAsset(const GameAssetLoadingDetails& details
 
 	SetAssetDetails(details, asset);
 
-	ret = asset->LoadAsset();
-	if (ret != XEResult::Ok)
+	if (asset->IsLoaded())
 	{
-		XETODO("add log");
+		ret = asset->LoadAsset();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("add log");
 
-		DeleteMem(asset);
+			DeleteMem(asset);
 
-		return XEResult::LoadFileFailed;
+			return XEResult::LoadFileFailed;
+		}
 	}
 
 	asset->m_OnGameAssetDeletionNotifyManagerEvent = std::bind(&GameAssetManager::GameAssetDeleted, this, std::placeholders::_1);
@@ -1699,37 +1720,51 @@ XEResult GameAssetManager::LoadGameAssets(XEXMLParser& gameAssetXML)
 			details.m_ParentAssetID		= child.GetUInt64(XE_ASSET_PARENTASSETID_PROP);
 			details.m_IsLoaded			= child.GetBool(XE_ASSET_ISLOADED_PROP);
 
+			XEResult ret = XEResult::Ok;
 			switch (type)
 			{
 				case GameContentType::Model:
+					ret = LoadModelAsset(details);
 					break;
 
 				case GameContentType::Mesh:
+					ret = LoadMeshAsset(details);
 					break;
 
 				case GameContentType::Animation:
+					ret = LoadAnimationAsset(details);
 					break;
 
 				case GameContentType::Skeleton:
+					ret = LoadSkeletonAsset(details);
 					break;
 
 				case GameContentType::Texture:
+					ret = LoadTextureAsset(details);
 					break;
 
 				case GameContentType::Shader:
+					ret = LoadShaderAsset(details);
 					break;
 
 				case GameContentType::GameObjectScript:
+					ret = LoadGameObjectScriptAsset(details);
 					break;
 
 				case GameContentType::Audio:
+					ret = LoadAudioAsset(details);
 					break;
 
 				default:
 					return XEResult::InvalidObjType;
 			}
+
+			if (ret != XEResult::Ok)
+			{
+				return ret;
+			}
 		}
 	}
 
-	return XEResult::Fail;
+	return XEResult::Ok;
 }

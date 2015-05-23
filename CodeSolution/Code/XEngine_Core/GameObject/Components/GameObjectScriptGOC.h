@@ -141,9 +141,14 @@ class GameObjectScriptGOC sealed : public GameObjectComponent
 			return (m_GameObjectScriptInstance != nullptr);
 		}
 
-		GameObjectScriptProperties* GetGameObjectScriptProperties()
+		inline GameObjectScriptProperties* GetGameObjectScriptProperties()
 		{
 			return m_GameObjectScriptProperties;
+		}
+
+		inline uint64_t GetGameObjectScriptAssetID() const
+		{
+			return m_GameObjectScript.m_AssetID;
 		}
 
 #pragma endregion

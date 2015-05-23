@@ -524,6 +524,8 @@ class ShaderProperties sealed : public XEObject
 
 		XEResult CopyVariableData(const ShaderProperties* otherShaderProps);
 
+		uint64_t GetTextureAssetID(const std::wstring& name);
+
 		XEResult ApplyAll();
 
 		XEResult ApplyConstantBuffers();

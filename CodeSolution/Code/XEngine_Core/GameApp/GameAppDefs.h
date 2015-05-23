@@ -58,7 +58,7 @@
 #define XE_PROJ_CONFIG_NAME_PROP			L"name"
 #define XE_PROJ_CONFIG_FILE_PROP			L"file"
 
-#define XE_ENGINE_CONFIG_MAIN_NODE			L"ConfigProject"
+#define XE_ENGINE_CONFIG_MAIN_NODE			L"ConfigEngine"
 #define XE_ENGINE_LOCALIZATION_NODE			L"Localization"
 #define XE_ENGINE_GAMEOPTS					L"GameOpts"
 #define XE_ENGINE_CONFIG_FILE_PROP			L"file"
@@ -272,6 +272,8 @@ namespace XEGameAppHelpers
 	std::wstring BuildAssetFile();
 
 	std::wstring BuildLocalizationFile();
+
+	std::wstring BuildGameObjectManagerFile();
 }
 
 #endif

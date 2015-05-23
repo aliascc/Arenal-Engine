@@ -152,6 +152,17 @@ void ShaderProperties::TextureAssetDeletion(GameAsset* asset)
 	}
 }
 
+uint64_t ShaderProperties::GetTextureAssetID(const std::wstring& name)
+{
+	auto textureAssetIt = m_TextureAssetMap.find(name);
+	if (textureAssetIt == m_TextureAssetMap.end())
+	{
+		return 0;
+	}
+
+	return textureAssetIt->second.m_AssetID;
+}
+
 XEResult ShaderProperties::AddTextureAssetBinding(const std::wstring& name, TextureAsset* asset)
 {
 	XEAssert(asset != nullptr);

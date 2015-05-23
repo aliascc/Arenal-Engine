@@ -185,7 +185,7 @@ struct GameAssetLoadStatus sealed : public XEObject
 	}
 };
 
-struct GameAssetLoadingDetails : public XEObject
+struct GameAssetLoadingDetails sealed : public XEObject
 {
 	uint64_t m_AssetID = 0;
 	uint64_t m_ParentAssetID = 0;

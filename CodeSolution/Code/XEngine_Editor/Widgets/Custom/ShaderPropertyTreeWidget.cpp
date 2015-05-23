@@ -98,7 +98,6 @@ XEResult ShaderPropertyTreeWidget::InitFields()
 XEResult ShaderPropertyTreeWidget::FillTextureBindingsRows()
 {
 	uint32_t sizeTB = m_ShaderProperties->GetNumberOfShaderTextureBindings();
-
 	for(uint32_t i = 0; i < sizeTB; i++)
 	{
 		const ShaderTextureBinding* stb = m_ShaderProperties->GetShaderTextureBinding(i);

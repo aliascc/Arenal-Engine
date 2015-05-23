@@ -373,6 +373,10 @@ XEResult GameApp::ExtractGameAppOpts()
 			{
 				m_GameAppOpts.m_LogFilePath = m_GameProject.m_EngineLocation + XE_ENGINE_BIN_TO_DATA_PATH_ADD + XE_PROJ_LOG_FILE_LOC;
 			}
+			else
+			{
+				m_GameAppOpts.m_LogFilePath = m_GameProject.m_ProjectLocation + L"/" + m_GameAppOpts.m_LogFilePath;
+			}
 		}
 	}
 
@@ -767,7 +771,7 @@ XEResult GameApp::InitLocalizationManager()
 
 	return XEResult::Ok;
 }
-		
+
 XEResult GameApp::InitInputManager()
 {
 	if(ExtractGameConfigInput() != XEResult::Ok)
@@ -806,17 +810,17 @@ XEResult GameApp::InitLogger()
 
 	XELOGGER->SetLogLevel(m_GameAppOpts.m_XELogLvl);
 
+	if (XELOGGER->SetLogFilename(m_GameAppOpts.m_LogFilePath) != XEResult::Ok)
+	{
+		return XEResult::InitLoggerFail;
+	}
+
 	if(m_GameAppOpts.m_LogToFile)
 	{
 		if (XELOGGER->ActivateLogToFile() != XEResult::Ok)
 		{
 			return XEResult::InitLoggerFail;
 		}
-	}
-
-	if (XELOGGER->SetLogFilename(m_GameAppOpts.m_LogFilePath) != XEResult::Ok)
-	{
-		return XEResult::InitLoggerFail;
 	}
 
 	return XEResult::Ok;
@@ -1452,6 +1456,12 @@ XEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const s
 		return XEResult::Fail;
 	}
 
+	if (!boost::filesystem::create_directory(projectFolder + L"/" + XE_PROJ_LOG_DIR_LOC))
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
 	//////////////////////////////////////
 	//Create XML Files
 
@@ -1472,6 +1482,15 @@ XEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const s
 	}
 	projectLocalizationFile << XEGameAppHelpers::BuildLocalizationFile();
 	projectLocalizationFile.close();
+
+	//Game Object Manager File
+	std::wofstream gameObjectManagerFile(projectFolder + L"/" + XE_PROJ_GAME_OBJECT_MANAGER_FILE_LOC);
+	if (!gameObjectManagerFile.is_open())
+	{
+		return XEResult::OpenFileFail;
+	}
+	gameObjectManagerFile << XEGameAppHelpers::BuildGameObjectManagerFile();
+	gameObjectManagerFile.close();
 
 	//////////////////////////////////////
 	//Finish

@@ -179,6 +179,11 @@ class MeshMaterialGOC sealed : public GameObjectComponent
 			return m_VertexShader.m_ResourceAsset;
 		}
 
+		inline uint64_t GetVertexShaderAssetID() const
+		{
+			return m_VertexShader.m_AssetID;
+		}
+
 		inline ShaderProperties* GetVertexShaderProperties() const
 		{
 			return m_VertexShaderProps;
@@ -189,6 +194,11 @@ class MeshMaterialGOC sealed : public GameObjectComponent
 		inline PixelShader* GetPixelShaderResource() const
 		{
 			return m_PixelShader.m_ResourceAsset;
+		}
+
+		inline uint64_t GetPixelShaderAssetID() const
+		{
+			return m_PixelShader.m_AssetID;
 		}
 
 		inline ShaderProperties* GetPixelShaderProperties() const
@@ -203,6 +213,11 @@ class MeshMaterialGOC sealed : public GameObjectComponent
 			return m_GeometryShader.m_ResourceAsset;
 		}
 
+		inline uint64_t GetGeometryShaderAssetID() const
+		{
+			return m_GeometryShader.m_AssetID;
+		}
+
 		inline ShaderProperties* GetGeometryShaderProperties() const
 		{
 			return m_GeometryShaderProps;
@@ -213,6 +228,11 @@ class MeshMaterialGOC sealed : public GameObjectComponent
 		inline ComputeShader* GetComputeShaderResource() const
 		{
 			return m_ComputeShader.m_ResourceAsset;
+		}
+
+		inline uint64_t GetComputeShaderAssetID() const
+		{
+			return m_ComputeShader.m_AssetID;
 		}
 
 		inline ShaderProperties* GetComputeShaderProperties() const
@@ -227,6 +247,11 @@ class MeshMaterialGOC sealed : public GameObjectComponent
 			return m_HullShader.m_ResourceAsset;
 		}
 
+		inline uint64_t GetHullShaderAssetID() const
+		{
+			return m_HullShader.m_AssetID;
+		}
+
 		inline ShaderProperties* GetHullShaderProperties() const
 		{
 			return m_HullShaderProps;
@@ -237,6 +262,11 @@ class MeshMaterialGOC sealed : public GameObjectComponent
 		inline DomainShader* GetDomainShaderResource() const
 		{
 			return m_DomainShader.m_ResourceAsset;
+		}
+
+		inline uint64_t GetDomainShaderAssetID() const
+		{
+			return m_DomainShader.m_AssetID;
 		}
 
 		inline ShaderProperties* GetDomainShaderProperties() const

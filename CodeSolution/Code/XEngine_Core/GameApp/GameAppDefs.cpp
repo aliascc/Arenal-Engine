@@ -23,6 +23,7 @@
 #include "Base\BaseFunctions.h"
 #include "Base\BaseLocations.h"
 #include "GameAssets\GameAssetDefs.h"
+#include "GameObject\GameObjectDefs.h"
 #include "Localization\LocalizationManagerDefs.h"
 
 //Always include last
@@ -142,6 +143,17 @@ namespace XEGameAppHelpers
 		xmlFile << XE_XML_HEADER;
 		xmlFile << L"<"		<< XE_LOC_LOCALIZATION_NODE_NAME	<< L">";
 		xmlFile << L"</"	<< XE_LOC_LOCALIZATION_NODE_NAME	<< L">";
+
+		return xmlFile.str();
+	}
+
+	std::wstring BuildGameObjectManagerFile()
+	{
+		std::wstringstream xmlFile;
+
+		xmlFile << XE_XML_HEADER;
+		xmlFile << L"<" << XE_GAME_OBJ_MANAGER_NODE_NAME << L">";
+		xmlFile << L"</" << XE_GAME_OBJ_MANAGER_NODE_NAME << L">";
 
 		return xmlFile.str();
 	}

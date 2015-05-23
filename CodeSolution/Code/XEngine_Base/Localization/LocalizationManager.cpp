@@ -256,7 +256,7 @@ XEResult LocalizationManager::ReloadProjectWithoutLock(const std::wstring& proje
 		return XEResult::OpenFileFail;
 	}
 
-	bool ret = false;
+	bool ret = true;
 
 	//Clear all maps for new load
 	CleanProjectInfo();

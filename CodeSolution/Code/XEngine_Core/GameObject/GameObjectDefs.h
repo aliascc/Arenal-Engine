@@ -43,6 +43,32 @@ class GameAsset;
 *   Defines   *
 ***************/
 
+#define XE_GAME_OBJ_MANAGER_NODE_NAME					L"GameObjectManager"
+#define XE_GAME_OBJ_NODE_NAME							L"GameObject"
+#define XE_GAME_OBJ_NAME_PROP							L"Name"
+#define XE_GAME_OBJ_POSITION_PROP						L"Position"
+#define XE_GAME_OBJ_ROTATION_PROP						L"Rotation"
+#define XE_GAME_OBJ_SCALE_PROP							L"Scale"
+#define XE_GAME_OBJ_COMPONENTS_NODE_NAME				L"Components"
+#define XE_GAME_OBJ_CHILDS_NODE_NAME					L"Childs"
+#define XE_GAME_OBJ_COMPONENT_ASSETID_PROP				L"AssetID"
+#define XE_GAME_OBJ_GOC_MESH_NODE_NAME					L"MeshComponent"
+#define XE_GAME_OBJ_GOC_MAT_NODE_NAME					L"MaterialComponent"
+#define XE_GAME_OBJ_GOC_MAT_SHADER_NODE_NAME			L"Shader"
+#define XE_GAME_OBJ_GOC_MAT_SHADER_TYPE_PROP			L"ShaderType"
+#define XE_GAME_OBJ_GOC_MAT_SHADER_PROPS_NODE_NAME		L"ShaderProperties"
+#define XE_GAME_OBJ_GOC_MAT_SHADER_VAR_NODE_NAME		L"ShaderVariable"
+#define XE_GAME_OBJ_GOC_MAT_SHADER_CB_NODE_NAME			L"ConstantBuffer"
+#define XE_GAME_OBJ_GOC_MAT_SHADER_CB_NAME_PROP			L"ConstantBufferName"
+#define XE_GAME_OBJ_GOC_MAT_SHADER_VAR_NAME_PROP		L"ShaderVariableName"
+#define XE_GAME_OBJ_GOC_MAT_SHADER_VAR_CLASS_PROP		L"ShaderVariableClass"
+#define XE_GAME_OBJ_GOC_MAT_SHADER_VAR_TYPE_PROP		L"ShaderVariableType"
+#define XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP		L"ShaderVariableValue"
+#define XE_GAME_OBJ_GOC_MAT_TEXTURE_NODE_NAME			L"ShaderTextureBinding"
+#define XE_GAME_OBJ_GOC_SCRIPT_NODE_NAME				L"GameObjectScriptComponent"
+#define XE_GAME_OBJ_GOC_SCRIPT_HAS_INSTANCE_PROP		L"HasInstance"
+#define XE_GAME_OBJ_GOC_SCRIPT_INSTANCE_NAME_PROP		L"InstanceName"
+
 /**************
 *   Typedef   *
 ***************/
