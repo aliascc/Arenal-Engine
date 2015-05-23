@@ -283,6 +283,52 @@ uint8_t XEXMLParser::GetUInt8(const std::wstring& propName, uint8_t defaultValue
 	return ret;
 }
 
+int16_t XEXMLParser::GetInt16(const std::wstring& propName, int16_t defaultValue, bool warning)
+{
+	int16_t ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		ret = boost::lexical_cast<int16_t>(value);
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
+uint16_t XEXMLParser::GetUInt16(const std::wstring& propName, uint16_t defaultValue, bool warning)
+{
+	uint16_t ret = defaultValue;
+
+	xmlChar* value = GetNodeProperty(propName);
+
+	if (value)
+	{
+		ret = boost::lexical_cast<uint16_t>(value);
+	}
+	else if (warning)
+	{
+		std::wstring msgerr = L"";
+		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+
+		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+	}
+
+	xmlFree(value);
+
+	return ret;
+}
+
 int32_t XEXMLParser::GetInt(const std::wstring& propName, int32_t defaultValue, bool warning)
 {
 	int32_t ret = defaultValue;

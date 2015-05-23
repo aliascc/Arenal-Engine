@@ -90,6 +90,11 @@ uint32_t Color::GetColorRGBA() const
 	return rgbaFormat.color;
 }
 
+glm::vec4 Color::ToVector4f() const
+{
+	return (glm::vec4)(*this);
+}
+
 void Color::FillFloatArray(float* arr) const
 {
 	XEAssert(arr != nullptr);

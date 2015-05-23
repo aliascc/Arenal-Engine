@@ -87,6 +87,8 @@ class XEXMLParser sealed : public XEObject
 		std::wstring	GetName				();
 		int8_t			GetInt8				(const std::wstring& propName, int8_t defaultValue = 0, bool warning = true);
 		uint8_t			GetUInt8			(const std::wstring& propName, uint8_t defaultValue = 0, bool warning = true);
+		int16_t			GetInt16			(const std::wstring& propName, int16_t defaultValue = 0, bool warning = true);
+		uint16_t		GetUInt16			(const std::wstring& propName, uint16_t defaultValue = 0, bool warning = true);
 		int32_t			GetInt				(const std::wstring& propName, int32_t defaultValue = 0, bool warning = true);
 		uint32_t		GetUInt				(const std::wstring& propName, uint32_t defaultValue = 0, bool warning = true);
 		int64_t			GetInt64			(const std::wstring& propName, int64_t defaultValue = 0, bool warning = true);

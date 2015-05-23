@@ -238,27 +238,31 @@ XEResult GameApp::ExtractGameProjectConfig()
 
 		if (l_Type.compare(XE_PROJ_DEV_CAPS_NODE) == 0)
 		{
-			m_GameProject.m_GameProjectConfig.m_DevCapFile			= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
+			m_GameProject.m_GameProjectConfig.m_DevCapFile				= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
 		}
 		else if (l_Type.compare(XE_PROJ_CONFIG_NODE) == 0)
 		{
-			m_GameProject.m_ProjectName								= child.GetString(XE_PROJ_CONFIG_NAME_PROP);
+			m_GameProject.m_ProjectName									= child.GetString(XE_PROJ_CONFIG_NAME_PROP);
 		}
 		else if (l_Type.compare(XE_PROJ_GRAPHIC_OPTS_NODE) == 0)
 		{
-			m_GameProject.m_GameProjectConfig.m_GraphicOptsFile		= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
+			m_GameProject.m_GameProjectConfig.m_GraphicOptsFile			= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
 		}
 		else if (l_Type.compare(XE_PROJ_INPUT_NODE) == 0)
 		{
-			m_GameProject.m_GameProjectConfig.m_InputFile			= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
+			m_GameProject.m_GameProjectConfig.m_InputFile				= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
 		}
 		else if (l_Type.compare(XE_PROJ_LOCALIZATION_NODE) == 0)
 		{
-			m_GameProject.m_GameProjectConfig.m_LocalizationFile	= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
+			m_GameProject.m_GameProjectConfig.m_LocalizationFile		= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
 		}
 		else if (l_Type.compare(XE_PROJ_ASSET_MANAGER_NODE) == 0)
 		{
-			m_GameProject.m_GameProjectConfig.m_AssetManagerFile	= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
+			m_GameProject.m_GameProjectConfig.m_AssetManagerFile		= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
+		}
+		else if (l_Type.compare(XE_PROJ_GAME_OBJECT_MANAGER_NODE) == 0)
+		{
+			m_GameProject.m_GameProjectConfig.m_GameObjectManagerFile	= m_GameProject.m_ProjectLocation + child.GetString(XE_PROJ_CONFIG_FILE_PROP);
 		}
 	}
 
@@ -1366,6 +1370,13 @@ XEResult GameApp::SaveGameInfo()
 	XEResult ret = XEResult::Ok;
 
 	ret = m_GameAssetManager->SaveToXML(m_GameProject.m_GameProjectConfig.m_AssetManagerFile);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Log error");
+		return ret;
+	}
+
+	ret = m_GameObjectManager->SaveToXML(m_GameProject.m_GameProjectConfig.m_GameObjectManagerFile);
 	if (ret != XEResult::Ok)
 	{
 		XETODO("Log error");

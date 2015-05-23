@@ -71,6 +71,10 @@ class XEXMLWriter sealed : public XEObject
 
 		XEResult WriteUInt8(const std::wstring& propName, uint8_t value);
 
+		XEResult WriteInt16(const std::wstring& propName, int16_t value);
+
+		XEResult WriteUInt16(const std::wstring& propName, uint16_t value);
+
 		XEResult WriteInt(const std::wstring& propName, int32_t value);
 
 		XEResult WriteUInt(const std::wstring& propName, uint32_t value);

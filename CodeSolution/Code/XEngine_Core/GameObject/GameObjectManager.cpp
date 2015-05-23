@@ -18,12 +18,23 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameObject.h"
+#include "Lights\Light.h"
 #include "XML\XEXMLWriter.h"
+#include "Lights\SpotLight.h"
+#include "Lights\OmniLight.h"
 #include "GameObjectManager.h"
+#include "Lights\DirectionalLight.h"
+#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\MeshGOC.h"
+#include "GameObject\Components\LightGOC.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
+#include "GameObject\Components\CameraGOC.h"
+#include "GameObject\Components\PhysicsGOC.h"
+#include "GameObject\Components\AudioSourceGOC.h"
 #include "GameObject\Components\MeshMaterialGOC.h"
 #include "Shaders\Bindings\ShaderTextureBinding.h"
+#include "GameObject\Components\AudioListenerGOC.h"
+#include "GameObject\Components\MeshAnimationGOC.h"
 #include "GameObject\Scripts\GameObjectScriptDefs.h"
 #include "GameObject\Components\GameObjectScriptGOC.h"
 #include "Graphic Extensions\Shader Extensions\Properties\ShaderProperties.h"
@@ -278,7 +289,7 @@ XEResult GameObjectManager::SaveToXMLGameObject(XEXMLWriter& xmlWriter, GameObje
 
 	////////////////////////////
 	//End of XE_GAME_OBJ_CHILDS_NODE_NAME
-	ret = xmlWriter.EndNode(); 
+	ret = xmlWriter.EndNode();
 	if (ret != XEResult::Ok)
 	{
 		XETODO("Better return code");
@@ -311,20 +322,6 @@ XEResult GameObjectManager::SaveToXMLGameObjectComponents(XEXMLWriter& xmlWriter
 	////////////////////////////
 	//Write Game Object Components
 	ret = xmlWriter.StartNode(XE_GAME_OBJ_COMPONENTS_NODE_NAME);
-	if (ret != XEResult::Ok)
-	{
-		XETODO("Better return code");
-		return XEResult::Fail;
-	}
-
-	ret = SaveToXMLGameObject(xmlWriter, gameObject);
-	if (ret != XEResult::Ok)
-	{
-		XETODO("Better return code");
-		return XEResult::Fail;
-	}
-
-	ret = SaveToXMLGameObjectComponents(xmlWriter, gameObject);
 	if (ret != XEResult::Ok)
 	{
 		XETODO("Better return code");
@@ -860,115 +857,115 @@ XEResult GameObjectManager::SaveToXMLCBVector(XEXMLWriter& xmlWriter, ConstantBu
 			break;
 
 		case ShaderVariableType::Int:
+		{
+			switch (columns)
 			{
-				switch (columns)
-				{
-					case 2:
-						{
-							glm::ivec2 varData = XEMathHelpers::Vec2iZero;
-							cb->GetValueT<glm::ivec2>(varName, varData);
+				case 2:
+					{
+						glm::ivec2 varData = XEMathHelpers::Vec2iZero;
+						cb->GetValueT<glm::ivec2>(varName, varData);
 
-							xmlWriter.WriteVect2i(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
-						}
-						break;
+						xmlWriter.WriteVect2i(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
+					}
+					break;
 
-					case 3:
-						{
-							glm::ivec3 varData = XEMathHelpers::Vec3iZero;
-							cb->GetValueT<glm::ivec3>(varName, varData);
+				case 3:
+					{
+						glm::ivec3 varData = XEMathHelpers::Vec3iZero;
+						cb->GetValueT<glm::ivec3>(varName, varData);
 
-							xmlWriter.WriteVect3i(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
-						}
-						break;
+						xmlWriter.WriteVect3i(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
+					}
+					break;
 
-					case 4:
-						{
-							glm::ivec4 varData = XEMathHelpers::Vec4iZero;
-							cb->GetValueT<glm::ivec4>(varName, varData);
+				case 4:
+					{
+						glm::ivec4 varData = XEMathHelpers::Vec4iZero;
+						cb->GetValueT<glm::ivec4>(varName, varData);
 
-							xmlWriter.WriteVect4i(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
-						}
-						break;
+						xmlWriter.WriteVect4i(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
+					}
+					break;
 
-					default:
-						break;
-				}
+				default:
+					break;
 			}
-			break;
+		}
+		break;
 
 		case ShaderVariableType::Float:
+		{
+			switch (columns)
 			{
-				switch (columns)
+				case 2:
+					{
+						glm::vec2 varData = XEMathHelpers::Vec2fZero;
+						cb->GetValueT<glm::vec2>(varName, varData);
+
+						xmlWriter.WriteVect2f(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
+					}
+					break;
+
+				case 3:
+					{
+						glm::vec3 varData = XEMathHelpers::Vec3fZero;
+						cb->GetValueT<glm::vec3>(varName, varData);
+
+						xmlWriter.WriteVect3f(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
+					}
+					break;
+
+				case 4:
 				{
-					case 2:
-						{
-							glm::vec2 varData = XEMathHelpers::Vec2fZero;
-							cb->GetValueT<glm::vec2>(varName, varData);
+						glm::vec4 varData = XEMathHelpers::Vec4fZero;
+						cb->GetValueT<glm::vec4>(varName, varData);
 
-							xmlWriter.WriteVect2f(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
-						}
-						break;
+						xmlWriter.WriteVect4f(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
+					}
+					break;
 
-					case 3:
-						{
-							glm::vec3 varData = XEMathHelpers::Vec3fZero;
-							cb->GetValueT<glm::vec3>(varName, varData);
-
-							xmlWriter.WriteVect3f(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
-						}
-						break;
-
-					case 4:
-						{
-							glm::vec4 varData = XEMathHelpers::Vec4fZero;
-							cb->GetValueT<glm::vec4>(varName, varData);
-
-							xmlWriter.WriteVect4f(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
-						}
-						break;
-
-					default:
-						break;
-				}
+				default:
+					break;
 			}
-			break;
+		}
+		break;
 
 		case ShaderVariableType::Double:
+		{
+			switch (columns)
 			{
-				switch (columns)
-				{
-					case 2:
-						{
-							glm::dvec2 varData = XEMathHelpers::Vec2dZero;
-							cb->GetValueT<glm::dvec2>(varName, varData);
+				case 2:
+					{
+						glm::dvec2 varData = XEMathHelpers::Vec2dZero;
+						cb->GetValueT<glm::dvec2>(varName, varData);
 
-							xmlWriter.WriteVect2d(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
-						}
-						break;
+						xmlWriter.WriteVect2d(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
+					}
+					break;
 
-					case 3:
-						{
-							glm::dvec3 varData = XEMathHelpers::Vec3dZero;
-							cb->GetValueT<glm::dvec3>(varName, varData);
+				case 3:
+					{
+						glm::dvec3 varData = XEMathHelpers::Vec3dZero;
+						cb->GetValueT<glm::dvec3>(varName, varData);
 
-							xmlWriter.WriteVect3d(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
-						}
-						break;
+						xmlWriter.WriteVect3d(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
+					}
+					break;
 
-					case 4:
-						{
-							glm::dvec4 varData = XEMathHelpers::Vec4dZero;
-							cb->GetValueT<glm::dvec4>(varName, varData);
+				case 4:
+					{
+						glm::dvec4 varData = XEMathHelpers::Vec4dZero;
+						cb->GetValueT<glm::dvec4>(varName, varData);
 
-							xmlWriter.WriteVect4d(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
-						}
-						break;
+						xmlWriter.WriteVect4d(XE_GAME_OBJ_GOC_MAT_SHADER_VAR_VALUE_PROP, varData);
+					}
+					break;
 
-					default:
-						break;
-				}
+				default:
+					break;
 			}
-			break;
+		}
+		break;
 
 		default:
 			break;
@@ -1047,8 +1044,12 @@ XEResult GameObjectManager::SaveToXMLGameObjectScriptsComponent(XEXMLWriter& xml
 		{
 			xmlWriter.WriteString(XE_GAME_OBJ_GOC_SCRIPT_INSTANCE_NAME_PROP, gosComponent->GetGameObjectScriptInstanceName());
 
-			GameObjectScriptProperties* properties = gosComponent->GetGameObjectScriptProperties();
-			
+			ret = SaveToXMLGameObjectScriptsProperties(xmlWriter, gosComponent->GetGameObjectScriptProperties());
+			if (ret != XEResult::Ok)
+			{
+				XETODO("Better return code");
+				return XEResult::Fail;
+			}
 		}
 	}
 
@@ -1064,6 +1065,157 @@ XEResult GameObjectManager::SaveToXMLGameObjectScriptsComponent(XEXMLWriter& xml
 	return XEResult::Ok;
 }
 
+XEResult GameObjectManager::SaveToXMLGameObjectScriptsProperties(XEXMLWriter& xmlWriter, const GameObjectScriptProperties* properties)
+{
+	if (properties == nullptr)
+	{
+		return XEResult::NullParameter;
+	}
+
+	XEResult ret = XEResult::Ok;
+
+	for (auto propertyIt : properties->m_PropertiesMap)
+	{
+		GameObjectScriptProperty* gosProp = propertyIt.second;
+
+		////////////////////////////
+		//Write Game Object Components
+		ret = xmlWriter.StartNode(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_NODE_NAME);
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
+
+		switch (gosProp->m_PropertyType)
+		{
+			case asTYPEID_BOOL:
+				{
+					bool value = false;
+					memcpy(&value, gosProp->m_PropertyAddress, sizeof(bool));
+
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP, (uint32_t)asTYPEID_BOOL);
+					xmlWriter.WriteBool(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_VALUE_PROP, value);
+				}
+				break;
+
+			case asTYPEID_INT8:
+				{
+					int8_t value = 0;
+					memcpy(&value, gosProp->m_PropertyAddress, sizeof(int8_t));
+
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP, (uint32_t)asTYPEID_INT8);
+					xmlWriter.WriteInt8(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_VALUE_PROP, value);
+				}
+				break;
+
+			case asTYPEID_INT16:
+				{
+					int16_t value = 0;
+					memcpy(&value, gosProp->m_PropertyAddress, sizeof(int16_t));
+
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP, (uint32_t)asTYPEID_INT16);
+					xmlWriter.WriteInt16(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_VALUE_PROP, value);
+				}
+				break;
+
+			case asTYPEID_INT32:
+				{
+					int32_t value = 0;
+					memcpy(&value, gosProp->m_PropertyAddress, sizeof(int32_t));
+
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP, (uint32_t)asTYPEID_INT32);
+					xmlWriter.WriteInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_VALUE_PROP, value);
+				}
+				break;
+
+			case asTYPEID_INT64:
+				{
+					int64_t value = 0;
+					memcpy(&value, gosProp->m_PropertyAddress, sizeof(int64_t));
+
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP, (uint32_t)asTYPEID_INT64);
+					xmlWriter.WriteInt64(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_VALUE_PROP, value);
+				}
+				break;
+
+			case asTYPEID_UINT8:
+				{
+					uint8_t value = 0;
+					memcpy(&value, gosProp->m_PropertyAddress, sizeof(int8_t));
+
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP, (uint32_t)asTYPEID_UINT8);
+					xmlWriter.WriteUInt8(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_VALUE_PROP, value);
+				}
+				break;
+
+			case asTYPEID_UINT16:
+				{
+					uint16_t value = 0;
+					memcpy(&value, gosProp->m_PropertyAddress, sizeof(int16_t));
+
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP, (uint32_t)asTYPEID_UINT16);
+					xmlWriter.WriteUInt16(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_VALUE_PROP, value);
+				}
+				break;
+
+			case asTYPEID_UINT32:
+				{
+					uint32_t value = 0;
+					memcpy(&value, gosProp->m_PropertyAddress, sizeof(int32_t));
+
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP, (uint32_t)asTYPEID_UINT32);
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_VALUE_PROP, value);
+				}
+				break;
+
+			case asTYPEID_UINT64:
+				{
+					uint64_t value = 0;
+					memcpy(&value, gosProp->m_PropertyAddress, sizeof(int64_t));
+
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP, (uint32_t)asTYPEID_UINT64);
+					xmlWriter.WriteUInt64(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_VALUE_PROP, value);
+				}
+				break;
+
+			case asTYPEID_FLOAT:
+				{
+					float value = 0.0f;
+					memcpy(&value, gosProp->m_PropertyAddress, sizeof(float));
+
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP, (uint32_t)asTYPEID_FLOAT);
+					xmlWriter.WriteFloat(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_VALUE_PROP, value);
+				}
+				break;
+
+			case asTYPEID_DOUBLE:
+				{
+					double value = 0.0;
+					memcpy(&value, gosProp->m_PropertyAddress, sizeof(double));
+
+					xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP, (uint32_t)asTYPEID_DOUBLE);
+					xmlWriter.WriteDouble(XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_VALUE_PROP, value);
+				}
+				break;
+
+			default:
+				break;
+		}
+
+		////////////////////////////
+		//End of XE_GAME_OBJ_GOC_SCRIPT_PROPERTY_NODE_NAME
+		ret = xmlWriter.EndNode();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
+	}
+
+	return XEResult::Ok;
+}
+
 XEResult GameObjectManager::SaveToXMLLightComponent(XEXMLWriter& xmlWriter, GameObject* gameObject)
 {
 	if (gameObject == nullptr)
@@ -1071,27 +1223,67 @@ XEResult GameObjectManager::SaveToXMLLightComponent(XEXMLWriter& xmlWriter, Game
 		return XEResult::NullParameter;
 	}
 
+	if (!gameObject->HasLightGOC())
+	{
+		return XEResult::Ok;
+	}
+
 	XEResult ret = XEResult::Ok;
 
-	//////////////////////////////
-	////Write Game Object Components
-	//ret = xmlWriter.StartNode(XE_GAME_OBJ_COMPONENT_NODE_NAME);
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+	////////////////////////////
+	//Write Game Object Components
+	ret = xmlWriter.StartNode(XE_GAME_OBJ_GOC_LIGHT_NODE_NAME);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
+	LightGOC* lightGOC = gameObject->GetLightGOC();
 
+	Light* light = lightGOC->GetLight();
 
-	//////////////////////////////
-	////End of XE_GAME_OBJ_COMPONENT_NODE_NAME
-	//ret = xmlWriter.EndNode();
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_LIGHT_FRUSTUM_CASCADE_PROP, lightGOC->IsDrawFrustumCascadesEnabled());
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_LIGHT_DEBUG_DRAW_PROP, lightGOC->IsDrawDebugEnabled());
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_LIGHT_DRAW_FRUSTUM_SIMPLE_PROP, lightGOC->IsDrawFrustumSimple());
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_LIGHT_DRAW_FRUSTUM_ENABLE_PROP, lightGOC->IsDrawFrustumEnabled());
+
+	xmlWriter.WriteUInt(XE_GAME_OBJ_GOC_LIGHT_LIGHT_TYPE_PROP, (uint32_t)light->GetLightType());
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_LIGHT_ENABLED_PROP, light->IsEnabled());
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_LIGHT_SHADOW_ENABLED_PROP, light->IsShadowEnabled());
+	xmlWriter.WriteFloat(XE_GAME_OBJ_GOC_LIGHT_NEAR_ATTENUATION_PROP, light->GetNearAttenuation());
+	xmlWriter.WriteFloat(XE_GAME_OBJ_GOC_LIGHT_FAR_ATTENUATION_PROP, light->GetFarAttenuation());
+	xmlWriter.WriteVect4f(XE_GAME_OBJ_GOC_LIGHT_COLOR_PROP, light->GetColor().ToVector4f());
+
+	switch (light->GetLightType())
+	{
+		case LightType::Spot:
+		{
+			SpotLight* spotLight = reinterpret_cast<SpotLight*>(light);
+
+			xmlWriter.WriteFloat(XE_GAME_OBJ_GOC_LIGHT_FALL_OFF_ANGLE_PROP, spotLight->GetFallOffAngle());
+			xmlWriter.WriteFloat(XE_GAME_OBJ_GOC_LIGHT_ANGLE_PROP, spotLight->GetAngle());
+		}
+		break;
+
+		case LightType::Directional:
+			break;
+
+		case LightType::Omni:
+			break;
+
+		default:
+			return XEResult::InvalidObjType;
+	}
+
+	////////////////////////////
+	//End of XE_GAME_OBJ_GOC_LIGHT_NODE_NAME
+	ret = xmlWriter.EndNode();
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
 	return XEResult::Ok;
 }
@@ -1103,27 +1295,59 @@ XEResult GameObjectManager::SaveToXMLMeshAnimationComponent(XEXMLWriter& xmlWrit
 		return XEResult::NullParameter;
 	}
 
+	if (!gameObject->HasMeshAnimationGOC())
+	{
+		return XEResult::Ok;
+	}
+
 	XEResult ret = XEResult::Ok;
 
-	//////////////////////////////
-	////Write Game Object Components
-	//ret = xmlWriter.StartNode(XE_GAME_OBJ_COMPONENT_NODE_NAME);
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+	////////////////////////////
+	//Write Game Object Components
+	ret = xmlWriter.StartNode(XE_GAME_OBJ_GOC_ANIM_NODE_NAME);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
+	MeshAnimationGOC* animGOC = gameObject->GetMeshAnimationGOC();
 
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_ANIM_BLEND_ANIM_PROP, animGOC->GetBlendAnimation());
+	xmlWriter.WriteFloat(XE_GAME_OBJ_GOC_ANIM_BLEND_TIME_PROP, animGOC->GetBlendTime());
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_ANIM_ON_LOOP_ANIM_PROP, animGOC->GetOnLoop());
+	xmlWriter.WriteUInt64(XE_GAME_OBJ_GOC_ANIM_SKELETON_ASSET_ID_PROP, animGOC->GetSkeletonAssetID());
 
-	//////////////////////////////
-	////End of XE_GAME_OBJ_COMPONENT_NODE_NAME
-	//ret = xmlWriter.EndNode();
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+	const AnimationAssetPairMap& animAssetMap = animGOC->GetAnimationAssetMap();
+	for (auto animAssetPair : animAssetMap)
+	{
+		ret = xmlWriter.StartNode(XE_GAME_OBJ_GOC_ANIM_ASSET_NODE_NAME);
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
+
+		xmlWriter.WriteUInt64(XE_GAME_OBJ_COMPONENT_ASSETID_PROP, animAssetPair.second.m_AssetID);
+
+		////////////////////////////
+		//End of XE_GAME_OBJ_GOC_ANIM_ASSET_NODE_NAME
+		ret = xmlWriter.EndNode();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
+	}
+
+	////////////////////////////
+	//End of XE_GAME_OBJ_GOC_MESH_ANIMATION_NODE_NAME
+	ret = xmlWriter.EndNode();
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
 	return XEResult::Ok;
 }
@@ -1135,27 +1359,37 @@ XEResult GameObjectManager::SaveToXMLCameraComponent(XEXMLWriter& xmlWriter, Gam
 		return XEResult::NullParameter;
 	}
 
+	if (!gameObject->HasCameraGOC())
+	{
+		return XEResult::Ok;
+	}
+
 	XEResult ret = XEResult::Ok;
 
-	//////////////////////////////
-	////Write Game Object Components
-	//ret = xmlWriter.StartNode(XE_GAME_OBJ_COMPONENT_NODE_NAME);
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+	////////////////////////////
+	//Write Game Object Components
+	ret = xmlWriter.StartNode(XE_GAME_OBJ_GOC_CAM_NODE_NAME);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
+	CameraGOC* cameraGOC = gameObject->GetCameraGOC();
 
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_CAM_DEBUG_DRAW_ENABLED_PROP, cameraGOC->IsDebugDrawEnabled());
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_CAM_IS_DEFAULT_CAM_PROP, cameraGOC->IsDefaultCamera());
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_CAM_DRAW_FRUSTUM_ENABLED_PROP, cameraGOC->IsDrawFrustumEnabled());
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_CAM_DRAW_FRUSTUM_SIMPLE_PROP, cameraGOC->IsDrawFrustumSimple());
 
-	//////////////////////////////
-	////End of XE_GAME_OBJ_COMPONENT_NODE_NAME
-	//ret = xmlWriter.EndNode();
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+	////////////////////////////
+	//End of XE_GAME_OBJ_GOC_CAMERA_NODE_NAME
+	ret = xmlWriter.EndNode();
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
 	return XEResult::Ok;
 }
@@ -1167,27 +1401,30 @@ XEResult GameObjectManager::SaveToXMLAudioListenerComponent(XEXMLWriter& xmlWrit
 		return XEResult::NullParameter;
 	}
 
+	if (!gameObject->HasAudioListenerGOC())
+	{
+		return XEResult::Ok;
+	}
+
 	XEResult ret = XEResult::Ok;
 
-	//////////////////////////////
-	////Write Game Object Components
-	//ret = xmlWriter.StartNode(XE_GAME_OBJ_COMPONENT_NODE_NAME);
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+	////////////////////////////
+	//Write Game Object Components
+	ret = xmlWriter.StartNode(XE_GAME_OBJ_GOC_AUDIO_LISTENER_NODE_NAME);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
-
-
-	//////////////////////////////
-	////End of XE_GAME_OBJ_COMPONENT_NODE_NAME
-	//ret = xmlWriter.EndNode();
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+	////////////////////////////
+	//End of XE_GAME_OBJ_GOC_AUDIO_LISTENER_NODE_NAME
+	ret = xmlWriter.EndNode();
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
 	return XEResult::Ok;
 }
@@ -1199,27 +1436,36 @@ XEResult GameObjectManager::SaveToXMLAudioSourceComponent(XEXMLWriter& xmlWriter
 		return XEResult::NullParameter;
 	}
 
+	if (!gameObject->HasAudioSourceGOCs())
+	{
+		return XEResult::Ok;
+	}
+
 	XEResult ret = XEResult::Ok;
 
-	//////////////////////////////
-	////Write Game Object Components
-	//ret = xmlWriter.StartNode(XE_GAME_OBJ_COMPONENT_NODE_NAME);
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+	const AudioSourceGOCList& audioSourceList = gameObject->GetAudioSourceGOCList();
+	for (auto audioSource : audioSourceList)
+	{
+		////////////////////////////
+		//Write Game Object Components
+		ret = xmlWriter.StartNode(XE_GAME_OBJ_GOC_AUDIO_SOURCE_NODE_NAME);
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
 
+		xmlWriter.WriteUInt64(XE_GAME_OBJ_COMPONENT_ASSETID_PROP, audioSource->GetAudioAssetID());
 
-
-	//////////////////////////////
-	////End of XE_GAME_OBJ_COMPONENT_NODE_NAME
-	//ret = xmlWriter.EndNode();
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+		////////////////////////////
+		//End of XE_GAME_OBJ_GOC_AUDIO_SOURCE_NODE_NAME
+		ret = xmlWriter.EndNode();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
+	}
 
 	return XEResult::Ok;
 }
@@ -1231,27 +1477,34 @@ XEResult GameObjectManager::SaveToXMLPhysicsComponent(XEXMLWriter& xmlWriter, Ga
 		return XEResult::NullParameter;
 	}
 
+	if (!gameObject->HasPhysicsGOC())
+	{
+		return XEResult::Ok;
+	}
+
 	XEResult ret = XEResult::Ok;
 
-	//////////////////////////////
-	////Write Game Object Components
-	//ret = xmlWriter.StartNode(XE_GAME_OBJ_COMPONENT_NODE_NAME);
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+	////////////////////////////
+	//Write Game Object Components
+	ret = xmlWriter.StartNode(XE_GAME_OBJ_GOC_PHYSICS_NODE_NAME);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
+	PhysicsGOC* physicsGOC = gameObject->GetPhysicsGOC();
 
+	physicsGOC->IsRigidBody();
 
-	//////////////////////////////
-	////End of XE_GAME_OBJ_COMPONENT_NODE_NAME
-	//ret = xmlWriter.EndNode();
-	//if (ret != XEResult::Ok)
-	//{
-	//	XETODO("Better return code");
-	//	return XEResult::Fail;
-	//}
+	////////////////////////////
+	//End of XE_GAME_OBJ_GOC_PHYSICS_NODE_NAME
+	ret = xmlWriter.EndNode();
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
 
 	return XEResult::Ok;
 }

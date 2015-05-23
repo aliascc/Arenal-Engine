@@ -243,6 +243,44 @@ XEResult XEXMLWriter::WriteUInt8(const std::wstring& propName, uint8_t value)
 	return XEResult::Ok;
 }
 
+XEResult XEXMLWriter::WriteInt16(const std::wstring& propName, int16_t value)
+{
+	if (!m_IsReady)
+	{
+		return XEResult::NotReady;
+	}
+
+	std::string propNameStr = XE_Base::WideStr2String(propName);
+
+	int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%h", value);
+	if (rsc < 0)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	return XEResult::Ok;
+}
+
+XEResult XEXMLWriter::WriteUInt16(const std::wstring& propName, uint16_t value)
+{
+	if (!m_IsReady)
+	{
+		return XEResult::NotReady;
+	}
+
+	std::string propNameStr = XE_Base::WideStr2String(propName);
+
+	int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%hu", value);
+	if (rsc < 0)
+	{
+		XETODO("Better return code");
+		return XEResult::Fail;
+	}
+
+	return XEResult::Ok;
+}
+
 XEResult XEXMLWriter::WriteInt(const std::wstring& propName, int32_t value)
 {
 	if (!m_IsReady)

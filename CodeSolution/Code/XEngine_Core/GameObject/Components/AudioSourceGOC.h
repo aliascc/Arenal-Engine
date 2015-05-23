@@ -130,6 +130,11 @@ class AudioSourceGOC sealed : public GameObjectComponent
 			m_Name = name;
 		}
 
+		inline uint64_t GetAudioAssetID() const
+		{
+			return m_Audio.m_AssetID;
+		}
+
 		std::wstring GetAudioName() const;
 
 		XEResult SetAudioAsset(AudioAsset* asset);

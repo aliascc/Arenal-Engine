@@ -78,9 +78,9 @@ class LightGOC sealed : public GameObjectComponent
 
 	public:
 
-		/****************************************
-		 *   Constructor & Destructor Methods   *
-		 ****************************************/
+		/***************************************
+		*   Constructor & Destructor Methods   *
+		****************************************/
 #pragma region Constructor & Destructor Methods
 
 		/// <summary>
@@ -97,9 +97,9 @@ class LightGOC sealed : public GameObjectComponent
 
 #pragma endregion
 
-		/*******************
-		 *   Get Methods   *
-		 *******************/
+		/******************
+		*   Get Methods   *
+		*******************/
 #pragma region Get Methods
 
 		/// <summary>
@@ -145,9 +145,9 @@ class LightGOC sealed : public GameObjectComponent
 
 #pragma endregion
 
-		/*******************
-		 *   Set Methods   *
-		 *******************/
+		/******************
+		*   Set Methods   *
+		*******************/
 #pragma region Set Methods
 
 		/// <summary>
@@ -187,9 +187,9 @@ class LightGOC sealed : public GameObjectComponent
 
 #pragma endregion
 
-		/*************************
-		 *   Framework Methods   *
-		 *************************/
+		/************************
+		*   Framework Methods   *
+		*************************/
 #pragma region Framework Methods
 
 		/// <summary>

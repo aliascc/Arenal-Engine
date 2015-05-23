@@ -36,7 +36,9 @@ class GameObject;
 class XEXMLWriter;
 class ConstantBuffer;
 class ShaderProperties;
+class GameObjectManager;
 struct ShaderCustomVariable;
+struct GameObjectScriptProperties;
 
 /***************
 *   Typedefs   *
@@ -99,12 +101,14 @@ class GameObjectManager sealed : public UniqueXEObject
 		XEResult SaveToXMLCBShaderVariable(XEXMLWriter& xmlWriter, const ShaderCustomVariable* scv, ConstantBuffer* cb);
 
 		XEResult SaveToXMLCBScalar(XEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType);
-				 
+
 		XEResult SaveToXMLCBVector(XEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns);
-				 
+
 		XEResult SaveToXMLCBMatrix(XEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows);
 
 		XEResult SaveToXMLGameObjectScriptsComponent(XEXMLWriter& xmlWriter, GameObject* gameObject);
+
+		XEResult SaveToXMLGameObjectScriptsProperties(XEXMLWriter& xmlWriter, const GameObjectScriptProperties* properties);
 
 		XEResult SaveToXMLLightComponent(XEXMLWriter& xmlWriter, GameObject* gameObject);
 

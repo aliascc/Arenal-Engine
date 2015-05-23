@@ -106,12 +106,13 @@ namespace XEGameAppHelpers
 		xmlFile << XE_XML_HEADER;
 		xmlFile << L"<"		<< XE_PROJ_CONFIG_MAIN_NODE		<< L">";
 
-		xmlFile << L"<"		<< XE_PROJ_CONFIG_NODE			<< L" " << XE_PROJ_CONFIG_NAME_PROP << L"=\""	<< projectName							<< L"\" />";
-		xmlFile << L"<"		<< XE_PROJ_DEV_CAPS_NODE		<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_DEVCAPS_FILE_LOC				<< L"\" />";
-		xmlFile << L"<"		<< XE_PROJ_GRAPHIC_OPTS_NODE	<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_GRAPHIC_OPTS_FILE_LOC		<< L"\" />";
-		xmlFile << L"<"		<< XE_PROJ_INPUT_NODE			<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_INPUT_FILE_LOC				<< L"\" />";
-		xmlFile << L"<"		<< XE_PROJ_LOCALIZATION_NODE	<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_LOCALIZATION_PROJ_FILE_LOC	<< L"\" />";
-		xmlFile << L"<"		<< XE_PROJ_ASSET_MANAGER_NODE	<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_ASSET_MANAGER_FILE_LOC		<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_CONFIG_NODE				<< L" " << XE_PROJ_CONFIG_NAME_PROP << L"=\""	<< projectName								<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_DEV_CAPS_NODE			<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_DEVCAPS_FILE_LOC					<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_GRAPHIC_OPTS_NODE		<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_GRAPHIC_OPTS_FILE_LOC			<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_INPUT_NODE				<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_INPUT_FILE_LOC					<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_LOCALIZATION_NODE		<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_LOCALIZATION_PROJ_FILE_LOC		<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_ASSET_MANAGER_NODE		<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_ASSET_MANAGER_FILE_LOC			<< L"\" />";
+		xmlFile << L"<"		<< XE_PROJ_GAME_OBJECT_MANAGER_NODE	<< L" " << XE_PROJ_CONFIG_FILE_PROP << L" = \""	<< XE_PROJ_GAME_OBJECT_MANAGER_FILE_LOC		<< L"\" />";
 
 		xmlFile << L"</"	<< XE_PROJ_CONFIG_MAIN_NODE		<< L">";
 

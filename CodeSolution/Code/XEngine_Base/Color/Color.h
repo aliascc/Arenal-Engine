@@ -135,6 +135,12 @@ struct Color
 	uint32_t GetColorRGBA() const;
 
 	/// <summary>
+	/// Returns a Color as Vector4 Float format
+	/// </summary>
+	/// <returns>Returns color as Vector4 Float format</returns>
+	glm::vec4 ToVector4f() const;
+
+	/// <summary>
 	/// Allows to cast Color to a glm::vec4
 	/// </summary>
 	/// <returns>Returns glm::vec4 vector with the color information</returns>

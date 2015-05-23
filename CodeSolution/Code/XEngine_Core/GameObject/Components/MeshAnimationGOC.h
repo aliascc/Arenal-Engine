@@ -135,6 +135,11 @@ class MeshAnimationGOC sealed : public GameObjectComponent
 
 		std::wstring GetSkeletonName() const;
 
+		inline uint64_t MeshAnimationGOC::GetSkeletonAssetID() const
+		{
+			return m_SkeletonAsset.m_AssetID;
+		}
+
 #pragma endregion
 
 		/******************

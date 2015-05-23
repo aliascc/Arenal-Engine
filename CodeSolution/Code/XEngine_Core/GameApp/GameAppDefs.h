@@ -51,6 +51,7 @@
 #define XE_PROJ_CONFIG_MAIN_NODE			L"ConfigProject"
 #define XE_PROJ_CONFIG_NODE					L"Config"
 #define XE_PROJ_ASSET_MANAGER_NODE			L"AssetManager"
+#define XE_PROJ_GAME_OBJECT_MANAGER_NODE	L"GameObjectManager"
 #define XE_PROJ_LOCALIZATION_NODE			L"Localization"
 #define XE_PROJ_INPUT_NODE					L"Input"
 #define XE_PROJ_DEV_CAPS_NODE				L"DevCaps"
@@ -176,6 +177,11 @@ struct GameProjectConfig sealed : public XEObject
 	/// Saves the file path of that will be use to load the Asset Manager
 	/// </summary>
 	std::wstring m_AssetManagerFile = L"";
+
+	/// <summary>
+	/// Saves the file path of that will be use to load the Game Object Manager File
+	/// </summary>
+	std::wstring m_GameObjectManagerFile = L"";
 
 	/// <summary>
 	/// Default GameProjectConfig Constructor

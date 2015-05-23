@@ -471,7 +471,6 @@ void GameObjectScriptPropertyWidget::SpinBoxChanged()
 		return;
 	}
 
-	uint32_t size = XEAngelScriptHelpers::GetSizeOfType(gosProp->m_PropertyType);
 	switch (gosProp->m_PropertyType)
 	{
 		case asTYPEID_UINT8:
