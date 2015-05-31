@@ -13,8 +13,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -248,8 +247,7 @@ XEResult GraphicDevice::CheckDevCaps(const std::wstring& file)
 	XEXMLParser newFile;
 	if (newFile.LoadFile(file) != XEResult::Ok)
 	{
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, file);
+		std::wstring msg_error = fmt::format(XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, file);
 		
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 		return XEResult::Fail;
@@ -720,8 +718,7 @@ XEResult GraphicDevice::InitDevice()
 		ReleaseCOM(m_DeviceDX);
 		ReleaseCOM(m_DeviceContextDX);
 
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"DX_11_UNSUPPORTED_ERR_MSG"), __FUNCTIONW__);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"DX_11_UNSUPPORTED_ERR_MSG"), __FUNCTIONW__);
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 		return XEResult::FeatureLvlUnsupported;
@@ -745,8 +742,7 @@ XEResult GraphicDevice::InitDevice()
 		ReleaseCOM(m_DeviceDX);
 		ReleaseCOM(m_DeviceContextDX);
 
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"DX_11_FAIL_SWAP_CHAIN_ERR_MSG"), __FUNCTIONW__);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"DX_11_FAIL_SWAP_CHAIN_ERR_MSG"), __FUNCTIONW__);
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 		return XEResult::CreateDXSwapChainFail;
@@ -758,8 +754,7 @@ XEResult GraphicDevice::InitDevice()
 		ReleaseCOM(m_DeviceDX);
 		ReleaseCOM(m_DeviceContextDX);
 
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"DX_11_FAIL_RENDER_TARGETS_ERR_MSG"), __FUNCTIONW__);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"DX_11_FAIL_RENDER_TARGETS_ERR_MSG"), __FUNCTIONW__);
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 		return XEResult::CreateDXDefaultRTDSFail;
@@ -771,8 +766,7 @@ XEResult GraphicDevice::InitDevice()
 		ReleaseCOM(m_DeviceDX);
 		ReleaseCOM(m_DeviceContextDX);
 
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"DX_11_FAIL_VIEWPORT_ERR_MSG"), __FUNCTIONW__);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"DX_11_FAIL_VIEWPORT_ERR_MSG"), __FUNCTIONW__);
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 		return XEResult::InitViewportFail;

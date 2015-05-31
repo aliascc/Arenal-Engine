@@ -14,9 +14,8 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
+#include "cppformat\format.h"
 #include "boost\filesystem.hpp"
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -1620,8 +1619,7 @@ XEResult GameAssetManager::LoadAssetManagerFile(const std::wstring& gameAssetsFi
 	XEXMLParser newFile;
 	if (newFile.LoadFile(gameAssetsFilename) != XEResult::Ok)
 	{
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, gameAssetsFilename);
+		std::wstring msg_error = fmt::format(XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, gameAssetsFilename);
 
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 		return XEResult::OpenFileFail;

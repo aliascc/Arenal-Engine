@@ -218,9 +218,8 @@ XEResult ImporterFBX::LoadScene(const std::wstring& filename)
 	{
 		if (importer->GetStatus() == FbxStatus::eInvalidFileVersion)
 		{
-			std::wstring msgerr = L"";
 			XETODO("FBX_FILE_VERSION_NOT_SUPPORTED_ERR_MSG check if it is there");
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_FILE_VERSION_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, sdkMajor, sdkMinor, sdkRevision, filename, fileMajor, fileMinor, fileRevision);
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_FILE_VERSION_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, sdkMajor, sdkMinor, sdkRevision, filename, fileMajor, fileMinor, fileRevision);
 			XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 		}
 
@@ -247,9 +246,8 @@ XEResult ImporterFBX::LoadScene(const std::wstring& filename)
 	status = importer->Import(m_Scene);
 	if (status == false && importer->GetStatus() == FbxStatus::ePasswordError)
 	{
-		std::wstring msgerr = L"";
 		XETODO("FBX_SCENE_PASSWORD_PROTECTED_ERR_MSG check if it is there");
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_SCENE_PASSWORD_PROTECTED_ERR_MSG"), __FUNCTIONW__, filename);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_SCENE_PASSWORD_PROTECTED_ERR_MSG"), __FUNCTIONW__, filename);
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 	}
 
@@ -416,9 +414,8 @@ XEResult ImporterFBX::ExtractContent(FbxNode* node, const glm::mat4& parentTrans
 
 			if (ret != XEResult::Ok)
 			{
-				std::wstring msgerr = L"";
 				XETODO("Add FBX_MESH_LOAD_FAIL_ERR_MSG");
-				fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_MESH_LOAD_FAIL_ERR_MSG"), __FUNCTIONW__, static_cast<int32_t>(ret));
+				std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_MESH_LOAD_FAIL_ERR_MSG"), __FUNCTIONW__, static_cast<int32_t>(ret));
 				XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 				return XEResult::Fail;
@@ -453,9 +450,8 @@ XEResult ImporterFBX::ExtractContent(FbxNode* node, const glm::mat4& parentTrans
 
 		default:
 		{
-			std::wstring msgerr = L"";
 			XETODO("Add FBX_NODE_ATTRIBUTE_NOT_SUPPORTED_ERR_MSG");
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_NODE_ATTRIBUTE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, static_cast<uint32_t>(attributeType));
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_NODE_ATTRIBUTE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, static_cast<uint32_t>(attributeType));
 			XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 		}
 		break;
@@ -732,9 +728,8 @@ XEResult ImporterFBX::GetPolygonUV(FbxMesh* fbxMesh, int32_t controlPointIndex, 
 
 	if (uvCount > 2)
 	{
-		std::wstring msgerr = L"";
 		XETODO("Add FBX_UV_COUNT_ERR_MSG");
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_UV_COUNT_ERR_MSG"), __FUNCTIONW__, uvCount, 2);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_UV_COUNT_ERR_MSG"), __FUNCTIONW__, uvCount, 2);
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
 
@@ -766,9 +761,8 @@ XEResult ImporterFBX::GetPolygonUV(FbxMesh* fbxMesh, int32_t controlPointIndex, 
 
 					default:
 						{
-							std::wstring msgerr = L"";
 							XETODO("Add FBX_INVALID_UV_REF_MODE_ERR_MSG");
-							fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_INVALID_UV_REF_MODE_ERR_MSG"), __FUNCTIONW__);
+							std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_INVALID_UV_REF_MODE_ERR_MSG"), __FUNCTIONW__);
 							XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 						}
 						break; // other reference modes not shown here!
@@ -788,9 +782,8 @@ XEResult ImporterFBX::GetPolygonUV(FbxMesh* fbxMesh, int32_t controlPointIndex, 
 
 						default:
 						{
-							std::wstring msgerr = L"";
 							XETODO("Add FBX_INVALID_UV_REF_MODE_ERR_MSG");
-							fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_INVALID_UV_REF_MODE_ERR_MSG"), __FUNCTIONW__);
+							std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_INVALID_UV_REF_MODE_ERR_MSG"), __FUNCTIONW__);
 							XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 						}
 						break; // other reference modes not shown here!
@@ -802,9 +795,8 @@ XEResult ImporterFBX::GetPolygonUV(FbxMesh* fbxMesh, int32_t controlPointIndex, 
 			case FbxGeometryElement::eAllSame:		// doesn't make much sense for UVs
 			case FbxGeometryElement::eNone:			// doesn't make much sense for UVs
 				{
-					std::wstring msgerr = L"";
 					XETODO("Add FBX_INVALID_UV_MAP_MODE_ERR_MSG");
-					fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_INVALID_UV_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
+					std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_INVALID_UV_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
 					XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 				}
 				break;
@@ -841,9 +833,8 @@ XEResult ImporterFBX::GetPolygonNormal(FbxMesh* fbxMesh, int32_t controlPointInd
 
 	if (normalCount > 1)
 	{
-		std::wstring msgerr = L"";
 		XETODO("Add FBX_NORMAL_COUNT_ERR_MSG");
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_NORMAL_COUNT_ERR_MSG"), __FUNCTIONW__, normalCount, 1);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_NORMAL_COUNT_ERR_MSG"), __FUNCTIONW__, normalCount, 1);
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
 
@@ -867,9 +858,8 @@ XEResult ImporterFBX::GetPolygonNormal(FbxMesh* fbxMesh, int32_t controlPointInd
 
 			default:
 			{
-				std::wstring msgerr = L"";
 				XETODO("Add FBX_INVALID_NORMAL_REF_MODE_ERR_MSG");
-				fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_INVALID_NORMAL_REF_MODE_ERR_MSG"), __FUNCTIONW__);
+				std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_INVALID_NORMAL_REF_MODE_ERR_MSG"), __FUNCTIONW__);
 				XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 			}
 			break; // other reference modes not shown here!
@@ -877,9 +867,8 @@ XEResult ImporterFBX::GetPolygonNormal(FbxMesh* fbxMesh, int32_t controlPointInd
 	}
 	else
 	{
-		std::wstring msgerr = L"";
 		XETODO("Add FBX_INVALID_NORMAL_MAP_MODE_ERR_MSG");
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_INVALID_NORMAL_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_INVALID_NORMAL_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 	}
 
@@ -911,9 +900,8 @@ XEResult ImporterFBX::GetPolygonTangent(FbxMesh* fbxMesh, int32_t controlPointIn
 
 	if (tangentCount > 1)
 	{
-		std::wstring msgerr = L"";
 		XETODO("Add FBX_TANGENT_COUNT_ERR_MSG");
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_TANGENT_COUNT_ERR_MSG"), __FUNCTIONW__, tangentCount, 1);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_TANGENT_COUNT_ERR_MSG"), __FUNCTIONW__, tangentCount, 1);
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
 
@@ -937,9 +925,8 @@ XEResult ImporterFBX::GetPolygonTangent(FbxMesh* fbxMesh, int32_t controlPointIn
 
 			default:
 				{
-					std::wstring msgerr = L"";
 					XETODO("Add FBX_INVALID_TANGENT_REF_MODE_ERR_MSG");
-					fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_INVALID_TANGENT_REF_MODE_ERR_MSG"), __FUNCTIONW__);
+					std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_INVALID_TANGENT_REF_MODE_ERR_MSG"), __FUNCTIONW__);
 					XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 				}
 				break; // other reference modes not shown here!
@@ -947,9 +934,8 @@ XEResult ImporterFBX::GetPolygonTangent(FbxMesh* fbxMesh, int32_t controlPointIn
 	}
 	else
 	{
-		std::wstring msgerr = L"";
 		XETODO("Add FBX_INVALID_TANGENT_MAP_MODE_ERR_MSG");
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_INVALID_TANGENT_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_INVALID_TANGENT_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 	}
 
@@ -981,9 +967,8 @@ XEResult ImporterFBX::GetPolygonBinormal(FbxMesh* fbxMesh, int32_t controlPointI
 
 	if (binormalCount > 1)
 	{
-		std::wstring msgerr = L"";
 		XETODO("Add FBX_BINORMAL_COUNT_ERR_MSG");
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_BINORMAL_COUNT_ERR_MSG"), __FUNCTIONW__, binormalCount, 1);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_BINORMAL_COUNT_ERR_MSG"), __FUNCTIONW__, binormalCount, 1);
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
 
@@ -1007,9 +992,8 @@ XEResult ImporterFBX::GetPolygonBinormal(FbxMesh* fbxMesh, int32_t controlPointI
 
 			default:
 			{
-				std::wstring msgerr = L"";
 				XETODO("Add FBX_INVALID_BINORMAL_REF_MODE_ERR_MSG");
-				fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_INVALID_BINORMAL_REF_MODE_ERR_MSG"), __FUNCTIONW__);
+				std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_INVALID_BINORMAL_REF_MODE_ERR_MSG"), __FUNCTIONW__);
 				XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 			}
 			break; // other reference modes not shown here!
@@ -1017,9 +1001,8 @@ XEResult ImporterFBX::GetPolygonBinormal(FbxMesh* fbxMesh, int32_t controlPointI
 	}
 	else
 	{
-		std::wstring msgerr = L"";
 		XETODO("Add FBX_INVALID_BINORMAL_MAP_MODE_ERR_MSG");
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_INVALID_BINORMAL_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_INVALID_BINORMAL_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 	}
 
@@ -1065,9 +1048,8 @@ XEResult ImporterFBX::GetMeshMaterialMapping(FbxMesh* fbxMesh, MeshHolder& meshH
 			}
 			else
 			{
-				std::wstring msgerr = L"";
 				XETODO("Add FBX_UNSUPPORTED_MATERIAL_REF_MODE_ERR_MSG");
-				fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_UNSUPPORTED_MATERIAL_REF_MODE_ERR_MSG"), __FUNCTIONW__, (int32_t)matElement->GetReferenceMode());
+				std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_UNSUPPORTED_MATERIAL_REF_MODE_ERR_MSG"), __FUNCTIONW__, (int32_t)matElement->GetReferenceMode());
 				XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 			}
 		}
@@ -1143,9 +1125,8 @@ XEResult ImporterFBX::GetMaterialProperties(FbxGeometry* fbxGeometry)
 			{
 				XEAssert(false);
 
-				std::wstring msgerr = L"";
 				XETODO("Add FBX_MATERIAL_NOT_SUPPORTED_ERR_MSG");
-				fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_MATERIAL_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, materialHolder.m_Name);
+				std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_MATERIAL_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, materialHolder.m_Name);
 				XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 			}
 
@@ -1175,9 +1156,8 @@ XEResult ImporterFBX::GetMaterialTextures(FbxGeometry* fbxGeometry)
 	{
 		if (m_MatIdxToMatIDMap.find(materialIndex) == m_MatIdxToMatIDMap.end())
 		{
-			std::wstring msgerr = L"";
 			XETODO("Add FBX_MAT_INDEX_NOT_FOUND_ERR_MSG");
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_MAT_INDEX_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, materialIndex);
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_MAT_INDEX_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, materialIndex);
 			XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 
 			return XEResult::Fail;
@@ -1205,9 +1185,8 @@ XEResult ImporterFBX::GetMaterialTextures(FbxGeometry* fbxGeometry)
 						FbxLayeredTexture* layeredTexture = propertyFbx.GetSrcObject<FbxLayeredTexture>(j);
 						if (layeredTexture)
 						{
-							std::wstring msgerr = L"";
 							XETODO("Add FBX_LAYERED_TEXTURE_NOT_SUPPORTED_ERR_MSG");
-							fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_LAYERED_TEXTURE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__);
+							std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_LAYERED_TEXTURE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__);
 							XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 						}
 						else
@@ -1235,9 +1214,8 @@ XEResult ImporterFBX::GetMaterialTextures(FbxGeometry* fbxGeometry)
 									}
 									else
 									{
-										std::wstring msgerr = L"";
 										XETODO("Add FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG");
-										fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, textureType);
+										std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, textureType);
 										XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 									}
 								}
@@ -1246,9 +1224,8 @@ XEResult ImporterFBX::GetMaterialTextures(FbxGeometry* fbxGeometry)
 									std::string sTextureType = texture->GetTextureType();
 									std::wstring textureType = XE_Base::String2WideStr(sTextureType);
 
-									std::wstring msgerr = L"";
 									XETODO("Add FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG");
-									fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, textureType);
+									std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, textureType);
 									XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 								}
 							}
@@ -1426,9 +1403,8 @@ VertexType ImporterFBX::GetVertexType()
 		return VertexType::VtxPosNorTanBinTexTex2;
 	}
 
-	std::wstring msgerr = L"";
 	XETODO("Add FBX_INVALID_COMB_VTX_TYPE_ERR_MSG");
-	fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"FBX_INVALID_COMB_VTX_TYPE_ERR_MSG"), __FUNCTIONW__, L"Position-Normal-TextCoords");
+	std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"FBX_INVALID_COMB_VTX_TYPE_ERR_MSG"), __FUNCTIONW__, L"Position-Normal-TextCoords");
 	XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 	return VertexType::VtxPosNorTex;

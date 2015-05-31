@@ -50,7 +50,7 @@ XEResult AudioAddOnAS::Register(asIScriptEngine* engine)
 	{
 		XETODO("Add Log and return");
 		std::wstring errMsg = L"";
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_TIME_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_TIME_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;

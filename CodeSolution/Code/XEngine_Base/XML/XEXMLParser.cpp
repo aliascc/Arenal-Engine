@@ -16,12 +16,9 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
+#include "cppformat\format.h"
 #include "boost\lexical_cast.hpp"
-#include "fastformat\fastformat.hpp"
-#include "boost/algorithm/string.hpp"
-#include "fastformat\sinks\ostream.hpp"
-#include "fastformat\shims\conversion\filter_type\bool.hpp"
-#include "fastformat\shims\conversion\filter_type\reals.hpp"
+#include "boost\algorithm\string.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -249,8 +246,7 @@ int8_t XEXMLParser::GetInt8(const std::wstring& propName, int8_t defaultValue, b
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, (int32_t)defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, (int32_t)defaultValue, propName);
 
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -272,8 +268,7 @@ uint8_t XEXMLParser::GetUInt8(const std::wstring& propName, uint8_t defaultValue
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, (int32_t)defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, (int32_t)defaultValue, propName);
 
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -295,8 +290,7 @@ int16_t XEXMLParser::GetInt16(const std::wstring& propName, int16_t defaultValue
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
 
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -318,8 +312,7 @@ uint16_t XEXMLParser::GetUInt16(const std::wstring& propName, uint16_t defaultVa
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
 
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -341,8 +334,7 @@ int32_t XEXMLParser::GetInt(const std::wstring& propName, int32_t defaultValue, 
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -364,8 +356,7 @@ uint32_t XEXMLParser::GetUInt(const std::wstring& propName, uint32_t defaultValu
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -387,8 +378,7 @@ int64_t XEXMLParser::GetInt64(const std::wstring& propName, int64_t defaultValue
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -410,8 +400,7 @@ uint64_t XEXMLParser::GetUInt64(const std::wstring& propName, uint64_t defaultVa
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -433,8 +422,7 @@ float XEXMLParser::GetFloat(const std::wstring& propName, float defaultValue, bo
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -456,8 +444,7 @@ double XEXMLParser::GetDouble(const std::wstring& propName, double defaultValue,
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
 
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -481,8 +468,7 @@ bool XEXMLParser::GetBool(const std::wstring& propName, bool defaultValue, bool 
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -506,8 +492,7 @@ std::wstring XEXMLParser::GetString(const std::wstring& propName, const std::wst
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MSG"), __FUNCTIONW__, defaultValue, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -529,8 +514,7 @@ glm::vec2 XEXMLParser::GetVect2f(const std::wstring& propName, const glm::vec2& 
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -552,8 +536,7 @@ glm::vec3 XEXMLParser::GetVect3f(const std::wstring& propName, const glm::vec3& 
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -575,8 +558,7 @@ glm::vec4 XEXMLParser::GetVect4f(const std::wstring& propName, const glm::vec4& 
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -598,8 +580,7 @@ glm::dvec2 XEXMLParser::GetVect2d(const std::wstring& propName, const glm::dvec2
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, propName);
 
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -621,8 +602,7 @@ glm::dvec3 XEXMLParser::GetVect3d(const std::wstring& propName, const glm::dvec3
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
 
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -644,8 +624,7 @@ glm::dvec4 XEXMLParser::GetVect4d(const std::wstring& propName, const glm::dvec4
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
 
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -673,8 +652,7 @@ glm::bvec2 XEXMLParser::GetVect2b(const std::wstring& propName, const glm::bvec2
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, propName);
 
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -702,8 +680,7 @@ glm::bvec3 XEXMLParser::GetVect3b(const std::wstring& propName, const glm::bvec3
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
 
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -731,8 +708,7 @@ glm::bvec4 XEXMLParser::GetVect4b(const std::wstring& propName, const glm::bvec4
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
 
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -754,8 +730,7 @@ glm::ivec2 XEXMLParser::GetVect2i(const std::wstring& propName, const glm::ivec2
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -777,8 +752,7 @@ glm::ivec3 XEXMLParser::GetVect3i(const std::wstring& propName, const glm::ivec3
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -800,8 +774,7 @@ glm::ivec4 XEXMLParser::GetVect4i(const std::wstring& propName, const glm::ivec4
 	}
 	else if(warning)
 	{
-		std::wstring msgerr = L""; 
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTIONW__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
 		
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 	}
@@ -827,8 +800,7 @@ glm::mat2 XEXMLParser::GetMat2f(const std::wstring& propName, const glm::mat2& d
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MATRIX_2_MSG"), __FUNCTIONW__,
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MATRIX_2_MSG"), __FUNCTIONW__,
 														defaultValue[0].x, defaultValue[0].y,
 														defaultValue[1].x, defaultValue[1].y, propName);
 
@@ -858,8 +830,7 @@ glm::mat3 XEXMLParser::GetMat3f(const std::wstring& propName, const glm::mat3& d
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MATRIX_3_MSG"), __FUNCTIONW__,
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MATRIX_3_MSG"), __FUNCTIONW__,
 														defaultValue[0].x, defaultValue[0].y, defaultValue[0].z,
 														defaultValue[1].x, defaultValue[1].y, defaultValue[1].z, 
 														defaultValue[2].x, defaultValue[2].y, defaultValue[2].z, propName);
@@ -892,8 +863,7 @@ glm::mat4 XEXMLParser::GetMat4f(const std::wstring& propName, const glm::mat4& d
 	}
 	else if (warning)
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MATRIX_4_MSG"), __FUNCTIONW__,
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"XML_DEFAULT_VALUE_USE_MATRIX_4_MSG"), __FUNCTIONW__,
 														defaultValue[0].x, defaultValue[0].y, defaultValue[0].z, defaultValue[0].w,
 														defaultValue[1].x, defaultValue[1].y, defaultValue[1].z, defaultValue[1].w,
 														defaultValue[2].x, defaultValue[2].y, defaultValue[2].z, defaultValue[2].w,

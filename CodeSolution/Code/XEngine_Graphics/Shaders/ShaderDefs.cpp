@@ -14,8 +14,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -155,8 +154,7 @@ namespace XEShaderHelper
 				break;
 			default:
 				{
-					std::wstring msgerr = L"";
-					fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"DX Filter", static_cast<uint32_t>(shaderFilter), L"D3D11_FILTER_MIN_MAG_MIP_LINEAR");
+					std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"DX Filter", static_cast<uint32_t>(shaderFilter), L"D3D11_FILTER_MIN_MAG_MIP_LINEAR");
 					XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 				}
 				break;
@@ -188,8 +186,7 @@ namespace XEShaderHelper
 				break;
 			default:
 				{
-					std::wstring msgerr = L"";
-					fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"DX Texture Address Mode", static_cast<uint32_t>(textureAddressMode), L"D3D11_TEXTURE_ADDRESS_CLAMP");
+					std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"DX Texture Address Mode", static_cast<uint32_t>(textureAddressMode), L"D3D11_TEXTURE_ADDRESS_CLAMP");
 					XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 				}
 				break;
@@ -230,8 +227,7 @@ namespace XEShaderHelper
 				break;
 			default:
 				{
-					std::wstring msgerr = L"";
-					fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"DX Comparison Function", static_cast<uint32_t>(compFunct), L"D3D11_COMPARISON_NEVER");
+					std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"DX Comparison Function", static_cast<uint32_t>(compFunct), L"D3D11_COMPARISON_NEVER");
 					XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 				}
 				break;

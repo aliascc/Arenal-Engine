@@ -14,7 +14,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -196,8 +196,7 @@ XEResult GameComponentCollection::Add(GameComponent* gc)
 	{
 		if(XELOGGER != nullptr && XELOCMAN != nullptr)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"GC_ID_DUPLICATE_ERR_MSG"), __FUNCTIONW__, gc->GetUniqueID());
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"GC_ID_DUPLICATE_ERR_MSG"), __FUNCTIONW__, gc->GetUniqueID());
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 		}
 

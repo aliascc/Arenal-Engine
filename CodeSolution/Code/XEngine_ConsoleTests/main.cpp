@@ -24,6 +24,17 @@
 
 #include "XML\XEXMLWriter.h"
 
+#include "cppformat\format.h"
+
+void main()
+{
+	std::wstring aa = fmt::format(L"Mi nada {0}, aa {1}, bb {2}, cc {3}, dd {4}", "mio", 1.23f, false, 5.789456, 10);
+
+	std::wcout <<  aa << std::endl;
+}
+
+
+#if 0
 void main()
 {
 	XEXMLWriter xmlWriter;
@@ -77,7 +88,6 @@ void main()
 }
 
 
-#if 0
 void main()
 {
 #if defined( _DEBUG )

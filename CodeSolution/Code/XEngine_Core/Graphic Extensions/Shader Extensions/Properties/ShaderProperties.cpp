@@ -13,8 +13,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -375,8 +374,7 @@ XEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
 	{
 		CleanUp();
 
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_CB_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_CB_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 		return ret;
@@ -390,8 +388,7 @@ XEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
 	{
 		CleanUp();
 
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_SAM_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_SAM_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 		return ret;
@@ -405,8 +402,7 @@ XEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
 	{
 		CleanUp();
 
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_B_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_B_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 		return ret;
@@ -420,8 +416,7 @@ XEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
 	{
 		CleanUp();
 
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_SB_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_SB_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 		return ret;
@@ -435,8 +430,7 @@ XEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
 	{
 		CleanUp();
 
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_TB_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_TB_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 		return ret;
@@ -450,8 +444,7 @@ XEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
 	{
 		CleanUp();
 
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_TA_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_TA_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), XE_Base::GetXEResultString(ret));
 		XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 		return ret;
@@ -485,8 +478,7 @@ XEResult ShaderProperties::AddConstantBuffersFromSigList(const ConstantBufferSig
 			{
 				DeleteMem(scVar);
 
-				std::wstring msgerr = L"";
-				fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_CB_SIG_ADD_VAR_DBG_MSG"), __FUNCTIONW__, constSCVar.m_Name, cb->GetName(), XE_Base::GetXEResultString(ret));
+				std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_CB_SIG_ADD_VAR_DBG_MSG"), __FUNCTIONW__, constSCVar.m_Name, cb->GetName(), XE_Base::GetXEResultString(ret));
 				XELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
 				break;
@@ -503,8 +495,7 @@ XEResult ShaderProperties::AddConstantBuffersFromSigList(const ConstantBufferSig
 		ret = cb->Initialize();
 		if(ret != XEResult::Ok)
 		{
-			std::wstring msgerr = L"";
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_CB_SIG_INIT_CB_DBG_MSG"), __FUNCTIONW__, cb->GetName(), XE_Base::GetXEResultString(ret));
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_CB_SIG_INIT_CB_DBG_MSG"), __FUNCTIONW__, cb->GetName(), XE_Base::GetXEResultString(ret));
 			XELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
 			return ret; 
@@ -513,8 +504,7 @@ XEResult ShaderProperties::AddConstantBuffersFromSigList(const ConstantBufferSig
 		ret = AddConstantBuffer(cb);
 		if(ret != XEResult::Ok)
 		{
-			std::wstring msgerr = L"";
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_CB_SIG_ADD_CB_DBG_MSG"), __FUNCTIONW__, cb->GetName(), XE_Base::GetXEResultString(ret));
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_CB_SIG_ADD_CB_DBG_MSG"), __FUNCTIONW__, cb->GetName(), XE_Base::GetXEResultString(ret));
 			XELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
 			DeleteMem(cb);
@@ -543,8 +533,7 @@ XEResult ShaderProperties::AddSamplersFromSigList(const SamplerSignatureList& sa
 		ret = sampler->Initialize();
 		if (ret != XEResult::Ok)
 		{
-			std::wstring msgerr = L"";
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_SAM_SIG_INIT_CB_DBG_MSG"), __FUNCTIONW__, sampler->GetName(), XE_Base::GetXEResultString(ret));
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_SAM_SIG_INIT_CB_DBG_MSG"), __FUNCTIONW__, sampler->GetName(), XE_Base::GetXEResultString(ret));
 			XELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
 			return ret;
@@ -553,8 +542,7 @@ XEResult ShaderProperties::AddSamplersFromSigList(const SamplerSignatureList& sa
 		ret = AddSampler(sampler);
 		if (ret != XEResult::Ok)
 		{
-			std::wstring msgerr = L"";
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_SAM_SIG_ADD_CB_DBG_MSG"), __FUNCTIONW__, sampler->GetName(), XE_Base::GetXEResultString(ret));
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_SAM_SIG_ADD_CB_DBG_MSG"), __FUNCTIONW__, sampler->GetName(), XE_Base::GetXEResultString(ret));
 			XELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
 			DeleteMem(sampler);
@@ -586,8 +574,7 @@ XEResult ShaderProperties::AddSimpleBuffersFromSigList(const SimpleBufferSignatu
 		{
 			DeleteMem(simpleBuffer);
 
-			std::wstring msgerr = L"";
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_B_SIG_ADD_B_DBG_MSG"), __FUNCTIONW__, simpleBufferSig.m_Name, XE_Base::GetXEResultString(ret));
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_B_SIG_ADD_B_DBG_MSG"), __FUNCTIONW__, simpleBufferSig.m_Name, XE_Base::GetXEResultString(ret));
 			XELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
 			return ret;
@@ -617,8 +604,7 @@ XEResult ShaderProperties::AddStructuredBuffersFromSigList(const StructuredBuffe
 		{
 			DeleteMem(structuredBuffer);
 
-			std::wstring msgerr = L"";
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_SB_SIG_ADD_SB_DBG_MSG"), __FUNCTIONW__, structuredBufferSig.m_Name, XE_Base::GetXEResultString(ret));
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_SB_SIG_ADD_SB_DBG_MSG"), __FUNCTIONW__, structuredBufferSig.m_Name, XE_Base::GetXEResultString(ret));
 			XELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
 			return ret;
@@ -648,8 +634,7 @@ XEResult ShaderProperties::AddTextureBindingsFromSigList(const TextureInputSigna
 		{
 			DeleteMem(stb);
 
-			std::wstring msgerr = L"";
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_TB_SIG_ADD_TB_DBG_MSG"), __FUNCTIONW__, textBindingSig.m_Name, XE_Base::GetXEResultString(ret));
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_TB_SIG_ADD_TB_DBG_MSG"), __FUNCTIONW__, textBindingSig.m_Name, XE_Base::GetXEResultString(ret));
 			XELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
 			return ret;
@@ -694,8 +679,7 @@ XEResult ShaderProperties::AddTextureArraysFromSigList(const TextureArrayInputSi
 		{
 			DeleteMem(textureArray);
 
-			std::wstring msgerr = L"";
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_TA_SIG_ADD_SB_DBG_MSG"), __FUNCTIONW__, textArrayInput.m_Name, XE_Base::GetXEResultString(ret));
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_TA_SIG_ADD_SB_DBG_MSG"), __FUNCTIONW__, textArrayInput.m_Name, XE_Base::GetXEResultString(ret));
 			XELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
 			return ret;
@@ -1370,8 +1354,7 @@ XEResult ShaderProperties::CopyVariableData(const ShaderProperties* otherShaderP
 
 					if(ret != XEResult::Ok)
 					{
-						std::wstring msgerr = L"";
-						fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_CB_SET_VALUE_ERR_MSG"), __FUNCTIONW__, thisShaderVar->m_Name, thisCB->GetName(), XE_Base::GetXEResultString(ret));
+						std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_CB_SET_VALUE_ERR_MSG"), __FUNCTIONW__, thisShaderVar->m_Name, thisCB->GetName(), XE_Base::GetXEResultString(ret));
 						XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 					}
 				}
@@ -1406,8 +1389,7 @@ XEResult ShaderProperties::CopyVariableData(const ShaderProperties* otherShaderP
 					{
 						XERelease(reference);
 
-						std::wstring msgerr = L"";
-						fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"SHADER_TEX_BINDING_SET_ERR_MSG"), __FUNCTIONW__, thisTextBinding->GetName(), XE_Base::GetXEResultString(ret));
+						std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"SHADER_TEX_BINDING_SET_ERR_MSG"), __FUNCTIONW__, thisTextBinding->GetName(), XE_Base::GetXEResultString(ret));
 						XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 
 						continue;

@@ -15,9 +15,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
-#include "fastformat\shims\conversion\filter_type\reals.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -233,13 +231,12 @@ void DebugStats::Render(const TimerParams& timerParams)
 		m_SpriteBatchXE->Begin();
 
 		XETODO("Change to Localization Literals");
-		fastformat::fmt(msg, L"FPS: {0}", m_GameApp->GetTimer().GetFPS());
+		msg = fmt::format(L"FPS: {0}", m_GameApp->GetTimer().GetFPS());
 		m_SpriteFontXE->DrawString(m_SpriteBatchXE, msg, pos, m_DebugStatsConfig.m_TextColor);
 		stride = m_SpriteFontXE->MeasureString(msg);
 		pos.y += stride.y;
 
-		msg.clear();
-		fastformat::fmt(msg, L"Milliseconds/Frame: {0}", m_GameApp->GetTimer().GetMilliPerFrame());
+		msg = fmt::format(L"Milliseconds/Frame: {0}", m_GameApp->GetTimer().GetMilliPerFrame());
 		m_SpriteFontXE->DrawString(m_SpriteBatchXE, msg, pos, m_DebugStatsConfig.m_TextColor);
 		stride = m_SpriteFontXE->MeasureString(msg);
 		pos.y += stride.y;

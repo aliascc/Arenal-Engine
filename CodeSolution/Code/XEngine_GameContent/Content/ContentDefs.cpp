@@ -13,10 +13,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
-#include "fastformat\shims\conversion\filter_type\bool.hpp"
-#include "fastformat\shims\conversion\filter_type\reals.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -57,9 +54,7 @@ TreeBone::~TreeBone()
 ********************/
 std::wstring VertexHolder::ToString() const
 {
-	std::wstring vtxString = L"";
-
-	fastformat::fmt(vtxString, L"{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}",
+	std::wstring vtxString = fmt::format(L"{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}",
 		m_Position.x,						// 0
 		m_Position.y,						// 1
 		m_Position.z,						// 2

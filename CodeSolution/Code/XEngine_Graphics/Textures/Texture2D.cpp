@@ -13,9 +13,8 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
+#include "cppformat\format.h"
 #include "DirectXTex\DirectXTex.h"
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
 
 /***************************
 *   Game Engine Includes   *

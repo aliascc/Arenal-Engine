@@ -14,8 +14,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -150,8 +149,7 @@ XEResult LocalizationManager::ReloadEngineWithoutLock(const std::wstring& engine
 	if (newFile.LoadFile(m_FilenameEngine) != XEResult::Ok)
 	{
 		/*Hard coded string Loc Manager not loaded*/
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, L"{0}: Could not read file: {1}", __FUNCTIONW__, m_FilenameEngine);
+		std::wstring msg_error = fmt::format(L"{0}: Could not read file: {1}", __FUNCTIONW__, m_FilenameEngine);
 
 		m_CallByLocManager = true;
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
@@ -190,8 +188,7 @@ XEResult LocalizationManager::ReloadEngineWithoutLock(const std::wstring& engine
 				if (loadLangRet != XEResult::Ok)
 				{
 					/*Hard coded string Loc Manager not loaded*/
-					std::wstring msg_error = L"";
-					fastformat::fmt(msg_error, L"{0}: Failed to read Language Literals: {1}, from file: {2}", __FUNCTIONW__, language, langFile);
+					std::wstring msg_error = fmt::format(L"{0}: Failed to read Language Literals: {1}, from file: {2}", __FUNCTIONW__, language, langFile);
 
 					m_CallByLocManager = true;
 					XELOGGER->AddNewLog(LogLevel::Error, msg_error);
@@ -246,8 +243,7 @@ XEResult LocalizationManager::ReloadProjectWithoutLock(const std::wstring& proje
 	{
 		XETODO("Add literal");
 
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, L"{0}: Could not read file: {1}", __FUNCTIONW__, m_FilenameProject);
+		std::wstring msg_error = fmt::format(L"{0}: Could not read file: {1}", __FUNCTIONW__, m_FilenameProject);
 
 		m_CallByLocManager = true;
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
@@ -283,8 +279,7 @@ XEResult LocalizationManager::ReloadProjectWithoutLock(const std::wstring& proje
 				{
 					XETODO("Add Literal");
 
-					std::wstring msg_error = L"";
-					fastformat::fmt(msg_error, L"{0}: Failed to read Language Literals: {1}, from file: {2}", __FUNCTIONW__, language, langFile);
+					std::wstring msg_error = fmt::format(L"{0}: Failed to read Language Literals: {1}, from file: {2}", __FUNCTIONW__, language, langFile);
 
 					m_CallByLocManager = true;
 					XELOGGER->AddNewLog(LogLevel::Error, msg_error);
@@ -320,8 +315,7 @@ XEResult LocalizationManager::LoadLanguageLiterals(const std::wstring& name, con
 	if (newFile.LoadFile(file) != XEResult::Ok)
 	{
 		/*Hard coded string Loc Manager not loaded*/
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, L"{0}: Could not read file: {1}", __FUNCTIONW__, file);
+		std::wstring msg_error = fmt::format(L"{0}: Could not read file: {1}", __FUNCTIONW__, file);
 
 		m_CallByLocManager = true;
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
@@ -364,8 +358,7 @@ XEResult LocalizationManager::LoadLanguageLiterals(const std::wstring& name, con
 					else //If Literal Name is present
 					{
 						/*Hard coded string Loc Manager not loaded*/
-						std::wstring msg_error = L"";
-						fastformat::fmt(msg_error, L"{0}: Literal: {1}, already exists in the language collection", __FUNCTIONW__, literalName);
+						std::wstring msg_error = fmt::format(L"{0}: Literal: {1}, already exists in the language collection", __FUNCTIONW__, literalName);
 
 						m_CallByLocManager = true;
 						XELOGGER->AddNewLog(LogLevel::Warning, msg_error);
@@ -375,8 +368,7 @@ XEResult LocalizationManager::LoadLanguageLiterals(const std::wstring& name, con
 				else
 				{
 					/*Hard coded string Loc Manager not loaded*/
-					std::wstring msg_error = L"";
-					fastformat::fmt(msg_error, L"{0}: Msg: {1} does not have a name", __FUNCTIONW__, literalMsg);
+					std::wstring msg_error = fmt::format(L"{0}: Msg: {1} does not have a name", __FUNCTIONW__, literalMsg);
 
 					m_CallByLocManager = true;
 					XELOGGER->AddNewLog(LogLevel::Warning, msg_error);
@@ -404,8 +396,7 @@ XEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::wstring& n
 		XETODO("Add literal");
 
 
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, L"{0}: Could not read file: {1}", __FUNCTIONW__, file);
+		std::wstring msg_error = fmt::format(L"{0}: Could not read file: {1}", __FUNCTIONW__, file);
 
 		m_CallByLocManager = true;
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
@@ -458,8 +449,7 @@ XEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::wstring& n
 						XETODO("Add literal");
 
 
-						std::wstring msg_error = L"";
-						fastformat::fmt(msg_error, L"{0}: Literal: {1}, already exists in the language collection", __FUNCTIONW__, literalName);
+						std::wstring msg_error = fmt::format(L"{0}: Literal: {1}, already exists in the language collection", __FUNCTIONW__, literalName);
 
 						m_CallByLocManager = true;
 						XELOGGER->AddNewLog(LogLevel::Warning, msg_error);
@@ -471,8 +461,7 @@ XEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::wstring& n
 					XETODO("Add literal");
 
 
-					std::wstring msg_error = L"";
-					fastformat::fmt(msg_error, L"{0}: Msg: {1} does not have a name", __FUNCTIONW__, literalMsg);
+					std::wstring msg_error = fmt::format(L"{0}: Msg: {1} does not have a name", __FUNCTIONW__, literalMsg);
 
 					m_CallByLocManager = true;
 					XELOGGER->AddNewLog(LogLevel::Warning, msg_error);

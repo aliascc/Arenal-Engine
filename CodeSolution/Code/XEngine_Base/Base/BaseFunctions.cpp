@@ -69,7 +69,7 @@ namespace XE_Base
 
 	std::wstring GetRelativePath(const std::wstring& filepath)
 	{
-		std::wstring relativePath = L".\\";
+		std::wstring relativePath = L"./";
 
 		boost::filesystem::path boostFilepath(filepath);
 

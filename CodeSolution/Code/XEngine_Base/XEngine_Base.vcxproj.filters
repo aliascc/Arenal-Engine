@@ -182,5 +182,8 @@
     <ClCompile Include="XML\XEXMLWriter.cpp">
       <Filter>XML</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\BoostCustomFunctions.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

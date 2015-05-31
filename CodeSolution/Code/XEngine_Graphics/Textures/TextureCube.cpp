@@ -13,7 +13,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.h"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *

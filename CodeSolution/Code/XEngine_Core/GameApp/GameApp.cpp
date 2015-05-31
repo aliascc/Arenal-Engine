@@ -18,8 +18,7 @@
 *   3rd Party Includes   *
 **************************/
 #include "angelscript.h"
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -171,8 +170,7 @@ XEResult GameApp::ExtractGameEngineConfig()
 	XEXMLParser newFile;
 	if (newFile.LoadFile(m_GameProject.m_EngineConfigFile) != XEResult::Ok)
 	{
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_EngineConfigFile);
+		std::wstring msg_error = fmt::format(XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_EngineConfigFile);
 		
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 		return XEResult::OpenFileFail;
@@ -213,8 +211,7 @@ XEResult GameApp::ExtractGameProjectConfig()
 	XEXMLParser newFile;
 	if (newFile.LoadFile(m_GameProject.m_ProjectConfigFile) != XEResult::Ok)
 	{
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_ProjectConfigFile);
+		std::wstring msg_error = fmt::format(XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_ProjectConfigFile);
 
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 		return XEResult::OpenFileFail;
@@ -285,8 +282,7 @@ XEResult GameApp::ExtractGameConfigInput()
 	XEXMLParser newFile;
 	if (newFile.LoadFile(m_GameProject.m_GameProjectConfig.m_InputFile) != XEResult::Ok)
 	{
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_GameProjectConfig.m_InputFile);
+		std::wstring msg_error = fmt::format(XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_GameProjectConfig.m_InputFile);
 		
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 		return XEResult::OpenFileFail;
@@ -325,8 +321,7 @@ XEResult GameApp::ExtractGameAppOpts()
 	XEXMLParser newFile;
 	if (newFile.LoadFile(m_GameProject.m_GameEngineConfig.m_GameOptsFile) != XEResult::Ok)
 	{
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_GameEngineConfig.m_GameOptsFile);
+		std::wstring msg_error = fmt::format(XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_GameEngineConfig.m_GameOptsFile);
 
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 		return XEResult::OpenFileFail;
@@ -407,8 +402,7 @@ XEResult GameApp::ExtractGraphicOpts()
 	XEXMLParser newFile;
 	if (newFile.LoadFile(m_GameProject.m_GameProjectConfig.m_GraphicOptsFile) != XEResult::Ok)
 	{
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_GameProjectConfig.m_GraphicOptsFile);
+		std::wstring msg_error = fmt::format(XELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_GameProjectConfig.m_GraphicOptsFile);
 		
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 		return XEResult::OpenFileFail;
@@ -667,8 +661,7 @@ XEResult GameApp::InitMainWindow()
 
 	if( !RegisterClass(&wc) )
 	{
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"REGISTER_CLASS_FAIL_MSG"), __FUNCTIONW__);
+		std::wstring msg_error = fmt::format(XELOCMAN->GetLiteral(L"REGISTER_CLASS_FAIL_MSG"), __FUNCTIONW__);
 
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 
@@ -706,8 +699,7 @@ XEResult GameApp::InitMainWindow()
 
 	if( !m_MainWnd )
 	{
-		std::wstring msg_error = L"";
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"CREATE_WINDOW_FAIL_MSG"), __FUNCTIONW__);
+		std::wstring msg_error = fmt::format(XELOCMAN->GetLiteral(L"CREATE_WINDOW_FAIL_MSG"), __FUNCTIONW__);
 
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 
@@ -732,8 +724,7 @@ XEResult GameApp::Init3D_Device()
 	//Check for Graphic Device Capabilities Support
 	//if(m_GraphicDevice->CheckDevCaps(m_GameConfig.m_DevCapFile) != XEResult::Ok)
 	//{
-	//	std::wstring msgerr = L"";
-	//	fastformat::fmt(msgerr, m_LocalizationManager->GetLiteral(L"CHECK_DEV_CAPS_ERR_MSG"), __FUNCTIONW__);
+	//	std::wstring msgerr = fmt::format(m_LocalizationManager->GetLiteral(L"CHECK_DEV_CAPS_ERR_MSG"), __FUNCTIONW__);
 
 	//	m_Logger->AddNewLog(LogLevel::Error, msgerr);
 	//	return XEResult::Fail;
@@ -1368,6 +1359,13 @@ XEResult GameApp::SaveGameInfo()
 	}
 
 	XEResult ret = XEResult::Ok;
+
+	ret = XELOCMAN->SaveToXML(m_GameProject.m_GameProjectConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Log error");
+		return ret;
+	}
 
 	ret = m_GameAssetManager->SaveToXML(m_GameProject.m_GameProjectConfig.m_AssetManagerFile);
 	if (ret != XEResult::Ok)

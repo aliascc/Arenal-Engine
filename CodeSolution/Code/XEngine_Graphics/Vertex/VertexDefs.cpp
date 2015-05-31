@@ -13,9 +13,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
-#include "fastformat\shims\conversion\filter_type\reals.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -81,32 +79,28 @@ namespace XEVertexHelper
 
 	std::wstring GetVertexString(const VertexPositionColor& vtx)
 	{
-		std::wstring vtxString = L"";
-
-		fastformat::fmt(vtxString, L"{0}{1}{2}{3}",
-				vtx.m_Position.x,			//0
-				vtx.m_Position.y,			//1
-				vtx.m_Position.z,			//2
-				(uint32_t)vtx.m_Color		//3
-			);
+		std::wstring vtxString = fmt::format(L"{0}{1}{2}{3}",
+												vtx.m_Position.x,			//0
+												vtx.m_Position.y,			//1
+												vtx.m_Position.z,			//2
+												(uint32_t)vtx.m_Color		//3
+								);
 
 		return vtxString;
 	}
 
 	std::wstring GetVertexString(const VertexPositionNormalTexture& vtx)
 	{
-		std::wstring vtxString = L"";
-
-		fastformat::fmt(vtxString, L"{0}{1}{2}{3}{4}{5}{6}{7}",
-				vtx.m_Position.x,			//0
-				vtx.m_Position.y,			//1
-				vtx.m_Position.z,			//2
-				vtx.m_Normal.x,				//3
-				vtx.m_Normal.y,				//4
-				vtx.m_Normal.z,				//5
-				vtx.m_TexCoord.x,			//6
-				vtx.m_TexCoord.y			//7
-			);
+		std::wstring vtxString = fmt::format(L"{0}{1}{2}{3}{4}{5}{6}{7}",
+												vtx.m_Position.x,			//0
+												vtx.m_Position.y,			//1
+												vtx.m_Position.z,			//2
+												vtx.m_Normal.x,				//3
+												vtx.m_Normal.y,				//4
+												vtx.m_Normal.z,				//5
+												vtx.m_TexCoord.x,			//6
+												vtx.m_TexCoord.y			//7
+											);
 
 		return vtxString;
 	}

@@ -13,9 +13,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
-#include "fastformat\shims\conversion\filter_type\reals.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *

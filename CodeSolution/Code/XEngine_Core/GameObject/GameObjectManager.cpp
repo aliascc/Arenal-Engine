@@ -18,11 +18,15 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameObject.h"
+#include "PhysicsActor.h"
 #include "Lights\Light.h"
+#include "PhysicCollider.h"
 #include "XML\XEXMLWriter.h"
 #include "Lights\SpotLight.h"
 #include "Lights\OmniLight.h"
 #include "GameObjectManager.h"
+#include "PhysicColliderBox.h"
+#include "PhysicColliderSphere.h"
 #include "Lights\DirectionalLight.h"
 #include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\MeshGOC.h"
@@ -1495,7 +1499,59 @@ XEResult GameObjectManager::SaveToXMLPhysicsComponent(XEXMLWriter& xmlWriter, Ga
 
 	PhysicsGOC* physicsGOC = gameObject->GetPhysicsGOC();
 
-	physicsGOC->IsRigidBody();
+	xmlWriter.WriteBool(XE_GAME_OBJ_GOC_PHYSICS_IS_RIGID_BODY_PROP, physicsGOC->IsRigidBody());
+
+	PhysicsActor* actor = physicsGOC->GetPhysicsActor();
+	const PhysicColliderMap& colliderMap = actor->GetPhysicColliderMap();
+	for (auto colliderPair : colliderMap)
+	{
+		////////////////////////////
+		//Write Game Object Components
+		ret = xmlWriter.StartNode(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_NODE_NAME);
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
+
+		PhysicCollider* collider = colliderPair.second;
+
+		CollisionShape shape = collider->GetCollisionShape();
+
+		xmlWriter.WriteUInt8(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_TYPE_PROP, (uint8_t)shape);
+		xmlWriter.WriteVect3f(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_SCALE_PROP, collider->GetScale());
+
+		switch (shape)
+		{
+			case CollisionShape::Box:
+				{
+					PhysicColliderBox* box = (PhysicColliderBox*)collider;
+
+					xmlWriter.WriteVect3f(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_SIZE_PROP, box->GetSize());
+				}
+				break;
+
+			case CollisionShape::Sphere:
+				{
+					PhysicColliderSphere* sphere = (PhysicColliderSphere*)collider;
+
+					xmlWriter.WriteFloat(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_RADIUS_PROP, sphere->GetRadius());
+				}
+				break;
+
+			default:
+				break;
+		}
+
+		////////////////////////////
+		//End of XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_NODE_NAME
+		ret = xmlWriter.EndNode();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
+	}
 
 	////////////////////////////
 	//End of XE_GAME_OBJ_GOC_PHYSICS_NODE_NAME

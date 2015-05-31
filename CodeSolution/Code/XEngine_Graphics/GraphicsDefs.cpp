@@ -13,8 +13,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -342,8 +341,7 @@ namespace XEGraphicHelpers
 				dxUsage = D3D11_USAGE_STAGING;
 				break;
 			default:
-				std::wstring msgerr = L"";
-				fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"Buffer Usage", static_cast<uint32_t>(bufferUsage), L"D3D11_USAGE_DEFAULT");
+				std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"Buffer Usage", static_cast<uint32_t>(bufferUsage), L"D3D11_USAGE_DEFAULT");
 				XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 
 				break;
@@ -371,8 +369,7 @@ namespace XEGraphicHelpers
 				dxAccess = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
 				break;
 			default:
-				std::wstring msgerr = L"";
-				fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"Buffer Access", static_cast<uint32_t>(bufferAccess), L"0");
+				std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"Buffer Access", static_cast<uint32_t>(bufferAccess), L"0");
 				XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 
 				break;
@@ -821,8 +818,7 @@ namespace XEGraphicHelpers
 		}
 		else
 		{
-			std::wstring msgerr = L"";
-			fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"ShaderType::XE_ST_PX_FMT_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, pxFormat, L"DXGI_FORMAT_UNKNOWN");
+			std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"ShaderType::XE_ST_PX_FMT_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, pxFormat, L"DXGI_FORMAT_UNKNOWN");
 			XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 		
 			return DXGI_FORMAT_UNKNOWN;

@@ -14,8 +14,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -131,8 +130,7 @@ XEResult GameResourceManager::ManageGameResource(GameResource* gameResource, con
 
 			if(GameResourceExists(id))
 			{
-				std::wstring msgerr = L"";
-				fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"GAME_RESOURCE_STR_ID_EXISTS_ERR_MSG"), __FUNCTIONW__, stringID);
+				std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"GAME_RESOURCE_STR_ID_EXISTS_ERR_MSG"), __FUNCTIONW__, stringID);
 				XELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
 				return XEResult::ObjExists;
@@ -189,8 +187,7 @@ void GameResourceManager::GameResourceReleaseCallback(uint64_t id, bool wasDelet
 	
 	if(!GameResourceExists(id))
 	{
-		std::wstring msgerr = L"";
-		fastformat::fmt(msgerr, XELOCMAN->GetLiteral(L"GAME_RESOURCE_RELEASE_ID_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, id);
+		std::wstring msgerr = fmt::format(XELOCMAN->GetLiteral(L"GAME_RESOURCE_RELEASE_ID_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, id);
 		XELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 
 		return;

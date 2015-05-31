@@ -16,7 +16,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
+#include "cppformat\format.h"
 #include "AngelScript-Add-Ons\scriptarray\scriptarray.h"
 #include "AngelScript-Add-Ons\scripthandle\scripthandle.h"
 #include "AngelScript-Add-Ons\scriptbuilder\scriptbuilder.h"
@@ -63,8 +63,7 @@ XEResult AngelScriptManager::Initialize()
 	
 	if(m_ASEngine == nullptr)
 	{
-		std::wstring errMsg = L"";
-		fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"AS_CREATE_ENGINE_FAIL_ERR_MSG"), __FUNCTIONW__);
+		std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"AS_CREATE_ENGINE_FAIL_ERR_MSG"), __FUNCTIONW__);
 		XELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;
@@ -84,8 +83,7 @@ XEResult AngelScriptManager::Initialize()
 	ret = m_ASEngine->SetMessageCallback(asMETHOD(AngelScriptManager, ASMessageCallback), this, asCALL_THISCALL);
 	if(ret < 0)
 	{
-		std::wstring errMsg = L"";
-		fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"AS_SET_MSG_CALLBACK_ERR_MSG"), __FUNCTIONW__);
+		std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"AS_SET_MSG_CALLBACK_ERR_MSG"), __FUNCTIONW__);
 		XELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;
@@ -318,9 +316,9 @@ void AngelScriptManager::ASMessageCallback(const asSMessageInfo& msg)
 			break;
 	}
 
-	std::wstring errMsg = L"";
 	std::wstring wSection = XE_Base::String2WideStr(msg.section);
 	std::wstring wMessage = XE_Base::String2WideStr(msg.message);
-	fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"AS_ENGINE_CALLBACK_ERR_MSG"), __FUNCTIONW__, wSection, msg.row, msg.col, wMessage);
+
+	std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"AS_ENGINE_CALLBACK_ERR_MSG"), __FUNCTIONW__, wSection, msg.row, msg.col, wMessage);
 	XELOGGER->AddNewLog(logLVL, errMsg);
 }

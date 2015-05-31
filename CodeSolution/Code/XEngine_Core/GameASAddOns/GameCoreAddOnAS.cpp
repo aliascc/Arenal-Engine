@@ -68,7 +68,7 @@ XEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 	{
 		std::wstring errMsg = L"";
 		XETODO("Add Log & Wrong Literal Change");
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;
@@ -78,7 +78,7 @@ XEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 	{
 		std::wstring errMsg = L"";
 		XETODO("Add Log & Wrong Literal Change");
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;
@@ -88,7 +88,7 @@ XEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 	{
 		std::wstring errMsg = L"";
 		XETODO("Add Log & Wrong Literal Change");
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;
@@ -98,7 +98,7 @@ XEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 	{
 		std::wstring errMsg = L"";
 		XETODO("Add Log & Wrong Literal Change");
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;
@@ -108,7 +108,7 @@ XEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 	{
 		std::wstring errMsg = L"";
 		XETODO("Add Log & Wrong Literal Change");
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;
@@ -118,7 +118,7 @@ XEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 	{
 		std::wstring errMsg = L"";
 		XETODO("Add Log & Wrong Literal Change");
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;
@@ -128,7 +128,7 @@ XEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 	{
 		std::wstring errMsg = L"";
 		XETODO("Add Log & Wrong Literal Change");
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;
@@ -138,7 +138,7 @@ XEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 	{
 		std::wstring errMsg = L"";
 		XETODO("Add Log & Wrong Literal Change");
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;
@@ -148,7 +148,7 @@ XEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 	{
 		std::wstring errMsg = L"";
 		XETODO("Add Log & Wrong Literal Change");
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;

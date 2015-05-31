@@ -14,11 +14,8 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
+#include "cppformat\format.h"
 #include "glm\gtc\matrix_transform.hpp"
-#include "fastformat\shims\conversion\filter_type\bool.hpp"
-#include "fastformat\shims\conversion\filter_type\reals.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -130,9 +127,9 @@ XEResult ImporterAssimp::ImportAnimations(const std::wstring& filePath, ModelCon
 
 	if(assimpScene == nullptr)
 	{
-		std::wstring errMsg = L"";
 		std::wstring assimpError = XE_Base::String2WideStr(assimpImporter.GetErrorString());
-		fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_LOAD_SCENE_FAIL_ERR_MSG"), __FUNCTIONW__, assimpError);
+
+		std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_LOAD_SCENE_FAIL_ERR_MSG"), __FUNCTIONW__, assimpError);
 		XELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::LoadFileFailed;
@@ -238,9 +235,9 @@ XEResult ImporterAssimp::ImportModel(const std::wstring& filePath, ModelContent*
 
 	if(assimpScene == nullptr)
 	{
-		std::wstring errMsg = L"";
 		std::wstring assimpError = XE_Base::String2WideStr(assimpImporter.GetErrorString());
-		fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_LOAD_SCENE_FAIL_ERR_MSG"), __FUNCTIONW__, assimpError);
+
+		std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_LOAD_SCENE_FAIL_ERR_MSG"), __FUNCTIONW__, assimpError);
 		XELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::LoadFileFailed;
@@ -373,8 +370,7 @@ XEResult ImporterAssimp::ProcessNode(const aiNode* node, const glm::mat4& parent
 			parentName = XE_Base::String2WideStr(node->mParent->mName.C_Str());
 		}
 
-		std::wstring errMsg = L"";
-		fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_NODE_NAME_EMPTY_ERR_MSG"), __FUNCTIONW__, parentName);
+		std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_NODE_NAME_EMPTY_ERR_MSG"), __FUNCTIONW__, parentName);
 		XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 
 		return XEResult::Ok;
@@ -450,8 +446,7 @@ XEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
 		//triangulated the mesh in the importer.
 		if(assimpMesh->mPrimitiveTypes != aiPrimitiveType_TRIANGLE)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_PRIMTIVE_TYPE_WRG_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_PRIMTIVE_TYPE_WRG_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			
 			continue;
@@ -461,8 +456,7 @@ XEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
 		//indexed, we will not accept this
 		if(!assimpMesh->HasFaces())
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_NO_FACES_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_NO_FACES_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			
 			continue;
@@ -474,8 +468,7 @@ XEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
 
 		if(assimpMesh->HasPositions() == false)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_NO_POSITIONS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_NO_POSITIONS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			
 			continue;
@@ -485,8 +478,7 @@ XEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
 		//Let the user know we will import only 2 and the rest are ignored
 		if(assimpMesh->GetNumUVChannels() > XE_IMPORTER_MAX_TEX_COORD_CHANNELS)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEX_COORD_NUM_CHANNELS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), XE_IMPORTER_MAX_TEX_COORD_CHANNELS);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEX_COORD_NUM_CHANNELS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), XE_IMPORTER_MAX_TEX_COORD_CHANNELS);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 		}
 
@@ -498,8 +490,7 @@ XEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
 			//and continue with next mesh			
 			if(assimpMesh->mNumUVComponents[0] != XE_IMPORTER_MAX_TEX_COORD_COMPONENTS)
 			{
-				std::wstring errMsg = L"";
-				fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEX_COORD_NUM_COMPONENTS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), XE_IMPORTER_MAX_TEX_COORD_COMPONENTS);
+				std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEX_COORD_NUM_COMPONENTS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), XE_IMPORTER_MAX_TEX_COORD_COMPONENTS);
 				XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 
 				continue;
@@ -528,8 +519,7 @@ XEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
 			//Let the user know we will import only 1 and the rest are ignored
 			if(assimpMesh->GetNumColorChannels() > XE_IMPORTER_MAX_COLOR_CHANNELS)
 			{
-				std::wstring errMsg = L"";
-				fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_COLOR_NUM_CHANNELS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), XE_IMPORTER_MAX_COLOR_CHANNELS);
+				std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_COLOR_NUM_CHANNELS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), XE_IMPORTER_MAX_COLOR_CHANNELS);
 				XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			}
 
@@ -560,8 +550,7 @@ XEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
 		//User know
 		if(!XEImporterHelpers::IsVertexTypeValid((VertexType)vtxType))
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_COMB_VERTEX_PROPS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, vtxType);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_COMB_VERTEX_PROPS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, vtxType);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			
 			continue;
@@ -932,8 +921,7 @@ XEResult ImporterAssimp::GetAnimationKeyFrames(const aiScene* scene)
 
 		if(ticksPerSecond == 0.0f)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_DEFAULT_FPS_ERR_MSG"), __FUNCTIONW__, XE_IMPORTER_DEFAULT_FPS);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_DEFAULT_FPS_ERR_MSG"), __FUNCTIONW__, XE_IMPORTER_DEFAULT_FPS);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 
 			ticksPerSecond = XE_IMPORTER_DEFAULT_FPS;
@@ -954,8 +942,7 @@ XEResult ImporterAssimp::GetAnimationKeyFrames(const aiScene* scene)
 
 			if(m_BoneMap.find(nodeName) == m_BoneMap.end())
 			{
-				std::wstring errMsg = L"";
-				fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_ANIM_NO_BONE_ERR_MSG"), __FUNCTIONW__, nodeName, j, animName);
+				std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_ANIM_NO_BONE_ERR_MSG"), __FUNCTIONW__, nodeName, j, animName);
 				XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 
 				continue;
@@ -970,16 +957,14 @@ XEResult ImporterAssimp::GetAnimationKeyFrames(const aiScene* scene)
 			//Get Pre Animation Behavior
 			if(assimpAnimChannel->mPreState != aiAnimBehaviour_DEFAULT)
 			{
-				std::wstring errMsg = L"";
-				fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_ANIM_PRE_STATE_ERR_MSG"), __FUNCTIONW__, (uint32_t)assimpAnimChannel->mPreState, j, animName, (uint32_t)aiAnimBehaviour_DEFAULT);
+				std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_ANIM_PRE_STATE_ERR_MSG"), __FUNCTIONW__, (uint32_t)assimpAnimChannel->mPreState, j, animName, (uint32_t)aiAnimBehaviour_DEFAULT);
 				XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			}
 
 			//Get Post Animation Behavior
 			if(assimpAnimChannel->mPostState != aiAnimBehaviour_DEFAULT)
 			{
-				std::wstring errMsg = L"";
-				fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_ANIM_POST_STATE_ERR_MSG"), __FUNCTIONW__, (uint32_t)assimpAnimChannel->mPostState, j, animName, (uint32_t)aiAnimBehaviour_DEFAULT);
+				std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_ANIM_POST_STATE_ERR_MSG"), __FUNCTIONW__, (uint32_t)assimpAnimChannel->mPostState, j, animName, (uint32_t)aiAnimBehaviour_DEFAULT);
 				XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			}
 
@@ -1105,8 +1090,7 @@ XEResult ImporterAssimp::BuildAnimations(const std::vector<std::wstring>& animat
 		//Add Animation Clip to Model
 		if(m_Model->m_Animations.find(animContent->m_Name) != m_Model->m_Animations.end())
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_ANIM_ADD_ERR_MSG"), __FUNCTIONW__, animContent->m_Name);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_ANIM_ADD_ERR_MSG"), __FUNCTIONW__, animContent->m_Name);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 
 			DeleteMem(animContent);
@@ -1151,8 +1135,7 @@ XEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
 
 			if(textCount > 1)
 			{
-				std::wstring errMsg = L"";
-				fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"DIFFUSE", textCount, 1);
+				std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"DIFFUSE", textCount, 1);
 				XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			}
 		}
@@ -1164,8 +1147,7 @@ XEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
 
 			if(textCount > 1)
 			{
-				std::wstring errMsg = L"";
-				fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"NORMAL", textCount, 1);
+				std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"NORMAL", textCount, 1);
 				XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			}
 		}
@@ -1177,8 +1159,7 @@ XEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
 
 			if(textCount > 1)
 			{
-				std::wstring errMsg = L"";
-				fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"SPECULAR", textCount, 1);
+				std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"SPECULAR", textCount, 1);
 				XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			}
 		}
@@ -1190,8 +1171,7 @@ XEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
 
 			if(textCount > 1)
 			{
-				std::wstring errMsg = L"";
-				fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"DISPLACEMENT", textCount, 1);
+				std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"DISPLACEMENT", textCount, 1);
 				XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			}
 		}
@@ -1203,8 +1183,7 @@ XEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
 
 			if(textCount > 1)
 			{
-				std::wstring errMsg = L"";
-				fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"LIGHTMAP", textCount, 1);
+				std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"LIGHTMAP", textCount, 1);
 				XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 			}
 		}
@@ -1218,56 +1197,49 @@ XEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
 		textCount = assimpMat->GetTextureCount(aiTextureType_AMBIENT);
 		if(textCount != 0)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"AMBIENT", textCount, 0);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"AMBIENT", textCount, 0);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 		}
 
 		textCount = assimpMat->GetTextureCount(aiTextureType_EMISSIVE);
 		if(textCount != 0)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"EMISSIVE", textCount, 0);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"EMISSIVE", textCount, 0);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 		}
 
 		textCount = assimpMat->GetTextureCount(aiTextureType_HEIGHT);
 		if(textCount != 0)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"HEIGHT", textCount, 0);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"HEIGHT", textCount, 0);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 		}
 
 		textCount = assimpMat->GetTextureCount(aiTextureType_SHININESS);
 		if(textCount != 0)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"SHININESS", textCount, 0);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"SHININESS", textCount, 0);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 		}
 
 		textCount = assimpMat->GetTextureCount(aiTextureType_OPACITY);
 		if(textCount != 0)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"OPACITY", textCount, 0);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"OPACITY", textCount, 0);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 		}
 
 		textCount = assimpMat->GetTextureCount(aiTextureType_REFLECTION);
 		if(textCount != 0)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"REFLECTION", textCount, 0);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"REFLECTION", textCount, 0);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 		}
 
 		textCount = assimpMat->GetTextureCount(aiTextureType_UNKNOWN);
 		if(textCount != 0)
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"UNKNOWN", textCount, 0);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"UNKNOWN", textCount, 0);
 			XELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 		}
 
@@ -1332,8 +1304,7 @@ XEResult ImporterAssimp::ProcessEmbeddedTextures(const aiScene* scene)
 
 	if(scene->HasTextures())
 	{
-		std::wstring errMsg = L"";
-		fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_EMBEDDED_TEXTURES_ERR_MSG"), __FUNCTIONW__);
+		std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_EMBEDDED_TEXTURES_ERR_MSG"), __FUNCTIONW__);
 		XELOGGER->AddNewLog(LogLevel::Error, errMsg);
 	}
 
@@ -1359,8 +1330,7 @@ XEResult ImporterAssimp::ConstructModel()
 		//Add our mesh to the Model
 		if(m_Model->m_Meshes.find(mesh->m_Name) != m_Model->m_Meshes.end())
 		{
-			std::wstring errMsg = L"";
-			fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_MESH_ADD_ERR_MSG"), __FUNCTIONW__, mesh->m_Name);
+			std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_MESH_ADD_ERR_MSG"), __FUNCTIONW__, mesh->m_Name);
 			XELOGGER->AddNewLog(LogLevel::Error, errMsg);
 			
 			DeleteMem(mesh);
@@ -1384,8 +1354,7 @@ XEResult ImporterAssimp::ConstructModel()
 			
 			if(XEImporterHelpers::ConvertToMeshContent(meshPartHolder, &meshPart) != XEResult::Ok)
 			{
-				std::wstring errMsg = L"";
-				fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_MESH_PART_ADD_ERR_MSG"), __FUNCTIONW__, i, mesh->m_Name);
+				std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_MESH_PART_ADD_ERR_MSG"), __FUNCTIONW__, i, mesh->m_Name);
 				XELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
 				return XEResult::Fail;
@@ -1413,8 +1382,7 @@ XEResult ImporterAssimp::CreateBoudingShapes()
 		if (m_Model->m_Meshes.find(meshHolder->m_Name) == m_Model->m_Meshes.end())
 		{
 			XETODO("Add err message");
-			//std::wstring errMsg = L"";
-			//fastformat::fmt(errMsg, XELOCMAN->GetLiteral(L"ASSIMP_MESH_ADD_ERR_MSG"), __FUNCTIONW__, mesh->m_Name);
+			//std::wstring errMsg = fmt::format(XELOCMAN->GetLiteral(L"ASSIMP_MESH_ADD_ERR_MSG"), __FUNCTIONW__, mesh->m_Name);
 			//XELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
 			return XEResult::Fail;
@@ -1455,10 +1423,10 @@ void ImporterAssimp::ReplaceAutoGenAssimpName(std::wstring& name, const std::wst
 
 	if (idx >= 0)
 	{
-		fastformat::fmt(name, L"{0} {1} {2}", newName, typeName, idx);
+		name = fmt::format(L"{0} {1} {2}", newName, typeName, idx);
 	}
 	else
 	{
-		fastformat::fmt(name, L"{0} {1}", newName, typeName);
+		name = fmt::format(L"{0} {1}", newName, typeName);
 	}
 }

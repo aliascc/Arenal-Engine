@@ -80,8 +80,7 @@ void SkySphere::LoadContent()
 
 	if(ret != XEResult::Ok)
 	{
-		std::string errMsg = "";
-		fastformat::fmt(errMsg, LOCLANG->GetLiteral("COULD_NOT_LOAD_TEXTURE"), __FUNCTION__, m_SkyTextureFile);
+		std::string errMsg = fmt::format(LOCLANG->GetLiteral("COULD_NOT_LOAD_TEXTURE"), __FUNCTION__, m_SkyTextureFile);
 		LOGGER->AddNewLog(LogLevel::Error, errMsg);
 	}
 	

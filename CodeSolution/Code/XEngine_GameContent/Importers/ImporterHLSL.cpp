@@ -13,11 +13,8 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
+#include "cppformat\format.h"
 #include "boost\filesystem.hpp"
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
-#include "fastformat\shims\conversion\filter_type\bool.hpp"
-#include "fastformat\shims\conversion\filter_type\reals.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -146,13 +143,12 @@ XEResult ImporterHLSL::ImportShader(const std::wstring& filename, ShaderType sha
 
 		char* errorDX = reinterpret_cast<char*>(err->GetBufferPointer());
 
-		std::wstring msg_error = L"";
 		std::wstring strErrorDX = XE_Base::String2WideStr(errorDX);
 		std::wstring name = XE_Base::GetFilenameOnly(filename);;
 
 		ReleaseCOM(err);
 
-		fastformat::fmt(msg_error, XELOCMAN->GetLiteral(L"SHADER_COMPILARION_FAILED_ERR_MSG"), name, strErrorDX);
+		std::wstring msg_error = fmt::format(XELOCMAN->GetLiteral(L"SHADER_COMPILARION_FAILED_ERR_MSG"), name, strErrorDX);
 		XELOGGER->AddNewLog(LogLevel::Error, msg_error);
 
 		return XEResult::ShaderCompiledFail;

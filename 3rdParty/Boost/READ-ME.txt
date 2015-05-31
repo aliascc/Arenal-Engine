@@ -1,12 +1,9 @@
 Tool:		Boost
-Last Updated:	Jan 21 2014
-Version:	1.55_0
+Last Updated:	May 30 2015
+Version:	1.58_0
 Last Build:	
-		- Jan 21 2014 - System
-		- Jan 21 2014 - Chrono
-		- Jan 21 2014 - Date Time
-		- Jan 21 2014 - Threads
-		- Jan 21 2014 - Filesystem
+		- May 30 2015 - System
+		- May 30 2015 - Filesystem
 
 Comments:
 - To use (If already built):

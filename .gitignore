@@ -40,7 +40,7 @@ CodeSolution/Code/3rdParty/Assimp/
 CodeSolution/Code/3rdParty/Boost/
 CodeSolution/Code/3rdParty/DirectXTK/
 CodeSolution/Code/3rdParty/DirectXTex/
-CodeSolution/Code/3rdParty/FastFormat/
+CodeSolution/Code/3rdParty/CPPFormat/
 CodeSolution/Code/3rdParty/GLM/
 CodeSolution/Code/3rdParty/LibIconv/
 CodeSolution/Code/3rdParty/LibXML2/
@@ -54,35 +54,13 @@ CodeSolution/Run/XEngine_TestBed/bin_x86/AS_DEBUG/
 CodeSolution/Bin/
 CodeSolution/Code/XEngine_Editor/GeneratedFiles/
 CodeSolution/Code/XEngine_Shaders/Compiled Materials/
-3rdParty/AngelScript/Binaries/
-3rdParty/AngelScript/Src/
-3rdParty/AngelScript/Zip/
-3rdParty/Assimp/Src/
-3rdParty/Assimp/Zip/
-3rdParty/Boost/VS Projects/
-3rdParty/Boost/Zip/
-3rdParty/DirectXTK/Src/
+3rdParty/*/Src/*
+3rdParty/*/Binaries/*
+3rdParty/*/Zip/*
+3rdParty/*/Headers/*
+3rdParty/*/VS Projects/
 3rdParty/DirectXTK/Tools/
-3rdParty/DirectXTK/Zip/
-3rdParty/DirectXTex/Src/
-3rdParty/DirectXTex/Zip/
-3rdParty/FastFormat/Src/
-3rdParty/FastFormat/Zip/
 3rdParty/LibIconv/How to Compile Demo Bin.zip
 3rdParty/LibIconv/How to Compile Demo Src.zip
-3rdParty/LibIconv/Zip/
-3rdParty/LibXML2/Zip/
-3rdParty/OpenGL Mathematics/Src/
-3rdParty/OpenGL Mathematics/Zip/
-3rdParty/PhysX/src/
-3rdParty/PhysX/zip/
-3rdParty/QT/Zip/
-3rdParty/SFML/Zip/
-3rdParty/SFML/src/
-3rdParty/STLSoft/Src/
-3rdParty/STLSoft/Zip/
-3rdParty/zlib/Headers/
-3rdParty/zlib/Src/
-3rdParty/zlib/Zip/
 CodeSolution/Run/XEngine_TestBed/Data/Editor UI Layouts/default.qtl
 CodeSolution/Run/XEngine_TestBed/Data/Logs/Logs.txt

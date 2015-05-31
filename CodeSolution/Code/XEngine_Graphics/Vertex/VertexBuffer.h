@@ -31,9 +31,8 @@
 #include "GraphicsDefs.h"
 #include "VertexLayout.h"
 #include "IVertexBuffer.h"
+#include "cppformat\format.h"
 #include "Base\BaseFunctions.h"
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
 #include "Localization\LocalizationManager.h"
 
 /********************
@@ -49,9 +48,9 @@ class VertexBuffer sealed : public IVertexBuffer
 {
 	private:
 		
-		/**************************
-		 *   Private Variables   *
-		 **************************/
+		/************************
+		*   Private Variables   *
+		*************************/
 #pragma region Private Variables
 		
 		/// <summary>

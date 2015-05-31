@@ -13,9 +13,8 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
+#include "cppformat\format.h"
 #include "boost\filesystem.hpp"
-#include "fastformat\fastformat.hpp"
-#include "fastformat\shims\conversion\filter_type\reals.hpp"
 
 /***************************
 *   Game Engine Includes   *

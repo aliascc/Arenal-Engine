@@ -46,7 +46,7 @@ XEResult LocalizationAddOnAS::Register(asIScriptEngine* engine)
 	{
 		XETODO("Add log");
 		std::wstring errMsg = L"";
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;
@@ -56,7 +56,7 @@ XEResult LocalizationAddOnAS::Register(asIScriptEngine* engine)
 	{
 		XETODO("Add log");
 		std::wstring errMsg = L"";
-		//fastformat::fmt(errMsg, m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+		//fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
 		//m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
 		return XEResult::Fail;

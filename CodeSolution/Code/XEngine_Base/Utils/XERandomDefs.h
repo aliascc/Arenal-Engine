@@ -19,7 +19,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "boost\random\mersenne_twister.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -39,10 +38,6 @@
 ************************/
 namespace XERandomHelpers
 {
-	extern double GetNextDouble();
-
-	extern float GetNextFloat();
-
 	extern float GetFloat(float max);
 
 	extern float GetFloat(float min, float max);

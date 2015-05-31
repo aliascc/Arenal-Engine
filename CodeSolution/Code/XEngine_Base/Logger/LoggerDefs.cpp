@@ -13,8 +13,7 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -45,9 +44,7 @@ XELog::XELog()
 
 std::wstring XELog::ToString() const
 {
-	std::wstring fileLine = L"";
-
-	fastformat::fmt(fileLine, L"{0}-({1}): {2}- \'{3}\'\n", m_LogLine, m_TimeStamp.ToString(), XELogHelpers::LogLevelStr(m_Level), m_Log);
+	std::wstring fileLine = fmt::format(L"{0}-({1}): {2}- \'{3}\'\n", m_LogLine, m_TimeStamp.ToString(), XELogHelpers::LogLevelStr(m_Level), m_Log);
 
 	return fileLine;
 }

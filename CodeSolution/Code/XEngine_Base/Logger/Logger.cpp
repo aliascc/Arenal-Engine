@@ -15,8 +15,7 @@
 *   3rd Party Includes   *
 **************************/
 #include "angelscript.h"
-#include "fastformat\fastformat.hpp"
-#include "fastformat\sinks\ostream.hpp"
+#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -198,13 +197,13 @@ void Logger::AddNewLog(LogLevel logLevel, const std::wstring& msg)
 
 			if (!XELOCMAN->GetCallByLocManager())
 			{
-				fastformat::fmt(sameLogMsg, XELOCMAN->GetLiteral(L"LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
+				sameLogMsg = fmt::format(XELOCMAN->GetLiteral(L"LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
 			}
 			else
 			{
 				//This should never happen
 				XEAssert(false);
-				fastformat::fmt(sameLogMsg, L"Localization Manager null or is calling Logger. Number of Messages repeated: {0}", m_LastLog.m_NumSameLogs);
+				sameLogMsg = fmt::format(L"Localization Manager null or is calling Logger. Number of Messages repeated: {0}", m_LastLog.m_NumSameLogs);
 			}
 
 			InsertLogNoLock(m_LastLog.m_Level, sameLogMsg, false);
@@ -357,13 +356,13 @@ void Logger::MonitorRepeatedLogTimeOut()
 
 				if(!XELOCMAN->GetCallByLocManager())
 				{
-					fastformat::fmt(sameLogMsg, XELOCMAN->GetLiteral(L"LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
+					sameLogMsg = fmt::format(sameLogMsg, XELOCMAN->GetLiteral(L"LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
 				}
 				else
 				{
 					//This should never happen
 					XEAssert(false);
-					fastformat::fmt(sameLogMsg, L"Localization Manager null or is calling Logger. Number of Messages repeated: {0}", m_LastLog.m_NumSameLogs);
+					sameLogMsg = fmt::format(L"Localization Manager null or is calling Logger. Number of Messages repeated: {0}", m_LastLog.m_NumSameLogs);
 				}
 
 				InsertLogNoLock(m_LastLog.m_Level, sameLogMsg, false);
