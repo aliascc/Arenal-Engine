@@ -62,7 +62,7 @@
 #include "PhysicsActor.h"
 #include "PhysicColliderBox.h"
 #include "PhysicColliderSphere.h"
-
+#include "Lights\LightManager.h"
 #include "Utils\XERandomDefs.h"
 
 //Always include last
@@ -279,99 +279,101 @@ void EngineViewer::AutoLoadTest()
 
 	m_AutoTestLoaded = true;
 
-	//uint64_t raGrassTexID = 0;
-	//uint64_t raSnowTexID = 0;
-	//uint64_t raRockTexID = 0;
-	//uint64_t raboxMeshID = 0;
-	//uint64_t raVSID = 0;
-	//uint64_t raPSID = 0;
-	//uint64_t raSphereID = 0;
+	uint64_t raGrassTexID = 0;
+	uint64_t raSnowTexID = 0;
+	uint64_t raRockTexID = 0;
+	uint64_t raboxMeshID = 0;
+	uint64_t raVSID = 0;
+	uint64_t raPSID = 0;
+	uint64_t raSphereID = 0;
 
-	//m_GameAssetManager->CreateNewRawGameAsset(XE_BASE_FS_PATH L"Data\\Raw Files\\Grass_Terrain_04.dds", XE_BASE_FS_PATH L"Data\\Assets", GameContentSubtype::Texture2D, &raGrassTexID);
-	//m_GameAssetManager->CreateNewRawGameAsset(XE_BASE_FS_PATH L"Data\\Raw Files\\Road_Terrain_03.dds", XE_BASE_FS_PATH L"Data\\Assets", GameContentSubtype::Texture2D, &raSnowTexID);
-	//m_GameAssetManager->CreateNewRawGameAsset(XE_BASE_FS_PATH L"Data\\Raw Files\\Piedra_Nieve.dds", XE_BASE_FS_PATH L"Data\\Assets", GameContentSubtype::Texture2D, &raRockTexID);
-	//m_GameAssetManager->CreateNewRawGameAsset(XE_BASE_FS_PATH L"Data\\Raw Files\\box.DAE", XE_BASE_FS_PATH L"Data\\Assets", GameContentSubtype::None, &raboxMeshID);
-	//m_GameAssetManager->CreateNewRawGameAsset(XE_BASE_FS_PATH L"Data\\Raw Files\\ModelStaticVS.fx", XE_BASE_FS_PATH L"Data\\Assets", GameContentSubtype::VertexShaderHLSL, &raVSID);
-	//m_GameAssetManager->CreateNewRawGameAsset(XE_BASE_FS_PATH L"Data\\Raw Files\\ModelPS.fx", XE_BASE_FS_PATH L"Data\\Assets", GameContentSubtype::PixelShaderHLSL, &raPSID);
-	//m_GameAssetManager->CreateNewRawGameAsset(XE_BASE_FS_PATH L"Data\\Raw Files\\sphere.DAE", XE_BASE_FS_PATH L"Data\\Assets", GameContentSubtype::None, &raSphereID);
+	
 
-	//m_GameAssetManager->CheckForLatestRawGameAssetsAndImport();
+	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\Grass_Terrain_04.dds", GameContentSubtype::Texture2D, &raGrassTexID);
+	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\Road_Terrain_03.dds", GameContentSubtype::Texture2D, &raSnowTexID);
+	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\Piedra_Nieve.dds", GameContentSubtype::Texture2D, &raRockTexID);
+	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\box.DAE", GameContentSubtype::None, &raboxMeshID);
+	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\ModelStaticVS.fx", GameContentSubtype::VertexShaderHLSL, &raVSID);
+	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\ModelPS.fx", GameContentSubtype::PixelShaderHLSL, &raPSID);
+	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\sphere.DAE", GameContentSubtype::None, &raSphereID);
+
+	m_GameAssetManager->CheckForLatestRawGameAssetsAndImport();
 
 	////////////////////////////////////////
 
 
-	//uint64_t gaGrassTexID	= m_GameAssetManager->GetRawGameAsset(raGrassTexID)->GetUniqueAssociatedAssetID();
-	//uint64_t gaSnowTexID	= m_GameAssetManager->GetRawGameAsset(raSnowTexID)->GetUniqueAssociatedAssetID();
-	//uint64_t gaRockTexID	= m_GameAssetManager->GetRawGameAsset(raRockTexID)->GetUniqueAssociatedAssetID();
-	//uint64_t gaboxMeshID	= m_GameAssetManager->GetRawGameAsset(raboxMeshID)->GetUniqueAssociatedAssetID();
-	//uint64_t gaVSID			= m_GameAssetManager->GetRawGameAsset(raVSID)->GetUniqueAssociatedAssetID();
-	//uint64_t gaPSID			= m_GameAssetManager->GetRawGameAsset(raPSID)->GetUniqueAssociatedAssetID();
-	//uint64_t gaSphereID		= m_GameAssetManager->GetRawGameAsset(raSphereID)->GetUniqueAssociatedAssetID();
+
+	uint64_t gaGrassTexID	= m_GameAssetManager->GetRawGameAsset(raGrassTexID)->GetUniqueAssociatedAssetID();
+	uint64_t gaSnowTexID	= m_GameAssetManager->GetRawGameAsset(raSnowTexID)->GetUniqueAssociatedAssetID();
+	uint64_t gaRockTexID	= m_GameAssetManager->GetRawGameAsset(raRockTexID)->GetUniqueAssociatedAssetID();
+	uint64_t gaboxMeshID	= m_GameAssetManager->GetRawGameAsset(raboxMeshID)->GetUniqueAssociatedAssetID();
+	uint64_t gaVSID			= m_GameAssetManager->GetRawGameAsset(raVSID)->GetUniqueAssociatedAssetID();
+	uint64_t gaPSID			= m_GameAssetManager->GetRawGameAsset(raPSID)->GetUniqueAssociatedAssetID();
+	uint64_t gaSphereID		= m_GameAssetManager->GetRawGameAsset(raSphereID)->GetUniqueAssociatedAssetID();
 
 	///////////////////////////////////////////////////////////////////////////////////
 
-	//MeshAsset* boxAsset			= (MeshAsset*)m_GameAssetManager->GetGameAsset(1); //Box
-	//MeshAsset* sphereAsset		= (MeshAsset*)m_GameAssetManager->GetGameAsset(2); //Sphere
-	//ShaderAsset* vsAsset		= (ShaderAsset*)m_GameAssetManager->GetGameAsset(gaVSID); //VS
-	//ShaderAsset* psAsset		= (ShaderAsset*)m_GameAssetManager->GetGameAsset(gaPSID); //PS
-	//TextureAsset* grassTexAsset	= (TextureAsset*)m_GameAssetManager->GetGameAsset(gaGrassTexID);
-	//TextureAsset* snowTexAsset	= (TextureAsset*)m_GameAssetManager->GetGameAsset(gaSnowTexID);
-	//TextureAsset* rockTexAsset	= (TextureAsset*)m_GameAssetManager->GetGameAsset(gaRockTexID);
-	//MeshAsset* boxMeshAsset		= ((ModelAsset*)m_GameAssetManager->GetGameAsset(gaboxMeshID))->GetMeshAssetVector().at(0);
-	//MeshAsset* sphereMeshAsset	= ((ModelAsset*)m_GameAssetManager->GetGameAsset(gaSphereID))->GetMeshAssetVector().at(0);
+	//MeshAsset* boxMeshAsset = (MeshAsset*)m_GameAssetManager->GetGameAsset(1); //Box
+	//MeshAsset* sphereMeshAsset = (MeshAsset*)m_GameAssetManager->GetGameAsset(2); //Sphere
+	ShaderAsset* vsAsset		= (ShaderAsset*)m_GameAssetManager->GetGameAsset(gaVSID); //VS
+	ShaderAsset* psAsset		= (ShaderAsset*)m_GameAssetManager->GetGameAsset(gaPSID); //PS
+	TextureAsset* grassTexAsset	= (TextureAsset*)m_GameAssetManager->GetGameAsset(gaGrassTexID);
+	TextureAsset* snowTexAsset	= (TextureAsset*)m_GameAssetManager->GetGameAsset(gaSnowTexID);
+	TextureAsset* rockTexAsset	= (TextureAsset*)m_GameAssetManager->GetGameAsset(gaRockTexID);
+	MeshAsset* boxMeshAsset		= ((ModelAsset*)m_GameAssetManager->GetGameAsset(gaboxMeshID))->GetMeshAssetMap().begin()->second.m_Asset;
+	MeshAsset* sphereMeshAsset	= ((ModelAsset*)m_GameAssetManager->GetGameAsset(gaSphereID))->GetMeshAssetMap().begin()->second.m_Asset;
 
 	////////////////////////////////////////
 
-	//GameObject* goFloor = new GameObject(L"Floor");
-	//m_GameObjectManager->AddGameObject(goFloor);
-	//goFloor->SetScale(glm::vec3(50.0f, 0.5f, 50.0f));
+	GameObject* goFloor = new GameObject(L"Floor");
+	m_GameObjectManager->AddGameObject(goFloor);
+	goFloor->SetScale(glm::vec3(50.0f, 0.5f, 50.0f));
 
-	//MeshGOC* meshFloor = new MeshGOC(goFloor);
-	//goFloor->SetMeshGOC(meshFloor);
-	//meshFloor->SetMeshAsset(boxMeshAsset);
+	MeshGOC* meshFloor = new MeshGOC(goFloor);
+	goFloor->SetMeshGOC(meshFloor);
+	meshFloor->SetMeshAsset(boxMeshAsset);
 
-	//MeshMaterialGOC* matFloor = new MeshMaterialGOC(goFloor, L"Floor Mat");
-	//goFloor->AddMeshMaterialGOC(matFloor);
-	//matFloor->SetVertexShaderAsset(vsAsset);
-	//matFloor->SetPixelShaderAsset(psAsset);
-	//matFloor->GetPixelShaderProperties()->SetTexture(L"DiffuseTexture", grassTexAsset);
+	MeshMaterialGOC* matFloor = new MeshMaterialGOC(goFloor, L"Floor Mat");
+	goFloor->AddMeshMaterialGOC(matFloor);
+	matFloor->SetVertexShaderAsset(vsAsset);
+	matFloor->SetPixelShaderAsset(psAsset);
+	matFloor->GetPixelShaderProperties()->SetTexture(L"DiffuseTexture", grassTexAsset);
 
-	//PhysicsGOC* physicsFloor = new PhysicsGOC(goFloor, this->GetPhysicsManager());
-	//goFloor->SetPhysicsGOC(physicsFloor);
-	//uint64_t physicsFloorColliderID = 0;
-	//physicsFloor->AddCollider(CollisionShape::Box, physicsFloorColliderID);
-	//PhysicColliderBox* physicColliderBoxFloor = (PhysicColliderBox*)physicsFloor->GetPhysicsActor()->GetPhysicCollider(physicsFloorColliderID);
-	////physicColliderBoxFloor->SetSize(boxMeshAsset->GetMeshReference()->GetBoundingBox().GetSize());
-	//physicColliderBoxFloor->SetScale(goFloor->GetScale());
+	PhysicsGOC* physicsFloor = new PhysicsGOC(goFloor, this->GetPhysicsManager());
+	goFloor->SetPhysicsGOC(physicsFloor);
+	uint64_t physicsFloorColliderID = 0;
+	physicsFloor->AddCollider(CollisionShape::Box, physicsFloorColliderID);
+	PhysicColliderBox* physicColliderBoxFloor = (PhysicColliderBox*)physicsFloor->GetPhysicsActor()->GetPhysicCollider(physicsFloorColliderID);
+	//physicColliderBoxFloor->SetSize(boxMeshAsset->GetMeshReference()->GetBoundingBox().GetSize());
+	physicColliderBoxFloor->SetScale(goFloor->GetScale());
 
-	//for (size_t i = 0; i < 5; i++)
-	//{
-	//	for (size_t j = 0; j < 5; j++)
-	//	{
-	//		for (size_t h = 0; h < 5; h++)
-	//		{
-	//			glm::vec3 pos(15 - (i * 3), 30 - (j * 3), 15 - (h * 3));
-	//			glm::vec3 rand(XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f));
-	//			AutoLoadTestAddGO(pos + rand, boxMeshAsset, vsAsset, psAsset, snowTexAsset, CollisionShape::Box);
-	//		}
-	//	}
-	//}
+	for (int32_t i = 0; i < 5; i++)
+	{
+		for (int32_t j = 0; j < 5; j++)
+		{
+			for (int32_t h = 0; h < 5; h++)
+			{
+				glm::vec3 pos(15 - (i * 3), 30 - (j * 3), 15 - (h * 3));
+				glm::vec3 rand(XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f));
+				AutoLoadTestAddGO(pos + rand, boxMeshAsset, vsAsset, psAsset, snowTexAsset, CollisionShape::Box);
+			}
+		}
+	}
 
+	for (int32_t i = 0; i < 5; i++)
+	{
+		for (int32_t j = 0; j < 5; j++)
+		{
+			for (int32_t h = 0; h < 5; h++)
+			{
+				glm::vec3 rand(XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f));
+				glm::vec3 pos(15 - (i * 4), 15 - (j * 4), 15 - (h * 4));
+				AutoLoadTestAddGO(pos + rand, sphereMeshAsset, vsAsset, psAsset, rockTexAsset, CollisionShape::Sphere);
+			}
+		}
+	}
 
-	//for (size_t i = 0; i < 5; i++)
-	//{
-	//	for (size_t j = 0; j < 5; j++)
-	//	{
-	//		for (size_t h = 0; h < 5; h++)
-	//		{
-	//			glm::vec3 rand(XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f));
-	//			glm::vec3 pos(15 - (i * 4), 15 - (j * 4), 15 - (h * 4));
-	//			AutoLoadTestAddGO(pos + rand, sphereMeshAsset, vsAsset, psAsset, rockTexAsset, CollisionShape::Sphere);
-	//		}
-	//	}
-	//}
-
-	////////////////////////////////////////
+	//////////////////////////////////////
 }
 
 void EngineViewer::AutoLoadTestAddGO(const glm::vec3& pos, MeshAsset* model, ShaderAsset* vs, ShaderAsset* ps, TextureAsset* text, CollisionShape collisionShape)
@@ -395,4 +397,16 @@ void EngineViewer::AutoLoadTestAddGO(const glm::vec3& pos, MeshAsset* model, Sha
 	physicsFloor->AddRigidBody();
 	uint64_t physicsFloorColliderID = 0;
 	physicsFloor->AddCollider(collisionShape, physicsFloorColliderID);
+
+	if (!m_LightManager->IsContainerFull())
+	{
+		LightGOC* lightGOC = new LightGOC(goFloor, m_LightManager);
+		goFloor->SetLightGOC(lightGOC);
+		lightGOC->ChangeLightType(LightType::Omni);
+
+		lightGOC->GetLight()->SetNearAttenuation(1);
+		lightGOC->GetLight()->SetFarAttenuation(6);
+		lightGOC->GetLight()->SetIntensity(XERandomHelpers::GetFloat(0.1f, 1.0f));
+		lightGOC->GetLight()->SetColor(Color(XERandomHelpers::GetUInt(0, 255), XERandomHelpers::GetUInt(0, 255), XERandomHelpers::GetUInt(0, 255), 1));
+	}
 }

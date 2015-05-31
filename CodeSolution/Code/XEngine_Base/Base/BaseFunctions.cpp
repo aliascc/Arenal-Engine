@@ -73,7 +73,7 @@ namespace XE_Base
 
 		boost::filesystem::path boostFilepath(filepath);
 
-		relativePath += boost::filesystem::make_relative(boost::filesystem::current_path(), boostFilepath).c_str();
+		relativePath += boost::filesystem::make_relative(boost::filesystem::current_path(), boostFilepath).wstring();
 
 		return relativePath;
 	}

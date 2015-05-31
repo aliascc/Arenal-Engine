@@ -96,8 +96,7 @@ void XEngine_Editor::Initialize()
 
 	////////////////////////////////////////
 	//Load Default Layout
-	std::wstring layoutFile = XE_ENGINE_BIN_TO_DATA_PATH_PREFIX;
-	layoutFile += XE_PROJ_DEFAULT_LAYOUT_FILE_LOC;;
+	std::wstring layoutFile = XE_PROJ_DEFAULT_LAYOUT_FILE_LOC;;
 	LoadLayout(QString::fromStdWString(layoutFile));
 
 	////////////////////////////////////////

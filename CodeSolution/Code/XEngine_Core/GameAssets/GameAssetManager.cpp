@@ -107,10 +107,10 @@ void GameAssetManager::CleanUp()
 		gameAsset->m_OnGameAssetDeletionNotifyManagerEvent = nullptr;
 		if(gameAsset->GetParentAssetID() != 0)
 		{
-			gameAssetPair.second = nullptr;
+			m_GameAssetMap[gameAssetPair.first] = nullptr;
 		}
 	}
-	
+
 	////////////////////////////////////////////////////
 	// - Delete remaining Assets
 	for(auto gaPair : m_GameAssetMap)
@@ -415,9 +415,8 @@ XEResult GameAssetManager::CreateNewRawGameAsset(const std::wstring& filePath, G
 	std::lock_guard<std::mutex> lock(m_GameAssetManagerMutex);
 
 	XETODO("Copy raw file to raw directory if it is not present currently there");
-	RawGameAsset* rawGA = new RawGameAsset(XE_Base::GetRelativePath(filePath), m_ProjectDirectory, XE_Base::GetFilenameOnly(filePath));
-
-	rawGA->SetOutputDirectory(m_OutputDirAssets);
+	std::wstring rawAssetFilepath = XE_Base::GetRelativePath(filePath);
+	RawGameAsset* rawGA = new RawGameAsset(rawAssetFilepath, m_ProjectDirectory, XE_Base::GetFilenameOnly(filePath));
 
 	rawGA->SetContentSubtype(contentSubtype);
 
@@ -599,7 +598,7 @@ XEResult GameAssetManager::ImportModel(RawGameAsset* rawGA)
 	/////////////////////////////////////////////////////////////
 	//Write Imported Model to a File the assets can read
 	WriterXE3D writerXE3D;
-	ret = writerXE3D.WriteToFile(modelContent, rawGA->GetOutputFileName(), rawGA->GetFullOutputDirectory());
+	ret = writerXE3D.WriteToFile(modelContent, rawGA->GetOutputFileName(), m_OutputDirAssets);
 
 	DeleteMem(modelContent);
 
@@ -763,7 +762,7 @@ XEResult GameAssetManager::ImportShader(RawGameAsset* rawGA)
 	/////////////////////////////////////////////////////////////
 	//Write Imported Shader to a File the assets can read
 	WriterHLSL writerHLSL;
-	ret = writerHLSL.WriteToFile(shaderContent, rawGA->GetOutputFileName(), rawGA->GetFullOutputDirectory());
+	ret = writerHLSL.WriteToFile(shaderContent, rawGA->GetOutputFileName(), m_OutputDirAssets);
 
 	DeleteMem(shaderContent);
 
@@ -1579,10 +1578,8 @@ XEResult GameAssetManager::SaveToXMLRawGameAssets(XEXMLWriter& xmlWriter)
 		xmlWriter.WriteUInt(XE_RAW_FILE_GAMECONTEXTFILEEXT_PROP, (uint32_t)rawGameAsset->GetGameContextFileExt());
 		xmlWriter.WriteString(XE_RAW_FILE_LASTMODIFIEDTIMESTAMP_PROP, rawGameAsset->GetLastModifiedTimeStamp().ToString());
 		xmlWriter.WriteString(XE_RAW_FILE_FILEPATH_PROP, rawGameAsset->GetFilePath());
-		xmlWriter.WriteString(XE_RAW_FILE_OUTPUTDIRECTORY_PROP, rawGameAsset->GetOutputDirectory());
 		xmlWriter.WriteString(XE_RAW_FILE_OUTPUTFILENAME_PROP, rawGameAsset->GetOutputFileName());
 		xmlWriter.WriteBool(XE_RAW_FILE_RELOADNEEDED_PROP, rawGameAsset->IsReloadNeeded());
-		xmlWriter.WriteBool(XE_RAW_FILE_OUTPUTDIRCHANGED_PROP, rawGameAsset->GetOutputDirChanged());
 		xmlWriter.WriteBool(XE_RAW_FILE_CONTENTSUBTYPECHANGED_PROP, rawGameAsset->GetContentSubtypeChanged());
 		xmlWriter.WriteUInt64(XE_RAW_FILE_ASSOCIATED_ASSET_ID_PROP, rawGameAsset->GetUniqueAssociatedAssetID());
 
@@ -1667,26 +1664,22 @@ XEResult GameAssetManager::LoadRawAssets(XEXMLParser& rawAssetXML)
 			std::wstring customName			= child.GetString(XE_RAW_FILE_CUSTOM_NAME_PROP);
 			std::wstring filepath			= child.GetString(XE_RAW_FILE_FILEPATH_PROP);
 			GameContentSubtype subType		= (GameContentSubtype)child.GetUInt(XE_RAW_FILE_CONTENTSUBTYPE_PROP);
-			std::wstring outputDir			= child.GetString(XE_RAW_FILE_OUTPUTDIRECTORY_PROP);
 			uint64_t uniqueAssociatedID		= child.GetUInt64(XE_RAW_FILE_ASSOCIATED_ASSET_ID_PROP);
 			GameContentType contentType		= (GameContentType)child.GetUInt(XE_RAW_FILE_CONTENTTYPE_PROP);
 			GameContextFileExt fileExt		= (GameContextFileExt)child.GetUInt(XE_RAW_FILE_GAMECONTEXTFILEEXT_PROP);
 			std::wstring outputFilename		= child.GetString(XE_RAW_FILE_OUTPUTFILENAME_PROP);
 			bool reloadNeeded				= child.GetBool(XE_RAW_FILE_RELOADNEEDED_PROP);
-			bool outputDirChanged			= child.GetBool(XE_RAW_FILE_OUTPUTDIRCHANGED_PROP);
 			bool contentSubtypeChanged		= child.GetBool(XE_RAW_FILE_CONTENTSUBTYPECHANGED_PROP);
 
 			RawGameAsset* rawGameAsset = new RawGameAsset(filepath, m_ProjectDirectory, name);
 
 			rawGameAsset->SetContentSubtype(subType);
-			rawGameAsset->SetOutputDirectory(outputDir);
 			rawGameAsset->SetUniqueAssociatedAssetID(uniqueAssociatedID);
 			rawGameAsset->SetContentType(contentType);
 			rawGameAsset->SetGameContextFileExt(fileExt);
 			rawGameAsset->SetLastModifiedTimeStamp(modTimeStamp);
 			rawGameAsset->SetOutputFileName(outputFilename);
 			rawGameAsset->SetReloadNeeded(reloadNeeded);
-			rawGameAsset->SetOutputDirChanged(outputDirChanged);
 			rawGameAsset->SetContentSubtypeChanged(contentSubtypeChanged);
 
 			m_RawGameAssetMap[rawGameAsset->GetUniqueID()] = rawGameAsset;

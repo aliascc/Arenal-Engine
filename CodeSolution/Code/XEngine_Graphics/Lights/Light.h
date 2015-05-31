@@ -317,7 +317,7 @@ class Light abstract : public UniqueXEObjectNamed
 		/// Sets the Far Attenuation of the Light
 		/// </summary>
 		/// <param name="farAttenuation">New Far Attenuation of the Light</param>
-		inline void SetFarAtteniation(float farAttenuation)
+		inline void SetFarAttenuation(float farAttenuation)
 		{ 
 			m_FarAttenuation = farAttenuation; 
 		}

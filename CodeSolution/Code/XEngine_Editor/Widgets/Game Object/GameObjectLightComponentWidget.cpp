@@ -308,7 +308,7 @@ void GameObjectLightComponentWidget::on_m_NearAttSB_editingFinished()
 
 	if (newNearAtt > farAtt)
 	{
-		light->SetFarAtteniation(newNearAtt);
+		light->SetFarAttenuation(newNearAtt);
 		m_GameObjectLightComponentWidgetQtUI.m_FarAttSB->setValue(newNearAtt);
 	}
 
@@ -345,7 +345,7 @@ void GameObjectLightComponentWidget::on_m_FarAttSB_editingFinished()
 		m_GameObjectLightComponentWidgetQtUI.m_NearAttSB->setValue(newFarAtt);
 	}
 
-	light->SetFarAtteniation(newFarAtt);
+	light->SetFarAttenuation(newFarAtt);
 }
 
 void GameObjectLightComponentWidget::on_m_AngleSB_editingFinished()

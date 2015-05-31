@@ -51,24 +51,7 @@ RawGameAsset::~RawGameAsset()
 
 bool RawGameAsset::IsReloadNeeded() const
 {
-	return (m_ReloadNeeded || m_OutputDirChanged || m_ContentSubtypeChanged);
-}
-
-void RawGameAsset::SetOutputDirectory(const std::wstring& outputDirectory)
-{
-	if(m_OutputDirectory.compare(outputDirectory) == 0)
-	{
-		return;
-	}
-
-	m_OutputDirectory = outputDirectory;
-
-	if(m_OutputDirectory.back() != L'\\' && m_OutputDirectory.back() != L'/')
-	{
-		m_OutputDirectory.push_back(L'\\');
-	}
-
-	m_OutputDirChanged = true;
+	return (m_ReloadNeeded || m_ContentSubtypeChanged);
 }
 
 void RawGameAsset::SetContentType(GameContentType contentType)
@@ -215,17 +198,8 @@ XEResult RawGameAsset::ImportDone()
 	
 	m_ReloadNeeded = false;
 
-	m_OutputDirChanged = false;
-
 	m_ContentSubtypeChanged = false;
 
 	return XEResult::Ok;
 
-}
-
-std::wstring RawGameAsset::GetFullOutputPath() const
-{
-	std::wstring fullOutput = m_ProjectDirectory + m_OutputDirectory + m_OutputFileName;
-
-	return fullOutput;
 }

@@ -40,11 +40,17 @@ namespace XERandomHelpers
 		return disRand(mRandomGenerator);
 	}
 
-	int32_t XERandomHelpers::GetInt(int32_t max)
+	int32_t XERandomHelpers::GetInt(int32_t min, int32_t max)
 	{
-		std::uniform_int_distribution<int32_t> disRand(0, max);
+		std::uniform_int_distribution<int32_t> disRand(min, max);
 
 		return disRand(mRandomGenerator);
 	}
 
+	uint32_t GetUInt(uint32_t min, uint32_t max)
+	{
+		std::uniform_int_distribution<uint32_t> disRand(min, max);
+
+		return disRand(mRandomGenerator);
+	}
 }

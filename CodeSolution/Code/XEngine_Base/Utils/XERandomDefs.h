@@ -38,11 +38,11 @@
 ************************/
 namespace XERandomHelpers
 {
-	extern float GetFloat(float max);
-
 	extern float GetFloat(float min, float max);
 
-	extern int32_t GetInt(int32_t max);
+	extern int32_t GetInt(int32_t min, int32_t max);
+
+	extern uint32_t GetUInt(uint32_t min, uint32_t max);
 };
 
 #endif

@@ -169,7 +169,6 @@ void GameLightsUpdate::UpdateGameObjectLight(GameObject* gameObject)
 	{
 		Light* light = gameObject->GetLightGOC()->GetLight();
 
-		XEAssert(light != nullptr)
 		if (light != nullptr && light->IsEnabled())
 		{
 			light->SetPosition(gameObject->GetWorldPosition());

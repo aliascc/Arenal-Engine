@@ -97,7 +97,6 @@ XEResult LightGOC::ChangeLightType(LightType lightType)
 	m_Light = newLight;
 
 	XEResult ret = m_LightManager->AddLight(m_Light);
-
 	if(ret != XEResult::Ok)
 	{
 		DeleteMem(m_Light);

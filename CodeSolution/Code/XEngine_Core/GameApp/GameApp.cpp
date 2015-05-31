@@ -620,7 +620,7 @@ XEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
 
 	////////////////////////////////////////////////
 	// Create and Initialize Game Asset Manager
-	m_GameAssetManager = new GameAssetManager(m_GraphicDevice, m_GameResourceManager, m_AngelScriptManager, m_AudioManager, m_GameProject.m_ProjectLocation, XE_PROJ_ASSETS_DIR_LOC);
+	m_GameAssetManager = new GameAssetManager(m_GraphicDevice, m_GameResourceManager, m_AngelScriptManager, m_AudioManager, m_GameProject.m_ProjectLocation, m_GameProject.m_ProjectLocation + L"/" + XE_PROJ_ASSETS_DIR_LOC);
 
 	if(m_GameAssetManager->Initialize() != XEResult::Ok)
 	{

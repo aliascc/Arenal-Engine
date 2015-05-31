@@ -78,11 +78,6 @@ class RawGameAsset sealed : public UniqueXEObjectNamed
 		std::wstring m_ProjectDirectory = L"";
 
 		/// <summary>
-		/// Output Directory for the Raw Asset File
-		/// <summary>
-		std::wstring m_OutputDirectory = L"";
-
-		/// <summary>
 		/// File Name to use when outputting the Raw Asset File
 		/// <summary>
 		std::wstring m_OutputFileName = L"";
@@ -91,11 +86,6 @@ class RawGameAsset sealed : public UniqueXEObjectNamed
 		/// Lets know if the Raw File needs to be imported again
 		/// <summary>
 		bool m_ReloadNeeded = false;
-
-		/// <summary>
-		/// Lets know if the Raw File needs to be imported again, because the output directory has changed
-		/// <summary>
-		bool m_OutputDirChanged = false;
 
 		/// <summary>
 		/// Lets know if the Raw File needs to be imported again, because the content subtype has changed
@@ -223,34 +213,10 @@ class RawGameAsset sealed : public UniqueXEObjectNamed
 		}
 
 		/// <summary>
-		/// Output Directory for the imported the Raw Asset File
-		/// </summary>
-		/// <returns>Output Directory</returns>
-		inline const std::wstring& GetOutputDirectory() const
-		{
-			return m_OutputDirectory;
-		}
-
-		/// <summary>
-		/// Full Output Directory for the imported the Raw Asset File
-		/// </summary>
-		/// <returns>Full Output Directory</returns>
-		inline std::wstring GetFullOutputDirectory() const
-		{
-			return (m_ProjectDirectory + m_OutputDirectory);
-		}
-
-		/// <summary>
 		/// Lets know if the Raw File needs to be imported again
 		/// </summary>
 		/// <returns>True if reload of the file is needed</returns>
 		bool IsReloadNeeded() const;
-
-		/// <summary>
-		/// Gets the complete output path for the imported Game Asset file
-		/// </summary>
-		/// <returns>Output path for imported Game Asset File</returns>
-		std::wstring GetFullOutputPath() const;
 
 		/// <summary>
 		/// Gets the Associated Asset ID that was created when this Raw Asset was imported
@@ -270,11 +236,6 @@ class RawGameAsset sealed : public UniqueXEObjectNamed
 			return m_CustomName;
 		}
 
-		bool GetOutputDirChanged() const
-		{
-			return m_OutputDirChanged;
-		}
-
 		bool GetContentSubtypeChanged() const
 		{
 			return m_ContentSubtypeChanged;
@@ -286,12 +247,6 @@ class RawGameAsset sealed : public UniqueXEObjectNamed
 		*   Set Methods   *
 		*******************/
 #pragma region Set Methods
-
-		/// <summary>
-		/// Sets the Output Directory for the imported the Raw Asset File
-		/// </summary>
-		/// <param name="outputDirectory">Output directory for imported asset</param>
-		void SetOutputDirectory(const std::wstring& outputDirectory);
 
 		/// <summary>
 		/// Sets the Content type for the Raw Asset File, this is set to be a more specific when importing
@@ -322,11 +277,6 @@ class RawGameAsset sealed : public UniqueXEObjectNamed
 		inline void SetReloadNeeded(bool reloadNeeded)
 		{
 			m_ReloadNeeded = reloadNeeded;
-		}
-
-		inline void SetOutputDirChanged(bool outputDirChanged)
-		{
-			m_OutputDirChanged = outputDirChanged;
 		}
 
 		inline void SetContentSubtypeChanged(bool contentSubtypeChanged)
