@@ -76,6 +76,8 @@ class XEngineViewerWidget sealed : public QWidget
 
 		XEResult StartEngineViewerThread(const std::wstring& configProjFile);
 
+		void StopEngineInstanceAndDestroy();
+
 		XEResult AddRawGameAsset(const std::wstring& fileName, GameContentSubtype gameContentSubtype);
 
 		XEResult ImportRawGameAsset(uint64_t id);

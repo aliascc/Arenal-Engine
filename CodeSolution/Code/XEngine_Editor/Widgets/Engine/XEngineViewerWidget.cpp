@@ -63,19 +63,7 @@ XEngineViewerWidget::XEngineViewerWidget(QWidget *parent)
 
 XEngineViewerWidget::~XEngineViewerWidget()
 {
-	if(m_EngineViewer != nullptr)
-	{
-		m_EngineViewer->ShutDownGameApp();
-
-		if (m_ThreadRunning)
-		{
-			m_EngineViewerThread.join();
-
-			m_ThreadRunning = false;
-		}
-
-		DeleteMem(m_EngineViewer);
-	}
+	StopEngineInstanceAndDestroy();
 }
 
 QPaintEngine*  XEngineViewerWidget::paintEngine() const
@@ -86,6 +74,25 @@ QPaintEngine*  XEngineViewerWidget::paintEngine() const
 void XEngineViewerWidget::paintEvent(QPaintEvent * event)
 {
 	//Nothing
+}
+
+void XEngineViewerWidget::StopEngineInstanceAndDestroy()
+{
+	if (m_EngineViewer == nullptr)
+	{
+		return;
+	}
+
+	m_EngineViewer->ShutDownGameApp();
+
+	if (m_ThreadRunning)
+	{
+		m_EngineViewerThread.join();
+
+		m_ThreadRunning = false;
+	}
+
+	DeleteMem(m_EngineViewer);
 }
 
 void XEngineViewerWidget::LinkEditorToEngine()

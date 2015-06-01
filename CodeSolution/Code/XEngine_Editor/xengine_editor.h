@@ -59,6 +59,10 @@ class XEngine_Editor sealed : public QMainWindow
 
 		void Initialize();
 
+		void SetNewEngineInstance(const std::wstring& configProjFile);
+
+		void SetEngineInstanceToAssets();
+
 		void SetObjTypeUserData();
 
 		void closeEvent(QCloseEvent* cEvent) override;
@@ -87,9 +91,11 @@ class XEngine_Editor sealed : public QMainWindow
 		*   Project Bar   *
 		*******************/
 
-		void on_m_MenuFileSaveProjectAction_triggered();
-
 		void on_m_MenuFileCreateProjectAction_triggered();
+
+		void on_m_MenuFileLoadProjectAction_triggered();
+
+		void on_m_MenuFileSaveProjectAction_triggered();
 
 		/******************
 		*   Physics Bar   *

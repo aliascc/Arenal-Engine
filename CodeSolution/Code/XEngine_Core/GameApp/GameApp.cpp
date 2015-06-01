@@ -1388,12 +1388,6 @@ XEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const s
 {
 	//////////////////////////////////////
 	//Pre-checks
-	if (m_IsReady)
-	{
-		XETODO("Better return code");
-		return XEResult::Fail;
-	}
-
 	if (projectFolder.empty() || projectName.empty())
 	{
 		return XEResult::EmptyString;

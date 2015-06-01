@@ -386,6 +386,15 @@
     <ClCompile Include="Dialogs\Project\NewProjectDialog.cpp">
       <Filter>Dialogs\Project</Filter>
     </ClCompile>
+    <ClCompile Include="Dialogs\Project\LoadProjectDialog.cpp">
+      <Filter>Dialogs\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_LoadProjectDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_LoadProjectDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="xengine_editor.qrc">
@@ -551,6 +560,12 @@
     <CustomBuild Include="Dialogs\Project\NewProjectDialog.h">
       <Filter>Dialogs\Project</Filter>
     </CustomBuild>
+    <CustomBuild Include="Form Files\Project\LoadProjectDialogQt.ui">
+      <Filter>Form Files\Project</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Dialogs\Project\LoadProjectDialog.h">
+      <Filter>Dialogs\Project</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine Viewer\EngineViewer.h">
@@ -629,6 +644,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_NewProjectDialogQt.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_LoadProjectDialogQt.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

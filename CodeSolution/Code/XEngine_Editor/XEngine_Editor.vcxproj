@@ -177,6 +177,7 @@
     <ClCompile Include="Dialogs\Game Objects\GameObjectAddComponentDialog.cpp" />
     <ClCompile Include="Dialogs\Game Objects\GameObjectSelectAssetDialog.cpp" />
     <ClCompile Include="Dialogs\Game Objects\GameObjectShaderPropsDialog.cpp" />
+    <ClCompile Include="Dialogs\Project\LoadProjectDialog.cpp" />
     <ClCompile Include="Dialogs\Project\NewProjectDialog.cpp" />
     <ClCompile Include="Dialogs\Raw Game Assets\NewRawGameAssetDialog.cpp" />
     <ClCompile Include="Engine Viewer\EngineViewer.cpp" />
@@ -269,6 +270,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_GameObjectTreeWidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_LoadProjectDialog.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -403,6 +408,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_GameObjectTreeWidget.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_LoadProjectDialog.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -1056,6 +1065,24 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DFASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS -DFASTFORMAT_NO_VERSION_NAG -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\XEngine_Base" "-I$(SolutionDir)\Code\XEngine_Scripting" "-I$(SolutionDir)\Code\XEngine_Graphics" "-I$(SolutionDir)\Code\XEngine_GameContent" "-I$(SolutionDir)\Code\XEngine_Core" "-I$(SolutionDir)\Code\XEngine_Resources" "-I$(SolutionDir)\Code\XEngine_Input" "-I$(SolutionDir)\Code\XEngine_Shaders" "-I$(SolutionDir)\Code\XEngine_GameComponents" "-I$(SolutionDir)\Code\XEngine_Audio" "-I$(SolutionDir)\Code\XEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\FastFormat\include" "-I$(SolutionDir)\Code\3rdParty\STLSoft\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
     </CustomBuild>
+    <CustomBuild Include="Dialogs\Project\LoadProjectDialog.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing LoadProjectDialog.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DFASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS -DFASTFORMAT_NO_VERSION_NAG -DUNICODE -DWIN32 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\XEngine_Base" "-I$(SolutionDir)\Code\XEngine_Scripting" "-I$(SolutionDir)\Code\XEngine_Graphics" "-I$(SolutionDir)\Code\XEngine_GameContent" "-I$(SolutionDir)\Code\XEngine_Core" "-I$(SolutionDir)\Code\XEngine_Resources" "-I$(SolutionDir)\Code\XEngine_Input" "-I$(SolutionDir)\Code\XEngine_Shaders" "-I$(SolutionDir)\Code\XEngine_GameComponents" "-I$(SolutionDir)\Code\XEngine_Audio" "-I$(SolutionDir)\Code\XEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\CPPFormat\include" "-I$(SolutionDir)\Code\3rdParty\STLSoft\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing LoadProjectDialog.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DFASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS -DFASTFORMAT_NO_VERSION_NAG -DUNICODE -DWIN32 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\XEngine_Base" "-I$(SolutionDir)\Code\XEngine_Scripting" "-I$(SolutionDir)\Code\XEngine_Graphics" "-I$(SolutionDir)\Code\XEngine_GameContent" "-I$(SolutionDir)\Code\XEngine_Core" "-I$(SolutionDir)\Code\XEngine_Resources" "-I$(SolutionDir)\Code\XEngine_Input" "-I$(SolutionDir)\Code\XEngine_Shaders" "-I$(SolutionDir)\Code\XEngine_GameComponents" "-I$(SolutionDir)\Code\XEngine_Audio" "-I$(SolutionDir)\Code\XEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\CPPFormat\include" "-I$(SolutionDir)\Code\3rdParty\STLSoft\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing LoadProjectDialog.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DFASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS -DFASTFORMAT_NO_VERSION_NAG -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\XEngine_Base" "-I$(SolutionDir)\Code\XEngine_Scripting" "-I$(SolutionDir)\Code\XEngine_Graphics" "-I$(SolutionDir)\Code\XEngine_GameContent" "-I$(SolutionDir)\Code\XEngine_Core" "-I$(SolutionDir)\Code\XEngine_Resources" "-I$(SolutionDir)\Code\XEngine_Input" "-I$(SolutionDir)\Code\XEngine_Shaders" "-I$(SolutionDir)\Code\XEngine_GameComponents" "-I$(SolutionDir)\Code\XEngine_Audio" "-I$(SolutionDir)\Code\XEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\CPPFormat\include" "-I$(SolutionDir)\Code\3rdParty\STLSoft\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing LoadProjectDialog.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DFASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS -DFASTFORMAT_NO_VERSION_NAG -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\XEngine_Base" "-I$(SolutionDir)\Code\XEngine_Scripting" "-I$(SolutionDir)\Code\XEngine_Graphics" "-I$(SolutionDir)\Code\XEngine_GameContent" "-I$(SolutionDir)\Code\XEngine_Core" "-I$(SolutionDir)\Code\XEngine_Resources" "-I$(SolutionDir)\Code\XEngine_Input" "-I$(SolutionDir)\Code\XEngine_Shaders" "-I$(SolutionDir)\Code\XEngine_GameComponents" "-I$(SolutionDir)\Code\XEngine_Audio" "-I$(SolutionDir)\Code\XEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\CPPFormat\include" "-I$(SolutionDir)\Code\3rdParty\STLSoft\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
+    </CustomBuild>
     <ClInclude Include="Engine Viewer\EngineViewer.h" />
     <ClInclude Include="GeneratedFiles\ui_CodeEditorMainWindowQt.h" />
     <ClInclude Include="GeneratedFiles\ui_GameObjectAddComponentDialogQt.h" />
@@ -1074,6 +1101,7 @@
     <ClInclude Include="GeneratedFiles\ui_GameObjectShaderPropsDialogQt.h" />
     <ClInclude Include="GeneratedFiles\ui_GameObjectSphereColliderComponentWidgetQt.h" />
     <ClInclude Include="GeneratedFiles\ui_GameObjectTransformationWidgetQt.h" />
+    <ClInclude Include="GeneratedFiles\ui_LoadProjectDialogQt.h" />
     <ClInclude Include="GeneratedFiles\ui_NewProjectDialogQt.h" />
     <ClInclude Include="GeneratedFiles\ui_NewRawGameAssetDialogQt.h" />
     <ClInclude Include="GeneratedFiles\ui_ProjectSelectionWidgetQt.h" />
@@ -1538,6 +1566,26 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Form Files\Project\NewProjectDialogQt.ui">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Form Files\Project\LoadProjectDialogQt.ui">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>

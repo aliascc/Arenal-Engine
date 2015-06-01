@@ -40,6 +40,7 @@
 #include "GameAssets\Assets\SkeletonAsset.h"
 #include "GameAssets\Assets\AnimationAsset.h"
 #include "Dialogs\Project\NewProjectDialog.h"
+#include "Dialogs\Project\LoadProjectDialog.h"
 #include "Widgets\Engine\XEngineViewerWidget.h"
 #include "Widgets\Project\ProjectSelectionWidget.h"
 #include "Widgets\Code Editor\CodeEditorMainWindow.h"
@@ -108,13 +109,7 @@ void XEngine_Editor::Initialize()
 	m_XEngineViewerWidget->LinkEditorToEngine();
 
 	////////////////////////////////////////
-	//Get Game Engine Viewer
-	EngineViewer* engineViewer = m_XEngineViewerWidget->GetEngineViewer();
-
-	////////////////////////////////////////
 	//Raw Game Assets Tree Init
-	m_EditorUI.m_RawGameAssetsTree->SetEngineViewer(engineViewer);
-
 	m_EditorUI.m_RawGameAssetsTree->InitFields();
 
 	connect(m_EditorUI.m_RawGameAssetsTree, SIGNAL(NewDropRawAssetsFiles(QStringList)), this, SLOT(NewDropRawAssetsFilesEvent(QStringList)));
@@ -123,22 +118,16 @@ void XEngine_Editor::Initialize()
 
 	////////////////////////////////////////
 	//Game Assets Tree Init
-	m_EditorUI.m_GameAssetsTree->SetEngineViewer(engineViewer);
-
 	m_EditorUI.m_GameAssetsTree->InitFields();
 
 	////////////////////////////////////////
 	//Game Objects Tree Init
-	m_EditorUI.m_GameObjectsTree->SetEngineViewer(engineViewer);
-
 	m_EditorUI.m_GameObjectsTree->InitFields();
 
 	connect(m_EditorUI.m_GameObjectsTree, SIGNAL(GameObjectChanged(GameObject*)), this, SLOT(GameObjectChangedEvent(GameObject*)));
 
 	////////////////////////////////////////
 	//Game Objects Props Tree Init
-	m_EditorUI.m_GameObjectPropsTree->SetEngineViewer(engineViewer);
-
 	m_EditorUI.m_GameObjectPropsTree->InitFields();
 
 	connect(m_EditorUI.m_GameObjectPropsTree, SIGNAL(GameObjectChangedName(uint64_t)), this, SLOT(GameObjectChangedNameEvent(uint64_t)));
@@ -150,6 +139,58 @@ void XEngine_Editor::Initialize()
 	////////////////////////////////////////
 	//Show Project Selection Widget
 	m_ProjectSelectionWidget = new ProjectSelectionWidget();
+}
+
+void XEngine_Editor::SetNewEngineInstance(const std::wstring& configProjFile)
+{
+	XETODO("Check return");
+	m_XEngineViewerWidget->StopEngineInstanceAndDestroy();
+
+	////////////////////////////////////////
+	//Link Engine to Widget
+	m_XEngineViewerWidget->LinkEditorToEngine();
+
+	SetEngineInstanceToAssets();
+
+	XETODO("Check return");
+	m_XEngineViewerWidget->StartEngineViewerThread(configProjFile);
+}
+
+void XEngine_Editor::SetEngineInstanceToAssets()
+{
+	////////////////////////////////////////
+	//Get Game Engine Viewer
+	EngineViewer* engineViewer = m_XEngineViewerWidget->GetEngineViewer();
+
+	XEAssert(engineViewer != nullptr);
+	if (engineViewer == nullptr)
+	{
+		return;
+	}
+
+	////////////////////////////////////////
+	//Raw Game Assets Tree Init
+	m_EditorUI.m_RawGameAssetsTree->SetEngineViewer(engineViewer);
+
+	m_EditorUI.m_RawGameAssetsTree->clear();
+
+	////////////////////////////////////////
+	//Game Assets Tree Init
+	m_EditorUI.m_GameAssetsTree->SetEngineViewer(engineViewer);
+
+	m_EditorUI.m_GameAssetsTree->clear();
+
+	////////////////////////////////////////
+	//Game Objects Tree Init
+	m_EditorUI.m_GameObjectsTree->SetEngineViewer(engineViewer);
+
+	m_EditorUI.m_GameObjectsTree->clear();
+
+	////////////////////////////////////////
+	//Game Objects Props Tree Init
+	m_EditorUI.m_GameObjectPropsTree->SetEngineViewer(engineViewer);
+
+	m_EditorUI.m_GameObjectPropsTree->clear();
 }
 
 void XEngine_Editor::closeEvent(QCloseEvent* cEvent)
@@ -561,9 +602,7 @@ void XEngine_Editor::on_m_MenuFileCreateProjectAction_triggered()
 	}
 
 	const std::wstring& configFile = newProject.GetConfigFile();
-
-	XETODO("Check return");
-	m_XEngineViewerWidget->StartEngineViewerThread(configFile);
+	SetNewEngineInstance(configFile);
 }
 
 void XEngine_Editor::on_m_MenuFileSaveProjectAction_triggered()
@@ -578,6 +617,26 @@ void XEngine_Editor::on_m_MenuFileSaveProjectAction_triggered()
 
 		QMessageBox::warning(this, tr("Error"), msg);
 	}
+}
+
+void XEngine_Editor::on_m_MenuFileLoadProjectAction_triggered()
+{
+	////////////////////////////////////////
+	//Get Game Engine Viewer
+	EngineViewer* engineViewer = m_XEngineViewerWidget->GetEngineViewer();
+
+	LoadProjectDialog loadProject(engineViewer);
+
+	int result = loadProject.exec();
+	if (result != QDialog::Accepted)
+	{
+		return;
+	}
+
+	const std::wstring& configFile = loadProject.GetConfigFile();
+
+	XETODO("Check return");
+	SetNewEngineInstance(configFile);
 }
 
 void XEngine_Editor::LoadProject(const std::wstring& projectConfig)
