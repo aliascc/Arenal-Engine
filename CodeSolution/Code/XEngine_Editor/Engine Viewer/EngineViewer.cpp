@@ -347,7 +347,7 @@ void EngineViewer::AutoLoadTest()
 	//physicColliderBoxFloor->SetSize(boxMeshAsset->GetMeshReference()->GetBoundingBox().GetSize());
 	physicColliderBoxFloor->SetScale(goFloor->GetScale());
 
-	int32_t numLoop = 5;
+	int32_t numLoop = 10;
 
 	for (int32_t i = 0; i < numLoop; i++)
 	{
@@ -357,20 +357,15 @@ void EngineViewer::AutoLoadTest()
 			{
 				glm::vec3 pos(15 - (i * 3), 30 - (j * 3), 15 - (h * 3));
 				glm::vec3 rand(XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f));
-				AutoLoadTestAddGO(pos + rand, boxMeshAsset, vsAsset, psAsset, snowTexAsset, CollisionShape::Box);
-			}
-		}
-	}
 
-	for (int32_t i = 0; i < numLoop; i++)
-	{
-		for (int32_t j = 0; j < numLoop; j++)
-		{
-			for (int32_t h = 0; h < numLoop; h++)
-			{
-				glm::vec3 rand(XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f));
-				glm::vec3 pos(15 - (i * 4), 15 - (j * 4), 15 - (h * 4));
-				AutoLoadTestAddGO(pos + rand, sphereMeshAsset, vsAsset, psAsset, rockTexAsset, CollisionShape::Sphere);
+				if (XERandomHelpers::GetInt(0, 1) == 1)
+				{
+					AutoLoadTestAddGO(pos + rand, boxMeshAsset, vsAsset, psAsset, snowTexAsset, CollisionShape::Box);
+				}
+				else
+				{
+					AutoLoadTestAddGO(pos + rand, sphereMeshAsset, vsAsset, psAsset, rockTexAsset, CollisionShape::Sphere);
+				}
 			}
 		}
 	}
