@@ -109,7 +109,7 @@ class GameObjectScriptGOC sealed : public GameObjectComponent
 		/// <summary>
 		/// GameObjectScriptGOC Constructor
 		/// </summary>
-		/// <param name="gameObject>Game Object that this Component is attached too</param>
+		/// <param name="gameObject">Game Object that this Component is attached too</param>
 		/// <param name="name">Name of the Script GOC.</param>
 		/// <param name="angelScriptManager">Angel Script Manager to associate the Scripts with.</param>
 		/// <param name="gameObjectScriptManager">Game Object Script Manager to associate the scripts with.</param>

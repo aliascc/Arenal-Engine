@@ -158,7 +158,7 @@ class MeshMaterialGOC sealed : public GameObjectComponent
 		/// <summary>
 		/// MeshMaterialGOC Constructor
 		/// </summary>
-		/// <param name="gameObject>Game Object that this Component is attached too</param>
+		/// <param name="gameObject">Game Object that this Component is attached too</param>
 		/// <param name="name">Name of the Mesh Material</param>
 		MeshMaterialGOC(GameObject* gameObject, const std::wstring& name = L"");
 

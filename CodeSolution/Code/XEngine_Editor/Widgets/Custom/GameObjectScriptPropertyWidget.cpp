@@ -102,7 +102,7 @@ XEResult GameObjectScriptPropertyWidget::FillPropertiesRows(GameObjectScriptProp
 		///////////////////////////////////////////
 		//Create Constant Buffer Branch
 		QTreeWidgetItem* propItem = new QTreeWidgetItem();
-		QString name = QString::fromStdString(gosProp->m_PropertyName);
+		QString name = QString::fromStdWString(gosProp->m_PropertyName);
 		propItem->setData(0, Qt::ItemDataRole::DisplayRole, name);
 
 		///////////////////////////////////////////

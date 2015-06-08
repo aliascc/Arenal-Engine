@@ -93,7 +93,7 @@ class MeshAnimationGOC sealed : public GameObjectComponent
 		/// <summary>
 		/// MeshAnimationGOC Constructor
 		/// </summary>
-		/// <param name="gameObject>Game Object that this Component is attached too</param>
+		/// <param name="gameObject">Game Object that this Component is attached too</param>
 		MeshAnimationGOC(GameObject* gameObject);
 
 		/// <summary>

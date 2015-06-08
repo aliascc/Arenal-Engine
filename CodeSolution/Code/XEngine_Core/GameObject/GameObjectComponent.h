@@ -87,7 +87,7 @@ class GameObjectComponent abstract : public UniqueXEObject
 		/// <summary>
 		/// GameObjectComponent Constructor
 		/// </summary>
-		/// <param name="gameObject>Game Object that this Component is attached too</param>
+		/// <param name="gameObject">Game Object that this Component is attached too</param>
 		/// <param name="gameObjectComponentType>Game Object Component Type</param>
 		GameObjectComponent(GameObject* gameObject, GameObjectComponentType gameObjectComponentType);
 

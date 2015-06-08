@@ -33,11 +33,20 @@
 *   Forward Decls   *
 *********************/
 class GameObject;
+class XEXMLParser;
 class XEXMLWriter;
+class AudioManager;
+class LightManager;
+class CameraManager;
+class PhysicsManager;
 class ConstantBuffer;
+class MeshMaterialGOC;
+class GameAssetManager;
 class ShaderProperties;
 class GameObjectManager;
+class AngelScriptManager;
 struct ShaderCustomVariable;
+class GameObjectScriptManager;
 struct GameObjectScriptProperties;
 
 /***************
@@ -70,7 +79,23 @@ class GameObjectManager sealed : public UniqueXEObject
 		/// Normally use by the editor
 		/// </remarks>
 		GameObject* m_SelectedGameObject = nullptr;
-		
+
+		GameAssetManager* m_GameAssetManager = nullptr;
+
+		GameObjectScriptManager* m_GameObjectScriptManager = nullptr;
+
+		AngelScriptManager* m_AngelScriptManager = nullptr;
+
+		LightManager* m_LightManager = nullptr;
+
+		CameraManager* m_CameraManager = nullptr;
+
+		GraphicDevice* m_GraphicDevice = nullptr;
+
+		AudioManager* m_AudioManager = nullptr;
+
+		PhysicsManager* m_PhysicsManager = nullptr;
+
 		GameObjectMap m_GameObjectMap;
 
 #pragma endregion
@@ -86,41 +111,81 @@ class GameObjectManager sealed : public UniqueXEObject
 
 		void CleanUp();
 
-		XEResult SaveToXMLGameObject(XEXMLWriter& xmlWriter, GameObject* gameObject);
+		XEResult SaveToXMLGameObject(XEXMLWriter& xmlWriter, GameObject* gameObject) const;
 
-		XEResult SaveToXMLGameObjectComponents(XEXMLWriter& xmlWriter, GameObject* gameObject);
+		XEResult SaveToXMLGameObjectComponents(XEXMLWriter& xmlWriter, GameObject* gameObject) const;
 
-		XEResult SaveToXMLMeshComponent(XEXMLWriter& xmlWriter, GameObject* gameObject);
+		XEResult SaveToXMLMeshComponent(XEXMLWriter& xmlWriter, GameObject* gameObject) const;
 
-		XEResult SaveToXMLMeshMaterialsComponent(XEXMLWriter& xmlWriter, GameObject* gameObject);
+		XEResult SaveToXMLMeshMaterialsComponent(XEXMLWriter& xmlWriter, GameObject* gameObject) const;
 
-		XEResult SaveToXMLShader(XEXMLWriter& xmlWriter, ShaderType shaderType, uint64_t assetID, ShaderProperties* properties);
+		XEResult SaveToXMLShader(XEXMLWriter& xmlWriter, ShaderType shaderType, uint64_t assetID, ShaderProperties* properties) const;
 
-		XEResult SaveToXMLShaderProperties(XEXMLWriter& xmlWriter, ShaderProperties* properties);
+		XEResult SaveToXMLShaderProperties(XEXMLWriter& xmlWriter, ShaderProperties* properties) const;
 
-		XEResult SaveToXMLCBShaderVariable(XEXMLWriter& xmlWriter, const ShaderCustomVariable* scv, ConstantBuffer* cb);
+		XEResult SaveToXMLCBShaderVariable(XEXMLWriter& xmlWriter, const ShaderCustomVariable* scv, ConstantBuffer* cb) const;
 
-		XEResult SaveToXMLCBScalar(XEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType);
+		XEResult SaveToXMLCBScalar(XEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType) const;
 
-		XEResult SaveToXMLCBVector(XEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns);
+		XEResult SaveToXMLCBVector(XEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns) const;
 
-		XEResult SaveToXMLCBMatrix(XEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows);
+		XEResult SaveToXMLCBMatrix(XEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows) const;
 
-		XEResult SaveToXMLGameObjectScriptsComponent(XEXMLWriter& xmlWriter, GameObject* gameObject);
+		XEResult SaveToXMLGameObjectScriptsComponent(XEXMLWriter& xmlWriter, GameObject* gameObject) const;
 
-		XEResult SaveToXMLGameObjectScriptsProperties(XEXMLWriter& xmlWriter, const GameObjectScriptProperties* properties);
+		XEResult SaveToXMLGameObjectScriptsProperties(XEXMLWriter& xmlWriter, const GameObjectScriptProperties* properties) const;
 
-		XEResult SaveToXMLLightComponent(XEXMLWriter& xmlWriter, GameObject* gameObject);
+		XEResult SaveToXMLLightComponent(XEXMLWriter& xmlWriter, GameObject* gameObject) const;
 
-		XEResult SaveToXMLMeshAnimationComponent(XEXMLWriter& xmlWriter, GameObject* gameObject);
+		XEResult SaveToXMLMeshAnimationComponent(XEXMLWriter& xmlWriter, GameObject* gameObject) const;
 
-		XEResult SaveToXMLCameraComponent(XEXMLWriter& xmlWriter, GameObject* gameObject);
+		XEResult SaveToXMLCameraComponent(XEXMLWriter& xmlWriter, GameObject* gameObject) const;
 
-		XEResult SaveToXMLAudioListenerComponent(XEXMLWriter& xmlWriter, GameObject* gameObject);
+		XEResult SaveToXMLAudioListenerComponent(XEXMLWriter& xmlWriter, GameObject* gameObject) const;
 
-		XEResult SaveToXMLAudioSourceComponent(XEXMLWriter& xmlWriter, GameObject* gameObject);
+		XEResult SaveToXMLAudioSourceComponent(XEXMLWriter& xmlWriter, GameObject* gameObject) const;
 
-		XEResult SaveToXMLPhysicsComponent(XEXMLWriter& xmlWriter, GameObject* gameObject);
+		XEResult SaveToXMLPhysicsComponent(XEXMLWriter& xmlWriter, GameObject* gameObject) const;
+
+		XEResult LoadXMLGameObject(XEXMLParser& xmlParser, GameObject* parent);
+
+		XEResult LoadXMLGameObjectComponents(XEXMLParser& xmlParser, GameObject* gameObject);
+
+		XEResult LoadXMLMeshComponent(XEXMLParser& xmlParser, GameObject* gameObject);
+
+		XEResult LoadXMLMeshMaterialsComponent(XEXMLParser& xmlParser, GameObject* gameObject);
+
+		XEResult LoadXMLMeshMaterialComponent(XEXMLParser& xmlParser, GameObject* gameObject);
+
+		XEResult LoadXMLShader(XEXMLParser& xmlParser, MeshMaterialGOC* material);
+
+		XEResult LoadXMLShaderProperties(XEXMLParser& xmlParser, ShaderProperties* properties);
+
+		XEResult LoadXMLCBShaderVariable(XEXMLParser& xmlParser, ConstantBuffer* cb);
+
+		XEResult LoadXMLCBScalar(XEXMLParser& xmlParser, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType);
+
+		XEResult LoadXMLCBVector(XEXMLParser& xmlParser, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns);
+
+		XEResult LoadXMLCBMatrix(XEXMLParser& xmlParser, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows);
+
+		XEResult LoadXMLGameObjectScriptsComponents(XEXMLParser& xmlParser, GameObject* gameObject);
+
+		XEResult LoadXMLGameObjectScriptsComponent(XEXMLParser& xmlParser, GameObject* gameObject);
+
+		XEResult LoadXMLGameObjectScriptsProperties(XEXMLParser& xmlParser, GameObjectScriptProperties* properties);
+
+		XEResult LoadXMLLightComponent(XEXMLParser& xmlParser, GameObject* gameObject);
+
+		XEResult LoadXMLMeshAnimationComponent(XEXMLParser& xmlParser, GameObject* gameObject);
+
+		XEResult LoadXMLCameraComponent(XEXMLParser& xmlParser, GameObject* gameObject);
+
+		XEResult LoadXMLAudioListenerComponent(XEXMLParser& xmlParser, GameObject* gameObject);
+
+		XEResult LoadXMLAudioSourceComponent(XEXMLParser& xmlParser, GameObject* gameObject);
+
+		XEResult LoadXMLPhysicsComponent(XEXMLParser& xmlParser, GameObject* gameObject);
 
 #pragma endregion
 
@@ -134,7 +199,15 @@ class GameObjectManager sealed : public UniqueXEObject
 		/// <summary>
 		/// Default GameObjectManager Constructor
 		/// </summary>
-		GameObjectManager();
+		/// <param name="graphicDevice">Graphic Device</param>
+		/// <param name="gameAssetManager">Game Asset Manager</param>
+		/// <param name="gameObjectScriptManager">Game Object Script Manager</param>
+		/// <param name="angelScriptManager">Angel Script Manager</param>
+		/// <param name="lightManager">Light Manager</param>
+		/// <param name="cameraManager">Camera Manager</param>
+		/// <param name="audioManager">Audio Manager</param>
+		/// <param name="physicsManager">Physics Manager</param>
+		GameObjectManager(GraphicDevice* graphicDevice, GameAssetManager* gameAssetManager, GameObjectScriptManager* gameObjectScriptManager, AngelScriptManager* angelScriptManager, LightManager* lightManager, CameraManager* cameraManager, AudioManager* audioManager, PhysicsManager* physicsManager);
 
 		/// <summary>
 		/// Default GameObjectManager Destructor
@@ -171,7 +244,9 @@ class GameObjectManager sealed : public UniqueXEObject
 		*************************/
 #pragma region Framework Methods
 
-		XEResult SaveToXML(const std::wstring& file);
+		XEResult LoadGameObjectManagerFile(const std::wstring& file);
+
+		XEResult SaveToXML(const std::wstring& file) const;
 
 		bool GameObjectExistsTopLevel(uint64_t goID) const;
 

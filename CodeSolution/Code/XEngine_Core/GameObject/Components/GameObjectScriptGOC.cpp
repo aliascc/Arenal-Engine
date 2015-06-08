@@ -383,7 +383,7 @@ XEResult GameObjectScriptGOC::CreateGameObjectScriptInstance(const std::wstring&
 		GameObjectScriptProperty* gosProperty = new GameObjectScriptProperty();
 
 		gosProperty->m_PropertyType		= type;
-		gosProperty->m_PropertyName		= m_GameObjectScriptInstance->m_ASObj->GetPropertyName(i);
+		gosProperty->m_PropertyName		= XE_Base::String2WideStr(m_GameObjectScriptInstance->m_ASObj->GetPropertyName(i));
 		gosProperty->m_PropertyAddress	= m_GameObjectScriptInstance->m_ASObj->GetAddressOfProperty(i);
 
 		m_GameObjectScriptProperties->m_PropertiesMap[gosProperty->m_PropertyName] = gosProperty;

@@ -718,7 +718,7 @@ XEResult LocalizationManager::RemoveExtendedLiteral(const std::wstring& language
 	return XEResult::Ok;
 }
 
-XEResult LocalizationManager::SaveToXML(const std::wstring& filename, const std::wstring& projectDir)
+XEResult LocalizationManager::SaveToXML(const std::wstring& filename, const std::wstring& projectDir) const
 {
 	//////////////////////////////////
 	//Pre-checks
@@ -801,7 +801,7 @@ XEResult LocalizationManager::SaveToXML(const std::wstring& filename, const std:
 	return XEResult::Ok;
 }
 
-XEResult LocalizationManager::SaveToXMLExtentedLiteral(const std::wstring& filename, const LiteralsSet& literalSet, const std::wstring& languageName)
+XEResult LocalizationManager::SaveToXMLExtentedLiteral(const std::wstring& filename, const LiteralsSet& literalSet, const std::wstring& languageName) const
 {
 	if (filename.empty())
 	{
@@ -832,7 +832,7 @@ XEResult LocalizationManager::SaveToXMLExtentedLiteral(const std::wstring& filen
 		return XEResult::Fail;
 	}
 
-	LiteralMap& literalMap = langMapIt->second;
+	const LiteralMap& literalMap = langMapIt->second;
 	for (auto literalSetName : literalSet)
 	{
 		ret = xmlWriter.StartNode(XE_LOC_LITERAL_NODE_NAME);
@@ -844,7 +844,7 @@ XEResult LocalizationManager::SaveToXMLExtentedLiteral(const std::wstring& filen
 
 		xmlWriter.WriteString(XE_LOC_LITERAL_NAME_PROP_NAME, literalSetName);
 
-		xmlWriter.WriteString(XE_LOC_LITERAL_MSG_PROP_NAME, literalMap[literalSetName].m_Msg);
+		xmlWriter.WriteString(XE_LOC_LITERAL_MSG_PROP_NAME, literalMap.find(literalSetName)->second.m_Msg);
 
 		ret = xmlWriter.EndNode();
 		if (ret != XEResult::Ok)

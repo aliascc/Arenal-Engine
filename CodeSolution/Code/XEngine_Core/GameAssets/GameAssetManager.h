@@ -123,9 +123,9 @@ class GameAssetManager sealed : public XEObject
 
 		XEResult CheckForLatestRawGameAssets();
 
-		XEResult SaveToXMLGameAssets(XEXMLWriter& xmlWriter);
+		XEResult SaveToXMLGameAssets(XEXMLWriter& xmlWriter) const;
 
-		XEResult SaveToXMLRawGameAssets(XEXMLWriter& xmlWriter);
+		XEResult SaveToXMLRawGameAssets(XEXMLWriter& xmlWriter) const;
 
 		XEResult LoadRawAssets(XEXMLParser& rawAssetXML);
 
@@ -229,7 +229,7 @@ class GameAssetManager sealed : public XEObject
 
 		XEResult CheckForLatestRawGameAssetsAndImport();
 
-		XEResult SaveToXML(const std::wstring& gameAssetsFilename);
+		XEResult SaveToXML(const std::wstring& gameAssetsFilename) const;
 
 		XEResult LoadAssetManagerFile(const std::wstring& gameAssetsFilename);
 

@@ -158,7 +158,7 @@ struct GameObjectScriptProperty sealed : public XEObject
 	/// <summary>
 	/// Name of the Property
 	/// </summary>
-	std::string m_PropertyName = "";
+	std::wstring m_PropertyName = L"";
 
 	/// <summary>
 	/// Index use by the Property
@@ -215,7 +215,7 @@ struct GameObjectScriptProperties sealed : public XEObject
 	/// <summary>
 	/// Map Containing the Script Properties
 	/// </summary>
-	std::unordered_map<std::string, GameObjectScriptProperty*> m_PropertiesMap;
+	std::unordered_map<std::wstring, GameObjectScriptProperty*> m_PropertiesMap;
 
 	/// <summary>
 	/// Default Constructor
@@ -235,7 +235,14 @@ struct GameObjectScriptProperties sealed : public XEObject
 
 	void ClearPropertiesAddress();
 
+	inline bool GameObjectScriptPropertyExists(const std::wstring& name) const
+	{
+		return (m_PropertiesMap.find(name) != m_PropertiesMap.end());
+	}
+
 	XEResult CopySavedValuesToProperties(GameObjectScriptProperties& target);
+
+	GameObjectScriptProperty* GetGameObjectScriptProperty(const std::wstring& name);
 };
 
 #endif

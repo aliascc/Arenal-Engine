@@ -451,6 +451,8 @@ class GameApp abstract : public XEObject
 
 		XEResult SaveGameInfo();
 
+		XEResult LoadGameProjectInfo();
+
 		XEResult CreateProjectFolder(const std::wstring& projectFolder, const std::wstring& projectName, bool createFolder);
 
 		virtual void Initialize();

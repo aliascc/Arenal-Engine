@@ -173,7 +173,7 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		/// <param name='literalSet'>Extended Literal Set</param>
 		/// <param name='languageName'>Language of Literals</param>
 		/// <returns>Returns XEResult::OK if it was successful</returns>
-		XEResult SaveToXMLExtentedLiteral(const std::wstring& filename, const LiteralsSet& literalSet, const std::wstring& languageName);
+		XEResult SaveToXMLExtentedLiteral(const std::wstring& filename, const LiteralsSet& literalSet, const std::wstring& languageName) const;
 
 #pragma endregion
 
@@ -298,7 +298,7 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 		/// <param name='filename'>Filename to extend</param>
 		/// <param name='projectDir'>Project Directory</param>
 		/// <returns>Returns XEResult::OK if it was successful</returns>
-		XEResult SaveToXML(const std::wstring& filename, const std::wstring& projectDir);
+		XEResult SaveToXML(const std::wstring& filename, const std::wstring& projectDir) const;
 
 #pragma endregion
 

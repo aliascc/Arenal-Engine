@@ -92,7 +92,7 @@ class CameraGOC sealed : public GameObjectComponent
 		/// <summary>
 		/// CameraGOC Constructor
 		/// </summary>
-		/// <param name="gameObject>Game Object that this Component is attached too</param>
+		/// <param name="gameObject">Game Object that this Component is attached too</param>
 		/// <param name="cameraManager">Camera Manager to associate Camera.</param>
 		/// <param name="graphicDevice">Graphic Device that are use with the Game App.</param>
 		CameraGOC(GameObject* gameObject, CameraManager* cameraManager, GraphicDevice* graphicDevice);
@@ -164,6 +164,15 @@ class CameraGOC sealed : public GameObjectComponent
 		inline void SetDrawFrustumEnabled(bool enabled)
 		{
 			m_DrawFrustumEnabled = enabled;
+		}
+
+		/// <summary>
+		/// Sets the if the Frustum Draw is to be draw simple
+		/// </summary>
+		/// <param name="enabled">Sets if the frustum is to be draw simple</param>
+		inline void SetDrawFrustumSimple(bool enabled)
+		{
+			m_DrawFrustumSimple = enabled;
 		}
 
 #pragma endregion

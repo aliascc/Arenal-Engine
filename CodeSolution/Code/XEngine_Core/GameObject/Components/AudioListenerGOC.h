@@ -66,7 +66,7 @@ class AudioListenerGOC sealed : public GameObjectComponent
 		/// <summary>
 		/// AudioListenerGOC Constructor
 		/// </summary>
-		/// <param name="gameObject>Game Object that this Component is attached too</param>
+		/// <param name="gameObject">Game Object that this Component is attached too</param>
 		AudioListenerGOC(GameObject* gameObject, AudioManager* audioManager);
 
 		/// <summary>

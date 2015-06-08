@@ -51,7 +51,6 @@
 #include "Shaders\Custom\DiffuseTexturePS.h"
 #include "Shaders\Custom\DiffuseTextureVS.h"
 #include "Localization\LocalizationManager.h"
-#include "Localization\LocalizationManager.h"
 #include "Localization\LocalizationManagerDefs.h"
 
 //Always include last
@@ -1420,7 +1419,7 @@ XEResult GameAssetManager::LoadAudioAsset(const GameAssetLoadingDetails& details
 	return XEResult::Ok;
 }
 
-XEResult GameAssetManager::SaveToXML(const std::wstring& gameAssetsFilename)
+XEResult GameAssetManager::SaveToXML(const std::wstring& gameAssetsFilename) const
 {
 	if (!m_IsReady)
 	{
@@ -1496,7 +1495,7 @@ XEResult GameAssetManager::SaveToXML(const std::wstring& gameAssetsFilename)
 	return XEResult::Ok;
 }
 
-XEResult GameAssetManager::SaveToXMLGameAssets(XEXMLWriter& xmlWriter)
+XEResult GameAssetManager::SaveToXMLGameAssets(XEXMLWriter& xmlWriter) const
 {
 	XEResult ret = XEResult::Ok;
 
@@ -1549,7 +1548,7 @@ XEResult GameAssetManager::SaveToXMLGameAssets(XEXMLWriter& xmlWriter)
 	return XEResult::Ok;
 }
 
-XEResult GameAssetManager::SaveToXMLRawGameAssets(XEXMLWriter& xmlWriter)
+XEResult GameAssetManager::SaveToXMLRawGameAssets(XEXMLWriter& xmlWriter) const
 {
 	XEResult ret = XEResult::Ok;
 
@@ -1622,7 +1621,7 @@ XEResult GameAssetManager::LoadAssetManagerFile(const std::wstring& gameAssetsFi
 		return XEResult::OpenFileFail;
 	}
 
-	XEXMLParser configXML = newFile[L"AssetManager"];
+	XEXMLParser configXML = newFile[XE_ASSET_MANAGER_NODE_NAME];
 	if (!configXML.IsReady())
 	{
 		return XEResult::XMLReadError;
@@ -1635,11 +1634,11 @@ XEResult GameAssetManager::LoadAssetManagerFile(const std::wstring& gameAssetsFi
 
 		std::wstring l_Type = child.GetName();
 
-		if (l_Type.compare(L"Config") == 0)
+		if (l_Type.compare(XE_ASSET_CONFIG_NODE_NAME) == 0)
 		{
-			m_UniqueAssetIDGen = child.GetUInt64(L"PersistantUniqueID");
+			m_UniqueAssetIDGen = child.GetUInt64(XE_ASSET_PERSISTANTUNIQUEID_PROP_NAME);
 		}
-		else if (l_Type.compare(L"RawFiles") == 0)
+		else if (l_Type.compare(XE_RAW_FILES_NODE_NAME) == 0)
 		{
 			child.GetNumChildren();
 		}

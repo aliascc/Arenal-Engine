@@ -150,7 +150,7 @@ XEResult GameObjectScriptProperties::CopySavedValuesToProperties(GameObjectScrip
 {
 	for (auto scriptProperty : target.m_PropertiesMap)
 	{
-		const std::string& propName = scriptProperty.first;
+		const std::wstring& propName = scriptProperty.first;
 
 		GameObjectScriptProperty* gosProp = scriptProperty.second;
 		if (gosProp->m_PropertyAddress == nullptr)
@@ -183,4 +183,14 @@ XEResult GameObjectScriptProperties::CopySavedValuesToProperties(GameObjectScrip
 	}
 
 	return XEResult::Ok;
+}
+
+GameObjectScriptProperty* GameObjectScriptProperties::GetGameObjectScriptProperty(const std::wstring& name)
+{
+	if (!GameObjectScriptPropertyExists(name))
+	{
+		return nullptr;
+	}
+
+	return m_PropertiesMap[name];
 }

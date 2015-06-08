@@ -104,6 +104,8 @@ void GameApp::CleanUp()
 	// - Angel Script Manager
 	//
 
+	DeleteMem(m_GameObjectManager);
+
 	DeleteMem(m_GameServiceCollection);
 
 	DeleteMem(m_GameComponentCollection);
@@ -111,8 +113,6 @@ void GameApp::CleanUp()
 	DeleteMem(m_GameAssetManager);
 
 	DeleteMem(m_GameObjectScriptManager);
-
-	DeleteMem(m_GameObjectManager);
 
 	DeleteMem(m_GameResourceManager);
 
@@ -602,10 +602,6 @@ XEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
 	//Create Game Object Script Manager
 	m_GameObjectScriptManager = new GameObjectScriptManager();
 
-	////////////////////////////////////////////////
-	//Create Game Object Manager
-	m_GameObjectManager = new GameObjectManager();
-
 	//Initialize Game Component Collection & Game Services Collection
 	m_GameComponentCollection = new GameComponentCollection();
 	m_GameServiceCollection = new GameServiceCollection();
@@ -631,6 +627,10 @@ XEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
 
 		return XEResult::Fail;
 	}
+
+	////////////////////////////////////////////////
+	//Create Game Object Manager
+	m_GameObjectManager = new GameObjectManager(m_GraphicDevice, m_GameAssetManager, m_GameObjectScriptManager, m_AngelScriptManager, m_LightManager, m_CameraManager, m_AudioManager, m_PhysicsManager);
 
 	//////////////////////////////////
 	//Game is ready to run
@@ -1375,6 +1375,39 @@ XEResult GameApp::SaveGameInfo()
 	}
 
 	ret = m_GameObjectManager->SaveToXML(m_GameProject.m_GameProjectConfig.m_GameObjectManagerFile);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Log error");
+		return ret;
+	}
+
+	return XEResult::Ok;
+}
+
+XEResult GameApp::LoadGameProjectInfo()
+{
+	if (!m_IsReady)
+	{
+		return XEResult::NotReady;
+	}
+
+	XEResult ret = XEResult::Ok;
+
+	ret = XELOCMAN->LoadProjectFile(m_GameProject.m_GameProjectConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Log error");
+		return ret;
+	}
+
+	ret = m_GameAssetManager->LoadAssetManagerFile(m_GameProject.m_GameProjectConfig.m_AssetManagerFile);
+	if (ret != XEResult::Ok)
+	{
+		XETODO("Log error");
+		return ret;
+	}
+
+	ret = m_GameObjectManager->LoadGameObjectManagerFile(m_GameProject.m_GameProjectConfig.m_GameObjectManagerFile);
 	if (ret != XEResult::Ok)
 	{
 		XETODO("Log error");

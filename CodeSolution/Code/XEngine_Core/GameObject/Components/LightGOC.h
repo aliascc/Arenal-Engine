@@ -86,7 +86,7 @@ class LightGOC sealed : public GameObjectComponent
 		/// <summary>
 		/// LightGOC Constructor
 		/// </summary>
-		/// <param name="gameObject>Game Object that this Component is attached too</param>
+		/// <param name="gameObject">Game Object that this Component is attached too</param>
 		/// <param name="lightManager">Light Manager to associate Light</param>
 		LightGOC(GameObject* gameObject, LightManager* lightManager);
 

@@ -68,7 +68,7 @@ class PhysicsGOC sealed : public GameObjectComponent
 		/// <summary>
 		/// PhysicsGOC Constructor
 		/// </summary>
-		/// <param name="gameObject>Game Object that this Component is attached too</param>
+		/// <param name="gameObject">Game Object that this Component is attached too</param>
 		/// <param name="physcisManager">Physics Manager to add the actor</param>
 		PhysicsGOC(GameObject* gameObject, PhysicsManager* physcisManager);
 
