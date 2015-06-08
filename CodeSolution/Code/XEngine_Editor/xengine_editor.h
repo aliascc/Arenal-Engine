@@ -69,7 +69,7 @@ class XEngine_Editor sealed : public QMainWindow
 
 		void ShowProjectSelectionWidget();
 
-		void LoadProject(const std::wstring& projectConfig);
+		void RefreshAllViews();
 
 	private slots:
 

@@ -641,6 +641,17 @@ XEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
 	XELOGGER->AddNewLog(LogLevel::Info, XELOCMAN->GetLiteral(L"XE_GAME_APP_READY_INFO_MSG"));
 
 	//////////////////////////////////
+	//Load Project
+	if (LoadGameProjectInfo() == XEResult::Ok)
+	{
+		XELOGGER->AddNewLog(LogLevel::Info, XELOCMAN->GetLiteral(L"XE_GAME_APP_LOAD_PROJ_INFO_MSG"));
+	}
+	else
+	{
+		XELOGGER->AddNewLog(LogLevel::Error, XELOCMAN->GetLiteral(L"XE_GAME_APP_LOAD_PROJ_FAIL_ERR_MSG"));
+	}
+
+	//////////////////////////////////
 	//Finish
 	return XEResult::Ok;
 }

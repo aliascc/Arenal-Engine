@@ -347,11 +347,13 @@ void EngineViewer::AutoLoadTest()
 	//physicColliderBoxFloor->SetSize(boxMeshAsset->GetMeshReference()->GetBoundingBox().GetSize());
 	physicColliderBoxFloor->SetScale(goFloor->GetScale());
 
-	for (int32_t i = 0; i < 5; i++)
+	int32_t numLoop = 5;
+
+	for (int32_t i = 0; i < numLoop; i++)
 	{
-		for (int32_t j = 0; j < 5; j++)
+		for (int32_t j = 0; j < numLoop; j++)
 		{
-			for (int32_t h = 0; h < 5; h++)
+			for (int32_t h = 0; h < numLoop; h++)
 			{
 				glm::vec3 pos(15 - (i * 3), 30 - (j * 3), 15 - (h * 3));
 				glm::vec3 rand(XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f));
@@ -360,11 +362,11 @@ void EngineViewer::AutoLoadTest()
 		}
 	}
 
-	for (int32_t i = 0; i < 5; i++)
+	for (int32_t i = 0; i < numLoop; i++)
 	{
-		for (int32_t j = 0; j < 5; j++)
+		for (int32_t j = 0; j < numLoop; j++)
 		{
-			for (int32_t h = 0; h < 5; h++)
+			for (int32_t h = 0; h < numLoop; h++)
 			{
 				glm::vec3 rand(XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f), XERandomHelpers::GetFloat(-0.9f, 0.9f));
 				glm::vec3 pos(15 - (i * 4), 15 - (j * 4), 15 - (h * 4));
@@ -398,7 +400,7 @@ void EngineViewer::AutoLoadTestAddGO(const glm::vec3& pos, MeshAsset* model, Sha
 	uint64_t physicsFloorColliderID = 0;
 	physicsFloor->AddCollider(collisionShape, physicsFloorColliderID);
 
-	if (!m_LightManager->IsContainerFull())
+	if (!m_LightManager->IsContainerFull() && XERandomHelpers::GetInt(0, 1) == 1)
 	{
 		LightGOC* lightGOC = new LightGOC(goFloor, m_LightManager);
 		goFloor->SetLightGOC(lightGOC);

@@ -242,7 +242,8 @@ int8_t XEXMLParser::GetInt8(const std::wstring& propName, int8_t defaultValue, b
 
 	if (value)
 	{
-		ret = boost::lexical_cast<int8_t>(value);
+		int32_t tmp = boost::lexical_cast<int32_t>(value);
+		ret = static_cast<int8_t>(tmp);
 	}
 	else if (warning)
 	{
@@ -264,7 +265,8 @@ uint8_t XEXMLParser::GetUInt8(const std::wstring& propName, uint8_t defaultValue
 
 	if (value)
 	{
-		ret = boost::lexical_cast<uint8_t>(value);
+		int32_t tmp = boost::lexical_cast<uint32_t>(value);
+		ret = static_cast<uint8_t>(tmp);
 	}
 	else if (warning)
 	{

@@ -1464,14 +1464,14 @@ XEResult GameAssetManager::SaveToXML(const std::wstring& gameAssetsFilename) con
 		return XEResult::Fail;
 	}
 
-	ret = SaveToXMLGameAssets(xmlWriter);
+	ret = SaveToXMLRawGameAssets(xmlWriter);
 	if (ret != XEResult::Ok)
 	{
 		XETODO("Better return code");
 		return XEResult::Fail;
 	}
 
-	ret = SaveToXMLRawGameAssets(xmlWriter);
+	ret = SaveToXMLGameAssets(xmlWriter);
 	if (ret != XEResult::Ok)
 	{
 		XETODO("Better return code");
@@ -1640,7 +1640,17 @@ XEResult GameAssetManager::LoadAssetManagerFile(const std::wstring& gameAssetsFi
 		}
 		else if (l_Type.compare(XE_RAW_FILES_NODE_NAME) == 0)
 		{
-			child.GetNumChildren();
+			if (LoadRawAssets(child) != XEResult::Ok)
+			{
+				return XEResult::Fail;
+			}
+		}
+		else if (l_Type.compare(XE_ASSETS_NODE_NAME) == 0)
+		{
+			if (LoadGameAssets(child) != XEResult::Ok)
+			{
+				return XEResult::Fail;
+			}
 		}
 	}
 

@@ -507,8 +507,6 @@ XEResult GameObjectManager::SaveToXMLMeshMaterialsComponent(XEXMLWriter& xmlWrit
 	const MeshMaterialsGOCList& materialList = gameObject->GetMeshMaterialsGOCList();
 	for (auto material : materialList)
 	{
-		xmlWriter.WriteString(XE_GAME_OBJ_GOC_MAT_NAME_PROP, material->GetName());
-
 		////////////////////////////
 		//Material Component
 		ret = xmlWriter.StartNode(XE_GAME_OBJ_GOC_MAT_NODE_NAME);
@@ -517,6 +515,8 @@ XEResult GameObjectManager::SaveToXMLMeshMaterialsComponent(XEXMLWriter& xmlWrit
 			XETODO("Better return code");
 			return XEResult::Fail;
 		}
+
+		xmlWriter.WriteString(XE_GAME_OBJ_GOC_MAT_NAME_PROP, material->GetName());
 
 		if (material->GetVertexShaderResource() != nullptr)
 		{
@@ -1701,8 +1701,6 @@ XEResult GameObjectManager::LoadGameObjectManagerFile(const std::wstring& file)
 
 XEResult GameObjectManager::LoadXMLGameObject(XEXMLParser& xmlParser, GameObject* parent)
 {
-	XEResult ret = XEResult::Ok;
-
 	////////////////////////////
 	//Game Object
 	GameObject* gameObject = new GameObject();
@@ -1777,8 +1775,6 @@ XEResult GameObjectManager::LoadXMLGameObjectComponents(XEXMLParser& xmlParser, 
 	{
 		return XEResult::NullParameter;
 	}
-
-	XEResult ret = XEResult::Ok;
 
 	////////////////////////////
 	//Load Game Object Components
@@ -1867,14 +1863,12 @@ XEResult GameObjectManager::LoadXMLMeshComponent(XEXMLParser& xmlParser, GameObj
 		return XEResult::NullParameter;
 	}
 
-	XEResult ret = XEResult::Ok;
-
 	////////////////////////////
 	//Get Mesh Asset
 	uint64_t assetID = xmlParser.GetUInt64(XE_GAME_OBJ_COMPONENT_ASSETID_PROP);
 
 	GameAsset* gameAsset = m_GameAssetManager->GetGameAsset(assetID);
-	if (gameAsset != nullptr)
+	if (gameAsset == nullptr)
 	{
 		return XEResult::NullObj;
 	}
@@ -1914,10 +1908,6 @@ XEResult GameObjectManager::LoadXMLMeshMaterialsComponent(XEXMLParser& xmlParser
 		return XEResult::NullParameter;
 	}
 
-	XEResult ret = XEResult::Ok;
-
-	MeshMaterialGOC* material = new MeshMaterialGOC(gameObject);
-
 	uint32_t childCount = xmlParser.GetNumChildren();
 	for (uint32_t i = 0; i < childCount; ++i)
 	{
@@ -1925,7 +1915,7 @@ XEResult GameObjectManager::LoadXMLMeshMaterialsComponent(XEXMLParser& xmlParser
 
 		std::wstring childType = childObject.GetName();
 
-		if (childType.compare(XE_GAME_OBJ_GOC_MATS_NODE_NAME) == 0)
+		if (childType.compare(XE_GAME_OBJ_GOC_MAT_NODE_NAME) == 0)
 		{
 			if (LoadXMLMeshMaterialComponent(childObject, gameObject) != XEResult::Ok)
 			{
@@ -1943,8 +1933,6 @@ XEResult GameObjectManager::LoadXMLMeshMaterialComponent(XEXMLParser& xmlParser,
 	{
 		return XEResult::NullParameter;
 	}
-
-	XEResult ret = XEResult::Ok;
 
 	MeshMaterialGOC* material = new MeshMaterialGOC(gameObject);
 
@@ -1966,6 +1954,13 @@ XEResult GameObjectManager::LoadXMLMeshMaterialComponent(XEXMLParser& xmlParser,
 				return XEResult::Fail;
 			}
 		}
+	}
+
+	if (gameObject->AddMeshMaterialGOC(material) != XEResult::Ok)
+	{
+		DeleteMem(material);
+
+		return XEResult::Fail;
 	}
 
 	return XEResult::Ok;
@@ -2120,8 +2115,8 @@ XEResult GameObjectManager::LoadXMLShaderProperties(XEXMLParser& xmlParser, Shad
 
 		if (childType.compare(XE_GAME_OBJ_GOC_MAT_TEXTURE_NODE_NAME) == 0)
 		{
-			std::wstring name = xmlParser.GetString(XE_GAME_OBJ_GOC_MAT_TEXTURE_NAME_PROP);
-			uint64_t assetID = xmlParser.GetUInt64(XE_GAME_OBJ_COMPONENT_ASSETID_PROP);
+			std::wstring name = childObject.GetString(XE_GAME_OBJ_GOC_MAT_TEXTURE_NAME_PROP);
+			uint64_t assetID = childObject.GetUInt64(XE_GAME_OBJ_COMPONENT_ASSETID_PROP);
 
 			GameAsset* gameAsset = m_GameAssetManager->GetGameAsset(assetID);
 			if (gameAsset == nullptr || gameAsset->GetGameContentType() != GameContentType::Texture)
@@ -2906,8 +2901,8 @@ XEResult GameObjectManager::LoadXMLPhysicsComponent(XEXMLParser& xmlParser, Game
 
 		if (childType.compare(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_NODE_NAME) == 0)
 		{
-			CollisionShape shape	= (CollisionShape)xmlParser.GetUInt8(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_TYPE_PROP);
-			glm::vec3 scale			= xmlParser.GetVect3f(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_SCALE_PROP);
+			CollisionShape shape	= (CollisionShape)childObject.GetUInt8(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_TYPE_PROP);
+			glm::vec3 scale			= childObject.GetVect3f(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_SCALE_PROP);
 
 			uint64_t colliderID = 0;
 			if (physicsGOC->AddCollider(shape, colliderID) != XEResult::Ok)
@@ -2928,7 +2923,7 @@ XEResult GameObjectManager::LoadXMLPhysicsComponent(XEXMLParser& xmlParser, Game
 					{
 						PhysicColliderBox* box = reinterpret_cast<PhysicColliderBox*>(collider);
 
-						glm::vec3 size = xmlParser.GetVect3f(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_SIZE_PROP);
+						glm::vec3 size = childObject.GetVect3f(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_SIZE_PROP);
 
 						box->SetSize(size);
 					}
@@ -2938,7 +2933,7 @@ XEResult GameObjectManager::LoadXMLPhysicsComponent(XEXMLParser& xmlParser, Game
 					{
 						PhysicColliderSphere* sphere = reinterpret_cast<PhysicColliderSphere*>(collider);
 
-						float radius = xmlParser.GetFloat(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_RADIUS_PROP);
+						float radius = childObject.GetFloat(XE_GAME_OBJ_GOC_PHYSICS_COLLIDER_RADIUS_PROP);
 
 						sphere->SetRadius(radius);
 					}
@@ -2949,6 +2944,13 @@ XEResult GameObjectManager::LoadXMLPhysicsComponent(XEXMLParser& xmlParser, Game
 					return XEResult::Fail;
 			}
 		}
+	}
+
+	if (gameObject->SetPhysicsGOC(physicsGOC) != XEResult::Ok)
+	{
+		DeleteMem(physicsGOC);
+
+		return XEResult::Fail;
 	}
 
 	return XEResult::Ok;

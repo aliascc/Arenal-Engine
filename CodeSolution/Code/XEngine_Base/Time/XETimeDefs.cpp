@@ -55,7 +55,7 @@ TimeStamp::TimeStamp(const std::wstring& str)
 
 XEResult TimeStamp::GetFromString(const std::wstring& str)
 {
-	if(str.size())
+	if(str.empty())
 	{
 		return XEResult::EmptyString;
 	}

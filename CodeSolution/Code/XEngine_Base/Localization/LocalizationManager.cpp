@@ -749,37 +749,40 @@ XEResult LocalizationManager::SaveToXML(const std::wstring& filename, const std:
 		return XEResult::Fail;
 	}
 
-	ret = xmlWriter.StartNode(XE_LOC_LANGUAGE_NODE_NAME);
-	if (ret != XEResult::Ok)
+	if (m_ExtendedLiteralsMap.size() != 0)
 	{
-		XETODO("Better return code");
-		return XEResult::Fail;
-	}
-
-	for (auto extendedLiteralIt : m_ExtendedLiteralsMap)
-	{
-		xmlWriter.WriteString(XE_LOC_LANG_NAME_PROP_NAME, extendedLiteralIt.first);
-
-		std::wstring filename = XE_PROJ_LOCALIZATION_DIR_LOC;
-		filename += L"/" + extendedLiteralIt.first + L".xml";
-		xmlWriter.WriteString(XE_LOC_FILE_PROP_NAME, filename);
-
-		filename = projectDir + L"/" + filename;
-		ret = SaveToXMLExtentedLiteral(filename, extendedLiteralIt.second, extendedLiteralIt.first);
+		ret = xmlWriter.StartNode(XE_LOC_LANGUAGE_NODE_NAME);
 		if (ret != XEResult::Ok)
 		{
-			XETODO("Add error");
-
 			XETODO("Better return code");
 			return XEResult::Fail;
 		}
-	}
 
-	ret = xmlWriter.EndNode();
-	if (ret != XEResult::Ok)
-	{
-		XETODO("Better return code");
-		return XEResult::Fail;
+		for (auto extendedLiteralIt : m_ExtendedLiteralsMap)
+		{
+			xmlWriter.WriteString(XE_LOC_LANG_NAME_PROP_NAME, extendedLiteralIt.first);
+
+			std::wstring filename = XE_PROJ_LOCALIZATION_DIR_LOC;
+			filename += L"/" + extendedLiteralIt.first + L".xml";
+			xmlWriter.WriteString(XE_LOC_FILE_PROP_NAME, filename);
+
+			filename = projectDir + L"/" + filename;
+			ret = SaveToXMLExtentedLiteral(filename, extendedLiteralIt.second, extendedLiteralIt.first);
+			if (ret != XEResult::Ok)
+			{
+				XETODO("Add error");
+
+				XETODO("Better return code");
+				return XEResult::Fail;
+			}
+		}
+
+		ret = xmlWriter.EndNode();
+		if (ret != XEResult::Ok)
+		{
+			XETODO("Better return code");
+			return XEResult::Fail;
+		}
 	}
 
 	ret = xmlWriter.EndNode();

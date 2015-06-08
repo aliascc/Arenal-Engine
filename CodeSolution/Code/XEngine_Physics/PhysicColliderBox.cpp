@@ -39,9 +39,9 @@ PhysicColliderBox::~PhysicColliderBox()
 
 physx::PxGeometry& PhysicColliderBox::CreateGeomtry(physx::PxPhysics* pxPhysics)
 {
-	m_PxBoxGeometry.halfExtents.x = m_Size.x / 2.0f;
-	m_PxBoxGeometry.halfExtents.y = m_Size.y / 2.0f;
-	m_PxBoxGeometry.halfExtents.z = m_Size.z / 2.0f;
+	m_PxBoxGeometry.halfExtents.x = (m_Size.x * m_Scale.x) / 2.0f;
+	m_PxBoxGeometry.halfExtents.y = (m_Size.y * m_Scale.y) / 2.0f;
+	m_PxBoxGeometry.halfExtents.z = (m_Size.z * m_Scale.z) / 2.0f;
 
 	return m_PxBoxGeometry;
 }
@@ -70,9 +70,9 @@ void PhysicColliderBox::SetSize(const glm::vec3& size)
 		return;
 	}
 
-	m_PxBoxGeometry.halfExtents.x = m_Size.x / 2.0f;
-	m_PxBoxGeometry.halfExtents.y = m_Size.y / 2.0f;
-	m_PxBoxGeometry.halfExtents.z = m_Size.z / 2.0f;
+	m_PxBoxGeometry.halfExtents.x = (m_Size.x * m_Scale.x) / 2.0f;
+	m_PxBoxGeometry.halfExtents.y = (m_Size.y * m_Scale.y) / 2.0f;
+	m_PxBoxGeometry.halfExtents.z = (m_Size.z * m_Scale.z) / 2.0f;
 
 	m_PxShape->setGeometry(m_PxBoxGeometry);
 }

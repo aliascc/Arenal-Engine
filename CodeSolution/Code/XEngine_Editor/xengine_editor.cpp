@@ -193,6 +193,17 @@ void XEngine_Editor::SetEngineInstanceToAssets()
 	m_EditorUI.m_GameObjectPropsTree->clear();
 }
 
+void XEngine_Editor::RefreshAllViews()
+{
+	XETODO("Check returns");
+
+	m_EditorUI.m_GameAssetsTree->RefreshGameAssetsTree();
+
+	m_EditorUI.m_RawGameAssetsTree->RefreshRawGameAssetsTree();
+
+	m_EditorUI.m_GameObjectsTree->RefreshGameObjectsTree();
+}
+
 void XEngine_Editor::closeEvent(QCloseEvent* cEvent)
 {
 	if(m_CodeEditorMainWindow != nullptr)
@@ -531,13 +542,7 @@ void XEngine_Editor::RawGameAssetReloadEvent(uint64_t rawGAID)
 
 void XEngine_Editor::on_m_RefreshAllViewsAction_triggered()
 {
-	XETODO("Check returns");
-
-	m_EditorUI.m_GameAssetsTree->RefreshGameAssetsTree();
-
-	m_EditorUI.m_RawGameAssetsTree->RefreshRawGameAssetsTree();
-
-	m_EditorUI.m_GameObjectsTree->RefreshGameObjectsTree();
+	RefreshAllViews();
 }
 
 /***************
@@ -637,13 +642,7 @@ void XEngine_Editor::on_m_MenuFileLoadProjectAction_triggered()
 
 	XETODO("Check return");
 	SetNewEngineInstance(configFile);
+
+	RefreshAllViews();
 }
 
-void XEngine_Editor::LoadProject(const std::wstring& projectConfig)
-{
-	////////////////////////////////////////
-	//Get Game Engine Viewer
-	EngineViewer* engineViewer = m_XEngineViewerWidget->GetEngineViewer();
-
-	engineViewer->ShutDownGameApp();
-}
