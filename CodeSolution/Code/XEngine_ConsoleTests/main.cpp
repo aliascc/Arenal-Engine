@@ -26,6 +26,10 @@
 
 #include "cppformat\format.h"
 
+
+
+
+#if 0
 void main()
 {
 	std::wstring aa = fmt::format(L"Mi nada {0}, aa {1}, bb {2}, cc {3}, dd {4}", "mio", 1.23f, false, 5.789456, 10);
@@ -34,7 +38,6 @@ void main()
 }
 
 
-#if 0
 void main()
 {
 	XEXMLWriter xmlWriter;
@@ -86,6 +89,7 @@ void main()
 		std::cout << "Failed" << "Finalize" << std::endl;
 	}
 }
+#endif
 
 
 void main()
@@ -98,6 +102,8 @@ void main()
 	PhysicsManager* physicsManager = new PhysicsManager();;
 
 	physicsManager->Initialize();
+
+	physicsManager->ConnectToPhysXDebugger();
 
 	Object3D object3dParent;
 	object3dParent.SetPositionX(-15.0f);
@@ -144,7 +150,8 @@ void main()
 
 	physicsManager->ConnectToPhysXDebugger();
 
-	for (size_t i = 0; i < 600; i++)
+	//600
+	for (size_t i = 0; i < 300; i++)
 	{
 		system("cls");
 
@@ -182,13 +189,85 @@ void main()
 		}
 	}
 
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	physx::PxSerializationRegistry* registry = physx::PxSerialization::createSerializationRegistry(PxGetPhysics());
+
+	// Create a collection and all objects for serialization
+	physx::PxCollection* collection = PxCreateCollection();
+
+	physx::PxSerialization::complete(*collection, *registry);
+
+	// Serialize either to binary or RepX
+	//physx::PxDefaultFileOutputStream outStream("serialized.dat");
+	physx::PxDefaultMemoryOutputStream  outStream;
+
+	for (auto actorIt : *physicsManager)
+	{
+		collection->add(*actorIt.second->GetPxRigidActor());
+	}
+
+	physx::PxSerialization::complete(*collection, *registry);
+
+	// Binary
+	physx::PxSerialization::serializeCollectionToBinary(outStream, *collection, *registry);
+	//~Binary
+
+	DeleteMem(physicsManager);
+
+	Sleep(2000);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	physicsManager = new PhysicsManager();
+
+	physicsManager->Initialize();
+
+	physicsManager->ConnectToPhysXDebugger();
+
+	physx::PxSerializationRegistry* registry2 = physx::PxSerialization::createSerializationRegistry(PxGetPhysics());
+
+	void* mem = new byte[XE_PHYSIC_GET_SIZE_ALIGN(outStream.getSize())];
+
+	memset(mem, 0, XE_PHYSIC_GET_SIZE_ALIGN(outStream.getSize()));
+
+	void* mem128 = XE_PHYSIC_GET_MEM_ALIGN(mem);
+
+	memcpy(mem128, outStream.getData(), outStream.getSize());
+
+	physx::PxCollection* collection2 = physx::PxSerialization::createCollectionFromBinary(mem128, *registry2);
+
+	physicsManager->GetPxScene()->addCollection(*collection2);
+
+	physx::PxSerialObjectId aa;
+
+	for (size_t i = 301; i < 600; i++)
+	{
+		system("cls");
+
+		float dt = 1.0f / 70.0f;
+		uint32_t mil = (uint32_t)(dt * 1000.0f);
+
+		std::chrono::milliseconds dura(mil);
+		std::this_thread::sleep_for(dura);
+
+		TimerParams tp;
+		tp.m_ElapsedTime = dt;
+		physicsManager->Update(tp);
+	}
+
 	DeleteMem(physicsManager);
 
 #if defined( _DEBUG )
 	MemLeaks::MemoryEnd();
 #endif
 }
-#endif
 
 /*
 struct XBoxController

@@ -33,8 +33,6 @@
 	<Literal  name="MODEL_FILE_EXP_VER_ERR_MSG"                   msg="{0}: Model File '{1}' exported version is not supported" />
 	<Literal  name="COULD_NOT_LOAD_TEXTURE"                       msg="{0}: Unable to read Texture File '{1}'" />
 	<Literal  name="GC_ID_DUPLICATE_ERR_MSG"                      msg="{0}: GC ID '{1}' is already in GC Collection Map" />
-	<Literal  name="AS_CREATE_ENGINE_FAIL_ERR_MSG"                msg="{0}: Angel Script Engine fail on create" />
-	<Literal  name="AS_ENGINE_CALLBACK_ERR_MSG"                   msg="{0}: {1} ({2}, {3}) -> {4}" />
 	<Literal  name="DX_SPRITE_CREATE_FAIL_ERR_MSG"                msg="{0}: DirectX Sprite fail to be created." />
 	<Literal  name="SCRIPT_ENGINE_INIT_FAIL_ERR_MSG"              msg="Scripting Engine fail to be initialize" />
 	<Literal  name="CONTENT_IMPORT_LOAD_FAIL_ERR_MSG"             msg="{0}: Content Importer failed to load file: {1}, unknown type: {2}" />
@@ -123,7 +121,8 @@
   <Literal  name="AS_REG_BASIC_LOC_ERR_MSG"                     msg="{0}: Angel Script Failed to Register Engine Localization Data." />
   <Literal  name="AS_REG_BASIC_LOGGER_ERR_MSG"                  msg="{0}: Angel Script Failed to Register Engine Logger Data." />
   <Literal  name="AS_SET_MSG_CALLBACK_ERR_MSG"                  msg="{0}: Angel Script Failed to Set Message Callback Function." />
-  
+  <Literal  name="AS_CREATE_ENGINE_FAIL_ERR_MSG"                msg="{0}: Angel Script Engine fail on create" />
+  <Literal  name="AS_ENGINE_CALLBACK_ERR_MSG"                   msg="{0}: {1} ({2}, {3}) -> {4}" />
 
   <!--
   #############
@@ -220,5 +219,13 @@
   -->
 
   <Literal  name="LOGGER_SAME_LOG_MSG"                          msg="The last log message has been repeated {0} times." />
+
+  <!--
+  #############
+  Physics
+  #############
+  -->
+
+  <Literal  name="PHYSICS_ENGINE_CALLBACK_ERR_MSG"              msg="PhysX Msg: {0}" />
 
 </Language>

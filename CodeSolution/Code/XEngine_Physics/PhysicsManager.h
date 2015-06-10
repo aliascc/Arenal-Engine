@@ -39,6 +39,8 @@ struct TimerParams;
 *   Typedef   *
 ***************/
 typedef std::map<uint64_t, PhysicsActor*> PhysicsActorMap;
+typedef PhysicsActorMap::iterator PhysicsActorMapIt;
+typedef PhysicsActorMap::const_iterator PhysicsActorMapItConst;
 
 /*****************
 *   Class Decl   *
@@ -179,6 +181,18 @@ class PhysicsManager sealed : public XEObject
 		XEResult RemovePhysicsActor(uint64_t id, bool deleteObj = true);
 
 		bool ExistsPhysicsActor(uint64_t id);
+
+		PhysicsActorMapIt begin();
+
+		PhysicsActorMapIt end();
+
+		PhysicsActorMapItConst begin() const;
+
+		PhysicsActorMapItConst end() const;
+
+		PhysicsActorMapItConst cbegin() const;
+
+		PhysicsActorMapItConst cend() const;
 
 #pragma endregion
 

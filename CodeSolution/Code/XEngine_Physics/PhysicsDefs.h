@@ -50,6 +50,10 @@
 
 #define XE_PHYSIC_DYNAMIC_FRICTION_DEFAULT		0.5f
 
+#define XE_PHYSIC_GET_SIZE_ALIGN(x)				( (x + PX_SERIAL_FILE_ALIGN) & ~(PX_SERIAL_FILE_ALIGN - 1) )
+
+#define XE_PHYSIC_GET_MEM_ALIGN(x)				( (void*)((size_t(x) + PX_SERIAL_FILE_ALIGN) & ~(PX_SERIAL_FILE_ALIGN - 1)) )
+
 /****************
 *   Constants   *
 *****************/

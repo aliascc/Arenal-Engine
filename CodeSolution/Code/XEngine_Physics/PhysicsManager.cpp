@@ -270,3 +270,33 @@ XEResult PhysicsManager::RemovePhysicsActor(uint64_t id, bool deleteObj)
 
 	return XEResult::Ok;
 }
+
+PhysicsActorMapIt PhysicsManager::begin()
+{
+	return m_PhysicsActorMap.begin();
+}
+
+PhysicsActorMapIt PhysicsManager::end()
+{
+	return m_PhysicsActorMap.end();
+}
+
+PhysicsActorMapItConst PhysicsManager::begin() const
+{
+	return m_PhysicsActorMap.begin();
+}
+
+PhysicsActorMapItConst PhysicsManager::end() const
+{
+	return m_PhysicsActorMap.end();
+}
+
+PhysicsActorMapItConst PhysicsManager::cbegin() const
+{
+	return m_PhysicsActorMap.cbegin();
+}
+
+PhysicsActorMapItConst PhysicsManager::cend() const
+{
+	return m_PhysicsActorMap.cend();
+}
