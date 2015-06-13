@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Input">
+      <UniqueIdentifier>{e30a1665-6698-44c0-b7d0-14cec504a9f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{524c52d6-1635-4036-9eb6-84eedaf7d871}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sky Covers">
+      <UniqueIdentifier>{7db5410b-70ca-47c5-a12d-a1444eef29e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sky Covers\Materials">
+      <UniqueIdentifier>{d59ec6f9-07fb-436d-aeaf-1d893d190f1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sky Covers\Materials\HLSL">
+      <UniqueIdentifier>{0744cf6d-42df-45f9-a005-351e576ed093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stats">
+      <UniqueIdentifier>{7fc56d6a-6ab2-4120-bf0e-bd152aa590ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Post Process">
+      <UniqueIdentifier>{484bf506-c354-4845-a5f3-e6d8cf571843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Post Process\Materials">
+      <UniqueIdentifier>{7a02a3f7-263a-466f-a0f4-c64b5f557247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Post Process\Materials\HLSL">
+      <UniqueIdentifier>{416f6cd8-5632-4539-8739-63efc42af10e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle System">
+      <UniqueIdentifier>{c7309f63-abf7-459c-80c3-a74914918252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle System\Vertex">
+      <UniqueIdentifier>{28909897-9245-4bdb-ae9e-f68314262575}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle System\Materials">
+      <UniqueIdentifier>{986ce5f3-1e38-4f6a-8211-689921960277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle System\Materials\HLSL">
+      <UniqueIdentifier>{5638cd0f-0d81-4464-9999-2fcedde82387}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deferred Rendering">
+      <UniqueIdentifier>{3307a768-649f-4525-978e-ead04ff3679b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deferred Rendering\Materials">
+      <UniqueIdentifier>{51a36459-8b2e-4f24-a078-cfe3400e68bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deferred Rendering\Materials\HLSL">
+      <UniqueIdentifier>{7c1d67ed-6a18-49ca-84a6-134353621847}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Forward+ Rendering">
+      <UniqueIdentifier>{a4de6791-6f99-40bf-8556-564b65933525}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{ec404320-f336-4c4a-a202-ba9b6d53c04f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Logic Update">
+      <UniqueIdentifier>{dcd7917b-9561-42b6-b9a9-24db83c076e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects Debug">
+      <UniqueIdentifier>{24ac933c-a6d7-4283-8025-3f8e47b8517f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Input\InputHandler.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Sky Covers\SkySphere.cpp">
+      <Filter>Sky Covers</Filter>
+    </ClCompile>
+    <ClCompile Include="Stats\DebugStats.cpp">
+      <Filter>Stats</Filter>
+    </ClCompile>
+    <ClCompile Include="Post Process\BloomPostProcess.cpp">
+      <Filter>Post Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Post Process\BloomPostProcessDefs.cpp">
+      <Filter>Post Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Sky Covers\Materials\SkySphereMaterial.cpp">
+      <Filter>Sky Covers\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Post Process\Materials\BloomPostProcessMaterial.cpp">
+      <Filter>Post Process\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle System\ParticleSystemDefs.cpp">
+      <Filter>Particle System</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle System\ParticleEmitter.cpp">
+      <Filter>Particle System</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle System\Materials\ParticleSystemMaterial.cpp">
+      <Filter>Particle System\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle System\ParticleSystem.cpp">
+      <Filter>Particle System</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle System\Vertex\VertexParticle.cpp">
+      <Filter>Particle System\Vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="Stats\Console.cpp">
+      <Filter>Stats</Filter>
+    </ClCompile>
+    <ClCompile Include="Post Process\HDRPostProcess.cpp">
+      <Filter>Post Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Post Process\Materials\HDRPostProcessMaterial.cpp">
+      <Filter>Post Process\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Post Process\HDRPostProcessDefs.cpp">
+      <Filter>Post Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Deferred Rendering\DeferredRenderingEnd.cpp">
+      <Filter>Deferred Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Deferred Rendering\DeferredLightManager.cpp">
+      <Filter>Deferred Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Deferred Rendering\DeferredRendering.cpp">
+      <Filter>Deferred Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Deferred Rendering\DeferredRenderingDefs.cpp">
+      <Filter>Deferred Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Deferred Rendering\Materials\DeferredRenderingMaterial.cpp">
+      <Filter>Deferred Rendering\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Stats\ConsoleDefs.cpp">
+      <Filter>Stats</Filter>
+    </ClCompile>
+    <ClCompile Include="Stats\ScriptConsoleLine.cpp">
+      <Filter>Stats</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward+ Rendering\ForwardPlusRendering.cpp">
+      <Filter>Forward+ Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward+ Rendering\FPRPreZ.cpp">
+      <Filter>Forward+ Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\GameObjectRenderTest.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Logic Update\GameLightsUpdate.cpp">
+      <Filter>Game Logic Update</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward+ Rendering\FPRLightCulling.cpp">
+      <Filter>Forward+ Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward+ Rendering\FPRDefs.cpp">
+      <Filter>Forward+ Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward+ Rendering\FPRObjectDraw.cpp">
+      <Filter>Forward+ Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Objects Debug\GameObjectsDebugVisualizer.cpp">
+      <Filter>Game Objects Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Logic Update\GameAnimationsUpdate.cpp">
+      <Filter>Game Logic Update</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Logic Update\GameObjectScriptCaller.cpp">
+      <Filter>Game Logic Update</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\CameraUpdater.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Logic Update\GameObjectCameraUpdate.cpp">
+      <Filter>Game Logic Update</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Logic Update\GameAudioUpdate.cpp">
+      <Filter>Game Logic Update</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Logic Update\GamePhysicsUpdate.cpp">
+      <Filter>Game Logic Update</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Input\InputHandler.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Sky Covers\SkySphere.h">
+      <Filter>Sky Covers</Filter>
+    </ClInclude>
+    <ClInclude Include="Stats\DebugStats.h">
+      <Filter>Stats</Filter>
+    </ClInclude>
+    <ClInclude Include="Post Process\BloomPostProcess.h">
+      <Filter>Post Process</Filter>
+    </ClInclude>
+    <ClInclude Include="Post Process\BloomPostProcessDefs.h">
+      <Filter>Post Process</Filter>
+    </ClInclude>
+    <ClInclude Include="Sky Covers\Materials\SkySphereMaterial.h">
+      <Filter>Sky Covers\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Post Process\Materials\BloomPostProcessMaterial.h">
+      <Filter>Post Process\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle System\Vertex\VertexParticle.h">
+      <Filter>Particle System\Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle System\ParticleSystemDefs.h">
+      <Filter>Particle System</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle System\ParticleEmitter.h">
+      <Filter>Particle System</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle System\Materials\ParticleSystemMaterial.h">
+      <Filter>Particle System\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle System\ParticleSystem.h">
+      <Filter>Particle System</Filter>
+    </ClInclude>
+    <ClInclude Include="Stats\Console.h">
+      <Filter>Stats</Filter>
+    </ClInclude>
+    <ClInclude Include="Stats\ConsoleDefs.h">
+      <Filter>Stats</Filter>
+    </ClInclude>
+    <ClInclude Include="Post Process\HDRPostProcess.h">
+      <Filter>Post Process</Filter>
+    </ClInclude>
+    <ClInclude Include="Post Process\Materials\HDRPostProcessMaterial.h">
+      <Filter>Post Process\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Post Process\HDRPostProcessDefs.h">
+      <Filter>Post Process</Filter>
+    </ClInclude>
+    <ClInclude Include="Deferred Rendering\DeferredRendering.h">
+      <Filter>Deferred Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Deferred Rendering\DeferredRenderingEnd.h">
+      <Filter>Deferred Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Deferred Rendering\DeferredRenderingDefs.h">
+      <Filter>Deferred Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Deferred Rendering\Materials\DeferredRenderingMaterial.h">
+      <Filter>Deferred Rendering\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Deferred Rendering\DeferredLightManager.h">
+      <Filter>Deferred Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Stats\ScriptConsoleLine.h">
+      <Filter>Stats</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward+ Rendering\ForwardPlusRendering.h">
+      <Filter>Forward+ Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward+ Rendering\FPRPreZ.h">
+      <Filter>Forward+ Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward+ Rendering\FPRDefs.h">
+      <Filter>Forward+ Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\GameObjectRenderTest.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Logic Update\GameLightsUpdate.h">
+      <Filter>Game Logic Update</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward+ Rendering\FPRLightCulling.h">
+      <Filter>Forward+ Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward+ Rendering\FPRObjectDraw.h">
+      <Filter>Forward+ Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Objects Debug\GameObjectsDebugVisualizer.h">
+      <Filter>Game Objects Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Objects Debug\GameObjectsDebugDefs.h">
+      <Filter>Game Objects Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Logic Update\GameAnimationsUpdate.h">
+      <Filter>Game Logic Update</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Logic Update\GameObjectScriptCaller.h">
+      <Filter>Game Logic Update</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\CameraUpdater.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Logic Update\GameObjectCameraUpdate.h">
+      <Filter>Game Logic Update</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Logic Update\GameAudioUpdate.h">
+      <Filter>Game Logic Update</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Logic Update\GamePhysicsUpdate.h">
+      <Filter>Game Logic Update</Filter>
+    </ClInclude>
+    <ClInclude Include="AEGameComponentsDefs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Sky Covers\Materials\HLSL\SkySphereEffect.fx">
+      <Filter>Sky Covers\Materials\HLSL</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Post Process\Materials\HLSL\BloomPostProcessEffect.fx">
+      <Filter>Post Process\Materials\HLSL</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Particle System\Materials\HLSL\ParticleEffect.fx">
+      <Filter>Particle System\Materials\HLSL</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Post Process\Materials\HLSL\HDRPostProcessEffect.fx">
+      <Filter>Post Process\Materials\HLSL</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Deferred Rendering\Materials\HLSL\DeferredRenderingEffect.fx">
+      <Filter>Deferred Rendering\Materials\HLSL</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

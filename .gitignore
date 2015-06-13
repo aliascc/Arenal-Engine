@@ -30,9 +30,10 @@
 # Visual Studio
 *.user
 
-# XEngine Ignores
+# AEngine Ignores
 *.opensdf
 *.sdf
+*.suo
 *.v12.suo
 *.user
 CodeSolution/Code/3rdParty/AngelScript/
@@ -49,11 +50,11 @@ CodeSolution/Code/3rdParty/SFML/
 CodeSolution/Code/3rdParty/STLSoft/
 CodeSolution/Code/3rdParty/zlib/
 CodeSolution/Code/3rdParty/AngelScript/
-CodeSolution/Run/XEngine_TestBed/bin_x64/AS_DEBUG/
-CodeSolution/Run/XEngine_TestBed/bin_x86/AS_DEBUG/
+CodeSolution/Run/AEngine_TestBed/bin_x64/AS_DEBUG/
+CodeSolution/Run/AEngine_TestBed/bin_x86/AS_DEBUG/
 CodeSolution/Bin/
-CodeSolution/Code/XEngine_Editor/GeneratedFiles/
-CodeSolution/Code/XEngine_Shaders/Compiled Materials/
+CodeSolution/Code/AEngine_Editor/GeneratedFiles/
+CodeSolution/Code/AEngine_Shaders/Compiled Materials/
 3rdParty/*/Src/*
 3rdParty/*/Binaries/*
 3rdParty/*/Zip/*
@@ -62,5 +63,5 @@ CodeSolution/Code/XEngine_Shaders/Compiled Materials/
 3rdParty/DirectXTK/Tools/
 3rdParty/LibIconv/How to Compile Demo Bin.zip
 3rdParty/LibIconv/How to Compile Demo Src.zip
-CodeSolution/Run/XEngine_TestBed/Data/Editor UI Layouts/default.qtl
-CodeSolution/Run/XEngine_TestBed/Data/Logs/Logs.txt
+CodeSolution/Run/AEngine_TestBed/Data/Editor UI Layouts/default.qtl
+CodeSolution/Run/AEngine_TestBed/Data/Logs/Logs.txt
