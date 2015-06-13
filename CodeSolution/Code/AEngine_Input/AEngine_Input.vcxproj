@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{18C1935F-1AFE-46F2-B57E-062DEA98A1FD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XEngine_Input</RootNamespace>
+    <RootNamespace>AEngine_Input</RootNamespace>
     <SccProjectName>SAK</SccProjectName>
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>

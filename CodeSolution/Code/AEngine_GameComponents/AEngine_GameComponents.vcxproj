@@ -441,7 +441,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{33685C56-66B3-40CF-93F4-9EF9E1A27A54}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XEngine_GameComponentes</RootNamespace>
+    <RootNamespace>AEngine_GameComponentes</RootNamespace>
     <ProjectName>AEngine_GameComponents</ProjectName>
     <SccProjectName>SAK</SccProjectName>
     <SccAuxPath>SAK</SccAuxPath>

@@ -145,7 +145,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0173BBDA-4173-4E88-959B-91CE221A6894}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XEngine_Core</RootNamespace>
+    <RootNamespace>AEngine_Core</RootNamespace>
     <SccProjectName>SAK</SccProjectName>
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>

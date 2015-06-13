@@ -476,7 +476,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6B75116D-2855-434E-88FA-746992AB2B78}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XEngine_Shaders</RootNamespace>
+    <RootNamespace>AEngine_Shaders</RootNamespace>
     <SccProjectName>SAK</SccProjectName>
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
