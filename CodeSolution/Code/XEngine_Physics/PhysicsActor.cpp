@@ -31,12 +31,26 @@
 *   Function Defs   *
 *********************/
 
-PhysicsActor::PhysicsActor()
+PhysicsActor::PhysicsActor(Object3D* object3D)
+	: m_Object3D(object3D)
 {
+	XEAssert(m_Object3D != nullptr);
+	if (m_Object3D != nullptr)
+	{
+		m_Object3DChangedEvent = std::bind(&PhysicsActor::Object3DChanged, this, std::placeholders::_1, std::placeholders::_2);
+
+		XEResult ret = m_Object3D->AddObject3DChangeEventCallback(this->GetUniqueID(), m_Object3DChangedEvent);
+		XEAssert(ret == XEResult::Ok);
+	}
 }
 
 PhysicsActor::~PhysicsActor()
 {
+	if (m_Object3D != nullptr)
+	{
+		m_Object3D->RemoveObject3DChangeEventCallback(this->GetUniqueID());
+	}
+
 	CleanUp();
 }
 
@@ -53,6 +67,51 @@ void PhysicsActor::CleanUp()
 	m_PhysicColliderMap.clear();
 
 	ReleasePhysX(m_PxRigidActor);
+}
+
+void PhysicsActor::Object3DChanged(Object3DChangeEventType changeType, Object3D* object3D)
+{
+	if (m_Object3D == nullptr || m_PxRigidActor == nullptr)
+	{
+		return;
+	}
+
+	switch (changeType)
+	{
+		////////////////////////////////////////
+		// Set Position and Rotation
+		case Object3DChangeEventType::PositionChange:
+		case Object3DChangeEventType::RotationChange:
+			{
+				////////////////////////////
+				//Get Objs Position and Rotation
+				physx::PxTransform pxTransform;
+				GetPXTransformFromObject3D(pxTransform);
+
+				m_PxRigidActor->setGlobalPose(pxTransform);
+			}
+			break;
+
+		case Object3DChangeEventType::ScaleChange:
+		default:
+			return;
+	}
+}
+
+void PhysicsActor::GetPXTransformFromObject3D(physx::PxTransform& pxTransform)
+{
+	if (m_Object3D == nullptr)
+	{
+		return;
+	}
+
+	glm::quat glmRotQuat = m_Object3D->GetWorldRotationQuat();
+	glm::vec3 glmPos = m_Object3D->GetWorldPosition();
+
+	physx::PxQuat pxRotQuat(glmRotQuat.x, glmRotQuat.y, glmRotQuat.z, glmRotQuat.w);
+	physx::PxVec3 pxPos(glmPos.x, glmPos.y, glmPos.z);
+
+	pxTransform = physx::PxTransform(pxPos, pxRotQuat);
 }
 
 XEResult PhysicsActor::Initialize(PhysicsManager* physicsManager, PhysicsActorType physicsActorType)
@@ -94,13 +153,8 @@ XEResult PhysicsActor::Initialize(PhysicsManager* physicsManager, PhysicsActorTy
 
 	////////////////////////////
 	//Get Objs Position and Rotation
-	glm::quat glmRotQuat = m_Object3D->GetWorldRotationQuat();
-	glm::vec3 glmPos = m_Object3D->GetWorldPosition();
-
-	physx::PxQuat pxRotQuat(glmRotQuat.x, glmRotQuat.y, glmRotQuat.z, glmRotQuat.w);
-	physx::PxVec3 pxPos(glmPos.x, glmPos.y, glmPos.z);
-
-	physx::PxTransform pxTransform(pxPos, pxRotQuat);
+	physx::PxTransform pxTransform;
+	GetPXTransformFromObject3D(pxTransform);
 
 	////////////////////////////
 	//Create PhysX Actor
@@ -363,23 +417,11 @@ XEResult PhysicsActor::UpdateObject3D()
 
 	/////////////////////////////////////////////
 	//Set to Object 3D
-	m_Object3D->SetPosition(newPosition);
-	m_Object3D->SetRotation(newRotation);
+	m_Object3D->SetPosition(newPosition, this->GetUniqueID());
+	m_Object3D->SetRotation(newRotation, this->GetUniqueID());
 
 	/////////////////////////////////////////////
 	//Finish
-	return XEResult::Ok;
-}
-
-XEResult PhysicsActor::SetObject3D(Object3D* object3D)
-{
-	if (m_IsReady)
-	{
-		return XEResult::Fail;
-	}
-
-	m_Object3D = object3D;
-
 	return XEResult::Ok;
 }
 

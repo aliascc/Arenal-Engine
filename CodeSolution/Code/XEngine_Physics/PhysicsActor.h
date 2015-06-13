@@ -30,6 +30,7 @@
 #include "PhysicsDefs.h"
 #include "Math\XEMathDefs.h"
 #include "Base\UniqueXEObject.h"
+#include "Utils\GraphicUtilsDefs.h"
 
 /********************
 *   Forward Decls   *
@@ -78,6 +79,10 @@ class PhysicsActor sealed : public UniqueXEObject
 
 		PhysicColliderMap m_PhysicColliderMap;
 
+		Object3DChangedEvent m_Object3DChangedEvent;
+
+		void GetPXTransformFromObject3D(physx::PxTransform& pxTransform);
+
 #pragma endregion
 
 		/**********************
@@ -86,6 +91,8 @@ class PhysicsActor sealed : public UniqueXEObject
 #pragma region Private Methods
 
 		void CleanUp();
+
+		void Object3DChanged(Object3DChangeEventType changeType, Object3D* object3D);
 
 		XEResult InitDynamicObject(physx::PxRigidDynamic* rigidDynamic);
 
@@ -101,7 +108,8 @@ class PhysicsActor sealed : public UniqueXEObject
 		/// <summary>
 		/// Default PhysicsActor Constructor
 		/// </summary>
-		PhysicsActor();
+		/// <param name="object3D">Object 3D to associate to the Physics Actor</param>
+		PhysicsActor(Object3D* object3D);
 
 		/// <summary>
 		/// Default PhysicsActor Destructor
@@ -171,8 +179,6 @@ class PhysicsActor sealed : public UniqueXEObject
 		*   Set Methods   *
 		*******************/
 #pragma region Set Methods
-
-		XEResult SetObject3D(Object3D* object3D);
 
 		void SetMass(float mass);
 

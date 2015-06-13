@@ -67,9 +67,7 @@ XEResult PhysicsGOC::AddRigidBody()
 
 	if (m_PhysicsActor == nullptr)
 	{
-		m_PhysicsActor = new PhysicsActor();
-
-		m_PhysicsActor->SetObject3D(m_GameObject);
+		m_PhysicsActor = new PhysicsActor(m_GameObject);
 
 		ret = m_PhysicsActor->Initialize(m_PhysicsManager, PhysicsActorType::Dynamic);
 		if (ret != XEResult::Ok)
@@ -180,9 +178,7 @@ XEResult PhysicsGOC::AddCollider(CollisionShape collisionShape, uint64_t& collid
 	//Initialize Physics Actor
 	if (m_PhysicsActor == nullptr)
 	{
-		m_PhysicsActor = new PhysicsActor();
-
-		m_PhysicsActor->SetObject3D(m_GameObject);
+		m_PhysicsActor = new PhysicsActor(m_GameObject);
 
 		ret = m_PhysicsActor->Initialize(m_PhysicsManager, PhysicsActorType::Static);
 		if (ret != XEResult::Ok)

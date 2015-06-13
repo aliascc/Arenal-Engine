@@ -114,8 +114,7 @@ void main()
 	object3d.SetParentObject3D(&object3dParent);
 
 	//////////////////////Parent/////////////////////////////////
-	PhysicsActor* actorParent = new PhysicsActor();
-	actorParent->SetObject3D(&object3dParent);
+	PhysicsActor* actorParent = new PhysicsActor(&object3dParent);
 	actorParent->Initialize(physicsManager, PhysicsActorType::Dynamic);
 	physicsManager->AddPhysicsActor(actorParent);
 
@@ -125,8 +124,7 @@ void main()
 	/////////////////////////////////////////////////////////
 
 	//////////////////////Main/////////////////////////////////
-	PhysicsActor* actor = new PhysicsActor();
-	actor->SetObject3D(&object3d);
+	PhysicsActor* actor = new PhysicsActor(&object3d);
 	actor->Initialize(physicsManager, PhysicsActorType::Dynamic);
 	physicsManager->AddPhysicsActor(actor);
 
@@ -137,8 +135,7 @@ void main()
 
 	//////////////////////Floor/////////////////////////////////
 	Object3D object3dFloor;
-	PhysicsActor* actorFloor = new PhysicsActor();
-	actorFloor->SetObject3D(&object3dFloor);
+	PhysicsActor* actorFloor = new PhysicsActor(&object3dFloor);
 	actorFloor->Initialize(physicsManager, PhysicsActorType::Static);
 	physicsManager->AddPhysicsActor(actorFloor);
 
@@ -146,6 +143,8 @@ void main()
 	physicColliderBoxFloor->Initialize(physicsManager);
 	physicColliderBoxFloor->SetSize(glm::vec3(10.0f, 0.1f, 10.0f));
 	actorFloor->AddPhysicCollider(physicColliderBoxFloor);
+
+	uint64_t floorID = actorFloor->GetUniqueID();
 	/////////////////////////////////////////////////////////
 
 	physicsManager->ConnectToPhysXDebugger();
@@ -205,7 +204,12 @@ void main()
 
 	for (auto actorIt : *physicsManager)
 	{
-		collection->add(*actorIt.second->GetPxRigidActor());
+		uint64_t* ii = new uint64_t;
+		*ii = actorIt.second->GetUniqueID();
+
+		std::cout << actorIt.second->GetUniqueID() << std::endl;
+		actorIt.second->GetPxRigidActor()->userData = (void*)ii;
+		collection->add(*actorIt.second->GetPxRigidActor(), actorIt.second->GetUniqueID());
 	}
 
 	physx::PxSerialization::complete(*collection, *registry);
@@ -213,6 +217,14 @@ void main()
 	// Binary
 	physx::PxSerialization::serializeCollectionToBinary(outStream, *collection, *registry);
 	//~Binary
+
+	void* mem = new byte[XE_PHYSIC_GET_SIZE_ALIGN(outStream.getSize())];
+	memset(mem, 0, XE_PHYSIC_GET_SIZE_ALIGN(outStream.getSize()));
+	void* mem128 = XE_PHYSIC_GET_MEM_ALIGN(mem);
+	memcpy(mem128, outStream.getData(), outStream.getSize());
+
+	ReleasePhysX(collection);
+	ReleasePhysX(registry);
 
 	DeleteMem(physicsManager);
 
@@ -233,19 +245,26 @@ void main()
 
 	physx::PxSerializationRegistry* registry2 = physx::PxSerialization::createSerializationRegistry(PxGetPhysics());
 
-	void* mem = new byte[XE_PHYSIC_GET_SIZE_ALIGN(outStream.getSize())];
-
-	memset(mem, 0, XE_PHYSIC_GET_SIZE_ALIGN(outStream.getSize()));
-
-	void* mem128 = XE_PHYSIC_GET_MEM_ALIGN(mem);
-
-	memcpy(mem128, outStream.getData(), outStream.getSize());
-
 	physx::PxCollection* collection2 = physx::PxSerialization::createCollectionFromBinary(mem128, *registry2);
 
 	physicsManager->GetPxScene()->addCollection(*collection2);
 
-	physx::PxSerialObjectId aa;
+	for (uint32_t i = 0; i < collection2->getNbObjects(); i++)
+	{
+		physx::PxBase& pxBaseFloor = collection2->getObject(i);
+		physx::PxType aa = pxBaseFloor.getConcreteType();
+		const char* cc = pxBaseFloor.getConcreteTypeName();
+		physx::PxRigidActor* rigidFloor = (physx::PxRigidActor*)&pxBaseFloor;
+		if (rigidFloor->userData != nullptr)
+		{
+			uint64_t sndFloorID = *((uint64_t*)rigidFloor->userData);
+			std::cout << sndFloorID << std::endl;
+		}
+	}
+
+	DeleteMemArr(mem);
+
+	//physx::PxSerialObjectId aa;
 
 	for (size_t i = 301; i < 600; i++)
 	{
@@ -261,6 +280,9 @@ void main()
 		tp.m_ElapsedTime = dt;
 		physicsManager->Update(tp);
 	}
+
+	ReleasePhysX(collection2);
+	ReleasePhysX(registry2);
 
 	DeleteMem(physicsManager);
 

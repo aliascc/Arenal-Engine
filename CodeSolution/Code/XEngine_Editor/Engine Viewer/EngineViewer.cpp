@@ -347,7 +347,7 @@ void EngineViewer::AutoLoadTest()
 	//physicColliderBoxFloor->SetSize(boxMeshAsset->GetMeshReference()->GetBoundingBox().GetSize());
 	physicColliderBoxFloor->SetScale(goFloor->GetScale());
 
-	int32_t numLoop = 10;
+	int32_t numLoop = 1;
 
 	for (int32_t i = 0; i < numLoop; i++)
 	{

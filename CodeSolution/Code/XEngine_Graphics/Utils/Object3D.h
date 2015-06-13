@@ -14,7 +14,7 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
+#include <list>
 #include <functional>
 
 /*************************
@@ -44,7 +44,8 @@
 
 class Object3D : public UniqueXEObjectNamed
 {
-	typedef std::map<uint64_t, Object3DChangedEvent> Object3DChangedEventMap;
+	typedef std::pair<uint64_t, Object3DChangedEvent> Object3DChangedEventPair;
+	typedef std::list<Object3DChangedEventPair> Object3DChangedEventList;
 
 	private:
 
@@ -73,7 +74,7 @@ class Object3D : public UniqueXEObjectNamed
 		/// </summary>
 		Object3D* m_ParentObject3D = nullptr;
 
-		Object3DChangedEventMap m_Object3DChangedEventMap;
+		Object3DChangedEventList m_Object3DChangedEventList;
 
 #pragma endregion
 

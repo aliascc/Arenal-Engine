@@ -35,7 +35,7 @@ Object3D::~Object3D()
 
 void Object3D::CallObject3DChangedEvents(Object3DChangeEventType changeType, uint64_t cbIdIgnore)
 {
-	for (auto callbackPair : m_Object3DChangedEventMap)
+	for (auto callbackPair : m_Object3DChangedEventList)
 	{
 		if (cbIdIgnore != callbackPair.first)
 		{
@@ -165,7 +165,15 @@ void Object3D::UpdateTransformToNewParent(const glm::mat4& newParentTransform, c
 
 bool Object3D::ExistsObject3DChangeEventCallback(uint64_t id)
 {
-	return (m_Object3DChangedEventMap.find(id) != m_Object3DChangedEventMap.end());
+	for (auto callbackPair : m_Object3DChangedEventList)
+	{
+		if (id == callbackPair.first)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 XEResult Object3D::AddObject3DChangeEventCallback(uint64_t id, Object3DChangedEvent changeEventCallback)
@@ -175,19 +183,25 @@ XEResult Object3D::AddObject3DChangeEventCallback(uint64_t id, Object3DChangedEv
 		return XEResult::ObjExists;
 	}
 
-	m_Object3DChangedEventMap[id] = changeEventCallback;
+	Object3DChangedEventPair pair(id, changeEventCallback);
+	m_Object3DChangedEventList.push_back(pair);
 
 	return XEResult::Ok;
 }
 
 XEResult Object3D::RemoveObject3DChangeEventCallback(uint64_t id)
 {
-	if (!ExistsObject3DChangeEventCallback(id))
+	auto it = m_Object3DChangedEventList.begin();
+	auto itEnd = m_Object3DChangedEventList.end();
+	for (; it != itEnd; it++)
 	{
-		return XEResult::NotFound;
+		if (id == it->first)
+		{
+			m_Object3DChangedEventList.erase(it);
+
+			return XEResult::Ok;
+		}
 	}
 
-	m_Object3DChangedEventMap.erase(id);
-
-	return XEResult::Ok;
+	return XEResult::NotFound;
 }
