@@ -28,7 +28,7 @@ namespace AERandomHelpers
 	/*********************
 	*   Variables Defs   *
 	**********************/
-	std::default_random_engine mRandomGenerator((std::random_device())());;
+	std::default_random_engine gRandomGenerator((std::random_device())());
 
 	/********************
 	*   Function Defs   *
@@ -37,20 +37,20 @@ namespace AERandomHelpers
 	{
 		std::uniform_real_distribution<float> disRand(min, max);
 
-		return disRand(mRandomGenerator);
+		return disRand(gRandomGenerator);
 	}
 
 	int32_t AERandomHelpers::GetInt(int32_t min, int32_t max)
 	{
 		std::uniform_int_distribution<int32_t> disRand(min, max);
 
-		return disRand(mRandomGenerator);
+		return disRand(gRandomGenerator);
 	}
 
 	uint32_t GetUInt(uint32_t min, uint32_t max)
 	{
 		std::uniform_int_distribution<uint32_t> disRand(min, max);
 
-		return disRand(mRandomGenerator);
+		return disRand(gRandomGenerator);
 	}
 }

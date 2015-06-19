@@ -1,4 +1,13 @@
 
+
+#include "Importers\ImporterAssimp.h"
+#include "Writers\WriterAE3D.h"
+#include "Importers\ImportersDefs.h"
+#include "Content\ModelContent.h"
+#include "Content\MeshContent.h"
+#include "Content\MeshPartContent.h"
+#include "Content\VertexBufferContent.h"
+
 #include <Windows.h>
 #include <Xinput.h>
 #include <iostream>
@@ -26,6 +35,219 @@
 
 #include "cppformat\format.h"
 
+#include "Vertex\Types\VertexPositionNormalTexture.h"
+
+#include <fstream>
+
+#include <list>
+#include <vector>
+
+
+#include <atomic>
+
+using namespace std;
+
+void main()
+{
+	std::atomic<uint32_t> idx = ATOMIC_VAR_INIT(0);
+
+	uint32_t aaa = std::atomic_fetch_add(&idx, 3);
+
+	cout << "aaa: " << aaa << " idx: " << idx << endl;
+
+	aaa = std::atomic_fetch_add(&idx, 3);
+
+	cout << "aaa: " << aaa << " idx: " << idx << endl;
+
+	std::atomic<float> cc;
+
+	float dd = 5;
+
+	float ee = 6;
+	float ff = 6;
+
+	//ModelContent* content;
+
+	//ImporterAssimp imp;
+
+	//imp.ImportModel(L"C:/Users/Carlos/Documents/3dsMax/export/Wolf.DAE", &content);
+
+	//std::ofstream outputFile("C:/Users/Carlos/Documents/3dsMax/export/WolfMesh.txt");
+
+	//auto itMesh = content->m_Meshes.begin();
+	//auto meshPart = (*itMesh).second->m_MeshParts[0];
+
+	//VertexBufferContent<VertexPositionNormalTexture>* vtxBuffer = (VertexBufferContent<VertexPositionNormalTexture>*)(meshPart->m_VtxBuff);
+
+	////Vtx Size and Idx Size
+	//outputFile << meshPart->m_VtxBuff->m_Size << " " << meshPart->m_IdxSize << std::endl;
+
+	////Vtx Pos and Normal
+	//for (uint32_t i = 0; i < vtxBuffer->m_Size; i++)
+	//{
+	//	auto vtx = vtxBuffer->m_Buffer[i];
+
+	//	outputFile << vtx.m_Position.x << " " << vtx.m_Position.y << " " << vtx.m_Position.z << " " <<
+	//								vtx.m_Normal.x   << " " << vtx.m_Normal.y   << " " << vtx.m_Normal.z   << std::endl;
+	//}
+
+	////Idx
+	//for (uint32_t i = 0; i < meshPart->m_IdxSize; i++)
+	//{
+	//	outputFile << meshPart->m_IdxBuf16[i] << std::endl;
+	//}
+}
+
+//class IcoSphere
+//{
+//	public:
+//
+//		struct Triangle
+//		{
+//			uint32_t v1;
+//			uint32_t v2;
+//			uint32_t v3;
+//
+//			Triangle()
+//			{
+//			}
+//
+//			Triangle(uint32_t a, uint32_t b, uint32_t c)
+//				: v1(a), v2(b), v3(c)
+//			{
+//			}
+//		};
+//
+//		vector<VertexPositionNormalTexture> mVtx;
+//
+//		// return index of point in the middle of p1 and p2
+//		uint32_t getMiddlePoint(int p1, int p2)
+//		{
+//			glm::vec3 middlePos = ((mVtx[p1].m_Position + mVtx[p2].m_Position) / 2.0f);
+//
+//			VertexPositionNormalTexture newVtx;
+//			memset(&newVtx, 0, sizeof(VertexPositionNormalTexture));
+//
+//			newVtx.m_Position = middlePos;
+//
+//			//Add vertex makes sure point is on unit sphere
+//			uint32_t idx = mVtx.size();
+//			mVtx.push_back(newVtx);
+//
+//			return idx;
+//		}
+//
+//		void Create()
+//		{
+//			//Get Base Size
+//			float t = (1.0f + sqrt(5.0f)) / 2.0f;
+//
+//			VertexPositionNormalTexture vtx;
+//
+//			memset(&vtx, 0, sizeof(VertexPositionNormalTexture));
+//
+//			//////////////////////////
+//			//5 faces around point 0
+//			//////////////////////////
+//
+//			vtx.m_Position = glm::vec3(-1, t, 0);
+//			mVtx.push_back(vtx);
+//			vtx.m_Position = glm::vec3(1, t, 0);
+//			mVtx.push_back(vtx);
+//			vtx.m_Position = glm::vec3(-1, -t, 0);
+//			mVtx.push_back(vtx);
+//			vtx.m_Position = glm::vec3(1, -t, 0);
+//			mVtx.push_back(vtx);
+//
+//			vtx.m_Position = glm::vec3(0, -1, t);
+//			mVtx.push_back(vtx);
+//			vtx.m_Position = glm::vec3(0, 1, t);
+//			mVtx.push_back(vtx);
+//			vtx.m_Position = glm::vec3(0, -1, -t);
+//			mVtx.push_back(vtx);
+//			vtx.m_Position = glm::vec3(0, 1, -t);
+//			mVtx.push_back(vtx);
+//
+//			vtx.m_Position = glm::vec3(t, 0, -1);
+//			mVtx.push_back(vtx);
+//			vtx.m_Position = glm::vec3(t, 0, 1);
+//			mVtx.push_back(vtx);
+//			vtx.m_Position = glm::vec3(-t, 0, -1);
+//			mVtx.push_back(vtx);
+//			vtx.m_Position = glm::vec3(-t, 0, 1);
+//			mVtx.push_back(vtx);
+//
+//			//Triangles
+//
+//			vector<Triangle> idxs;
+//
+//			// 5 faces around point 0
+//			idxs.push_back(Triangle(0, 11, 5));
+//			idxs.push_back(Triangle(0, 5, 1));
+//			idxs.push_back(Triangle(0, 1, 7));
+//			idxs.push_back(Triangle(0, 7, 10));
+//			idxs.push_back(Triangle(0, 10, 11));
+//
+//			// 5 adjacent faces 
+//			idxs.push_back(Triangle(1, 5, 9));
+//			idxs.push_back(Triangle(5, 11, 4));
+//			idxs.push_back(Triangle(11, 10, 2));
+//			idxs.push_back(Triangle(10, 7, 6));
+//			idxs.push_back(Triangle(7, 1, 8));
+//
+//			// 5 faces around point 3
+//			idxs.push_back(Triangle(3, 9, 4));
+//			idxs.push_back(Triangle(3, 4, 2));
+//			idxs.push_back(Triangle(3, 2, 6));
+//			idxs.push_back(Triangle(3, 6, 8));
+//			idxs.push_back(Triangle(3, 8, 9));
+//
+//			// 5 adjacent faces 
+//			idxs.push_back(Triangle(4, 9, 5));
+//			idxs.push_back(Triangle(2, 4, 11));
+//			idxs.push_back(Triangle(6, 2, 10));
+//			idxs.push_back(Triangle(8, 6, 7));
+//			idxs.push_back(Triangle(9, 8, 1));
+//
+//			// refine triangles
+//			uint32_t recursionLevel = 3;
+//			for (uint32_t i = 0; i < recursionLevel; i++)
+//			{
+//				vector<Triangle> idxs2;
+//
+//				uint32_t oldIndexBufSize = (uint32_t)idxs.size();
+//
+//				for (uint32_t j = 0; j < oldIndexBufSize; j++)
+//				{
+//					Triangle tri = idxs[i];
+//
+//					// replace triangle by 4 triangles
+//					uint32_t a = getMiddlePoint(tri.v1, tri.v2);
+//					uint32_t b = getMiddlePoint(tri.v2, tri.v3);
+//					uint32_t c = getMiddlePoint(tri.v3, tri.v1);
+//
+//					idxs2.push_back(Triangle(tri.v1, a, c));
+//					idxs2.push_back(Triangle(tri.v2, b, a));
+//					idxs2.push_back(Triangle(tri.v3, c, b));
+//					idxs2.push_back(Triangle(a, b, c));
+//				}
+//
+//				idxs = idxs2;
+//			}
+//
+//			for (uint32_t i = 0; i < idxs.size(); i++)
+//			{
+//				Triangle tri = idxs[i];
+//				glm::vec3 e0 = mVtx[tri.v2].m_Position - mVtx[tri.v1].m_Position;
+//				glm::vec3 e1 = mVtx[tri.v3].m_Position - mVtx[tri.v1].m_Position;
+//
+//				glm::vec3 p1 = glm::cross(e0, e1);
+//				float p2 = p1.length();
+//
+//				glm::vec3 nor = p1 / p2;
+//			}
+//		}
+//};
 
 
 
@@ -89,7 +311,7 @@ void main()
 		std::cout << "Failed" << "Finalize" << std::endl;
 	}
 }
-#endif
+
 
 
 void main()
@@ -290,6 +512,7 @@ void main()
 	MemLeaks::MemoryEnd();
 #endif
 }
+#endif
 
 /*
 struct XBoxController

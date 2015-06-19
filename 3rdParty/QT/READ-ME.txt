@@ -20,8 +20,8 @@ Comments:
  - To build:
   - Use VS Command Prompts x86 and x64
    - set CL=/MP
-   - configure -debug-and-release -c++11 -opensource -no-accessibility -mp -nomake examples -nomake tests
-   - nmake
+   - configure -debug-and-release -c++11 -opensource -mp -nomake examples -nomake tests
+   - nmake /C /S
   - Extra Steps, just to save space in HDD
    - nmake clean
    - cd qttranslastions
