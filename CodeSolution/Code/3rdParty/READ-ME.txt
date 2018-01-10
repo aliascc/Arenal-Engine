@@ -1,9 +1,9 @@
 IMPORTANT: 
-	- For all files you need to copy check the 3rdPartyTools folder to know which version you should use.
+	- For all files you need to copy check the 3rdParty folder to know which version you should use.
 	- Check the READ ME for the modules you need to copy to see if there is any work to be done before copying them.
 
 How To:
-	- Unzip 3rdParty.7z
+	- Generate Files in 3rdParty and Copy the results here
 	- Copy from you PhysX Directory the following Files:
 		- To PhysX\include folder from: <PhysX>/include
 		- To PhysX\lib\Debug\x64 from: <PhysX>/Bin/vc12win64
@@ -14,30 +14,12 @@ How To:
 			- PhysX3ExtensionsDEBUG.lib
 			- physx3extensionsdebug.pdb
 			- PhysXVisualDebuggerSDKDEBUG.lib
-			- physxvisualdebuggersdkdebug.pdb			
-		- To PhysX\lib\Debug\x86 from: <PhysX>/Bin/vc12win32
-			- PhysX3CharacterKinematicCHECKED_x86.lib
-			- PhysX3CHECKED_x86.lib
-			- PhysX3CommonCHECKED_x86.lib
-			- PhysX3CookingCHECKED_x86.lib
-			- PhysX3ExtensionsDEBUG.lib
-			- physx3extensionsdebug.pdb
-			- PhysXVisualDebuggerSDKDEBUG.lib
-			- physxvisualdebuggersdkdebug.pdb	
+			- physxvisualdebuggersdkdebug.pdb
 		- To PhysX\lib\Release\x64 from: <PhysX>/Bin/vc12win64
 			- PhysX3_x64.lib
 			- PhysX3CharacterKinematic_x64.lib
 			- PhysX3Common_x64.lib
 			- PhysX3Cooking_x64.lib
-			- PhysX3Extensions.lib
-			- physx3extensions.pdb
-			- PhysXVisualDebuggerSDK.lib
-			- physxvisualdebuggersdk.pdb
-		- To PhysX\lib\Release\x86 from: <PhysX>/Bin/vc12win32
-			- PhysX3_x86.lib
-			- PhysX3CharacterKinematic_x86.lib
-			- PhysX3Common_x86.lib
-			- PhysX3Cooking_x86.lib
 			- PhysX3Extensions.lib
 			- physx3extensions.pdb
 			- PhysXVisualDebuggerSDK.lib

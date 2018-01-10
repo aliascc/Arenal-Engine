@@ -1,9 +1,14 @@
-Tool:		SFML
-Last Updated:	Sept 2014
-Version:	2.1
+Tool:          SFML
+Last Updated:  January 10 2018
+Last Build:    January 10 2018
+Version:	   2.4.2
 
 Notes:
 
-1- Patch the files
-2- Use CMAKE to create targets for VS
-3- Copy ext libs and DLLs
+Download:     https://www.sfml-dev.org/download.php
+
+Instructions: https://www.sfml-dev.org/tutorials/2.4/compile-with-cmake.php
+
+- Patch the files
+- Use CMAKE to create targets for VS
+- Copy ext libs and DLLs

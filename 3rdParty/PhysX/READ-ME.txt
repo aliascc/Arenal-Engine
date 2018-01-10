@@ -1,5 +1,17 @@
-Tool:		nVidia PhysX
-Last Updated:	12/6/2014
-Version:	3.3.2
+Tool:          nVidia PhysX
+Last Updated:  12/6/2014
+Version:       3.4.1
 
 Comments:
+
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+- https://devtalk.nvidia.com/default/topic/825633/-3-3-3-using-checked-libs-with-debug-runtime-library/
+
+For day-to-day development you shouldn't need debug versions of PhysX, and most game development projects don't
+use debug builds during production. 'CHECKED' configuration is about halfway between a debug build and a release build.
+RELEASE does not do any validation on inputs, but CHECKED does; RELEASE does not provide hooks for PhysX Visual Debugger,
+but CHECKED does. The DEBUG build of PhysX adds a lot of asserts and expensive tests on internal data structures that are
+usually useful only when trying to analyze a crash bug.
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------

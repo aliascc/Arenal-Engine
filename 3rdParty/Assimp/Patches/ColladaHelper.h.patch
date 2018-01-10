@@ -1,33 +1,33 @@
---- ../Src/code/ColladaHelper.h	Fri Feb 03 05:38:32 2012
-+++ ../Src/code/ColladaHelper.h	Sun Jan 20 11:35:08 2013
-@@ -228,6 +228,8 @@
-   std::string mSID;
- 	Node* mParent;
- 	std::vector<Node*> mChildren;
-+	
-+	aiNodeType mNodeType;
+--- ColladaHelper.h.orig	2017-12-11 14:22:45.000000000 +0100
++++ ColladaHelper.h	2018-01-09 03:11:29.166871800 +0100
+@@ -256,6 +256,8 @@
+     Node* mParent;
+     std::vector<Node*> mChildren;
  
- 	/** Operations in order to calculate the resulting transformation to parent. */
- 	std::vector<Transform> mTransforms;
-@@ -250,6 +252,7 @@
- 	//! Constructor. Begin with a zero parent
- 	Node() { 
- 		mParent = NULL;
-+		mNodeType = aiNodeType_Unknown;
- 	}
- 
- 	//! Destructor: delete all children subsequently
-@@ -265,6 +268,13 @@
- 	bool mIsStringArray;
- 	std::vector<float> mValues;
- 	std::vector<std::string> mStrings;
-+	std::string mFullString;
++    aiNodeType mNodeType;
 +
-+	Data()
-+	{
-+		mIsStringArray = false;
-+		mFullString = "";
-+	}
+     /** Operations in order to calculate the resulting transformation to parent. */
+     std::vector<Transform> mTransforms;
+ 
+@@ -277,6 +279,7 @@
+     //! Constructor. Begin with a zero parent
+     Node() {
+         mParent = NULL;
++		mNodeType = aiNodeType_Unknown;
+     }
+ 
+     //! Destructor: delete all children subsequently
+@@ -292,6 +295,13 @@
+     bool mIsStringArray;
+     std::vector<ai_real> mValues;
+     std::vector<std::string> mStrings;
++    std::string mFullString;
++
++    Data()
++    {
++        mIsStringArray = false;
++        mFullString = "";
++    }
  };
  
  /** Accessor to a data array */

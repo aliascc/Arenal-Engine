@@ -1,6 +1,7 @@
-Tool:		DirectXTK
-Last Updated:	Jan 21 2014
-Version:	--
-Last Build:	Jan 21 2014
+Tool:           DirectXTK
+Last Updated:   January 10 2018
+Version:        v December 13, 2017
+Last Build      January 10 2018
 
 Comments:
+  - Add Library suffix _x64 and _x64_d

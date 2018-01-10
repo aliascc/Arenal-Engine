@@ -1,9 +1,11 @@
-Tool:		CPPFormat
-Last Updated:	May 5 2015
-Version:	1.1.0
-Last Build:	May 5 2015
+Tool:           fmt
+Last Updated:   January 10 2018
+Version:        4.1.0
+Last Build:     January 10 2018
 
 Comments:
 
-- When compiling a new source
-  - Add cppformat before format.h in posix.h
+Download: https://github.com/fmtlib/fmt/releases
+
+- Configure with CMAKE
+- Name Library suffix _x64 and _x64_d

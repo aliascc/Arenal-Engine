@@ -7,6 +7,46 @@ BEGIN_AS_NAMESPACE
 
 using namespace std;
 
+//------------------------------------------------------------------------
+// Object types are cached as user data to avoid costly runtime lookups
+
+// We just define a number here that we assume nobody else is using for
+// object type user data. The add-ons have reserved the numbers 1000
+// through 1999 for this purpose, so we should be fine.
+const asPWORD DICTIONARY_CACHE = 1003;
+
+// This cache holds the object type of the wdictionary type and array type
+// so it isn't necessary to look this up each time the wdictionary or array
+// is created.
+struct SDictionaryWCache
+{
+	asITypeInfo *dictType;
+	asITypeInfo *arrayType;
+
+	// This is called from RegisterScriptDictionaryW
+	static void Setup(asIScriptEngine *engine)
+	{
+		SDictionaryWCache *cache = reinterpret_cast<SDictionaryWCache*>(engine->GetUserData(DICTIONARY_CACHE));
+		if( cache == 0 )
+		{
+			cache = new SDictionaryWCache;
+			engine->SetUserData(cache, DICTIONARY_CACHE);
+			engine->SetEngineUserDataCleanupCallback(SDictionaryWCache::Cleanup, DICTIONARY_CACHE);
+
+			cache->dictType = engine->GetTypeInfoByName("wdictionary");
+			cache->arrayType = engine->GetTypeInfoByDecl("array<wstring>");
+		}
+	}
+
+	// This is called from the engine when shutting down
+	static void Cleanup(asIScriptEngine *engine)
+	{
+		SDictionaryWCache *cache = reinterpret_cast<SDictionaryWCache*>(engine->GetUserData(DICTIONARY_CACHE));
+		if( cache )
+			delete cache;
+	}
+};
+
 //--------------------------------------------------------------------------
 // CScriptDictionaryW implementation
 
@@ -28,34 +68,33 @@ CScriptDictionaryW *CScriptDictionaryW::Create(asBYTE *buffer)
 
 CScriptDictionaryW::CScriptDictionaryW(asIScriptEngine *engine)
 {
+	Init(engine);
+}
+
+void CScriptDictionaryW::Init(asIScriptEngine *e)
+{
 	// We start with one reference
 	refCount = 1;
 	gcFlag = false;
 
 	// Keep a reference to the engine for as long as we live
 	// We don't increment the reference counter, because the 
-	// engine will hold a pointer to the object. 
-	this->engine = engine;
+	// engine will hold a pointer to the object in the GC.
+	engine = e;
+
+	// The wdictionary object type is cached to avoid dynamically parsing it each time
+	SDictionaryWCache *cache = reinterpret_cast<SDictionaryWCache*>(engine->GetUserData(DICTIONARY_CACHE));
 
 	// Notify the garbage collector of this object
-	// TODO: The object type should be cached
-	engine->NotifyGarbageCollectorOfNewObject(this, engine->GetObjectTypeByName("wdictionary"));
+	engine->NotifyGarbageCollectorOfNewObject(this, cache->dictType);
 }
 
 CScriptDictionaryW::CScriptDictionaryW(asBYTE *buffer)
 {
-	// We start with one reference
-	refCount = 1;
-	gcFlag = false;
-
 	// This constructor will always be called from a script
 	// so we can get the engine from the active context
 	asIScriptContext *ctx = asGetActiveContext();
-	engine = ctx->GetEngine();
-
-	// Notify the garbage collector of this object
-	// TODO: The type id should be cached
-	engine->NotifyGarbageCollectorOfNewObject(this, engine->GetObjectTypeByName("wdictionary"));
+	Init(ctx->GetEngine());
 
 	// Initialize the wdictionary from the buffer
 	asUINT length = *(asUINT*)buffer;
@@ -69,8 +108,8 @@ CScriptDictionaryW::CScriptDictionaryW(asBYTE *buffer)
 			buffer += 4 - (asPWORD(buffer) & 0x3);
 
 		// Get the name value pair from the buffer and insert it in the wdictionary
-		wstring name = *(wstring*)buffer;
-		buffer += sizeof(wstring);
+		dictKey_t name = *(dictKey_t*)buffer;
+		buffer += sizeof(dictKey_t);
 
 		// Get the type id of the value
 		int typeId = *(int*)buffer;
@@ -86,16 +125,16 @@ CScriptDictionaryW::CScriptDictionaryW(asBYTE *buffer)
 			double d;
 			switch( typeId )
 			{
-			case asTYPEID_INT8: i64 = *(char*)ref; break;
-			case asTYPEID_INT16: i64 = *(short*)ref; break;
-			case asTYPEID_INT32: i64 = *(int*)ref; break;
-			case asTYPEID_INT64: i64 = *(asINT64*)ref; break;
-			case asTYPEID_UINT8: i64 = *(unsigned char*)ref; break;
+			case asTYPEID_INT8:   i64 = *(char*)          ref; break;
+			case asTYPEID_INT16:  i64 = *(short*)         ref; break;
+			case asTYPEID_INT32:  i64 = *(int*)           ref; break;
+			case asTYPEID_INT64:  i64 = *(asINT64*)       ref; break;
+			case asTYPEID_UINT8:  i64 = *(unsigned char*) ref; break;
 			case asTYPEID_UINT16: i64 = *(unsigned short*)ref; break;
-			case asTYPEID_UINT32: i64 = *(unsigned int*)ref; break;
-			case asTYPEID_UINT64: i64 = *(asINT64*)ref; break;
-			case asTYPEID_FLOAT: d = *(float*)ref; break;
-			case asTYPEID_DOUBLE: d = *(double*)ref; break;
+			case asTYPEID_UINT32: i64 = *(unsigned int*)  ref; break;
+			case asTYPEID_UINT64: i64 = *(asINT64*)       ref; break;
+			case asTYPEID_FLOAT:  d   = *(float*)         ref; break;
+			case asTYPEID_DOUBLE: d   = *(double*)        ref; break;
 			}
 			
 			if( typeId >= asTYPEID_FLOAT )
@@ -107,7 +146,7 @@ CScriptDictionaryW::CScriptDictionaryW(asBYTE *buffer)
 		{
 			if( (typeId & asTYPEID_MASK_OBJECT) && 
 				!(typeId & asTYPEID_OBJHANDLE) && 
-				(engine->GetObjectTypeById(typeId)->GetFlags() & asOBJ_REF) )
+				(engine->GetTypeInfoById(typeId)->GetFlags() & asOBJ_REF) )
 			{
 				// Dereference the pointer to get the reference to the actual object
 				ref = *(void**)ref;
@@ -119,9 +158,9 @@ CScriptDictionaryW::CScriptDictionaryW(asBYTE *buffer)
 		// Advance the buffer pointer with the size of the value
 		if( typeId & asTYPEID_MASK_OBJECT )
 		{
-			asIObjectType *ot = engine->GetObjectTypeById(typeId);
-			if( ot->GetFlags() & asOBJ_VALUE )
-				buffer += ot->GetSize();
+			asITypeInfo *ti = engine->GetTypeInfoById(typeId);
+			if( ti->GetFlags() & asOBJ_VALUE )
+				buffer += ti->GetSize();
 			else
 				buffer += sizeof(void*);
 		}
@@ -176,14 +215,17 @@ bool CScriptDictionaryW::GetGCFlag()
 	return gcFlag;
 }
 
-void CScriptDictionaryW::EnumReferences(asIScriptEngine *engine)
+void CScriptDictionaryW::EnumReferences(asIScriptEngine *inEngine)
 {
+	// TODO: If garbage collection can be done from a separate thread, then this method must be
+	//       protected so that it doesn't get lost during the iteration if the wdictionary is modified
+
 	// Call the gc enum callback for each of the objects
-	map<wstring, CScriptDictWValue>::iterator it;
+	dictMap_t::iterator it;
 	for( it = dict.begin(); it != dict.end(); it++ )
 	{
 		if( it->second.m_typeId & asTYPEID_MASK_OBJECT )
-			engine->GCEnumCallback(it->second.m_valueObj);
+			inEngine->GCEnumCallback(it->second.m_valueObj);
 	}
 }
 
@@ -200,7 +242,7 @@ CScriptDictionaryW &CScriptDictionaryW::operator =(const CScriptDictionaryW &oth
 	DeleteAll();
 
 	// Do a shallow copy of the wdictionary
-	map<wstring, CScriptDictWValue>::const_iterator it;
+	dictMap_t::const_iterator it;
 	for( it = other.dict.begin(); it != other.dict.end(); it++ )
 	{
 		if( it->second.m_typeId & asTYPEID_OBJHANDLE )
@@ -214,21 +256,16 @@ CScriptDictionaryW &CScriptDictionaryW::operator =(const CScriptDictionaryW &oth
 	return *this;
 }
 
-CScriptDictWValue *CScriptDictionaryW::operator[](const wstring &key)
+CScriptDictWValue *CScriptDictionaryW::operator[](const dictKey_t &key)
 {
 	// Return the existing value if it exists, else insert an empty value
-	map<wstring, CScriptDictWValue>::iterator it;
-	it = dict.find(key);
-	if( it == dict.end() )
-		it = dict.insert(map<wstring, CScriptDictWValue>::value_type(key, CScriptDictWValue())).first;
-	
-	return &it->second;
+	return &dict[key];
 }
 
-const CScriptDictWValue *CScriptDictionaryW::operator[](const wstring &key) const
+const CScriptDictWValue *CScriptDictionaryW::operator[](const dictKey_t &key) const
 {
 	// Return the existing value if it exists
-	map<wstring, CScriptDictWValue>::const_iterator it;
+	dictMap_t::const_iterator it;
 	it = dict.find(key);
 	if( it != dict.end() )
 		return &it->second;
@@ -241,12 +278,12 @@ const CScriptDictWValue *CScriptDictionaryW::operator[](const wstring &key) cons
 	return 0;
 }
 
-void CScriptDictionaryW::Set(const wstring &key, void *value, int typeId)
+void CScriptDictionaryW::Set(const dictKey_t &key, void *value, int typeId)
 {
-	map<wstring, CScriptDictWValue>::iterator it;
+	dictMap_t::iterator it;
 	it = dict.find(key);
 	if( it == dict.end() )
-		it = dict.insert(map<wstring, CScriptDictWValue>::value_type(key, CScriptDictWValue())).first;
+		it = dict.insert(dictMap_t::value_type(key, CScriptDictWValue())).first;
 
 	it->second.Set(engine, value, typeId);
 }
@@ -256,7 +293,7 @@ void CScriptDictionaryW::Set(const wstring &key, void *value, int typeId)
 // through implicit conversions. This simplifies the management of the
 // numeric types when the script retrieves the stored value using a 
 // different type.
-void CScriptDictionaryW::Set(const wstring &key, const asINT64 &value)
+void CScriptDictionaryW::Set(const dictKey_t &key, const asINT64 &value)
 {
 	Set(key, const_cast<asINT64*>(&value), asTYPEID_INT64);
 }
@@ -265,15 +302,15 @@ void CScriptDictionaryW::Set(const wstring &key, const asINT64 &value)
 // will be stored in the wdictionary as double through implicit conversions. 
 // This simplifies the management of the numeric types when the script 
 // retrieves the stored value using a different type.
-void CScriptDictionaryW::Set(const wstring &key, const double &value)
+void CScriptDictionaryW::Set(const dictKey_t &key, const double &value)
 {
 	Set(key, const_cast<double*>(&value), asTYPEID_DOUBLE);
 }
 
 // Returns true if the value was successfully retrieved
-bool CScriptDictionaryW::Get(const wstring &key, void *value, int typeId) const
+bool CScriptDictionaryW::Get(const dictKey_t &key, void *value, int typeId) const
 {
-	map<wstring, CScriptDictWValue>::const_iterator it;
+	dictMap_t::const_iterator it;
 	it = dict.find(key);
 	if( it != dict.end() )
 		return it->second.Get(engine, value, typeId);
@@ -286,9 +323,9 @@ bool CScriptDictionaryW::Get(const wstring &key, void *value, int typeId) const
 }
 
 // Returns the type id of the stored value
-int CScriptDictionaryW::GetTypeId(const wstring &key) const
+int CScriptDictionaryW::GetTypeId(const dictKey_t &key) const
 {
-	map<wstring, CScriptDictWValue>::const_iterator it;
+	dictMap_t::const_iterator it;
 	it = dict.find(key);
 	if( it != dict.end() )
 		return it->second.m_typeId;
@@ -296,19 +333,19 @@ int CScriptDictionaryW::GetTypeId(const wstring &key) const
 	return -1;
 }
 
-bool CScriptDictionaryW::Get(const wstring &key, asINT64 &value) const
+bool CScriptDictionaryW::Get(const dictKey_t &key, asINT64 &value) const
 {
 	return Get(key, &value, asTYPEID_INT64);
 }
 
-bool CScriptDictionaryW::Get(const wstring &key, double &value) const
+bool CScriptDictionaryW::Get(const dictKey_t &key, double &value) const
 {
 	return Get(key, &value, asTYPEID_DOUBLE);
 }
 
-bool CScriptDictionaryW::Exists(const wstring &key) const
+bool CScriptDictionaryW::Exists(const dictKey_t &key) const
 {
-	map<wstring, CScriptDictWValue>::const_iterator it;
+	dictMap_t::const_iterator it;
 	it = dict.find(key);
 	if( it != dict.end() )
 		return true;
@@ -329,20 +366,23 @@ asUINT CScriptDictionaryW::GetSize() const
 	return asUINT(dict.size());
 }
 
-void CScriptDictionaryW::Delete(const wstring &key)
+bool CScriptDictionaryW::Delete(const dictKey_t &key)
 {
-	map<wstring, CScriptDictWValue>::iterator it;
+	dictMap_t::iterator it;
 	it = dict.find(key);
 	if( it != dict.end() )
 	{
 		it->second.FreeValue(engine);
 		dict.erase(it);
+		return true;
 	}
+
+	return false;
 }
 
 void CScriptDictionaryW::DeleteAll()
 {
-	map<wstring, CScriptDictWValue>::iterator it;
+	dictMap_t::iterator it;
 	for( it = dict.begin(); it != dict.end(); it++ )
 		it->second.FreeValue(engine);
 
@@ -351,21 +391,18 @@ void CScriptDictionaryW::DeleteAll()
 
 CScriptArray* CScriptDictionaryW::GetKeys() const
 {
-	// TODO: optimize: The wstring array type should only be determined once. 
-	//                 It should be recomputed when registering the wdictionary class.
-	//                 Only problem is if multiple engines are used, as they may not
-	//                 share the same type id. Alternatively it can be stored in the 
-	//                 user data for the wdictionary type.
-	asIObjectType *ot = engine->GetObjectTypeByDecl("array<wstring>");
+	// Retrieve the object type for the array<wstring> from the cache
+	SDictionaryWCache *cache = reinterpret_cast<SDictionaryWCache*>(engine->GetUserData(DICTIONARY_CACHE));
+	asITypeInfo *ti = cache->arrayType;
 
 	// Create the array object
-	CScriptArray *array = CScriptArray::Create(ot, asUINT(dict.size()));
+	CScriptArray *array = CScriptArray::Create(ti, asUINT(dict.size()));
 	long current = -1;
-	std::map<wstring, CScriptDictWValue>::const_iterator it;
+	dictMap_t::const_iterator it;
 	for( it = dict.begin(); it != dict.end(); it++ )
 	{
 		current++;
-		*(wstring*)array->At(current) = it->first;
+		*(dictKey_t*)array->At(current) = it->first;
 	}
 
 	return array;
@@ -408,7 +445,7 @@ void ScriptDictionaryWAssign_Generic(asIScriptGeneric *gen)
 void ScriptDictionaryWSet_Generic(asIScriptGeneric *gen)
 {
 	CScriptDictionaryW *dict = (CScriptDictionaryW*)gen->GetObject();
-	wstring *key = *(wstring**)gen->GetAddressOfArg(0);
+	dictKey_t *key = *(dictKey_t**)gen->GetAddressOfArg(0);
 	void *ref = *(void**)gen->GetAddressOfArg(1);
 	int typeId = gen->GetArgTypeId(1);
 	dict->Set(*key, ref, typeId);
@@ -417,7 +454,7 @@ void ScriptDictionaryWSet_Generic(asIScriptGeneric *gen)
 void ScriptDictionaryWSetInt_Generic(asIScriptGeneric *gen)
 {
 	CScriptDictionaryW *dict = (CScriptDictionaryW*)gen->GetObject();
-	wstring *key = *(wstring**)gen->GetAddressOfArg(0);
+	dictKey_t *key = *(dictKey_t**)gen->GetAddressOfArg(0);
 	void *ref = *(void**)gen->GetAddressOfArg(1);
 	dict->Set(*key, *(asINT64*)ref);
 }
@@ -425,7 +462,7 @@ void ScriptDictionaryWSetInt_Generic(asIScriptGeneric *gen)
 void ScriptDictionaryWSetFlt_Generic(asIScriptGeneric *gen)
 {
 	CScriptDictionaryW *dict = (CScriptDictionaryW*)gen->GetObject();
-	wstring *key = *(wstring**)gen->GetAddressOfArg(0);
+	dictKey_t *key = *(dictKey_t**)gen->GetAddressOfArg(0);
 	void *ref = *(void**)gen->GetAddressOfArg(1);
 	dict->Set(*key, *(double*)ref);
 }
@@ -433,7 +470,7 @@ void ScriptDictionaryWSetFlt_Generic(asIScriptGeneric *gen)
 void ScriptDictionaryWGet_Generic(asIScriptGeneric *gen)
 {
 	CScriptDictionaryW *dict = (CScriptDictionaryW*)gen->GetObject();
-	wstring *key = *(wstring**)gen->GetAddressOfArg(0);
+	dictKey_t *key = *(dictKey_t**)gen->GetAddressOfArg(0);
 	void *ref = *(void**)gen->GetAddressOfArg(1);
 	int typeId = gen->GetArgTypeId(1);
 	*(bool*)gen->GetAddressOfReturnLocation() = dict->Get(*key, ref, typeId);
@@ -442,7 +479,7 @@ void ScriptDictionaryWGet_Generic(asIScriptGeneric *gen)
 void ScriptDictionaryWGetInt_Generic(asIScriptGeneric *gen)
 {
 	CScriptDictionaryW *dict = (CScriptDictionaryW*)gen->GetObject();
-	wstring *key = *(wstring**)gen->GetAddressOfArg(0);
+	dictKey_t *key = *(dictKey_t**)gen->GetAddressOfArg(0);
 	void *ref = *(void**)gen->GetAddressOfArg(1);
 	*(bool*)gen->GetAddressOfReturnLocation() = dict->Get(*key, *(asINT64*)ref);
 }
@@ -450,7 +487,7 @@ void ScriptDictionaryWGetInt_Generic(asIScriptGeneric *gen)
 void ScriptDictionaryWGetFlt_Generic(asIScriptGeneric *gen)
 {
 	CScriptDictionaryW *dict = (CScriptDictionaryW*)gen->GetObject();
-	wstring *key = *(wstring**)gen->GetAddressOfArg(0);
+	dictKey_t *key = *(dictKey_t**)gen->GetAddressOfArg(0);
 	void *ref = *(void**)gen->GetAddressOfArg(1);
 	*(bool*)gen->GetAddressOfReturnLocation() = dict->Get(*key, *(double*)ref);
 }
@@ -458,7 +495,7 @@ void ScriptDictionaryWGetFlt_Generic(asIScriptGeneric *gen)
 void ScriptDictionaryWExists_Generic(asIScriptGeneric *gen)
 {
 	CScriptDictionaryW *dict = (CScriptDictionaryW*)gen->GetObject();
-	wstring *key = *(wstring**)gen->GetAddressOfArg(0);
+	dictKey_t *key = *(dictKey_t**)gen->GetAddressOfArg(0);
 	bool ret = dict->Exists(*key);
 	*(bool*)gen->GetAddressOfReturnLocation() = ret;
 }
@@ -480,8 +517,8 @@ void ScriptDictionaryWGetSize_Generic(asIScriptGeneric *gen)
 void ScriptDictionaryWDelete_Generic(asIScriptGeneric *gen)
 {
 	CScriptDictionaryW *dict = (CScriptDictionaryW*)gen->GetObject();
-	wstring *key = *(wstring**)gen->GetAddressOfArg(0);
-	dict->Delete(*key);
+	dictKey_t *key = *(dictKey_t**)gen->GetAddressOfArg(0);
+	*(bool*)gen->GetAddressOfReturnLocation() = dict->Delete(*key);
 }
 
 void ScriptDictionaryWDeleteAll_Generic(asIScriptGeneric *gen)
@@ -531,14 +568,14 @@ static void CScriptDictionaryWGetKeys_Generic(asIScriptGeneric *gen)
 static void CScriptDictionaryW_opIndex_Generic(asIScriptGeneric *gen)
 {
 	CScriptDictionaryW *self = (CScriptDictionaryW*)gen->GetObject();
-	std::wstring *key = (std::wstring*)gen->GetAddressOfArg(0);
+	dictKey_t *key = *(dictKey_t**)gen->GetAddressOfArg(0);
 	*(CScriptDictWValue**)gen->GetAddressOfReturnLocation() = self->operator[](*key);
 }
 
 static void CScriptDictionaryW_opIndex_const_Generic(asIScriptGeneric *gen)
 {
 	const CScriptDictionaryW *self = (const CScriptDictionaryW*)gen->GetObject();
-	std::wstring *key = (std::wstring*)gen->GetAddressOfArg(0);
+	dictKey_t *key = *(dictKey_t**)gen->GetAddressOfArg(0);
 	*(const CScriptDictWValue**)gen->GetAddressOfReturnLocation() = self->operator[](*key);
 }
 
@@ -571,7 +608,7 @@ void CScriptDictWValue::FreeValue(asIScriptEngine *engine)
 	if( m_typeId & asTYPEID_MASK_OBJECT )
 	{
 		// Let the engine release the object
-		engine->ReleaseScriptObject(m_valueObj, engine->GetObjectTypeById(m_typeId));
+		engine->ReleaseScriptObject(m_valueObj, engine->GetTypeInfoById(m_typeId));
 		m_valueObj = 0;
 		m_typeId = 0;
 	}
@@ -588,12 +625,12 @@ void CScriptDictWValue::Set(asIScriptEngine *engine, void *value, int typeId)
 	{
 		// We're receiving a reference to the handle, so we need to dereference it
 		m_valueObj = *(void**)value;
-		engine->AddRefScriptObject(m_valueObj, engine->GetObjectTypeById(typeId));
+		engine->AddRefScriptObject(m_valueObj, engine->GetTypeInfoById(typeId));
 	}
 	else if( typeId & asTYPEID_MASK_OBJECT )
 	{
 		// Create a copy of the object
-		m_valueObj = engine->CreateScriptObjectCopy(value, engine->GetObjectTypeById(typeId));
+		m_valueObj = engine->CreateScriptObjectCopy(value, engine->GetTypeInfoById(typeId));
 	}
 	else
 	{
@@ -602,6 +639,16 @@ void CScriptDictWValue::Set(asIScriptEngine *engine, void *value, int typeId)
 		int size = engine->GetSizeOfPrimitiveType(typeId);
 		memcpy(&m_valueInt, value, size);
 	}
+}
+
+void CScriptDictWValue::Set(asIScriptEngine *engine, CScriptDictWValue &value)
+{
+	if( value.m_typeId & asTYPEID_OBJHANDLE )
+		Set(engine, (void*)&value.m_valueObj, value.m_typeId);
+	else if( value.m_typeId & asTYPEID_MASK_OBJECT )
+		Set(engine, (void*)value.m_valueObj, value.m_typeId);
+	else
+		Set(engine, (void*)&value.m_valueInt, value.m_typeId);
 }
 
 // This overloaded method is implemented so that all integer and
@@ -630,11 +677,14 @@ bool CScriptDictWValue::Get(asIScriptEngine *engine, void *value, int typeId) co
 	{
 		// A handle can be retrieved if the stored type is a handle of same or compatible type
 		// or if the stored type is an object that implements the interface that the handle refer to.
-		if( (m_typeId & asTYPEID_MASK_OBJECT) && 
-			engine->IsHandleCompatibleWithObject(m_valueObj, m_typeId, typeId) )
+		if( (m_typeId & asTYPEID_MASK_OBJECT) )
 		{
-			engine->AddRefScriptObject(m_valueObj, engine->GetObjectTypeById(m_typeId));
-			*(void**)value = m_valueObj;
+			// Don't allow the get if the stored handle is to a const, but the desired handle is not
+			if( (m_typeId & asTYPEID_HANDLETOCONST) && !(typeId & asTYPEID_HANDLETOCONST) )
+				return false;
+
+			// RefCastObject will increment the refcount if successful
+			engine->RefCastObject(m_valueObj, engine->GetTypeInfoById(m_typeId), engine->GetTypeInfoById(typeId), reinterpret_cast<void**>(value));
 
 			return true;
 		}
@@ -643,13 +693,15 @@ bool CScriptDictWValue::Get(asIScriptEngine *engine, void *value, int typeId) co
 	{
 		// Verify that the copy can be made
 		bool isCompatible = false;
-		if( m_typeId == typeId )
+
+		// Allow a handle to be value assigned if the wanted type is not a handle
+		if( (m_typeId & ~(asTYPEID_OBJHANDLE | asTYPEID_HANDLETOCONST) ) == typeId && m_valueObj != 0 )
 			isCompatible = true;
 
 		// Copy the object into the given reference
 		if( isCompatible )
 		{
-			engine->AssignScriptObject(value, m_valueObj, engine->GetObjectTypeById(typeId));
+			engine->AssignScriptObject(value, m_valueObj, engine->GetTypeInfoById(typeId));
 
 			return true;
 		}
@@ -664,20 +716,123 @@ bool CScriptDictWValue::Get(asIScriptEngine *engine, void *value, int typeId) co
 		}
 
 		// We know all numbers are stored as either int64 or double, since we register overloaded functions for those
-		if( m_typeId == asTYPEID_INT64 && typeId == asTYPEID_DOUBLE )
+		// Only bool and enums needs to be treated separately
+		if( typeId == asTYPEID_DOUBLE )
 		{
-			*(double*)value = double(m_valueInt);
+			if( m_typeId == asTYPEID_INT64 )
+				*(double*)value = double(m_valueInt);
+			else if (m_typeId == asTYPEID_BOOL)
+			{
+				// Use memcpy instead of type cast to make sure the code is endianess agnostic
+				char localValue;
+				memcpy(&localValue, &m_valueInt, sizeof(char));
+				*(double*)value = localValue ? 1.0 : 0.0;
+			}
+			else if (m_typeId > asTYPEID_DOUBLE && (m_typeId & asTYPEID_MASK_OBJECT) == 0)
+			{
+				// Use memcpy instead of type cast to make sure the code is endianess agnostic
+				int localValue;
+				memcpy(&localValue, &m_valueInt, sizeof(int));
+				*(double*)value = double(localValue); // enums are 32bit
+			}
+			else
+			{
+				// The stored type is an object
+				// TODO: Check if the object has a conversion operator to a primitive value
+				*(double*)value = 0;
+			}
 			return true;
 		}
-		else if( m_typeId == asTYPEID_DOUBLE && typeId == asTYPEID_INT64 )
+		else if( typeId == asTYPEID_INT64 )
 		{
-			*(asINT64*)value = asINT64(m_valueFlt);
+			if( m_typeId == asTYPEID_DOUBLE )
+				*(asINT64*)value = asINT64(m_valueFlt);
+			else if (m_typeId == asTYPEID_BOOL)
+			{
+				// Use memcpy instead of type cast to make sure the code is endianess agnostic
+				char localValue;
+				memcpy(&localValue, &m_valueInt, sizeof(char));
+				*(asINT64*)value = localValue ? 1 : 0;
+			}
+			else if (m_typeId > asTYPEID_DOUBLE && (m_typeId & asTYPEID_MASK_OBJECT) == 0)
+			{
+				// Use memcpy instead of type cast to make sure the code is endianess agnostic
+				int localValue;
+				memcpy(&localValue, &m_valueInt, sizeof(int));
+				*(asINT64*)value = localValue; // enums are 32bit
+			}
+			else
+			{
+				// The stored type is an object
+				// TODO: Check if the object has a conversion operator to a primitive value
+				*(asINT64*)value = 0;
+			}
 			return true;
+		}
+		else if( typeId > asTYPEID_DOUBLE && (m_typeId & asTYPEID_MASK_OBJECT) == 0 )
+		{
+			// The desired type is an enum. These are always 32bit integers
+			if( m_typeId == asTYPEID_DOUBLE )
+				*(int*)value = int(m_valueFlt);
+			else if( m_typeId == asTYPEID_INT64 )
+				*(int*)value = int(m_valueInt);
+			else if (m_typeId == asTYPEID_BOOL)
+			{
+				// Use memcpy instead of type cast to make sure the code is endianess agnostic
+				char localValue;
+				memcpy(&localValue, &m_valueInt, sizeof(char));
+				*(int*)value = localValue ? 1 : 0;
+			}
+			else if (m_typeId > asTYPEID_DOUBLE && (m_typeId & asTYPEID_MASK_OBJECT) == 0)
+			{
+				// Use memcpy instead of type cast to make sure the code is endianess agnostic
+				int localValue;
+				memcpy(&localValue, &m_valueInt, sizeof(int));
+				*(int*)value = localValue; // enums are 32bit
+			}
+			else
+			{
+				// The stored type is an object
+				// TODO: Check if the object has a conversion operator to a primitive value
+				*(int*)value = 0;
+			}
+		}
+		else if( typeId == asTYPEID_BOOL )
+		{
+			if (m_typeId & asTYPEID_OBJHANDLE)
+			{
+				// TODO: Check if the object has a conversion operator to a primitive value
+				*(bool*)value = m_valueObj ? true : false;
+			}
+			else if( m_typeId & asTYPEID_MASK_OBJECT )
+			{
+				// TODO: Check if the object has a conversion operator to a primitive value
+				*(bool*)value = true;
+			}
+			else
+			{
+				// Compare only the bytes that were actually set
+				asQWORD zero = 0;
+				int size = engine->GetSizeOfPrimitiveType(m_typeId);
+				*(bool*)value = memcmp(&m_valueInt, &zero, size) == 0 ? false : true;
+			}
 		}
 	}
 
 	// It was not possible to retrieve the value using the desired typeId
 	return false;
+}
+
+const void * CScriptDictWValue::GetAddressOfValue() const
+{
+	if( (m_typeId & asTYPEID_MASK_OBJECT) && !(m_typeId & asTYPEID_OBJHANDLE) )
+	{
+		// Return the address to the object directly
+		return m_valueObj;
+	}
+	
+	// Return the address of the primitive or the pointer to the object
+	return reinterpret_cast<const void*>(&m_valueObj);
 }
 
 bool CScriptDictWValue::Get(asIScriptEngine *engine, asINT64 &value) const
@@ -719,6 +874,18 @@ static CScriptDictWValue &CScriptDictWValue_opAssign(void *ref, int typeId, CScr
 		asIScriptEngine *engine = ctx->GetEngine();
 		obj->Set(engine, ref, typeId);
 	}
+	return *obj;
+}
+
+static CScriptDictWValue &CScriptDictWValue_opAssign(const CScriptDictWValue &other, CScriptDictWValue *obj)
+{
+	asIScriptContext *ctx = asGetActiveContext();
+	if( ctx ) 
+	{
+		asIScriptEngine *engine = ctx->GetEngine();
+		obj->Set(engine, const_cast<CScriptDictWValue&>(other));
+	}
+
 	return *obj;
 }
 
@@ -799,6 +966,12 @@ static void CScriptDictWValue_opAssign_Generic(asIScriptGeneric *gen)
 	*(CScriptDictWValue**)gen->GetAddressOfReturnLocation() = &CScriptDictWValue_opAssign(gen->GetArgAddress(0), gen->GetArgTypeId(0), self);
 }
 
+static void CScriptDictWValue_opCopyAssign_Generic(asIScriptGeneric *gen)
+{
+	CScriptDictWValue *self = (CScriptDictWValue*)gen->GetObject();
+	*(CScriptDictWValue**)gen->GetAddressOfReturnLocation() = &CScriptDictWValue_opAssign(*reinterpret_cast<CScriptDictWValue*>(gen->GetArgAddress(0)), self);
+}
+
 static void CScriptDictWValue_Construct_Generic(asIScriptGeneric *gen)
 {
 	CScriptDictWValue *self = (CScriptDictWValue*)gen->GetObject();
@@ -826,17 +999,26 @@ void RegisterScriptDictionaryW_Native(asIScriptEngine *engine)
 {
 	int r;
 
+	// The array<wstring> type must be available
+	assert( engine->GetTypeInfoByDecl("array<wstring>") );
+
+#if AS_CAN_USE_CPP11
+	// With C++11 it is possible to use asGetTypeTraits to automatically determine the correct flags that represents the C++ class
+	r = engine->RegisterObjectType("wdictionaryValue", sizeof(CScriptDictWValue), asOBJ_VALUE | asOBJ_ASHANDLE | asGetTypeTraits<CScriptDictWValue>()); assert( r >= 0 );
+#else
 	r = engine->RegisterObjectType("wdictionaryValue", sizeof(CScriptDictWValue), asOBJ_VALUE | asOBJ_ASHANDLE | asOBJ_APP_CLASS_CD); assert( r >= 0 );
+#endif
 	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(CScriptDictWValue_Construct), asCALL_CDECL_OBJLAST); assert( r >= 0 );
 	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(CScriptDictWValue_Destruct), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionaryValue", "wdictionaryValue &opAssign(const wdictionaryValue &in)", asFUNCTIONPR(CScriptDictWValue_opAssign, (const CScriptDictWValue &, CScriptDictWValue *), CScriptDictWValue &), asCALL_CDECL_OBJLAST); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionaryValue", "wdictionaryValue &opHndlAssign(const ?&in)", asFUNCTIONPR(CScriptDictWValue_opAssign, (void *, int, CScriptDictWValue*), CScriptDictWValue &), asCALL_CDECL_OBJLAST); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionaryValue", "wdictionaryValue &opAssign(const ?&in)", asFUNCTIONPR(CScriptDictWValue_opAssign, (void *, int, CScriptDictWValue*), CScriptDictWValue &), asCALL_CDECL_OBJLAST); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionaryValue", "wdictionaryValue &opAssign(double)", asFUNCTIONPR(CScriptDictWValue_opAssign, (double, CScriptDictWValue*), CScriptDictWValue &), asCALL_CDECL_OBJLAST); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionaryValue", "wdictionaryValue &opAssign(int64)", asFUNCTIONPR(CScriptDictWValue_opAssign, (asINT64, CScriptDictWValue*), CScriptDictWValue &), asCALL_CDECL_OBJLAST); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_REF_CAST, "void opCast(?&out)", asFUNCTIONPR(CScriptDictWValue_opCast, (void *, int, CScriptDictWValue*), void), asCALL_CDECL_OBJLAST); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_VALUE_CAST, "void opConv(?&out)", asFUNCTIONPR(CScriptDictWValue_opCast, (void *, int, CScriptDictWValue*), void), asCALL_CDECL_OBJLAST); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_VALUE_CAST, "int64 opConv()", asFUNCTIONPR(CScriptDictWValue_opConvInt, (CScriptDictWValue*), asINT64), asCALL_CDECL_OBJLAST); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_VALUE_CAST, "double opConv()", asFUNCTIONPR(CScriptDictWValue_opConvDouble, (CScriptDictWValue*), double), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionaryValue", "void opCast(?&out)", asFUNCTIONPR(CScriptDictWValue_opCast, (void *, int, CScriptDictWValue*), void), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionaryValue", "void opConv(?&out)", asFUNCTIONPR(CScriptDictWValue_opCast, (void *, int, CScriptDictWValue*), void), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionaryValue", "int64 opConv()", asFUNCTIONPR(CScriptDictWValue_opConvInt, (CScriptDictWValue*), asINT64), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionaryValue", "double opConv()", asFUNCTIONPR(CScriptDictWValue_opConvDouble, (CScriptDictWValue*), double), asCALL_CDECL_OBJLAST); assert( r >= 0 );
 	
 	r = engine->RegisterObjectType("wdictionary", sizeof(CScriptDictionaryW), asOBJ_REF | asOBJ_GC); assert( r >= 0 );
 	// Use the generic interface to construct the object since we need the engine pointer, we could also have retrieved the engine pointer from the active context
@@ -847,25 +1029,25 @@ void RegisterScriptDictionaryW_Native(asIScriptEngine *engine)
 
 	r = engine->RegisterObjectMethod("wdictionary", "wdictionary &opAssign(const wdictionary &in)", asMETHODPR(CScriptDictionaryW, operator=, (const CScriptDictionaryW &), CScriptDictionaryW&), asCALL_THISCALL); assert( r >= 0 );
 
-	r = engine->RegisterObjectMethod("wdictionary", "void set(const wstring &in, const ?&in)", asMETHODPR(CScriptDictionaryW,Set,(const wstring&,void*,int),void), asCALL_THISCALL); assert( r >= 0 );
-	r = engine->RegisterObjectMethod("wdictionary", "bool get(const wstring &in, ?&out) const", asMETHODPR(CScriptDictionaryW,Get,(const wstring&,void*,int) const,bool), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionary", "void set(const wstring &in, const ?&in)", asMETHODPR(CScriptDictionaryW,Set,(const dictKey_t&,void*,int),void), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionary", "bool get(const wstring &in, ?&out) const", asMETHODPR(CScriptDictionaryW,Get,(const dictKey_t&,void*,int) const,bool), asCALL_THISCALL); assert( r >= 0 );
 
-	r = engine->RegisterObjectMethod("wdictionary", "void set(const wstring &in, const int64&in)", asMETHODPR(CScriptDictionaryW,Set,(const wstring&,const asINT64&),void), asCALL_THISCALL); assert( r >= 0 );
-	r = engine->RegisterObjectMethod("wdictionary", "bool get(const wstring &in, int64&out) const", asMETHODPR(CScriptDictionaryW,Get,(const wstring&,asINT64&) const,bool), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionary", "void set(const wstring &in, const int64&in)", asMETHODPR(CScriptDictionaryW,Set,(const dictKey_t&,const asINT64&),void), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionary", "bool get(const wstring &in, int64&out) const", asMETHODPR(CScriptDictionaryW,Get,(const dictKey_t&,asINT64&) const,bool), asCALL_THISCALL); assert( r >= 0 );
 
-	r = engine->RegisterObjectMethod("wdictionary", "void set(const wstring &in, const double&in)", asMETHODPR(CScriptDictionaryW,Set,(const wstring&,const double&),void), asCALL_THISCALL); assert( r >= 0 );
-	r = engine->RegisterObjectMethod("wdictionary", "bool get(const wstring &in, double&out) const", asMETHODPR(CScriptDictionaryW,Get,(const wstring&,double&) const,bool), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionary", "void set(const wstring &in, const double&in)", asMETHODPR(CScriptDictionaryW,Set,(const dictKey_t&,const double&),void), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionary", "bool get(const wstring &in, double&out) const", asMETHODPR(CScriptDictionaryW,Get,(const dictKey_t&,double&) const,bool), asCALL_THISCALL); assert( r >= 0 );
 
 	r = engine->RegisterObjectMethod("wdictionary", "bool exists(const wstring &in) const", asMETHOD(CScriptDictionaryW,Exists), asCALL_THISCALL); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionary", "bool isEmpty() const", asMETHOD(CScriptDictionaryW, IsEmpty), asCALL_THISCALL); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionary", "uint getSize() const", asMETHOD(CScriptDictionaryW, GetSize), asCALL_THISCALL); assert( r >= 0 );
-	r = engine->RegisterObjectMethod("wdictionary", "void delete(const wstring &in)", asMETHOD(CScriptDictionaryW,Delete), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionary", "bool delete(const wstring &in)", asMETHOD(CScriptDictionaryW,Delete), asCALL_THISCALL); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionary", "void deleteAll()", asMETHOD(CScriptDictionaryW,DeleteAll), asCALL_THISCALL); assert( r >= 0 );
 
 	r = engine->RegisterObjectMethod("wdictionary", "array<wstring> @getKeys() const", asMETHOD(CScriptDictionaryW,GetKeys), asCALL_THISCALL); assert( r >= 0 );
 
-	r = engine->RegisterObjectMethod("wdictionary", "wdictionaryValue &opIndex(const wstring &in)", asMETHODPR(CScriptDictionaryW, operator[], (const wstring &), CScriptDictWValue*), asCALL_THISCALL); assert( r >= 0 );
-	r = engine->RegisterObjectMethod("wdictionary", "const wdictionaryValue &opIndex(const wstring &in) const", asMETHODPR(CScriptDictionaryW, operator[], (const wstring &) const, const CScriptDictWValue*), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionary", "wdictionaryValue &opIndex(const wstring &in)", asMETHODPR(CScriptDictionaryW, operator[], (const dictKey_t &), CScriptDictWValue*), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionary", "const wdictionaryValue &opIndex(const wstring &in) const", asMETHODPR(CScriptDictionaryW, operator[], (const dictKey_t &) const, const CScriptDictWValue*), asCALL_THISCALL); assert( r >= 0 );
 
 	// Register GC behaviours
 	r = engine->RegisterObjectBehaviour("wdictionary", asBEHAVE_GETREFCOUNT, "int f()", asMETHOD(CScriptDictionaryW,GetRefCount), asCALL_THISCALL); assert( r >= 0 );
@@ -884,23 +1066,35 @@ void RegisterScriptDictionaryW_Native(asIScriptEngine *engine)
 	// Same as deleteAll
 	r = engine->RegisterObjectMethod("wdictionary", "void clear()", asMETHOD(CScriptDictionaryW,DeleteAll), asCALL_THISCALL); assert( r >= 0 );
 #endif
+
+	// Cache some things the wdictionary will need at runtime
+	SDictionaryWCache::Setup(engine);
 }
 
 void RegisterScriptDictionaryW_Generic(asIScriptEngine *engine)
 {
 	int r;
 
+	// Register the cleanup callback for the object type cache
+	engine->SetEngineUserDataCleanupCallback(SDictionaryWCache::Cleanup, DICTIONARY_CACHE);
+
+#if AS_CAN_USE_CPP11
+	// With C++11 it is possible to use asGetTypeTraits to automatically determine the correct flags that represents the C++ class
+	r = engine->RegisterObjectType("wdictionaryValue", sizeof(CScriptDictWValue), asOBJ_VALUE | asOBJ_ASHANDLE | asGetTypeTraits<CScriptDictWValue>()); assert( r >= 0 );
+#else
 	r = engine->RegisterObjectType("wdictionaryValue", sizeof(CScriptDictWValue), asOBJ_VALUE | asOBJ_ASHANDLE | asOBJ_APP_CLASS_CD); assert( r >= 0 );
+#endif
 	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(CScriptDictWValue_Construct_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(CScriptDictWValue_Destruct_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionaryValue", "wdictionaryValue &opAssign(const wdictionaryValue &in)", asFUNCTION(CScriptDictWValue_opCopyAssign_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionaryValue", "wdictionaryValue &opHndlAssign(const ?&in)", asFUNCTION(CScriptDictWValue_opAssign_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionaryValue", "wdictionaryValue &opAssign(const ?&in)", asFUNCTION(CScriptDictWValue_opAssign_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionaryValue", "wdictionaryValue &opAssign(double)", asFUNCTION(CScriptDictWValue_opAssign_double_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionaryValue", "wdictionaryValue &opAssign(int64)", asFUNCTION(CScriptDictWValue_opAssign_int64_Generic), asCALL_GENERIC); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_REF_CAST, "void opCast(?&out)", asFUNCTION(CScriptDictWValue_opCast_Generic), asCALL_GENERIC); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_VALUE_CAST, "void opConv(?&out)", asFUNCTION(CScriptDictWValue_opCast_Generic), asCALL_GENERIC); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_VALUE_CAST, "int64 opConv()", asFUNCTION(CScriptDictWValue_opConvInt_Generic), asCALL_GENERIC); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("wdictionaryValue", asBEHAVE_VALUE_CAST, "double opConv()", asFUNCTION(CScriptDictWValue_opConvDouble_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionaryValue", "void opCast(?&out)", asFUNCTION(CScriptDictWValue_opCast_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionaryValue", "void opConv(?&out)", asFUNCTION(CScriptDictWValue_opCast_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionaryValue", "int64 opConv()", asFUNCTION(CScriptDictWValue_opConvInt_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionaryValue", "double opConv()", asFUNCTION(CScriptDictWValue_opConvDouble_Generic), asCALL_GENERIC); assert( r >= 0 );
 
 	r = engine->RegisterObjectType("wdictionary", sizeof(CScriptDictionaryW), asOBJ_REF | asOBJ_GC); assert( r >= 0 );
 	r = engine->RegisterObjectBehaviour("wdictionary", asBEHAVE_FACTORY, "wdictionary@ f()", asFUNCTION(ScriptDictionaryWFactory_Generic), asCALL_GENERIC); assert( r>= 0 );
@@ -922,7 +1116,7 @@ void RegisterScriptDictionaryW_Generic(asIScriptEngine *engine)
 	r = engine->RegisterObjectMethod("wdictionary", "bool exists(const wstring &in) const", asFUNCTION(ScriptDictionaryWExists_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionary", "bool isEmpty() const", asFUNCTION(ScriptDictionaryWIsEmpty_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionary", "uint getSize() const", asFUNCTION(ScriptDictionaryWGetSize_Generic), asCALL_GENERIC); assert( r >= 0 );
-	r = engine->RegisterObjectMethod("wdictionary", "void delete(const wstring &in)", asFUNCTION(ScriptDictionaryWDelete_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("wdictionary", "bool delete(const wstring &in)", asFUNCTION(ScriptDictionaryWDelete_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("wdictionary", "void deleteAll()", asFUNCTION(ScriptDictionaryWDeleteAll_Generic), asCALL_GENERIC); assert( r >= 0 );
 
 	r = engine->RegisterObjectMethod("wdictionary", "array<wstring> @getKeys() const", asFUNCTION(CScriptDictionaryWGetKeys_Generic), asCALL_GENERIC); assert( r >= 0 );
@@ -936,6 +1130,9 @@ void RegisterScriptDictionaryW_Generic(asIScriptEngine *engine)
 	r = engine->RegisterObjectBehaviour("wdictionary", asBEHAVE_GETGCFLAG, "bool f()", asFUNCTION(ScriptDictionaryWGetGCFlag_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectBehaviour("wdictionary", asBEHAVE_ENUMREFS, "void f(int&in)", asFUNCTION(ScriptDictionaryWEnumReferences_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectBehaviour("wdictionary", asBEHAVE_RELEASEREFS, "void f(int&in)", asFUNCTION(ScriptDictionaryWReleaseAllReferences_Generic), asCALL_GENERIC); assert( r >= 0 );
+
+	// Cache some things the wdictionary will need at runtime
+	SDictionaryWCache::Setup(engine);
 }
 
 //------------------------------------------------------------------
@@ -951,9 +1148,14 @@ CScriptDictionaryW::CIterator CScriptDictionaryW::end() const
 	return CIterator(*this, dict.end());
 }
 
+CScriptDictionaryW::CIterator CScriptDictionaryW::find(const dictKey_t &key) const
+{
+	return CIterator(*this, dict.find(key));
+}
+
 CScriptDictionaryW::CIterator::CIterator(
 		const CScriptDictionaryW &dict,
-		std::map<std::wstring, CScriptDictWValue>::const_iterator it)
+		dictMap_t::const_iterator it)
 	: m_it(it), m_dict(dict)
 {}
 
@@ -985,7 +1187,7 @@ bool CScriptDictionaryW::CIterator::operator!=(const CIterator &other) const
 	return m_it != other.m_it; 
 }
 
-const std::wstring &CScriptDictionaryW::CIterator::GetKey() const 
+const dictKey_t &CScriptDictionaryW::CIterator::GetKey() const 
 { 
 	return m_it->first; 
 }
@@ -1008,6 +1210,11 @@ bool CScriptDictionaryW::CIterator::GetValue(double &value) const
 bool CScriptDictionaryW::CIterator::GetValue(void *value, int typeId) const
 { 
 	return m_it->second.Get(m_dict.engine, value, typeId); 
+}
+
+const void *CScriptDictionaryW::CIterator::GetAddressOfValue() const
+{
+	return m_it->second.GetAddressOfValue();
 }
 
 END_AS_NAMESPACE

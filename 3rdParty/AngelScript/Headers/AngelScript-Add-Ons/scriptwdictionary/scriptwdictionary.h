@@ -10,14 +10,40 @@
 #include <angelscript.h>
 #endif
 
+// By default the CScriptDictionaryW use the std::wstring for the keys.
+// If the application uses a custom wstring type, then this typedef
+// can be changed accordingly. Remember, if the application uses
+// a ref counted wstring type, then further changes will be needed,
+// for example in the code for GetKeys() and the constructor that
+// takes an initialization list.
 #include <string>
+typedef std::wstring dictKey_t;
+
+// Forward declare CScriptDictWValue so we can typedef the internal map type
+BEGIN_AS_NAMESPACE
+class CScriptDictWValue;
+END_AS_NAMESPACE
+
+// C++11 introduced the std::unordered_map which is a hash map which is
+// is generally more performatic for lookups than the std::map which is a 
+// binary tree.
+// TODO: memory: The map allocator should use the asAllocMem and asFreeMem
+#if AS_CAN_USE_CPP11
+#include <unordered_map>
+typedef std::unordered_map<dictKey_t, AS_NAMESPACE_QUALIFIER CScriptDictWValue> dictMap_t;
+#else
+#include <map>
+typedef std::map<dictKey_t, AS_NAMESPACE_QUALIFIER CScriptDictWValue> dictMap_t;
+#endif
+
 
 #ifdef _MSC_VER
 // Turn off annoying warnings about truncated symbol names
 #pragma warning (disable:4786)
 #endif
 
-#include <map>
+
+
 
 // Sometimes it may be desired to use the same method names as used by C++ STL.
 // This may for example reduce time when converting code from script to C++ or
@@ -52,11 +78,15 @@ public:
 	void Set(asIScriptEngine *engine, void *value, int typeId);
 	void Set(asIScriptEngine *engine, const asINT64 &value);
 	void Set(asIScriptEngine *engine, const double &value);
+	void Set(asIScriptEngine *engine, CScriptDictWValue &value);
 
 	// Gets the stored value. Returns false if the value isn't compatible with the informed typeId
 	bool Get(asIScriptEngine *engine, void *value, int typeId) const;
 	bool Get(asIScriptEngine *engine, asINT64 &value) const;
 	bool Get(asIScriptEngine *engine, double &value) const;
+
+	// Returns the address of the stored value for inspection
+	const void *GetAddressOfValue() const;
 
 	// Returns the type id of the stored value
 	int  GetTypeId() const;
@@ -93,25 +123,25 @@ public:
 	CScriptDictionaryW &operator =(const CScriptDictionaryW &other);
 
 	// Sets a key/value pair
-	void Set(const std::wstring &key, void *value, int typeId);
-	void Set(const std::wstring &key, const asINT64 &value);
-	void Set(const std::wstring &key, const double &value);
+	void Set(const dictKey_t &key, void *value, int typeId);
+	void Set(const dictKey_t &key, const asINT64 &value);
+	void Set(const dictKey_t &key, const double &value);
 
 	// Gets the stored value. Returns false if the value isn't compatible with the informed typeId
-	bool Get(const std::wstring &key, void *value, int typeId) const;
-	bool Get(const std::wstring &key, asINT64 &value) const;
-	bool Get(const std::wstring &key, double &value) const;
+	bool Get(const dictKey_t &key, void *value, int typeId) const;
+	bool Get(const dictKey_t &key, asINT64 &value) const;
+	bool Get(const dictKey_t &key, double &value) const;
 
 	// Index accessors. If the dictionary is not const it inserts the value if it doesn't already exist
 	// If the dictionary is const then a script exception is set if it doesn't exist and a null pointer is returned
-	CScriptDictWValue *operator[](const std::wstring &key);
-	const CScriptDictWValue *operator[](const std::wstring &key) const;
+	CScriptDictWValue *operator[](const dictKey_t &key);
+	const CScriptDictWValue *operator[](const dictKey_t &key) const;
 
 	// Returns the type id of the stored value, or negative if it doesn't exist
-	int GetTypeId(const std::wstring &key) const;
+	int GetTypeId(const dictKey_t &key) const;
 
 	// Returns true if the key is set
-	bool Exists(const std::wstring &key) const;
+	bool Exists(const dictKey_t &key) const;
 
 	// Returns true if there are no key/value pairs in the dictionary
 	bool IsEmpty() const;
@@ -120,7 +150,7 @@ public:
 	asUINT GetSize() const;
 
 	// Deletes the key
-	void Delete(const std::wstring &key);
+	bool Delete(const dictKey_t &key);
 
 	// Deletes all keys
 	void DeleteAll();
@@ -128,7 +158,6 @@ public:
 	// Get an array of all keys
 	CScriptArray *GetKeys() const;
 
-public:
 	// STL style iterator
 	class CIterator
 	{
@@ -143,27 +172,29 @@ public:
 		bool operator!=(const CIterator &other) const;
 
 		// Accessors
-		const std::wstring &GetKey() const;
-		int                GetTypeId() const;
-		bool               GetValue(asINT64 &value) const;
-		bool               GetValue(double &value) const;
-		bool               GetValue(void *value, int typeId) const;
+		const dictKey_t &GetKey() const;
+		int              GetTypeId() const;
+		bool             GetValue(asINT64 &value) const;
+		bool             GetValue(double &value) const;
+		bool             GetValue(void *value, int typeId) const;
+		const void *     GetAddressOfValue() const;
 
 	protected:
 		friend class CScriptDictionaryW;
 
 		CIterator();
 		CIterator(const CScriptDictionaryW &dict,
-		          std::map<std::wstring, CScriptDictWValue>::const_iterator it);
+		          dictMap_t::const_iterator it);
 
 		CIterator &operator=(const CIterator &) {return *this;} // Not used
 
-		std::map<std::wstring, CScriptDictWValue>::const_iterator m_it;
+		dictMap_t::const_iterator m_it;
 		const CScriptDictionaryW &m_dict;
 	};
 
 	CIterator begin() const;
 	CIterator end() const;
+	CIterator find(const dictKey_t &key) const;
 
 	// Garbage collections behaviours
 	int GetRefCount();
@@ -181,15 +212,15 @@ protected:
 
 	// We don't want anyone to call the destructor directly, it should be called through the Release method
 	virtual ~CScriptDictionaryW();
-	
+
+	// Cache the object types needed
+	void Init(asIScriptEngine *engine);
+
 	// Our properties
 	asIScriptEngine *engine;
-	mutable int refCount;
-	mutable bool gcFlag;
-
-	// TODO: memory: The allocator should use the asAllocMem and asFreeMem
-	// TODO: optimize: Use C++11 std::unordered_map instead
-	std::map<std::wstring, CScriptDictWValue> dict;
+	mutable int      refCount;
+	mutable bool     gcFlag;
+	dictMap_t        dict;
 };
 
 // This function will determine the configuration of the engine

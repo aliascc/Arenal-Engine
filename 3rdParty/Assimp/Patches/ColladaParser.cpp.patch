@@ -1,67 +1,67 @@
---- ../Src/code/ColladaParser.cpp	Sat May 05 09:38:16 2012
-+++ ../Src/code/ColladaParser.cpp	Sun Jan 20 12:13:06 2013
-@@ -1668,6 +1668,7 @@
- 		{
- 			data.mStrings.reserve( count);
- 			std::string s;
-+			data.mFullString = std::string(content);
+--- ColladaParser.cpp.orig	2017-12-11 14:22:45.000000000 +0100
++++ ColladaParser.cpp	2018-01-09 03:23:21.904872600 +0100
+@@ -1962,6 +1962,7 @@
+         {
+             data.mStrings.reserve( count);
+             std::string s;
++            data.mFullString = std::string(content);
  
- 			for( unsigned int a = 0; a < count; a++)
- 			{
-@@ -2316,6 +2317,31 @@
- 				if( attrName > -1)
- 					child->mName = mReader->getAttributeValue( attrName);
+             for( unsigned int a = 0; a < count; a++)
+             {
+@@ -2675,6 +2676,31 @@
+                 int attrName = TestAttribute( "name");
+                 if( attrName > -1)
+                     child->mName = mReader->getAttributeValue( attrName);
++				
++                int attrType = TestAttribute( "type");
++                if( attrType > -1)
++                {
++                    std::string strType = mReader->getAttributeValue( attrType);
++
++                    if(strType.compare("JOINT") == 0)
++                    {
++                        child->mNodeType = aiNodeType_Bone;
++                    }
++                }
++
++                if(child->mParent != nullptr)
++                {
++                    int attrLayer = TestAttribute( "layer");
++                    if( attrLayer > -1)
++                    {
++                        std::string strLayer = mReader->getAttributeValue( attrLayer);
++
++                        if(strLayer.compare("Rig") == 0 && child->mParent->mNodeType == aiNodeType_Bone)
++                        {
++                            child->mNodeType = aiNodeType_BoneHelper;
++                        }
++                    }
++                }
  
-+				int attrType = TestAttribute( "type");
-+				if( attrType > -1)
-+				{
-+					std::string strType = mReader->getAttributeValue( attrType);
+                 // TODO: (thom) support SIDs
+                 // ai_assert( TestAttribute( "sid") == -1);
+@@ -2745,11 +2771,15 @@
+             }
+             else if( IsElement( "instance_geometry") || IsElement( "instance_controller"))
+             {
++                pNode->mNodeType = aiNodeType_MeshController;
 +
-+					if(strType.compare("JOINT") == 0)
-+					{
-+						child->mNodeType = aiNodeType_Bone;
-+					}
-+				}
+                 // Reference to a mesh or controller, with possible material associations
+                 ReadNodeGeometry( pNode);
+             }
+             else if( IsElement( "instance_light"))
+             {
++                pNode->mNodeType = aiNodeType_Light;
 +
-+				if(child->mParent != nullptr)
-+				{
-+					int attrLayer = TestAttribute( "layer");
-+					if( attrLayer > -1)
-+					{
-+						std::string strLayer = mReader->getAttributeValue( attrLayer);
+                 // Reference to a light, name given in 'url' attribute
+                 int attrID = TestAttribute("url");
+                 if (-1 == attrID)
+@@ -2766,6 +2796,8 @@
+             }
+             else if( IsElement( "instance_camera"))
+             {
++                pNode->mNodeType = aiNodeType_Camera;
 +
-+						if(strLayer.compare("Rig") == 0 && child->mParent->mNodeType == aiNodeType_Bone)
-+						{
-+							child->mNodeType = aiNodeType_BoneHelper;
-+						}
-+					}
-+				}
-+
- 				// TODO: (thom) support SIDs
- 				// ai_assert( TestAttribute( "sid") == -1);
- 
-@@ -2385,11 +2411,15 @@
- 			} 
- 			else if( IsElement( "instance_geometry") || IsElement( "instance_controller"))
- 			{
-+				pNode->mNodeType = aiNodeType_MeshController;
-+
- 				// Reference to a mesh or controller, with possible material associations
- 				ReadNodeGeometry( pNode);
- 			}
- 			else if( IsElement( "instance_light")) 
- 			{
-+				pNode->mNodeType = aiNodeType_Light;
-+
- 				// Reference to a light, name given in 'url' attribute
- 				int attrID = TestAttribute("url");
- 				if (-1 == attrID)
-@@ -2406,6 +2436,8 @@
- 			}
- 			else if( IsElement( "instance_camera")) 
- 			{
-+				pNode->mNodeType = aiNodeType_Camera;
-+
- 				// Reference to a camera, name given in 'url' attribute
- 				int attrID = TestAttribute("url");
- 				if (-1 == attrID)
+                 // Reference to a camera, name given in 'url' attribute
+                 int attrID = TestAttribute("url");
+                 if (-1 == attrID)

@@ -1,9 +1,9 @@
-Tool:		Boost
-Last Updated:	May 30 2015
-Version:	1.58_0
+Tool:           Boost
+Last Updated:   January 10 2018
+Version:        1.58_0
 Last Build:	
-		- May 30 2015 - System
-		- May 30 2015 - Filesystem
+		- January 10 2018 - System
+		- January 10 2018 - Filesystem
 
 Comments:
 - To use (If already built):
@@ -16,8 +16,6 @@ Comments:
  - Link Boost to Static Library using our own names, uncomment in <Boost>\config\user.hpp "#define BOOST_ALL_NO_LIB"
  - Change Include Directory in Projects to reflect new Src folder
  - Check that Projects have new cpps in boost folders if so add them
- - Thread library select win32 for windows o pthread for MAC or Linux
- - When Updating Boost be sure to also rebuil ASSIMP as it depends on Boost
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------

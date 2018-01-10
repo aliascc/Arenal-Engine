@@ -1,7 +1,7 @@
---- ../Src/code/ColladaLoader.cpp	Sat May 05 09:38:16 2012
-+++ ../Src/code/ColladaLoader.cpp	Sun Jan 20 15:59:48 2013
-@@ -103,6 +103,84 @@
- 	return false;
+--- ColladaLoader.cpp.orig	2017-12-11 14:22:45.000000000 +0100
++++ ColladaLoader.cpp	2018-01-09 04:02:45.966241200 +0100
+@@ -132,6 +132,84 @@
+     ignoreUpDirection = pImp->GetPropertyInteger(AI_CONFIG_IMPORT_COLLADA_IGNORE_UP_DIRECTION,0) != 0;
  }
  
 +std::vector<std::string> ColladaLoader::GetNodeNames(const Collada::Node* pRootNode)
@@ -85,28 +85,28 @@
  // ------------------------------------------------------------------------------------------------
  // Get file extension list
  const aiImporterDesc* ColladaLoader::GetInfo () const
-@@ -195,6 +273,9 @@
- 	// find a name for the new node. It's more complicated than you might think
- 	node->mName.Set( FindNameForNode( pNode));
+@@ -233,6 +311,9 @@
  
-+	//Get Node Type
-+	node->mNodeType = pNode->mNodeType;
-+
- 	// calculate the transformation matrix for it
- 	node->mTransformation = pParser.CalculateResultTransform( pNode->mTransforms);
+     // find a name for the new node. It's more complicated than you might think
+     node->mName.Set( FindNameForNode( pNode));
++ 
++    //Get Node Type
++    node->mNodeType = pNode->mNodeType;
  
-@@ -609,7 +690,13 @@
+     // calculate the transformation matrix for it
+     node->mTransformation = pParser.CalculateResultTransform( pNode->mTransforms);
+@@ -742,7 +823,13 @@
  
- 		// resolve references - joint names
- 		const Collada::Accessor& jointNamesAcc = pParser.ResolveLibraryReference( pParser.mAccessorLibrary, pSrcController->mJointNameSource);
--		const Collada::Data& jointNames = pParser.ResolveLibraryReference( pParser.mDataLibrary, jointNamesAcc.mSource);
+         // resolve references - joint names
+         const Collada::Accessor& jointNamesAcc = pParser.ResolveLibraryReference( pParser.mAccessorLibrary, pSrcController->mJointNameSource);
+-        const Collada::Data& jointNames = pParser.ResolveLibraryReference( pParser.mDataLibrary, jointNamesAcc.mSource);
 +
-+		Collada::Data jointNames = pParser.ResolveLibraryReference( pParser.mDataLibrary, jointNamesAcc.mSource);
-+		std::vector<std::string> nodeNames = GetNodeNames(pParser.mRootNode);
-+		std::vector<std::string> correntJointNames = ResolveJointNames(jointNames.mFullString, nodeNames);
-+		assert(jointNames.mStrings.size() == correntJointNames.size());
-+		jointNames.mStrings = correntJointNames;
++        Collada::Data jointNames = pParser.ResolveLibraryReference( pParser.mDataLibrary, jointNamesAcc.mSource);
++        std::vector<std::string> nodeNames = GetNodeNames(pParser.mRootNode);
++        std::vector<std::string> correntJointNames = ResolveJointNames(jointNames.mFullString, nodeNames);
++        ai_assert(jointNames.mStrings.size() == correntJointNames.size());
++        jointNames.mStrings = correntJointNames;
 +
- 		// joint offset matrices
- 		const Collada::Accessor& jointMatrixAcc = pParser.ResolveLibraryReference( pParser.mAccessorLibrary, pSrcController->mJointOffsetMatrixSource);
- 		const Collada::Data& jointMatrices = pParser.ResolveLibraryReference( pParser.mDataLibrary, jointMatrixAcc.mSource);
+         // joint offset matrices
+         const Collada::Accessor& jointMatrixAcc = pParser.ResolveLibraryReference( pParser.mAccessorLibrary, pSrcController->mJointOffsetMatrixSource);
+         const Collada::Data& jointMatrices = pParser.ResolveLibraryReference( pParser.mDataLibrary, jointMatrixAcc.mSource);

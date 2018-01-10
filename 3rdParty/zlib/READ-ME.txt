@@ -1,9 +1,11 @@
-Tool:		zlib
-Last Updated:	Oct 11 2014
-Version:	1.2.8
-Last Build:	Oct 11 2014
+Tool:          zlib
+Last Updated:  January 10 2018
+Version:       1.2.11
+Last Build:    January 10 2018
 
 Notes:
+
+Download: https://zlib.net/
 
 1- Rename Projects Target name to proper (i.e. "_x64_d, _x64")
 2- Use CMAKE to create targets for VS

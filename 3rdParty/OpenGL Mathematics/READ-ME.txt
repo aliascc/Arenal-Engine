@@ -1,8 +1,11 @@
-Tool:		OpenGL Mathematics
-Last Updated:	Jan 28 2013
-Version:	0.9.5.1
+Tool:           OpenGL Mathematics
+Last Updated:   January 10 2018
+Version:        0.9.8.5
 
 Comments:
+
+ - Download: https://github.com/g-truc/glm/tags
+
  - General Comments:
    - Make sure to remove "GLM_FORCE_RADIANS" from projects when GLM no longer accepts degrees as parameter
 

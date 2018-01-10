@@ -1,15 +1,10 @@
-Tool:			Angel Script
-Last Updated:		Sept 21 2014
-Version:		2.29.1
-Last Build:		Sept 21 2014
+Tool:          Angel Script
+Last Updated:  January 8 2018
+Version:       2.32.0
+Last Build:    January 8 2018
 
 Comments:
-
- - To use (If already built)
-  - Copy Binaries to project folder for Angel Script
-  - Extract Version from Zip and copy 'angelscript.h' + add ons .h to folder to include folder for Angel Script
-   - Add ons must go in folder "AngelScript-Add-Ons" each in its own folder
-   - Also copy add ons from "Code Modified"
+ - Download: http://www.angelcode.com/angelscript/downloads.html
 
  - To Build:
   - Apply any patches in the Patch folder (Command using cygwin:  patch.exe --binary -p1 < "file.patch")
@@ -17,6 +12,7 @@ Comments:
    - Create WString and WDictionary add-ons to use wstring from String and Dictionary add-ons, see folder Code Modify for the last update
    - Add new WString and WDictionary to add-ons folder
    - Add .h of add-ons to include folder 
+
   - For VS:
    - Create Project for Add ons "angelscript_addons"
     - Add AngelScript.h to include folder in VS Project
@@ -24,3 +20,9 @@ Comments:
     - Enable multiprocessor build and no minimal generation
     - Make sure the library type is MTD/MTDd multri threaded dll
     - Set Unicode Character Set
+
+ - To use (If already built)
+  - Copy Binaries to project folder for Angel Script
+  - Extract Version from Zip and copy 'angelscript.h' + add ons .h to folder to include folder for Angel Script
+   - Add ons must go in folder "AngelScript-Add-Ons" each in its own folder
+   - Also copy add ons from "Code Modified"
