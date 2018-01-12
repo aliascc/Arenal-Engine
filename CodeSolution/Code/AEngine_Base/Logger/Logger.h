@@ -133,7 +133,7 @@ class Logger : public Singleton<Logger>
 		/// <summary>
 		/// Script "AELog Array" Object Type
 		/// </summary>
-		asIObjectType* m_ScriptAELogArrayType = nullptr;
+		asITypeInfo* m_ScriptAELogArrayType = nullptr;
 
 #pragma endregion
 
@@ -205,7 +205,7 @@ class Logger : public Singleton<Logger>
 		/// Sets the Script "AELog Array" type
 		/// </summary>
 		/// <param name="scriptAELogArrayType">Script "AELog Array" Type</param>
-		void SetScriptAELogArrayType(asIObjectType* scriptAELogArrayType);
+		void SetScriptAELogArrayType(asITypeInfo* scriptAELogArrayType);
 
 #pragma endregion
 

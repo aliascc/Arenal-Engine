@@ -20,6 +20,8 @@
 //Always include last
 #include "Memory\MemLeaks.h"
 
+#undef min
+
 /********************
 *   Function Defs   *
 *********************/

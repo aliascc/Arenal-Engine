@@ -578,7 +578,7 @@ glm::dvec2 AEXMLParser::GetVect2d(const std::wstring& propName, const glm::dvec2
 
 	if (value)
 	{
-		sscanf_s((const char*)value, "%f %f", &ret.x, &ret.y);
+		sscanf_s((const char*)value, "%lf %lf", &ret.x, &ret.y);
 	}
 	else if (warning)
 	{
@@ -600,7 +600,7 @@ glm::dvec3 AEXMLParser::GetVect3d(const std::wstring& propName, const glm::dvec3
 
 	if (value)
 	{
-		sscanf_s((const char*)value, "%f %f %f", &ret.x, &ret.y, &ret.z);
+		sscanf_s((const char*)value, "%lf %lf %lf", &ret.x, &ret.y, &ret.z);
 	}
 	else if (warning)
 	{
@@ -622,7 +622,7 @@ glm::dvec4 AEXMLParser::GetVect4d(const std::wstring& propName, const glm::dvec4
 
 	if (value)
 	{
-		sscanf_s((const char*)value, "%f %f %f %f", &ret.x, &ret.y, &ret.z, &ret.w);
+		sscanf_s((const char*)value, "%lf %lf %lf %lf", &ret.x, &ret.y, &ret.z, &ret.w);
 	}
 	else if (warning)
 	{
@@ -795,7 +795,7 @@ glm::mat2 AEXMLParser::GetMat2f(const std::wstring& propName, const glm::mat2& d
 	if (value)
 	{
 		sscanf_s((const char*)value,
-			"%f %f ",
+			"%f %f "
 			"%f %f",
 			&ret[0].x, &ret[0].y,
 			&ret[1].x, &ret[1].y);
@@ -823,8 +823,8 @@ glm::mat3 AEXMLParser::GetMat3f(const std::wstring& propName, const glm::mat3& d
 	if (value)
 	{
 		sscanf_s((const char*)value,
-			"%f %f %f ",
-			"%f %f %f ",
+			"%f %f %f "
+			"%f %f %f "
 			"%f %f %f",
 			&ret[0].x, &ret[0].y, &ret[0].z,
 			&ret[1].x, &ret[1].y, &ret[1].z,
@@ -854,9 +854,9 @@ glm::mat4 AEXMLParser::GetMat4f(const std::wstring& propName, const glm::mat4& d
 	if (value)
 	{
 		sscanf_s((const char*)value,
-					"%f %f %f %f ",
-					"%f %f %f %f ", 
-					"%f %f %f %f ", 
+					"%f %f %f %f "
+					"%f %f %f %f " 
+					"%f %f %f %f " 
 					"%f %f %f %f",
 					&ret[0].x, &ret[0].y, &ret[0].z, &ret[0].w,
 					&ret[1].x, &ret[1].y, &ret[1].z, &ret[1].w,

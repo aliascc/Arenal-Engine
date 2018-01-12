@@ -127,7 +127,7 @@ void Logger::SetLogLevel(LogLevel logLevel)
 	m_LogLevel = logLevel; 
 }
 
-void Logger::SetScriptAELogArrayType(asIObjectType* scriptAELogArrayType)
+void Logger::SetScriptAELogArrayType(asITypeInfo* scriptAELogArrayType)
 {
 	std::lock_guard<std::mutex> lock(m_LogMutex);
 

@@ -49,6 +49,7 @@ using namespace std;
 
 void main()
 {
+	/*
 	std::atomic<uint32_t> idx = ATOMIC_VAR_INIT(0);
 
 	uint32_t aaa = std::atomic_fetch_add(&idx, 3);
@@ -59,13 +60,13 @@ void main()
 
 	cout << "aaa: " << aaa << " idx: " << idx << endl;
 
-	std::atomic<float> cc;
+	//std::atomic<float> cc;
 
 	float dd = 5;
 
 	float ee = 6;
 	float ff = 6;
-
+	*/
 	//ModelContent* content;
 
 	//ImporterAssimp imp;

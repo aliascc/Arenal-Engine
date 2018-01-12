@@ -50,10 +50,11 @@ void PhysicsManager::CleanUp()
 	}
 	m_PhysicsActorMap.clear();
 
-	ReleasePhysX(m_PxDebuggerConnection);
+	ReleasePhysX(m_PxPvdTransport);
 	ReleasePhysX(m_PxScene);
 	ReleasePhysX(m_CpuDispatcher);
 	ReleasePhysX(m_PxPhysics);
+	ReleasePhysX(m_PxPvd);
 	ReleasePhysX(m_PxFoundation);
 }
 
@@ -76,7 +77,16 @@ AEResult PhysicsManager::Initialize()
 		return AEResult::Fail;
 	}
 
-	m_PxPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_PxFoundation, physx::PxTolerancesScale());
+	m_PxPvd = physx::PxCreatePvd(*m_PxFoundation);
+	if (m_PxFoundation == nullptr)
+	{
+		CleanUp();
+
+		AETODO("Log, Better return code");
+		return AEResult::Fail;
+	}
+
+	m_PxPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_PxFoundation, physx::PxTolerancesScale(), m_PxPvd);
 	if (m_PxPhysics == nullptr)
 	{
 		CleanUp();
@@ -126,33 +136,33 @@ AEResult PhysicsManager::ConnectToPhysXDebugger(const std::wstring& ip, uint32_t
 		return AEResult::NotReady;
 	}
 
-	if (m_PxDebuggerConnection != nullptr)
+	if (mIsPVDConnected)
 	{
-		AETODO("better ret code");
-		return AEResult::Fail;
+		return AEResult::Ok;
 	}
 
 	//////////////////////////////
 	//Get Connection Manager
-	physx::PxVisualDebuggerConnectionManager* pxDebuggerConnManager = m_PxPhysics->getPvdConnectionManager();
-	if (pxDebuggerConnManager == nullptr)
-	{
-		return AEResult::NullObj;
-	}
-
-	//////////////////////////////
-	//Get Variables needed
 	std::string ipStr = AE_Base::WideStr2String(ip);
-	physx::PxVisualDebuggerConnectionFlags connectionFlags = physx::PxVisualDebuggerExt::getAllConnectionFlags();
-
-	//////////////////////////////
-	//Connect
-	m_PxDebuggerConnection = physx::PxVisualDebuggerExt::createConnection(pxDebuggerConnManager, ipStr.c_str(), port, timeout, connectionFlags);
-	if (m_PxDebuggerConnection == nullptr)
+	m_PxPvdTransport = physx::PxDefaultPvdSocketTransportCreate(ipStr.c_str(), port, timeout);
+	if (m_PxPvdTransport == nullptr)
 	{
 		AETODO("better ret code");
 		return AEResult::Fail;
 	}
+
+	//////////////////////////////
+	//Connect to PVD
+	bool ret = m_PxPvd->connect(*m_PxPvdTransport, physx::PxPvdInstrumentationFlag::eALL);
+	if (!ret)
+	{
+		ReleasePhysX(m_PxPvdTransport);
+
+		AETODO("better ret code");
+		return AEResult::Fail;
+	}
+
+	mIsPVDConnected = true;
 
 	//////////////////////////////
 	//Finish
@@ -168,16 +178,17 @@ AEResult PhysicsManager::DisconnectToPhysXDebugger()
 		return AEResult::NotReady;
 	}
 
-	if (m_PxDebuggerConnection == nullptr)
+	if (!mIsPVDConnected)
 	{
 		return AEResult::Ok;
 	}
 
 	//////////////////////////////
 	//Release Debugger and it disconnects
-	m_PxDebuggerConnection->disconnect();
+	m_PxPvd->disconnect();
+	ReleasePhysX(m_PxPvdTransport);
 
-	ReleasePhysX(m_PxDebuggerConnection);
+	mIsPVDConnected = false;
 
 	//////////////////////////////
 	//Finish

@@ -335,7 +335,7 @@ AEResult LogAddOnAS::RegisterLoggerObjectPointer(asIScriptEngine* engine)
 
 	////////////////////////////////////
 	//Set AELog Array Type to Logger
-	asIObjectType* scriptXEArrayType = engine->GetObjectTypeById(engine->GetTypeIdByDecl("array<AELog>"));
+	asITypeInfo* scriptXEArrayType = engine->GetObjectTypeByIndex(engine->GetTypeIdByDecl("array<AELog>"));
 	AELOGGER->SetScriptAELogArrayType(scriptXEArrayType);
 
 	AETODO("Change Names for Script");

@@ -36,6 +36,7 @@
 *.suo
 *.v12.suo
 *.user
+*.vs
 CodeSolution/Code/3rdParty/AngelScript/
 CodeSolution/Code/3rdParty/Assimp/
 CodeSolution/Code/3rdParty/Boost/

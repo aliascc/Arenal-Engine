@@ -310,37 +310,37 @@ AEResult GLMAddOnAS::RegisterGLM_Vec3_Functions_Native(asIScriptEngine* engine)
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec3", "vec3 opAdd(const vec3&in)", asFUNCTIONPR(glm::detail::operator+, (const glm::vec3&, const glm::vec3&), glm::vec3), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec3", "vec3 opAdd(const vec3&in)", asFUNCTIONPR(glm::operator+, (const glm::vec3&, const glm::vec3&), glm::vec3), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec3", "vec3 opSub(const vec3&in)", asFUNCTIONPR(glm::detail::operator-, (const glm::vec3&, const glm::vec3&), glm::vec3), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec3", "vec3 opSub(const vec3&in)", asFUNCTIONPR(glm::operator-, (const glm::vec3&, const glm::vec3&), glm::vec3), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec3", "vec3 opMul(const vec3&in)", asFUNCTIONPR(glm::detail::operator*, (const glm::vec3&, const glm::vec3&), glm::vec3), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec3", "vec3 opMul(const vec3&in)", asFUNCTIONPR(glm::operator*, (const glm::vec3&, const glm::vec3&), glm::vec3), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec3", "vec3 opMul(const float&in)", asFUNCTIONPR(glm::detail::operator*, (const glm::vec3&, const float&), glm::vec3), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec3", "vec3 opMul(const float&in)", asFUNCTIONPR(glm::operator*, (const glm::vec3&, const float), glm::vec3), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec3", "vec3 opDiv(const vec3&in)", asFUNCTIONPR(glm::detail::operator/, (const glm::vec3&, const glm::vec3&), glm::vec3), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec3", "vec3 opDiv(const vec3&in)", asFUNCTIONPR(glm::operator/, (const glm::vec3&, const glm::vec3&), glm::vec3), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec3", "bool opEquals(const vec3&in)", asFUNCTIONPR(glm::detail::operator==, (const glm::vec3&, const glm::vec3&), bool), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec3", "bool opEquals(const vec3&in)", asFUNCTIONPR(glm::operator==, (const glm::vec3&, const glm::vec3&), bool), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
@@ -499,51 +499,51 @@ AEResult GLMAddOnAS::RegisterGLM_Vec4_Functions_Native(asIScriptEngine* engine)
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec4", "vec4 opAdd(const vec4&in)", asFUNCTIONPR(glm::detail::operator+, (const glm::vec4&, const glm::vec4&), glm::vec4), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec4", "vec4 opAdd(const vec4&in)", asFUNCTIONPR(glm::operator+, (const glm::vec4&, const glm::vec4&), glm::vec4), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec4", "vec4 opSub(const vec4&in)", asFUNCTIONPR(glm::detail::operator-, (const glm::vec4&, const glm::vec4&), glm::vec4), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec4", "vec4 opSub(const vec4&in)", asFUNCTIONPR(glm::operator-, (const glm::vec4&, const glm::vec4&), glm::vec4), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec4", "vec4 opMul(const mat4&in)", asFUNCTIONPR(glm::detail::operator*, (const glm::vec4&, const glm::mat4&), glm::vec4), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec4", "vec4 opMul(const mat4&in)", asFUNCTIONPR(glm::operator*, (const glm::vec4&, const glm::mat4&), glm::vec4), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec4", "vec4 opMul(const vec4&in)", asFUNCTIONPR(glm::detail::operator*, (const glm::vec4&, const glm::vec4&), glm::vec4), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec4", "vec4 opMul(const vec4&in)", asFUNCTIONPR(glm::operator*, (const glm::vec4&, const glm::vec4&), glm::vec4), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec4", "vec4 opMul(const float&in)", asFUNCTIONPR(glm::detail::operator*, (const glm::vec4&, const float&), glm::vec4), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec4", "vec4 opMul(const float&in)", asFUNCTIONPR(glm::operator*, (const glm::vec4&, const float), glm::vec4), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec4", "vec4 opDiv(const vec4&in)", asFUNCTIONPR(glm::detail::operator/, (const glm::vec4&, const glm::vec4&), glm::vec4), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec4", "vec4 opDiv(const vec4&in)", asFUNCTIONPR(glm::operator/, (const glm::vec4&, const glm::vec4&), glm::vec4), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("vec4", "bool opEquals(const vec4&in)", asFUNCTIONPR(glm::detail::operator==, (const glm::vec4&, const glm::vec4&), bool), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("vec4", "bool opEquals(const vec4&in)", asFUNCTIONPR(glm::operator==, (const glm::vec4&, const glm::vec4&), bool), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
 	////////////////////////////////////////////////
-	// Register the object behaviors
-	ret = engine->RegisterObjectBehaviour("vec4", asBEHAVE_IMPLICIT_VALUE_CAST, "vec3 f() const", asFUNCTION(GLMVec4_Cast), asCALL_CDECL_OBJLAST);
+	// Register Implicit Cast
+	ret = engine->RegisterObjectMethod("vec4", "vec3 opImplConv() const", asFUNCTION(GLMVec4_Cast), asCALL_CDECL_OBJLAST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
@@ -612,13 +612,13 @@ AEResult GLMAddOnAS::RegisterGLM_Mat4_Functions_Native(asIScriptEngine* engine)
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("mat4", "mat4 opMul(const mat4&in)", asFUNCTIONPR(glm::detail::operator*, (const glm::mat4&, const glm::mat4&), glm::mat4), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("mat4", "mat4 opMul(const mat4&in)", asFUNCTIONPR(glm::operator*, (const glm::mat4&, const glm::mat4&), glm::mat4), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;
 	}
 
-	ret = engine->RegisterObjectMethod("mat4", "vec4 opMul(const vec4&in)", asFUNCTIONPR(glm::detail::operator*, (const glm::mat4&, const glm::vec4&), glm::vec4), asCALL_CDECL_OBJFIRST);
+	ret = engine->RegisterObjectMethod("mat4", "vec4 opMul(const vec4&in)", asFUNCTIONPR(glm::operator*, (const glm::mat4&, const glm::vec4&), glm::vec4), asCALL_CDECL_OBJFIRST);
 	if (ret < 0)
 	{
 		return AEResult::RegObjBehaviorFail;

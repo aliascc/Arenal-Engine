@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -27,33 +27,34 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccProvider>SAK</SccProvider>
     <ProjectName>AEngine_Viewer</ProjectName>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -101,8 +102,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>GLM_FORCE_RADIANS;FASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS;FASTFORMAT_NO_VERSION_NAG;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\STLSoft\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLM_FORCE_RADIANS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
@@ -123,8 +124,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>GLM_FORCE_RADIANS;FASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS;FASTFORMAT_NO_VERSION_NAG;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\STLSoft\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLM_FORCE_RADIANS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
@@ -134,7 +135,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;D3dcompiler.lib;Xinput.lib;PhysX3ExtensionsDEBUG.lib;PhysXVisualDebuggerSDKDEBUG.lib;AEngine_Input_x64_d.lib;AEngine_Base_x64_d.lib;AEngine_Scripting_x64_d.lib;AEngine_GameContent_x64_d.lib;AEngine_Graphics_x64_d.lib;AEngine_Core_x64_d.lib;AEngine_GameComponents_x64_d.lib;AEngine_Audio_x64_d.lib;AEngine_Physics_x64_d.lib;BoostSystem_x64_d.lib;BoostFilesystem_x64_d.lib;DirectXTex_x64_d.lib;DirectXTK_x64_d.lib;assimp_x64_d.lib;angelscript_x64_d.lib;angelscript_addons_x64_d.lib;libxml2_x64_d.lib;CPPFormat_x64_d.lib;sfml-audio_x64_d.lib;sfml-system_x64_d.lib;zlibstatic_x64_d.lib;PhysX3CHECKED_x64.lib;PhysX3CharacterKinematicCHECKED_x64.lib;PhysX3CommonCHECKED_x64.lib;PhysX3CookingCHECKED_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;D3dcompiler.lib;Xinput.lib;AEngine_Input_x64_d.lib;AEngine_Base_x64_d.lib;AEngine_Scripting_x64_d.lib;AEngine_GameContent_x64_d.lib;AEngine_Graphics_x64_d.lib;AEngine_Core_x64_d.lib;AEngine_GameComponents_x64_d.lib;AEngine_Audio_x64_d.lib;AEngine_Physics_x64_d.lib;BoostSystem_x64_d.lib;BoostFilesystem_x64_d.lib;DirectXTex_x64_d.lib;DirectXTK_x64_d.lib;assimp_x64_d.lib;IrrXML_x64_d.lib;angelscript_x64_d.lib;angelscript_addons_x64_d.lib;libxml2_x64_d.lib;fmt_x64_d.lib;sfml-audio_x64_d.lib;sfml-system_x64_d.lib;zlibstatic_x64_d.lib;PhysX3CHECKED_x64.lib;PhysX3CharacterKinematicCHECKED_x64.lib;PhysX3CommonCHECKED_x64.lib;PhysX3CookingCHECKED_x64.lib;PhysX3ExtensionsCHECKED.lib;PhysX3VehicleCHECKED.lib;PsFastXmlCHECKED_x64.lib;PxFoundationCHECKED_x64.lib;PxPvdSDKCHECKED_x64.lib;PxTaskCHECKED_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\Bin\Lib\Debug\x64;$(SolutionDir)\Code\3rdParty\Boost\lib\BoostSystem\Debug\x64;$(SolutionDir)\Code\3rdParty\Boost\lib\BoostFilesystem\Debug\x64;$(SolutionDir)\Code\3rdParty\LibXML2\lib\Debug\x64;$(SolutionDir)\Code\3rdParty\LibIconv\lib\Debug\x64;$(SolutionDir)\Code\3rdParty\CPPFormat\lib\Debug\x64;$(SolutionDir)\Code\3rdParty\AngelScript\lib\Debug\x64;$(SolutionDir)\Code\3rdParty\AngelScript\lib\Debug\x64\addons;$(SolutionDir)\Code\3rdParty\DirectXTex\lib\Debug\x64;$(SolutionDir)\Code\3rdParty\DirectXTK\lib\Debug\x64;$(SolutionDir)\Code\3rdParty\Assimp\lib\Debug\x64;$(SolutionDir)\Code\3rdParty\SFML\lib\Debug\x64;$(SolutionDir)\Code\3rdParty\zlib\lib\Debug\x64;$(SolutionDir)\Code\3rdParty\PhysX\lib\Debug\x64;$(FBXSDK_LIB)\x64\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <Profile>false</Profile>
       <ImageHasSafeExceptionHandlers>
@@ -149,8 +150,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>GLM_FORCE_RADIANS;FASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS;FASTFORMAT_NO_VERSION_NAG;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\STLSoft\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLM_FORCE_RADIANS;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
@@ -173,8 +174,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>GLM_FORCE_RADIANS;FASTFORMAT_DO_NOT_DETECT_UNREFERENCED_ARGUMENTS;FASTFORMAT_NO_VERSION_NAG;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\STLSoft\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLM_FORCE_RADIANS;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
@@ -185,7 +186,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;D3dcompiler.lib;Xinput.lib;PhysX3Extensions.lib;PhysXVisualDebuggerSDK.lib;AEngine_Input_x64.lib;AEngine_Base_x64.lib;AEngine_Scripting_x64.lib;AEngine_GameContent_x64.lib;AEngine_Graphics_x64.lib;AEngine_Core_x64.lib;AEngine_GameComponents_x64.lib;AEngine_Audio_x64.lib;AEngine_Physics_x64.lib;BoostSystem_x64.lib;BoostFilesystem_x64.lib;DirectXTex_x64.lib;DirectXTK_x64.lib;assimp_x64.lib;angelscript_x64.lib;angelscript_addons_x64.lib;libxml2_x64.lib;CPPFormat_x64.lib;sfml-audio_x64.lib;sfml-system_x64.lib;zlibstatic_x64.lib;PhysX3_x64.lib;PhysX3CharacterKinematic_x64.lib;PhysX3Common_x64.lib;PhysX3Cooking_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;D3dcompiler.lib;Xinput.lib;AEngine_Input_x64.lib;AEngine_Base_x64.lib;AEngine_Scripting_x64.lib;AEngine_GameContent_x64.lib;AEngine_Graphics_x64.lib;AEngine_Core_x64.lib;AEngine_GameComponents_x64.lib;AEngine_Audio_x64.lib;AEngine_Physics_x64.lib;BoostSystem_x64.lib;BoostFilesystem_x64.lib;DirectXTex_x64.lib;DirectXTK_x64.lib;assimp_x64.lib;IrrXML_x64.lib;angelscript_x64.lib;angelscript_addons_x64.lib;libxml2_x64.lib;fmt_x64.lib;sfml-audio_x64.lib;sfml-system_x64.lib;zlibstatic_x64.lib;PhysX3_x64.lib;PhysX3CharacterKinematic_x64.lib;PhysX3Common_x64.lib;PhysX3Cooking_x64.lib;PhysX3Extensions.lib;PhysX3Vehicle.lib;PsFastXml_x64.lib;PxFoundation_x64.lib;PxPvdSDK_x64.lib;PxTask_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\Bin\Lib\Release\x64;$(SolutionDir)\Code\3rdParty\Boost\lib\BoostSystem\Release\x64;$(SolutionDir)\Code\3rdParty\Boost\lib\BoostFilesystem\Release\x64;$(SolutionDir)\Code\3rdParty\LibXML2\lib\Release\x64;$(SolutionDir)\Code\3rdParty\LibIconv\lib\Release\x64;$(SolutionDir)\Code\3rdParty\CPPFormat\lib\Release\x64;$(SolutionDir)\Code\3rdParty\AngelScript\lib\Release\x64;$(SolutionDir)\Code\3rdParty\AngelScript\lib\Release\x64\addons;$(SolutionDir)\Code\3rdParty\DirectXTex\lib\Release\x64;$(SolutionDir)\Code\3rdParty\DirectXTK\lib\Release\x64;$(SolutionDir)\Code\3rdParty\Assimp\lib\Release\x64;$(SolutionDir)\Code\3rdParty\SFML\lib\Release\x64;$(SolutionDir)\Code\3rdParty\zlib\lib\Release\x64;$(SolutionDir)\Code\3rdParty\PhysX\lib\Release\x64;$(FBXSDK_LIB)\x64\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

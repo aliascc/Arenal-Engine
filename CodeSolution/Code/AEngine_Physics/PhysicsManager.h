@@ -61,14 +61,24 @@ class PhysicsManager sealed : public AEObject
 		physx::PxDefaultCpuDispatcher* m_CpuDispatcher = nullptr;
 
 		/// <summary>
-		/// PhysX Debugger Connection
+		/// PhysX Pvd Debugger Connection
 		/// </summary>
-		physx::PxVisualDebuggerConnection* m_PxDebuggerConnection = nullptr;
+		physx::PxPvd* m_PxPvd = nullptr;
+
+		/// <summary>
+		/// PhysX Pvd Transport
+		/// </summary>
+		physx::PxPvdTransport* m_PxPvdTransport = nullptr;
 
 		/// <summary>
 		/// Default Allocator for PhysX
 		/// </summary>
 		physx::PxDefaultAllocator m_PxDefaultAllocatorCallback;
+
+		/// <summary>
+		/// Defines if the PVD is connected
+		/// </summary>
+		bool mIsPVDConnected = false;
 
 		/// <summary>
 		/// PhysX Foundation Instance

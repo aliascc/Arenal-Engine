@@ -40,6 +40,8 @@
 *   Defines   *
 ***************/
 
+#undef max
+
 #define AE_MAX_LIGHTS								128
 
 #define AE_LIGHT_SPOT_SHADOW_TEXTURE_HEIGHT			1024

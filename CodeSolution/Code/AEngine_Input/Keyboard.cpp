@@ -346,19 +346,19 @@ wchar_t Keyboard::GetCurrentPressedChar(uint64_t lockID) const
 {
 	if(m_LockID != 0 && m_LockID != lockID)
 	{
-		return L'';
+		return L'\0';
 	}
 
 	//ToUnicodeEx returns a key for ctrl + ANYKEY, we do not want any, so it if it is press, return no key
 	if(m_CurrentKeyboardState[(uint32_t)AEKeys::LCTRL] & AE_INPUT_PRESS || m_CurrentKeyboardState[(uint32_t)AEKeys::RCTRL] & AE_INPUT_PRESS)
 	{
-		return L'';
+		return L'\0';
 	}
 
 	//ToUnicodeEx returns a key for backspace, we do not want any, so it if it is press, return no key
 	if(m_CurrentKeyboardState[(uint32_t)AEKeys::BACKSPACE] & AE_INPUT_PRESS)
 	{
-		return L'';
+		return L'\0';
 	}
 
 	BYTE state[256];
@@ -366,7 +366,7 @@ wchar_t Keyboard::GetCurrentPressedChar(uint64_t lockID) const
 
 	if (GetKeyboardState(state) == FALSE)
 	{
-		return L'';
+		return L'\0';
 	}
 
 	//For Shift/Ctrl/Alt/Caps Keys we need to set them
@@ -391,7 +391,7 @@ wchar_t Keyboard::GetCurrentPressedChar(uint64_t lockID) const
 		}
 	}
 
-	return L'';
+	return L'\0';
 }
 
 void Keyboard::Update()

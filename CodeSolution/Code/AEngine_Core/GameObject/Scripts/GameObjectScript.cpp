@@ -103,7 +103,7 @@ AEResult GameObjectScript::Load()
 
 	/////////////////////////////////////////
 	//Verify that Game Object Script Interface appears
-	asIObjectType* objType = asModule->GetObjectTypeByIndex(0);
+	asITypeInfo* objType = asModule->GetObjectTypeByIndex(0);
 
 	bool interfaceFound = false;
 	uint32_t interfaceCount = objType->GetInterfaceCount();

@@ -219,7 +219,7 @@ AEResult GraphicDevice::DrawFullScreenQuad(const glm::vec4& texCoord)
 		return AEResult::NotReady;
 	}
 
-	RECT size = { 0, 0, m_gPP.m_BackBufferWidth, m_gPP.m_BackBufferHeight };
+	RECT size = { 0, 0, (LONG)m_gPP.m_BackBufferWidth, (LONG)m_gPP.m_BackBufferHeight };
 
 	return DrawQuad2D(size, texCoord);
 }

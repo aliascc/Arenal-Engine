@@ -14,7 +14,7 @@ Comments:
 
  - To Build:
   - Use CMAKE
-  - Library Suffix: _x64 and _x64_d
+  - Library Suffix: _x64 and _x64_d (include IrrXML)
   - CMAKE names the libraries directly without using variables
   - Under Patches apply the patches (patch.exe --binary -p1 < "file.patch")
   - Change Charset to Unicode

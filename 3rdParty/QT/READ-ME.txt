@@ -21,7 +21,7 @@ Comments:
  - To build:
   - Use VS Command Prompts x64
    - set CL=/MP
-   - configure -debug-and-release -opensource -mp -nomake examples -nomake tests
+   - configure -debug-and-release -opensource -mp -nomake examples -nomake tests -no-openssl -confirm-license 
    - nmake /C /S
   - Extra Steps, just to save space in HDD
    - nmake clean

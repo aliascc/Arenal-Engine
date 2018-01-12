@@ -307,7 +307,7 @@ void Console::UpdateConsoleLine(const TimerParams& timerParams)
 	}
 
 	wchar_t cc = keyboard->GetCurrentPressedChar(m_ConsoleLockKeyboard);
-	if (cc == L'')
+	if (cc == L'\0')
 	{
 		return;
 	}
@@ -498,7 +498,7 @@ void Console::Render(const TimerParams& timerParams)
 	//Draw Console Background
 	m_QuadColorMaterial->Apply();
 
-	RECT size = {0, 0, m_ConsoleWidth, (uint32_t)m_CurrentConsoleHeight };
+	RECT size = {0, 0, (LONG)m_ConsoleWidth, (LONG)m_CurrentConsoleHeight };
 	m_GraphicDevice->DrawQuad2D(size);
 
 	//Set Blend State to Default
