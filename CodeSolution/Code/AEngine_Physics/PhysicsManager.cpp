@@ -68,7 +68,7 @@ AEResult PhysicsManager::Initialize()
 	////////////////////////////////////
 	//Initialize Physics Objects
 
-	m_PxFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_PxDefaultAllocatorCallback, m_ErrorCallbackPhysX);
+	m_PxFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, m_PxDefaultAllocatorCallback, m_ErrorCallbackPhysX);
 	if (m_PxFoundation == nullptr)
 	{
 		CleanUp();

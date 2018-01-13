@@ -607,6 +607,8 @@ void AEngine_Editor::on_m_MenuFileCreateProjectAction_triggered()
 	}
 
 	const std::wstring& configFile = newProject.GetConfigFile();
+
+	AETODO("Check return");
 	SetNewEngineInstance(configFile);
 }
 

@@ -155,6 +155,7 @@ void GameApp::ShutDownGameApp()
 	m_IsReady = false;
 	m_StartShutdown = true;
 
+	AETODO("Use conditional variables");
 	while (!m_IsEngineOff)
 	{
 		std::this_thread::sleep_for(std::chrono::microseconds(500));
