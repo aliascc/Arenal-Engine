@@ -1,0 +1,8 @@
+*.h text eol=lf
+*.cpp text eol=lf
+*.fx text eol=lf
+*.vcxproj text eol=lf
+*.vcxproj.filters text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.sln text eol=lf
