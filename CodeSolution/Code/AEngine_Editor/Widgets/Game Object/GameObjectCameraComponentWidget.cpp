@@ -53,7 +53,6 @@ GameObjectCameraComponentWidget::GameObjectCameraComponentWidget(GameObject* gam
 
 	AEAssert(m_EngineViewer != nullptr);
 
-
 	InitFields();
 }
 

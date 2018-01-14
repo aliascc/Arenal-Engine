@@ -654,7 +654,8 @@ glm::bvec2 AEXMLParser::GetVect2b(const std::wstring& propName, const glm::bvec2
 	if (value)
 	{
 		std::string values((const char*)value);
-		std::vector<std::string> strs = AE_Base::SplitString(values, ' ');
+		std::vector<std::string> strs;
+		AE_Base::SplitString(values, strs, " ");
 
 		for (uint32_t i = 0; i < 2 && i < strs.size(); i++)
 		{
@@ -682,7 +683,8 @@ glm::bvec3 AEXMLParser::GetVect3b(const std::wstring& propName, const glm::bvec3
 	if (value)
 	{
 		std::string values((const char*)value);
-		std::vector<std::string> strs = AE_Base::SplitString(values, ' ');
+		std::vector<std::string> strs;
+		AE_Base::SplitString(values, strs, " ");
 
 		for (uint32_t i = 0; i < 3 && i < strs.size(); i++)
 		{
@@ -710,7 +712,8 @@ glm::bvec4 AEXMLParser::GetVect4b(const std::wstring& propName, const glm::bvec4
 	if (value)
 	{
 		std::string values((const char*)value);
-		std::vector<std::string> strs = AE_Base::SplitString(values, ' ');
+		std::vector<std::string> strs;
+		AE_Base::SplitString(values, strs, " ");
 
 		for (uint32_t i = 0; i < 4 && i < strs.size(); i++)
 		{

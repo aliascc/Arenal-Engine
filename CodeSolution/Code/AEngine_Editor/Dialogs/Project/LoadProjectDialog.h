@@ -51,8 +51,6 @@ class LoadProjectDialog sealed : public QDialog
 
 		Ui::LoadProjectDialogQt m_LoadProjectDialogQtUI;
 
-		EngineViewer* m_EngineViewer = nullptr;
-
 		QString m_Directory = "";
 
 		std::wstring m_ConfigFile;
@@ -62,7 +60,7 @@ class LoadProjectDialog sealed : public QDialog
 		void on_m_SelectFileBtn_clicked();
 
 	public:
-		LoadProjectDialog(EngineViewer* engineViewer, QWidget *parent = 0);
+		LoadProjectDialog(QWidget *parent = 0);
 		virtual ~LoadProjectDialog();
 
 		inline const std::wstring& GetConfigFile() const

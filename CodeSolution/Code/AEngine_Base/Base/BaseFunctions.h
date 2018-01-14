@@ -320,29 +320,22 @@ namespace AE_Base
 	std::wstring GetRelativePath(const std::wstring& filepath);
 
 	/// <summary>
-	/// Splits the Strings with a delimiter
+	/// Splits a String into substrings by delimiters set
 	/// </summary>
-	/// <param name="s">String to split</param>
-	/// <param name="delim">Delimiter character</param>
-	/// <returns>Vector of strings that are split</returns>
-	std::vector<std::string> SplitString(const std::string& s, char delim);
-
-	/// <summary>
-	/// Splits the Strings with a delimiter
-	/// </summary>
-	/// <param name="s">String to split</param>
-	/// <param name="delim">Delimiter character</param>
-	/// <returns>Vector of strings that are split</returns>
-	std::vector<std::wstring> SplitString(const std::wstring& s, wchar_t delim);
+	/// <param name="str">String to Split</param>
+	/// <param name="tokens">Vector of Strings where to insert sub strings</param>
+	/// <param name="regex">Regular Expression to separate the string</param>
+	/// <param name="trimEmpty">If true, it will not insert empty substrings to the vector</param>
+	void SplitString(const std::string& str, std::vector<std::string>& tokens, const std::string& regex, bool trimEmpty = false);
 
 	/// <summary>
 	/// Splits a String into substrings by delimiters set
 	/// </summary>
 	/// <param name="str">String to Split</param>
 	/// <param name="tokens">Vector of Strings where to insert sub strings</param>
-	/// <param name="delimiters">Delimiters to use to split the string</param>
+	/// <param name="regex">Regular Expression to separate the string</param>
 	/// <param name="trimEmpty">If true, it will not insert empty substrings to the vector</param>
-	void SplitString(const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& delimiters = L" ", bool trimEmpty = false);
+	void SplitString(const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& regex, bool trimEmpty = false);
 
 	/// <summary>
 	/// Gets the Last Time Stamp when the File was modified

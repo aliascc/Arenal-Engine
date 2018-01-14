@@ -17,53 +17,29 @@
 
 #pragma once
 
-#ifndef _PROJECT_SELECTION_WIDGET_H
-#define _PROJECT_SELECTION_WIDGET_H
+#ifndef _GLOBAL_CONFIG_DEFS_H
+#define _GLOBAL_CONFIG_DEFS_H
 
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "qevent.h"
-#include "QtWidgets\qwidget.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "ui_ProjectSelectionWidgetQt.h"
 
-/********************
-*   Forward Decls   *
-*********************/
-class GameObject;
-class GameAssetManager;
+/**************
+*   Defines   *
+***************/
 
-/*****************
-*   Class Decl   *
-******************/
+#define AE_GC_EDITOR_REGISTRY_SUBKEY	L"Software\\ArenalEngine\\Editor"
 
-class ProjectSelectionWidget sealed : public QWidget
-{
-	Q_OBJECT
+#define AE_GC_RECENT_PROJECTS			L"RecentProjects"
 
-	private:
-
-		Ui::ProjectSelectionWidgetQt m_ProjectSelectionWidgetQtUI;
-
-		void InitFields();
-
-	private slots:
-
-	public:
-		ProjectSelectionWidget(QWidget *parent = nullptr);
-		~ProjectSelectionWidget();
-
-};
-
+#define AE_GC_RECENT_PROJECT_DIR		L"RecentProjectDir"
 
 #endif

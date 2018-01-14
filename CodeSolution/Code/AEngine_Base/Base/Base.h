@@ -837,6 +837,11 @@ enum class AEResult : int32_t
 	/// </summary>
 	WriteToFileFailed,
 
+	/// <summary>
+	/// Configuration Load Error
+	/// </summary>
+	ConfigLoadError,
+
 	/****************************************************
 	* Add new error above this line, 
 	* do not forget to include it in

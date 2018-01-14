@@ -41,12 +41,9 @@
 /********************
 *   Function Defs   *
 *********************/
-LoadProjectDialog::LoadProjectDialog(EngineViewer* engineViewer, QWidget *parent)
+LoadProjectDialog::LoadProjectDialog(QWidget *parent)
 	: QDialog(parent)
-	, m_EngineViewer(engineViewer)
 {
-	AEAssert(m_EngineViewer != nullptr);
-
 	m_LoadProjectDialogQtUI.setupUi(this);
 }
 
@@ -56,11 +53,6 @@ LoadProjectDialog::~LoadProjectDialog()
 
 void LoadProjectDialog::on_m_SelectFileBtn_clicked()
 {
-	if (m_EngineViewer == nullptr)
-	{
-		return;
-	}
-
 	QString filter = "Project Configuration File (*.xml)";
 	QString configFile = QFileDialog::getOpenFileName(this, tr("Select Project Config"), QString(), filter);
 

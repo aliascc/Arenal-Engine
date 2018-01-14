@@ -42,11 +42,93 @@
 #include <list>
 #include <vector>
 
-
 #include <atomic>
+#include <regex>
 
-using namespace std;
+void main()
+{
+	std::string str = "Hola Mundo-Hello World;Hallo Welt; ; ; ";
+	std::string regex = "(-|;)";
 
+	std::regex re = std::regex(regex);
+	std::sregex_token_iterator it = std::sregex_token_iterator(str.begin(), str.end(), re, -1);
+	std::sregex_token_iterator end = std::sregex_token_iterator();
+
+	std::sregex_token_iterator reg_end;
+	for (; it != reg_end; ++it) {
+		std::cout << it->str() << std::endl;
+	}
+
+	//std::vector<std::string> ss = { std::sregex_token_iterator(str.begin(), str.end(), std::regex(regex), -1), std::sregex_token_iterator() };
+	//for (auto xa : ss)
+	//{
+	//	std::cout << "X: " << xa << std::endl;
+	//}
+}
+
+#if 0
+LONG GetDWORDRegKey(HKEY hKey, const std::wstring &strValueName, DWORD &nValue, DWORD nDefaultValue)
+{
+	nValue = nDefaultValue;
+	DWORD dwBufferSize(sizeof(DWORD));
+	DWORD nResult(0);
+	LONG nError = ::RegQueryValueExW(hKey,
+		strValueName.c_str(),
+		0,
+		NULL,
+		reinterpret_cast<LPBYTE>(&nResult),
+		&dwBufferSize);
+	if (ERROR_SUCCESS == nError)
+	{
+		nValue = nResult;
+	}
+	return nError;
+}
+
+
+LONG GetBoolRegKey(HKEY hKey, const std::wstring &strValueName, bool &bValue, bool bDefaultValue)
+{
+	DWORD nDefValue((bDefaultValue) ? 1 : 0);
+	DWORD nResult(nDefValue);
+	LONG nError = GetDWORDRegKey(hKey, strValueName.c_str(), nResult, nDefValue);
+	if (ERROR_SUCCESS == nError)
+	{
+		bValue = (nResult != 0) ? true : false;
+	}
+	return nError;
+}
+
+
+LONG GetStringRegKey(HKEY hKey, const std::wstring &strValueName, std::wstring &strValue, const std::wstring &strDefaultValue)
+{
+	strValue = strDefaultValue;
+	WCHAR szBuffer[512];
+	DWORD dwBufferSize = sizeof(szBuffer);
+	ULONG nError;
+	nError = RegQueryValueExW(hKey, strValueName.c_str(), 0, NULL, (LPBYTE)szBuffer, &dwBufferSize);
+	if (ERROR_SUCCESS == nError)
+	{
+		strValue = szBuffer;
+	}
+	return nError;
+}
+
+
+void main()
+{
+	HKEY hKey;
+	LONG lRes = RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\ArenalEngine\\Editor", 0, KEY_READ, &hKey);
+	bool bExistsAndSuccess(lRes == ERROR_SUCCESS);
+	bool bDoesNotExistsSpecifically(lRes == ERROR_FILE_NOT_FOUND);
+	std::wstring strValueOfBinDir;
+	DWORD Test = 9;
+	GetDWORDRegKey(hKey, L"LAST_CONNECTION_INDEX", Test, 6);
+	GetStringRegKey(hKey, L"LAST_CONNECTION_INDEX", strValueOfBinDir, L"bad");
+}
+#endif
+
+
+#if 0
 void main()
 {
 	/*
@@ -98,6 +180,7 @@ void main()
 	//	outputFile << meshPart->m_IdxBuf16[i] << std::endl;
 	//}
 }
+#endif
 
 //class IcoSphere
 //{

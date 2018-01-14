@@ -71,7 +71,7 @@ AEResult TimeStamp::GetFromString(const std::wstring& str)
 
 	std::vector<std::wstring> subStrings;
 
-	AE_Base::SplitString(str, subStrings, L"- :", true);
+	AE_Base::SplitString(str, subStrings, L"(-|:)", true);
 
 	if(subStrings.size() != 6)
 	{

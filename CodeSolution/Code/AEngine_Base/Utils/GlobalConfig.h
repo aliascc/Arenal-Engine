@@ -17,53 +17,45 @@
 
 #pragma once
 
-#ifndef _PROJECT_SELECTION_WIDGET_H
-#define _PROJECT_SELECTION_WIDGET_H
+#ifndef _GLOBAL_CONFIG_H
+#define _GLOBAL_CONFIG_H
 
 /**********************
 *   System Includes   *
 ***********************/
+#include <vector>
+#include <string>
 #include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "qevent.h"
-#include "QtWidgets\qwidget.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
 #include "Base\Base.h"
-#include "ui_ProjectSelectionWidgetQt.h"
+
+/************
+*   Using   *
+*************/
 
 /********************
 *   Forward Decls   *
 *********************/
-class GameObject;
-class GameAssetManager;
 
-/*****************
-*   Class Decl   *
-******************/
-
-class ProjectSelectionWidget sealed : public QWidget
+/***********************
+*   Global Functions   *
+************************/
+namespace GlobalConfig
 {
-	Q_OBJECT
+	extern AEResult GetRecentProjects(std::vector<std::wstring>& recentProjects);
 
-	private:
+	extern AEResult GetRecentProjectDirectory(std::wstring& recentProjectDir);
 
-		Ui::ProjectSelectionWidgetQt m_ProjectSelectionWidgetQtUI;
-
-		void InitFields();
-
-	private slots:
-
-	public:
-		ProjectSelectionWidget(QWidget *parent = nullptr);
-		~ProjectSelectionWidget();
-
+	extern AEResult AddRecentProject(const std::wstring& recentProject);
+	
+	extern AEResult SetRecentProjectDirectory(const std::wstring& recentDir);
 };
-
 
 #endif

@@ -29,6 +29,8 @@
 #include "Utils\AEQTDefs.h"
 #include "Base\BaseFunctions.h"
 #include "ProjectSelectionWidget.h"
+#include "Dialogs\Project\NewProjectDialog.h"
+#include "Dialogs\Project\LoadProjectDialog.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -41,9 +43,13 @@ ProjectSelectionWidget::ProjectSelectionWidget(QWidget *parent)
 {
 	m_ProjectSelectionWidgetQtUI.setupUi(this);
 
-	//InitFields();
+	InitFields();
 }
 
 ProjectSelectionWidget::~ProjectSelectionWidget()
+{
+}
+
+void ProjectSelectionWidget::InitFields()
 {
 }

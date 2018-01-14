@@ -37,7 +37,7 @@ namespace AERandomHelpers
 	/*********************
 	*   Variables Defs   *
 	**********************/
-	std::default_random_engine gRandomGenerator((std::random_device())());
+	static std::default_random_engine gRandomGenerator((std::random_device())());
 
 	/********************
 	*   Function Defs   *

@@ -148,6 +148,8 @@ void AEngine_Editor::Initialize()
 	////////////////////////////////////////
 	//Show Project Selection Widget
 	m_ProjectSelectionWidget = new ProjectSelectionWidget();
+
+	m_ProjectSelectionWidget->show();
 }
 
 void AEngine_Editor::SetNewEngineInstance(const std::wstring& configProjFile)
@@ -637,11 +639,7 @@ void AEngine_Editor::on_m_MenuFileSaveProjectAction_triggered()
 
 void AEngine_Editor::on_m_MenuFileLoadProjectAction_triggered()
 {
-	////////////////////////////////////////
-	//Get Game Engine Viewer
-	EngineViewer* engineViewer = m_AEngineViewerWidget->GetEngineViewer();
-
-	LoadProjectDialog loadProject(engineViewer);
+	LoadProjectDialog loadProject(nullptr);
 
 	int result = loadProject.exec();
 	if (result != QDialog::Accepted)

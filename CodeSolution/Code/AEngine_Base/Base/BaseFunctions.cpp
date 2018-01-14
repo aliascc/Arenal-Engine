@@ -22,6 +22,7 @@
 /**********************
 *   System Includes   *
 ***********************/
+#include <regex>
 #include <mutex>
 #include <iostream>
 
@@ -87,60 +88,41 @@ namespace AE_Base
 		return relativePath;
 	}
 
-	std::vector<std::string> SplitString(const std::string& s, char delim)
+	void SplitString(const std::string& str, std::vector<std::string>& tokens, const std::string& regex, bool trimEmpty)
 	{
-		std::stringstream ss(s);
-		std::string item;
-		std::vector<std::string> elems;
+		tokens.clear();
 
-		while (std::getline(ss, item, delim))
+		std::regex regexVar(regex);
+
+		std::sregex_token_iterator it = std::sregex_token_iterator(str.begin(), str.end(), regexVar, -1);
+		std::sregex_token_iterator end = std::sregex_token_iterator();
+
+		for (; it != end; ++it)
 		{
-			elems.push_back(std::move(item));
-		}
-
-		return elems;
-	}
-
-	std::vector<std::wstring> SplitString(const std::wstring& s, wchar_t delim)
-	{
-		std::wstringstream ss(s);
-		std::wstring item;
-		std::vector<std::wstring> elems;
-
-		while (std::getline(ss, item, delim))
-		{
-			elems.push_back(std::move(item));
-		}
-
-		return elems;
-	}
-
-	void SplitString(const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& delimiters, bool trimEmpty)
-	{
-		std::wstring::size_type pos = 0;
-		std::wstring::size_type lastPos = 0;
-
-		while(true)
-		{
-			pos = str.find_first_of(delimiters, lastPos);
-			if(pos == std::string::npos)
+			if (trimEmpty && it->str().empty())
 			{
-				pos = str.length();
-
-				if(pos != lastPos || !trimEmpty)
-					tokens.push_back(std::vector<std::wstring>::value_type(str.data()+lastPos,
-					(std::vector<std::wstring>::value_type::size_type)pos-lastPos ));
-
-				break;
+				continue;
 			}
-			else
+			tokens.push_back(it->str());
+		}
+	};
+
+	void SplitString(const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& regex, bool trimEmpty)
+	{
+		tokens.clear();
+
+		std::wregex regexVar(regex);
+
+		std::wsregex_token_iterator it = std::wsregex_token_iterator(str.begin(), str.end(), regexVar, -1);
+		std::wsregex_token_iterator end = std::wsregex_token_iterator();
+
+		for (; it != end; ++it)
+		{
+			if (trimEmpty && it->str().empty())
 			{
-				if(pos != lastPos || !trimEmpty)
-					tokens.push_back(std::vector<std::wstring>::value_type(str.data()+lastPos,
-					(std::vector<std::wstring>::value_type::size_type)pos-lastPos ));
+				continue;
 			}
-
-			lastPos = pos + 1;
+			tokens.push_back(it->str());
 		}
 	};
 
@@ -580,6 +562,9 @@ namespace AE_Base
 
 			case AEResult::WriteToFileFailed:
 				return L"WriteToFileFailed";
+
+			case AEResult::ConfigLoadError:
+				return L"ConfigLoadError";
 
 			case AEResult::Ok:
 				return L"Ok";
