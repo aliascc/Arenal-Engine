@@ -64,7 +64,7 @@ class AEngine_Editor sealed : public QMainWindow
 
 		CodeEditorMainWindow* m_CodeEditorMainWindow = nullptr;
 
-		ProjectSelectionWidget* m_ProjectSelectionWidget = nullptr;
+        bool m_IsInitialized = false;
 
 		void Initialize();
 
@@ -150,6 +150,11 @@ class AEngine_Editor sealed : public QMainWindow
 		void SaveLayout(const QString& fileName);
 
 		void LoadLayout(const QString& fileName);
+
+        inline bool isInitialized() const
+        {
+            return m_IsInitialized;
+        }
 };
 
 #endif // AEngine_EDITOR_H

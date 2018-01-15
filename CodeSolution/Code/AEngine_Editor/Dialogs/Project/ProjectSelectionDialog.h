@@ -17,8 +17,8 @@
 
 #pragma once
 
-#ifndef _PROJECT_SELECTION_WIDGET_H
-#define _PROJECT_SELECTION_WIDGET_H
+#ifndef _PROJECT_SELECTION_dialog_H
+#define _PROJECT_SELECTION_dialog_H
 
 /**********************
 *   System Includes   *
@@ -29,40 +29,51 @@
 *   3rd Party Includes   *
 **************************/
 #include "qevent.h"
+#include "QtWidgets\qdialog.h"
 #include "QtWidgets\qwidget.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
 #include "Base\Base.h"
-#include "ui_ProjectSelectionWidgetQt.h"
+#include "ui_ProjectSelectionDialogQt.h"
 
 /********************
 *   Forward Decls   *
 *********************/
 class GameObject;
+class EngineViewer;
 class GameAssetManager;
 
 /*****************
 *   Class Decl   *
 ******************/
 
-class ProjectSelectionWidget sealed : public QWidget
+class ProjectSelectionDialog sealed : public QDialog
 {
 	Q_OBJECT
 
 	private:
 
-		Ui::ProjectSelectionWidgetQt m_ProjectSelectionWidgetQtUI;
+		Ui::ProjectSelectionDialogQt m_ProjectSelectionDialogQtUI;
+
+        EngineViewer* m_EngineViewer = nullptr;
+
+        std::wstring m_ConfigFile = L"";
 
 		void InitFields();
 
 	private slots:
 
-	public:
-		ProjectSelectionWidget(QWidget *parent = nullptr);
-		~ProjectSelectionWidget();
+        void on_m_OpenProjBtn_clicked();
 
+        void on_m_CreateProjBtn_clicked();
+
+        void on_m_LoadProjBtn_clicked();
+
+	public:
+        ProjectSelectionDialog(EngineViewer* engineViewer, QWidget *parent = nullptr);
+		~ProjectSelectionDialog();
 };
 
 

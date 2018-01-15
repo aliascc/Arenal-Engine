@@ -47,7 +47,7 @@
 /***********************
 *   Global Functions   *
 ************************/
-namespace GlobalConfig
+namespace AE_GlobalConfig
 {
 	extern AEResult GetRecentProjects(std::vector<std::wstring>& recentProjects);
 

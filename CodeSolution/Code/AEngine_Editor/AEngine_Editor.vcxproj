@@ -105,6 +105,7 @@
     <ClCompile Include="Dialogs\Game Objects\GameObjectShaderPropsDialog.cpp" />
     <ClCompile Include="Dialogs\Project\LoadProjectDialog.cpp" />
     <ClCompile Include="Dialogs\Project\NewProjectDialog.cpp" />
+    <ClCompile Include="Dialogs\Project\ProjectSelectionDialog.cpp" />
     <ClCompile Include="Dialogs\Raw Game Assets\NewRawGameAssetDialog.cpp" />
     <ClCompile Include="Engine Viewer\EngineViewer.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_AEngineViewerWidget.cpp">
@@ -191,7 +192,7 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_NewRawGameAssetDialog.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ProjectSelectionWidget.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_ProjectSelectionDialog.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_RawGameAssetTreeWidget.cpp">
@@ -297,7 +298,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_NewRawGameAssetDialog.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ProjectSelectionWidget.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_ProjectSelectionDialog.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_RawGameAssetTreeWidget.cpp">
@@ -336,7 +337,6 @@
     <ClCompile Include="Widgets\Game Object\GameObjectSphereColliderComponentWidget.cpp" />
     <ClCompile Include="Widgets\Game Object\GameObjectTransformationWidget.cpp" />
     <ClCompile Include="Widgets\Game Object\GameObjectTreeWidget.cpp" />
-    <ClCompile Include="Widgets\Project\ProjectSelectionWidget.cpp" />
     <ClCompile Include="Widgets\Raw Game Assets\RawGameAssetTreeWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -347,16 +347,6 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DUNICODE -DWIN32 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE  "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\AEngine_Base" "-I$(SolutionDir)\Code\AEngine_Scripting" "-I$(SolutionDir)\Code\AEngine_Graphics" "-I$(SolutionDir)\Code\AEngine_GameContent" "-I$(SolutionDir)\Code\AEngine_Core" "-I$(SolutionDir)\Code\AEngine_Resources" "-I$(SolutionDir)\Code\AEngine_Input" "-I$(SolutionDir)\Code\AEngine_Shaders" "-I$(SolutionDir)\Code\AEngine_GameComponents" "-I$(SolutionDir)\Code\AEngine_Audio" "-I$(SolutionDir)\Code\AEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\CPPFormat\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing AEngineViewerWidget.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE  "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\AEngine_Base" "-I$(SolutionDir)\Code\AEngine_Scripting" "-I$(SolutionDir)\Code\AEngine_Graphics" "-I$(SolutionDir)\Code\AEngine_GameContent" "-I$(SolutionDir)\Code\AEngine_Core" "-I$(SolutionDir)\Code\AEngine_Resources" "-I$(SolutionDir)\Code\AEngine_Input" "-I$(SolutionDir)\Code\AEngine_Shaders" "-I$(SolutionDir)\Code\AEngine_GameComponents" "-I$(SolutionDir)\Code\AEngine_Audio" "-I$(SolutionDir)\Code\AEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\CPPFormat\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
-    </CustomBuild>
-    <CustomBuild Include="Widgets\Project\ProjectSelectionWidget.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing ProjectSelectionWidget.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DUNICODE -DWIN32 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE  "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\AEngine_Base" "-I$(SolutionDir)\Code\AEngine_Scripting" "-I$(SolutionDir)\Code\AEngine_Graphics" "-I$(SolutionDir)\Code\AEngine_GameContent" "-I$(SolutionDir)\Code\AEngine_Core" "-I$(SolutionDir)\Code\AEngine_Resources" "-I$(SolutionDir)\Code\AEngine_Input" "-I$(SolutionDir)\Code\AEngine_Shaders" "-I$(SolutionDir)\Code\AEngine_GameComponents" "-I$(SolutionDir)\Code\AEngine_Audio" "-I$(SolutionDir)\Code\AEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\CPPFormat\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing ProjectSelectionWidget.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE  "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\AEngine_Base" "-I$(SolutionDir)\Code\AEngine_Scripting" "-I$(SolutionDir)\Code\AEngine_Graphics" "-I$(SolutionDir)\Code\AEngine_GameContent" "-I$(SolutionDir)\Code\AEngine_Core" "-I$(SolutionDir)\Code\AEngine_Resources" "-I$(SolutionDir)\Code\AEngine_Input" "-I$(SolutionDir)\Code\AEngine_Shaders" "-I$(SolutionDir)\Code\AEngine_GameComponents" "-I$(SolutionDir)\Code\AEngine_Audio" "-I$(SolutionDir)\Code\AEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\CPPFormat\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
     </CustomBuild>
@@ -523,6 +513,10 @@
       </Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </AdditionalInputs>
     </CustomBuild>
     <CustomBuild Include="Widgets\Code Editor\CodeEditorTextEdit.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -674,6 +668,16 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE  "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\AEngine_Base" "-I$(SolutionDir)\Code\AEngine_Scripting" "-I$(SolutionDir)\Code\AEngine_Graphics" "-I$(SolutionDir)\Code\AEngine_GameContent" "-I$(SolutionDir)\Code\AEngine_Core" "-I$(SolutionDir)\Code\AEngine_Resources" "-I$(SolutionDir)\Code\AEngine_Input" "-I$(SolutionDir)\Code\AEngine_Shaders" "-I$(SolutionDir)\Code\AEngine_GameComponents" "-I$(SolutionDir)\Code\AEngine_Audio" "-I$(SolutionDir)\Code\AEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\CPPFormat\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
     </CustomBuild>
+    <CustomBuild Include="Dialogs\Project\ProjectSelectionDialog.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing ProjectSelectionDialog.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DUNICODE -DWIN32 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\AEngine_Base" "-I$(SolutionDir)\Code\AEngine_Scripting" "-I$(SolutionDir)\Code\AEngine_Graphics" "-I$(SolutionDir)\Code\AEngine_GameContent" "-I$(SolutionDir)\Code\AEngine_Core" "-I$(SolutionDir)\Code\AEngine_Resources" "-I$(SolutionDir)\Code\AEngine_Input" "-I$(SolutionDir)\Code\AEngine_Shaders" "-I$(SolutionDir)\Code\AEngine_GameComponents" "-I$(SolutionDir)\Code\AEngine_Audio" "-I$(SolutionDir)\Code\AEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\CPPFormat\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing ProjectSelectionDialog.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DGLM_FORCE_RADIANS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_UNICODE "-I$(SolutionDir)\Code\$(ProjectName)\." "-I$(SolutionDir)\Code\AEngine_Base" "-I$(SolutionDir)\Code\AEngine_Scripting" "-I$(SolutionDir)\Code\AEngine_Graphics" "-I$(SolutionDir)\Code\AEngine_GameContent" "-I$(SolutionDir)\Code\AEngine_Core" "-I$(SolutionDir)\Code\AEngine_Resources" "-I$(SolutionDir)\Code\AEngine_Input" "-I$(SolutionDir)\Code\AEngine_Shaders" "-I$(SolutionDir)\Code\AEngine_GameComponents" "-I$(SolutionDir)\Code\AEngine_Audio" "-I$(SolutionDir)\Code\AEngine_Physics" "-I$(SolutionDir)\Code\3rdParty\Boost\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTK\include" "-I$(SolutionDir)\Code\3rdParty\DirectXTex\include" "-I$(SolutionDir)\Code\3rdParty\AngelScript\include" "-I$(SolutionDir)\Code\3rdParty\LibXML2\include" "-I$(SolutionDir)\Code\3rdParty\LibIconv\include" "-I$(SolutionDir)\Code\3rdParty\CPPFormat\include" "-I$(SolutionDir)\Code\3rdParty\Assimp\include" "-I$(SolutionDir)\Code\3rdParty\GLM\include" "-I$(SolutionDir)\Code\3rdParty\SFML\include" "-I$(SolutionDir)\Code\3rdParty\PhysX\include" "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
+    </CustomBuild>
     <ClInclude Include="Engine Viewer\EngineViewer.h" />
     <ClInclude Include="GeneratedFiles\ui_aengine_editor.h" />
     <ClInclude Include="GeneratedFiles\ui_CodeEditorMainWindowQt.h" />
@@ -696,7 +700,7 @@
     <ClInclude Include="GeneratedFiles\ui_LoadProjectDialogQt.h" />
     <ClInclude Include="GeneratedFiles\ui_NewProjectDialogQt.h" />
     <ClInclude Include="GeneratedFiles\ui_NewRawGameAssetDialogQt.h" />
-    <ClInclude Include="GeneratedFiles\ui_ProjectSelectionWidgetQt.h" />
+    <ClInclude Include="GeneratedFiles\ui_ProjectSelectionDialogQt.h" />
     <ClInclude Include="GeneratedFiles\ui_SelectAssetTextBoxWidgetQt.h" />
     <ClInclude Include="Proxy Filters\StringProxyFilterModel.h" />
     <ClInclude Include="resource.h" />
@@ -956,18 +960,6 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Form Files\Project\ProjectSelectionWidgetQt.ui">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
     <CustomBuild Include="Form Files\Project\NewProjectDialogQt.ui">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Uic%27ing %(Identity)...</Message>
@@ -1003,7 +995,24 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Form Files\Project\ProjectSelectionDialogQt.ui">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+    </CustomBuild>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Qt5Version_x0020_x64="QT-5.10.0-x64" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

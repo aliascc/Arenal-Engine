@@ -48,5 +48,16 @@ int main(int argc, char *argv[])
 	
 	w.show();
 
-	return a.exec();
+    int retCode = 0;
+
+    if (w.isInitialized())
+    {
+        retCode = a.exec();
+    }
+    else
+    {
+        a.exit();
+    }
+
+    return EXIT_SUCCESS;
 }

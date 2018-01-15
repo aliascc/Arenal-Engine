@@ -175,7 +175,7 @@ QTreeWidget::branch:has-children:!open:selected
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>20</y>
+     <y>19</y>
      <width>75</width>
      <height>23</height>
     </rect>

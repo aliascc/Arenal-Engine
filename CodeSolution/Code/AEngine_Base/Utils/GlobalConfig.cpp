@@ -34,18 +34,28 @@
 //Always include last
 #include "Memory\MemLeaks.h"
 
-namespace GlobalConfig
+namespace AE_GlobalConfig
 {
-	static AEResult OpenRegistry(HKEY hKey)
+	static AEResult OpenRegistry(HKEY& hKey)
 	{
 		LONG res = RegOpenKeyExW(HKEY_CURRENT_USER, AE_GC_EDITOR_REGISTRY_SUBKEY, 0, KEY_READ, &hKey);
-		if (res == ERROR_SUCCESS)
+		if (res != ERROR_SUCCESS)
 		{
 			return AEResult::ConfigLoadError;
 		}
 
 		return AEResult::Ok;
 	}
+
+    static void CloseRegistry(HKEY& hKey)
+    {
+        if (hKey == nullptr)
+        {
+            return;
+        }
+
+        RegCloseKey(hKey);
+    }
 
 	static AEResult ReadStringInRegistry(const std::wstring& attributeName, std::wstring& value)
 	{
@@ -57,22 +67,26 @@ namespace GlobalConfig
 
 		DWORD sizeOfBuffer = 0;
 
-		ULONG errorCode = RegQueryValueExW(hKey, value.c_str(), 0, nullptr, nullptr, &sizeOfBuffer);
+		ULONG errorCode = RegQueryValueExW(hKey, attributeName.c_str(), 0, nullptr, nullptr, &sizeOfBuffer);
 		if (errorCode != ERROR_SUCCESS)
 		{
+            CloseRegistry(hKey);
 			return AEResult::ConfigLoadError;
 		}
 
 		wchar_t* buffer = new wchar_t[sizeOfBuffer];
-		errorCode = RegQueryValueExW(hKey, value.c_str(), 0, nullptr, (LPBYTE)buffer, &sizeOfBuffer);
+		errorCode = RegQueryValueExW(hKey, attributeName.c_str(), 0, nullptr, (LPBYTE)buffer, &sizeOfBuffer);
 		if (errorCode != ERROR_SUCCESS)
 		{
+            CloseRegistry(hKey);
 			return AEResult::ConfigLoadError;
 		}
 
 		value = std::wstring(buffer);
 
 		DeleteMem(buffer);
+
+        CloseRegistry(hKey);
 
 		return AEResult::Ok;
 	}

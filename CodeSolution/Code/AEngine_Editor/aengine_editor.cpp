@@ -51,7 +51,7 @@
 #include "Dialogs\Project\NewProjectDialog.h"
 #include "Dialogs\Project\LoadProjectDialog.h"
 #include "Widgets\Engine\AEngineViewerWidget.h"
-#include "Widgets\Project\ProjectSelectionWidget.h"
+#include "Dialogs\Project\ProjectSelectionDialog.h"
 #include "Widgets\Code Editor\CodeEditorMainWindow.h"
 #include "Dialogs\Raw Game Assets\NewRawGameAssetDialog.h"
 #include "Widgets\Game Object\GameObjectMeshComponentWidget.h"
@@ -81,7 +81,6 @@ AEngine_Editor::AEngine_Editor(QWidget *parent)
 AEngine_Editor::~AEngine_Editor()
 {
 	DeleteMem(m_CodeEditorMainWindow);
-	DeleteMem(m_ProjectSelectionWidget);
 }
 
 void AEngine_Editor::Initialize()
@@ -145,11 +144,24 @@ void AEngine_Editor::Initialize()
 	//Maximize WIndow
 	this->showMaximized();
 
-	////////////////////////////////////////
-	//Show Project Selection Widget
-	m_ProjectSelectionWidget = new ProjectSelectionWidget();
+    ////////////////////////////////////////
+    //Show Project Selection Widget
+    EngineViewer* engineViewer = m_AEngineViewerWidget->GetEngineViewer();
 
-	m_ProjectSelectionWidget->show();
+    ProjectSelectionDialog projSelection(engineViewer);
+
+    int result = projSelection.exec();
+    if (result != QDialog::Accepted)
+    {
+        return;
+    }
+
+    //const std::wstring& configFile = newProject.GetConfigFile();
+
+    //AETODO("Check return");
+    //SetNewEngineInstance(configFile);
+
+    m_IsInitialized = true;
 }
 
 void AEngine_Editor::SetNewEngineInstance(const std::wstring& configProjFile)
