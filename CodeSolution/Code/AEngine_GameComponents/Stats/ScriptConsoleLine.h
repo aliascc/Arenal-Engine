@@ -48,21 +48,21 @@
 *******************/
 struct ScriptConsoleLine sealed : public AEObject
 {
-	CScriptArray* m_SA_Strings = nullptr;
-	CScriptArray* m_SA_Colors = nullptr;
+    CScriptArray* m_SA_Strings = nullptr;
+    CScriptArray* m_SA_Colors = nullptr;
 
-	//Contructor
-	ScriptConsoleLine();
+    //Contructor
+    ScriptConsoleLine();
 
-	ScriptConsoleLine(const ScriptConsoleLine& other);
+    ScriptConsoleLine(const ScriptConsoleLine& other);
 
-	virtual ~ScriptConsoleLine();
+    virtual ~ScriptConsoleLine();
 
-	ScriptConsoleLine& operator=(const ScriptConsoleLine& other);
+    ScriptConsoleLine& operator=(const ScriptConsoleLine& other);
 
-	static void Constructor(ScriptConsoleLine* self);
+    static void Constructor(ScriptConsoleLine* self);
 
-	static void Destructor(ScriptConsoleLine* self);
+    static void Destructor(ScriptConsoleLine* self);
 };
 
 #endif

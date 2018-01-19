@@ -58,39 +58,39 @@ class ForwardPlusZPrePassSkinningMaterial;
 ******************/
 class FPRPreZ sealed : public DrawableGameComponent
 {
-	private:
-		//Variables
-		ForwardPlusRendering* m_ForwardPlusRendering = nullptr;
+    private:
+        //Variables
+        ForwardPlusRendering* m_ForwardPlusRendering = nullptr;
 
-		ForwardPlusZPrePassMaterial* m_ForwardPlusZPrePassMaterial = nullptr;
+        ForwardPlusZPrePassMaterial* m_ForwardPlusZPrePassMaterial = nullptr;
 
-		ForwardPlusZPrePassSkinningMaterial* m_ForwardPlusZPrePassSkinningMaterial = nullptr;
+        ForwardPlusZPrePassSkinningMaterial* m_ForwardPlusZPrePassSkinningMaterial = nullptr;
 
-		bool m_SkinningMatSet = false;
+        bool m_SkinningMatSet = false;
 
-		GameObjectManager* m_GameObjectManager = nullptr;
+        GameObjectManager* m_GameObjectManager = nullptr;
 
-		CameraUpdater* m_CameraUpdater = nullptr;
+        CameraUpdater* m_CameraUpdater = nullptr;
 
-		AEResult RenderPreZ();
+        AEResult RenderPreZ();
 
-		void DrawGameObjects();
+        void DrawGameObjects();
 
-		void DrawGameObject(GameObject* gameObject, const Camera* camera);
+        void DrawGameObject(GameObject* gameObject, const Camera* camera);
 
-	public:
-		//Constructor Destructor.
-		FPRPreZ(GameApp* gameApp, const std::wstring& gameComponentName = AE_FORWARD_PLUS_Z_PRE_PASS_DEF_COMPONENT_NAME, const std::wstring& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::wstring& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusPreZ);
-		virtual ~FPRPreZ();
+    public:
+        //Constructor Destructor.
+        FPRPreZ(GameApp* gameApp, const std::wstring& gameComponentName = AE_FORWARD_PLUS_Z_PRE_PASS_DEF_COMPONENT_NAME, const std::wstring& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::wstring& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusPreZ);
+        virtual ~FPRPreZ();
 
-		//Gets
+        //Gets
 
-		//Framework Methods
+        //Framework Methods
 
-		//Drawable Game Component Override methods
-		void					Initialize					() override;
-		void					LoadContent					() override;
-		void					Render						(const TimerParams& timerParams) override;
+        //Drawable Game Component Override methods
+        void Initialize() override;
+        void LoadContent() override;
+        void Render(const TimerParams& timerParams) override;
 };
 
 #endif

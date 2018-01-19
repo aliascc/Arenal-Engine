@@ -50,18 +50,18 @@ struct TimerParams;
 ******************/
 class GameAnimationsUpdate sealed : public GameComponent
 {
-	private:
+    private:
 
-		void UpdateGameAnimationObjects(GameObject* gameObject, const TimerParams& timerParams);
+        void UpdateGameAnimationObjects(GameObject* gameObject, const TimerParams& timerParams);
 
-	public:
-		//Constructor Destructor.
-		GameAnimationsUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_ANIMATIONS_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_AnimationsUpdate);
+    public:
+        //Constructor Destructor.
+        GameAnimationsUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_ANIMATIONS_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_AnimationsUpdate);
 
-		virtual ~GameAnimationsUpdate();
+        virtual ~GameAnimationsUpdate();
 
-		//Game Component Override methods
-		void Update(const TimerParams& timerParams) override;
+        //Game Component Override methods
+        void Update(const TimerParams& timerParams) override;
 };
 
 #endif

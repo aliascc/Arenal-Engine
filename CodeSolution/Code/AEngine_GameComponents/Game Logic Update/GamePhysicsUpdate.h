@@ -53,16 +53,16 @@ class AudioListener;
 
 class GamePhysicsUpdate sealed : public GameComponent
 {
-	private:
+    private:
 
-	public:
-		//Constructor Destructor.
-		GamePhysicsUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_PHYSICS_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GamePhysicsUpdate);
+    public:
+        //Constructor Destructor.
+        GamePhysicsUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_PHYSICS_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GamePhysicsUpdate);
 
-		virtual ~GamePhysicsUpdate();
+        virtual ~GamePhysicsUpdate();
 
-		//Game Component Override methods
-		void Update(const TimerParams& timerParams) override;
+        //Game Component Override methods
+        void Update(const TimerParams& timerParams) override;
 };
 
 #endif

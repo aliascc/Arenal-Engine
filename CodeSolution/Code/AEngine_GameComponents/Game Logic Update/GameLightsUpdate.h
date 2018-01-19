@@ -57,43 +57,43 @@ class VarianceSkinningShadowMaterial;
 ******************/
 class GameLightsUpdate sealed : public DrawableGameComponent
 {
-	private:
+    private:
 
-		VarianceShadowMaterial* m_VarianceShadowMaterial = nullptr;
+        VarianceShadowMaterial* m_VarianceShadowMaterial = nullptr;
 
-		VarianceSkinningShadowMaterial* m_VarianceSkinningShadowMaterial = nullptr;
+        VarianceSkinningShadowMaterial* m_VarianceSkinningShadowMaterial = nullptr;
 
-		DepthStencilSurface* m_SpotLightShadowTexturesDS = nullptr;
+        DepthStencilSurface* m_SpotLightShadowTexturesDS = nullptr;
 
-		DepthStencilSurface* m_DirLightShadowTexturesDS = nullptr;
+        DepthStencilSurface* m_DirLightShadowTexturesDS = nullptr;
 
-		Viewport* m_SpotLightShadowViewport = nullptr;
+        Viewport* m_SpotLightShadowViewport = nullptr;
 
-		CameraUpdater* m_CameraUpdater = nullptr;
+        CameraUpdater* m_CameraUpdater = nullptr;
 
-		std::vector<Viewport*> m_DirLightShadowViewports;
+        std::vector<Viewport*> m_DirLightShadowViewports;
 
-		void UpdateGameObjectLight(GameObject* gameObject);
+        void UpdateGameObjectLight(GameObject* gameObject);
 
-		AEResult ShadowSpotLightRenderGameObject();
+        AEResult ShadowSpotLightRenderGameObject();
 
-		AEResult ShadowDirLightRenderGameObject();
+        AEResult ShadowDirLightRenderGameObject();
 
-		AEResult ShadowLightRenderGameObject(GameObject* gameObject, const glm::mat4& lightView, const glm::mat4& lightProj);
+        AEResult ShadowLightRenderGameObject(GameObject* gameObject, const glm::mat4& lightView, const glm::mat4& lightProj);
 
-	public:
-		//Constructor Destructor.
-		GameLightsUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_LIGHTS_UPDATE_DEF_COMPONENT_NAME, const std::wstring& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameLightsUpdate);
-		virtual ~GameLightsUpdate();
+    public:
+        //Constructor Destructor.
+        GameLightsUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_LIGHTS_UPDATE_DEF_COMPONENT_NAME, const std::wstring& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameLightsUpdate);
+        virtual ~GameLightsUpdate();
 
-		//Game Component Override methods
-		void Initialize() override;
+        //Game Component Override methods
+        void Initialize() override;
 
-		void LoadContent() override;
+        void LoadContent() override;
 
-		void Update(const TimerParams& timerParams) override;
-		
-		void Render(const TimerParams& timerParams) override;
+        void Update(const TimerParams& timerParams) override;
+        
+        void Render(const TimerParams& timerParams) override;
 };
 
 #endif

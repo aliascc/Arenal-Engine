@@ -56,36 +56,36 @@ class ForwardPlusZPrePassMaterial;
 ******************/
 class FPRObjectDraw sealed : public DrawableGameComponent
 {
-	private:
-		//Variables
-		ForwardPlusRendering* m_ForwardPlusRendering = nullptr;
+    private:
+        //Variables
+        ForwardPlusRendering* m_ForwardPlusRendering = nullptr;
 
-		GameObjectManager* m_GameObjectManager = nullptr;
+        GameObjectManager* m_GameObjectManager = nullptr;
 
-		CameraUpdater* m_CameraUpdater = nullptr;
+        CameraUpdater* m_CameraUpdater = nullptr;
 
-		AEResult RenderWithFPR();
+        AEResult RenderWithFPR();
 
-		void DrawGameObjects();
+        void DrawGameObjects();
 
-		void DrawGameObject(GameObject* gameObject);
+        void DrawGameObject(GameObject* gameObject);
 
-	public:
-		//Constructor Destructor.
-		FPRObjectDraw(GameApp* gameApp, const std::wstring& gameComponentName = AE_FORWARD_PLUS_OBJECT_DRAW_DEF_COMPONENT_NAME, const std::wstring& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::wstring& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightObjectDraw);
-		virtual ~FPRObjectDraw();
+    public:
+        //Constructor Destructor.
+        FPRObjectDraw(GameApp* gameApp, const std::wstring& gameComponentName = AE_FORWARD_PLUS_OBJECT_DRAW_DEF_COMPONENT_NAME, const std::wstring& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::wstring& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightObjectDraw);
+        virtual ~FPRObjectDraw();
 
-		//Gets
+        //Gets
 
-		//Framework Methods
+        //Framework Methods
 
-		//Drawable Game Component Override methods
-		void					Initialize					() override;
-		void					LoadContent					() override;
-		void					Update						(const TimerParams& timerParams) override;
-		void					Render						(const TimerParams& timerParams) override;
-		void					OnLostDevice				() override;
-		void					OnResetDevice				() override;
+        //Drawable Game Component Override methods
+        void Initialize() override;
+        void LoadContent() override;
+        void Update(const TimerParams& timerParams) override;
+        void Render(const TimerParams& timerParams) override;
+        void OnLostDevice() override;
+        void OnResetDevice() override;
 };
 
 #endif

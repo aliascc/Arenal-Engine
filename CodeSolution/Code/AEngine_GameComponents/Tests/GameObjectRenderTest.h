@@ -52,30 +52,30 @@ class GameObjectManager;
 ******************/
 class GameObjectRenderTest sealed : public DrawableGameComponent
 {
-	private:
-		//Variables
-		GameObjectManager* m_GameObjectManager = nullptr;
+    private:
+        //Variables
+        GameObjectManager* m_GameObjectManager = nullptr;
 
-		Camera* m_Camera = nullptr;
+        Camera* m_Camera = nullptr;
 
-		void DrawGameObject(GameObject* gameObject);
+        void DrawGameObject(GameObject* gameObject);
 
-	public:
-		//Constructor Destructor.
-		GameObjectRenderTest(GameApp* gameApp, const std::wstring& gameComponentName = L"Game Object Render Test");
-		virtual ~GameObjectRenderTest();
+    public:
+        //Constructor Destructor.
+        GameObjectRenderTest(GameApp* gameApp, const std::wstring& gameComponentName = L"Game Object Render Test");
+        virtual ~GameObjectRenderTest();
 
-		//Gets
-		
-		//Framework Methods
+        //Gets
+        
+        //Framework Methods
 
-		//Drawable Game Component Override methods
-		void					Initialize					() override;
-		void					LoadContent					() override;
-		void					Update						(const TimerParams& timerParams) override;
-		void					Render						(const TimerParams& timerParams) override;
-		void					OnLostDevice				() override;
-		void					OnResetDevice				() override;
+        //Drawable Game Component Override methods
+        void Initialize() override;
+        void LoadContent() override;
+        void Update(const TimerParams& timerParams) override;
+        void Render(const TimerParams& timerParams) override;
+        void OnLostDevice() override;
+        void OnResetDevice() override;
 };
 
 #endif

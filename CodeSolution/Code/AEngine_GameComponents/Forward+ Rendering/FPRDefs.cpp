@@ -45,18 +45,18 @@ ForwardPlusHelper::ForwardPlusHelper()
 
 glm::uvec2 ForwardPlusHelper::GetNumTiles(const glm::uvec2& screenSize)
 {
-	return GetNumTiles(screenSize.x, screenSize.y);
+    return GetNumTiles(screenSize.x, screenSize.y);
 }
 
 glm::uvec2 ForwardPlusHelper::GetNumTiles(uint32_t width, uint32_t height)
 {
-	glm::uvec2 numTiles;
+    glm::uvec2 numTiles;
 
-	float numTilesX = ( (width + AE_TILE_RES - 1 ) / (float)AE_TILE_RES );
-	float numTilesY = ( (height + AE_TILE_RES - 1 ) / (float)AE_TILE_RES );
+    float numTilesX = ( (width + AE_TILE_RES - 1 ) / (float)AE_TILE_RES );
+    float numTilesY = ( (height + AE_TILE_RES - 1 ) / (float)AE_TILE_RES );
 
-	numTiles.x = static_cast<uint32_t>(numTilesX);
-	numTiles.y = static_cast<uint32_t>(numTilesY);
+    numTiles.x = static_cast<uint32_t>(numTilesX);
+    numTiles.y = static_cast<uint32_t>(numTilesY);
 
-	return numTiles;
+    return numTiles;
 }

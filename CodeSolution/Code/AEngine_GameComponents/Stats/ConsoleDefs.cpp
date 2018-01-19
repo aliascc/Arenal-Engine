@@ -39,4 +39,3 @@ const Color ConsoleBackgroundDefaultColor = Color(0.0f, 0.0f, 0.0f, 0.75f);
 ConsoleShowLine::ConsoleShowLine()
 {
 }
-

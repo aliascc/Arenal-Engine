@@ -43,9 +43,9 @@
 *   Defines   *
 ***************/
 
-#define AE_TILE_RES												16
+#define AE_TILE_RES                         16
 
-#define AE_FORWARD_PLUS_DEPTH_STENCIL_NAME						L"Forward Plus Z DS"
+#define AE_FORWARD_PLUS_DEPTH_STENCIL_NAME  L"Forward Plus Z DS"
 
 /****************
 *   Constants   *
@@ -64,26 +64,26 @@
 **************/
 struct ForwardPlusHelper sealed : public AEObject
 {
-	private:
-		//So no one will create an instance of this struct
-		ForwardPlusHelper();
+    private:
+        //So no one will create an instance of this struct
+        ForwardPlusHelper();
 
-	public:
+    public:
 
-		/// <summary>
-		/// Calculate the number of tiles for the Screen Size
-		/// </summary>
-		/// <param name="screenSize">Screen Size for X and Y</param>
-		/// <returns>Number of Tiles in the screen size for X and Y</returns>
-		static glm::uvec2 GetNumTiles(const glm::uvec2& screenSize);
+        /// <summary>
+        /// Calculate the number of tiles for the Screen Size
+        /// </summary>
+        /// <param name="screenSize">Screen Size for X and Y</param>
+        /// <returns>Number of Tiles in the screen size for X and Y</returns>
+        static glm::uvec2 GetNumTiles(const glm::uvec2& screenSize);
 
-		/// <summary>
-		/// Calculate the number of tiles for the Screen Size
-		/// </summary>
-		/// <param name="width">Width of the Screen</param>
-		/// <param name="height">Height of the Screen</param>
-		/// <returns>Number of Tiles in the screen size for X and Y</returns>
-		static glm::uvec2 GetNumTiles(uint32_t width, uint32_t height);
+        /// <summary>
+        /// Calculate the number of tiles for the Screen Size
+        /// </summary>
+        /// <param name="width">Width of the Screen</param>
+        /// <param name="height">Height of the Screen</param>
+        /// <returns>Number of Tiles in the screen size for X and Y</returns>
+        static glm::uvec2 GetNumTiles(uint32_t width, uint32_t height);
 };
 
 #endif

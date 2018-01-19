@@ -50,32 +50,32 @@ struct TimerParams;
 ******************/
 class GameObjectScriptCaller sealed : public GameComponent
 {
-	enum class CallMethod : uint32_t
-	{
-		Initialize,
-		ConstantUpdate,
-		Update,
-		PostUpdate
-	};
+    enum class CallMethod : uint32_t
+    {
+        Initialize,
+        ConstantUpdate,
+        Update,
+        PostUpdate
+    };
 
-	private:
+    private:
 
-		void ScriptCaller(GameObject* gameObject, CallMethod callMethod, const TimerParams& timerParams = TimerParams());
+        void ScriptCaller(GameObject* gameObject, CallMethod callMethod, const TimerParams& timerParams = TimerParams());
 
-	public:
-		//Constructor Destructor.
-		GameObjectScriptCaller(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_GAME_OBJECT_SCRIPT_CALLER_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectScriptCaller);
+    public:
+        //Constructor Destructor.
+        GameObjectScriptCaller(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_GAME_OBJECT_SCRIPT_CALLER_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectScriptCaller);
 
-		virtual ~GameObjectScriptCaller();
+        virtual ~GameObjectScriptCaller();
 
-		//Game Component Override methods
-		void Initialize() override;
+        //Game Component Override methods
+        void Initialize() override;
 
-		void ConstantUpdate(const TimerParams& timerParams) override;
+        void ConstantUpdate(const TimerParams& timerParams) override;
 
-		void Update(const TimerParams& timerParams) override;
+        void Update(const TimerParams& timerParams) override;
 
-		void PostUpdate(const TimerParams& timerParams) override;
+        void PostUpdate(const TimerParams& timerParams) override;
 };
 
 #endif

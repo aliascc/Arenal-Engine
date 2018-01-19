@@ -38,7 +38,7 @@
 *   Function Defs   *
 *********************/
 GameObjectCameraUpdate::GameObjectCameraUpdate(GameApp* gameApp, const std::wstring& gameComponentName, uint32_t callOrder)
-	: GameComponent(gameApp, gameComponentName, callOrder)
+    : GameComponent(gameApp, gameComponentName, callOrder)
 {
 }
 
@@ -48,47 +48,47 @@ GameObjectCameraUpdate::~GameObjectCameraUpdate()
 
 void GameObjectCameraUpdate::UpdateCamera(GameObject* gameObject)
 {
-	AEAssert(gameObject != nullptr);
-	if (gameObject == nullptr)
-	{
-		return;
-	}
+    AEAssert(gameObject != nullptr);
+    if (gameObject == nullptr)
+    {
+        return;
+    }
 
-	if (gameObject->HasCameraGOC())
-	{
-		Camera* camera = gameObject->GetCameraGOC()->GetCamera();
+    if (gameObject->HasCameraGOC())
+    {
+        Camera* camera = gameObject->GetCameraGOC()->GetCamera();
 
-		AEAssert(camera != nullptr);
-		if(camera != nullptr)
-		{
-			camera->SetNewPositionAndRotation(gameObject->GetWorldPosition(), gameObject->GetWorldRotationAngles());
-		}
-	}
+        AEAssert(camera != nullptr);
+        if(camera != nullptr)
+        {
+            camera->SetNewPositionAndRotation(gameObject->GetWorldPosition(), gameObject->GetWorldRotationAngles());
+        }
+    }
 
-	for (auto goIt : *gameObject)
-	{
-		UpdateCamera(goIt.second);
-	}
+    for (auto goIt : *gameObject)
+    {
+        UpdateCamera(goIt.second);
+    }
 }
 
 void GameObjectCameraUpdate::Update(const TimerParams& timerParams)
 {
-	///////////////////////////////////////////
-	//Get Game Object Manager
-	GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
+    ///////////////////////////////////////////
+    //Get Game Object Manager
+    GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
 
-	AEAssert(gameObjectManager != nullptr);
-	if (gameObjectManager == nullptr)
-	{
-		return;
-	}
+    AEAssert(gameObjectManager != nullptr);
+    if (gameObjectManager == nullptr)
+    {
+        return;
+    }
 
-	///////////////////////////////////////////
-	//Call Methods for the Script
-	for (auto goIt : *gameObjectManager)
-	{
-		UpdateCamera(goIt.second);
-	}
+    ///////////////////////////////////////////
+    //Call Methods for the Script
+    for (auto goIt : *gameObjectManager)
+    {
+        UpdateCamera(goIt.second);
+    }
 
-	GameComponent::Update(timerParams);
+    GameComponent::Update(timerParams);
 }

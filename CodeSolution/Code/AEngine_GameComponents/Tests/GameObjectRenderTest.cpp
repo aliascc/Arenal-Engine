@@ -50,7 +50,7 @@
 *   Function Defs   *
 *********************/
 GameObjectRenderTest::GameObjectRenderTest(GameApp* gameApp, const std::wstring& gameComponentName)
-	: DrawableGameComponent(gameApp, gameComponentName)
+    : DrawableGameComponent(gameApp, gameComponentName)
 {
 }
 
@@ -60,92 +60,92 @@ GameObjectRenderTest::~GameObjectRenderTest()
 
 void GameObjectRenderTest::Initialize()
 {
-	m_GameObjectManager = m_GameApp->GetGameObjectManager();
+    m_GameObjectManager = m_GameApp->GetGameObjectManager();
 
-	m_Camera = m_GameApp->GetGameService<Camera>(L"Camera");
+    m_Camera = m_GameApp->GetGameService<Camera>(L"Camera");
 
-	DrawableGameComponent::Initialize();
+    DrawableGameComponent::Initialize();
 }
 
 void GameObjectRenderTest::LoadContent()
-{	
-	DrawableGameComponent::LoadContent();
+{    
+    DrawableGameComponent::LoadContent();
 }
 
 void GameObjectRenderTest::Update(const TimerParams& timerParams)
 {
-	DrawableGameComponent::Update(timerParams);
+    DrawableGameComponent::Update(timerParams);
 }
 
 void GameObjectRenderTest::Render(const TimerParams& timerParams)
 {
-	for(auto goIt : *m_GameObjectManager)
-	{
-		DrawGameObject(goIt.second);
-	}
+    for(auto goIt : *m_GameObjectManager)
+    {
+        DrawGameObject(goIt.second);
+    }
 
-	DrawableGameComponent::Render(timerParams);
+    DrawableGameComponent::Render(timerParams);
 }
 
 void GameObjectRenderTest::DrawGameObject(GameObject* gameObject)
 {
-	AEAssert(gameObject != nullptr);
-	if(gameObject == nullptr)
-	{
-		return;
-	}
+    AEAssert(gameObject != nullptr);
+    if(gameObject == nullptr)
+    {
+        return;
+    }
 
-	if(gameObject->HasMeshGOC() && gameObject->HasMaterialGOCs())
-	{
-		Mesh* mesh = gameObject->GetMeshGOC()->GetMeshResource();
+    if(gameObject->HasMeshGOC() && gameObject->HasMaterialGOCs())
+    {
+        Mesh* mesh = gameObject->GetMeshGOC()->GetMeshResource();
 
-		if(mesh != nullptr)
-		{
-			const MeshMaterialsGOCList& matList = gameObject->GetMeshMaterialsGOCList();
-			auto matListIt = matList.begin();
+        if(mesh != nullptr)
+        {
+            const MeshMaterialsGOCList& matList = gameObject->GetMeshMaterialsGOCList();
+            auto matListIt = matList.begin();
 
-			for(uint32_t i = 0; i < mesh->GetNumberMeshParts() && i < matList.size(); i++, matListIt++)
-			{
-				MeshPart* meshPart = mesh->GetMeshPart(i);
+            for(uint32_t i = 0; i < mesh->GetNumberMeshParts() && i < matList.size(); i++, matListIt++)
+            {
+                MeshPart* meshPart = mesh->GetMeshPart(i);
 
-				MeshMaterialGOC* meshMat = *matListIt;
+                MeshMaterialGOC* meshMat = *matListIt;
 
-				ShaderProperties* vsProps = meshMat->GetVertexShaderProperties();
+                ShaderProperties* vsProps = meshMat->GetVertexShaderProperties();
 
-				if(vsProps != nullptr)
-				{
-					ConstantBuffer* cb = vsProps->GetConstantBuffer(L"_AE_CB_World_View_Proj");
+                if(vsProps != nullptr)
+                {
+                    ConstantBuffer* cb = vsProps->GetConstantBuffer(L"_AE_CB_World_View_Proj");
 
-					cb->SetValueT<glm::mat4>(L"_AE_View", m_Camera->GetViewMatrix());
-					cb->SetValueT<glm::mat4>(L"_AE_PROJection", m_Camera->GetProjectionMatrix());
-					cb->SetValueT<glm::mat4>(L"_AE_World", gameObject->GetWorldTransform());
-				}
+                    cb->SetValueT<glm::mat4>(L"_AE_View", m_Camera->GetViewMatrix());
+                    cb->SetValueT<glm::mat4>(L"_AE_PROJection", m_Camera->GetProjectionMatrix());
+                    cb->SetValueT<glm::mat4>(L"_AE_World", gameObject->GetWorldTransform());
+                }
 
-				meshMat->ApplyShaders(m_GraphicDevice);
+                meshMat->ApplyShaders(m_GraphicDevice);
 
-				m_GraphicDevice->SetVertexBuffer(meshPart->GetVertexBuffer());
-				m_GraphicDevice->SetIndexBuffer(meshPart->GetIndexBuffer());
+                m_GraphicDevice->SetVertexBuffer(meshPart->GetVertexBuffer());
+                m_GraphicDevice->SetIndexBuffer(meshPart->GetIndexBuffer());
 
-				m_GraphicDevice->SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+                m_GraphicDevice->SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-				m_GraphicDevice->DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
-			}
-		}
+                m_GraphicDevice->DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
+            }
+        }
 
-	}
+    }
 
-	for(auto goIt : *gameObject)
-	{
-		DrawGameObject(goIt.second);
-	}
+    for(auto goIt : *gameObject)
+    {
+        DrawGameObject(goIt.second);
+    }
 }
 
 void GameObjectRenderTest::OnLostDevice()
 {
-	DrawableGameComponent::OnLostDevice();
+    DrawableGameComponent::OnLostDevice();
 }
 
 void GameObjectRenderTest::OnResetDevice()
 {
-	DrawableGameComponent::OnResetDevice();
+    DrawableGameComponent::OnResetDevice();
 }

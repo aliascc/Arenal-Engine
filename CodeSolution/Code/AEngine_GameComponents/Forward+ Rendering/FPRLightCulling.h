@@ -53,30 +53,30 @@ class ForwardPlusLightCullingMaterial;
 ******************/
 class FPRLightCulling sealed : public DrawableGameComponent
 {
-	private:
-		//Variables
-		ForwardPlusRendering* m_ForwardPlusRendering = nullptr;
+    private:
+        //Variables
+        ForwardPlusRendering* m_ForwardPlusRendering = nullptr;
 
-		CameraUpdater* m_CameraUpdater = nullptr;
+        CameraUpdater* m_CameraUpdater = nullptr;
 
-		ForwardPlusLightCullingMaterial* m_ForwardPlusLightCullingMaterial = nullptr;
+        ForwardPlusLightCullingMaterial* m_ForwardPlusLightCullingMaterial = nullptr;
 
-	public:
-		//Constructor Destructor.
-		FPRLightCulling(GameApp* gameApp, const std::wstring& gameComponentName = AE_FORWARD_PLUS_LIGHT_CULLING_DEF_COMPONENT_NAME, const std::wstring& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::wstring& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightCulling);
-		virtual ~FPRLightCulling();
+    public:
+        //Constructor Destructor.
+        FPRLightCulling(GameApp* gameApp, const std::wstring& gameComponentName = AE_FORWARD_PLUS_LIGHT_CULLING_DEF_COMPONENT_NAME, const std::wstring& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::wstring& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightCulling);
+        virtual ~FPRLightCulling();
 
-		//Gets
-		
-		//Framework Methods
+        //Gets
+        
+        //Framework Methods
 
-		//Drawable Game Component Override methods
-		void					Initialize					() override;
-		void					LoadContent					() override;
-		void					Update						(const TimerParams& timerParams) override;
-		void					Render						(const TimerParams& timerParams) override;
-		void					OnLostDevice				() override;
-		void					OnResetDevice				() override;
+        //Drawable Game Component Override methods
+        void Initialize() override;
+        void LoadContent() override;
+        void Update(const TimerParams& timerParams) override;
+        void Render(const TimerParams& timerParams) override;
+        void OnLostDevice() override;
+        void OnResetDevice() override;
 };
 
 #endif

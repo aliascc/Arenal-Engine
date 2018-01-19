@@ -40,7 +40,7 @@
 *   Function Defs   *
 *********************/
 GameAudioUpdate::GameAudioUpdate(GameApp* gameApp, const std::wstring& gameComponentName, uint32_t callOrder)
-	: GameComponent(gameApp, gameComponentName, callOrder)
+    : GameComponent(gameApp, gameComponentName, callOrder)
 {
 }
 
@@ -50,70 +50,70 @@ GameAudioUpdate::~GameAudioUpdate()
 
 void GameAudioUpdate::Update(const TimerParams& timerParams)
 {
-	///////////////////////////////////////////
-	//Get Game Object Manager
-	GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
+    ///////////////////////////////////////////
+    //Get Game Object Manager
+    GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
 
-	///////////////////////////////////////////
-	//Update Audio Listener
-	for (auto goIt : *gameObjectManager)
-	{
-		UpdateGameAudio(goIt.second, timerParams);
-	}
-	
+    ///////////////////////////////////////////
+    //Update Audio Listener
+    for (auto goIt : *gameObjectManager)
+    {
+        UpdateGameAudio(goIt.second, timerParams);
+    }
+    
 
-	GameComponent::Update(timerParams);
+    GameComponent::Update(timerParams);
 }
 
 void GameAudioUpdate::UpdateGameAudio(GameObject* gameObject, const TimerParams& timerParams)
 {
-	AEAssert(gameObject != nullptr);
-	if (gameObject == nullptr)
-	{
-		return;
-	}
+    AEAssert(gameObject != nullptr);
+    if (gameObject == nullptr)
+    {
+        return;
+    }
 
-	if (gameObject->HasAudioListenerGOC())
-	{
-		UpdateAudioListener(gameObject, AudioListener::GetInstance());
-	}
+    if (gameObject->HasAudioListenerGOC())
+    {
+        UpdateAudioListener(gameObject, AudioListener::GetInstance());
+    }
 
-	if (gameObject->HasAudioSourceGOCs())
-	{
-		UpdateAudioSources(gameObject);
-	}
+    if (gameObject->HasAudioSourceGOCs())
+    {
+        UpdateAudioSources(gameObject);
+    }
 
-	for (auto goIt : *gameObject)
-	{
-		UpdateGameAudio(goIt.second, timerParams);
-	}
+    for (auto goIt : *gameObject)
+    {
+        UpdateGameAudio(goIt.second, timerParams);
+    }
 }
 
 void GameAudioUpdate::UpdateAudioListener(GameObject* gameObject, AudioListener* audioListener)
 {
-	if (gameObject == NULL || audioListener == NULL)
-	{
-		return;
-	}
+    if (gameObject == NULL || audioListener == NULL)
+    {
+        return;
+    }
 
-	audioListener->SetPosition(gameObject->GetWorldPosition());
+    audioListener->SetPosition(gameObject->GetWorldPosition());
 
-	audioListener->SetDirection(gameObject->GetDirection());
+    audioListener->SetDirection(gameObject->GetDirection());
 }
 
 void GameAudioUpdate::UpdateAudioSources(GameObject* gameObject)
 {
-	if (gameObject == NULL)
-	{
-		return;
-	}
+    if (gameObject == NULL)
+    {
+        return;
+    }
 
-	const AudioSourceGOCList& audioSourceList = gameObject->GetAudioSourceGOCList();
+    const AudioSourceGOCList& audioSourceList = gameObject->GetAudioSourceGOCList();
 
-	for (auto audioSourceGOC : audioSourceList)
-	{
-		AudioPlayer* audioPlayer = audioSourceGOC->GetAudioPlayer();
+    for (auto audioSourceGOC : audioSourceList)
+    {
+        AudioPlayer* audioPlayer = audioSourceGOC->GetAudioPlayer();
 
-		audioPlayer->SetPosition(gameObject->GetWorldPosition());
-	}
+        audioPlayer->SetPosition(gameObject->GetWorldPosition());
+    }
 }

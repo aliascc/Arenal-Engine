@@ -50,60 +50,60 @@ class XBoxGamepadManager;
 ******************/
 class InputHandler sealed : public GameComponent
 {
-	private:
+    private:
 
-	/************************
-	*   Private Variables   *
-	*************************/
+    /************************
+    *   Private Variables   *
+    *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Name of the Game Service that will be registered for input handler.
-		/// </summary>
-		std::wstring m_ServiceName = L"";
+        /// <summary>
+        /// Name of the Game Service that will be registered for input handler.
+        /// </summary>
+        std::wstring m_ServiceName = L"";
 
 #pragma endregion
 
-	public:
+    public:
 
-	/***************************************
-	*   Constructor & Destructor Methods   *
-	****************************************/
+    /***************************************
+    *   Constructor & Destructor Methods   *
+    ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default InputManager Constructor
-		/// </summary>
-		InputHandler(GameApp* gameApp, const std::wstring& gameComponentName = AE_INPUT_HANDLER_DEF_COMPONENT_NAME, const std::wstring& serviceName = AE_INPUT_HANDLER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_InputHandler);
+        /// <summary>
+        /// Default InputManager Constructor
+        /// </summary>
+        InputHandler(GameApp* gameApp, const std::wstring& gameComponentName = AE_INPUT_HANDLER_DEF_COMPONENT_NAME, const std::wstring& serviceName = AE_INPUT_HANDLER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_InputHandler);
 
-		/// <summary>
-		/// Default InputHandler Destructor
-		/// </summary>
-		virtual ~InputHandler();
+        /// <summary>
+        /// Default InputHandler Destructor
+        /// </summary>
+        virtual ~InputHandler();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		bool IsKeyboardActive() const;
+        bool IsKeyboardActive() const;
 
-		bool IsXBoxGamepadManagerActive() const;
+        bool IsXBoxGamepadManagerActive() const;
 
-		Keyboard* GetKeyboard() const;
+        Keyboard* GetKeyboard() const;
 
-		XBoxGamepadManager* GetXBoxGamepadManager() const;
+        XBoxGamepadManager* GetXBoxGamepadManager() const;
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		void Update(const TimerParams& timerParams) override;
+        void Update(const TimerParams& timerParams) override;
 
 #pragma endregion
 };

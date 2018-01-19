@@ -53,22 +53,22 @@ class AudioListener;
 
 class GameAudioUpdate sealed : public GameComponent
 {
-	private:
+    private:
 
-		void UpdateGameAudio(GameObject* gameObject, const TimerParams& timerParams);
+        void UpdateGameAudio(GameObject* gameObject, const TimerParams& timerParams);
 
-		void UpdateAudioListener(GameObject* gameObject, AudioListener* audioListener);
+        void UpdateAudioListener(GameObject* gameObject, AudioListener* audioListener);
 
-		void UpdateAudioSources(GameObject* gameObject);
+        void UpdateAudioSources(GameObject* gameObject);
 
-	public:
-		//Constructor Destructor.
-		GameAudioUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_AUDIO_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameAudioUpdate);
+    public:
+        //Constructor Destructor.
+        GameAudioUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_AUDIO_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameAudioUpdate);
 
-		virtual ~GameAudioUpdate();
+        virtual ~GameAudioUpdate();
 
-		//Game Component Override methods
-		void Update(const TimerParams& timerParams) override;
+        //Game Component Override methods
+        void Update(const TimerParams& timerParams) override;
 };
 
 #endif

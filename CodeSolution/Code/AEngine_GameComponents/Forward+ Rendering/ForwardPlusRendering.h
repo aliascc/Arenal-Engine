@@ -58,125 +58,125 @@ class DepthStencilSurface;
 ******************/
 class ForwardPlusRendering sealed : public GameComponent
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		glm::uvec2 m_NumTiles = AEMathHelpers::Vec2uZero;
+        glm::uvec2 m_NumTiles = AEMathHelpers::Vec2uZero;
 
-		std::wstring m_ServiceName = L"";
+        std::wstring m_ServiceName = L"";
 
-		FPRPreZ* m_FPRPreZ = nullptr;
+        FPRPreZ* m_FPRPreZ = nullptr;
 
-		FPRLightCulling* m_FPRLightCulling = nullptr;
+        FPRLightCulling* m_FPRLightCulling = nullptr;
 
-		FPRObjectDraw* m_FPRObjectDraw = nullptr;
+        FPRObjectDraw* m_FPRObjectDraw = nullptr;
 
-		DepthStencilSurface* m_ForwardPlusDS = nullptr;
+        DepthStencilSurface* m_ForwardPlusDS = nullptr;
 
-		StructuredBuffer* m_LightStructuredBuffer = nullptr;
+        StructuredBuffer* m_LightStructuredBuffer = nullptr;
 
-		StructuredBuffer* m_ShadowSpotLightInfoStructuredBuffer = nullptr;
+        StructuredBuffer* m_ShadowSpotLightInfoStructuredBuffer = nullptr;
 
-		StructuredBuffer* m_ShadowDirLightInfoStructuredBuffer = nullptr;
+        StructuredBuffer* m_ShadowDirLightInfoStructuredBuffer = nullptr;
 
-		SimpleBuffer* m_PerTileLightIndexBuffer = nullptr;
+        SimpleBuffer* m_PerTileLightIndexBuffer = nullptr;
 
-		Sampler* m_ShadowTextureSampler = nullptr;
+        Sampler* m_ShadowTextureSampler = nullptr;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		AEResult InitForwardPlusDS();
+        AEResult InitForwardPlusDS();
 
-		AEResult InitPerTileLightIndexBuffer();
+        AEResult InitPerTileLightIndexBuffer();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// ForwardPlusRendering Constructor
-		/// </summary>
-		/// <param name="GameApp">Graphic App to be associated with this Game Component</param>
-		/// <param name="gameComponentName">Game Component Name to be set</param>
-		/// <param name="serviceName">Service Name to be Set for this Game Component</param>
-		/// <param name="callOder">Call order of Game Component</param>
-		ForwardPlusRendering(GameApp* gameApp, const std::wstring& gameComponentName = AE_FORWARD_PLUS_MAIN_DEF_COMPONENT_NAME, const std::wstring& serviceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusMain);
+        /// <summary>
+        /// ForwardPlusRendering Constructor
+        /// </summary>
+        /// <param name="GameApp">Graphic App to be associated with this Game Component</param>
+        /// <param name="gameComponentName">Game Component Name to be set</param>
+        /// <param name="serviceName">Service Name to be Set for this Game Component</param>
+        /// <param name="callOder">Call order of Game Component</param>
+        ForwardPlusRendering(GameApp* gameApp, const std::wstring& gameComponentName = AE_FORWARD_PLUS_MAIN_DEF_COMPONENT_NAME, const std::wstring& serviceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusMain);
 
-		/// <summary>
-		/// Default ForwardPlusRendering Destructor
-		/// </summary>
-		virtual ~ForwardPlusRendering();
+        /// <summary>
+        /// Default ForwardPlusRendering Destructor
+        /// </summary>
+        virtual ~ForwardPlusRendering();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		inline Sampler* GetShadowTextureSampler() const
-		{
-			return m_ShadowTextureSampler;
-		}
+        inline Sampler* GetShadowTextureSampler() const
+        {
+            return m_ShadowTextureSampler;
+        }
 
-		inline DepthStencilSurface* GetForwardPlusDS() const
-		{
-			return m_ForwardPlusDS;
-		}
+        inline DepthStencilSurface* GetForwardPlusDS() const
+        {
+            return m_ForwardPlusDS;
+        }
 
-		inline StructuredBuffer* GetLightStructuredBuffer() const
-		{
-			return m_LightStructuredBuffer;
-		}
+        inline StructuredBuffer* GetLightStructuredBuffer() const
+        {
+            return m_LightStructuredBuffer;
+        }
 
-		inline StructuredBuffer* GetShadowSpotLightInfoStructuredBuffer() const
-		{
-			return m_ShadowSpotLightInfoStructuredBuffer;
-		}
+        inline StructuredBuffer* GetShadowSpotLightInfoStructuredBuffer() const
+        {
+            return m_ShadowSpotLightInfoStructuredBuffer;
+        }
 
-		inline StructuredBuffer* GetShadowDirLightInfoStructuredBuffer() const
-		{
-				return m_ShadowDirLightInfoStructuredBuffer;
-		}
+        inline StructuredBuffer* GetShadowDirLightInfoStructuredBuffer() const
+        {
+            return m_ShadowDirLightInfoStructuredBuffer;
+        }
 
-		inline SimpleBuffer* GetPerTileLightIndexBuffer() const
-		{
-			return m_PerTileLightIndexBuffer;
-		}
+        inline SimpleBuffer* GetPerTileLightIndexBuffer() const
+        {
+            return m_PerTileLightIndexBuffer;
+        }
 
-		inline const glm::uvec2& GetNumTiles() const
-		{
-			return m_NumTiles;
-		}
+        inline const glm::uvec2& GetNumTiles() const
+        {
+            return m_NumTiles;
+        }
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		void Initialize() override;
+        void Initialize() override;
 
-		void LoadContent() override;
+        void LoadContent() override;
 
-		void Update(const TimerParams& timerParams) override;
+        void Update(const TimerParams& timerParams) override;
 
-		void OnResetDevice() override;
+        void OnResetDevice() override;
 
 #pragma endregion
 

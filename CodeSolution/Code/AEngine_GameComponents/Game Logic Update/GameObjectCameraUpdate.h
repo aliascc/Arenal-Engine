@@ -50,49 +50,49 @@ struct TimerParams;
 ******************/
 class GameObjectCameraUpdate sealed : public GameComponent
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		void UpdateCamera(GameObject* gameObject);
+        void UpdateCamera(GameObject* gameObject);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// GameObjectCameraUpdate Constructor
-		/// </summary>
-		GameObjectCameraUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_GAME_OBJECT_CAMERA_UPDATE_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectCameraUpdate);
+        /// <summary>
+        /// GameObjectCameraUpdate Constructor
+        /// </summary>
+        GameObjectCameraUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_GAME_OBJECT_CAMERA_UPDATE_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectCameraUpdate);
 
-		/// <summary>
-		/// Default GameObjectCameraUpdate Destructor
-		/// </summary>
-		virtual ~GameObjectCameraUpdate();
+        /// <summary>
+        /// Default GameObjectCameraUpdate Destructor
+        /// </summary>
+        virtual ~GameObjectCameraUpdate();
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		void Update(const TimerParams& timerParams) override;
+        void Update(const TimerParams& timerParams) override;
 
 #pragma endregion
 
