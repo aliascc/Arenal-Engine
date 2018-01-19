@@ -35,7 +35,7 @@
 *   Function Defs   *
 *********************/
 Named::Named(const std::wstring& name)
-	: m_Name(name)
+    : m_Name(name)
 {
 }
 
@@ -45,10 +45,10 @@ Named::~Named()
 
 void Named::SetName(const std::wstring name)
 {
-	m_Name = name;
+    m_Name = name;
 }
 
 std::wstring Named::ToString() const
 {
-	return m_Name;
+    return m_Name;
 }

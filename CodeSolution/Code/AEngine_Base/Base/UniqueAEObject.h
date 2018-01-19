@@ -52,65 +52,65 @@
 /// </summary>
 class UniqueAEObject abstract : public AEObject
 {
-	private:
+    private:
 
-		/*************************
-		 *   Private Variables   *
-		 *************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Unique ID of the Object
-		/// </summary>
-		uint64_t m_UniqueID = 0;
+        /// <summary>
+        /// Unique ID of the Object
+        /// </summary>
+        uint64_t m_UniqueID = 0;
 
 #pragma endregion
-		
-	public:
+        
+    public:
 
-		/****************************************
-		 *   Constructor & Destructor Methods   *
-		 ****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default UniqueAEObject Constructor
-		/// </summary>
-		UniqueAEObject();
+        /// <summary>
+        /// Default UniqueAEObject Constructor
+        /// </summary>
+        UniqueAEObject();
 
-		/// <summary>
-		/// Default UniqueAEObject Destructor
-		/// </summary>
-		virtual ~UniqueAEObject();
+        /// <summary>
+        /// Default UniqueAEObject Destructor
+        /// </summary>
+        virtual ~UniqueAEObject();
 
 #pragma endregion
 
-		/*********************
-		 *     Get Methods   *
-		 *********************/
+        /********************
+        *     Get Methods   *
+        *********************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Gets Unique ID
-		/// </summary>
-		/// <returns>Gets the Unique ID of the Object</returns>
-		inline uint64_t GetUniqueID() const
-		{
-			return m_UniqueID;
-		}
+        /// <summary>
+        /// Gets Unique ID
+        /// </summary>
+        /// <returns>Gets the Unique ID of the Object</returns>
+        inline uint64_t GetUniqueID() const
+        {
+            return m_UniqueID;
+        }
 
 #pragma endregion
-		
-		/*******************
-		 *   Set Methods   *
-		 *******************/
+        
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
-		
-		/*************************
-		 *   Framework Methods   *
-		 *************************/
+        
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

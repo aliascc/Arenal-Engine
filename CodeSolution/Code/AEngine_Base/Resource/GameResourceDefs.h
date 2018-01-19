@@ -51,23 +51,23 @@
 /// </summary>
 enum class GameResourceType : uint32_t
 {
-	Mesh = 0,
-	GameObjectScript,
-	Texture2D,
-	TextureCube,
-	Skeleton,
-	Animation,
-	VertexShader,
-	PixelShader,
-	ComputeShader,
-	DomainShader,
-	HullShader,
-	GeometryShader,
-	RenderTarget,
-	DepthStencil,
-	Audio,
-	Custom,
-	Unknown
+    Mesh = 0,
+    GameObjectScript,
+    Texture2D,
+    TextureCube,
+    Skeleton,
+    Animation,
+    VertexShader,
+    PixelShader,
+    ComputeShader,
+    DomainShader,
+    HullShader,
+    GeometryShader,
+    RenderTarget,
+    DepthStencil,
+    Audio,
+    Custom,
+    Unknown
 };
 
 /*************
@@ -80,6 +80,5 @@ enum class GameResourceType : uint32_t
 typedef std::function<void (uint64_t, bool)> GameResourceReleaseCallback;
 typedef std::function<void (uint64_t, const std::wstring&, const std::wstring&)> GameResourceChangeNameCallback;
 typedef std::function<void (uint64_t, const std::wstring&, const std::wstring&)> GameResourceChangeFileNameCallback;
-
 
 #endif

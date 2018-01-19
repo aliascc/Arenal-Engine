@@ -53,80 +53,323 @@
 
 class AEXMLWriter sealed : public AEObject
 {
-	private:
-		bool m_IsReady = false;
-		bool m_InMemory = false;
-		xmlTextWriterPtr m_XMLWriter = nullptr;
-		xmlBufferPtr m_XMLBuffer = nullptr;
-		std::wstring m_Filename = L"";
+    private:
 
-		void CleanUp();
+        /************************
+        *   Private Variables   *
+        *************************/
+#pragma region Private Variables
 
-	public:
-		AEXMLWriter();
-		virtual ~AEXMLWriter();
+        /// <summary>
+        /// Defines if the XML Writer
+        /// is initialized and ready to use
+        /// </summary>
+        bool m_IsReady = false;
 
-		AEResult CreateXML(const std::wstring& file, bool inMemory);
+        /// <summary>
+        /// Defines if the XML Writer has
+        /// not written its data to disk
+        /// </summary>
+        bool m_InMemory = false;
 
-		AEResult StartNode(const std::wstring& name);
+        /// <summary>
+        /// XML Writter Object
+        /// </summary>
+        xmlTextWriterPtr m_XMLWriter = nullptr;
 
-		AEResult EndNode(); 
+        /// <summary>
+        /// XML Buffer
+        /// </summary>
+        xmlBufferPtr m_XMLBuffer = nullptr;
 
-		AEResult FinalizeXML();
+        /// <summary>
+        /// File name of the XML
+        /// </summary>
+        std::wstring m_Filename = L"";
 
-		AEResult WriteString(const std::wstring& propName, const std::wstring& value);
+#pragma endregion
 
-		AEResult WriteInt8(const std::wstring& propName, int8_t value);
+        /**********************
+        *   Private Methods   *
+        ***********************/
+#pragma region Private Methods
 
-		AEResult WriteUInt8(const std::wstring& propName, uint8_t value);
+        /// <summary>
+        /// Clean up any memory of the
+        /// XML Writer
+        /// </summary>
+        void CleanUp();
 
-		AEResult WriteInt16(const std::wstring& propName, int16_t value);
+#pragma endregion
 
-		AEResult WriteUInt16(const std::wstring& propName, uint16_t value);
+    public:
 
-		AEResult WriteInt(const std::wstring& propName, int32_t value);
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
+#pragma region Constructor & Destructor Methods
 
-		AEResult WriteUInt(const std::wstring& propName, uint32_t value);
+        /// <summary>
+        /// AEXMLWriter Constructor
+        /// </summary>
+        AEXMLWriter();
 
-		AEResult WriteInt64(const std::wstring& propName, int64_t value);
+        /// <summary>
+        /// Default AEXMLWriter Destructor
+        /// </summary>
+        virtual ~AEXMLWriter();
 
-		AEResult WriteUInt64(const std::wstring& propName, uint64_t value);
+#pragma endregion
 
-		AEResult WriteFloat(const std::wstring& propName, float value);
+        /************************
+        *   Framework Methods   *
+        *************************/
+#pragma region Framework Methods
 
-		AEResult WriteDouble(const std::wstring& propName, double value);
+        /// <summary>
+        /// Creates a new XML File
+        /// </summary>
+        /// <param name="file">Name of the XML File</param>
+        /// <param name="inMemory">Defines if the buffer is to be kept in memory</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult CreateXML(const std::wstring& file, bool inMemory);
 
-		AEResult WriteBool(const std::wstring& propName, bool value);
+        /// <summary>
+        /// Starts a new Node
+        /// </summary>
+        /// <param name="name">Name of the Node</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult StartNode(const std::wstring& name);
 
-		AEResult WriteVect2f(const std::wstring& propName, const glm::vec2& value);
+        /// <summary>
+        /// Finalizes the current Node
+        /// </summary>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult EndNode(); 
 
-		AEResult WriteVect3f(const std::wstring& propName, const glm::vec3& value);
+        /// <summary>
+        /// Finalizes the current XML File
+        /// </summary>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult FinalizeXML();
 
-		AEResult WriteVect4f(const std::wstring& propName, const glm::vec4& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteString(const std::wstring& propName, const std::wstring& value);
 
-		AEResult WriteVect2d(const std::wstring& propName, const glm::dvec2& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteInt8(const std::wstring& propName, int8_t value);
 
-		AEResult WriteVect3d(const std::wstring& propName, const glm::dvec3& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteUInt8(const std::wstring& propName, uint8_t value);
 
-		AEResult WriteVect4d(const std::wstring& propName, const glm::dvec4& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteInt16(const std::wstring& propName, int16_t value);
 
-		AEResult WriteVect2b(const std::wstring& propName, const glm::bvec2& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteUInt16(const std::wstring& propName, uint16_t value);
 
-		AEResult WriteVect3b(const std::wstring& propName, const glm::bvec3& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteInt(const std::wstring& propName, int32_t value);
 
-		AEResult WriteVect4b(const std::wstring& propName, const glm::bvec4& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteUInt(const std::wstring& propName, uint32_t value);
 
-		AEResult WriteVect2i(const std::wstring& propName, const glm::ivec2& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteInt64(const std::wstring& propName, int64_t value);
 
-		AEResult WriteVect3i(const std::wstring& propName, const glm::ivec3& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteUInt64(const std::wstring& propName, uint64_t value);
 
-		AEResult WriteVect4i(const std::wstring& propName, const glm::ivec4& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteFloat(const std::wstring& propName, float value);
 
-		AEResult WriteMat2f(const std::wstring& propName, const glm::mat2& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteDouble(const std::wstring& propName, double value);
 
-		AEResult WriteMat3f(const std::wstring& propName, const glm::mat3& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteBool(const std::wstring& propName, bool value);
 
-		AEResult WriteMat4f(const std::wstring& propName, const glm::mat4& value);
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect2f(const std::wstring& propName, const glm::vec2& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect3f(const std::wstring& propName, const glm::vec3& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect4f(const std::wstring& propName, const glm::vec4& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect2d(const std::wstring& propName, const glm::dvec2& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect3d(const std::wstring& propName, const glm::dvec3& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect4d(const std::wstring& propName, const glm::dvec4& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect2b(const std::wstring& propName, const glm::bvec2& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect3b(const std::wstring& propName, const glm::bvec3& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect4b(const std::wstring& propName, const glm::bvec4& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect2i(const std::wstring& propName, const glm::ivec2& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect3i(const std::wstring& propName, const glm::ivec3& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteVect4i(const std::wstring& propName, const glm::ivec4& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteMat2f(const std::wstring& propName, const glm::mat2& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteMat3f(const std::wstring& propName, const glm::mat3& value);
+
+        /// <summary>
+        /// Writes a property value to the XML
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property</param>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult WriteMat4f(const std::wstring& propName, const glm::mat4& value);
+
+#pragma endregion
 };
 
 #endif

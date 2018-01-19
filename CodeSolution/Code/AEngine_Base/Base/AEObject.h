@@ -50,58 +50,58 @@
 /// </summary>
 class AEObject abstract
 {
-	protected:
+    protected:
 
-		/***************************
-		 *   Protected Variables   *
-		 ***************************/
+        /**************************
+        *   Protected Variables   *
+        ***************************/
 #pragma region Protected Variables
 
 #pragma endregion
-		
-	public:
+        
+    public:
 
-		/****************************************
-		 *   Constructor & Destructor Methods   *
-		 ****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// AEObject Constructor
-		/// </summary>
-		AEObject();
-		
-		/// <summary>
-		/// Default AEObject Destructor
-		/// </summary>
-		virtual ~AEObject();
+        /// <summary>
+        /// AEObject Constructor
+        /// </summary>
+        AEObject();
+        
+        /// <summary>
+        /// Default AEObject Destructor
+        /// </summary>
+        virtual ~AEObject();
 
 #pragma endregion
 
-		/*******************
-		 *   Get Methods   *
-		 *******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/*******************
-		 *   Set Methods   *
-		 *******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/*************************
-		 *   Framework Methods   *
-		 *************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Converts the Objects to a String. 
-		/// </summary>
-		/// <returns>Object in String format</returns>
-		virtual std::wstring ToString() const;
+        /// <summary>
+        /// Converts the Objects to a String. 
+        /// </summary>
+        /// <returns>Object in String format</returns>
+        virtual std::wstring ToString() const;
 
 #pragma endregion
 

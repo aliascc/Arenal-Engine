@@ -36,16 +36,16 @@
 
 namespace AE_GlobalConfig
 {
-	static AEResult OpenRegistry(HKEY& hKey)
-	{
-		LONG res = RegOpenKeyExW(HKEY_CURRENT_USER, AE_GC_EDITOR_REGISTRY_SUBKEY, 0, KEY_READ, &hKey);
-		if (res != ERROR_SUCCESS)
-		{
-			return AEResult::ConfigLoadError;
-		}
+    static AEResult OpenRegistry(HKEY& hKey)
+    {
+        LONG res = RegOpenKeyExW(HKEY_CURRENT_USER, AE_GC_EDITOR_REGISTRY_SUBKEY, 0, KEY_READ, &hKey);
+        if (res != ERROR_SUCCESS)
+        {
+            return AEResult::ConfigLoadError;
+        }
 
-		return AEResult::Ok;
-	}
+        return AEResult::Ok;
+    }
 
     static void CloseRegistry(HKEY& hKey)
     {
@@ -57,103 +57,103 @@ namespace AE_GlobalConfig
         RegCloseKey(hKey);
     }
 
-	static AEResult ReadStringInRegistry(const std::wstring& attributeName, std::wstring& value)
-	{
-		HKEY hKey = nullptr;
-		if (OpenRegistry(hKey) != AEResult::Ok)
-		{
-			return AEResult::ConfigLoadError;
-		}
+    static AEResult ReadStringInRegistry(const std::wstring& attributeName, std::wstring& value)
+    {
+        HKEY hKey = nullptr;
+        if (OpenRegistry(hKey) != AEResult::Ok)
+        {
+            return AEResult::ConfigLoadError;
+        }
 
-		DWORD sizeOfBuffer = 0;
+        DWORD sizeOfBuffer = 0;
 
-		ULONG errorCode = RegQueryValueExW(hKey, attributeName.c_str(), 0, nullptr, nullptr, &sizeOfBuffer);
-		if (errorCode != ERROR_SUCCESS)
-		{
+        ULONG errorCode = RegQueryValueExW(hKey, attributeName.c_str(), 0, nullptr, nullptr, &sizeOfBuffer);
+        if (errorCode != ERROR_SUCCESS)
+        {
             CloseRegistry(hKey);
-			return AEResult::ConfigLoadError;
-		}
+            return AEResult::ConfigLoadError;
+        }
 
-		wchar_t* buffer = new wchar_t[sizeOfBuffer];
-		errorCode = RegQueryValueExW(hKey, attributeName.c_str(), 0, nullptr, (LPBYTE)buffer, &sizeOfBuffer);
-		if (errorCode != ERROR_SUCCESS)
-		{
+        wchar_t* buffer = new wchar_t[sizeOfBuffer];
+        errorCode = RegQueryValueExW(hKey, attributeName.c_str(), 0, nullptr, (LPBYTE)buffer, &sizeOfBuffer);
+        if (errorCode != ERROR_SUCCESS)
+        {
             CloseRegistry(hKey);
-			return AEResult::ConfigLoadError;
-		}
+            return AEResult::ConfigLoadError;
+        }
 
-		value = std::wstring(buffer);
+        value = std::wstring(buffer);
 
-		DeleteMem(buffer);
+        DeleteMem(buffer);
 
         CloseRegistry(hKey);
 
-		return AEResult::Ok;
-	}
+        return AEResult::Ok;
+    }
 
-	static AEResult WriteStringToRegistry(const std::wstring& attributeName, const std::wstring& value)
-	{
-		DWORD sizeOfBuffer = (DWORD)(value.length() + 1) * sizeof(wchar_t);
+    static AEResult WriteStringToRegistry(const std::wstring& attributeName, const std::wstring& value)
+    {
+        DWORD sizeOfBuffer = (DWORD)(value.length() + 1) * sizeof(wchar_t);
 
-		LONG status = RegSetKeyValueW(HKEY_LOCAL_MACHINE, AE_GC_EDITOR_REGISTRY_SUBKEY,
-			                          attributeName.c_str(), REG_SZ, value.c_str(), sizeOfBuffer);
-		if (status != ERROR_SUCCESS)
-		{
-			return AEResult::ConfigLoadError;
-		}
+        LONG status = RegSetKeyValueW(HKEY_LOCAL_MACHINE, AE_GC_EDITOR_REGISTRY_SUBKEY,
+                                      attributeName.c_str(), REG_SZ, value.c_str(), sizeOfBuffer);
+        if (status != ERROR_SUCCESS)
+        {
+            return AEResult::ConfigLoadError;
+        }
 
-		return AEResult::Ok;
-	}
+        return AEResult::Ok;
+    }
 
-	AEResult GetRecentProjects(std::vector<std::wstring>& recentProjects)
-	{
-		std::wstring projects = L"";
-		if (ReadStringInRegistry(AE_GC_RECENT_PROJECTS, projects) != AEResult::Ok)
-		{
-			return AEResult::ConfigLoadError;
-		}
+    AEResult GetRecentProjects(std::vector<std::wstring>& recentProjects)
+    {
+        std::wstring projects = L"";
+        if (ReadStringInRegistry(AE_GC_RECENT_PROJECTS, projects) != AEResult::Ok)
+        {
+            return AEResult::ConfigLoadError;
+        }
 
-		AE_Base::SplitString(projects, recentProjects, L";", true);
+        AE_Base::SplitString(projects, recentProjects, L";", true);
 
-		return AEResult::Ok;
-	}
+        return AEResult::Ok;
+    }
 
-	AEResult GetRecentProjectDirectory(std::wstring& recentProjectDir)
-	{
-		recentProjectDir = L"";
-		if (ReadStringInRegistry(AE_GC_RECENT_PROJECT_DIR, recentProjectDir) != AEResult::Ok)
-		{
-			return AEResult::ConfigLoadError;
-		}
+    AEResult GetRecentProjectDirectory(std::wstring& recentProjectDir)
+    {
+        recentProjectDir = L"";
+        if (ReadStringInRegistry(AE_GC_RECENT_PROJECT_DIR, recentProjectDir) != AEResult::Ok)
+        {
+            return AEResult::ConfigLoadError;
+        }
 
-		return AEResult::Ok;
-	}
+        return AEResult::Ok;
+    }
 
-	AEResult AddRecentProject(const std::wstring& recentProject)
-	{
-		std::wstring projects = L"";
-		if (ReadStringInRegistry(AE_GC_RECENT_PROJECTS, projects) != AEResult::Ok)
-		{
-			return AEResult::ConfigLoadError;
-		}
+    AEResult AddRecentProject(const std::wstring& recentProject)
+    {
+        std::wstring projects = L"";
+        if (ReadStringInRegistry(AE_GC_RECENT_PROJECTS, projects) != AEResult::Ok)
+        {
+            return AEResult::ConfigLoadError;
+        }
 
-		projects = recentProject + L";" + projects;
+        projects = recentProject + L";" + projects;
 
-		if (WriteStringToRegistry(AE_GC_RECENT_PROJECTS, projects) != AEResult::Ok)
-		{
-			return AEResult::ConfigLoadError;
-		}
+        if (WriteStringToRegistry(AE_GC_RECENT_PROJECTS, projects) != AEResult::Ok)
+        {
+            return AEResult::ConfigLoadError;
+        }
 
-		return AEResult::Ok;
-	}
+        return AEResult::Ok;
+    }
 
-	AEResult SetRecentProjectDirectory(const std::wstring& recentDir)
-	{
-		if (WriteStringToRegistry(AE_GC_RECENT_PROJECT_DIR, recentDir) != AEResult::Ok)
-		{
-			return AEResult::ConfigLoadError;
-		}
+    AEResult SetRecentProjectDirectory(const std::wstring& recentDir)
+    {
+        if (WriteStringToRegistry(AE_GC_RECENT_PROJECT_DIR, recentDir) != AEResult::Ok)
+        {
+            return AEResult::ConfigLoadError;
+        }
 
-		return AEResult::Ok;
-	}
+        return AEResult::Ok;
+    }
 }

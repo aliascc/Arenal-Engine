@@ -27,19 +27,19 @@
 
 bool MemLeaks::MemoryBegin()
 {
-	_CrtSetDbgFlag (  _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-	//_CrtSetBreakAlloc(563);
-	//_CrtSetBreakAlloc(95726);
-	//_CrtSetReportMode ( _CRT_ERROR, _CRTDBG_MODE_DEBUG);
-	//atexit(FileStringDestroy);
-	//atexit(DumpLeaks);
+    _CrtSetDbgFlag (  _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+    //_CrtSetBreakAlloc(563);
+    //_CrtSetBreakAlloc(95726);
+    //_CrtSetReportMode ( _CRT_ERROR, _CRTDBG_MODE_DEBUG);
+    //atexit(FileStringDestroy);
+    //atexit(DumpLeaks);
 
-	return true;
+    return true;
 }
 
 bool MemLeaks::MemoryEnd()
 {
-	return true;
+    return true;
 }
 
 #endif

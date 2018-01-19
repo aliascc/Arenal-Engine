@@ -30,8 +30,8 @@
 /****************
 *   Constants   *
 *****************/
-const std::wstring AE_LOC_LANG_DEFAULT_LITERAL	= L"NO LITERAL FOUND!";
-const std::wstring AE_LOC_LANG_NO_LANGUAGE		= L"NO LANGUAGE FOUND!";
+const std::wstring AE_LOC_LANG_DEFAULT_LITERAL    = L"NO LITERAL FOUND!";
+const std::wstring AE_LOC_LANG_NO_LANGUAGE        = L"NO LANGUAGE FOUND!";
 
 /********************
 *   Function Defs   *
@@ -43,13 +43,13 @@ const std::wstring AE_LOC_LANG_NO_LANGUAGE		= L"NO LANGUAGE FOUND!";
 #pragma region Struct LocalizationLiteral
 
 LocalizationLiteral::LocalizationLiteral()
-	: Named(L"")
+    : Named(L"")
 {
 }
 
 LocalizationLiteral::LocalizationLiteral(const std::wstring& name, const std::wstring& message)
-	: Named(name)
-	, m_Msg(message)
+    : Named(name)
+    , m_Msg(message)
 {
 }
 

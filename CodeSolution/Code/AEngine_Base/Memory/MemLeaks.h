@@ -41,8 +41,8 @@
 *********************/
 namespace  MemLeaks
 {
-	extern bool MemoryBegin();
-	extern bool MemoryEnd();
+    extern bool MemoryBegin();
+    extern bool MemoryEnd();
 }
 
 #endif

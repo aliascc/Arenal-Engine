@@ -40,5 +40,5 @@ AEObject::~AEObject()
 
 std::wstring AEObject::ToString() const
 {
-	return L"";
+    return L"";
 }

@@ -49,13 +49,13 @@
 ************************/
 namespace AE_GlobalConfig
 {
-	extern AEResult GetRecentProjects(std::vector<std::wstring>& recentProjects);
+    extern AEResult GetRecentProjects(std::vector<std::wstring>& recentProjects);
 
-	extern AEResult GetRecentProjectDirectory(std::wstring& recentProjectDir);
+    extern AEResult GetRecentProjectDirectory(std::wstring& recentProjectDir);
 
-	extern AEResult AddRecentProject(const std::wstring& recentProject);
-	
-	extern AEResult SetRecentProjectDirectory(const std::wstring& recentDir);
+    extern AEResult AddRecentProject(const std::wstring& recentProject);
+
+    extern AEResult SetRecentProjectDirectory(const std::wstring& recentDir);
 };
 
 #endif

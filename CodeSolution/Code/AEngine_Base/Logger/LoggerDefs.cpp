@@ -53,19 +53,19 @@ AELog::AELog()
 
 std::wstring AELog::ToString() const
 {
-	std::wstring fileLine = fmt::format(L"{0}-({1}): {2}- \'{3}\'\n", m_LogLine, m_TimeStamp.ToString(), AELogHelpers::LogLevelStr(m_Level), m_Log);
+    std::wstring fileLine = fmt::format(L"{0}-({1}): {2}- \'{3}\'\n", m_LogLine, m_TimeStamp.ToString(), AELogHelpers::LogLevelStr(m_Level), m_Log);
 
-	return fileLine;
+    return fileLine;
 }
 
 AELog& AELog::operator=(const AELog &other)
 {
-	m_Log		= other.m_Log;
-	m_Level		= other.m_Level;
-	m_LogLine	= other.m_LogLine;
-	m_TimeStamp	= other.m_TimeStamp;
+    m_Log           = other.m_Log;
+    m_Level         = other.m_Level;
+    m_LogLine       = other.m_LogLine;
+    m_TimeStamp     = other.m_TimeStamp;
 
-	return *this;
+    return *this;
 }
 
 /*******************
@@ -74,57 +74,57 @@ AELog& AELog::operator=(const AELog &other)
 namespace AELogHelpers
 {
 
-	std::wstring AELogHelpers::LogLevelStr(LogLevel lvl)
-	{
-		switch (lvl)
-		{
-			case LogLevel::None:
-				return L"NONE";
+    std::wstring AELogHelpers::LogLevelStr(LogLevel lvl)
+    {
+        switch (lvl)
+        {
+            case LogLevel::None:
+                return L"NONE";
 
-			case LogLevel::Info:
-				return L"INFO";
+            case LogLevel::Info:
+                return L"INFO";
 
-			case LogLevel::Warning:
-				return L"WARNING";
+            case LogLevel::Warning:
+                return L"WARNING";
 
-			case LogLevel::Error:
-				return L"ERROR";
+            case LogLevel::Error:
+                return L"ERROR";
 
-			case LogLevel::Debug:
-				return L"DEBUG";
-		}
+            case LogLevel::Debug:
+                return L"DEBUG";
+        }
 
-		AEAssert(false);
+        AEAssert(false);
 
-		return L"";
-	}
+        return L"";
+    }
 
-	LogLevel AELogHelpers::Str2LogLevel(std::wstring lvl)
-	{
-		if (lvl.compare(L"NONE") == 0)
-		{
-			return LogLevel::None;
-		}
-		else if (lvl.compare(L"INFO") == 0)
-		{
-			return LogLevel::Info;
-		}
-		else if (lvl.compare(L"WARNING") == 0)
-		{
-			return LogLevel::Warning;
-		}
-		else if (lvl.compare(L"ERROR") == 0)
-		{
-			return LogLevel::Error;
-		}
-		else if (lvl.compare(L"DEBUG") == 0)
-		{
-			return LogLevel::Debug;
-		}
+    LogLevel AELogHelpers::Str2LogLevel(std::wstring lvl)
+    {
+        if (lvl.compare(L"NONE") == 0)
+        {
+            return LogLevel::None;
+        }
+        else if (lvl.compare(L"INFO") == 0)
+        {
+            return LogLevel::Info;
+        }
+        else if (lvl.compare(L"WARNING") == 0)
+        {
+            return LogLevel::Warning;
+        }
+        else if (lvl.compare(L"ERROR") == 0)
+        {
+            return LogLevel::Error;
+        }
+        else if (lvl.compare(L"DEBUG") == 0)
+        {
+            return LogLevel::Debug;
+        }
 
-		AEAssert(false);
+        AEAssert(false);
 
-		return LogLevel::None;
-	}
+        return LogLevel::None;
+    }
 
 }

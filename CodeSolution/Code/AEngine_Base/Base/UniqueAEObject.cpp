@@ -37,7 +37,7 @@
 *********************/
 UniqueAEObject::UniqueAEObject()
 {
-	m_UniqueID = AE_Base::GetNextUniqueID();
+    m_UniqueID = AE_Base::GetNextUniqueID();
 }
 
 UniqueAEObject::~UniqueAEObject()

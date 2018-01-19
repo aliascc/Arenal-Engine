@@ -51,66 +51,66 @@
 /// </summary>
 class UniqueAEObjectNamed abstract : public Named
 {
-	private:
+    private:
 
-		/**************************
-		 *   Private Variables   *
-		 **************************/
+        /*************************
+        *   Private Variables   *
+        **************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Unique ID of the Object
-		/// </summary>
-		uint64_t m_UniqueID = 0;
+        /// <summary>
+        /// Unique ID of the Object
+        /// </summary>
+        uint64_t m_UniqueID = 0;
 
 #pragma endregion
-		
-	public:
+        
+    public:
 
-		/****************************************
-		 *   Constructor & Destructor Methods   *
-		 ****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default UniqueAEObjectNamed Constructor
-		/// </summary>
-		/// <param name="name">Name of the AEObject</param>
-		UniqueAEObjectNamed(const std::wstring& name = L"");
+        /// <summary>
+        /// Default UniqueAEObjectNamed Constructor
+        /// </summary>
+        /// <param name="name">Name of the AEObject</param>
+        UniqueAEObjectNamed(const std::wstring& name = L"");
 
-		/// <summary>
-		/// Default UniqueAEObjectNamed Destructor
-		/// </summary>
-		virtual ~UniqueAEObjectNamed();
+        /// <summary>
+        /// Default UniqueAEObjectNamed Destructor
+        /// </summary>
+        virtual ~UniqueAEObjectNamed();
 
 #pragma endregion
 
-		/**********************
-		 *     Get Methods    *
-		 **********************/
+        /*********************
+        *     Get Methods    *
+        **********************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Gets Unique ID
-		/// </summary>
-		/// <returns>Gets the Unique ID of the Object</returns>
-		inline uint64_t GetUniqueID() const
-		{
-			return m_UniqueID;
-		}
+        /// <summary>
+        /// Gets Unique ID
+        /// </summary>
+        /// <returns>Gets the Unique ID of the Object</returns>
+        inline uint64_t GetUniqueID() const
+        {
+            return m_UniqueID;
+        }
 
 #pragma endregion
 
-		/*******************
-		 *   Set Methods   *
-		 *******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/*************************
-		 *   Framework Methods   *
-		 *************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

@@ -47,84 +47,84 @@
 template <class T>
 class Singleton abstract : public AEObject
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Mutex to Lock Thread
-		/// </summary>
-		static std::mutex m_SinglentonMutex;
+        /// <summary>
+        /// Mutex to Lock Thread
+        /// </summary>
+        static std::mutex m_SinglentonMutex;
 
 #pragma endregion
 
-	protected:
+    protected:
 
-		/**************************
-		*   Protected Variables   *
-		***************************/
+        /**************************
+        *   Protected Variables   *
+        ***************************/
 #pragma region Private Variables
 
-		//Singleton Pointer
-		static T* m_Instance;
+        //Singleton Pointer
+        static T* m_Instance;
 
 #pragma endregion
 
-		/*****************************
-		*   Protected Constructors   *
-		******************************/
+        /*****************************
+        *   Protected Constructors   *
+        ******************************/
 #pragma region Protected Constructor & Destructor
 
-		/// <summary>
-		/// Protected constructor
-		/// </summary>
-		Singleton()
-		{
-		};
+        /// <summary>
+        /// Protected constructor
+        /// </summary>
+        Singleton()
+        {
+        };
 
-		/// <summary>
-		/// Prevent copy-construction
-		/// </summary>
-		Singleton(const Singleton&) = delete;
+        /// <summary>
+        /// Prevent copy-construction
+        /// </summary>
+        Singleton(const Singleton&) = delete;
 
-		/// <summary>
-		/// Prevent assignment
-		/// </summary>
-		Singleton& operator=(const Singleton&) = delete;
+        /// <summary>
+        /// Prevent assignment
+        /// </summary>
+        Singleton& operator=(const Singleton&) = delete;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/**************************
-		*   Protected Variables   *
-		***************************/
+        /**************************
+        *   Protected Variables   *
+        ***************************/
 #pragma region Private Variables
 
-		static T* GetInstance()
-		{
-			if (m_Instance == nullptr)
-			{
-				std::lock_guard<std::mutex> lock(m_SinglentonMutex);
+        static T* GetInstance()
+        {
+            if (m_Instance == nullptr)
+            {
+                std::lock_guard<std::mutex> lock(m_SinglentonMutex);
 
-				if (m_Instance == nullptr)
-				{
-					m_Instance = new T();
-				}
-			}
+                if (m_Instance == nullptr)
+                {
+                    m_Instance = new T();
+                }
+            }
 
-			return m_Instance;
-		}
+            return m_Instance;
+        }
 
-		static void DestroyInstance()
-		{
-			std::lock_guard<std::mutex> lock(m_SinglentonMutex);
+        static void DestroyInstance()
+        {
+            std::lock_guard<std::mutex> lock(m_SinglentonMutex);
 
-			DeleteMem(m_Instance);
-		}
+            DeleteMem(m_Instance);
+        }
 
 #pragma endregion
 

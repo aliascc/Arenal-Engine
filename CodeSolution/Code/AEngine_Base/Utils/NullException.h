@@ -47,30 +47,29 @@ class XBoxGamepadManager;
 
 class NullException sealed : public std::exception
 {
+    private:
+        std::string m_Msg;
 
-	private:
-		std::string m_Msg;
+    public:
 
-	public:
+        explicit NullException(const char* message) :
+            m_Msg(message)
+        {
+        }
 
-		explicit NullException(const char* message) :
-			m_Msg(message)
-		{
-		}
+        explicit NullException(const std::string& message) :
+            m_Msg(message)
+        {
+        }
 
-		explicit NullException(const std::string& message) :
-			m_Msg(message)
-		{
-		}
+        virtual ~NullException() throw ()
+        {
+        }
 
-		virtual ~NullException() throw ()
-		{
-		}
-
-		const char* what() const throw () override
-		{
-			return m_Msg.c_str();
-		}
+        const char* what() const throw () override
+        {
+            return m_Msg.c_str();
+        }
 
 };
 

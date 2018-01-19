@@ -37,11 +37,11 @@
 *********************/
 AETimer::AETimer()
 {
-	//Get seconds per count
-	__int64 cntsPerSec = 0;
-	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
+    //Get seconds per count
+    __int64 cntsPerSec = 0;
+    QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
 
-	m_SecondPerCount = 1.0f / (float)cntsPerSec;
+    m_SecondPerCount = 1.0f / (float)cntsPerSec;
 }
 
 AETimer::~AETimer()
@@ -50,41 +50,41 @@ AETimer::~AETimer()
 
 double AETimer::GetLapTime(bool updatePrevTime)
 {
-	__int64 currentTimeStamp = 0;
+    __int64 currentTimeStamp = 0;
 
-	QueryPerformanceCounter((LARGE_INTEGER*)&currentTimeStamp);
+    QueryPerformanceCounter((LARGE_INTEGER*)&currentTimeStamp);
 
-	double elapsedTime = ((currentTimeStamp - m_PrevTime) * m_SecondPerCount);
+    double elapsedTime = ((currentTimeStamp - m_PrevTime) * m_SecondPerCount);
 
 #if defined(_DEBUG)
 
-	//If we are debugging and we are inspecting a break point 
-	//it is very likely that elapsed time will be more than a sec
-	//we do not want our engine to go faster than that, so do not
-	//let it pass a sec
-	if(elapsedTime > 1.0)
-	{
-		elapsedTime = 1.0;
-	}
+    //If we are debugging and we are inspecting a break point 
+    //it is very likely that elapsed time will be more than a sec
+    //we do not want our engine to go faster than that, so do not
+    //let it pass a sec
+    if(elapsedTime > 1.0)
+    {
+        elapsedTime = 1.0;
+    }
 
 #endif
 
-	if(updatePrevTime)
-	{
-		m_PrevTime = currentTimeStamp;
-	}
+    if(updatePrevTime)
+    {
+        m_PrevTime = currentTimeStamp;
+    }
 
-	return elapsedTime;
+    return elapsedTime;
 }
 
 void AETimer::Update()
 {
-	m_TimerParams.m_ElapsedTime = GetLapTime(true);
+    m_TimerParams.m_ElapsedTime = GetLapTime(true);
 
-	m_TimerParams.m_TotalElapsedTime += m_TimerParams.m_ElapsedTime;
+    m_TimerParams.m_TotalElapsedTime += m_TimerParams.m_ElapsedTime;
 }
 
 void AETimer::PostUpdate()
 {
-	m_TimerParams.m_PreviousCallTime = GetLapTime(false);
+    m_TimerParams.m_PreviousCallTime = GetLapTime(false);
 }

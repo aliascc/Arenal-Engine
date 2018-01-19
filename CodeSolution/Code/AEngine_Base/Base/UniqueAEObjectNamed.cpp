@@ -36,9 +36,9 @@
 *   Function Defs   *
 *********************/
 UniqueAEObjectNamed::UniqueAEObjectNamed(const std::wstring& name)
-	: Named(name)
+    : Named(name)
 {
-	m_UniqueID = AE_Base::GetNextUniqueID();
+    m_UniqueID = AE_Base::GetNextUniqueID();
 }
 
 UniqueAEObjectNamed::~UniqueAEObjectNamed()
