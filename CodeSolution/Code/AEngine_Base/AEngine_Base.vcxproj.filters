@@ -31,6 +31,9 @@
     <Filter Include="Time">
       <UniqueIdentifier>{351f146f-40d4-433b-855d-f53e4dd9f4a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Crash Handling">
+      <UniqueIdentifier>{277e87cf-29ff-46b3-a08a-39e470e4d44d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\Base.h">
@@ -123,6 +126,12 @@
     <ClInclude Include="Utils\GlobalConfigDefs.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Crash Handling\CrashHandler.h">
+      <Filter>Crash Handling</Filter>
+    </ClInclude>
+    <ClInclude Include="Crash Handling\CrashHandlerDefs.h">
+      <Filter>Crash Handling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Memory\MemLeaks.cpp">
@@ -193,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="Utils\GlobalConfig.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Crash Handling\CrashHandler.cpp">
+      <Filter>Crash Handling</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

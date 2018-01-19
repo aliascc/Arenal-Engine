@@ -17,8 +17,8 @@
 
 #pragma once
 
-#ifndef _PROJECT_SELECTION_dialog_H
-#define _PROJECT_SELECTION_dialog_H
+#ifndef _PROJECT_SELECTION_DIALOG_H
+#define _PROJECT_SELECTION_DIALOG_H
 
 /**********************
 *   System Includes   *

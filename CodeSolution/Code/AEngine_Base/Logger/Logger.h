@@ -57,11 +57,11 @@
 /// </summary>
 class Logger : public Singleton<Logger>
 {
-	friend class Singleton<Logger>;
+    friend class Singleton<Logger>;
 
 	private:
 
-		/*************************
+		 /************************
 		 *   Private Variables   *
 		 *************************/
 #pragma region Private Variables
@@ -146,9 +146,9 @@ class Logger : public Singleton<Logger>
 
 #pragma endregion
 
-		/***********************
-		 *   Private Methods   *
-		 ***********************/
+		/**********************
+		*   Private Methods   *
+		***********************/
 #pragma region Private Methods
 
 		/// <summary>

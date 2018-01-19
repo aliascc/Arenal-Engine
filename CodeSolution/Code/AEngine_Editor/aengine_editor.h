@@ -151,7 +151,7 @@ class AEngine_Editor sealed : public QMainWindow
 
 		void LoadLayout(const QString& fileName);
 
-        inline bool isInitialized() const
+        inline bool IsInitialized() const
         {
             return m_IsInitialized;
         }

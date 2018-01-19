@@ -15,61 +15,30 @@
 * limitations under the License.
 */
 
+#pragma once
+
+#ifndef _CRASH_HANDLER_DEFS_H
+#define _CRASH_HANDLER_DEFS_H
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <Windows.h>
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "QtWidgets/QApplication"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "AEngine_editor.h"
-#include "Crash Handling\CrashHandler.h"
-#include "Crash Handling\CrashHandlerDefs.h"
 
-//Always include last
-#include "Memory\MemLeaks.h"
+/**************
+*   Defines   *
+***************/
 
-/********************
-*   Function Defs   *
-*********************/
-int main(int argc, char *argv[])
-{
-	#if defined(_DEBUG)
-		MemLeaks::MemoryBegin();
-	#endif
+/// <summary>
+/// Define for Crash Handler Singleton Instance Get Call 
+/// </summary>
+#define CrashHandlerInst          CrashHandler::GetInstance()
 
-    if (CrashHandlerInst->InitCrashHandling() != AEResult::Ok)
-    {
-        AETODO("Add error window");
-        return EXIT_FAILURE;
-    }
-
-	QApplication a(argc, argv);
-	AEngine_Editor w;
-	
-	w.show();
-
-    int retCode = 0;
-
-    if (w.IsInitialized())
-    {
-        retCode = a.exec();
-
-        CrashHandlerInst->DeinitCrashHandling();
-    }
-    else
-    {
-        CrashHandlerInst->DeinitCrashHandling();
-
-        a.exit();
-    }
-
-    return EXIT_SUCCESS;
-}
+#endif

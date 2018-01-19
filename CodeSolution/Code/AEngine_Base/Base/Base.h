@@ -842,6 +842,11 @@ enum class AEResult : int32_t
 	/// </summary>
 	ConfigLoadError,
 
+    /// <summary>
+    /// Vector Exception Handle Creation Failed
+    /// </summary>
+    ExceptionHandledFailed,
+
 	/****************************************************
 	* Add new error above this line, 
 	* do not forget to include it in

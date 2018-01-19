@@ -47,7 +47,6 @@
 template <class T>
 class Singleton abstract : public AEObject
 {
-
 	private:
 
 		/************************
@@ -56,7 +55,7 @@ class Singleton abstract : public AEObject
 #pragma region Private Variables
 
 		/// <summary>
-		/// Boost Mutex to Lock Thread to perform atomic operations
+		/// Mutex to Lock Thread
 		/// </summary>
 		static std::mutex m_SinglentonMutex;
 

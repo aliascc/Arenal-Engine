@@ -55,6 +55,11 @@
 /// </summary>
 #define AE_CONFIG_ENGINE_DEFAULT_FILE_PATH		AE_ENGINE_BIN_TO_DATA_PATH_PREFIX L"ConfigEngine.xml"
 
+/// <summary>
+/// Core Dump File Name
+/// </summary>
+#define AE_CONFIG_ENGINE_CORE_DUMP      		AE_ENGINE_BIN_TO_DATA_PATH_PREFIX L"coredump-{0}.dmp"
+
 #define AE_PROJ_DATA_DIR						L"Data"
 
 #define AE_PROJ_ASSETS_DIR						L"Assets"
