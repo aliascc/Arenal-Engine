@@ -45,72 +45,72 @@
 
 class AudioManager sealed : public AEObject
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Defines if Listener is set or not 
-		/// to a Game Object
-		/// </summary>
-		bool m_IsListenerSet = false;
+        /// <summary>
+        /// Defines if Listener is set or not 
+        /// to a Game Object
+        /// </summary>
+        bool m_IsListenerSet = false;
 
-		std::mutex m_AudioManagerMutex;
+        std::mutex m_AudioManagerMutex;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default AudioManager Constructor
-		/// </summary>
-		AudioManager();
+        /// <summary>
+        /// Default AudioManager Constructor
+        /// </summary>
+        AudioManager();
 
-		/// <summary>
-		/// Default AudioManager Destructor
-		/// </summary>
-		virtual ~AudioManager();
+        /// <summary>
+        /// Default AudioManager Destructor
+        /// </summary>
+        virtual ~AudioManager();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Gets if Listener is set to a Game Object
-		/// </summary>
-		inline bool IsListenerSet() const
-		{
-			return m_IsListenerSet;
-		}
+        /// <summary>
+        /// Gets if Listener is set to a Game Object
+        /// </summary>
+        inline bool IsListenerSet() const
+        {
+            return m_IsListenerSet;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
-		void SetIsListenerSet(bool isListenerSet)
-		{
-			m_IsListenerSet = isListenerSet;
-		}
+        void SetIsListenerSet(bool isListenerSet)
+        {
+            m_IsListenerSet = isListenerSet;
+        }
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

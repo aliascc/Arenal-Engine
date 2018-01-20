@@ -45,65 +45,65 @@
 
 class AudioListener sealed : public Singleton<AudioListener>
 {
-	friend class Singleton<AudioListener>;
+    friend class Singleton<AudioListener>;
 
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-		/***********************************************
-		*   Private Constructor & Destructor Methods   *
-		************************************************/
+        /***********************************************
+        *   Private Constructor & Destructor Methods   *
+        ************************************************/
 #pragma region Private Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default AudioListener Constructor
-		/// </summary>
-		AudioListener();
+        /// <summary>
+        /// Default AudioListener Constructor
+        /// </summary>
+        AudioListener();
 
-		/// <summary>
-		/// Default AudioListener Destructor
-		/// </summary>
-		virtual ~AudioListener();
+        /// <summary>
+        /// Default AudioListener Destructor
+        /// </summary>
+        virtual ~AudioListener();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		glm::vec3 GetPosition() const;
+        glm::vec3 GetPosition() const;
 
-		glm::vec3 GetDirection() const;
+        glm::vec3 GetDirection() const;
 
-		float GetGlobalVolume() const;
+        float GetGlobalVolume() const;
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
-		void SetPosition(const glm::vec3& pos);
+        void SetPosition(const glm::vec3& pos);
 
-		void SetGlobalVolume(float volume);
+        void SetGlobalVolume(float volume);
 
-		void SetDirection(const glm::vec3& direction);
+        void SetDirection(const glm::vec3& direction);
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

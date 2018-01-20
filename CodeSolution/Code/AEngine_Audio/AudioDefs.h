@@ -53,8 +53,8 @@
 *************/
 enum class AudioType : uint32_t
 {
-	Sound = 0,
-	Music
+    Sound = 0,
+    Music
 };
 
 /**************
@@ -67,23 +67,23 @@ enum class AudioType : uint32_t
 
 struct AudioPlayerState sealed : public AEObject
 {
-	float m_Volume = 100.0f;
+    float m_Volume = 100.0f;
 
-	float m_Attenuation = 1.0f;
+    float m_Attenuation = 1.0f;
 
-	float m_MinDistance = 1.0f;
+    float m_MinDistance = 1.0f;
 
-	float m_Pitch = 1.0f;
+    float m_Pitch = 1.0f;
 
-	glm::vec3 m_Position = AEMathHelpers::Vec3fZero;
+    glm::vec3 m_Position = AEMathHelpers::Vec3fZero;
 
-	bool m_Loop = false;
+    bool m_Loop = false;
 
-	bool m_Is3D = false;
+    bool m_Is3D = false;
 
-	AudioPlayerState()
-	{
-	}
+    AudioPlayerState()
+    {
+    }
 };
 
 #endif

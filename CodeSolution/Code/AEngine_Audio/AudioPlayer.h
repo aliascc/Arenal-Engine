@@ -47,137 +47,137 @@
 
 class AudioPlayer sealed : public AEObject
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		AudioPlayerState m_AudioPlayerState;
+        AudioPlayerState m_AudioPlayerState;
 
-		bool m_IsSound = true;
+        bool m_IsSound = true;
 
-		sf::SoundBuffer m_SoundBuffer;
+        sf::SoundBuffer m_SoundBuffer;
 
-		sf::SoundBuffer m_EmptySoundBuffer;
+        sf::SoundBuffer m_EmptySoundBuffer;
 
-		sf::Sound m_Sound;
+        sf::Sound m_Sound;
 
-		sf::Music m_Music;
+        sf::Music m_Music;
 
-		const uint8_t* m_AudioData = nullptr;
+        const uint8_t* m_AudioData = nullptr;
 
-		uint32_t m_AudioDataSize = 0;
+        uint32_t m_AudioDataSize = 0;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Private Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default AudioPlayer Constructor
-		/// </summary>
-		AudioPlayer();
+        /// <summary>
+        /// Default AudioPlayer Constructor
+        /// </summary>
+        AudioPlayer();
 
-		/// <summary>
-		/// Default AudioPlayer Destructor
-		/// </summary>
-		virtual ~AudioPlayer();
+        /// <summary>
+        /// Default AudioPlayer Destructor
+        /// </summary>
+        virtual ~AudioPlayer();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		inline const glm::vec3& GetPosition() const
-		{
-			return m_AudioPlayerState.m_Position;
-		}
+        inline const glm::vec3& GetPosition() const
+        {
+            return m_AudioPlayerState.m_Position;
+        }
 
-		inline float GetVolume() const
-		{
-			return m_AudioPlayerState.m_Volume;
-		}
+        inline float GetVolume() const
+        {
+            return m_AudioPlayerState.m_Volume;
+        }
 
-		inline float GetAttenuation() const
-		{
-			return m_AudioPlayerState.m_Attenuation;
-		}
+        inline float GetAttenuation() const
+        {
+            return m_AudioPlayerState.m_Attenuation;
+        }
 
-		inline float GetMinDistance() const
-		{
-			return m_AudioPlayerState.m_MinDistance;
-		}
+        inline float GetMinDistance() const
+        {
+            return m_AudioPlayerState.m_MinDistance;
+        }
 
-		inline float GetPitch() const
-		{
-			return m_AudioPlayerState.m_Pitch;
-		}
+        inline float GetPitch() const
+        {
+            return m_AudioPlayerState.m_Pitch;
+        }
 
-		inline bool IsLooped() const
-		{
-			return m_AudioPlayerState.m_Loop;
-		}
+        inline bool IsLooped() const
+        {
+            return m_AudioPlayerState.m_Loop;
+        }
 
-		inline bool Is3D() const
-		{
-			return m_AudioPlayerState.m_Is3D;
-		}
+        inline bool Is3D() const
+        {
+            return m_AudioPlayerState.m_Is3D;
+        }
 
-		uint32_t GetChannelCount() const;
+        uint32_t GetChannelCount() const;
 
-		uint32_t GetSampleRate() const;
+        uint32_t GetSampleRate() const;
 
-		float GetDuration() const;
+        float GetDuration() const;
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
-		void SetPosition(const glm::vec3& pos);
+        void SetPosition(const glm::vec3& pos);
 
-		void SetVolume(float volume);
+        void SetVolume(float volume);
 
-		void SetAttenuation(float attenuation);
+        void SetAttenuation(float attenuation);
 
-		void SetMinDistance(float minDistance);
+        void SetMinDistance(float minDistance);
 
-		void SetPitch(float pitch);
+        void SetPitch(float pitch);
 
-		void SetLoop(bool looped);
+        void SetLoop(bool looped);
 
-		void Set3D(bool is3d);
+        void Set3D(bool is3d);
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult Initialize(const uint8_t* data, uint32_t size);
+        AEResult Initialize(const uint8_t* data, uint32_t size);
 
-		void StopAndUninitialize();
+        void StopAndUninitialize();
 
-		AEResult SetAsSoundOrMusicProcessing(bool asSound);
+        AEResult SetAsSoundOrMusicProcessing(bool asSound);
 
-		AEResult Play();
+        AEResult Play();
 
-		AEResult Stop();
+        AEResult Stop();
 
-		AEResult Pause();
+        AEResult Pause();
 
 #pragma endregion
 

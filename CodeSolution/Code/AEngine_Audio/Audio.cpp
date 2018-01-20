@@ -39,79 +39,79 @@
 *********************/
 
 Audio::Audio(const std::wstring& audioName)
-	: GameResource(audioName, GameResourceType::Audio)
+    : GameResource(audioName, GameResourceType::Audio)
 {
 }
 
 Audio::~Audio()
 {
-	DeleteMemArr(m_AudioData);
+    DeleteMemArr(m_AudioData);
 }
 
 AEResult Audio::LoadFile(const std::wstring& file)
 {
-	if (file.empty())
-	{
-		return AEResult::EmptyString;
-	}
+    if (file.empty())
+    {
+        return AEResult::EmptyString;
+    }
 
-	SetFileName(file);
+    SetFileName(file);
 
-	return Load();
+    return Load();
 }
 
 AEResult Audio::Load()
 {
-	///////////////////////////////////////////
-	//This has to be an atomic operation
-	std::lock_guard<std::mutex> lock(m_GameResourceMutex);
+    ///////////////////////////////////////////
+    //This has to be an atomic operation
+    std::lock_guard<std::mutex> lock(m_GameResourceMutex);
 
-	///////////////////////////////////////////
-	//Pre-checks
-	if (m_FileName.empty())
-	{
-		return AEResult::EmptyFilename;
-	}
+    ///////////////////////////////////////////
+    //Pre-checks
+    if (m_FileName.empty())
+    {
+        return AEResult::EmptyFilename;
+    }
 
-	///////////////////////////////////////////
-	//Open File
-	std::ifstream audioFile(m_FileName, std::ios::in | std::ios::binary | std::ios::ate);
-	if (!audioFile.is_open())
-	{
-		return AEResult::OpenFileFail;
-	}
+    ///////////////////////////////////////////
+    //Open File
+    std::ifstream audioFile(m_FileName, std::ios::in | std::ios::binary | std::ios::ate);
+    if (!audioFile.is_open())
+    {
+        return AEResult::OpenFileFail;
+    }
 
-	///////////////////////////////////////////
-	//Get Size of File
-	uint32_t sizeFile = (uint32_t)audioFile.tellg();
-	if (sizeFile == 0)
-	{
-		audioFile.close();
+    ///////////////////////////////////////////
+    //Get Size of File
+    uint32_t sizeFile = (uint32_t)audioFile.tellg();
+    if (sizeFile == 0)
+    {
+        audioFile.close();
 
-		return AEResult::ZeroSize;
-	}
+        return AEResult::ZeroSize;
+    }
 
-	///////////////////////////////////////////
-	//Load contents to memory
-	uint8_t* audioData = new uint8_t[sizeFile];
+    ///////////////////////////////////////////
+    //Load contents to memory
+    uint8_t* audioData = new uint8_t[sizeFile];
 
-	audioFile.seekg(0, std::ios::beg);
-	audioFile.read((char*)audioData, sizeFile);
+    audioFile.seekg(0, std::ios::beg);
+    audioFile.read((char*)audioData, sizeFile);
 
-	///////////////////////////////////////////
-	//Close File
-	audioFile.close();
+    ///////////////////////////////////////////
+    //Close File
+    audioFile.close();
 
-	///////////////////////////////////////////
-	//Remove old memory
-	DeleteMemArr(m_AudioData);
+    ///////////////////////////////////////////
+    //Remove old memory
+    DeleteMemArr(m_AudioData);
 
-	///////////////////////////////////////////
-	//Set new pointers
-	m_AudioData = audioData;
-	m_AudioDataSize = sizeFile;
+    ///////////////////////////////////////////
+    //Set new pointers
+    m_AudioData = audioData;
+    m_AudioDataSize = sizeFile;
 
-	///////////////////////////////////////////
-	//Finish
-	return AEResult::Ok;
+    ///////////////////////////////////////////
+    //Finish
+    return AEResult::Ok;
 }
