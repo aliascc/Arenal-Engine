@@ -29,6 +29,8 @@
 *   Game Engine Includes   *
 ****************************/
 #include "ViewerApp.h"
+#include "Crash Handling\CrashHandler.h"
+#include "Crash Handling\CrashHandlerDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -37,20 +39,28 @@
 *   Function Defs   *
 *********************/
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
-				   PSTR cmdLine, int showCmd)
+                   PSTR cmdLine, int showCmd)
 {
-	std::wstring errorMsg = L"";
+    if (CrashHandlerInst->InitCrashHandling() != AEResult::Ok)
+    {
+        AETODO("Add error window");
+        return EXIT_FAILURE;
+    }
 
-	ViewerApp app(hInstance);
+    std::wstring errorMsg = L"";
 
-	//if(app.InitGameApp(errorMsg) != AEResult::Ok)
-	{
-		MessageBox(0, errorMsg.c_str(), 0, 0);
+    ViewerApp app(hInstance);
 
-		return EXIT_FAILURE;
-	}
+    //if(app.InitGameApp(errorMsg) != AEResult::Ok)
+    {
+        MessageBox(0, errorMsg.c_str(), 0, 0);
 
-	app.Run();
+        return EXIT_FAILURE;
+    }
 
-	return EXIT_SUCCESS;
+    app.Run();
+
+    CrashHandlerInst->DeinitCrashHandling();
+
+    return EXIT_SUCCESS;
 }

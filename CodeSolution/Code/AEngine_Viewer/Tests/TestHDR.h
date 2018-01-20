@@ -39,7 +39,7 @@
 #include "Camera\Camera.h"
 
 /********************************
-*		Using					*
+*        Using                    *
 *********************************/
 using namespace DirectX;
 using namespace PackedVector;
@@ -56,32 +56,32 @@ class Model;
 ******************/
 class TestHDR : public DrawableGameComponent
 {
-	protected:
-		SphereShape*		m_SphereShape;
-		BasicColorMaterial*	m_BasicColorMaterial;
-		BasicDeferredRenderingDraw* m_BasicDeferredRenderingDraw;
-		BasicTextureMaterial* m_BasicTextureMaterial;
-		Camera*				m_Camera;
-		XMFLOAT4X4			m_World;
-		XMFLOAT4X4			m_WVP;
-		Model*				m_Room;
-		Model*				m_Tea;
+    protected:
+        SphereShape*        m_SphereShape;
+        BasicColorMaterial*    m_BasicColorMaterial;
+        BasicDeferredRenderingDraw* m_BasicDeferredRenderingDraw;
+        BasicTextureMaterial* m_BasicTextureMaterial;
+        Camera*                m_Camera;
+        XMFLOAT4X4            m_World;
+        XMFLOAT4X4            m_WVP;
+        Model*                m_Room;
+        Model*                m_Tea;
 
-	public:
-		//Constructor Destructor.
-		TestHDR(GameApp* gameApp);
-		virtual ~TestHDR();
+    public:
+        //Constructor Destructor.
+        TestHDR(GameApp* gameApp);
+        virtual ~TestHDR();
 
-		//Framework Methods
-		void DrawModel(Model* model);
+        //Framework Methods
+        void DrawModel(Model* model);
 
-		//Drawable Game Component Override methods
-		void					Initialize					();
-		void					LoadContent					();
-		void					Update						(const TimerParams& timerParams);
-		void					Render						(const TimerParams& timerParams);
-		void					OnLostDevice				();
-		void					OnResetDevice				();
+        //Drawable Game Component Override methods
+        void                    Initialize                    ();
+        void                    LoadContent                    ();
+        void                    Update                        (const TimerParams& timerParams);
+        void                    Render                        (const TimerParams& timerParams);
+        void                    OnLostDevice                ();
+        void                    OnResetDevice                ();
 };
 
 #endif

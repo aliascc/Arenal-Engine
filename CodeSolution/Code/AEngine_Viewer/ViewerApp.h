@@ -64,41 +64,41 @@ class VertexBuffer;
 ******************/
 class ViewerApp sealed : public GameApp
 {
-	private:
+    private:
 
-		DiffuseTextureMaterial* m_DiffuseTextureMaterial;
-		SkinningMaterial* m_SkinningMaterial;
+        DiffuseTextureMaterial* m_DiffuseTextureMaterial;
+        SkinningMaterial* m_SkinningMaterial;
 
-		InputHandler* m_InputHandler;
-		DebugStats* m_DebugStats;
-		SpriteBatchAE* m_SpriteBatchAE;
-		SpriteFontAE* m_SpriteFontAE;
-		Console* m_Console;
-		AnimationPlayer* m_AnimationPlayer;
+        InputHandler* m_InputHandler;
+        DebugStats* m_DebugStats;
+        SpriteBatchAE* m_SpriteBatchAE;
+        SpriteFontAE* m_SpriteFontAE;
+        Console* m_Console;
+        AnimationPlayer* m_AnimationPlayer;
 
-		Texture2D* m_LoboTexture;
+        Texture2D* m_LoboTexture;
 
-		GameObject* m_GameObjectLobo;
+        GameObject* m_GameObjectLobo;
 
-		//void DrawSkinModels(Model* model);
-		void DrawGameObject(GameObject* gameObject);
+        //void DrawSkinModels(Model* model);
+        void DrawGameObject(GameObject* gameObject);
 
-	public:
-		//Constructor and Destroyer
-		ViewerApp(HINSTANCE hInstance);
-		virtual ~ViewerApp();
+    public:
+        //Constructor and Destroyer
+        ViewerApp(HINSTANCE hInstance);
+        virtual ~ViewerApp();
 
-		//
-		void CallBackAnim1();
+        //
+        void CallBackAnim1();
 
-		//Override methods from parent class
-		void			Initialize				() override;
-		void			LoadContent				() override;
-		void			UnLoadContent			() override;
-		void			OnLostDevice			() override;
-		void			OnResetDevice			() override;
-		void			Update					(const TimerParams& timerParams) override;
-		void			Render					(const TimerParams& timerParams) override;
+        //Override methods from parent class
+        void Initialize() override;
+        void LoadContent() override;
+        void UnLoadContent() override;
+        void OnLostDevice() override;
+        void OnResetDevice() override;
+        void Update(const TimerParams& timerParams) override;
+        void Render(const TimerParams& timerParams) override;
 };
 
 #endif
