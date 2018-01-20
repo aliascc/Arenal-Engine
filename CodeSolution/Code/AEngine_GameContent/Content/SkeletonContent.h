@@ -47,21 +47,21 @@ struct TreeBone;
 *******************/
 struct SkeletonContent sealed : public GameContent
 {
-	std::vector<Bone*> m_BoneHierarchy;
-	TreeBone* m_DummyRootBone = nullptr;
-	
-	void CleanUpTreeBone(TreeBone* childBone);
-	AEResult FlattenSkeleton(TreeBone* treeBone, int32_t parentIndex);
+    std::vector<Bone*> m_BoneHierarchy;
+    TreeBone* m_DummyRootBone = nullptr;
+    
+    void CleanUpTreeBone(TreeBone* childBone);
+    AEResult FlattenSkeleton(TreeBone* treeBone, int32_t parentIndex);
 
-	SkeletonContent();
-	virtual ~SkeletonContent();
+    SkeletonContent();
+    virtual ~SkeletonContent();
 
-	AEResult FlattenSkeleton();
+    AEResult FlattenSkeleton();
 
-	uint32_t GetFlattenSkeletonSize() const
-	{
-		return (uint32_t)m_BoneHierarchy.size();
-	}
+    uint32_t GetFlattenSkeletonSize() const
+    {
+        return (uint32_t)m_BoneHierarchy.size();
+    }
 };
 
 #endif

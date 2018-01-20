@@ -52,16 +52,16 @@ struct MeshPartContent;
 *******************/
 struct MeshContent sealed : public GameContent
 {
-	std::wstring m_Name = L"";
+    std::wstring m_Name = L"";
 
-	BoundingBox m_BoundingBox;
+    BoundingBox m_BoundingBox;
 
-	BoundingSphere m_BoundingSphere;
+    BoundingSphere m_BoundingSphere;
 
-	std::vector<MeshPartContent*> m_MeshParts;
+    std::vector<MeshPartContent*> m_MeshParts;
 
-	MeshContent();
-	virtual ~MeshContent();
+    MeshContent();
+    virtual ~MeshContent();
 };
 
 #endif

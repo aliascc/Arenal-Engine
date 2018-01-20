@@ -41,11 +41,11 @@ MeshContent::MeshContent()
 
 MeshContent::~MeshContent()
 {
-	uint32_t size = (uint32_t)m_MeshParts.size();
-	for(uint32_t i = 0; i < size; ++i)
-	{
-		DeleteMem(m_MeshParts[i]);
-	}
+    uint32_t size = (uint32_t)m_MeshParts.size();
+    for(uint32_t i = 0; i < size; ++i)
+    {
+        DeleteMem(m_MeshParts[i]);
+    }
 
-	m_MeshParts.clear();
+    m_MeshParts.clear();
 }

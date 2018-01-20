@@ -50,16 +50,16 @@
 *******************/
 struct AnimationContent sealed : public GameContent
 {
-	std::wstring m_Name = L"";
+    std::wstring m_Name = L"";
 
-	std::vector<KeyFrame> m_KeyFrames;
-	
-	float m_Duration = 0.0f;
+    std::vector<KeyFrame> m_KeyFrames;
+    
+    float m_Duration = 0.0f;
 
-	AnimationContent();
-	virtual ~AnimationContent();
-	
-	void SortKeyFrames();
+    AnimationContent();
+    virtual ~AnimationContent();
+    
+    void SortKeyFrames();
 };
 
 #endif

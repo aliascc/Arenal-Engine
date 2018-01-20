@@ -39,27 +39,27 @@
 *********************/
 ModelContent::ModelContent()
 {
-	m_SkeletonContent = new SkeletonContent();
+    m_SkeletonContent = new SkeletonContent();
 }
 
 ModelContent::~ModelContent()
 {
-	//Clean Skeleton
-	DeleteMem(m_SkeletonContent);
+    //Clean Skeleton
+    DeleteMem(m_SkeletonContent);
 
-	//Clean Animations
-	for(auto itAnim : m_Animations)
-	{
-		DeleteMem(itAnim.second);
-	}
+    //Clean Animations
+    for(auto itAnim : m_Animations)
+    {
+        DeleteMem(itAnim.second);
+    }
 
-	m_Animations.clear();
+    m_Animations.clear();
 
-	//Clean Meshes
-	for(auto itMesh : m_Meshes)
-	{
-		DeleteMem(itMesh.second);
-	}
+    //Clean Meshes
+    for(auto itMesh : m_Meshes)
+    {
+        DeleteMem(itMesh.second);
+    }
 
-	m_Meshes.clear();
+    m_Meshes.clear();
 }

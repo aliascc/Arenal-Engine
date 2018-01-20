@@ -58,72 +58,72 @@ struct ID3D11ShaderReflection;
 ******************/
 class ImporterHLSL sealed : public AEObject
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// DirectX HLSL Include interface to find files needed to be included by Shader
-		/// </summary>
-		IncludeInterfaceHLSL m_IncludeInterfaceHLSL;
+        /// <summary>
+        /// DirectX HLSL Include interface to find files needed to be included by Shader
+        /// </summary>
+        IncludeInterfaceHLSL m_IncludeInterfaceHLSL;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		ShaderVariableClass GetShaderVariableClass(D3D_SHADER_VARIABLE_CLASS dxClass);
+        ShaderVariableClass GetShaderVariableClass(D3D_SHADER_VARIABLE_CLASS dxClass);
 
-		ShaderVariableType GetShaderVariableType(D3D_SHADER_VARIABLE_TYPE  dxType);
+        ShaderVariableType GetShaderVariableType(D3D_SHADER_VARIABLE_TYPE  dxType);
 
-		AEResult BuildShaderTarget(ShaderType shaderType, ShaderModel shaderModel, std::string& target);
+        AEResult BuildShaderTarget(ShaderType shaderType, ShaderModel shaderModel, std::string& target);
 
-		AEResult ExtractShaderProperties(ShaderContent* content, ID3DBlob* shaderBlob);
+        AEResult ExtractShaderProperties(ShaderContent* content, ID3DBlob* shaderBlob);
 
-		AEResult ExtractShaderConstantBuffers(ShaderContent* content, ID3D11ShaderReflection* shaderReflector);
+        AEResult ExtractShaderConstantBuffers(ShaderContent* content, ID3D11ShaderReflection* shaderReflector);
 
-		AEResult ExtractBoundResources(ShaderContent* content, ID3D11ShaderReflection* shaderReflector);
+        AEResult ExtractBoundResources(ShaderContent* content, ID3D11ShaderReflection* shaderReflector);
 
-		AEResult ExtractShaderSimpleBuffers(ShaderContent* content, const D3D11_SHADER_INPUT_BIND_DESC& descBoundResources);
+        AEResult ExtractShaderSimpleBuffers(ShaderContent* content, const D3D11_SHADER_INPUT_BIND_DESC& descBoundResources);
 
-		AEResult ExtractShaderStructuredBuffers(ShaderContent* content, const D3D11_SHADER_INPUT_BIND_DESC& descBoundResources);
+        AEResult ExtractShaderStructuredBuffers(ShaderContent* content, const D3D11_SHADER_INPUT_BIND_DESC& descBoundResources);
 
-		AEResult ExtractShaderTextureInputs(ShaderContent* content, const D3D11_SHADER_INPUT_BIND_DESC& descBoundResources);
+        AEResult ExtractShaderTextureInputs(ShaderContent* content, const D3D11_SHADER_INPUT_BIND_DESC& descBoundResources);
 
-		AEResult ExtractShaderSamplers(ShaderContent* content, const D3D11_SHADER_INPUT_BIND_DESC& descBoundResources);
+        AEResult ExtractShaderSamplers(ShaderContent* content, const D3D11_SHADER_INPUT_BIND_DESC& descBoundResources);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// ImporterHLSL Constructor
-		/// </summary>
-		ImporterHLSL();
+        /// <summary>
+        /// ImporterHLSL Constructor
+        /// </summary>
+        ImporterHLSL();
 
-		/// <summary>
-		/// Default ImporterHLSL Destructor
-		/// </summary>
-		virtual ~ImporterHLSL();
+        /// <summary>
+        /// Default ImporterHLSL Destructor
+        /// </summary>
+        virtual ~ImporterHLSL();
 
 #pragma endregion
-		
-		/************************
-		*   Framework Methods   *
-		*************************/
+        
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult ImportShader(const std::wstring& filename, ShaderType shaderType, ShaderModel shaderModel, ShaderContent** shaderContent);
+        AEResult ImportShader(const std::wstring& filename, ShaderType shaderType, ShaderModel shaderModel, ShaderContent** shaderContent);
 
 #pragma endregion
 

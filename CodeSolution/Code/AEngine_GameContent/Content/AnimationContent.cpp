@@ -45,6 +45,6 @@ AnimationContent::~AnimationContent()
 
 void AnimationContent::SortKeyFrames()
 {
-	std::sort(m_KeyFrames.begin(), m_KeyFrames.end());
+    std::sort(m_KeyFrames.begin(), m_KeyFrames.end());
 }
 

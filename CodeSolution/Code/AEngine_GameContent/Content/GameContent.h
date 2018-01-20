@@ -47,8 +47,8 @@
 *******************/
 struct GameContent abstract : public AEObject
 {
-	GameContent();
-	virtual ~GameContent();
+    GameContent();
+    virtual ~GameContent();
 };
 
 #endif

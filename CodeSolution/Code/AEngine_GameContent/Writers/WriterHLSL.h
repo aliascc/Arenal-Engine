@@ -51,40 +51,40 @@ struct ShaderContent;
 ******************/
 class WriterHLSL sealed : public AEObject
 {
-	private:
-		std::wstring m_FileName = L"";
+    private:
+        std::wstring m_FileName = L"";
 
-		std::wstring m_FilePath = L"";
+        std::wstring m_FilePath = L"";
 
-		std::wstring m_FullFileName = L"";
+        std::wstring m_FullFileName = L"";
 
-		AEResult GetExtensionForShader(ShaderType type, std::wstring& extension);
+        AEResult GetExtensionForShader(ShaderType type, std::wstring& extension);
 
-		AEResult WriteShaderByteCode(std::ofstream& fileStream, ShaderContent* content);
+        AEResult WriteShaderByteCode(std::ofstream& fileStream, ShaderContent* content);
 
-		AEResult WriteShaderConstantBuffers(std::ofstream& fileStream, ShaderContent* content);
+        AEResult WriteShaderConstantBuffers(std::ofstream& fileStream, ShaderContent* content);
 
-		AEResult WriteShaderStructuredBuffers(std::ofstream& fileStream, ShaderContent* content);
+        AEResult WriteShaderStructuredBuffers(std::ofstream& fileStream, ShaderContent* content);
 
-		AEResult WriteShaderSimpleBuffers(std::ofstream& fileStream, ShaderContent* content);
+        AEResult WriteShaderSimpleBuffers(std::ofstream& fileStream, ShaderContent* content);
 
-		AEResult WriteShaderTextureInputs(std::ofstream& fileStream, ShaderContent* content);
+        AEResult WriteShaderTextureInputs(std::ofstream& fileStream, ShaderContent* content);
 
-		AEResult WriteShaderTextureArraysInputs(std::ofstream& fileStream, ShaderContent* content);
+        AEResult WriteShaderTextureArraysInputs(std::ofstream& fileStream, ShaderContent* content);
 
-		AEResult WriteShaderSamplers(std::ofstream& fileStream, ShaderContent* content);
+        AEResult WriteShaderSamplers(std::ofstream& fileStream, ShaderContent* content);
 
-	public:
-		WriterHLSL();
-		virtual ~WriterHLSL();
+    public:
+        WriterHLSL();
+        virtual ~WriterHLSL();
 
-		const std::wstring& GetOutputFilePath() const 
-		{
-			return m_FullFileName;
-		}
+        const std::wstring& GetOutputFilePath() const 
+        {
+            return m_FullFileName;
+        }
 
-		//Framework
-		AEResult WriteToFile(ShaderContent* content, const std::wstring& fileName, const std::wstring& filePath);
+        //Framework
+        AEResult WriteToFile(ShaderContent* content, const std::wstring& fileName, const std::wstring& filePath);
 };
 
 #endif

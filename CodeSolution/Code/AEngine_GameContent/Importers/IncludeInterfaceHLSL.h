@@ -47,13 +47,13 @@
 ******************/
 struct IncludeInterfaceHLSL : public ID3DInclude
 {
-	std::wstring m_ShaderCurrentDir = L"";
+    std::wstring m_ShaderCurrentDir = L"";
 
-	IncludeInterfaceHLSL(const std::wstring& currentDirectory);
+    IncludeInterfaceHLSL(const std::wstring& currentDirectory);
 
-	HRESULT __stdcall Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes) override;
+    HRESULT __stdcall Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes) override;
 
-	HRESULT __stdcall Close(LPCVOID pData) override;
+    HRESULT __stdcall Close(LPCVOID pData) override;
 };
 
 #endif

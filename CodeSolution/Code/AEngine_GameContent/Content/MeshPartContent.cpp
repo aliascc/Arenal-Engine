@@ -41,6 +41,7 @@ MeshPartContent::MeshPartContent()
 
 MeshPartContent::~MeshPartContent()
 {
-	DeleteMem(m_IdxBuf16);
-	DeleteMem(m_VtxBuff);
+    DeleteMem(m_IdxBuf16);
+    DeleteMem(m_VtxBuff);
 }
+

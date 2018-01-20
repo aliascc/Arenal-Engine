@@ -53,32 +53,32 @@ struct AnimationContent;
 ******************/
 class WriterAE3D sealed : public AEObject
 {
-	private:
-		std::wstring m_FileName = L"";
+    private:
+        std::wstring m_FileName = L"";
 
-		std::wstring m_FilePath = L"";
+        std::wstring m_FilePath = L"";
 
-		std::wstring m_FullFileName = L"";
+        std::wstring m_FullFileName = L"";
 
-		AEResult WriteMesh(const std::wstring& fileName, MeshContent* mesh);
+        AEResult WriteMesh(const std::wstring& fileName, MeshContent* mesh);
 
-		AEResult WriteSkeleton(const std::wstring& fileName, SkeletonContent* skeleton);
+        AEResult WriteSkeleton(const std::wstring& fileName, SkeletonContent* skeleton);
 
-		AEResult WriteAnimation(const std::wstring& fileName, AnimationContent* animation);
+        AEResult WriteAnimation(const std::wstring& fileName, AnimationContent* animation);
 
-		AEResult WriteModelBody();
+        AEResult WriteModelBody();
 
-	public:
-		WriterAE3D();
-		virtual ~WriterAE3D();
+    public:
+        WriterAE3D();
+        virtual ~WriterAE3D();
 
-		const std::wstring& GetOutputFilePath() const 
-		{
-			return m_FullFileName;
-		}
+        const std::wstring& GetOutputFilePath() const 
+        {
+            return m_FullFileName;
+        }
 
-		//Framework
-		AEResult WriteToFile(ModelContent* content, const std::wstring& fileName, const std::wstring& filePath);
+        //Framework
+        AEResult WriteToFile(ModelContent* content, const std::wstring& fileName, const std::wstring& filePath);
 };
 
 #endif

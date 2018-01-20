@@ -59,178 +59,178 @@ struct AnimationContent;
 class ImporterFBX sealed : public AEObject
 {
 
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// FBX SDK Manager
-		/// </summary>
-		FbxManager* m_FBXSdkManager = nullptr;
+        /// <summary>
+        /// FBX SDK Manager
+        /// </summary>
+        FbxManager* m_FBXSdkManager = nullptr;
 
-		/// <summary>
-		/// FBX Scene 
-		/// </summary>
-		FbxScene* m_Scene = nullptr;
+        /// <summary>
+        /// FBX Scene 
+        /// </summary>
+        FbxScene* m_Scene = nullptr;
 
-		bool m_Clockwise = false;
+        bool m_Clockwise = false;
 
-		bool m_ImportTangentBinormal = false;
+        bool m_ImportTangentBinormal = false;
 
-		bool m_BurnTransformation = false;
+        bool m_BurnTransformation = false;
 
-		bool m_GenerateTangenteBinormal = false;
+        bool m_GenerateTangenteBinormal = false;
 
-		bool m_HasSecondUV = false;
+        bool m_HasSecondUV = false;
 
-		bool m_HasUV = false;
+        bool m_HasUV = false;
 
-		bool m_HasNormal = false;
+        bool m_HasNormal = false;
 
-		bool m_HasColor = false;
+        bool m_HasColor = false;
 
-		bool m_HasAnimation = false;
+        bool m_HasAnimation = false;
 
-		uint32_t m_FramesPerSecond = 0;
+        uint32_t m_FramesPerSecond = 0;
 
-		float m_SecondsInFrame = 0.0f;
+        float m_SecondsInFrame = 0.0f;
 
-		int32_t m_StartFrame = 0;
+        int32_t m_StartFrame = 0;
 
-		int32_t m_EndFrame = 0;
+        int32_t m_EndFrame = 0;
 
-		ModelContent* m_Model = nullptr;
+        ModelContent* m_Model = nullptr;
 
-		std::map<int32_t, uint64_t> m_MatIdxToMatIDMap;
+        std::map<int32_t, uint64_t> m_MatIdxToMatIDMap;
 
-		std::map<uint64_t, MaterialHolder> m_MaterialHolderMap;
+        std::map<uint64_t, MaterialHolder> m_MaterialHolderMap;
 
-		std::map<uint64_t, Bone*> m_BoneMap;
+        std::map<uint64_t, Bone*> m_BoneMap;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		inline void GetVec3FromFBXVec4(const FbxVector4& fbxVec4, glm::vec3& vec)
-		{
-			vec.x = (float)fbxVec4[0];
-			vec.y = (float)fbxVec4[2];
-			vec.z = (float)fbxVec4[1];
-		}
+        inline void GetVec3FromFBXVec4(const FbxVector4& fbxVec4, glm::vec3& vec)
+        {
+            vec.x = (float)fbxVec4[0];
+            vec.y = (float)fbxVec4[2];
+            vec.z = (float)fbxVec4[1];
+        }
 
-		inline void GetVec4FromFBXVec4(const FbxVector4& fbxVec4, glm::vec4& vec)
-		{
-			vec.x = (float)fbxVec4[0];
-			vec.y = (float)fbxVec4[2];
-			vec.z = (float)fbxVec4[1];
-			vec.w = (float)fbxVec4[3];
-		}
+        inline void GetVec4FromFBXVec4(const FbxVector4& fbxVec4, glm::vec4& vec)
+        {
+            vec.x = (float)fbxVec4[0];
+            vec.y = (float)fbxVec4[2];
+            vec.z = (float)fbxVec4[1];
+            vec.w = (float)fbxVec4[3];
+        }
 
-		/// <summary>
-		/// Initializes the FBX SDK Objects
-		/// </summary>
-		/// <returns>Return AEResult::Ok if Initialize succeeded</returns>
-		AEResult InitializeFBXSDK();
+        /// <summary>
+        /// Initializes the FBX SDK Objects
+        /// </summary>
+        /// <returns>Return AEResult::Ok if Initialize succeeded</returns>
+        AEResult InitializeFBXSDK();
 
-		/// <summary>
-		/// Loads the File FBX Scene to Memory
-		/// </summary>
-		/// <returns>Returns AEResult::Ok if Scene was loaded successfully<seealso cref="AEResult"/></returns>
-		AEResult LoadScene(const std::wstring& filename);
+        /// <summary>
+        /// Loads the File FBX Scene to Memory
+        /// </summary>
+        /// <returns>Returns AEResult::Ok if Scene was loaded successfully<seealso cref="AEResult"/></returns>
+        AEResult LoadScene(const std::wstring& filename);
 
-		AEResult BuildSkeletonHierarchy();
+        AEResult BuildSkeletonHierarchy();
 
-		AEResult BuildSkeletonHierarchy(FbxNode* node, const glm::mat4& parentTransform = AEMathHelpers::Mat4Identity, TreeBone* childBone = nullptr);
+        AEResult BuildSkeletonHierarchy(FbxNode* node, const glm::mat4& parentTransform = AEMathHelpers::Mat4Identity, TreeBone* childBone = nullptr);
 
-		AEResult ExtractContent();
+        AEResult ExtractContent();
 
-		AEResult ExtractContent(FbxNode* node, const glm::mat4& parentTransform = AEMathHelpers::Mat4Identity);
+        AEResult ExtractContent(FbxNode* node, const glm::mat4& parentTransform = AEMathHelpers::Mat4Identity);
 
-		AEResult ExtractMesh(FbxNode* node, MeshHolder& meshHolder);
+        AEResult ExtractMesh(FbxNode* node, MeshHolder& meshHolder);
 
-		AEResult GetNodeLocalTransform(FbxNode* node, glm::mat4& localTransform);
+        AEResult GetNodeLocalTransform(FbxNode* node, glm::mat4& localTransform);
 
-		RotationOrder GetRotationOrderFromFBX(FbxEuler::EOrder fbxRotationOrder);
+        RotationOrder GetRotationOrderFromFBX(FbxEuler::EOrder fbxRotationOrder);
 
-		AEResult GetMeshVertices(FbxMesh* fbxMesh, MeshHolder& meshHolder);
+        AEResult GetMeshVertices(FbxMesh* fbxMesh, MeshHolder& meshHolder);
 
-		AEResult GetPolygonUV(FbxMesh* fbxMesh, int32_t controlPointIndex, int32_t polygonIndex, int32_t positionInPolygon, glm::vec2& uv, glm::vec2& uv2);
+        AEResult GetPolygonUV(FbxMesh* fbxMesh, int32_t controlPointIndex, int32_t polygonIndex, int32_t positionInPolygon, glm::vec2& uv, glm::vec2& uv2);
 
-		AEResult GetPolygonNormal(FbxMesh* fbxMesh, int32_t controlPointIndex, int32_t vertexId, glm::vec3& normal);
+        AEResult GetPolygonNormal(FbxMesh* fbxMesh, int32_t controlPointIndex, int32_t vertexId, glm::vec3& normal);
 
-		AEResult GetPolygonTangent(FbxMesh* fbxMesh, int32_t controlPointIndex, int32_t vertexId, glm::vec4& tangent);
+        AEResult GetPolygonTangent(FbxMesh* fbxMesh, int32_t controlPointIndex, int32_t vertexId, glm::vec4& tangent);
 
-		AEResult GetPolygonBinormal(FbxMesh* fbxMesh, int32_t controlPointIndex, int32_t vertexId, glm::vec4& binormal);
+        AEResult GetPolygonBinormal(FbxMesh* fbxMesh, int32_t controlPointIndex, int32_t vertexId, glm::vec4& binormal);
 
-		AEResult GetMeshMaterialMapping(FbxMesh* fbxMesh, MeshHolder& meshHolder);
+        AEResult GetMeshMaterialMapping(FbxMesh* fbxMesh, MeshHolder& meshHolder);
 
-		AEResult GetMaterialProperties(FbxGeometry* fbxGeometry);
+        AEResult GetMaterialProperties(FbxGeometry* fbxGeometry);
 
-		AEResult GetMaterialTextures(FbxGeometry* fbxGeometry);
+        AEResult GetMaterialTextures(FbxGeometry* fbxGeometry);
 
-		AEResult GetMeshBlendIndicesWeight(FbxGeometry* fbxGeometry, MeshHolder& meshHolder);
+        AEResult GetMeshBlendIndicesWeight(FbxGeometry* fbxGeometry, MeshHolder& meshHolder);
 
-		AEResult CreateMeshParts(MeshHolder& meshHolder);
+        AEResult CreateMeshParts(MeshHolder& meshHolder);
 
-		/// <summary>
-		/// Returns Vertex Type of Current Mesh
-		/// </summary>
-		/// <returns>Returns Vertex Type<seealso cref="VertexType"/></returns>
-		VertexType GetVertexType();
+        /// <summary>
+        /// Returns Vertex Type of Current Mesh
+        /// </summary>
+        /// <returns>Returns Vertex Type<seealso cref="VertexType"/></returns>
+        VertexType GetVertexType();
 
-		AEResult ExtractAnimation();
+        AEResult ExtractAnimation();
 
-		AEResult ExtractAnimation(FbxAnimStack* animStack, FbxNode* node);
+        AEResult ExtractAnimation(FbxAnimStack* animStack, FbxNode* node);
 
-		AEResult ExtractAnimation(AnimationContent& animClip, FbxAnimLayer* animLayer, FbxNode* node);
+        AEResult ExtractAnimation(AnimationContent& animClip, FbxAnimLayer* animLayer, FbxNode* node);
 
-		AEResult ExtractAnimationChannels(AnimationContent& animClip, FbxNode* node, FbxAnimLayer* animLayer);
+        AEResult ExtractAnimationChannels(AnimationContent& animClip, FbxNode* node, FbxAnimLayer* animLayer);
 
-		AEResult ExtractAnimationCurve(AnimationContent& animClip, FbxAnimCurve* animCurve[], int32_t boneIndex, const glm::quat& preRotQuad, RotationOrder rotationOrder);
+        AEResult ExtractAnimationCurve(AnimationContent& animClip, FbxAnimCurve* animCurve[], int32_t boneIndex, const glm::quat& preRotQuad, RotationOrder rotationOrder);
 
-		void CleanUp();
+        void CleanUp();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// ImporterFBX Constructor
-		/// </summary>
-		ImporterFBX();
+        /// <summary>
+        /// ImporterFBX Constructor
+        /// </summary>
+        ImporterFBX();
 
-		/// <summary>
-		/// Default ImporterFBX Destructor
-		/// </summary>
-		virtual ~ImporterFBX();
+        /// <summary>
+        /// Default ImporterFBX Destructor
+        /// </summary>
+        virtual ~ImporterFBX();
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <param name="clockwise">How to import a Model for cull mode</param>
-		AEResult ImportFBXFile(const std::wstring& filename, ModelContent** model, bool burnTransformation = true, bool importTangentBinormal = true, bool clockwise = true);
+        /// <param name="clockwise">How to import a Model for cull mode</param>
+        AEResult ImportFBXFile(const std::wstring& filename, ModelContent** model, bool burnTransformation = true, bool importTangentBinormal = true, bool clockwise = true);
 
 #pragma endregion
 

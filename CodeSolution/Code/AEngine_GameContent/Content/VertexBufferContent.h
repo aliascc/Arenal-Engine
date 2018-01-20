@@ -49,39 +49,39 @@
 *******************/
 struct IVertexBufferContent abstract : public GameContent
 {
-	uint32_t m_Size = 0;
+    uint32_t m_Size = 0;
 
-	IVertexBufferContent();
-	virtual ~IVertexBufferContent();
+    IVertexBufferContent();
+    virtual ~IVertexBufferContent();
 
-	virtual uint32_t GetSizeOfVertex() = 0;
+    virtual uint32_t GetSizeOfVertex() = 0;
 
-	virtual void* GetBuffer() = 0;
+    virtual void* GetBuffer() = 0;
 };
 
 template <class T>
 struct VertexBufferContent : public IVertexBufferContent
 {
-	T* m_Buffer = nullptr;
+    T* m_Buffer = nullptr;
 
-	VertexBufferContent()
-	{
-	}
+    VertexBufferContent()
+    {
+    }
 
-	virtual ~VertexBufferContent()
-	{
-		DeleteMem(m_Buffer);
-	}
+    virtual ~VertexBufferContent()
+    {
+        DeleteMem(m_Buffer);
+    }
 
-	uint32_t GetSizeOfVertex() override
-	{
-		return T::VertexSize();
-	}
-	
-	void* GetBuffer() override
-	{
-		return (void*)m_Buffer;
-	}
+    uint32_t GetSizeOfVertex() override
+    {
+        return T::VertexSize();
+    }
+    
+    void* GetBuffer() override
+    {
+        return (void*)m_Buffer;
+    }
 };
 
 #endif

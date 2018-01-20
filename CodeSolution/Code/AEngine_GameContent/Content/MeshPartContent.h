@@ -51,18 +51,18 @@ struct IVertexBufferContent;
 *******************/
 struct MeshPartContent sealed : public GameContent
 {
-	IVertexBufferContent* m_VtxBuff = nullptr;
+    IVertexBufferContent* m_VtxBuff = nullptr;
 
-	uint32_t m_MatID = 0;
+    uint32_t m_MatID = 0;
 
-	VertexType m_VertexType = VertexType::VtxNone;
+    VertexType m_VertexType = VertexType::VtxNone;
 
-	uint16_t* m_IdxBuf16 = nullptr;
+    uint16_t* m_IdxBuf16 = nullptr;
 
-	uint32_t m_IdxSize = 0;
+    uint32_t m_IdxSize = 0;
 
-	MeshPartContent();
-	virtual ~MeshPartContent();
+    MeshPartContent();
+    virtual ~MeshPartContent();
 };
 
 #endif

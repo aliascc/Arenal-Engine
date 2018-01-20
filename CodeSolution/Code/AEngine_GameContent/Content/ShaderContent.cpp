@@ -40,5 +40,5 @@ ShaderContent::ShaderContent()
 
 ShaderContent::~ShaderContent()
 {
-	DeleteMemArr(m_ShaderByteCode);
+    DeleteMemArr(m_ShaderByteCode);
 }

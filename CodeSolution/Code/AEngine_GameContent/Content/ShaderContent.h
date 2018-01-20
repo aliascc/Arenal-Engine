@@ -50,28 +50,28 @@
 *******************/
 struct ShaderContent sealed : public GameContent
 {
-	std::wstring m_Name = L"";
+    std::wstring m_Name = L"";
 
-	ShaderType m_ShaderType = ShaderType::VertexShader;
+    ShaderType m_ShaderType = ShaderType::VertexShader;
 
-	void* m_ShaderByteCode = nullptr;
+    void* m_ShaderByteCode = nullptr;
 
-	uint32_t m_ByteCodeSize = 0;
+    uint32_t m_ByteCodeSize = 0;
 
-	std::list<ConstantBufferShaderHolder> m_ConstantBufferShaderHolderList;
+    std::list<ConstantBufferShaderHolder> m_ConstantBufferShaderHolderList;
 
-	std::list<TextureShaderVariableHolder> m_TextureShaderVariableHolderList;
-	
-	std::list<StructuredBufferShaderHolder> m_StructuredBufferShaderHolderList;
-	
-	std::list<SimpleBufferShaderHolder> m_SimpleBufferShaderHolderList;
+    std::list<TextureShaderVariableHolder> m_TextureShaderVariableHolderList;
+    
+    std::list<StructuredBufferShaderHolder> m_StructuredBufferShaderHolderList;
+    
+    std::list<SimpleBufferShaderHolder> m_SimpleBufferShaderHolderList;
 
-	std::list<TextureArrayShaderVariableHolder> m_TextureArrayShaderVariableHolderList;
+    std::list<TextureArrayShaderVariableHolder> m_TextureArrayShaderVariableHolderList;
 
-	std::list<SamplerShaderHolder> m_SamplerShaderHolderList;
+    std::list<SamplerShaderHolder> m_SamplerShaderHolderList;
 
-	ShaderContent();
-	virtual ~ShaderContent();
+    ShaderContent();
+    virtual ~ShaderContent();
 };
 
 #endif

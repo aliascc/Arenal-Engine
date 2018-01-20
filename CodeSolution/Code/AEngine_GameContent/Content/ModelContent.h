@@ -56,20 +56,20 @@ struct AnimationContent;
 AETODO("Need to change materials to create material and associate it with shader");
 struct ModelContent sealed : public GameContent
 {
-	std::wstring m_Name = L"";
+    std::wstring m_Name = L"";
 
-	std::wstring m_FileName = L"";
+    std::wstring m_FileName = L"";
 
-	SkeletonContent* m_SkeletonContent = nullptr;
+    SkeletonContent* m_SkeletonContent = nullptr;
 
-	std::map<std::wstring, AnimationContent*> m_Animations;
+    std::map<std::wstring, AnimationContent*> m_Animations;
 
-	std::vector<MaterialHolder> m_Materials;
+    std::vector<MaterialHolder> m_Materials;
 
-	std::map<std::wstring, MeshContent*> m_Meshes;
+    std::map<std::wstring, MeshContent*> m_Meshes;
 
-	ModelContent();
-	virtual ~ModelContent();
+    ModelContent();
+    virtual ~ModelContent();
 };
 
 #endif

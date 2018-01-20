@@ -43,59 +43,59 @@
 *********************/
 AETODO("Using D3DCompiler, add Editor Flag");
 IncludeInterfaceHLSL::IncludeInterfaceHLSL(const std::wstring& currentDirectory)
-	: m_ShaderCurrentDir(currentDirectory + L"\\")
+    : m_ShaderCurrentDir(currentDirectory + L"\\")
 {
 }
 
 HRESULT __stdcall IncludeInterfaceHLSL::Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes)
-{	
-	std::wstring fileName = L"";
+{    
+    std::wstring fileName = L"";
 
-	if(IncludeType == D3D_INCLUDE_SYSTEM)
-	{
-		fileName = AE_SHADER_SYS_INC_PATH + AE_Base::String2WideStr(pFileName);;
-	}
-	else
-	{
-		fileName = m_ShaderCurrentDir + AE_Base::String2WideStr(pFileName);
-	}
+    if(IncludeType == D3D_INCLUDE_SYSTEM)
+    {
+        fileName = AE_SHADER_SYS_INC_PATH + AE_Base::String2WideStr(pFileName);;
+    }
+    else
+    {
+        fileName = m_ShaderCurrentDir + AE_Base::String2WideStr(pFileName);
+    }
 
-	//////////////////////////////////////////////
-	//Load File to Memory
-	std::ifstream shaderFile(fileName, std::ios::in | std::ios::binary);
+    //////////////////////////////////////////////
+    //Load File to Memory
+    std::ifstream shaderFile(fileName, std::ios::in | std::ios::binary);
 
-	if(!shaderFile.is_open())
-	{
-		return E_FAIL;
-	}
-	
-	//////////////////////////////////////////////
-	//Get Size of Shader
-	shaderFile.seekg(0, std::ios::end);
-	uint32_t fileSize = static_cast<uint32_t>(shaderFile.tellg());
-	shaderFile.seekg(0, std::ios::beg);
-	
-	//////////////////////////////////////////////
-	//Get Byte Code
-	char* shaderByteCode = new char[fileSize];
-	ZeroMemory(shaderByteCode, sizeof(char) * fileSize);
-	shaderFile.read((char*)shaderByteCode, sizeof(char) * fileSize);
-	
-	//////////////////////////////////////////////
-	//Close File
-	shaderFile.close();
+    if(!shaderFile.is_open())
+    {
+        return E_FAIL;
+    }
+    
+    //////////////////////////////////////////////
+    //Get Size of Shader
+    shaderFile.seekg(0, std::ios::end);
+    uint32_t fileSize = static_cast<uint32_t>(shaderFile.tellg());
+    shaderFile.seekg(0, std::ios::beg);
+    
+    //////////////////////////////////////////////
+    //Get Byte Code
+    char* shaderByteCode = new char[fileSize];
+    ZeroMemory(shaderByteCode, sizeof(char) * fileSize);
+    shaderFile.read((char*)shaderByteCode, sizeof(char) * fileSize);
+    
+    //////////////////////////////////////////////
+    //Close File
+    shaderFile.close();
 
-	*ppData = shaderByteCode;
-	*pBytes = sizeof(char) * fileSize;
+    *ppData = shaderByteCode;
+    *pBytes = sizeof(char) * fileSize;
 
-	return S_OK;
+    return S_OK;
 }
 
 HRESULT __stdcall IncludeInterfaceHLSL::Close(LPCVOID pData)
 {
-	char* da = (char*)pData;
-	
-	DeleteMemArr(da);
+    char* da = (char*)pData;
+    
+    DeleteMemArr(da);
 
-	return S_OK;
+    return S_OK;
 }
