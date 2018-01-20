@@ -50,7 +50,7 @@ GameObjectScriptInstance::GameObjectScriptInstance()
 
 GameObjectScriptInstance::~GameObjectScriptInstance()
 {
-	ReleaseAngel(m_ASObj);
+    ReleaseAngel(m_ASObj);
 }
 
 /***************************************
@@ -62,11 +62,11 @@ GameObjectScriptFunctions::GameObjectScriptFunctions()
 
 GameObjectScriptFunctions::~GameObjectScriptFunctions()
 {
-	ReleaseAngel(m_Constructor);
-	ReleaseAngel(m_Initialize);
-	ReleaseAngel(m_ConstantUpdate);
-	ReleaseAngel(m_Update);
-	ReleaseAngel(m_PostUpdate);
+    ReleaseAngel(m_Constructor);
+    ReleaseAngel(m_Initialize);
+    ReleaseAngel(m_ConstantUpdate);
+    ReleaseAngel(m_Update);
+    ReleaseAngel(m_PostUpdate);
 }
 
 /**************************************
@@ -78,41 +78,41 @@ GameObjectScriptProperty::GameObjectScriptProperty()
 
 GameObjectScriptProperty::~GameObjectScriptProperty()
 {
-	DeleteMemArr(m_SavedMem);
+    DeleteMemArr(m_SavedMem);
 }
 
 bool GameObjectScriptProperty::operator==(const GameObjectScriptProperty& other) const
 {
-	return (this->m_PropertyName.compare(other.m_PropertyName) == 0 &&
-		this->m_PropertyType == other.m_PropertyType);
+    return (this->m_PropertyName.compare(other.m_PropertyName) == 0 &&
+        this->m_PropertyType == other.m_PropertyType);
 }
 
 bool GameObjectScriptProperty::operator!=(const GameObjectScriptProperty& other) const
 {
-	return !(*this == other);
+    return !(*this == other);
 }
 
 AEResult GameObjectScriptProperty::SaveCurrentValue()
 {
-	AEAssert(m_PropertyAddress != nullptr);
-	if (m_PropertyAddress == nullptr)
-	{
-		return AEResult::NullObj;
-	}
+    AEAssert(m_PropertyAddress != nullptr);
+    if (m_PropertyAddress == nullptr)
+    {
+        return AEResult::NullObj;
+    }
 
-	DeleteMemArr(m_SavedMem);
+    DeleteMemArr(m_SavedMem);
 
-	uint32_t size = AEAngelScriptHelpers::GetSizeOfType(m_PropertyType);
-	if (size == 0)
-	{
-		return AEResult::ZeroSize;
-	}
+    uint32_t size = AEAngelScriptHelpers::GetSizeOfType(m_PropertyType);
+    if (size == 0)
+    {
+        return AEResult::ZeroSize;
+    }
 
-	m_SavedMem = new uint8_t[size];
+    m_SavedMem = new uint8_t[size];
 
-	memcpy(m_SavedMem, m_PropertyAddress, size);
+    memcpy(m_SavedMem, m_PropertyAddress, size);
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 /****************************************
@@ -124,82 +124,82 @@ GameObjectScriptProperties::GameObjectScriptProperties()
 
 GameObjectScriptProperties::~GameObjectScriptProperties()
 {
-	for (auto scriptProperty : m_PropertiesMap)
-	{
-		DeleteMem(scriptProperty.second);
-	}
-	m_PropertiesMap.clear();
+    for (auto scriptProperty : m_PropertiesMap)
+    {
+        DeleteMem(scriptProperty.second);
+    }
+    m_PropertiesMap.clear();
 }
 
 AEResult GameObjectScriptProperties::SaveCurrentValues()
 {
-	AEResult ret = AEResult::Ok;
+    AEResult ret = AEResult::Ok;
 
-	for (auto scriptProperty : m_PropertiesMap)
-	{
-		ret = scriptProperty.second->SaveCurrentValue();
-		if (ret != AEResult::Ok)
-		{
-			break;
-		}
-	}
+    for (auto scriptProperty : m_PropertiesMap)
+    {
+        ret = scriptProperty.second->SaveCurrentValue();
+        if (ret != AEResult::Ok)
+        {
+            break;
+        }
+    }
 
-	return ret;
+    return ret;
 }
 
 void GameObjectScriptProperties::ClearPropertiesAddress()
 {
-	for (auto scriptProperty : m_PropertiesMap)
-	{
-		scriptProperty.second->m_PropertyAddress = nullptr;
-	}
+    for (auto scriptProperty : m_PropertiesMap)
+    {
+        scriptProperty.second->m_PropertyAddress = nullptr;
+    }
 }
 
 AEResult GameObjectScriptProperties::CopySavedValuesToProperties(GameObjectScriptProperties& target)
 {
-	for (auto scriptProperty : target.m_PropertiesMap)
-	{
-		const std::wstring& propName = scriptProperty.first;
+    for (auto scriptProperty : target.m_PropertiesMap)
+    {
+        const std::wstring& propName = scriptProperty.first;
 
-		GameObjectScriptProperty* gosProp = scriptProperty.second;
-		if (gosProp->m_PropertyAddress == nullptr)
-		{
-			continue;
-		}
-		
-		if (m_PropertiesMap.find(scriptProperty.first) == m_PropertiesMap.end())
-		{
-			continue;
-		}
+        GameObjectScriptProperty* gosProp = scriptProperty.second;
+        if (gosProp->m_PropertyAddress == nullptr)
+        {
+            continue;
+        }
+        
+        if (m_PropertiesMap.find(scriptProperty.first) == m_PropertiesMap.end())
+        {
+            continue;
+        }
 
-		if (m_PropertiesMap[propName]->m_PropertyType != gosProp->m_PropertyType)
-		{
-			continue;
-		}
+        if (m_PropertiesMap[propName]->m_PropertyType != gosProp->m_PropertyType)
+        {
+            continue;
+        }
 
-		if (m_PropertiesMap[propName]->m_SavedMem == nullptr)
-		{
-			continue;
-		}
+        if (m_PropertiesMap[propName]->m_SavedMem == nullptr)
+        {
+            continue;
+        }
 
-		uint32_t size = AEAngelScriptHelpers::GetSizeOfType(gosProp->m_PropertyType);
-		if (size == 0)
-		{
-			continue;
-		}
-		
-		memcpy(gosProp->m_PropertyAddress, m_PropertiesMap[propName]->m_SavedMem, size);
-	}
+        uint32_t size = AEAngelScriptHelpers::GetSizeOfType(gosProp->m_PropertyType);
+        if (size == 0)
+        {
+            continue;
+        }
+        
+        memcpy(gosProp->m_PropertyAddress, m_PropertiesMap[propName]->m_SavedMem, size);
+    }
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 GameObjectScriptProperty* GameObjectScriptProperties::GetGameObjectScriptProperty(const std::wstring& name)
 {
-	if (!GameObjectScriptPropertyExists(name))
-	{
-		return nullptr;
-	}
+    if (!GameObjectScriptPropertyExists(name))
+    {
+        return nullptr;
+    }
 
-	return m_PropertiesMap[name];
+    return m_PropertiesMap[name];
 }

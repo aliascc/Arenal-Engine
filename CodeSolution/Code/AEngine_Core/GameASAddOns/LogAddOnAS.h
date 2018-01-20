@@ -48,86 +48,86 @@
 
 class LogAddOnAS sealed : public AngelScriptAddOn
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Registers Log Level Enum with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterLogLevelEnum(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Log Level Enum with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterLogLevelEnum(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers AELog Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterAELogObject(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers AELog Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterAELogObject(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers Logger Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterLoggerObject(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Logger Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterLoggerObject(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers Logger Object Pointer with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterLoggerObjectPointer(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Logger Object Pointer with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterLoggerObjectPointer(asIScriptEngine* engine);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// LogAddOnAS Constructor
-		/// </summary>
-		LogAddOnAS();
+        /// <summary>
+        /// LogAddOnAS Constructor
+        /// </summary>
+        LogAddOnAS();
 
-		/// <summary>
-		/// Default LogAddOnAS Destructor
-		/// </summary>
-		virtual ~LogAddOnAS();
+        /// <summary>
+        /// Default LogAddOnAS Destructor
+        /// </summary>
+        virtual ~LogAddOnAS();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Registers the Add-on with the AS Engine.
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		AEResult Register(asIScriptEngine* engine) override;
+        /// <summary>
+        /// Registers the Add-on with the AS Engine.
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        AEResult Register(asIScriptEngine* engine) override;
 
 #pragma endregion
 

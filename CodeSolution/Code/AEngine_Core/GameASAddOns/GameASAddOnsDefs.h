@@ -46,16 +46,16 @@
 *************/
 enum class XEGameASAddOnsID : uint32_t
 {
-	Base = 0,
-	GLM,
-	Log,
-	Localization,
-	Time,
-	Color,
-	GameCore,
-	Input,
-	Audio,
-	Assets
+    Base = 0,
+    GLM,
+    Log,
+    Localization,
+    Time,
+    Color,
+    GameCore,
+    Input,
+    Audio,
+    Assets
 };
 
 #endif

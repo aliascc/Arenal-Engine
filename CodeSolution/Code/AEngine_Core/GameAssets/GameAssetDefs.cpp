@@ -48,10 +48,10 @@ GameAssetBuiltIns::GameAssetBuiltIns()
 
 GameAssetBuiltIns::~GameAssetBuiltIns()
 {
-	AERelease(m_CubeMesh);
-	AERelease(m_IcoSphereMesh);
-	AERelease(m_DiffuseTextureVS);
-	AERelease(m_DiffuseTexturePS);
+    AERelease(m_CubeMesh);
+    AERelease(m_IcoSphereMesh);
+    AERelease(m_DiffuseTextureVS);
+    AERelease(m_DiffuseTexturePS);
 }
 
 /************************************
@@ -62,9 +62,9 @@ GameAssetEventHandlers::GameAssetEventHandlers()
 }
 
 GameAssetEventHandlers::GameAssetEventHandlers(uint64_t objID, OnGameAssetDeletionEvent onGameAssetDeletionEvent, OnGameAssetReloadEvent onGameAssetReloadEvent, OnGameAssetPreReloadEvent onGameAssetPreReloadEvent)
-	: m_ObjID(objID)
-	, m_OnGameAssetDeletionEvent(onGameAssetDeletionEvent)
-	, m_OnGameAssetReloadEvent(onGameAssetReloadEvent)
-	, m_OnGameAssetPreReloadEvent(onGameAssetPreReloadEvent)
+    : m_ObjID(objID)
+    , m_OnGameAssetDeletionEvent(onGameAssetDeletionEvent)
+    , m_OnGameAssetReloadEvent(onGameAssetReloadEvent)
+    , m_OnGameAssetPreReloadEvent(onGameAssetPreReloadEvent)
 {
 }

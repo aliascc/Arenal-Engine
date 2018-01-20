@@ -45,77 +45,77 @@ class Mesh;
 *   Class Decl   *
 ******************/
 class MeshAsset sealed : public GameAsset
-{	
-	private:
+{    
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		Mesh* m_Mesh = nullptr;
+        Mesh* m_Mesh = nullptr;
 
-		/// <summary>
-		/// Graphic Device to create Asset Resources in video memory
-		/// </summary>
-		GraphicDevice* m_GraphicDevice = nullptr;
+        /// <summary>
+        /// Graphic Device to create Asset Resources in video memory
+        /// </summary>
+        GraphicDevice* m_GraphicDevice = nullptr;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
-		
-		/// <summary>
-		/// Loads an Asset Resource to Memory
-		/// </summary>
-		/// <returns>AEResult::OK if successful</returns>
-		AEResult LoadAssetResource() override;
+        
+        /// <summary>
+        /// Loads an Asset Resource to Memory
+        /// </summary>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult LoadAssetResource() override;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// MeshAsset Constructor
-		/// </summary>
-		/// <param name="filePath">File Path of Game Asset to Load</param>
-		/// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
-		/// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
-		MeshAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice);
+        /// <summary>
+        /// MeshAsset Constructor
+        /// </summary>
+        /// <param name="filePath">File Path of Game Asset to Load</param>
+        /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
+        /// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
+        MeshAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice);
 
-		/// <summary>
-		/// Default SkeletonAsset Destructor
-		/// </summary>
-		virtual ~MeshAsset();
+        /// <summary>
+        /// Default SkeletonAsset Destructor
+        /// </summary>
+        virtual ~MeshAsset();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		Mesh* GetMeshReference();
+        Mesh* GetMeshReference();
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
-		
-		/************************
-		*   Framework Methods   *
-		*************************/
+        
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

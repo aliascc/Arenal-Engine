@@ -45,41 +45,41 @@ class GraphicDevice;
 ******************/
 class DrawableGameComponent abstract : public GameComponent
 {
-	//Friend class
-	friend class GameComponentCollection;
+    //Friend class
+    friend class GameComponentCollection;
 
-	private:
+    private:
 
-		//Find out if we are a game component or drawable game component
-		inline bool IsDrawableGameComponent() const override
-		{
-			return true;
-		}
+        //Find out if we are a game component or drawable game component
+        inline bool IsDrawableGameComponent() const override
+        {
+            return true;
+        }
 
-	protected:
-		//Variable to check if we can draw or not
-		bool m_Visible = true;
-		GraphicDevice* m_GraphicDevice = nullptr;
+    protected:
+        //Variable to check if we can draw or not
+        bool m_Visible = true;
+        GraphicDevice* m_GraphicDevice = nullptr;
 
-	public:
-		//Constructor Destructor
-		DrawableGameComponent(GameApp* gameApp, const std::wstring& name = L"", uint32_t callOrder = 100);
-		virtual ~DrawableGameComponent();
+    public:
+        //Constructor Destructor
+        DrawableGameComponent(GameApp* gameApp, const std::wstring& name = L"", uint32_t callOrder = 100);
+        virtual ~DrawableGameComponent();
 
-		//Gets
-		inline bool GetVisible() const
-		{
-			return m_Visible;
-		}
+        //Gets
+        inline bool GetVisible() const
+        {
+            return m_Visible;
+        }
 
-		//Sets
-		inline void SetVisible(bool visible)
-		{
-			m_Visible = visible;
-		}
+        //Sets
+        inline void SetVisible(bool visible)
+        {
+            m_Visible = visible;
+        }
 
-		//Framework Methods
-		virtual void Render(const TimerParams& timerParams);
+        //Framework Methods
+        virtual void Render(const TimerParams& timerParams);
 };
 
 #endif

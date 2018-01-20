@@ -53,72 +53,72 @@ class GameResourceManager;
 ******************/
 class BasicLineMaterial sealed : public Material
 {
-	private:
+    private:
 
-		/**************************
-		 *   Private Variables   *
-		 **************************/
+        /**************************
+         *   Private Variables   *
+         **************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-		/***********************
-		 *   Private Methods   *
-		 ***********************/
+        /***********************
+         *   Private Methods   *
+         ***********************/
 #pragma region Private Methods
-		
-		AEResult CreateVertexShader();
+        
+        AEResult CreateVertexShader();
 
-		AEResult CreateVertexShaderConstantBuffer();
-		
-		AEResult CreatePixelShader();
-					   
-		AEResult CreatePixelShaderConstantBuffer();
+        AEResult CreateVertexShaderConstantBuffer();
+        
+        AEResult CreatePixelShader();
+                       
+        AEResult CreatePixelShaderConstantBuffer();
 
 #pragma endregion
-		
-	public:
+        
+    public:
 
-		/*****************************************
-		 *   Constructor & Destructor Methods   *
-		 *****************************************/
+        /*****************************************
+         *   Constructor & Destructor Methods   *
+         *****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// BasicLineMaterial Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with</param>
-		/// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
-		/// <param name="name">Name of the Effect</param>
-		BasicLineMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_BASIC_LINE_MAT_NAME);
+        /// <summary>
+        /// BasicLineMaterial Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with</param>
+        /// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
+        /// <param name="name">Name of the Effect</param>
+        BasicLineMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_BASIC_LINE_MAT_NAME);
 
-		/// <summary>
-		/// Default BasicLineMaterial Destructor
-		/// </summary>
-		virtual ~BasicLineMaterial();
+        /// <summary>
+        /// Default BasicLineMaterial Destructor
+        /// </summary>
+        virtual ~BasicLineMaterial();
 
 #pragma endregion
-		
-		/**********************
-		 *     Get Methods    *
-		 **********************/
+        
+        /**********************
+         *     Get Methods    *
+         **********************/
 #pragma region Get Methods
-		
+        
 #pragma endregion
-		
-		/**********************
-		 *     Set Methods    *
-		 **********************/
+        
+        /**********************
+         *     Set Methods    *
+         **********************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/**************************
-		 *   Framework Methods    *
-		 **************************/
+        /**************************
+         *   Framework Methods    *
+         **************************/
 #pragma region Framework Methods
 
-		AEResult LoadContent() override;
+        AEResult LoadContent() override;
 
 #pragma endregion
 

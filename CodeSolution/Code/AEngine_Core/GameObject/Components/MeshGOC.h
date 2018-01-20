@@ -49,90 +49,90 @@ class MeshAsset;
 
 class MeshGOC sealed : public GameObjectComponent
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Marks if a Mesh uses alpha so it can go through the correct rendering pipeline
-		/// </summary>
-		bool m_UsesAlpha = false;
+        /// <summary>
+        /// Marks if a Mesh uses alpha so it can go through the correct rendering pipeline
+        /// </summary>
+        bool m_UsesAlpha = false;
 
-		/// <summary>
-		/// Game Object Pair with Mesh that this Game Object Component uses
-		/// </summary>
-		GameObjectAssetPair<Mesh> m_Mesh;
+        /// <summary>
+        /// Game Object Pair with Mesh that this Game Object Component uses
+        /// </summary>
+        GameObjectAssetPair<Mesh> m_Mesh;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		void MeshAssetDeletion(GameAsset* asset);
+        void MeshAssetDeletion(GameAsset* asset);
 
-		AEResult ClearMeshAsset(bool informGameAsset = true);
+        AEResult ClearMeshAsset(bool informGameAsset = true);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// MeshGOC Constructor
-		/// </summary>
-		/// <param name="gameObject">Game Object that this Component is attached too</param>
-		MeshGOC(GameObject* gameObject);
+        /// <summary>
+        /// MeshGOC Constructor
+        /// </summary>
+        /// <param name="gameObject">Game Object that this Component is attached too</param>
+        MeshGOC(GameObject* gameObject);
 
-		/// <summary>
-		/// Default MeshGOC Destructor
-		/// </summary>
-		virtual ~MeshGOC();
+        /// <summary>
+        /// Default MeshGOC Destructor
+        /// </summary>
+        virtual ~MeshGOC();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		inline Mesh* GetMeshResource() const
-		{
-			return m_Mesh.m_ResourceAsset;
-		}
+        inline Mesh* GetMeshResource() const
+        {
+            return m_Mesh.m_ResourceAsset;
+        }
 
-		inline uint64_t GetMeshAssetID() const
-		{
-			return m_Mesh.m_AssetID;
-		}
+        inline uint64_t GetMeshAssetID() const
+        {
+            return m_Mesh.m_AssetID;
+        }
 
-		std::wstring GetMeshName() const;
+        std::wstring GetMeshName() const;
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
-		AEResult SetMeshAsset(MeshAsset* asset);
+        AEResult SetMeshAsset(MeshAsset* asset);
 
 #pragma endregion
-		
-		/************************
-		*   Framework Methods   *
-		*************************/
+        
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult RemoveMeshAsset();
+        AEResult RemoveMeshAsset();
 
 #pragma endregion
 

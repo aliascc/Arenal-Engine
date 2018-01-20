@@ -42,197 +42,197 @@
 *********************/
 AETODO("Add mutex");
 PhysicsGOC::PhysicsGOC(GameObject* gameObject, PhysicsManager* physicsManager)
-	: GameObjectComponent(gameObject, GameObjectComponentType::Physics)
-	, m_PhysicsManager(physicsManager)
+    : GameObjectComponent(gameObject, GameObjectComponentType::Physics)
+    , m_PhysicsManager(physicsManager)
 {
-	AEAssert(m_PhysicsManager != nullptr);
-	if (m_PhysicsManager == nullptr)
-	{
-		m_IsReady = false;
+    AEAssert(m_PhysicsManager != nullptr);
+    if (m_PhysicsManager == nullptr)
+    {
+        m_IsReady = false;
 
-		return;
-	}
+        return;
+    }
 
 }
 
 PhysicsGOC::~PhysicsGOC()
 {
-	if (m_PhysicsActor != nullptr)
-	{
-		AETODO("Check return");
-		m_PhysicsManager->RemovePhysicsActor(m_PhysicsActor->GetUniqueID(), false);
-	}
-	DeleteMem(m_PhysicsActor);
+    if (m_PhysicsActor != nullptr)
+    {
+        AETODO("Check return");
+        m_PhysicsManager->RemovePhysicsActor(m_PhysicsActor->GetUniqueID(), false);
+    }
+    DeleteMem(m_PhysicsActor);
 }
 
 AEResult PhysicsGOC::AddRigidBody()
 {
-	if (!m_IsReady)
-	{
-		return AEResult::NotReady;
-	}
+    if (!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
 
-	AEResult ret = AEResult::Ok;
+    AEResult ret = AEResult::Ok;
 
-	if (m_PhysicsActor == nullptr)
-	{
-		m_PhysicsActor = new PhysicsActor(m_GameObject);
+    if (m_PhysicsActor == nullptr)
+    {
+        m_PhysicsActor = new PhysicsActor(m_GameObject);
 
-		ret = m_PhysicsActor->Initialize(m_PhysicsManager, PhysicsActorType::Dynamic);
-		if (ret != AEResult::Ok)
-		{
-			DeleteMem(m_PhysicsActor);
+        ret = m_PhysicsActor->Initialize(m_PhysicsManager, PhysicsActorType::Dynamic);
+        if (ret != AEResult::Ok)
+        {
+            DeleteMem(m_PhysicsActor);
 
-			return ret;
-		}
+            return ret;
+        }
 
-		//////////////////////////////
-		//Add to Physics Manager
-		ret = m_PhysicsManager->AddPhysicsActor(m_PhysicsActor);
-		if (ret != AEResult::Ok)
-		{
-			DeleteMem(m_PhysicsActor);
+        //////////////////////////////
+        //Add to Physics Manager
+        ret = m_PhysicsManager->AddPhysicsActor(m_PhysicsActor);
+        if (ret != AEResult::Ok)
+        {
+            DeleteMem(m_PhysicsActor);
 
-			return ret;
-		}
-	}
-	else if (m_PhysicsActor->GetPhysicsActorType() != PhysicsActorType::Dynamic)
-	{
-		ret = m_PhysicsActor->ChangePhysicsActorType(PhysicsActorType::Dynamic);
-		if (ret != AEResult::Ok)
-		{
-			m_PhysicsManager->RemovePhysicsActor(m_PhysicsActor->GetUniqueID(), false);
+            return ret;
+        }
+    }
+    else if (m_PhysicsActor->GetPhysicsActorType() != PhysicsActorType::Dynamic)
+    {
+        ret = m_PhysicsActor->ChangePhysicsActorType(PhysicsActorType::Dynamic);
+        if (ret != AEResult::Ok)
+        {
+            m_PhysicsManager->RemovePhysicsActor(m_PhysicsActor->GetUniqueID(), false);
 
-			DeleteMem(m_PhysicsActor);
+            DeleteMem(m_PhysicsActor);
 
-			return ret;
-		}
-	}
+            return ret;
+        }
+    }
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult PhysicsGOC::RemoveRigidBody()
 {
-	if (!m_IsReady)
-	{
-		return AEResult::NotReady;
-	}
+    if (!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
 
-	if (m_PhysicsActor == nullptr)
-	{
-		return AEResult::Ok;
-	}
+    if (m_PhysicsActor == nullptr)
+    {
+        return AEResult::Ok;
+    }
 
-	if (m_PhysicsActor->GetPhysicsActorType() != PhysicsActorType::Dynamic)
-	{
-		return AEResult::Ok;
-	}
+    if (m_PhysicsActor->GetPhysicsActorType() != PhysicsActorType::Dynamic)
+    {
+        return AEResult::Ok;
+    }
 
-	if (m_PhysicsActor->GetNumberOfColliders() == 0)
-	{
-		DeleteMem(m_PhysicsActor);
-	}
-	else
-	{
-		AEResult ret = m_PhysicsActor->ChangePhysicsActorType(PhysicsActorType::Static);
-		if (ret != AEResult::Ok)
-		{
-			DeleteMem(m_PhysicsActor);
+    if (m_PhysicsActor->GetNumberOfColliders() == 0)
+    {
+        DeleteMem(m_PhysicsActor);
+    }
+    else
+    {
+        AEResult ret = m_PhysicsActor->ChangePhysicsActorType(PhysicsActorType::Static);
+        if (ret != AEResult::Ok)
+        {
+            DeleteMem(m_PhysicsActor);
 
-			return ret;
-		}
-	}
+            return ret;
+        }
+    }
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult PhysicsGOC::AddCollider(CollisionShape collisionShape, uint64_t& colliderID)
 {
-	if (!m_IsReady)
-	{
-		return AEResult::NotReady;
-	}
+    if (!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
 
-	PhysicCollider* physicCollider = nullptr;
+    PhysicCollider* physicCollider = nullptr;
 
-	switch (collisionShape)
-	{
-		case CollisionShape::Box:
-			physicCollider = new PhysicColliderBox();
-			break;
+    switch (collisionShape)
+    {
+        case CollisionShape::Box:
+            physicCollider = new PhysicColliderBox();
+            break;
 
-		case CollisionShape::Sphere:
-			physicCollider = new PhysicColliderSphere();
-			break;
+        case CollisionShape::Sphere:
+            physicCollider = new PhysicColliderSphere();
+            break;
 
-		default:
-			AEAssert(false);
-			return AEResult::InvalidObjType;
-	}
+        default:
+            AEAssert(false);
+            return AEResult::InvalidObjType;
+    }
 
-	AEResult ret = AEResult::Ok;
+    AEResult ret = AEResult::Ok;
 
-	///////////////////////////////
-	//Initialize
-	ret = physicCollider->Initialize(m_PhysicsManager);
-	if (ret != AEResult::Ok)
-	{
-		DeleteMem(physicCollider);
+    ///////////////////////////////
+    //Initialize
+    ret = physicCollider->Initialize(m_PhysicsManager);
+    if (ret != AEResult::Ok)
+    {
+        DeleteMem(physicCollider);
 
-		return ret;
-	}
+        return ret;
+    }
 
-	///////////////////////////////
-	//Initialize Physics Actor
-	if (m_PhysicsActor == nullptr)
-	{
-		m_PhysicsActor = new PhysicsActor(m_GameObject);
+    ///////////////////////////////
+    //Initialize Physics Actor
+    if (m_PhysicsActor == nullptr)
+    {
+        m_PhysicsActor = new PhysicsActor(m_GameObject);
 
-		ret = m_PhysicsActor->Initialize(m_PhysicsManager, PhysicsActorType::Static);
-		if (ret != AEResult::Ok)
-		{
-			DeleteMem(physicCollider);
+        ret = m_PhysicsActor->Initialize(m_PhysicsManager, PhysicsActorType::Static);
+        if (ret != AEResult::Ok)
+        {
+            DeleteMem(physicCollider);
 
-			DeleteMem(m_PhysicsActor);
+            DeleteMem(m_PhysicsActor);
 
-			return ret;
-		}
+            return ret;
+        }
 
-		//////////////////////////////
-		//Add to Physics Manager
-		ret = m_PhysicsManager->AddPhysicsActor(m_PhysicsActor);
-		if (ret != AEResult::Ok)
-		{
-			DeleteMem(physicCollider);
+        //////////////////////////////
+        //Add to Physics Manager
+        ret = m_PhysicsManager->AddPhysicsActor(m_PhysicsActor);
+        if (ret != AEResult::Ok)
+        {
+            DeleteMem(physicCollider);
 
-			DeleteMem(m_PhysicsActor);
+            DeleteMem(m_PhysicsActor);
 
-			return ret;
-		}
-	}
+            return ret;
+        }
+    }
 
-	///////////////////////////////
-	//Add
-	ret = m_PhysicsActor->AddPhysicCollider(physicCollider);
-	if (ret != AEResult::Ok)
-	{
-		DeleteMem(physicCollider);
+    ///////////////////////////////
+    //Add
+    ret = m_PhysicsActor->AddPhysicCollider(physicCollider);
+    if (ret != AEResult::Ok)
+    {
+        DeleteMem(physicCollider);
 
-		return ret;
-	}
+        return ret;
+    }
 
-	colliderID = physicCollider->GetUniqueID();
+    colliderID = physicCollider->GetUniqueID();
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 bool PhysicsGOC::IsRigidBody()
 {
-	if (!m_IsReady || m_PhysicsActor == nullptr)
-	{
-		return false;
-	}
+    if (!m_IsReady || m_PhysicsActor == nullptr)
+    {
+        return false;
+    }
 
-	return (m_PhysicsActor->GetPhysicsActorType() == PhysicsActorType::Dynamic);
+    return (m_PhysicsActor->GetPhysicsActorType() == PhysicsActorType::Dynamic);
 }

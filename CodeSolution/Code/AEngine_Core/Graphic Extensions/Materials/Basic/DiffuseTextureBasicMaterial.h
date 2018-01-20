@@ -52,76 +52,76 @@ class GameResourceManager;
 ******************/
 class DiffuseTextureBasicMaterial sealed : public Material
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		AEResult CreateVertexShader();
+        AEResult CreateVertexShader();
 
-		AEResult CreateVertexShaderConstantBuffer();
+        AEResult CreateVertexShaderConstantBuffer();
 
-		AEResult CreatePixelShader();
+        AEResult CreatePixelShader();
 
-		AEResult CreatePixelShaderTextureBinding();
+        AEResult CreatePixelShaderTextureBinding();
 
-		AEResult CreatePixelShaderSampler();
+        AEResult CreatePixelShaderSampler();
 
 #pragma endregion
-		
-	public:
+        
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// DiffuseTextureBasicMaterial Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with</param>
-		/// <param name="graphicDevice">Game Resource Manager to get the manage resources</param>
-		/// <param name="name">Name of the Effect</param>
-		DiffuseTextureBasicMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_DIFFUSE_TEXTURE_BASIC_MAT_NAME);
+        /// <summary>
+        /// DiffuseTextureBasicMaterial Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with</param>
+        /// <param name="graphicDevice">Game Resource Manager to get the manage resources</param>
+        /// <param name="name">Name of the Effect</param>
+        DiffuseTextureBasicMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_DIFFUSE_TEXTURE_BASIC_MAT_NAME);
 
-		/// <summary>
-		/// Default DiffuseTextureBasicMaterial Destructor
-		/// </summary>
-		virtual ~DiffuseTextureBasicMaterial();
+        /// <summary>
+        /// Default DiffuseTextureBasicMaterial Destructor
+        /// </summary>
+        virtual ~DiffuseTextureBasicMaterial();
 
 #pragma endregion
-		
-		/******************
-		*   Get Methods   *
-		*******************/
+        
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		
+        
 
 #pragma endregion
-		
-		/******************
-		*   Set Methods   *
-		*******************/
+        
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
-		
+        
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult LoadContent() override;
+        AEResult LoadContent() override;
 
 #pragma endregion
 

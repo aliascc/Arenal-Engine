@@ -45,85 +45,85 @@ class Shader;
 *   Class Decl   *
 ******************/
 class ShaderAsset sealed : public GameAsset
-{	
-	private:
+{    
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		Shader* m_Shader = nullptr;
+        Shader* m_Shader = nullptr;
 
-		ShaderType m_ShaderType = ShaderType::VertexShader;
+        ShaderType m_ShaderType = ShaderType::VertexShader;
 
-		/// <summary>
-		/// Graphic Device to create Asset Resources in video memory
-		/// </summary>
-		GraphicDevice* m_GraphicDevice = nullptr;
+        /// <summary>
+        /// Graphic Device to create Asset Resources in video memory
+        /// </summary>
+        GraphicDevice* m_GraphicDevice = nullptr;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
-		
-		/// <summary>
-		/// Loads an Asset Resource to Memory
-		/// </summary>
-		/// <returns>AEResult::OK if successful</returns>
-		AEResult LoadAssetResource() override;
+        
+        /// <summary>
+        /// Loads an Asset Resource to Memory
+        /// </summary>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult LoadAssetResource() override;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// ShaderAsset Constructor
-		/// </summary>
-		/// <param name="filePath">File Path of Game Asset to Load</param>
-		/// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
-		/// <param name="shaderType">Type of the Shader that this Asset will hold</param>
-		/// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
-		ShaderAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, ShaderType shaderType, GraphicDevice* graphicDevice);
+        /// <summary>
+        /// ShaderAsset Constructor
+        /// </summary>
+        /// <param name="filePath">File Path of Game Asset to Load</param>
+        /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
+        /// <param name="shaderType">Type of the Shader that this Asset will hold</param>
+        /// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
+        ShaderAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, ShaderType shaderType, GraphicDevice* graphicDevice);
 
-		/// <summary>
-		/// Default MaterialAsset Destructor
-		/// </summary>
-		virtual ~ShaderAsset();
+        /// <summary>
+        /// Default MaterialAsset Destructor
+        /// </summary>
+        virtual ~ShaderAsset();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		inline ShaderType GetShaderType() const
-		{
-			return m_ShaderType;
-		}
+        inline ShaderType GetShaderType() const
+        {
+            return m_ShaderType;
+        }
 
-		Shader* GetShaderReference();
+        Shader* GetShaderReference();
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
-		
-		/************************
-		*   Framework Methods   *
-		*************************/
+        
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

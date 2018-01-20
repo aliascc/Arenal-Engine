@@ -49,120 +49,120 @@ class InputManager;
 
 class InputAddOnAS sealed : public AngelScriptAddOn
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Input Object for current Game App
-		/// </summary>
-		InputManager* m_InputManager = nullptr;
+        /// <summary>
+        /// Input Object for current Game App
+        /// </summary>
+        InputManager* m_InputManager = nullptr;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Registers AEKeys Enum Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterAEKeysEnum(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers AEKeys Enum Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterAEKeysEnum(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers AEXBoxGamepadMovements Enum Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterAEXBoxGamepadMovementsEnum(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers AEXBoxGamepadMovements Enum Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterAEXBoxGamepadMovementsEnum(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers AEXBoxGamepadButton Enum Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterAEXBoxGamepadButtonEnum(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers AEXBoxGamepadButton Enum Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterAEXBoxGamepadButtonEnum(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers Keyboard Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterKeyboardObject(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Keyboard Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterKeyboardObject(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers XBox Gamepad Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterXBoxGamepadObject(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers XBox Gamepad Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterXBoxGamepadObject(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers XBox Gamepad Manager Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterXBoxGamepadManagerObject(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers XBox Gamepad Manager Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterXBoxGamepadManagerObject(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers Input Manager Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterInputManagerObject(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Input Manager Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterInputManagerObject(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers Input Manager Object Pointer with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterInputManagerObjectPointer(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Input Manager Object Pointer with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterInputManagerObjectPointer(asIScriptEngine* engine);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// InputAddOnAS Constructor
-		/// </summary>
-		/// <param name="inputManager">Input Manager Object for current Game App.</param>
-		InputAddOnAS(InputManager* inputManager);
+        /// <summary>
+        /// InputAddOnAS Constructor
+        /// </summary>
+        /// <param name="inputManager">Input Manager Object for current Game App.</param>
+        InputAddOnAS(InputManager* inputManager);
 
-		/// <summary>
-		/// Default InputAddOnAS Destructor
-		/// </summary>
-		virtual ~InputAddOnAS();
+        /// <summary>
+        /// Default InputAddOnAS Destructor
+        /// </summary>
+        virtual ~InputAddOnAS();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Registers the Add-on with the AS Engine.
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		AEResult Register(asIScriptEngine* engine) override;
+        /// <summary>
+        /// Registers the Add-on with the AS Engine.
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        AEResult Register(asIScriptEngine* engine) override;
 
 #pragma endregion
 

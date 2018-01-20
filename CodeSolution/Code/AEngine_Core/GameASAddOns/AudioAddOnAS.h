@@ -48,58 +48,58 @@
 
 class AudioAddOnAS sealed : public AngelScriptAddOn
 {
-	private:
+    private:
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Registers Audio Player Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterAudioPlayerObject(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Audio Player Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterAudioPlayerObject(asIScriptEngine* engine);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// AudioAddOnAS Constructor
-		/// </summary>
-		AudioAddOnAS();
+        /// <summary>
+        /// AudioAddOnAS Constructor
+        /// </summary>
+        AudioAddOnAS();
 
-		/// <summary>
-		/// Default AudioAddOnAS Destructor
-		/// </summary>
-		virtual ~AudioAddOnAS();
+        /// <summary>
+        /// Default AudioAddOnAS Destructor
+        /// </summary>
+        virtual ~AudioAddOnAS();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Registers the Add-on with the AS Engine.
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		AEResult Register(asIScriptEngine* engine) override;
+        /// <summary>
+        /// Registers the Add-on with the AS Engine.
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        AEResult Register(asIScriptEngine* engine) override;
 
 #pragma endregion
 

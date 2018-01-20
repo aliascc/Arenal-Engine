@@ -48,65 +48,65 @@
 
 class ColorAddOnAS sealed : public AngelScriptAddOn
 {
-	private:
+    private:
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Registers Color Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterColorObject(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Color Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterColorObject(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers Color Enum with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterColorEnum(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Color Enum with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterColorEnum(asIScriptEngine* engine);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// ColorAddOnAS Constructor
-		/// </summary>
-		ColorAddOnAS();
+        /// <summary>
+        /// ColorAddOnAS Constructor
+        /// </summary>
+        ColorAddOnAS();
 
-		/// <summary>
-		/// Default ColorAddOnAS Destructor
-		/// </summary>
-		virtual ~ColorAddOnAS();
+        /// <summary>
+        /// Default ColorAddOnAS Destructor
+        /// </summary>
+        virtual ~ColorAddOnAS();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Registers the Add-on with the AS Engine.
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		AEResult Register(asIScriptEngine* engine) override;
+        /// <summary>
+        /// Registers the Add-on with the AS Engine.
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        AEResult Register(asIScriptEngine* engine) override;
 
 #pragma endregion
 

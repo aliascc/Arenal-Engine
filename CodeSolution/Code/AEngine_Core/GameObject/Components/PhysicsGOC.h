@@ -47,82 +47,82 @@ class PhysicsManager;
 
 class PhysicsGOC sealed : public GameObjectComponent
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		PhysicsManager* m_PhysicsManager = nullptr;
+        PhysicsManager* m_PhysicsManager = nullptr;
 
-		PhysicsActor* m_PhysicsActor = nullptr;
+        PhysicsActor* m_PhysicsActor = nullptr;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// PhysicsGOC Constructor
-		/// </summary>
-		/// <param name="gameObject">Game Object that this Component is attached too</param>
-		/// <param name="physcisManager">Physics Manager to add the actor</param>
-		PhysicsGOC(GameObject* gameObject, PhysicsManager* physcisManager);
+        /// <summary>
+        /// PhysicsGOC Constructor
+        /// </summary>
+        /// <param name="gameObject">Game Object that this Component is attached too</param>
+        /// <param name="physcisManager">Physics Manager to add the actor</param>
+        PhysicsGOC(GameObject* gameObject, PhysicsManager* physcisManager);
 
-		/// <summary>
-		/// Default PhysicsGOC Destructor
-		/// </summary>
-		virtual ~PhysicsGOC();
+        /// <summary>
+        /// Default PhysicsGOC Destructor
+        /// </summary>
+        virtual ~PhysicsGOC();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Gets the Light Object
-		/// </summary>
-		/// <returns>Returns the Light Object</returns>
-		inline PhysicsActor* GetPhysicsActor() const
-		{ 
-			return m_PhysicsActor;
-		}
+        /// <summary>
+        /// Gets the Light Object
+        /// </summary>
+        /// <returns>Returns the Light Object</returns>
+        inline PhysicsActor* GetPhysicsActor() const
+        { 
+            return m_PhysicsActor;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult AddRigidBody();
+        AEResult AddRigidBody();
 
-		AEResult RemoveRigidBody();
+        AEResult RemoveRigidBody();
 
-		AEResult AddCollider(CollisionShape collisionShape, uint64_t& colliderID);
+        AEResult AddCollider(CollisionShape collisionShape, uint64_t& colliderID);
 
-		bool IsRigidBody();
+        bool IsRigidBody();
 
 #pragma endregion
 

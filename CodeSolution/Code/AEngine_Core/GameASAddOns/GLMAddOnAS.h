@@ -37,7 +37,7 @@
 /*************
 *   Define   *
 **************/
-#define AE_AS_MATH_HELPERS_NAMESPACE	"Math"
+#define AE_AS_MATH_HELPERS_NAMESPACE    "Math"
 
 /************
 *   Using   *
@@ -53,86 +53,86 @@
 
 class GLMAddOnAS sealed : public AngelScriptAddOn
 {
-	private:
+    private:
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Registers GLM by a Native Interface
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterGLM_Native(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers GLM by a Native Interface
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterGLM_Native(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers GLM Objects by a Native Interface
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterGLM_Objects_Native(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers GLM Objects by a Native Interface
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterGLM_Objects_Native(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers GLM Vector 3 Functions by a Native Interface
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterGLM_Vec3_Functions_Native(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers GLM Vector 3 Functions by a Native Interface
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterGLM_Vec3_Functions_Native(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers GLM Vector 4 Functions by a Native Interface
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterGLM_Vec4_Functions_Native(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers GLM Vector 4 Functions by a Native Interface
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterGLM_Vec4_Functions_Native(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers GLM Matrix 4x4 Functions by a Native Interface
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterGLM_Mat4_Functions_Native(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers GLM Matrix 4x4 Functions by a Native Interface
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterGLM_Mat4_Functions_Native(asIScriptEngine* engine);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// GLMAddOnAS Constructor
-		/// </summary>
-		GLMAddOnAS();
+        /// <summary>
+        /// GLMAddOnAS Constructor
+        /// </summary>
+        GLMAddOnAS();
 
-		/// <summary>
-		/// Default GLMAddOnAS Destructor
-		/// </summary>
-		virtual ~GLMAddOnAS();
+        /// <summary>
+        /// Default GLMAddOnAS Destructor
+        /// </summary>
+        virtual ~GLMAddOnAS();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Registers the Add-on with the AS Engine.
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		AEResult Register(asIScriptEngine* engine) override;
+        /// <summary>
+        /// Registers the Add-on with the AS Engine.
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        AEResult Register(asIScriptEngine* engine) override;
 
 #pragma endregion
 };

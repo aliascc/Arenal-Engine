@@ -47,161 +47,161 @@
 *********************/
 AETODO("Check if this class needs a mutex");
 ShaderAsset::ShaderAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, ShaderType shaderType, GraphicDevice* graphicDevice)
-	: GameAsset(GameContentType::Shader, filePath, gameResourceManager)
-	, m_ShaderType(shaderType)
-	, m_GraphicDevice(graphicDevice)
+    : GameAsset(GameContentType::Shader, filePath, gameResourceManager)
+    , m_ShaderType(shaderType)
+    , m_GraphicDevice(graphicDevice)
 {
-	AEAssert(m_GraphicDevice != nullptr);
+    AEAssert(m_GraphicDevice != nullptr);
 }
 
 ShaderAsset::~ShaderAsset()
 {
-	AERelease(m_Shader);
+    AERelease(m_Shader);
 }
 
 Shader* ShaderAsset::GetShaderReference()
 {
-	if(m_Shader == nullptr)
-	{
-		return nullptr;
-	}
+    if(m_Shader == nullptr)
+    {
+        return nullptr;
+    }
 
-	return reinterpret_cast<Shader*>(m_Shader->AddRef());
+    return reinterpret_cast<Shader*>(m_Shader->AddRef());
 }
 
 AEResult ShaderAsset::LoadAssetResource()
 {
-	AEAssert(m_GraphicDevice != nullptr);
-	if (m_GraphicDevice == nullptr)
-	{
-		return AEResult::GraphicDeviceNull;
-	}
+    AEAssert(m_GraphicDevice != nullptr);
+    if (m_GraphicDevice == nullptr)
+    {
+        return AEResult::GraphicDeviceNull;
+    }
 
-	AEAssert(m_GameResourceManager != nullptr);
-	if (m_GameResourceManager == nullptr)
-	{
-		return AEResult::GameResourceManagerNull;
-	}
+    AEAssert(m_GameResourceManager != nullptr);
+    if (m_GameResourceManager == nullptr)
+    {
+        return AEResult::GameResourceManagerNull;
+    }
 
-	AEAssert(!m_FilePath.empty());
-	if(m_FilePath.empty())
-	{
-		return AEResult::EmptyFilename;
-	}
+    AEAssert(!m_FilePath.empty());
+    if(m_FilePath.empty())
+    {
+        return AEResult::EmptyFilename;
+    }
 
-	AEResult ret = AEResult::Ok;
+    AEResult ret = AEResult::Ok;
 
-	AETODO("Look into what happens if file changes location");
+    AETODO("Look into what happens if file changes location");
 
-	if(m_Shader != nullptr)
-	{
-		AETODO("Need do see what happens if subtype changes");
-		AETODO("Check return value");
-		ret = m_Shader->Load();
-	}
-	else
-	{
-		GameResourceType gameResourceType = GameResourceType::Unknown;
+    if(m_Shader != nullptr)
+    {
+        AETODO("Need do see what happens if subtype changes");
+        AETODO("Check return value");
+        ret = m_Shader->Load();
+    }
+    else
+    {
+        GameResourceType gameResourceType = GameResourceType::Unknown;
 
-		switch (m_ShaderType)
-		{
-			case ShaderType::VertexShader:
-				gameResourceType = GameResourceType::VertexShader;
-				break;
-			case ShaderType::PixelShader:
-				gameResourceType = GameResourceType::PixelShader;
-				break;
-			case ShaderType::GeometryShader:
-				gameResourceType = GameResourceType::GeometryShader;
-				break;
-			case ShaderType::HullShader:
-				gameResourceType = GameResourceType::HullShader;
-				break;
-			case ShaderType::ComputeShader:
-				gameResourceType = GameResourceType::ComputeShader;
-				break;
-			case ShaderType::DomainShader:
-				gameResourceType = GameResourceType::DomainShader;
-				break;
-			default:
-				AEAssert(false);
-				return AEResult::InvalidShaderType;
-				break;
-		}
+        switch (m_ShaderType)
+        {
+            case ShaderType::VertexShader:
+                gameResourceType = GameResourceType::VertexShader;
+                break;
+            case ShaderType::PixelShader:
+                gameResourceType = GameResourceType::PixelShader;
+                break;
+            case ShaderType::GeometryShader:
+                gameResourceType = GameResourceType::GeometryShader;
+                break;
+            case ShaderType::HullShader:
+                gameResourceType = GameResourceType::HullShader;
+                break;
+            case ShaderType::ComputeShader:
+                gameResourceType = GameResourceType::ComputeShader;
+                break;
+            case ShaderType::DomainShader:
+                gameResourceType = GameResourceType::DomainShader;
+                break;
+            default:
+                AEAssert(false);
+                return AEResult::InvalidShaderType;
+                break;
+        }
 
-		/////////////////////////////////////////////
-		//Check if Game Resources contains this Mesh
-		m_Shader = (Shader*)m_GameResourceManager->AcquireGameResourceByStringID(m_FilePath, gameResourceType);
+        /////////////////////////////////////////////
+        //Check if Game Resources contains this Mesh
+        m_Shader = (Shader*)m_GameResourceManager->AcquireGameResourceByStringID(m_FilePath, gameResourceType);
 
-		if(m_Shader != nullptr)
-		{
-			AETODO("Check if we always need to reload");
-			AETODO("Check return value");
-			m_Shader->Load();
+        if(m_Shader != nullptr)
+        {
+            AETODO("Check if we always need to reload");
+            AETODO("Check return value");
+            m_Shader->Load();
 
-			return AEResult::Ok;
-		}
+            return AEResult::Ok;
+        }
 
-		/////////////////////////////////////////////
-		//Create Resource
-		switch (m_ShaderType)
-		{
-			case ShaderType::VertexShader:
-				m_Shader = new VertexShader(m_GraphicDevice, m_Name);
-				break;
-			case ShaderType::PixelShader:
-				m_Shader = new PixelShader(m_GraphicDevice, m_Name);
-				break;
-			case ShaderType::GeometryShader:
-				m_Shader = new GeometryShader(m_GraphicDevice, m_Name);
-				break;
-			case ShaderType::HullShader:
-				m_Shader = new HullShader(m_GraphicDevice, m_Name);
-				break;
-			case ShaderType::ComputeShader:
-				m_Shader = new ComputeShader(m_GraphicDevice, m_Name);
-				break;
-			case ShaderType::DomainShader:
-				m_Shader = new DomainShader(m_GraphicDevice, m_Name);
-				break;
-			default:
-				AEAssert(false);
-				return AEResult::InvalidShaderType;
-				break;
-		}
+        /////////////////////////////////////////////
+        //Create Resource
+        switch (m_ShaderType)
+        {
+            case ShaderType::VertexShader:
+                m_Shader = new VertexShader(m_GraphicDevice, m_Name);
+                break;
+            case ShaderType::PixelShader:
+                m_Shader = new PixelShader(m_GraphicDevice, m_Name);
+                break;
+            case ShaderType::GeometryShader:
+                m_Shader = new GeometryShader(m_GraphicDevice, m_Name);
+                break;
+            case ShaderType::HullShader:
+                m_Shader = new HullShader(m_GraphicDevice, m_Name);
+                break;
+            case ShaderType::ComputeShader:
+                m_Shader = new ComputeShader(m_GraphicDevice, m_Name);
+                break;
+            case ShaderType::DomainShader:
+                m_Shader = new DomainShader(m_GraphicDevice, m_Name);
+                break;
+            default:
+                AEAssert(false);
+                return AEResult::InvalidShaderType;
+                break;
+        }
 
-		/////////////////////////////////////////////
-		//Set File Name
-		m_Shader->SetFileName(m_FilePath);
+        /////////////////////////////////////////////
+        //Set File Name
+        m_Shader->SetFileName(m_FilePath);
 
-		/////////////////////////////////////////////
-		//Load File
-		ret = m_Shader->Load();
-		if(ret != AEResult::Ok)
-		{
-			AETODO("Add log");
+        /////////////////////////////////////////////
+        //Load File
+        ret = m_Shader->Load();
+        if(ret != AEResult::Ok)
+        {
+            AETODO("Add log");
 
-			AERelease(m_Shader);
+            AERelease(m_Shader);
 
-			return AEResult::LoadFileFailed;
-		}
+            return AEResult::LoadFileFailed;
+        }
 
-		/////////////////////////////////////////////
-		//Set Name
-		this->SetName(m_Shader->GetName());
+        /////////////////////////////////////////////
+        //Set Name
+        this->SetName(m_Shader->GetName());
 
-		/////////////////////////////////////////////
-		//Add to Resource Manager
-		ret = m_GameResourceManager->ManageGameResource(m_Shader, m_FilePath);
-		if(ret != AEResult::Ok)
-		{
-			AETODO("Add log");
+        /////////////////////////////////////////////
+        //Add to Resource Manager
+        ret = m_GameResourceManager->ManageGameResource(m_Shader, m_FilePath);
+        if(ret != AEResult::Ok)
+        {
+            AETODO("Add log");
 
-			AERelease(m_Shader);
+            AERelease(m_Shader);
 
-			return AEResult::ResourceManagedFailed;
-		}
-	}
+            return AEResult::ResourceManagedFailed;
+        }
+    }
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }

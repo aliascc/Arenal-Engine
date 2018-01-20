@@ -47,61 +47,61 @@ class AudioListener;
 
 class AudioListenerGOC sealed : public GameObjectComponent
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		AudioManager* m_AudioManager = nullptr;
+        AudioManager* m_AudioManager = nullptr;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// AudioListenerGOC Constructor
-		/// </summary>
-		/// <param name="gameObject">Game Object that this Component is attached too</param>
-		AudioListenerGOC(GameObject* gameObject, AudioManager* audioManager);
+        /// <summary>
+        /// AudioListenerGOC Constructor
+        /// </summary>
+        /// <param name="gameObject">Game Object that this Component is attached too</param>
+        AudioListenerGOC(GameObject* gameObject, AudioManager* audioManager);
 
-		/// <summary>
-		/// Default MeshGOC Destructor
-		/// </summary>
-		virtual ~AudioListenerGOC();
+        /// <summary>
+        /// Default MeshGOC Destructor
+        /// </summary>
+        virtual ~AudioListenerGOC();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
-		
-		/************************
-		*   Framework Methods   *
-		*************************/
+        
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

@@ -48,72 +48,72 @@
 
 class LocalizationAddOnAS sealed : public AngelScriptAddOn
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Methods
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Registers Localization Manager Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterLocalizationObject(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Localization Manager Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterLocalizationObject(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers Localization Manager Object Pointer with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterLocalizationObjectPointer(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Localization Manager Object Pointer with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterLocalizationObjectPointer(asIScriptEngine* engine);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// LocalizationAddOnAS Constructor
-		/// </summary>
-		LocalizationAddOnAS();
+        /// <summary>
+        /// LocalizationAddOnAS Constructor
+        /// </summary>
+        LocalizationAddOnAS();
 
-		/// <summary>
-		/// Default LocalizationAddOnAS Destructor
-		/// </summary>
-		virtual ~LocalizationAddOnAS();
+        /// <summary>
+        /// Default LocalizationAddOnAS Destructor
+        /// </summary>
+        virtual ~LocalizationAddOnAS();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Registers the Add-on with the AS Engine.
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		AEResult Register(asIScriptEngine* engine) override;
+        /// <summary>
+        /// Registers the Add-on with the AS Engine.
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        AEResult Register(asIScriptEngine* engine) override;
 
 #pragma endregion
 

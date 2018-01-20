@@ -47,71 +47,71 @@ class GameResourceManager;
 *   Class Decl   *
 ******************/
 class AnimationAsset sealed : public GameAsset
-{	
-	private:
+{    
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		Animation* m_Animation = nullptr;
+        Animation* m_Animation = nullptr;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Loads an Asset Resource to Memory
-		/// </summary>
-		/// <returns>AEResult::OK if successful</returns>
-		AEResult LoadAssetResource() override;
+        /// <summary>
+        /// Loads an Asset Resource to Memory
+        /// </summary>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult LoadAssetResource() override;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// AnimationAsset Constructor
-		/// </summary>
-		/// <param name="filePath">File Path of Game Asset to Load</param>
-		/// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
-		AnimationAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager);
+        /// <summary>
+        /// AnimationAsset Constructor
+        /// </summary>
+        /// <param name="filePath">File Path of Game Asset to Load</param>
+        /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
+        AnimationAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager);
 
-		/// <summary>
-		/// Default AnimationAsset Destructor
-		/// </summary>
-		virtual ~AnimationAsset();
+        /// <summary>
+        /// Default AnimationAsset Destructor
+        /// </summary>
+        virtual ~AnimationAsset();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		Animation* GetAnimationReference();
+        Animation* GetAnimationReference();
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
-		
-		/************************
-		*   Framework Methods   *
-		*************************/
+        
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

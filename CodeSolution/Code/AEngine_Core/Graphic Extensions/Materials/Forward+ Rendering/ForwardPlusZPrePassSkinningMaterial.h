@@ -52,68 +52,68 @@ class GameResourceManager;
 ******************/
 class ForwardPlusZPrePassSkinningMaterial sealed : public Material
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		AEResult CreateVertexShader();
+        AEResult CreateVertexShader();
 
-		AEResult CreateVertexShaderConstantBuffer();
+        AEResult CreateVertexShaderConstantBuffer();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/*****************************************
-		 *   Constructor & Destructor Methods   *
-		 *****************************************/
+        /*****************************************
+         *   Constructor & Destructor Methods   *
+         *****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// ForwardPlusZPrePassSkinningMaterial Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with</param>
-		/// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
-		/// <param name="name">Name of the Effect</param>
-		ForwardPlusZPrePassSkinningMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_FORWARD_PLUS_Z_PRE_PASS_MAT_NAME);
+        /// <summary>
+        /// ForwardPlusZPrePassSkinningMaterial Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with</param>
+        /// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
+        /// <param name="name">Name of the Effect</param>
+        ForwardPlusZPrePassSkinningMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_FORWARD_PLUS_Z_PRE_PASS_MAT_NAME);
 
-		/// <summary>
-		/// Default ForwardPlusZPrePassSkinningMaterial Destructor
-		/// </summary>
-		virtual ~ForwardPlusZPrePassSkinningMaterial();
+        /// <summary>
+        /// Default ForwardPlusZPrePassSkinningMaterial Destructor
+        /// </summary>
+        virtual ~ForwardPlusZPrePassSkinningMaterial();
 
 #pragma endregion
 
-		/*******************
-		 *   Get Methods   *
-		 *******************/
+        /*******************
+         *   Get Methods   *
+         *******************/
 #pragma region Get Methods
 
 #pragma endregion
-		
-		/*******************
-		 *   Set Methods   *
-		 *******************/
+        
+        /*******************
+         *   Set Methods   *
+         *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/*************************
-		 *   Framework Methods   *
-		 *************************/
+        /*************************
+         *   Framework Methods   *
+         *************************/
 #pragma region Framework Methods
 
-		AEResult LoadContent() override;
+        AEResult LoadContent() override;
 
 #pragma endregion
 

@@ -52,70 +52,70 @@ class GameResourceManager;
 ******************/
 class BasicColorMaterial sealed : public Material
 {
-	private:
-		
-		/**************************
-		 *   Private Variables   *
-		 **************************/
+    private:
+        
+        /**************************
+         *   Private Variables   *
+         **************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-		/************************
-		 *   Private Methods    *
-		 ************************/
+        /************************
+         *   Private Methods    *
+         ************************/
 #pragma region Private Methods
 
-		AEResult CreateVertexShader();
-		
-		AEResult CreateVertexShaderConstantBuffer();
+        AEResult CreateVertexShader();
+        
+        AEResult CreateVertexShaderConstantBuffer();
 
-		AEResult CreatePixelShader();
+        AEResult CreatePixelShader();
 
 #pragma endregion
-		
-	public:
+        
+    public:
 
-		/*****************************************
-		 *   Constructor & Destructor Methods   *
-		 *****************************************/
+        /*****************************************
+         *   Constructor & Destructor Methods   *
+         *****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// BasicColorMaterial Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with</param>
-		/// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
-		/// <param name="name">Name of the Effect</param>
-		BasicColorMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_BASIC_COLOR_MAT_NAME);
+        /// <summary>
+        /// BasicColorMaterial Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with</param>
+        /// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
+        /// <param name="name">Name of the Effect</param>
+        BasicColorMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_BASIC_COLOR_MAT_NAME);
 
-		/// <summary>
-		/// Default BasicColorMaterial Destructor
-		/// </summary>
-		virtual ~BasicColorMaterial();
+        /// <summary>
+        /// Default BasicColorMaterial Destructor
+        /// </summary>
+        virtual ~BasicColorMaterial();
 
 #pragma endregion
-		
-		/**********************
-		 *     Get Methods    *
-		 **********************/
+        
+        /**********************
+         *     Get Methods    *
+         **********************/
 #pragma region Get Methods
 
 #pragma endregion
-		
-		/**********************
-		 *     Set Methods    *
-		 **********************/
+        
+        /**********************
+         *     Set Methods    *
+         **********************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/**************************
-		 *   Framework Methods    *
-		 **************************/
+        /**************************
+         *   Framework Methods    *
+         **************************/
 #pragma region Framework Methods
 
-		AEResult LoadContent() override;
+        AEResult LoadContent() override;
 
 #pragma endregion
 

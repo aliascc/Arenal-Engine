@@ -54,85 +54,85 @@ typedef GameObjectScriptMap::const_iterator GameObjectScriptMapItConst;
 
 class GameObjectScriptManager sealed : public AEObject
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Game Object Script Map.
-		/// </summary>
-		GameObjectScriptMap m_GameObjectScriptMap;
+        /// <summary>
+        /// Game Object Script Map.
+        /// </summary>
+        GameObjectScriptMap m_GameObjectScriptMap;
 
-		/// <summary>
-		/// Is Ready flag that determines if the object 
-		/// is initialize and ready to run.
-		/// </summary>
-		bool m_IsReady = false;
+        /// <summary>
+        /// Is Ready flag that determines if the object 
+        /// is initialize and ready to run.
+        /// </summary>
+        bool m_IsReady = false;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Clean up memory use by the class.
-		/// </summary>
-		void CleanUp();
+        /// <summary>
+        /// Clean up memory use by the class.
+        /// </summary>
+        void CleanUp();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/****************************************
-		 *   Constructor & Destructor Methods   *
-		 ****************************************/
+        /****************************************
+         *   Constructor & Destructor Methods   *
+         ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// GameObjectScriptManager Constructor
-		/// </summary>
-		GameObjectScriptManager();
+        /// <summary>
+        /// GameObjectScriptManager Constructor
+        /// </summary>
+        GameObjectScriptManager();
 
-		/// <summary>
-		/// Default GameObjectScriptManager Destructor
-		/// </summary>
-		virtual ~GameObjectScriptManager();
+        /// <summary>
+        /// Default GameObjectScriptManager Destructor
+        /// </summary>
+        virtual ~GameObjectScriptManager();
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		bool Exists(const std::wstring& name);
+        bool Exists(const std::wstring& name);
 
-		AEResult Add(const std::wstring& name, GameObjectScriptInstance* instance);
+        AEResult Add(const std::wstring& name, GameObjectScriptInstance* instance);
 
-		AEResult Remove(const std::wstring& name);
+        AEResult Remove(const std::wstring& name);
 
-		GameObjectScriptInstance* Get(const std::wstring& name);
+        GameObjectScriptInstance* Get(const std::wstring& name);
 
-		asIScriptObject* GetScript(const std::wstring& name);
+        asIScriptObject* GetScript(const std::wstring& name);
 
-		GameObjectScriptMapIt begin();
+        GameObjectScriptMapIt begin();
 
-		GameObjectScriptMapIt end();
+        GameObjectScriptMapIt end();
 
-		GameObjectScriptMapItConst begin() const;
+        GameObjectScriptMapItConst begin() const;
 
-		GameObjectScriptMapItConst end() const;
+        GameObjectScriptMapItConst end() const;
 
-		GameObjectScriptMapItConst cbegin() const;
+        GameObjectScriptMapItConst cbegin() const;
 
-		GameObjectScriptMapItConst cend() const;
+        GameObjectScriptMapItConst cend() const;
 
-		GameObjectScriptInstance* operator[](const std::wstring& name);
+        GameObjectScriptInstance* operator[](const std::wstring& name);
 
 #pragma endregion
 

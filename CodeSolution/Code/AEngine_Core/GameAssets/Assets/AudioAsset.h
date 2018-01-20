@@ -48,76 +48,76 @@ class AudioManager;
 ******************/
 class AudioAsset sealed : public GameAsset
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		Audio* m_Audio = nullptr;
+        Audio* m_Audio = nullptr;
 
-		/// <summary>
-		/// Audio Manager to handle the Sounds
-		/// </summary>
-		AudioManager* m_AudioManager = nullptr;
+        /// <summary>
+        /// Audio Manager to handle the Sounds
+        /// </summary>
+        AudioManager* m_AudioManager = nullptr;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
-		
-		/// <summary>
-		/// Loads an Asset Resource to Memory
-		/// </summary>
-		/// <returns>AEResult::OK if successful</returns>
-		AEResult LoadAssetResource() override;
+        
+        /// <summary>
+        /// Loads an Asset Resource to Memory
+        /// </summary>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult LoadAssetResource() override;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// AudioAsset Constructor
-		/// </summary>
-		/// <param name="filePath">File Path of Game Asset to Load</param>
-		/// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
-		/// <param name="audioManager">Audio Manager to handle the Sounds</param>
-		AudioAsset(const std::wstring& filepath, GameResourceManager* gameResourceManager, AudioManager* audioManager);
+        /// <summary>
+        /// AudioAsset Constructor
+        /// </summary>
+        /// <param name="filePath">File Path of Game Asset to Load</param>
+        /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
+        /// <param name="audioManager">Audio Manager to handle the Sounds</param>
+        AudioAsset(const std::wstring& filepath, GameResourceManager* gameResourceManager, AudioManager* audioManager);
 
-		/// <summary>
-		/// Default AudioAsset Destructor
-		/// </summary>
-		virtual ~AudioAsset();
+        /// <summary>
+        /// Default AudioAsset Destructor
+        /// </summary>
+        virtual ~AudioAsset();
 
 #pragma endregion
 
-		/*******************
-		*   Get Methods    *
-		********************/
+        /*******************
+        *   Get Methods    *
+        ********************/
 #pragma region Get Methods
 
-		Audio* GetAudioReference();
+        Audio* GetAudioReference();
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

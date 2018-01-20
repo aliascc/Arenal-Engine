@@ -56,286 +56,286 @@ class ShaderProperties;
 ******************/
 class MeshMaterialGOC sealed : public GameObjectComponent
 {
-	private:
+    private:
 
-		/*************************
-		 *   Private Variables   *
-		 *************************/
+        /*************************
+         *   Private Variables   *
+         *************************/
 #pragma region Private Variables
 
-		std::wstring m_Name = L"";
-		
-		/// <summary>
-		/// Game Object Pair with Vertex Shader that this Game Object Component uses
-		/// <summary>
-		GameObjectAssetPair<VertexShader> m_VertexShader;
+        std::wstring m_Name = L"";
+        
+        /// <summary>
+        /// Game Object Pair with Vertex Shader that this Game Object Component uses
+        /// <summary>
+        GameObjectAssetPair<VertexShader> m_VertexShader;
 
-		ShaderProperties* m_VertexShaderProps = nullptr;
+        ShaderProperties* m_VertexShaderProps = nullptr;
 
-		/// <summary>
-		/// Game Object Pair with Pixel Shader that this Game Object Component uses
-		/// <summary>
-		GameObjectAssetPair<PixelShader> m_PixelShader;
+        /// <summary>
+        /// Game Object Pair with Pixel Shader that this Game Object Component uses
+        /// <summary>
+        GameObjectAssetPair<PixelShader> m_PixelShader;
 
-		ShaderProperties* m_PixelShaderProps = nullptr;
+        ShaderProperties* m_PixelShaderProps = nullptr;
 
-		/// <summary>
-		/// Game Object Pair with Geometry Shader that this Game Object Component uses
-		/// <summary>
-		GameObjectAssetPair<GeometryShader> m_GeometryShader;
+        /// <summary>
+        /// Game Object Pair with Geometry Shader that this Game Object Component uses
+        /// <summary>
+        GameObjectAssetPair<GeometryShader> m_GeometryShader;
 
-		ShaderProperties* m_GeometryShaderProps = nullptr;
+        ShaderProperties* m_GeometryShaderProps = nullptr;
 
-		/// <summary>
-		/// Game Object Pair with Compute Shader that this Game Object Component uses
-		/// <summary>
-		GameObjectAssetPair<ComputeShader> m_ComputeShader;
+        /// <summary>
+        /// Game Object Pair with Compute Shader that this Game Object Component uses
+        /// <summary>
+        GameObjectAssetPair<ComputeShader> m_ComputeShader;
 
-		ShaderProperties* m_ComputeShaderProps = nullptr;
+        ShaderProperties* m_ComputeShaderProps = nullptr;
 
-		/// <summary>
-		/// Game Object Pair with Domain Shader that this Game Object Component uses
-		/// <summary>
-		GameObjectAssetPair<DomainShader> m_DomainShader;
+        /// <summary>
+        /// Game Object Pair with Domain Shader that this Game Object Component uses
+        /// <summary>
+        GameObjectAssetPair<DomainShader> m_DomainShader;
 
-		ShaderProperties* m_DomainShaderProps = nullptr;
+        ShaderProperties* m_DomainShaderProps = nullptr;
 
-		/// <summary>
-		/// Game Object Pair with Hull Shader that this Game Object Component uses
-		/// <summary>
-		GameObjectAssetPair<HullShader> m_HullShader;
+        /// <summary>
+        /// Game Object Pair with Hull Shader that this Game Object Component uses
+        /// <summary>
+        GameObjectAssetPair<HullShader> m_HullShader;
 
-		ShaderProperties* m_HullShaderProps = nullptr;
+        ShaderProperties* m_HullShaderProps = nullptr;
 
 #pragma endregion
 
-		/***********************
-		 *   Private Methods   *
-		 ***********************/
+        /***********************
+         *   Private Methods   *
+         ***********************/
 #pragma region Private Methods
 
-		void ShaderAssetDeletion(GameAsset* asset);
+        void ShaderAssetDeletion(GameAsset* asset);
 
-		void ShaderAssetReload(GameAsset* asset);
+        void ShaderAssetReload(GameAsset* asset);
 
-		void TextureAssetDeletion(GameAsset* asset);
+        void TextureAssetDeletion(GameAsset* asset);
 
-		void TextureAssetReload(GameAsset* asset);
+        void TextureAssetReload(GameAsset* asset);
 
-		AEResult VertexShaderAssetReload(ShaderAsset* asset);
+        AEResult VertexShaderAssetReload(ShaderAsset* asset);
 
-		AEResult PixelShaderAssetReload(ShaderAsset* asset);
+        AEResult PixelShaderAssetReload(ShaderAsset* asset);
 
-		AEResult GeometryShaderAssetReload(ShaderAsset* asset);
+        AEResult GeometryShaderAssetReload(ShaderAsset* asset);
 
-		AEResult ComputeShaderAssetReload(ShaderAsset* asset);
+        AEResult ComputeShaderAssetReload(ShaderAsset* asset);
 
-		AEResult HullShaderAssetReload(ShaderAsset* asset);
+        AEResult HullShaderAssetReload(ShaderAsset* asset);
 
-		AEResult DomainShaderAssetReload(ShaderAsset* asset);
+        AEResult DomainShaderAssetReload(ShaderAsset* asset);
 
-		AEResult RemoveShaderAsset(ShaderType shaderType, bool informGameAsset = true, uint64_t assetID = 0);
+        AEResult RemoveShaderAsset(ShaderType shaderType, bool informGameAsset = true, uint64_t assetID = 0);
 
-		AEResult CreateShaderProperties(ShaderType shaderType);
+        AEResult CreateShaderProperties(ShaderType shaderType);
 
-		AEResult DeleteShaderProperties(ShaderType shaderType);
+        AEResult DeleteShaderProperties(ShaderType shaderType);
 
-		template<class T>
-		AEResult CreateShaderPropertiesTemplate(GameObjectAssetPair<T>& gameAssetPair, ShaderProperties** shaderProperties);
+        template<class T>
+        AEResult CreateShaderPropertiesTemplate(GameObjectAssetPair<T>& gameAssetPair, ShaderProperties** shaderProperties);
 
-		template<class T>
-		AEResult ShaderPropertiesReloadTemplate(GameObjectAssetPair<T>& gameAssetPair, ShaderProperties** shaderProperties);
+        template<class T>
+        AEResult ShaderPropertiesReloadTemplate(GameObjectAssetPair<T>& gameAssetPair, ShaderProperties** shaderProperties);
 
-		template<class T>
-		std::wstring GetShaderResourceNameTemplate(const GameObjectAssetPair<T>& gameAssetPair) const;
+        template<class T>
+        std::wstring GetShaderResourceNameTemplate(const GameObjectAssetPair<T>& gameAssetPair) const;
 
-		template<class T>
-		AEResult SetShaderAssetTemplate(ShaderAsset* asset, ShaderType shaderType, GameObjectAssetPair<T>& gameAssetPair);
-		
-		template<class T>
-		AEResult ClearShaderAssetTemplate(GameObjectAssetPair<T>& gameAssetPair, bool informGameAsset = true);
+        template<class T>
+        AEResult SetShaderAssetTemplate(ShaderAsset* asset, ShaderType shaderType, GameObjectAssetPair<T>& gameAssetPair);
+        
+        template<class T>
+        AEResult ClearShaderAssetTemplate(GameObjectAssetPair<T>& gameAssetPair, bool informGameAsset = true);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/****************************************
-		 *   Constructor & Destructor Methods   *
-		 ****************************************/
+        /****************************************
+         *   Constructor & Destructor Methods   *
+         ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// MeshMaterialGOC Constructor
-		/// </summary>
-		/// <param name="gameObject">Game Object that this Component is attached too</param>
-		/// <param name="name">Name of the Mesh Material</param>
-		MeshMaterialGOC(GameObject* gameObject, const std::wstring& name = L"");
+        /// <summary>
+        /// MeshMaterialGOC Constructor
+        /// </summary>
+        /// <param name="gameObject">Game Object that this Component is attached too</param>
+        /// <param name="name">Name of the Mesh Material</param>
+        MeshMaterialGOC(GameObject* gameObject, const std::wstring& name = L"");
 
-		/// <summary>
-		/// Default MeshMaterialGOC Destructor
-		/// </summary>
-		virtual ~MeshMaterialGOC();
+        /// <summary>
+        /// Default MeshMaterialGOC Destructor
+        /// </summary>
+        virtual ~MeshMaterialGOC();
 
 #pragma endregion
 
-		/*******************
-		 *   Get Methods   *
-		 *******************/
+        /*******************
+         *   Get Methods   *
+         *******************/
 #pragma region Get Methods
 
-		inline VertexShader* GetVertexShaderResource() const
-		{
-			return m_VertexShader.m_ResourceAsset;
-		}
+        inline VertexShader* GetVertexShaderResource() const
+        {
+            return m_VertexShader.m_ResourceAsset;
+        }
 
-		inline uint64_t GetVertexShaderAssetID() const
-		{
-			return m_VertexShader.m_AssetID;
-		}
+        inline uint64_t GetVertexShaderAssetID() const
+        {
+            return m_VertexShader.m_AssetID;
+        }
 
-		inline ShaderProperties* GetVertexShaderProperties() const
-		{
-			return m_VertexShaderProps;
-		}
+        inline ShaderProperties* GetVertexShaderProperties() const
+        {
+            return m_VertexShaderProps;
+        }
 
-		std::wstring GetVertexShaderName() const;
+        std::wstring GetVertexShaderName() const;
 
-		inline PixelShader* GetPixelShaderResource() const
-		{
-			return m_PixelShader.m_ResourceAsset;
-		}
+        inline PixelShader* GetPixelShaderResource() const
+        {
+            return m_PixelShader.m_ResourceAsset;
+        }
 
-		inline uint64_t GetPixelShaderAssetID() const
-		{
-			return m_PixelShader.m_AssetID;
-		}
+        inline uint64_t GetPixelShaderAssetID() const
+        {
+            return m_PixelShader.m_AssetID;
+        }
 
-		inline ShaderProperties* GetPixelShaderProperties() const
-		{
-			return m_PixelShaderProps;
-		}
+        inline ShaderProperties* GetPixelShaderProperties() const
+        {
+            return m_PixelShaderProps;
+        }
 
-		std::wstring GetPixelShaderName() const;
+        std::wstring GetPixelShaderName() const;
 
-		inline GeometryShader* GetGeometryShaderResource() const
-		{
-			return m_GeometryShader.m_ResourceAsset;
-		}
+        inline GeometryShader* GetGeometryShaderResource() const
+        {
+            return m_GeometryShader.m_ResourceAsset;
+        }
 
-		inline uint64_t GetGeometryShaderAssetID() const
-		{
-			return m_GeometryShader.m_AssetID;
-		}
+        inline uint64_t GetGeometryShaderAssetID() const
+        {
+            return m_GeometryShader.m_AssetID;
+        }
 
-		inline ShaderProperties* GetGeometryShaderProperties() const
-		{
-			return m_GeometryShaderProps;
-		}
+        inline ShaderProperties* GetGeometryShaderProperties() const
+        {
+            return m_GeometryShaderProps;
+        }
 
-		std::wstring GetGeometryShaderName() const;
+        std::wstring GetGeometryShaderName() const;
 
-		inline ComputeShader* GetComputeShaderResource() const
-		{
-			return m_ComputeShader.m_ResourceAsset;
-		}
+        inline ComputeShader* GetComputeShaderResource() const
+        {
+            return m_ComputeShader.m_ResourceAsset;
+        }
 
-		inline uint64_t GetComputeShaderAssetID() const
-		{
-			return m_ComputeShader.m_AssetID;
-		}
+        inline uint64_t GetComputeShaderAssetID() const
+        {
+            return m_ComputeShader.m_AssetID;
+        }
 
-		inline ShaderProperties* GetComputeShaderProperties() const
-		{
-			return m_ComputeShaderProps;
-		}
+        inline ShaderProperties* GetComputeShaderProperties() const
+        {
+            return m_ComputeShaderProps;
+        }
 
-		std::wstring GetComputeShaderName() const;
+        std::wstring GetComputeShaderName() const;
 
-		inline HullShader* GetHullShaderResource() const
-		{
-			return m_HullShader.m_ResourceAsset;
-		}
+        inline HullShader* GetHullShaderResource() const
+        {
+            return m_HullShader.m_ResourceAsset;
+        }
 
-		inline uint64_t GetHullShaderAssetID() const
-		{
-			return m_HullShader.m_AssetID;
-		}
+        inline uint64_t GetHullShaderAssetID() const
+        {
+            return m_HullShader.m_AssetID;
+        }
 
-		inline ShaderProperties* GetHullShaderProperties() const
-		{
-			return m_HullShaderProps;
-		}
+        inline ShaderProperties* GetHullShaderProperties() const
+        {
+            return m_HullShaderProps;
+        }
 
-		std::wstring GetHullShaderName() const;
+        std::wstring GetHullShaderName() const;
 
-		inline DomainShader* GetDomainShaderResource() const
-		{
-			return m_DomainShader.m_ResourceAsset;
-		}
+        inline DomainShader* GetDomainShaderResource() const
+        {
+            return m_DomainShader.m_ResourceAsset;
+        }
 
-		inline uint64_t GetDomainShaderAssetID() const
-		{
-			return m_DomainShader.m_AssetID;
-		}
+        inline uint64_t GetDomainShaderAssetID() const
+        {
+            return m_DomainShader.m_AssetID;
+        }
 
-		inline ShaderProperties* GetDomainShaderProperties() const
-		{
-			return m_DomainShaderProps;
-		}
+        inline ShaderProperties* GetDomainShaderProperties() const
+        {
+            return m_DomainShaderProps;
+        }
 
-		std::wstring GetDomainShaderName() const;
+        std::wstring GetDomainShaderName() const;
 
-		inline const std::wstring& GetName() const
-		{
-			return m_Name;
-		}
+        inline const std::wstring& GetName() const
+        {
+            return m_Name;
+        }
 
 #pragma endregion
 
-		/*******************
-		 *   Set Methods   *
-		 *******************/
+        /*******************
+         *   Set Methods   *
+         *******************/
 #pragma region Set Methods
 
-		AEResult SetVertexShaderAsset(ShaderAsset* asset);
+        AEResult SetVertexShaderAsset(ShaderAsset* asset);
 
-		AEResult SetPixelShaderAsset(ShaderAsset* asset);
+        AEResult SetPixelShaderAsset(ShaderAsset* asset);
 
-		AEResult SetGeometryShaderAsset(ShaderAsset* asset);
+        AEResult SetGeometryShaderAsset(ShaderAsset* asset);
 
-		AEResult SetComputeShaderAsset(ShaderAsset* asset);
+        AEResult SetComputeShaderAsset(ShaderAsset* asset);
 
-		AEResult SetHullShaderAsset(ShaderAsset* asset);
+        AEResult SetHullShaderAsset(ShaderAsset* asset);
 
-		AEResult SetDomainShaderAsset(ShaderAsset* asset);
+        AEResult SetDomainShaderAsset(ShaderAsset* asset);
 
-		void SetName(const std::wstring& name)
-		{
-			m_Name = name;
-		}
+        void SetName(const std::wstring& name)
+        {
+            m_Name = name;
+        }
 
 #pragma endregion
 
-		/*************************
-		 *   Framework Methods   *
-		 *************************/
+        /*************************
+         *   Framework Methods   *
+         *************************/
 #pragma region Framework Methods
 
-		AEResult RemoveVertexShaderAsset();
+        AEResult RemoveVertexShaderAsset();
 
-		AEResult RemovePixelShaderAsset();
+        AEResult RemovePixelShaderAsset();
 
-		AEResult RemoveGeometryShaderAsset();
+        AEResult RemoveGeometryShaderAsset();
 
-		AEResult RemoveComputeShaderAsset();
+        AEResult RemoveComputeShaderAsset();
 
-		AEResult RemoveHullShaderAsset();
+        AEResult RemoveHullShaderAsset();
 
-		AEResult RemoveDomainShaderAsset();
+        AEResult RemoveDomainShaderAsset();
 
-		AEResult ApplyShaders(GraphicDevice* graphicDevice);
+        AEResult ApplyShaders(GraphicDevice* graphicDevice);
 
-		AEResult UnApplyShaders(GraphicDevice* graphicDevice);
+        AEResult UnApplyShaders(GraphicDevice* graphicDevice);
 
 #pragma endregion
 

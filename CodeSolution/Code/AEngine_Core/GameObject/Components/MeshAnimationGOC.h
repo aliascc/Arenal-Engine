@@ -57,140 +57,140 @@ typedef std::map<uint64_t, GameObjectAssetPair<Animation>> AnimationAssetPairMap
 class MeshAnimationGOC sealed : public GameObjectComponent
 {
 
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		AnimationPlayer* m_AnimationPlayer;
+        AnimationPlayer* m_AnimationPlayer;
 
-		GameObjectAssetPair<Skeleton> m_SkeletonAsset;
+        GameObjectAssetPair<Skeleton> m_SkeletonAsset;
 
-		AnimationAssetPairMap m_AnimationAssetMap;
+        AnimationAssetPairMap m_AnimationAssetMap;
 
-		bool m_OnLoop = false;
+        bool m_OnLoop = false;
 
-		bool m_BlendAnimation = false;
+        bool m_BlendAnimation = false;
 
-		float m_BlendTime = 0.0f;
+        float m_BlendTime = 0.0f;
 
 #pragma endregion
 
-		/***********************
-		*   Private Methods    *
-		************************/
+        /***********************
+        *   Private Methods    *
+        ************************/
 #pragma region Private Methods
 
-		template<class T>
-		AEResult ClearAsset(GameObjectAssetPair<T>& goAssetPair, bool informGameAsset = true);
+        template<class T>
+        AEResult ClearAsset(GameObjectAssetPair<T>& goAssetPair, bool informGameAsset = true);
 
-		void SkeletonAssetDeletion(GameAsset* asset);
+        void SkeletonAssetDeletion(GameAsset* asset);
 
-		void AnimationAssetDeletion(GameAsset* asset);
+        void AnimationAssetDeletion(GameAsset* asset);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/****************************************
-		 *   Constructor & Destructor Methods   *
-		 ****************************************/
+        /****************************************
+         *   Constructor & Destructor Methods   *
+         ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// MeshAnimationGOC Constructor
-		/// </summary>
-		/// <param name="gameObject">Game Object that this Component is attached too</param>
-		MeshAnimationGOC(GameObject* gameObject);
+        /// <summary>
+        /// MeshAnimationGOC Constructor
+        /// </summary>
+        /// <param name="gameObject">Game Object that this Component is attached too</param>
+        MeshAnimationGOC(GameObject* gameObject);
 
-		/// <summary>
-		/// Default ScriptGOC Destructor
-		/// </summary>
-		virtual ~MeshAnimationGOC();
+        /// <summary>
+        /// Default ScriptGOC Destructor
+        /// </summary>
+        virtual ~MeshAnimationGOC();
 
 #pragma endregion
 
-		/*******************
-		 *   Get Methods   *
-		 *******************/
+        /*******************
+         *   Get Methods   *
+         *******************/
 #pragma region Get Methods
 
-		inline bool GetOnLoop() const
-		{
-			return m_OnLoop;
-		}
+        inline bool GetOnLoop() const
+        {
+            return m_OnLoop;
+        }
 
-		inline bool GetBlendAnimation() const
-		{
-			return m_BlendAnimation;
-		}
+        inline bool GetBlendAnimation() const
+        {
+            return m_BlendAnimation;
+        }
 
-		inline float GetBlendTime() const
-		{
-			return m_BlendTime;
-		}
+        inline float GetBlendTime() const
+        {
+            return m_BlendTime;
+        }
 
-		inline const AnimationAssetPairMap& GetAnimationAssetMap() const
-		{
-			return m_AnimationAssetMap;
-		}
+        inline const AnimationAssetPairMap& GetAnimationAssetMap() const
+        {
+            return m_AnimationAssetMap;
+        }
 
-		inline AnimationPlayer* GetAnimationPlayer() const
-		{
-			return m_AnimationPlayer;
-		}
+        inline AnimationPlayer* GetAnimationPlayer() const
+        {
+            return m_AnimationPlayer;
+        }
 
-		std::wstring GetSkeletonName() const;
+        std::wstring GetSkeletonName() const;
 
-		inline uint64_t MeshAnimationGOC::GetSkeletonAssetID() const
-		{
-			return m_SkeletonAsset.m_AssetID;
-		}
+        inline uint64_t MeshAnimationGOC::GetSkeletonAssetID() const
+        {
+            return m_SkeletonAsset.m_AssetID;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
-		inline void SetOnLoop(bool onLoop)
-		{
-			m_OnLoop = onLoop;
-		}
+        inline void SetOnLoop(bool onLoop)
+        {
+            m_OnLoop = onLoop;
+        }
 
-		inline void SetBlendAnimation(bool blendAnim)
-		{
-			m_BlendAnimation = blendAnim;
-		}
+        inline void SetBlendAnimation(bool blendAnim)
+        {
+            m_BlendAnimation = blendAnim;
+        }
 
-		inline void SetBlendTime(float blendTime)
-		{
-			m_BlendTime = blendTime;
-		}
+        inline void SetBlendTime(float blendTime)
+        {
+            m_BlendTime = blendTime;
+        }
 
 #pragma endregion
-		
-		/************************
-		*   Framework Methods   *
-		*************************/
+        
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult SetSkeletonAsset(SkeletonAsset* asset);
+        AEResult SetSkeletonAsset(SkeletonAsset* asset);
 
-		AEResult RemoveSkeletonAsset();
+        AEResult RemoveSkeletonAsset();
 
-		bool AnimationAssetExists(uint64_t animAssetID) const;
+        bool AnimationAssetExists(uint64_t animAssetID) const;
 
-		AEResult AddAnimationAsset(AnimationAsset* asset);
+        AEResult AddAnimationAsset(AnimationAsset* asset);
 
-		AEResult RemoveAnimationAsset(uint64_t animAssetID);
+        AEResult RemoveAnimationAsset(uint64_t animAssetID);
 
-		AEResult PlayTestAnimation(uint64_t animAssetID);
+        AEResult PlayTestAnimation(uint64_t animAssetID);
 
-		AEResult PauseAnimationPlayer();
+        AEResult PauseAnimationPlayer();
 
 #pragma endregion
 

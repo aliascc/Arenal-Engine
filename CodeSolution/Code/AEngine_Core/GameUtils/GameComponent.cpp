@@ -39,33 +39,33 @@
 *********************/
 AETODO("add mutex");
 GameComponent::GameComponent(GameApp* gameApp, const std::wstring& name, uint32_t callOrder)
-	: GameService(name)
-	, m_GameApp(gameApp)
-	, m_CallOrder(callOrder)
+    : GameService(name)
+    , m_GameApp(gameApp)
+    , m_CallOrder(callOrder)
 {
-	AEAssert(gameApp != nullptr);
+    AEAssert(gameApp != nullptr);
 
-	m_GameResourceManager = gameApp->GetGameResourceManager();
+    m_GameResourceManager = gameApp->GetGameResourceManager();
 }
 
 GameComponent::~GameComponent()
 {
-	UnLoadContent();
+    UnLoadContent();
 }
 
 void GameComponent::SetCallOrder(uint32_t callOrder)
 {
-	if(m_CallOrder == callOrder)
-	{
-		return;
-	}
+    if(m_CallOrder == callOrder)
+    {
+        return;
+    }
 
-	m_CallOrder = callOrder;
+    m_CallOrder = callOrder;
 
-	if(m_NeedSortChangeCallback != nullptr)
-	{
-		m_NeedSortChangeCallback();
-	}
+    if(m_NeedSortChangeCallback != nullptr)
+    {
+        m_NeedSortChangeCallback();
+    }
 }
 
 void GameComponent::ConstantUpdate(const TimerParams& timerParams)

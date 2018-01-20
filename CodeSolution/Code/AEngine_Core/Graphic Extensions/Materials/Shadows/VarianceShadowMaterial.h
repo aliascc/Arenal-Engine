@@ -52,70 +52,70 @@ class GameResourceManager;
 ******************/
 class VarianceShadowMaterial sealed : public Material
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		AEResult CreateVertexShader();
+        AEResult CreateVertexShader();
 
-		AEResult CreateVertexShaderConstantBuffer();
+        AEResult CreateVertexShaderConstantBuffer();
 
-		AEResult CreatePixelShader();
+        AEResult CreatePixelShader();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// VarianceShadowMaterial Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with</param>
-		/// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
-		/// <param name="name">Name of the Effect</param>
-		VarianceShadowMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_VARIANCE_SHADOW_MAT_NAME);
+        /// <summary>
+        /// VarianceShadowMaterial Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with</param>
+        /// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
+        /// <param name="name">Name of the Effect</param>
+        VarianceShadowMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_VARIANCE_SHADOW_MAT_NAME);
 
-		/// <summary>
-		/// Default VarianceShadowMaterial Destructor
-		/// </summary>
-		virtual ~VarianceShadowMaterial();
+        /// <summary>
+        /// Default VarianceShadowMaterial Destructor
+        /// </summary>
+        virtual ~VarianceShadowMaterial();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
-		
-		/******************
-		*   Set Methods   *
-		*******************/
+        
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/*************************
-		 *   Framework Methods   *
-		 *************************/
+        /*************************
+         *   Framework Methods   *
+         *************************/
 #pragma region Framework Methods
 
-		AEResult LoadContent() override;
+        AEResult LoadContent() override;
 
 #pragma endregion
 

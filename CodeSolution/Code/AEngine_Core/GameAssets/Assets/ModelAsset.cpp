@@ -42,391 +42,391 @@
 *********************/
 AETODO("Check if this class needs a mutex");
 ModelAsset::ModelAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice)
-	: GameAsset(GameContentType::Model, filePath, gameResourceManager)
-	, m_GraphicDevice(graphicDevice)
+    : GameAsset(GameContentType::Model, filePath, gameResourceManager)
+    , m_GraphicDevice(graphicDevice)
 {
-	AEAssert(m_GraphicDevice != nullptr);
+    AEAssert(m_GraphicDevice != nullptr);
 }
 
 ModelAsset::~ModelAsset()
 {
-	CleanUp();
+    CleanUp();
 }
 
 void ModelAsset::CleanUp()
 {
-	for (auto gameAssetLoadedIt : m_MeshAssetMap)
-	{
-		GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
+    for (auto gameAssetLoadedIt : m_MeshAssetMap)
+    {
+        GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
 
-		DeleteMem(gameAssetLoaded.m_Asset);
-	}
-	m_MeshAssetMap.clear();
+        DeleteMem(gameAssetLoaded.m_Asset);
+    }
+    m_MeshAssetMap.clear();
 
-	for (auto gameAssetLoadedIt : m_AnimationAssetMap)
-	{
-		GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
+    for (auto gameAssetLoadedIt : m_AnimationAssetMap)
+    {
+        GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
 
-		DeleteMem(gameAssetLoaded.m_Asset);
-	}
-	m_AnimationAssetMap.clear();
+        DeleteMem(gameAssetLoaded.m_Asset);
+    }
+    m_AnimationAssetMap.clear();
 
-	DeleteMem(m_SkeletonAsset);
+    DeleteMem(m_SkeletonAsset);
 }
 
 AEResult ModelAsset::LoadAssetResource()
 {
-	AEAssert(m_GameResourceManager != nullptr);
-	if(m_GameResourceManager == nullptr)
-	{
-		return AEResult::GameResourceManagerNull;
-	}
+    AEAssert(m_GameResourceManager != nullptr);
+    if(m_GameResourceManager == nullptr)
+    {
+        return AEResult::GameResourceManagerNull;
+    }
 
-	AEAssert(!m_FilePath.empty());
-	if(m_FilePath.empty())
-	{
-		return AEResult::EmptyFilename;
-	}
+    AEAssert(!m_FilePath.empty());
+    if(m_FilePath.empty())
+    {
+        return AEResult::EmptyFilename;
+    }
 
-	AEResult ret = AEResult::Ok;
-	
-	////////////////////////////////////////
-	//Load Model
-	ret = LoadFile();
+    AEResult ret = AEResult::Ok;
+    
+    ////////////////////////////////////////
+    //Load Model
+    ret = LoadFile();
 
-	if(ret != AEResult::Ok)
-	{
-		return ret;
-	}
+    if(ret != AEResult::Ok)
+    {
+        return ret;
+    }
 
-	////////////////////////////////////////
-	//Load Meshes
-	for (auto gameAssetLoadedIt : m_MeshAssetMap)
-	{
-		GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
+    ////////////////////////////////////////
+    //Load Meshes
+    for (auto gameAssetLoadedIt : m_MeshAssetMap)
+    {
+        GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
 
-		ret = gameAssetLoaded.m_Asset->LoadAsset();
-		if (ret != AEResult::Ok)
-		{
-			return ret;
-		}
-	}
+        ret = gameAssetLoaded.m_Asset->LoadAsset();
+        if (ret != AEResult::Ok)
+        {
+            return ret;
+        }
+    }
 
-	////////////////////////////////////////
-	//Load Skeleton
-	if(m_SkeletonAsset != nullptr)
-	{
-		m_SkeletonAsset->LoadAsset();
-		
-		if(ret != AEResult::Ok)
-		{
-			return ret;
-		}
-	}
+    ////////////////////////////////////////
+    //Load Skeleton
+    if(m_SkeletonAsset != nullptr)
+    {
+        m_SkeletonAsset->LoadAsset();
+        
+        if(ret != AEResult::Ok)
+        {
+            return ret;
+        }
+    }
 
-	////////////////////////////////////////
-	//Load Animations
-	for (auto gameAssetLoadedIt : m_AnimationAssetMap)
-	{
-		GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
+    ////////////////////////////////////////
+    //Load Animations
+    for (auto gameAssetLoadedIt : m_AnimationAssetMap)
+    {
+        GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
 
-		ret = gameAssetLoaded.m_Asset->LoadAsset();
-		if (ret != AEResult::Ok)
-		{
-			return ret;
-		}
-	}
+        ret = gameAssetLoaded.m_Asset->LoadAsset();
+        if (ret != AEResult::Ok)
+        {
+            return ret;
+        }
+    }
 
-	////////////////////////////////////////
-	//Finish
-	return AEResult::Ok;
+    ////////////////////////////////////////
+    //Finish
+    return AEResult::Ok;
 }
 
 AEResult ModelAsset::LoadFile()
 {
-	AEAssert(m_GraphicDevice != nullptr);
-	if (m_GraphicDevice == nullptr)
-	{
-		return AEResult::GraphicDeviceNull;
-	}
+    AEAssert(m_GraphicDevice != nullptr);
+    if (m_GraphicDevice == nullptr)
+    {
+        return AEResult::GraphicDeviceNull;
+    }
 
-	AEAssert(m_GameResourceManager != nullptr);
-	if (m_GameResourceManager == nullptr)
-	{
-		return AEResult::GameResourceManagerNull;
-	}
+    AEAssert(m_GameResourceManager != nullptr);
+    if (m_GameResourceManager == nullptr)
+    {
+        return AEResult::GameResourceManagerNull;
+    }
 
-	AEAssert(!m_FilePath.empty());
-	if(m_FilePath.empty())
-	{
-		return AEResult::EmptyFilename;
-	}
+    AEAssert(!m_FilePath.empty());
+    if(m_FilePath.empty())
+    {
+        return AEResult::EmptyFilename;
+    }
 
-	AEResult ret = AEResult::Ok;
-	
-	std::ifstream modelFile;
+    AEResult ret = AEResult::Ok;
+    
+    std::ifstream modelFile;
 
-	modelFile.open(m_FilePath, std::ios::binary | std::ios::in);
+    modelFile.open(m_FilePath, std::ios::binary | std::ios::in);
 
-	if(!modelFile.is_open())
-	{
-		AETODO("add log");
-		return AEResult::OpenFileFail;
-	}
-	
-	/////////////////////////////////////////////
-	//Verify Header
-	bool verifyHeader = AEGameContentHelpers::ReadFileHeaderAndVerify(modelFile, AE_CT_AE3D_FILE_HEADER, AE_CT_AE3D_FILE_VERSION_MAYOR, AE_CT_AE3D_FILE_VERSION_MINOR, AE_CT_AE3D_FILE_VERSION_REVISON);
+    if(!modelFile.is_open())
+    {
+        AETODO("add log");
+        return AEResult::OpenFileFail;
+    }
+    
+    /////////////////////////////////////////////
+    //Verify Header
+    bool verifyHeader = AEGameContentHelpers::ReadFileHeaderAndVerify(modelFile, AE_CT_AE3D_FILE_HEADER, AE_CT_AE3D_FILE_VERSION_MAYOR, AE_CT_AE3D_FILE_VERSION_MINOR, AE_CT_AE3D_FILE_VERSION_REVISON);
 
-	if(!verifyHeader)
-	{
-		AETODO("Add log");
-		return AEResult::InvalidFileHeader;
-	}
+    if(!verifyHeader)
+    {
+        AETODO("Add log");
+        return AEResult::InvalidFileHeader;
+    }
 
-	/////////////////////////////////////////////
-	//Initial check pass, Read Information for
-	//Model Asset
+    /////////////////////////////////////////////
+    //Initial check pass, Read Information for
+    //Model Asset
 
-	/////////////////////////////////////////////
-	//Read Name of Model
-	this->SetName(AEGameContentHelpers::ReadString(modelFile));
+    /////////////////////////////////////////////
+    //Read Name of Model
+    this->SetName(AEGameContentHelpers::ReadString(modelFile));
 
-	/////////////////////////////////////////////
-	//Read Meshes Filenames
-	ret = ReadModelMeshFiles(modelFile);
-	if(ret != AEResult::Ok)
-	{
-		AETODO("Add log");
+    /////////////////////////////////////////////
+    //Read Meshes Filenames
+    ret = ReadModelMeshFiles(modelFile);
+    if(ret != AEResult::Ok)
+    {
+        AETODO("Add log");
 
-		CleanUp();
+        CleanUp();
 
-		return ret;
-	}
-	
-	/////////////////////////////////////////////
-	//Read Skeleton Filename
-	ret = ReadModelSkeletonFile(modelFile);
-	if(ret != AEResult::Ok)
-	{
-		AETODO("Add log");
+        return ret;
+    }
+    
+    /////////////////////////////////////////////
+    //Read Skeleton Filename
+    ret = ReadModelSkeletonFile(modelFile);
+    if(ret != AEResult::Ok)
+    {
+        AETODO("Add log");
 
-		CleanUp();
+        CleanUp();
 
-		return ret;
-	}
-	
-	/////////////////////////////////////////////
-	//Read Animations Filenames 
-	ret = ReadModelAnimationFiles(modelFile);
-	if(ret != AEResult::Ok)
-	{
-		AETODO("Add log");
-		
-		CleanUp();
+        return ret;
+    }
+    
+    /////////////////////////////////////////////
+    //Read Animations Filenames 
+    ret = ReadModelAnimationFiles(modelFile);
+    if(ret != AEResult::Ok)
+    {
+        AETODO("Add log");
+        
+        CleanUp();
 
-		return ret;
-	}
-	
-	/////////////////////////////////////////////
-	//Read Footer 
-	bool verifyFooter = AEGameContentHelpers::ReadFileFooterAndVerify(modelFile, AE_CT_AE3D_FILE_FOOTER);
-	if(!verifyFooter)
-	{
-		AETODO("Add Warning log");
-	}
+        return ret;
+    }
+    
+    /////////////////////////////////////////////
+    //Read Footer 
+    bool verifyFooter = AEGameContentHelpers::ReadFileFooterAndVerify(modelFile, AE_CT_AE3D_FILE_FOOTER);
+    if(!verifyFooter)
+    {
+        AETODO("Add Warning log");
+    }
 
-	////////////////////////////////////////
-	//Finish
-	modelFile.close();
+    ////////////////////////////////////////
+    //Finish
+    modelFile.close();
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult ModelAsset::ReadModelMeshFiles(std::ifstream& fileStream)
 {
-	char* tempPtr = nullptr;
-	uint32_t sizeToRead = 0;
+    char* tempPtr = nullptr;
+    uint32_t sizeToRead = 0;
 
-	/////////////////////////////////////////////
-	//Read Number of Meshes
-	uint32_t numMeshes = 0;
-	tempPtr = reinterpret_cast<char*>(&numMeshes);
-	sizeToRead = sizeof(uint32_t);
-	fileStream.read(tempPtr, sizeToRead);
-	
-	/////////////////////////////////////////////
-	//Set all Meshes to unloaded
-	for (auto gameAssetLoadedIt : m_MeshAssetMap)
-	{
-		gameAssetLoadedIt.second.m_IsLoaded = false;
-	}
+    /////////////////////////////////////////////
+    //Read Number of Meshes
+    uint32_t numMeshes = 0;
+    tempPtr = reinterpret_cast<char*>(&numMeshes);
+    sizeToRead = sizeof(uint32_t);
+    fileStream.read(tempPtr, sizeToRead);
+    
+    /////////////////////////////////////////////
+    //Set all Meshes to unloaded
+    for (auto gameAssetLoadedIt : m_MeshAssetMap)
+    {
+        gameAssetLoadedIt.second.m_IsLoaded = false;
+    }
 
-	/////////////////////////////////////////////
-	//Get Mesh File Names
-	for(uint32_t i = 0; i < numMeshes; ++i)
-	{
-		/////////////////////////////////////////////
-		//Read Mesh Name and File Name
-		std::wstring meshName = AEGameContentHelpers::ReadString(fileStream);
-		std::wstring meshPath = AEGameContentHelpers::ReadString(fileStream);
+    /////////////////////////////////////////////
+    //Get Mesh File Names
+    for(uint32_t i = 0; i < numMeshes; ++i)
+    {
+        /////////////////////////////////////////////
+        //Read Mesh Name and File Name
+        std::wstring meshName = AEGameContentHelpers::ReadString(fileStream);
+        std::wstring meshPath = AEGameContentHelpers::ReadString(fileStream);
 
-		auto mapIt = m_MeshAssetMap.find(meshName);
-		if (mapIt != m_MeshAssetMap.end())
-		{
-			GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = mapIt->second;
-			MeshAsset* meshAsset = gameAssetLoaded.m_Asset;
+        auto mapIt = m_MeshAssetMap.find(meshName);
+        if (mapIt != m_MeshAssetMap.end())
+        {
+            GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = mapIt->second;
+            MeshAsset* meshAsset = gameAssetLoaded.m_Asset;
 
-			AEAssert(meshAsset != nullptr);
-			if (meshAsset == nullptr)
-			{
-				return AEResult::NullObj;
-			}
+            AEAssert(meshAsset != nullptr);
+            if (meshAsset == nullptr)
+            {
+                return AEResult::NullObj;
+            }
 
-			meshAsset->SetFilePath(meshPath);
+            meshAsset->SetFilePath(meshPath);
 
-			gameAssetLoaded.m_IsLoaded = true;
-		}
-		else
-		{
-			MeshAsset* meshAsset = new MeshAsset(meshPath, m_GameResourceManager, m_GraphicDevice);
+            gameAssetLoaded.m_IsLoaded = true;
+        }
+        else
+        {
+            MeshAsset* meshAsset = new MeshAsset(meshPath, m_GameResourceManager, m_GraphicDevice);
 
-			meshAsset->SetFilePath(meshPath);
-			meshAsset->SetName(meshName);
-			meshAsset->SetCustomName(meshName);
-			meshAsset->SetParentAssetID(this->GetUniqueAssetID());
+            meshAsset->SetFilePath(meshPath);
+            meshAsset->SetName(meshName);
+            meshAsset->SetCustomName(meshName);
+            meshAsset->SetParentAssetID(this->GetUniqueAssetID());
 
-			m_MeshAssetMap[meshName] = GameAssetLoadStatus<MeshAsset>(meshAsset, true);
-		}
-	}
+            m_MeshAssetMap[meshName] = GameAssetLoadStatus<MeshAsset>(meshAsset, true);
+        }
+    }
 
-	/////////////////////////////////////////////
-	//Remove any unused Asset
-	for (auto gameAssetLoadedIt : m_MeshAssetMap)
-	{
-		GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
+    /////////////////////////////////////////////
+    //Remove any unused Asset
+    for (auto gameAssetLoadedIt : m_MeshAssetMap)
+    {
+        GameAssetLoadStatus<MeshAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
 
-		if (!gameAssetLoaded.m_IsLoaded)
-		{
-			DeleteMem(gameAssetLoaded.m_Asset);
+        if (!gameAssetLoaded.m_IsLoaded)
+        {
+            DeleteMem(gameAssetLoaded.m_Asset);
 
-			m_MeshAssetMap.erase(gameAssetLoadedIt.first);
-		}
-	}
+            m_MeshAssetMap.erase(gameAssetLoadedIt.first);
+        }
+    }
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult ModelAsset::ReadModelSkeletonFile(std::ifstream& fileStream)
-{	
-	uint32_t tempUInt32 = 0;
-	char* tempPtr = nullptr;
-	uint32_t sizeToRead = 0;
-	
-	/////////////////////////////////////////////
-	//Write if Skeleton is present
-	bool skeletonExists = false;
-	tempPtr = reinterpret_cast<char*>(&skeletonExists);
-	sizeToRead = sizeof(bool);
-	fileStream.read(tempPtr, sizeToRead);
-	
-	if(!skeletonExists)
-	{
-		return AEResult::Ok;
-	}
+{    
+    uint32_t tempUInt32 = 0;
+    char* tempPtr = nullptr;
+    uint32_t sizeToRead = 0;
+    
+    /////////////////////////////////////////////
+    //Write if Skeleton is present
+    bool skeletonExists = false;
+    tempPtr = reinterpret_cast<char*>(&skeletonExists);
+    sizeToRead = sizeof(bool);
+    fileStream.read(tempPtr, sizeToRead);
+    
+    if(!skeletonExists)
+    {
+        return AEResult::Ok;
+    }
 
-	/////////////////////////////////////////////
-	//Read Skeleton Name and File Name
-	std::wstring skeletonName = AEGameContentHelpers::ReadString(fileStream);
-	std::wstring skeletonFile = AEGameContentHelpers::ReadString(fileStream);
+    /////////////////////////////////////////////
+    //Read Skeleton Name and File Name
+    std::wstring skeletonName = AEGameContentHelpers::ReadString(fileStream);
+    std::wstring skeletonFile = AEGameContentHelpers::ReadString(fileStream);
 
-	if(m_SkeletonAsset == nullptr || (m_SkeletonAsset->GetName().compare(skeletonName) != 0))
-	{
-		DeleteMem(m_SkeletonAsset);
+    if(m_SkeletonAsset == nullptr || (m_SkeletonAsset->GetName().compare(skeletonName) != 0))
+    {
+        DeleteMem(m_SkeletonAsset);
 
-		m_SkeletonAsset = new SkeletonAsset(skeletonFile, m_GameResourceManager);
-		m_SkeletonAsset->SetName(skeletonName);
-		m_SkeletonAsset->SetCustomName(skeletonName);
-		m_SkeletonAsset->SetParentAssetID(this->GetUniqueAssetID());
-	}
-	else
-	{
-		m_SkeletonAsset->SetFilePath(skeletonFile);
-	}
+        m_SkeletonAsset = new SkeletonAsset(skeletonFile, m_GameResourceManager);
+        m_SkeletonAsset->SetName(skeletonName);
+        m_SkeletonAsset->SetCustomName(skeletonName);
+        m_SkeletonAsset->SetParentAssetID(this->GetUniqueAssetID());
+    }
+    else
+    {
+        m_SkeletonAsset->SetFilePath(skeletonFile);
+    }
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult ModelAsset::ReadModelAnimationFiles(std::ifstream& fileStream)
 {
-	char* tempPtr = nullptr;
-	uint32_t sizeToRead = 0;
-	
-	/////////////////////////////////////////////
-	//Read Number of Animations
-	uint32_t numAnim = 0;
-	tempPtr = reinterpret_cast<char*>(&numAnim);
-	sizeToRead = sizeof(uint32_t);
-	fileStream.read(tempPtr, sizeToRead);
-	
-	/////////////////////////////////////////////
-	//Set Vector Size and initialize unassigned to null
-	for (auto gameAssetLoadedIt : m_AnimationAssetMap)
-	{
-		gameAssetLoadedIt.second.m_IsLoaded = false;
-	}
+    char* tempPtr = nullptr;
+    uint32_t sizeToRead = 0;
+    
+    /////////////////////////////////////////////
+    //Read Number of Animations
+    uint32_t numAnim = 0;
+    tempPtr = reinterpret_cast<char*>(&numAnim);
+    sizeToRead = sizeof(uint32_t);
+    fileStream.read(tempPtr, sizeToRead);
+    
+    /////////////////////////////////////////////
+    //Set Vector Size and initialize unassigned to null
+    for (auto gameAssetLoadedIt : m_AnimationAssetMap)
+    {
+        gameAssetLoadedIt.second.m_IsLoaded = false;
+    }
 
-	/////////////////////////////////////////////
-	//Get Animations File Names
-	for(uint32_t i = 0; i < numAnim; ++i)
-	{
-		/////////////////////////////////////////////
-		//Read Animation Name and File Name
-		std::wstring animName = AEGameContentHelpers::ReadString(fileStream);
-		std::wstring animFilePath = AEGameContentHelpers::ReadString(fileStream);
+    /////////////////////////////////////////////
+    //Get Animations File Names
+    for(uint32_t i = 0; i < numAnim; ++i)
+    {
+        /////////////////////////////////////////////
+        //Read Animation Name and File Name
+        std::wstring animName = AEGameContentHelpers::ReadString(fileStream);
+        std::wstring animFilePath = AEGameContentHelpers::ReadString(fileStream);
 
-		auto mapIt = m_AnimationAssetMap.find(animName);
-		if (mapIt != m_AnimationAssetMap.end())
-		{
-			GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = mapIt->second;
-			AnimationAsset* animAsset = gameAssetLoaded.m_Asset;
+        auto mapIt = m_AnimationAssetMap.find(animName);
+        if (mapIt != m_AnimationAssetMap.end())
+        {
+            GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = mapIt->second;
+            AnimationAsset* animAsset = gameAssetLoaded.m_Asset;
 
-			AEAssert(animAsset != nullptr);
-			if (animAsset == nullptr)
-			{
-				return AEResult::NullObj;
-			}
+            AEAssert(animAsset != nullptr);
+            if (animAsset == nullptr)
+            {
+                return AEResult::NullObj;
+            }
 
-			animAsset->SetFilePath(animFilePath);
+            animAsset->SetFilePath(animFilePath);
 
-			gameAssetLoaded.m_IsLoaded = true;
-		}
-		else
-		{
-			AnimationAsset* animAsset = new AnimationAsset(animFilePath, m_GameResourceManager);
+            gameAssetLoaded.m_IsLoaded = true;
+        }
+        else
+        {
+            AnimationAsset* animAsset = new AnimationAsset(animFilePath, m_GameResourceManager);
 
-			animAsset->SetFilePath(animFilePath);
-			animAsset->SetName(animName);
-			animAsset->SetCustomName(animName);
-			animAsset->SetParentAssetID(this->GetUniqueAssetID());
+            animAsset->SetFilePath(animFilePath);
+            animAsset->SetName(animName);
+            animAsset->SetCustomName(animName);
+            animAsset->SetParentAssetID(this->GetUniqueAssetID());
 
-			m_AnimationAssetMap[animName] = GameAssetLoadStatus<AnimationAsset>(animAsset, true);
-		}
-	}
+            m_AnimationAssetMap[animName] = GameAssetLoadStatus<AnimationAsset>(animAsset, true);
+        }
+    }
 
-	/////////////////////////////////////////////
-	//Remove any unused Asset
-	for (auto gameAssetLoadedIt : m_AnimationAssetMap)
-	{
-		GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
+    /////////////////////////////////////////////
+    //Remove any unused Asset
+    for (auto gameAssetLoadedIt : m_AnimationAssetMap)
+    {
+        GameAssetLoadStatus<AnimationAsset>& gameAssetLoaded = gameAssetLoadedIt.second;
 
-		if (!gameAssetLoaded.m_IsLoaded)
-		{
-			DeleteMem(gameAssetLoaded.m_Asset);
+        if (!gameAssetLoaded.m_IsLoaded)
+        {
+            DeleteMem(gameAssetLoaded.m_Asset);
 
-			m_MeshAssetMap.erase(gameAssetLoadedIt.first);
-		}
-	}
+            m_MeshAssetMap.erase(gameAssetLoadedIt.first);
+        }
+    }
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }

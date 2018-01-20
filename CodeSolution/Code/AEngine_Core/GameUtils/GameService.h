@@ -45,51 +45,51 @@
 ******************/
 class GameService abstract : public UniqueAEObjectNamed
 {
-	private:
+    private:
 
-		/************************
-		 *   Private Variables   *
-		 *************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-	public:
+    public:
 
-		/****************************************
-		 *   Constructor & Destructor Methods   *
-		 ****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		///<summary>
-		///GameService Constructor
-		///</summary>
-		GameService(const std::wstring& name = L"");
+        ///<summary>
+        ///GameService Constructor
+        ///</summary>
+        GameService(const std::wstring& name = L"");
 
-		///<summary>
-		///Default GameService Destructor
-		///</summary>
-		virtual ~GameService();
+        ///<summary>
+        ///Default GameService Destructor
+        ///</summary>
+        virtual ~GameService();
 
 #pragma endregion
 
-		/*******************
-		 *   Get Methods   *
-		 *******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/*******************
-		 *   Set Methods   *
-		 *******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/*************************
-		 *   Framework Methods   *
-		 *************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

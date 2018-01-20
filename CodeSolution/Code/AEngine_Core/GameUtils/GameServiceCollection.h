@@ -48,73 +48,73 @@ class LocalizationManager;
 ******************/
 class GameServiceCollection : public AEObject
 {
-	//Typedefs to handle Map Collection
-	typedef std::unordered_map<std::wstring, GameService*> GameServiceMap;
+    //Typedefs to handle Map Collection
+    typedef std::unordered_map<std::wstring, GameService*> GameServiceMap;
 
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Map of Game Services
-		/// </summary>
-		GameServiceMap m_GameServiceMap;
+        /// <summary>
+        /// Map of Game Services
+        /// </summary>
+        GameServiceMap m_GameServiceMap;
 
 #pragma endregion
 
-		/***********************
-		 *   Private Methods   *
-		 ***********************/
+        /***********************
+         *   Private Methods   *
+         ***********************/
 #pragma region Private Methods
 
 #pragma endregion
 
-	public:
+    public:
 
-		/****************************************
-		 *   Constructor & Destructor Methods   *
-		 ****************************************/
+        /****************************************
+         *   Constructor & Destructor Methods   *
+         ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// GameServiceCollection Constructor
-		/// </summary>
-		GameServiceCollection();
+        /// <summary>
+        /// GameServiceCollection Constructor
+        /// </summary>
+        GameServiceCollection();
 
-		/// <summary>
-		/// Default GameServiceCollection Destructor
-		/// </summary>
-		virtual ~GameServiceCollection();
+        /// <summary>
+        /// Default GameServiceCollection Destructor
+        /// </summary>
+        virtual ~GameServiceCollection();
 
 #pragma endregion
 
-		/*******************
-		 *   Get Methods   *
-		 *******************/
+        /*******************
+         *   Get Methods   *
+         *******************/
 #pragma region Get Methods
 
-		GameService* GetGameService(const std::wstring& name);
+        GameService* GetGameService(const std::wstring& name);
 
 #pragma endregion
 
-		/*************************
-		 *   Framework Methods   *
-		 *************************/
+        /*************************
+         *   Framework Methods   *
+         *************************/
 #pragma region Framework Methods
 
-		bool Exists(const std::wstring& name) const;
+        bool Exists(const std::wstring& name) const;
 
-		AEResult Add(const std::wstring& name, GameService* gameService);
+        AEResult Add(const std::wstring& name, GameService* gameService);
 
-		AEResult Remove(const std::wstring& name);
+        AEResult Remove(const std::wstring& name);
 
-		inline GameService* operator[] (const std::wstring& name)
-		{
-			return GetGameService(name);
-		}
+        inline GameService* operator[] (const std::wstring& name)
+        {
+            return GetGameService(name);
+        }
 
 #pragma endregion
 

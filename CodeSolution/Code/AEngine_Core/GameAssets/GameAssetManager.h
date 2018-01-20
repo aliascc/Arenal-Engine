@@ -63,184 +63,184 @@ typedef std::unordered_map<uint64_t, GameAsset*> GameAssetMap;
 ******************/
 class GameAssetManager sealed : public AEObject
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		uint64_t m_UniqueAssetIDGen = AE_GAME_ASSET_UNIQUE_ID_USER_START;
+        uint64_t m_UniqueAssetIDGen = AE_GAME_ASSET_UNIQUE_ID_USER_START;
 
-		RawGameAssetMap m_RawGameAssetMap;
+        RawGameAssetMap m_RawGameAssetMap;
 
-		GameAssetMap m_GameAssetMap;
+        GameAssetMap m_GameAssetMap;
 
-		GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice* m_GraphicDevice = nullptr;
 
-		GameResourceManager* m_GameResourceManager = nullptr;
+        GameResourceManager* m_GameResourceManager = nullptr;
 
-		/// <summary>
-		/// Angel Script Manager to handle the Scripts
-		/// </summary>
-		AngelScriptManager* m_AngelScriptManager = nullptr;
+        /// <summary>
+        /// Angel Script Manager to handle the Scripts
+        /// </summary>
+        AngelScriptManager* m_AngelScriptManager = nullptr;
 
-		AudioManager* m_AudioManager = nullptr;
+        AudioManager* m_AudioManager = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		std::wstring m_OutputDirAssets = L"";
+        std::wstring m_OutputDirAssets = L"";
 
-		std::wstring m_ProjectDirectory = L"";
+        std::wstring m_ProjectDirectory = L"";
 
-		GameAssetBuiltIns m_GameAssetBuiltIns;
+        GameAssetBuiltIns m_GameAssetBuiltIns;
 
-		std::mutex m_UniqueIDGenerateMutex;
+        std::mutex m_UniqueIDGenerateMutex;
 
-		std::mutex m_GameAssetManagerMutex;
-		
+        std::mutex m_GameAssetManagerMutex;
+        
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		void CleanUp();
+        void CleanUp();
 
-		void GameAssetDeleted(uint64_t assetID);
+        void GameAssetDeleted(uint64_t assetID);
 
-		uint64_t GetNextUniqueAssetID();
+        uint64_t GetNextUniqueAssetID();
 
-		AEResult ImportBuiltInMeshes();
+        AEResult ImportBuiltInMeshes();
 
-		AEResult ImportBuiltInShader();
+        AEResult ImportBuiltInShader();
 
-		AEResult ImportBuiltInDiffuseTextureShader();
+        AEResult ImportBuiltInDiffuseTextureShader();
 
-		AEResult ImportRawGameAssetWithoutLock(uint64_t rawAssetID);
+        AEResult ImportRawGameAssetWithoutLock(uint64_t rawAssetID);
 
-		AEResult ImportModel(RawGameAsset* rawGA);
+        AEResult ImportModel(RawGameAsset* rawGA);
 
-		AEResult ImportShader(RawGameAsset* rawGA);
+        AEResult ImportShader(RawGameAsset* rawGA);
 
-		AEResult ImportTexture(RawGameAsset* rawGA);
+        AEResult ImportTexture(RawGameAsset* rawGA);
 
-		AEResult ImportGameObjectScript(RawGameAsset* rawGA);
+        AEResult ImportGameObjectScript(RawGameAsset* rawGA);
 
-		AEResult ImportAudio(RawGameAsset* rawGA);
+        AEResult ImportAudio(RawGameAsset* rawGA);
 
-		AEResult CheckForLatestRawGameAssets();
+        AEResult CheckForLatestRawGameAssets();
 
-		AEResult SaveToXMLGameAssets(AEXMLWriter& xmlWriter) const;
+        AEResult SaveToXMLGameAssets(AEXMLWriter& xmlWriter) const;
 
-		AEResult SaveToXMLRawGameAssets(AEXMLWriter& xmlWriter) const;
+        AEResult SaveToXMLRawGameAssets(AEXMLWriter& xmlWriter) const;
 
-		AEResult LoadRawAssets(AEXMLParser& rawAssetXML);
+        AEResult LoadRawAssets(AEXMLParser& rawAssetXML);
 
-		AEResult LoadGameAssets(AEXMLParser& gameAssetXML);
+        AEResult LoadGameAssets(AEXMLParser& gameAssetXML);
 
-		void SetAssetDetails(const GameAssetLoadingDetails& details, GameAsset* asset);
+        void SetAssetDetails(const GameAssetLoadingDetails& details, GameAsset* asset);
 
-		AEResult LoadModelAsset(const GameAssetLoadingDetails& details);
+        AEResult LoadModelAsset(const GameAssetLoadingDetails& details);
 
-		AEResult LoadMeshAsset(const GameAssetLoadingDetails& details);
+        AEResult LoadMeshAsset(const GameAssetLoadingDetails& details);
 
-		AEResult LoadAnimationAsset(const GameAssetLoadingDetails& details);
+        AEResult LoadAnimationAsset(const GameAssetLoadingDetails& details);
 
-		AEResult LoadSkeletonAsset(const GameAssetLoadingDetails& details);
+        AEResult LoadSkeletonAsset(const GameAssetLoadingDetails& details);
 
-		AEResult LoadShaderAsset(const GameAssetLoadingDetails& details);
+        AEResult LoadShaderAsset(const GameAssetLoadingDetails& details);
 
-		AEResult LoadTextureAsset(const GameAssetLoadingDetails& details);
+        AEResult LoadTextureAsset(const GameAssetLoadingDetails& details);
 
-		AEResult LoadGameObjectScriptAsset(const GameAssetLoadingDetails& details);
+        AEResult LoadGameObjectScriptAsset(const GameAssetLoadingDetails& details);
 
-		AEResult LoadAudioAsset(const GameAssetLoadingDetails& details);
+        AEResult LoadAudioAsset(const GameAssetLoadingDetails& details);
 
-		RawGameAsset* GetRawGameAssetByGameAssetID(uint64_t gameAssetID);
+        RawGameAsset* GetRawGameAssetByGameAssetID(uint64_t gameAssetID);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// GameAssetManager Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to create assets with</param>
-		/// <param name="gameResourceManager">Resource Manager to handle assets</param>
-		/// <param name="angelScriptManager">Angel Script Manager to handle the Scripts</param>
-		/// <param name="audioManager">Audio Manager to handle the Audio</param>
-		/// <param name="outputDirAssets">Output Directory for Assets</param>
-		/// <param name="projectDir">Project Directory</param>
-		GameAssetManager(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager, AudioManager* audioManager, const std::wstring& projectDir, const std::wstring& outputDirAssets);
+        /// <summary>
+        /// GameAssetManager Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to create assets with</param>
+        /// <param name="gameResourceManager">Resource Manager to handle assets</param>
+        /// <param name="angelScriptManager">Angel Script Manager to handle the Scripts</param>
+        /// <param name="audioManager">Audio Manager to handle the Audio</param>
+        /// <param name="outputDirAssets">Output Directory for Assets</param>
+        /// <param name="projectDir">Project Directory</param>
+        GameAssetManager(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager, AudioManager* audioManager, const std::wstring& projectDir, const std::wstring& outputDirAssets);
 
-		/// <summary>
-		/// Default GameAssetManager Destructor
-		/// </summary>
-		virtual ~GameAssetManager();
+        /// <summary>
+        /// Default GameAssetManager Destructor
+        /// </summary>
+        virtual ~GameAssetManager();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		GameAsset* GetGameAsset(uint64_t id);
+        GameAsset* GetGameAsset(uint64_t id);
 
-		RawGameAsset* GetRawGameAsset(uint64_t id);
+        RawGameAsset* GetRawGameAsset(uint64_t id);
 
-		inline const RawGameAssetMap& GetRawGameAssetMap() const
-		{
-			return m_RawGameAssetMap;
-		}
+        inline const RawGameAssetMap& GetRawGameAssetMap() const
+        {
+            return m_RawGameAssetMap;
+        }
 
-		inline const GameAssetMap& GetGameAssetMap() const
-		{
-			return m_GameAssetMap;
-		}
+        inline const GameAssetMap& GetGameAssetMap() const
+        {
+            return m_GameAssetMap;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
-		
-		/************************
-		*   Framework Methods   *
-		*************************/
+        
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		inline bool GameAssetManager::RawGameAssetExists(uint64_t id) const
-		{
-			return (m_RawGameAssetMap.find(id) != m_RawGameAssetMap.end());
-		}
+        inline bool GameAssetManager::RawGameAssetExists(uint64_t id) const
+        {
+            return (m_RawGameAssetMap.find(id) != m_RawGameAssetMap.end());
+        }
 
-		inline bool GameAssetManager::GameAssetExists(uint64_t id) const
-		{
-			return (m_GameAssetMap.find(id) != m_GameAssetMap.end());
-		}
+        inline bool GameAssetManager::GameAssetExists(uint64_t id) const
+        {
+            return (m_GameAssetMap.find(id) != m_GameAssetMap.end());
+        }
 
-		AEResult Initialize();
+        AEResult Initialize();
 
-		AEResult CreateNewRawGameAsset(const std::wstring& filePath, GameContentSubtype contentSubtype = GameContentSubtype::Unknown, uint64_t* rawAssetID = nullptr);
+        AEResult CreateNewRawGameAsset(const std::wstring& filePath, GameContentSubtype contentSubtype = GameContentSubtype::Unknown, uint64_t* rawAssetID = nullptr);
 
-		AEResult ImportRawGameAsset(uint64_t rawAssetID);
+        AEResult ImportRawGameAsset(uint64_t rawAssetID);
 
-		AEResult CheckForLatestRawGameAssetsAndImport();
+        AEResult CheckForLatestRawGameAssetsAndImport();
 
-		AEResult SaveToXML(const std::wstring& gameAssetsFilename) const;
+        AEResult SaveToXML(const std::wstring& gameAssetsFilename) const;
 
-		AEResult LoadAssetManagerFile(const std::wstring& gameAssetsFilename);
+        AEResult LoadAssetManagerFile(const std::wstring& gameAssetsFilename);
 
 #pragma endregion
 

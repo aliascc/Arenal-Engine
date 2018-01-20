@@ -46,70 +46,70 @@ class Skeleton;
 ******************/
 class SkeletonAsset sealed : public GameAsset
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
-		
-		Skeleton* m_Skeleton = nullptr;
+        
+        Skeleton* m_Skeleton = nullptr;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
-		
-		/// <summary>
-		/// Loads an Asset Resource to Memory
-		/// </summary>
-		/// <returns>AEResult::OK if successful</returns>
-		AEResult LoadAssetResource() override;
+        
+        /// <summary>
+        /// Loads an Asset Resource to Memory
+        /// </summary>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult LoadAssetResource() override;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// SkeletonAsset Constructor
-		/// </summary>
-		/// <param name="filePath">File Path of Game Asset to Load</param>
-		/// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
-		SkeletonAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager);
+        /// <summary>
+        /// SkeletonAsset Constructor
+        /// </summary>
+        /// <param name="filePath">File Path of Game Asset to Load</param>
+        /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
+        SkeletonAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager);
 
-		/// <summary>
-		/// Default SkeletonAsset Destructor
-		/// </summary>
-		virtual ~SkeletonAsset();
+        /// <summary>
+        /// Default SkeletonAsset Destructor
+        /// </summary>
+        virtual ~SkeletonAsset();
 
 #pragma endregion
 
-		/*******************
-		*   Get Methods    *
-		********************/
+        /*******************
+        *   Get Methods    *
+        ********************/
 #pragma region Get Methods
 
-		Skeleton* GetSkeletonReference();
+        Skeleton* GetSkeletonReference();
 
 #pragma endregion
 
-		/*******************
-		*   Set Methods    *
-		********************/
+        /*******************
+        *   Set Methods    *
+        ********************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

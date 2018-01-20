@@ -47,80 +47,80 @@ struct GameObjectScriptFunctions;
 ******************/
 class GameObjectScript sealed : public GameResource
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		AngelScriptManager* m_AngelScriptManager = nullptr;
+        AngelScriptManager* m_AngelScriptManager = nullptr;
 
-		GameObjectScriptFunctions* m_GameObjectScriptFunctions = nullptr;
+        GameObjectScriptFunctions* m_GameObjectScriptFunctions = nullptr;
 
-		void CleanUp();
+        void CleanUp();
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// GameObjectScript Constructor
-		/// </summary>
-		/// <param name="resourceName">Resource Name</param>
-		/// <param name="angelScriptManager">Angel Script Manager</param>
-		GameObjectScript(const std::wstring& resourceName, AngelScriptManager* angelScriptManager);
+        /// <summary>
+        /// GameObjectScript Constructor
+        /// </summary>
+        /// <param name="resourceName">Resource Name</param>
+        /// <param name="angelScriptManager">Angel Script Manager</param>
+        GameObjectScript(const std::wstring& resourceName, AngelScriptManager* angelScriptManager);
 
-		/// <summary>
-		/// Default GameObjectScript Destructor
-		/// </summary>
-		virtual ~GameObjectScript();
+        /// <summary>
+        /// Default GameObjectScript Destructor
+        /// </summary>
+        virtual ~GameObjectScript();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		const GameObjectScriptFunctions* GetGameObjectScriptFunctions() const
-		{
-			return m_GameObjectScriptFunctions;
-		}
+        const GameObjectScriptFunctions* GetGameObjectScriptFunctions() const
+        {
+            return m_GameObjectScriptFunctions;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult Load() override;
+        AEResult Load() override;
 
 #pragma endregion
 
-		// Prevent copying.
-		GameObjectScript(GameObjectScript const&) = delete;
-		GameObjectScript& operator= (GameObjectScript const&) = delete;
+        // Prevent copying.
+        GameObjectScript(GameObjectScript const&) = delete;
+        GameObjectScript& operator= (GameObjectScript const&) = delete;
 
 };
 

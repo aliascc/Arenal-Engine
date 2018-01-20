@@ -52,74 +52,74 @@ class GameResourceManager;
 ******************/
 class QuadColorMaterial sealed : public Material
 {
-	private:
+    private:
 
-		/**************************
-		 *   Private Variables   *
-		 **************************/
+        /**************************
+         *   Private Variables   *
+         **************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-		/***********************
-		 *   Private Methods   *
-		 ***********************/
+        /***********************
+         *   Private Methods   *
+         ***********************/
 #pragma region Private Methods
-		
-		AEResult CreateVertexShader();
+        
+        AEResult CreateVertexShader();
 
-		AEResult CreateVertexShaderConstantBuffer();
-		
-		AEResult CreatePixelShader();
-					   
-		AEResult CreatePixelShaderConstantBuffer();
+        AEResult CreateVertexShaderConstantBuffer();
+        
+        AEResult CreatePixelShader();
+                       
+        AEResult CreatePixelShaderConstantBuffer();
 
 #pragma endregion
-		
-	public:
+        
+    public:
 
-		/*****************************************
-		 *   Constructor & Destructor Methods   *
-		 *****************************************/
+        /*****************************************
+         *   Constructor & Destructor Methods   *
+         *****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// QuadColorMaterial Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with</param>
-		/// <param name="graphicDevice">Game Resource Manager to get the manage resources</param>
-		/// <param name="name">Name of the Effect</param>
-		QuadColorMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_QUAD_COLOR_MAT_NAME);
+        /// <summary>
+        /// QuadColorMaterial Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with</param>
+        /// <param name="graphicDevice">Game Resource Manager to get the manage resources</param>
+        /// <param name="name">Name of the Effect</param>
+        QuadColorMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_QUAD_COLOR_MAT_NAME);
 
-		/// <summary>
-		/// Default BasicQuadEffect Destructor
-		/// </summary>
-		virtual ~QuadColorMaterial();
+        /// <summary>
+        /// Default BasicQuadEffect Destructor
+        /// </summary>
+        virtual ~QuadColorMaterial();
 
 #pragma endregion
-		
-		/**********************
-		 *     Get Methods    *
-		 **********************/
+        
+        /**********************
+         *     Get Methods    *
+         **********************/
 #pragma region Get Methods
 
-		
+        
 
 #pragma endregion
-		
-		/**********************
-		 *     Set Methods    *
-		 **********************/
+        
+        /**********************
+         *     Set Methods    *
+         **********************/
 #pragma region Set Methods
-		
+        
 #pragma endregion
 
-		/**************************
-		 *   Framework Methods    *
-		 **************************/
+        /**************************
+         *   Framework Methods    *
+         **************************/
 #pragma region Framework Methods
 
-		AEResult LoadContent() override;
+        AEResult LoadContent() override;
 
 #pragma endregion
 

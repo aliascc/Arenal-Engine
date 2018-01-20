@@ -48,72 +48,72 @@
 
 class BaseAddOnAS sealed : public AngelScriptAddOn
 {
-	private:
+    private:
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Registers Basic AEngine Constants with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterBasicEngineConst(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Basic AEngine Constants with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterBasicEngineConst(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers the AEResult Enum with the AS Engine.
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterAEResultEnum(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers the AEResult Enum with the AS Engine.
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterAEResultEnum(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers Basic AEngine Functions with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterBasicEngineFuncs(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Basic AEngine Functions with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterBasicEngineFuncs(asIScriptEngine* engine);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// BaseAddOnAS Constructor
-		/// </summary>
-		BaseAddOnAS();
+        /// <summary>
+        /// BaseAddOnAS Constructor
+        /// </summary>
+        BaseAddOnAS();
 
-		/// <summary>
-		/// Default BaseAddOnAS Destructor
-		/// </summary>
-		virtual ~BaseAddOnAS();
+        /// <summary>
+        /// Default BaseAddOnAS Destructor
+        /// </summary>
+        virtual ~BaseAddOnAS();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Registers the Add-on with the AS Engine.
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		AEResult Register(asIScriptEngine* engine) override;
+        /// <summary>
+        /// Registers the Add-on with the AS Engine.
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        AEResult Register(asIScriptEngine* engine) override;
 
 #pragma endregion
 

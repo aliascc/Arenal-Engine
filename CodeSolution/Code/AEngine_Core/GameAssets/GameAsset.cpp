@@ -38,106 +38,106 @@
 *   Function Defs   *
 *********************/
 GameAsset::GameAsset(GameContentType gameContentType, const std::wstring& filePath, GameResourceManager* gameResourceManager)
-	: m_GameContentType(gameContentType)
-	, m_FilePath(filePath)
-	, m_GameResourceManager(gameResourceManager)
+    : m_GameContentType(gameContentType)
+    , m_FilePath(filePath)
+    , m_GameResourceManager(gameResourceManager)
 {
-	AEAssert(!filePath.empty());
-	AEAssert(gameResourceManager != nullptr);
+    AEAssert(!filePath.empty());
+    AEAssert(gameResourceManager != nullptr);
 
-	m_OnListenerObjDeletionEventHandler = std::bind(&GameAsset::UnregisterEventHandlers, this, std::placeholders::_1);
+    m_OnListenerObjDeletionEventHandler = std::bind(&GameAsset::UnregisterEventHandlers, this, std::placeholders::_1);
 }
 
 GameAsset::~GameAsset()
 {
-	for(auto eventHandlers : m_GameAssetEventHandlersMap)
-	{
-		eventHandlers.second.m_OnGameAssetDeletionEvent(this);
-	}
-	m_GameAssetEventHandlersMap.clear();
+    for(auto eventHandlers : m_GameAssetEventHandlersMap)
+    {
+        eventHandlers.second.m_OnGameAssetDeletionEvent(this);
+    }
+    m_GameAssetEventHandlersMap.clear();
 
-	if(m_OnGameAssetDeletionNotifyManagerEvent != nullptr)
-	{
-		m_OnGameAssetDeletionNotifyManagerEvent(this->GetUniqueAssetID());
-	}
+    if(m_OnGameAssetDeletionNotifyManagerEvent != nullptr)
+    {
+        m_OnGameAssetDeletionNotifyManagerEvent(this->GetUniqueAssetID());
+    }
 }
 
 AEResult GameAsset::RegisterEventHandlers(uint64_t id, OnGameAssetDeletionEvent onGameAssetDeletionEvent, OnGameAssetReloadEvent onGameAssetReloadEvent, OnGameAssetPreReloadEvent onGameAssetPreReloadEvent)
 {
-	AEAssert(onGameAssetDeletionEvent != nullptr);
-	if(onGameAssetDeletionEvent == nullptr)
-	{
-		return AEResult::NullParameter;
-	}
+    AEAssert(onGameAssetDeletionEvent != nullptr);
+    if(onGameAssetDeletionEvent == nullptr)
+    {
+        return AEResult::NullParameter;
+    }
 
-	std::lock_guard<std::mutex> lock(m_GameAssetMutex);
+    std::lock_guard<std::mutex> lock(m_GameAssetMutex);
 
-	if(m_GameAssetEventHandlersMap.find(id) != m_GameAssetEventHandlersMap.end())
-	{
-		return AEResult::ObjExists;
-	}
+    if(m_GameAssetEventHandlersMap.find(id) != m_GameAssetEventHandlersMap.end())
+    {
+        return AEResult::ObjExists;
+    }
 
-	m_GameAssetEventHandlersMap[id] = GameAssetEventHandlers(id, onGameAssetDeletionEvent, onGameAssetReloadEvent, onGameAssetPreReloadEvent);
+    m_GameAssetEventHandlersMap[id] = GameAssetEventHandlers(id, onGameAssetDeletionEvent, onGameAssetReloadEvent, onGameAssetPreReloadEvent);
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult GameAsset::UnregisterEventHandlers(uint64_t id)
 {
-	std::lock_guard<std::mutex> lock(m_GameAssetMutex);
+    std::lock_guard<std::mutex> lock(m_GameAssetMutex);
 
-	auto evenHandlerstIt = m_GameAssetEventHandlersMap.find(id);
-	if(evenHandlerstIt == m_GameAssetEventHandlersMap.end())
-	{
-		AEResult::NotFound;
-	}
-	
-	m_GameAssetEventHandlersMap.erase(evenHandlerstIt);
+    auto evenHandlerstIt = m_GameAssetEventHandlersMap.find(id);
+    if(evenHandlerstIt == m_GameAssetEventHandlersMap.end())
+    {
+        AEResult::NotFound;
+    }
+    
+    m_GameAssetEventHandlersMap.erase(evenHandlerstIt);
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult GameAsset::LoadAsset()
 {
-	if (m_GameResourceManager == nullptr)
-	{
-		return AEResult::GameResourceManagerNull;
-	}
+    if (m_GameResourceManager == nullptr)
+    {
+        return AEResult::GameResourceManagerNull;
+    }
 
-	std::lock_guard<std::mutex> lock(m_GameAssetMutex);
+    std::lock_guard<std::mutex> lock(m_GameAssetMutex);
 
-	if (m_IsLoaded)
-	{
-		for (auto eventHandlers : m_GameAssetEventHandlersMap)
-		{
-			const GameAssetEventHandlers& gaEventHandlers = eventHandlers.second;
-			if (gaEventHandlers.m_OnGameAssetPreReloadEvent != nullptr)
-			{
-				gaEventHandlers.m_OnGameAssetPreReloadEvent(this);
-			}
-		}
+    if (m_IsLoaded)
+    {
+        for (auto eventHandlers : m_GameAssetEventHandlersMap)
+        {
+            const GameAssetEventHandlers& gaEventHandlers = eventHandlers.second;
+            if (gaEventHandlers.m_OnGameAssetPreReloadEvent != nullptr)
+            {
+                gaEventHandlers.m_OnGameAssetPreReloadEvent(this);
+            }
+        }
 
-		m_IsLoaded = false;
-	}
+        m_IsLoaded = false;
+    }
 
-	AEResult ret = LoadAssetResource();
-	if(ret != AEResult::Ok)
-	{
-		AETODO("Add log");
+    AEResult ret = LoadAssetResource();
+    if(ret != AEResult::Ok)
+    {
+        AETODO("Add log");
 
-		return ret;
-	}
+        return ret;
+    }
 
-	m_IsLoaded = true;
+    m_IsLoaded = true;
 
-	for(auto eventHandlers : m_GameAssetEventHandlersMap)
-	{
-		const GameAssetEventHandlers& gaEventHandlers = eventHandlers.second;
-		if(gaEventHandlers.m_OnGameAssetReloadEvent != nullptr)
-		{
-			gaEventHandlers.m_OnGameAssetReloadEvent(this);
-		}
-	}
+    for(auto eventHandlers : m_GameAssetEventHandlersMap)
+    {
+        const GameAssetEventHandlers& gaEventHandlers = eventHandlers.second;
+        if(gaEventHandlers.m_OnGameAssetReloadEvent != nullptr)
+        {
+            gaEventHandlers.m_OnGameAssetReloadEvent(this);
+        }
+    }
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }

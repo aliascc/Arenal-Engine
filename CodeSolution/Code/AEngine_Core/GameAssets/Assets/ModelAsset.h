@@ -57,109 +57,109 @@ typedef std::unordered_map<std::wstring, GameAssetLoadStatus<AnimationAsset>> An
 *   Class Decl   *
 ******************/
 class ModelAsset sealed : public GameAsset
-{	
-	private:
+{    
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		MeshAssetMap m_MeshAssetMap;
+        MeshAssetMap m_MeshAssetMap;
 
-		AnimationAssetMap m_AnimationAssetMap;
+        AnimationAssetMap m_AnimationAssetMap;
 
-		SkeletonAsset* m_SkeletonAsset = nullptr;
+        SkeletonAsset* m_SkeletonAsset = nullptr;
 
-		/// <summary>
-		/// Graphic Device to create Asset Resources in video memory
-		/// </summary>
-		GraphicDevice* m_GraphicDevice = nullptr;
+        /// <summary>
+        /// Graphic Device to create Asset Resources in video memory
+        /// </summary>
+        GraphicDevice* m_GraphicDevice = nullptr;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		void CleanUp();
+        void CleanUp();
 
-		AEResult LoadFile();
+        AEResult LoadFile();
 
-		AEResult ReadModelMeshFiles(std::ifstream& fileStream);
-		
-		AEResult ReadModelSkeletonFile(std::ifstream& fileStream);
-		
-		AEResult ReadModelAnimationFiles(std::ifstream& fileStream);
-		
-		/// <summary>
-		/// Loads an Asset Resource to Memory
-		/// </summary>
-		/// <returns>AEResult::OK if successful</returns>
-		AEResult LoadAssetResource() override;
+        AEResult ReadModelMeshFiles(std::ifstream& fileStream);
+        
+        AEResult ReadModelSkeletonFile(std::ifstream& fileStream);
+        
+        AEResult ReadModelAnimationFiles(std::ifstream& fileStream);
+        
+        /// <summary>
+        /// Loads an Asset Resource to Memory
+        /// </summary>
+        /// <returns>AEResult::OK if successful</returns>
+        AEResult LoadAssetResource() override;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// ModelAsset Constructor
-		/// </summary>
-		/// <param name="filePath">File Path of Game Asset to Load</param>
-		/// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
-		/// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
-		ModelAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice);
+        /// <summary>
+        /// ModelAsset Constructor
+        /// </summary>
+        /// <param name="filePath">File Path of Game Asset to Load</param>
+        /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
+        /// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
+        ModelAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice);
 
-		/// <summary>
-		/// Default ModelAsset Destructor
-		/// </summary>
-		virtual ~ModelAsset();
+        /// <summary>
+        /// Default ModelAsset Destructor
+        /// </summary>
+        virtual ~ModelAsset();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		inline MeshAssetMap& GetMeshAssetMap()
-		{
-			return m_MeshAssetMap;
-		}
+        inline MeshAssetMap& GetMeshAssetMap()
+        {
+            return m_MeshAssetMap;
+        }
 
-		inline SkeletonAsset* GetSkeletonAsset()
-		{
-			return m_SkeletonAsset;
-		}
+        inline SkeletonAsset* GetSkeletonAsset()
+        {
+            return m_SkeletonAsset;
+        }
 
-		inline AnimationAssetMap& GetAnimationAssetMap()
-		{
-			return m_AnimationAssetMap;
-		}
+        inline AnimationAssetMap& GetAnimationAssetMap()
+        {
+            return m_AnimationAssetMap;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
-		inline void SetSkeletonAsset(SkeletonAsset* skeletonAsset)
-		{
-			m_SkeletonAsset = skeletonAsset;
-		}
+        inline void SetSkeletonAsset(SkeletonAsset* skeletonAsset)
+        {
+            m_SkeletonAsset = skeletonAsset;
+        }
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

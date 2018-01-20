@@ -40,17 +40,17 @@
 *********************/
 AETODO("add mutex");
 DrawableGameComponent::DrawableGameComponent(GameApp* gameApp, const std::wstring& name, uint32_t callOrder)
-	: GameComponent(gameApp, name, callOrder)
+    : GameComponent(gameApp, name, callOrder)
 {
-	AEAssert(gameApp != nullptr);
-	AEAssert(gameApp->GetGraphicsDevice() != nullptr);
+    AEAssert(gameApp != nullptr);
+    AEAssert(gameApp->GetGraphicsDevice() != nullptr);
 
-	m_GraphicDevice = gameApp->GetGraphicsDevice();
+    m_GraphicDevice = gameApp->GetGraphicsDevice();
 }
 
 DrawableGameComponent::~DrawableGameComponent()
 {
-	m_GraphicDevice = nullptr;
+    m_GraphicDevice = nullptr;
 }
 
 void DrawableGameComponent::Render(const TimerParams& timerParams)

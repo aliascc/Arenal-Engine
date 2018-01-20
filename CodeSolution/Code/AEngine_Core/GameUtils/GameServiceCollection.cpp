@@ -50,49 +50,49 @@ GameServiceCollection::~GameServiceCollection()
 
 GameService* GameServiceCollection::GetGameService(const std::wstring& name)
 {
-	if(!Exists(name))
-	{
-		return nullptr;
-	}
+    if(!Exists(name))
+    {
+        return nullptr;
+    }
 
-	return m_GameServiceMap[name];
+    return m_GameServiceMap[name];
 }
 
 bool GameServiceCollection::Exists(const std::wstring& name) const
 {
-	auto it = m_GameServiceMap.find(name);
+    auto it = m_GameServiceMap.find(name);
 
-	if(it != m_GameServiceMap.end())
-	{
-		return true;
-	}
+    if(it != m_GameServiceMap.end())
+    {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 AEResult GameServiceCollection::Add(const std::wstring& name, GameService* gameService)
 {
-	AEAssert(gameService != nullptr);
-	if(Exists(name))
-	{
-		return AEResult::ObjExists;
-	}
+    AEAssert(gameService != nullptr);
+    if(Exists(name))
+    {
+        return AEResult::ObjExists;
+    }
 
-	m_GameServiceMap[name] = gameService;
+    m_GameServiceMap[name] = gameService;
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult GameServiceCollection::Remove(const std::wstring& name)
 {
-	if(!Exists(name))
-	{
-		return AEResult::NotFound;
-	}
+    if(!Exists(name))
+    {
+        return AEResult::NotFound;
+    }
 
-	auto it = m_GameServiceMap.find(name);
+    auto it = m_GameServiceMap.find(name);
 
-	m_GameServiceMap.erase(name);
+    m_GameServiceMap.erase(name);
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }

@@ -46,100 +46,100 @@ class GameObject;
 ******************/
 class GameObjectComponent abstract : public UniqueAEObject
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Game Object Component Type
-		/// <summary>
-		GameObjectComponentType m_GameObjectComponentType = GameObjectComponentType::Light;
+        /// <summary>
+        /// Game Object Component Type
+        /// <summary>
+        GameObjectComponentType m_GameObjectComponentType = GameObjectComponentType::Light;
 
 #pragma endregion
 
-	protected:
+    protected:
 
-		/**************************
-		*   Protected Variables   *
-		***************************/
+        /**************************
+        *   Protected Variables   *
+        ***************************/
 #pragma region Protected Variables
 
-		/// <summary>
-		/// Determines if the Game Object Component is ready to process data
-		/// <summary>
-		bool m_IsReady = false;
+        /// <summary>
+        /// Determines if the Game Object Component is ready to process data
+        /// <summary>
+        bool m_IsReady = false;
 
-		/// <summary>
-		/// Game Object that this Component is attached too.
-		/// <summary>
-		GameObject* m_GameObject = nullptr;
+        /// <summary>
+        /// Game Object that this Component is attached too.
+        /// <summary>
+        GameObject* m_GameObject = nullptr;
 
 #pragma endregion
 
-		/************************
-		*   Protected Methods   *
-		*************************/
+        /************************
+        *   Protected Methods   *
+        *************************/
 #pragma region Protected Methods
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// GameObjectComponent Constructor
-		/// </summary>
-		/// <param name="gameObject">Game Object that this Component is attached too</param>
-		/// <param name="gameObjectComponentType>Game Object Component Type</param>
-		GameObjectComponent(GameObject* gameObject, GameObjectComponentType gameObjectComponentType);
+        /// <summary>
+        /// GameObjectComponent Constructor
+        /// </summary>
+        /// <param name="gameObject">Game Object that this Component is attached too</param>
+        /// <param name="gameObjectComponentType>Game Object Component Type</param>
+        GameObjectComponent(GameObject* gameObject, GameObjectComponentType gameObjectComponentType);
 
-		/// <summary>
-		/// Default GameObjectComponent Destructor
-		/// </summary>
-		virtual ~GameObjectComponent();
+        /// <summary>
+        /// Default GameObjectComponent Destructor
+        /// </summary>
+        virtual ~GameObjectComponent();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Gets the Game Object Component Type
-		/// </summary>
-		inline GameObjectComponentType GetGameObjectComponentType() const
-		{
-			return m_GameObjectComponentType;
-		}
+        /// <summary>
+        /// Gets the Game Object Component Type
+        /// </summary>
+        inline GameObjectComponentType GetGameObjectComponentType() const
+        {
+            return m_GameObjectComponentType;
+        }
 
-		/// <summary>
-		/// Gets the Game Object that this Component is attached too.
-		/// </summary>
-		inline GameObject* GetGameObject() const
-		{
-			return m_GameObject;
-		}
+        /// <summary>
+        /// Gets the Game Object that this Component is attached too.
+        /// </summary>
+        inline GameObject* GetGameObject() const
+        {
+            return m_GameObject;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
-		
-		/************************
-		*   Framework Methods   *
-		*************************/
+        
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

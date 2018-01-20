@@ -48,65 +48,65 @@
 
 class TimeAddOnAS sealed : public AngelScriptAddOn
 {
-	private:
+    private:
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Registers Time Stamp Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterTimeStampObject(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Time Stamp Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterTimeStampObject(asIScriptEngine* engine);
 
-		/// <summary>
-		/// Registers Timer Params Object with Angel Script Manager
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		/// <returns>Return Ok if registration was successfully</returns>
-		AEResult RegisterTimerParamsObject(asIScriptEngine* engine);
+        /// <summary>
+        /// Registers Timer Params Object with Angel Script Manager
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        /// <returns>Return Ok if registration was successfully</returns>
+        AEResult RegisterTimerParamsObject(asIScriptEngine* engine);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// TimeAddOnAS Constructor
-		/// </summary>
-		TimeAddOnAS();
+        /// <summary>
+        /// TimeAddOnAS Constructor
+        /// </summary>
+        TimeAddOnAS();
 
-		/// <summary>
-		/// Default TimeAddOnAS Destructor
-		/// </summary>
-		virtual ~TimeAddOnAS();
+        /// <summary>
+        /// Default TimeAddOnAS Destructor
+        /// </summary>
+        virtual ~TimeAddOnAS();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Registers the Add-on with the AS Engine.
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		AEResult Register(asIScriptEngine* engine) override;
+        /// <summary>
+        /// Registers the Add-on with the AS Engine.
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        AEResult Register(asIScriptEngine* engine) override;
 
 #pragma endregion
 
