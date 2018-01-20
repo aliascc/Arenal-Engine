@@ -25,20 +25,20 @@ Texture2D DiffuseTexture : register(t6);
 
 SamplerState _AE_DiffuseTextureSampler : register(s1) = sampler_state
 {
-	MagFilter	= Linear;
-	MinFilter	= Linear;
-	MipFilter	= Linear;
-	AddressU	= Wrap;
-	AddressV	= Wrap;
+    MagFilter   = Linear;
+    MinFilter   = Linear;
+    MipFilter   = Linear;
+    AddressU    = Wrap;
+    AddressV    = Wrap;
 };
 
 float4 main(VSOutputPosNorTexPosWSDepthV input) : SV_Target0
 {
-	float4 textureColor = DiffuseTexture.Sample(_AE_DiffuseTextureSampler, input.TexCoord);
+    float4 textureColor = DiffuseTexture.Sample(_AE_DiffuseTextureSampler, input.TexCoord);
 
-	LightOutput lightOutput = ForwardPlusLightCalculation(input.PositionWS, input.Normal, 0, input.Position.xy, input.DepthView, input.PosVtx);
+    LightOutput lightOutput = ForwardPlusLightCalculation(input.PositionWS, input.Normal, 0, input.Position.xy, input.DepthView, input.PosVtx);
 
-	float4 finalColor = float4(textureColor.xyz * lightOutput.Color.xyz, 1.0f);
+    float4 finalColor = float4(textureColor.xyz * lightOutput.Color.xyz, 1.0f);
 
-	return finalColor;
+    return finalColor;
 }
