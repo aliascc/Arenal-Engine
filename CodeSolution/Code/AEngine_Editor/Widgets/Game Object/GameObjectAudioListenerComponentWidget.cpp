@@ -41,12 +41,12 @@
 *   Function Defs   *
 *********************/
 GameObjectAudioListenerComponentWidget::GameObjectAudioListenerComponentWidget(GameObject* gameObject, QWidget *parent)
-	: QWidget(parent)
-	, m_GameObject(gameObject)
+    : QWidget(parent)
+    , m_GameObject(gameObject)
 {
-	m_GameObjectAudioListenerComponentWidgetQtUI.setupUi(this);
+    m_GameObjectAudioListenerComponentWidgetQtUI.setupUi(this);
 
-	AEAssert(m_GameObject != nullptr);
+    AEAssert(m_GameObject != nullptr);
 }
 
 GameObjectAudioListenerComponentWidget::~GameObjectAudioListenerComponentWidget()
@@ -55,17 +55,17 @@ GameObjectAudioListenerComponentWidget::~GameObjectAudioListenerComponentWidget(
 
 void GameObjectAudioListenerComponentWidget::InitFields()
 {
-	AEAssert(m_GameObject != nullptr);
-	if (m_GameObject == nullptr)
-	{
-		return;
-	}
+    AEAssert(m_GameObject != nullptr);
+    if (m_GameObject == nullptr)
+    {
+        return;
+    }
 
-	AEAssert(m_GameObject->HasAudioListenerGOC());
-	if (!m_GameObject->HasAudioListenerGOC())
-	{
-		return;
-	}
+    AEAssert(m_GameObject->HasAudioListenerGOC());
+    if (!m_GameObject->HasAudioListenerGOC())
+    {
+        return;
+    }
 
-	m_IsReady = true;
+    m_IsReady = true;
 }

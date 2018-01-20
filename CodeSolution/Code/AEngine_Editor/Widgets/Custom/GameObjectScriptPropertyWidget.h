@@ -49,35 +49,35 @@ struct GameObjectScriptProperties;
 ******************/
 class GameObjectScriptPropertyWidget sealed : public QTreeWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		AEResult FillPropertiesRows(GameObjectScriptProperties* gameObjectScriptProperties);
+        AEResult FillPropertiesRows(GameObjectScriptProperties* gameObjectScriptProperties);
 
-		AEResult AddScalarWidget(QTreeWidgetItem* item, GameObjectScriptProperty* gosProp);
+        AEResult AddScalarWidget(QTreeWidgetItem* item, GameObjectScriptProperty* gosProp);
 
-		QSpinBox* CreateSpinBox(GameObjectScriptProperty* gosProp);
+        QSpinBox* CreateSpinBox(GameObjectScriptProperty* gosProp);
 
-		QDoubleSpinBox* CreateDoubleSpinBox(GameObjectScriptProperty* gosProp);
+        QDoubleSpinBox* CreateDoubleSpinBox(GameObjectScriptProperty* gosProp);
 
-		QCheckBox* CreateCheckBox(GameObjectScriptProperty* gosProp);
+        QCheckBox* CreateCheckBox(GameObjectScriptProperty* gosProp);
 
-	private slots:
+    private slots:
 
-		void SpinBoxChanged();
+        void SpinBoxChanged();
 
-		void CheckBoxChanged(int newState);
+        void CheckBoxChanged(int newState);
 
-	public:
-		GameObjectScriptPropertyWidget(QWidget *parent = nullptr);
-		~GameObjectScriptPropertyWidget();
+    public:
+        GameObjectScriptPropertyWidget(QWidget *parent = nullptr);
+        ~GameObjectScriptPropertyWidget();
 
-		AEResult Initialize();
+        AEResult Initialize();
 
-		AEResult Populate(GameObjectScriptProperties* gameObjectScriptProperties);
+        AEResult Populate(GameObjectScriptProperties* gameObjectScriptProperties);
 };
 
 #endif

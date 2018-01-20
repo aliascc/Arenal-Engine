@@ -51,19 +51,19 @@ class GameAssetManager;
 
 class ProjectSelectionDialog sealed : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::ProjectSelectionDialogQt m_ProjectSelectionDialogQtUI;
+        Ui::ProjectSelectionDialogQt m_ProjectSelectionDialogQtUI;
 
         EngineViewer* m_EngineViewer = nullptr;
 
         std::wstring m_ConfigFile = L"";
 
-		void InitFields();
+        void InitFields();
 
-	private slots:
+    private slots:
 
         void on_m_OpenProjBtn_clicked();
 
@@ -71,9 +71,9 @@ class ProjectSelectionDialog sealed : public QDialog
 
         void on_m_LoadProjBtn_clicked();
 
-	public:
+    public:
         ProjectSelectionDialog(EngineViewer* engineViewer, QWidget *parent = nullptr);
-		~ProjectSelectionDialog();
+        ~ProjectSelectionDialog();
 };
 
 

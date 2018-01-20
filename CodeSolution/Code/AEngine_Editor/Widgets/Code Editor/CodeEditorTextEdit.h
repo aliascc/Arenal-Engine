@@ -49,59 +49,59 @@ class CodeSyntaxHighlither;
 ******************/
 class CodeEditorTextEdit sealed : public QPlainTextEdit
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		QWidget* m_LineNumberArea;
+        QWidget* m_LineNumberArea;
 
-		CodeSyntaxHighlither* m_CodeSyntaxHighlither;
+        CodeSyntaxHighlither* m_CodeSyntaxHighlither;
 
-		QString m_Filename;
+        QString m_Filename;
 
-		TimeStamp m_LastModifiedTimeStamp;
+        TimeStamp m_LastModifiedTimeStamp;
 
-		QByteArray m_ModifiedHash;
+        QByteArray m_ModifiedHash;
 
-		bool m_IsReady;
+        bool m_IsReady;
 
-		void OpenCodeFile();
+        void OpenCodeFile();
 
-		bool CheckIfModifiedOutside();
+        bool CheckIfModifiedOutside();
 
-		void resizeEvent(QResizeEvent* rEvent) override;
+        void resizeEvent(QResizeEvent* rEvent) override;
 
-		void focusInEvent(QFocusEvent* focusEvent) override;
+        void focusInEvent(QFocusEvent* focusEvent) override;
 
-	private slots:
+    private slots:
 
-		void UpdateLineNumberAreaWidth(int newBlockCount);
+        void UpdateLineNumberAreaWidth(int newBlockCount);
 
-		void UpdateLineNumberArea(const QRect& rectArea, int difference);
+        void UpdateLineNumberArea(const QRect& rectArea, int difference);
 
-	public:
-		CodeEditorTextEdit(const QString& filename, QWidget* parent = nullptr);
-		~CodeEditorTextEdit();
+    public:
+        CodeEditorTextEdit(const QString& filename, QWidget* parent = nullptr);
+        ~CodeEditorTextEdit();
 
-		inline bool IsReady() const
-		{
-			return m_IsReady;
-		}
+        inline bool IsReady() const
+        {
+            return m_IsReady;
+        }
 
-		bool WasModified() const;
+        bool WasModified() const;
 
-		inline const QString& GetFilename() const
-		{
-			return m_Filename;
-		}
+        inline const QString& GetFilename() const
+        {
+            return m_Filename;
+        }
 
-		int32_t GetLineNumberAreaWidth();
+        int32_t GetLineNumberAreaWidth();
 
-		void LineNumberAreaPaintEvent(QPaintEvent* pEvent);
+        void LineNumberAreaPaintEvent(QPaintEvent* pEvent);
 
-		AEResult ReloadFile();
+        AEResult ReloadFile();
 
-		AEResult SaveFile();
+        AEResult SaveFile();
 };
 
 #endif // AEngine_EDITOR_H

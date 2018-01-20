@@ -45,18 +45,18 @@ class ShaderProperties;
 ******************/
 class GameObjectShaderPropsDialog sealed : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
-		Ui::GameObjectShaderPropsDialogQt m_GameObjectShaderPropsDialogQtUI;
+    private:
+        Ui::GameObjectShaderPropsDialogQt m_GameObjectShaderPropsDialogQtUI;
 
-		bool m_IsReady;
+        bool m_IsReady;
 
-		void InitFields(const std::wstring& materialName, const std::wstring& shaderName, GameAssetManager* gameAssetManager, ShaderProperties* shaderProperties);
+        void InitFields(const std::wstring& materialName, const std::wstring& shaderName, GameAssetManager* gameAssetManager, ShaderProperties* shaderProperties);
 
-	public:
-		GameObjectShaderPropsDialog(const std::wstring& materialName, const std::wstring& shaderName, GameAssetManager* gameAssetManager, ShaderProperties* shaderProperties, QWidget *parent = 0);
-		virtual ~GameObjectShaderPropsDialog();
+    public:
+        GameObjectShaderPropsDialog(const std::wstring& materialName, const std::wstring& shaderName, GameAssetManager* gameAssetManager, ShaderProperties* shaderProperties, QWidget *parent = 0);
+        virtual ~GameObjectShaderPropsDialog();
 };
 
 #endif

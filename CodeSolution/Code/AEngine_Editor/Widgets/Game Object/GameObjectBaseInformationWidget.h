@@ -46,29 +46,29 @@ class EngineViewer;
 ******************/
 class GameObjectBaseInformationWidget sealed : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::GameObjectBaseInformationWidgetQt m_GameObjectBaseInformationWidgetQtUI;
+        Ui::GameObjectBaseInformationWidgetQt m_GameObjectBaseInformationWidgetQtUI;
 
-		EngineViewer* m_EngineViewer = nullptr;
+        EngineViewer* m_EngineViewer = nullptr;
 
-		GameObject* m_GameObject;
+        GameObject* m_GameObject;
 
-		void InitFields();
+        void InitFields();
 
-	private slots:
+    private slots:
 
-		void on_m_GameObjectNameTextBox_editingFinished();
+        void on_m_GameObjectNameTextBox_editingFinished();
 
-	public:
-		GameObjectBaseInformationWidget(GameObject* gameObject, EngineViewer* engineViewer, QWidget *parent = nullptr);
-		~GameObjectBaseInformationWidget();
+    public:
+        GameObjectBaseInformationWidget(GameObject* gameObject, EngineViewer* engineViewer, QWidget *parent = nullptr);
+        ~GameObjectBaseInformationWidget();
 
-	signals:
+    signals:
 
-		void NameChanged(uint64_t gameObjectID);
+        void NameChanged(uint64_t gameObjectID);
 };
 
 

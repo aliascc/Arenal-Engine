@@ -52,38 +52,38 @@ class GameObjectScriptAsset;
 ******************/
 class GameAssetTreeWidget sealed : public QTreeWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		EngineViewer* m_EngineViewer = nullptr;
+        EngineViewer* m_EngineViewer = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		AEResult CreateGameAssetBranch(GameAsset* gameAsset);
+        AEResult CreateGameAssetBranch(GameAsset* gameAsset);
 
-		AEResult CreateModelGameAssetBranch(ModelAsset* gameAsset);
+        AEResult CreateModelGameAssetBranch(ModelAsset* gameAsset);
 
-		AEResult CreateShaderGameAssetBranch(ShaderAsset* gameAsset);
+        AEResult CreateShaderGameAssetBranch(ShaderAsset* gameAsset);
 
-		AEResult CreateTextureGameAssetBranch(TextureAsset* gameAsset);
+        AEResult CreateTextureGameAssetBranch(TextureAsset* gameAsset);
 
-		AEResult CreateGameObjectScriptGameAssetBranch(GameObjectScriptAsset* gameAsset);
+        AEResult CreateGameObjectScriptGameAssetBranch(GameObjectScriptAsset* gameAsset);
 
-		AEResult CreateAudioAssetGameAssetBranch(AudioAsset* gameAsset);
+        AEResult CreateAudioAssetGameAssetBranch(AudioAsset* gameAsset);
 
-	public:
-		GameAssetTreeWidget(QWidget* parent = nullptr);
-		~GameAssetTreeWidget();
+    public:
+        GameAssetTreeWidget(QWidget* parent = nullptr);
+        ~GameAssetTreeWidget();
 
-		inline void SetEngineViewer(EngineViewer* engineViewer)
-		{
-			m_EngineViewer = engineViewer;
-		}
+        inline void SetEngineViewer(EngineViewer* engineViewer)
+        {
+            m_EngineViewer = engineViewer;
+        }
 
-		void InitFields();
+        void InitFields();
 
-		AEResult RefreshGameAssetsTree();
+        AEResult RefreshGameAssetsTree();
 };
 
 #endif

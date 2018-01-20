@@ -49,59 +49,59 @@ class EngineViewer;
 ******************/
 class GameObjectLightComponentWidget sealed : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::GameObjectLightComponentWidgetQt m_GameObjectLightComponentWidgetQtUI;
+        Ui::GameObjectLightComponentWidgetQt m_GameObjectLightComponentWidgetQtUI;
 
-		EngineViewer* m_EngineViewer = nullptr;
+        EngineViewer* m_EngineViewer = nullptr;
 
-		GameObject* m_GameObject = nullptr;
+        GameObject* m_GameObject = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		void InitFields();
+        void InitFields();
 
-		LightGOC* GetLightGOC();
+        LightGOC* GetLightGOC();
 
-		Light* GetLight();
+        Light* GetLight();
 
-		void SetColorToColorWidget(const QColor& qColor);
+        void SetColorToColorWidget(const QColor& qColor);
 
-		void SetLightTypeComboBoxIndex(LightType lightType);
+        void SetLightTypeComboBoxIndex(LightType lightType);
 
-	private slots:
+    private slots:
 
-		void on_m_IntensitySB_valueChanged(double newValue);
+        void on_m_IntensitySB_valueChanged(double newValue);
 
-		void on_m_NearAttSB_editingFinished();
+        void on_m_NearAttSB_editingFinished();
 
-		void on_m_FarAttSB_editingFinished();
+        void on_m_FarAttSB_editingFinished();
 
-		void on_m_AngleSB_editingFinished();
+        void on_m_AngleSB_editingFinished();
 
-		void on_m_FalloffAngleSB_editingFinished();
+        void on_m_FalloffAngleSB_editingFinished();
 
-		void on_m_ColorChangerButton_clicked();
+        void on_m_ColorChangerButton_clicked();
 
-		void on_m_Enabled_stateChanged(int newState);
+        void on_m_Enabled_stateChanged(int newState);
 
-		void on_m_ShadowEnabled_stateChanged(int newState);
+        void on_m_ShadowEnabled_stateChanged(int newState);
 
-		void on_m_DrawFrustum_stateChanged(int newState);
+        void on_m_DrawFrustum_stateChanged(int newState);
 
-		void on_m_DrawCascadeFrustums_stateChanged(int newState);
+        void on_m_DrawCascadeFrustums_stateChanged(int newState);
 
-		void on_m_DrawSimpleFrustum_stateChanged(int newState);
+        void on_m_DrawSimpleFrustum_stateChanged(int newState);
 
-		void on_m_DrawDebug_stateChanged(int newState);
+        void on_m_DrawDebug_stateChanged(int newState);
 
-		void on_m_LightTypeComboBox_currentIndexChanged(int newIndex);
+        void on_m_LightTypeComboBox_currentIndexChanged(int newIndex);
 
-	public:
-		GameObjectLightComponentWidget(GameObject* gameObject, EngineViewer* engineViewer, QWidget *parent = nullptr);
-		~GameObjectLightComponentWidget();
+    public:
+        GameObjectLightComponentWidget(GameObject* gameObject, EngineViewer* engineViewer, QWidget *parent = nullptr);
+        ~GameObjectLightComponentWidget();
 };
 
 

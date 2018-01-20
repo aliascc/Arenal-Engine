@@ -45,33 +45,33 @@
 ******************/
 class CodeSyntaxHighlither sealed : public QSyntaxHighlighter
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
-		struct CodeSyntaxHighlightRule
-		{
-			QRegExp m_Pattern;
-			QTextCharFormat m_Format;
-		};
+    private:
+        struct CodeSyntaxHighlightRule
+        {
+            QRegExp m_Pattern;
+            QTextCharFormat m_Format;
+        };
 
-		std::vector<CodeSyntaxHighlightRule> m_CodeHighlightingRules;
+        std::vector<CodeSyntaxHighlightRule> m_CodeHighlightingRules;
 
-		QRegExp m_CommentStartExpression;
-		QRegExp m_CommentEndExpression;
+        QRegExp m_CommentStartExpression;
+        QRegExp m_CommentEndExpression;
 
-		QTextCharFormat m_KeywordFormat;
-		QTextCharFormat m_PreprocessorsFormat;
-		QTextCharFormat m_SingleLineCommentFormat;
-		QTextCharFormat m_MultiLineCommentFormat;
-		QTextCharFormat m_QuotationFormat;
-		QTextCharFormat m_FunctionFormat;
+        QTextCharFormat m_KeywordFormat;
+        QTextCharFormat m_PreprocessorsFormat;
+        QTextCharFormat m_SingleLineCommentFormat;
+        QTextCharFormat m_MultiLineCommentFormat;
+        QTextCharFormat m_QuotationFormat;
+        QTextCharFormat m_FunctionFormat;
 
-	protected:
-		void highlightBlock(const QString& text) override;
+    protected:
+        void highlightBlock(const QString& text) override;
 
-	public:
-		CodeSyntaxHighlither(QTextDocument* parent = nullptr);
-		~CodeSyntaxHighlither();
+    public:
+        CodeSyntaxHighlither(QTextDocument* parent = nullptr);
+        ~CodeSyntaxHighlither();
 };
 
 #endif

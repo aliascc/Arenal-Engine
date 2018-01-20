@@ -64,40 +64,40 @@ class ShaderAsset;
 ******************/
 class EngineViewer sealed : public GameApp
 {
-	private:
-		InputHandler* m_InputHandler = nullptr;
-		DebugStats* m_DebugStats = nullptr;
-		Console* m_Console = nullptr;
-		GameLightsUpdate* m_GameLightsUpdate = nullptr;
-		ForwardPlusRendering* m_ForwardPlusRendering = nullptr;
-		CameraUpdater* m_CameraUpdater = nullptr;
-		GameObjectsDebugVisualizer* m_GameObjectDebugVisualizer = nullptr;
-		GameAnimationsUpdate* m_GameAnimationsUpdate = nullptr;
-		GameObjectScriptCaller* m_GameObjectScriptCaller = nullptr;
-		GameObjectCameraUpdate* m_GameObjectCameraUpdate = nullptr;
-		GameAudioUpdate* m_GameAudioUpdate = nullptr;
-		GamePhysicsUpdate* m_GamePhysicsUpdate = nullptr;
+    private:
+        InputHandler* m_InputHandler = nullptr;
+        DebugStats* m_DebugStats = nullptr;
+        Console* m_Console = nullptr;
+        GameLightsUpdate* m_GameLightsUpdate = nullptr;
+        ForwardPlusRendering* m_ForwardPlusRendering = nullptr;
+        CameraUpdater* m_CameraUpdater = nullptr;
+        GameObjectsDebugVisualizer* m_GameObjectDebugVisualizer = nullptr;
+        GameAnimationsUpdate* m_GameAnimationsUpdate = nullptr;
+        GameObjectScriptCaller* m_GameObjectScriptCaller = nullptr;
+        GameObjectCameraUpdate* m_GameObjectCameraUpdate = nullptr;
+        GameAudioUpdate* m_GameAudioUpdate = nullptr;
+        GamePhysicsUpdate* m_GamePhysicsUpdate = nullptr;
 
-		//To be removed
-		bool m_AutoTestLoaded = false;
-		void AutoLoadTest();
-		void AutoLoadTestAddGO(const glm::vec3& pos, MeshAsset* model, ShaderAsset* vs, ShaderAsset* ps, TextureAsset* text, CollisionShape collisionShape);
+        //To be removed
+        bool m_AutoTestLoaded = false;
+        void AutoLoadTest();
+        void AutoLoadTestAddGO(const glm::vec3& pos, MeshAsset* model, ShaderAsset* vs, ShaderAsset* ps, TextureAsset* text, CollisionShape collisionShape);
 
-	public:
-		//Constructor and Destroyer
-		EngineViewer(HINSTANCE hInstance);
-		virtual ~EngineViewer();
+    public:
+        //Constructor and Destroyer
+        EngineViewer(HINSTANCE hInstance);
+        virtual ~EngineViewer();
 
-		//Override methods from parent class
-		void			Initialize				() override;
-		void			LoadContent				() override;
-		void			UnLoadContent			() override;
-		void			OnLostDevice			() override;
-		void			OnResetDevice			() override;
-		void			ConstantUpdate			(const TimerParams& timerParams) override;
-		void			Update					(const TimerParams& timerParams) override;
-		void			PostUpdate				(const TimerParams& timerParams) override;
-		void			Render					(const TimerParams& timerParams) override;
+        //Override methods from parent class
+        void Initialize() override;
+        void LoadContent() override;
+        void UnLoadContent() override;
+        void OnLostDevice() override;
+        void OnResetDevice() override;
+        void ConstantUpdate(const TimerParams& timerParams) override;
+        void Update(const TimerParams& timerParams) override;
+        void PostUpdate(const TimerParams& timerParams) override;
+        void Render(const TimerParams& timerParams) override;
 };
 
 #endif

@@ -46,28 +46,27 @@ class EngineViewer;
 ******************/
 class GameObjectSphereColliderComponentWidget sealed : public QWidget
 {
-		Q_OBJECT
+        Q_OBJECT
 
-	private:
+    private:
 
-		Ui::GameObjectSphereColliderComponentWidgetQt m_GameObjectSphereColliderComponentWidgetUI;
+        Ui::GameObjectSphereColliderComponentWidgetQt m_GameObjectSphereColliderComponentWidgetUI;
 
-		GameObject* m_GameObject = nullptr;
+        GameObject* m_GameObject = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		uint64_t m_PhysicColliderID = 0;
+        uint64_t m_PhysicColliderID = 0;
 
-		void InitFields();
+        void InitFields();
 
-	private slots:
+    private slots:
 
-		void on_m_RadiusSB_valueChanged(double newValue);
+        void on_m_RadiusSB_valueChanged(double newValue);
 
-	public:
-		GameObjectSphereColliderComponentWidget(GameObject* gameObject, uint64_t physicColliderID, QWidget *parent = nullptr);
-		~GameObjectSphereColliderComponentWidget();
+    public:
+        GameObjectSphereColliderComponentWidget(GameObject* gameObject, uint64_t physicColliderID, QWidget *parent = nullptr);
+        ~GameObjectSphereColliderComponentWidget();
 };
-
 
 #endif

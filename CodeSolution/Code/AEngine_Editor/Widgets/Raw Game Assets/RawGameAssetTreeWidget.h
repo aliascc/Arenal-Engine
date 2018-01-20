@@ -47,50 +47,50 @@ class EngineViewer;
 ******************/
 class RawGameAssetTreeWidget sealed : public QTreeWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		EngineViewer* m_EngineViewer = nullptr;
+        EngineViewer* m_EngineViewer = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		void ParseDropFileList(const QList<QUrl>& urlList);
+        void ParseDropFileList(const QList<QUrl>& urlList);
 
-		AEResult CreateRawGameAssetBranch(RawGameAsset* rawAsset);
+        AEResult CreateRawGameAssetBranch(RawGameAsset* rawAsset);
 
-		void dragEnterEvent(QDragEnterEvent* enterEvent) override;
+        void dragEnterEvent(QDragEnterEvent* enterEvent) override;
 
-		void dragLeaveEvent(QDragLeaveEvent* leaveEvent) override;
+        void dragLeaveEvent(QDragLeaveEvent* leaveEvent) override;
 
-		void dragMoveEvent(QDragMoveEvent* moveEvent) override;
+        void dragMoveEvent(QDragMoveEvent* moveEvent) override;
 
-		void dropEvent(QDropEvent* dropEvent) override;
+        void dropEvent(QDropEvent* dropEvent) override;
 
-	private slots:
-		void EditCodePushButtonEvent();
+    private slots:
+        void EditCodePushButtonEvent();
 
-		void ImportSingleRawAssetEvent();
+        void ImportSingleRawAssetEvent();
 
-	public:
-		RawGameAssetTreeWidget(QWidget* parent = nullptr);
-		~RawGameAssetTreeWidget();
+    public:
+        RawGameAssetTreeWidget(QWidget* parent = nullptr);
+        ~RawGameAssetTreeWidget();
 
-		inline void SetEngineViewer(EngineViewer* engineViewer)
-		{
-			m_EngineViewer = engineViewer;
-		}
+        inline void SetEngineViewer(EngineViewer* engineViewer)
+        {
+            m_EngineViewer = engineViewer;
+        }
 
-		void InitFields();
+        void InitFields();
 
-		AEResult RefreshRawGameAssetsTree();
+        AEResult RefreshRawGameAssetsTree();
 
-	signals:
-		void NewDropRawAssetsFiles(QStringList fileList);
+    signals:
+        void NewDropRawAssetsFiles(QStringList fileList);
 
-		void EditCodeFile(QString filepath);
+        void EditCodeFile(QString filepath);
 
-		void RawGameAssetReload(uint64_t rawGAID);
+        void RawGameAssetReload(uint64_t rawGAID);
 
 };
 

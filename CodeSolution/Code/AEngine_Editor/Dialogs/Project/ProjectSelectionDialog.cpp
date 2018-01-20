@@ -40,14 +40,14 @@
 *   Function Defs   *
 *********************/
 ProjectSelectionDialog::ProjectSelectionDialog(EngineViewer* engineViewer, QWidget *parent)
-	: QDialog(parent)
-	, m_EngineViewer(engineViewer)
+    : QDialog(parent)
+    , m_EngineViewer(engineViewer)
 {
-	assert(m_EngineViewer != nullptr);
+    assert(m_EngineViewer != nullptr);
 
-	m_ProjectSelectionDialogQtUI.setupUi(this);
+    m_ProjectSelectionDialogQtUI.setupUi(this);
 
-	InitFields();
+    InitFields();
 }
 
 ProjectSelectionDialog::~ProjectSelectionDialog()
@@ -56,7 +56,7 @@ ProjectSelectionDialog::~ProjectSelectionDialog()
 
 void ProjectSelectionDialog::InitFields()
 {
-	//this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+    //this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
 
     std::vector<std::wstring> projects;
     AE_GlobalConfig::GetRecentProjects(projects);

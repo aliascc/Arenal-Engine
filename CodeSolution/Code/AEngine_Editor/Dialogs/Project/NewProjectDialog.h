@@ -45,36 +45,36 @@ class EngineViewer;
 ******************/
 class NewProjectDialog sealed : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::NewProjectDialogQt m_NewProjectDialogQtUI;
+        Ui::NewProjectDialogQt m_NewProjectDialogQtUI;
 
-		EngineViewer* m_EngineViewer = nullptr;
+        EngineViewer* m_EngineViewer = nullptr;
 
-		QString m_Directory = "";
+        QString m_Directory = "";
 
-		std::wstring m_ConfigFile;
+        std::wstring m_ConfigFile;
 
-	private slots:
+    private slots:
 
-		void on_m_SelectDirBtn_clicked();
+        void on_m_SelectDirBtn_clicked();
 
-		void on_m_ProjectNameTB_textChanged(QString str);
+        void on_m_ProjectNameTB_textChanged(QString str);
 
-		void on_m_OkButton_clicked();
+        void on_m_OkButton_clicked();
 
-		void on_m_CreateProjectFolderCB_toggled(bool value);
+        void on_m_CreateProjectFolderCB_toggled(bool value);
 
-	public:
-		NewProjectDialog(EngineViewer* engineViewer, QWidget *parent = 0);
-		virtual ~NewProjectDialog();
+    public:
+        NewProjectDialog(EngineViewer* engineViewer, QWidget *parent = 0);
+        virtual ~NewProjectDialog();
 
-		inline const std::wstring& GetConfigFile() const
-		{
-			return m_ConfigFile;
-		}
+        inline const std::wstring& GetConfigFile() const
+        {
+            return m_ConfigFile;
+        }
 };
 
 #endif

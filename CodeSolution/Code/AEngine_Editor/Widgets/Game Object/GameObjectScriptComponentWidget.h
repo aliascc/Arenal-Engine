@@ -52,55 +52,55 @@ class GameObjectScriptAsset;
 ******************/
 class GameObjectScriptComponentWidget sealed : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::GameObjectScriptComponentWidgetQt m_GameObjectScriptComponentWidgetQtUI;
+        Ui::GameObjectScriptComponentWidgetQt m_GameObjectScriptComponentWidgetQtUI;
 
-		GameObject* m_GameObject = nullptr;
+        GameObject* m_GameObject = nullptr;
 
-		EngineViewer* m_EngineViewer = nullptr;
+        EngineViewer* m_EngineViewer = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		void InitFields();
+        void InitFields();
 
-		void PopulateGOSTree(uint32_t selectedIndex = 0);
+        void PopulateGOSTree(uint32_t selectedIndex = 0);
 
-		void dragEnterEvent(QDragEnterEvent* enterEvent) override;
+        void dragEnterEvent(QDragEnterEvent* enterEvent) override;
 
-		void dragLeaveEvent(QDragLeaveEvent* leaveEvent) override;
+        void dragLeaveEvent(QDragLeaveEvent* leaveEvent) override;
 
-		void dragMoveEvent(QDragMoveEvent* moveEvent) override;
+        void dragMoveEvent(QDragMoveEvent* moveEvent) override;
 
-		void dropEvent(QDropEvent* dropEvent) override;
+        void dropEvent(QDropEvent* dropEvent) override;
 
-		AEResult DropAsset(QObject* object);
+        AEResult DropAsset(QObject* object);
 
-		AEResult SetGameAssetFromID(uint64_t gameAssetID);
+        AEResult SetGameAssetFromID(uint64_t gameAssetID);
 
-		AEResult RemoveGameAsset();
+        AEResult RemoveGameAsset();
 
-		GameObjectScriptGOC* GetGameObjectScriptGOC(QTreeWidgetItem* item = nullptr);
+        GameObjectScriptGOC* GetGameObjectScriptGOC(QTreeWidgetItem* item = nullptr);
 
-	private slots:
+    private slots:
 
-		void on_m_AddGOScript_clicked();
+        void on_m_AddGOScript_clicked();
 
-		void on_m_RemoveGOScript_clicked();
+        void on_m_RemoveGOScript_clicked();
 
-		void on_m_SearchScriptAsset_clicked();
+        void on_m_SearchScriptAsset_clicked();
 
-		void on_m_CreateRemoveInstance_clicked();
+        void on_m_CreateRemoveInstance_clicked();
 
-		void on_m_GameObjectScriptTree_itemChanged(QTreeWidgetItem* item, int column);
+        void on_m_GameObjectScriptTree_itemChanged(QTreeWidgetItem* item, int column);
 
-		void on_m_GameObjectScriptTree_itemSelectionChanged();
+        void on_m_GameObjectScriptTree_itemSelectionChanged();
 
-	public:
-		GameObjectScriptComponentWidget(GameObject* gameObject, EngineViewer* engineViewer, QWidget *parent = nullptr);
-		~GameObjectScriptComponentWidget();
+    public:
+        GameObjectScriptComponentWidget(GameObject* gameObject, EngineViewer* engineViewer, QWidget *parent = nullptr);
+        ~GameObjectScriptComponentWidget();
 };
 
 

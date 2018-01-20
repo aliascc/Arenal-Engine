@@ -81,7 +81,7 @@
 *   Function Defs   *
 *********************/
 EngineViewer::EngineViewer(HINSTANCE hInstance)
-	: GameApp(hInstance, GameAppRunOpt::EditorMode)
+    : GameApp(hInstance, GameAppRunOpt::EditorMode)
 {
 }
 
@@ -91,328 +91,326 @@ EngineViewer::~EngineViewer()
 
 void EngineViewer::Initialize()
 {
-	m_InputHandler = new InputHandler(this);
-	this->AddComponent(m_InputHandler);
+    m_InputHandler = new InputHandler(this);
+    this->AddComponent(m_InputHandler);
 
-	glm::ivec2 dimension(m_GraphicDevice->GetGraphicPP().m_BackBufferWidth, m_GraphicDevice->GetGraphicPP().m_BackBufferHeight);
-	EditorCamera* editorCamera = new EditorCamera(m_InputManager, AE_CAMERA_EDITOR_ENG_DEFAULT_NAME, glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), AEMathHelpers::Vec3fUp, dimension, 45.0f, 1.0f, 1000.0f);
+    glm::ivec2 dimension(m_GraphicDevice->GetGraphicPP().m_BackBufferWidth, m_GraphicDevice->GetGraphicPP().m_BackBufferHeight);
+    EditorCamera* editorCamera = new EditorCamera(m_InputManager, AE_CAMERA_EDITOR_ENG_DEFAULT_NAME, glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), AEMathHelpers::Vec3fUp, dimension, 45.0f, 1.0f, 1000.0f);
 
-	m_CameraManager->AddCamera(editorCamera);
-	m_CameraManager->SetEditorCamera(editorCamera->GetUniqueID());
-	m_CameraManager->SetMainCamera(editorCamera->GetUniqueID());
+    m_CameraManager->AddCamera(editorCamera);
+    m_CameraManager->SetEditorCamera(editorCamera->GetUniqueID());
+    m_CameraManager->SetMainCamera(editorCamera->GetUniqueID());
 
-	m_CameraUpdater = new CameraUpdater(this);
-	this->AddComponent(m_CameraUpdater);
+    m_CameraUpdater = new CameraUpdater(this);
+    this->AddComponent(m_CameraUpdater);
 
-	m_GameAnimationsUpdate = new GameAnimationsUpdate(this);
-	this->AddComponent(m_GameAnimationsUpdate);
+    m_GameAnimationsUpdate = new GameAnimationsUpdate(this);
+    this->AddComponent(m_GameAnimationsUpdate);
 
-	m_GameLightsUpdate = new GameLightsUpdate(this);
-	this->AddComponent(m_GameLightsUpdate);
+    m_GameLightsUpdate = new GameLightsUpdate(this);
+    this->AddComponent(m_GameLightsUpdate);
 
-	m_ForwardPlusRendering = new ForwardPlusRendering(this);
-	this->AddComponent(m_ForwardPlusRendering);
+    m_ForwardPlusRendering = new ForwardPlusRendering(this);
+    this->AddComponent(m_ForwardPlusRendering);
 
-	m_GameObjectScriptCaller = new GameObjectScriptCaller(this);
-	this->AddComponent(m_GameObjectScriptCaller);
+    m_GameObjectScriptCaller = new GameObjectScriptCaller(this);
+    this->AddComponent(m_GameObjectScriptCaller);
 
-	m_GameObjectDebugVisualizer = new GameObjectsDebugVisualizer(this);
-	this->AddComponent(m_GameObjectDebugVisualizer);
+    m_GameObjectDebugVisualizer = new GameObjectsDebugVisualizer(this);
+    this->AddComponent(m_GameObjectDebugVisualizer);
 
-	m_GameObjectCameraUpdate = new GameObjectCameraUpdate(this);
-	this->AddComponent(m_GameObjectCameraUpdate);
+    m_GameObjectCameraUpdate = new GameObjectCameraUpdate(this);
+    this->AddComponent(m_GameObjectCameraUpdate);
 
-	m_GameAudioUpdate = new GameAudioUpdate(this);
-	this->AddComponent(m_GameAudioUpdate);
+    m_GameAudioUpdate = new GameAudioUpdate(this);
+    this->AddComponent(m_GameAudioUpdate);
 
-	m_GamePhysicsUpdate = new GamePhysicsUpdate(this);
-	this->AddComponent(m_GamePhysicsUpdate);
+    m_GamePhysicsUpdate = new GamePhysicsUpdate(this);
+    this->AddComponent(m_GamePhysicsUpdate);
 
-	DebugStatsConfig dbConf;
-	dbConf.m_SpriteFontFile = AE_Base_FS_PATH L"Data\\Fonts\\arial.spritefont";
-	dbConf.m_GridEnabled = false;
-	dbConf.m_GridSize = 200.0f;
-	dbConf.m_GridUnits = 5.0f;
-	m_DebugStats = new DebugStats(this, dbConf);
-	this->AddComponent(m_DebugStats);
+    DebugStatsConfig dbConf;
+    dbConf.m_SpriteFontFile = AE_Base_FS_PATH L"Data\\Fonts\\arial.spritefont";
+    dbConf.m_GridEnabled = false;
+    dbConf.m_GridSize = 200.0f;
+    dbConf.m_GridUnits = 5.0f;
+    m_DebugStats = new DebugStats(this, dbConf);
+    this->AddComponent(m_DebugStats);
 
-	m_Console = new Console(this);
-	this->AddComponent(m_Console);
+    m_Console = new Console(this);
+    this->AddComponent(m_Console);
 
-	GameApp::Initialize();
+    GameApp::Initialize();
 }
 
 void EngineViewer::LoadContent()
-{	
-	GameApp::LoadContent();
+{    
+    GameApp::LoadContent();
 }
 
 void EngineViewer::UnLoadContent()
 {
-	if (m_GamePhysicsUpdate != nullptr)
-	{
-		RemoveComponent(m_GamePhysicsUpdate);
-	}
+    if (m_GamePhysicsUpdate != nullptr)
+    {
+        RemoveComponent(m_GamePhysicsUpdate);
+    }
 
-	if (m_GameObjectScriptCaller != nullptr)
-	{
-		RemoveComponent(m_GameObjectScriptCaller);
-	}
+    if (m_GameObjectScriptCaller != nullptr)
+    {
+        RemoveComponent(m_GameObjectScriptCaller);
+    }
 
-	if (m_CameraUpdater != nullptr)
-	{
-		RemoveComponent(m_CameraUpdater);
-	}
+    if (m_CameraUpdater != nullptr)
+    {
+        RemoveComponent(m_CameraUpdater);
+    }
 
-	if (m_InputHandler != nullptr)
-	{
-		RemoveComponent(m_InputHandler);
-	}
+    if (m_InputHandler != nullptr)
+    {
+        RemoveComponent(m_InputHandler);
+    }
 
-	if (m_DebugStats != nullptr)
-	{
-		RemoveComponent(m_DebugStats);
-	}
+    if (m_DebugStats != nullptr)
+    {
+        RemoveComponent(m_DebugStats);
+    }
 
-	if (m_Console != nullptr)
-	{
-		RemoveComponent(m_Console);
-	}
+    if (m_Console != nullptr)
+    {
+        RemoveComponent(m_Console);
+    }
 
-	if (m_GameLightsUpdate != nullptr)
-	{
-		RemoveComponent(m_GameLightsUpdate);
-	}
+    if (m_GameLightsUpdate != nullptr)
+    {
+        RemoveComponent(m_GameLightsUpdate);
+    }
 
-	if (m_ForwardPlusRendering != nullptr)
-	{
-		RemoveComponent(m_ForwardPlusRendering);
-	}
+    if (m_ForwardPlusRendering != nullptr)
+    {
+        RemoveComponent(m_ForwardPlusRendering);
+    }
 
-	if (m_GameAnimationsUpdate != nullptr)
-	{
-		RemoveComponent(m_GameAnimationsUpdate);
-	}
+    if (m_GameAnimationsUpdate != nullptr)
+    {
+        RemoveComponent(m_GameAnimationsUpdate);
+    }
 
-	if (m_GameObjectDebugVisualizer != nullptr)
-	{
-		RemoveComponent(m_GameObjectDebugVisualizer);
-	}
+    if (m_GameObjectDebugVisualizer != nullptr)
+    {
+        RemoveComponent(m_GameObjectDebugVisualizer);
+    }
 
-	if (m_GameObjectCameraUpdate != nullptr)
-	{
-		RemoveComponent(m_GameObjectCameraUpdate);
-	}
+    if (m_GameObjectCameraUpdate != nullptr)
+    {
+        RemoveComponent(m_GameObjectCameraUpdate);
+    }
 
-	if (m_GameAudioUpdate != nullptr)
-	{
-		RemoveComponent(m_GameAudioUpdate);
-	}
+    if (m_GameAudioUpdate != nullptr)
+    {
+        RemoveComponent(m_GameAudioUpdate);
+    }
 
-	DeleteMem(m_GamePhysicsUpdate);
-	DeleteMem(m_GameObjectDebugVisualizer);
-	DeleteMem(m_GameObjectScriptCaller);
-	DeleteMem(m_CameraUpdater);
-	DeleteMem(m_InputHandler);
-	DeleteMem(m_DebugStats);
-	DeleteMem(m_Console);
-	DeleteMem(m_GameLightsUpdate);
-	DeleteMem(m_ForwardPlusRendering);
-	DeleteMem(m_GameAnimationsUpdate);
-	DeleteMem(m_GameObjectCameraUpdate);
-	DeleteMem(m_GameAudioUpdate);
+    DeleteMem(m_GamePhysicsUpdate);
+    DeleteMem(m_GameObjectDebugVisualizer);
+    DeleteMem(m_GameObjectScriptCaller);
+    DeleteMem(m_CameraUpdater);
+    DeleteMem(m_InputHandler);
+    DeleteMem(m_DebugStats);
+    DeleteMem(m_Console);
+    DeleteMem(m_GameLightsUpdate);
+    DeleteMem(m_ForwardPlusRendering);
+    DeleteMem(m_GameAnimationsUpdate);
+    DeleteMem(m_GameObjectCameraUpdate);
+    DeleteMem(m_GameAudioUpdate);
 
-	GameApp::UnLoadContent();
+    GameApp::UnLoadContent();
 }
 
 void EngineViewer::OnLostDevice()
 {
-	GameApp::OnLostDevice();
+    GameApp::OnLostDevice();
 }
 
 void EngineViewer::OnResetDevice()
 {
-	GameApp::OnResetDevice();
+    GameApp::OnResetDevice();
 }
 
 void EngineViewer::ConstantUpdate(const TimerParams& timerParams)
 {
-	GameApp::ConstantUpdate(timerParams);
+    GameApp::ConstantUpdate(timerParams);
 }
 
 void EngineViewer::Update(const TimerParams& timerParams)
 {
-	AETODO("Remove this from here");
-	Keyboard* keyboard = m_InputHandler->GetKeyboard();
-	if (keyboard->WasKeyPressed(AEKeys::L))
-	{
-		AutoLoadTest();
-	}
+    AETODO("Remove this from here");
+    Keyboard* keyboard = m_InputHandler->GetKeyboard();
+    if (keyboard->WasKeyPressed(AEKeys::L))
+    {
+        AutoLoadTest();
+    }
 
-	GameApp::Update(timerParams);
+    GameApp::Update(timerParams);
 }
 
 void EngineViewer::PostUpdate(const TimerParams& timerParams)
 {
-	GameApp::PostUpdate(timerParams);
+    GameApp::PostUpdate(timerParams);
 }
 
 void EngineViewer::Render(const TimerParams& timerParams)
 {
-	m_GraphicDevice->Clear();
+    m_GraphicDevice->Clear();
 
-	AETODO("Remove this from here");
-	Keyboard* keyboard = m_InputHandler->GetKeyboard();
-	if (keyboard->WasKeyPressed(AEKeys::O))
-	{
-		m_DebugStats->SetGridEnabled(!m_DebugStats->GetGridEnabled());
-	}
-	if (keyboard->WasKeyPressed(AEKeys::P))
-	{
-		m_DebugStats->SetAxisEnabled(!m_DebugStats->GetAxisEnabled());
-	}
-	if (keyboard->WasKeyPressed(AEKeys::I))
-	{
-		m_DebugStats->SetFPSEnabled(!m_DebugStats->GetFPSEnabled());
-	}
+    AETODO("Remove this from here");
+    Keyboard* keyboard = m_InputHandler->GetKeyboard();
+    if (keyboard->WasKeyPressed(AEKeys::O))
+    {
+        m_DebugStats->SetGridEnabled(!m_DebugStats->GetGridEnabled());
+    }
+    if (keyboard->WasKeyPressed(AEKeys::P))
+    {
+        m_DebugStats->SetAxisEnabled(!m_DebugStats->GetAxisEnabled());
+    }
+    if (keyboard->WasKeyPressed(AEKeys::I))
+    {
+        m_DebugStats->SetFPSEnabled(!m_DebugStats->GetFPSEnabled());
+    }
 
-	GameApp::Render(timerParams);
+    GameApp::Render(timerParams);
 }
 
 void EngineViewer::AutoLoadTest()
 {
-	if(m_AutoTestLoaded)
-	{
-		return;
-	}
+    if(m_AutoTestLoaded)
+    {
+        return;
+    }
 
-	m_AutoTestLoaded = true;
+    m_AutoTestLoaded = true;
 
-	uint64_t raGrassTexID = 0;
-	uint64_t raSnowTexID = 0;
-	uint64_t raRockTexID = 0;
-	uint64_t raboxMeshID = 0;
-	uint64_t raVSID = 0;
-	uint64_t raPSID = 0;
-	uint64_t raSphereID = 0;
+    uint64_t raGrassTexID = 0;
+    uint64_t raSnowTexID = 0;
+    uint64_t raRockTexID = 0;
+    uint64_t raboxMeshID = 0;
+    uint64_t raVSID = 0;
+    uint64_t raPSID = 0;
+    uint64_t raSphereID = 0;
 
-	
+    m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\Grass_Terrain_04.dds", GameContentSubtype::Texture2D, &raGrassTexID);
+    m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\Road_Terrain_03.dds", GameContentSubtype::Texture2D, &raSnowTexID);
+    m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\Piedra_Nieve.dds", GameContentSubtype::Texture2D, &raRockTexID);
+    m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\box.DAE", GameContentSubtype::None, &raboxMeshID);
+    m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\ModelStaticVS.fx", GameContentSubtype::VertexShaderHLSL, &raVSID);
+    m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\ModelPS.fx", GameContentSubtype::PixelShaderHLSL, &raPSID);
+    m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\sphere.DAE", GameContentSubtype::None, &raSphereID);
 
-	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\Grass_Terrain_04.dds", GameContentSubtype::Texture2D, &raGrassTexID);
-	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\Road_Terrain_03.dds", GameContentSubtype::Texture2D, &raSnowTexID);
-	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\Piedra_Nieve.dds", GameContentSubtype::Texture2D, &raRockTexID);
-	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\box.DAE", GameContentSubtype::None, &raboxMeshID);
-	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\ModelStaticVS.fx", GameContentSubtype::VertexShaderHLSL, &raVSID);
-	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\ModelPS.fx", GameContentSubtype::PixelShaderHLSL, &raPSID);
-	m_GameAssetManager->CreateNewRawGameAsset(boost::filesystem::current_path().wstring() + L"/../" L"Data\\Raw Files\\sphere.DAE", GameContentSubtype::None, &raSphereID);
+    m_GameAssetManager->CheckForLatestRawGameAssetsAndImport();
 
-	m_GameAssetManager->CheckForLatestRawGameAssetsAndImport();
-
-	////////////////////////////////////////
+    ////////////////////////////////////////
 
 
 
-	uint64_t gaGrassTexID	= m_GameAssetManager->GetRawGameAsset(raGrassTexID)->GetUniqueAssociatedAssetID();
-	uint64_t gaSnowTexID	= m_GameAssetManager->GetRawGameAsset(raSnowTexID)->GetUniqueAssociatedAssetID();
-	uint64_t gaRockTexID	= m_GameAssetManager->GetRawGameAsset(raRockTexID)->GetUniqueAssociatedAssetID();
-	uint64_t gaboxMeshID	= m_GameAssetManager->GetRawGameAsset(raboxMeshID)->GetUniqueAssociatedAssetID();
-	uint64_t gaVSID			= m_GameAssetManager->GetRawGameAsset(raVSID)->GetUniqueAssociatedAssetID();
-	uint64_t gaPSID			= m_GameAssetManager->GetRawGameAsset(raPSID)->GetUniqueAssociatedAssetID();
-	uint64_t gaSphereID		= m_GameAssetManager->GetRawGameAsset(raSphereID)->GetUniqueAssociatedAssetID();
+    uint64_t gaGrassTexID   = m_GameAssetManager->GetRawGameAsset(raGrassTexID)->GetUniqueAssociatedAssetID();
+    uint64_t gaSnowTexID    = m_GameAssetManager->GetRawGameAsset(raSnowTexID)->GetUniqueAssociatedAssetID();
+    uint64_t gaRockTexID    = m_GameAssetManager->GetRawGameAsset(raRockTexID)->GetUniqueAssociatedAssetID();
+    uint64_t gaboxMeshID    = m_GameAssetManager->GetRawGameAsset(raboxMeshID)->GetUniqueAssociatedAssetID();
+    uint64_t gaVSID         = m_GameAssetManager->GetRawGameAsset(raVSID)->GetUniqueAssociatedAssetID();
+    uint64_t gaPSID         = m_GameAssetManager->GetRawGameAsset(raPSID)->GetUniqueAssociatedAssetID();
+    uint64_t gaSphereID     = m_GameAssetManager->GetRawGameAsset(raSphereID)->GetUniqueAssociatedAssetID();
 
-	///////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////
 
-	//MeshAsset* boxMeshAsset = (MeshAsset*)m_GameAssetManager->GetGameAsset(1); //Box
-	//MeshAsset* sphereMeshAsset = (MeshAsset*)m_GameAssetManager->GetGameAsset(2); //Sphere
-	ShaderAsset* vsAsset		= (ShaderAsset*)m_GameAssetManager->GetGameAsset(gaVSID); //VS
-	ShaderAsset* psAsset		= (ShaderAsset*)m_GameAssetManager->GetGameAsset(gaPSID); //PS
-	TextureAsset* grassTexAsset	= (TextureAsset*)m_GameAssetManager->GetGameAsset(gaGrassTexID);
-	TextureAsset* snowTexAsset	= (TextureAsset*)m_GameAssetManager->GetGameAsset(gaSnowTexID);
-	TextureAsset* rockTexAsset	= (TextureAsset*)m_GameAssetManager->GetGameAsset(gaRockTexID);
-	MeshAsset* boxMeshAsset		= ((ModelAsset*)m_GameAssetManager->GetGameAsset(gaboxMeshID))->GetMeshAssetMap().begin()->second.m_Asset;
-	MeshAsset* sphereMeshAsset	= ((ModelAsset*)m_GameAssetManager->GetGameAsset(gaSphereID))->GetMeshAssetMap().begin()->second.m_Asset;
+    //MeshAsset* boxMeshAsset       = (MeshAsset*)m_GameAssetManager->GetGameAsset(1); //Box
+    //MeshAsset* sphereMeshAsset    = (MeshAsset*)m_GameAssetManager->GetGameAsset(2); //Sphere
+    ShaderAsset* vsAsset            = (ShaderAsset*)m_GameAssetManager->GetGameAsset(gaVSID); //VS
+    ShaderAsset* psAsset            = (ShaderAsset*)m_GameAssetManager->GetGameAsset(gaPSID); //PS
+    TextureAsset* grassTexAsset     = (TextureAsset*)m_GameAssetManager->GetGameAsset(gaGrassTexID);
+    TextureAsset* snowTexAsset      = (TextureAsset*)m_GameAssetManager->GetGameAsset(gaSnowTexID);
+    TextureAsset* rockTexAsset      = (TextureAsset*)m_GameAssetManager->GetGameAsset(gaRockTexID);
+    MeshAsset* boxMeshAsset         = ((ModelAsset*)m_GameAssetManager->GetGameAsset(gaboxMeshID))->GetMeshAssetMap().begin()->second.m_Asset;
+    MeshAsset* sphereMeshAsset      = ((ModelAsset*)m_GameAssetManager->GetGameAsset(gaSphereID))->GetMeshAssetMap().begin()->second.m_Asset;
 
-	////////////////////////////////////////
+    ////////////////////////////////////////
 
-	GameObject* goFloor = new GameObject(L"Floor");
-	m_GameObjectManager->AddGameObject(goFloor);
-	goFloor->SetScale(glm::vec3(50.0f, 0.5f, 50.0f));
+    GameObject* goFloor = new GameObject(L"Floor");
+    m_GameObjectManager->AddGameObject(goFloor);
+    goFloor->SetScale(glm::vec3(50.0f, 0.5f, 50.0f));
 
-	MeshGOC* meshFloor = new MeshGOC(goFloor);
-	goFloor->SetMeshGOC(meshFloor);
-	meshFloor->SetMeshAsset(boxMeshAsset);
+    MeshGOC* meshFloor = new MeshGOC(goFloor);
+    goFloor->SetMeshGOC(meshFloor);
+    meshFloor->SetMeshAsset(boxMeshAsset);
 
-	MeshMaterialGOC* matFloor = new MeshMaterialGOC(goFloor, L"Floor Mat");
-	goFloor->AddMeshMaterialGOC(matFloor);
-	matFloor->SetVertexShaderAsset(vsAsset);
-	matFloor->SetPixelShaderAsset(psAsset);
-	matFloor->GetPixelShaderProperties()->SetTexture(L"DiffuseTexture", grassTexAsset);
+    MeshMaterialGOC* matFloor = new MeshMaterialGOC(goFloor, L"Floor Mat");
+    goFloor->AddMeshMaterialGOC(matFloor);
+    matFloor->SetVertexShaderAsset(vsAsset);
+    matFloor->SetPixelShaderAsset(psAsset);
+    matFloor->GetPixelShaderProperties()->SetTexture(L"DiffuseTexture", grassTexAsset);
 
-	PhysicsGOC* physicsFloor = new PhysicsGOC(goFloor, this->GetPhysicsManager());
-	goFloor->SetPhysicsGOC(physicsFloor);
-	uint64_t physicsFloorColliderID = 0;
-	physicsFloor->AddCollider(CollisionShape::Box, physicsFloorColliderID);
-	PhysicColliderBox* physicColliderBoxFloor = (PhysicColliderBox*)physicsFloor->GetPhysicsActor()->GetPhysicCollider(physicsFloorColliderID);
-	//physicColliderBoxFloor->SetSize(boxMeshAsset->GetMeshReference()->GetBoundingBox().GetSize());
-	physicColliderBoxFloor->SetScale(goFloor->GetScale());
+    PhysicsGOC* physicsFloor = new PhysicsGOC(goFloor, this->GetPhysicsManager());
+    goFloor->SetPhysicsGOC(physicsFloor);
+    uint64_t physicsFloorColliderID = 0;
+    physicsFloor->AddCollider(CollisionShape::Box, physicsFloorColliderID);
+    PhysicColliderBox* physicColliderBoxFloor = (PhysicColliderBox*)physicsFloor->GetPhysicsActor()->GetPhysicCollider(physicsFloorColliderID);
+    //physicColliderBoxFloor->SetSize(boxMeshAsset->GetMeshReference()->GetBoundingBox().GetSize());
+    physicColliderBoxFloor->SetScale(goFloor->GetScale());
 
-	int32_t numLoop = 1;
+    int32_t numLoop = 1;
 
-	for (int32_t i = 0; i < numLoop; i++)
-	{
-		for (int32_t j = 0; j < numLoop; j++)
-		{
-			for (int32_t h = 0; h < numLoop; h++)
-			{
-				glm::vec3 pos(15 - (i * 3), 30 - (j * 3), 15 - (h * 3));
-				glm::vec3 rand(AERandomHelpers::GetFloat(-0.9f, 0.9f), AERandomHelpers::GetFloat(-0.9f, 0.9f), AERandomHelpers::GetFloat(-0.9f, 0.9f));
+    for (int32_t i = 0; i < numLoop; i++)
+    {
+        for (int32_t j = 0; j < numLoop; j++)
+        {
+            for (int32_t h = 0; h < numLoop; h++)
+            {
+                glm::vec3 pos(15 - (i * 3), 30 - (j * 3), 15 - (h * 3));
+                glm::vec3 rand(AERandomHelpers::GetFloat(-0.9f, 0.9f), AERandomHelpers::GetFloat(-0.9f, 0.9f), AERandomHelpers::GetFloat(-0.9f, 0.9f));
 
-				if (AERandomHelpers::GetInt(0, 1) == 1)
-				{
-					AutoLoadTestAddGO(pos + rand, boxMeshAsset, vsAsset, psAsset, snowTexAsset, CollisionShape::Box);
-				}
-				else
-				{
-					AutoLoadTestAddGO(pos + rand, sphereMeshAsset, vsAsset, psAsset, rockTexAsset, CollisionShape::Sphere);
-				}
-			}
-		}
-	}
+                if (AERandomHelpers::GetInt(0, 1) == 1)
+                {
+                    AutoLoadTestAddGO(pos + rand, boxMeshAsset, vsAsset, psAsset, snowTexAsset, CollisionShape::Box);
+                }
+                else
+                {
+                    AutoLoadTestAddGO(pos + rand, sphereMeshAsset, vsAsset, psAsset, rockTexAsset, CollisionShape::Sphere);
+                }
+            }
+        }
+    }
 
-	//////////////////////////////////////
+    //////////////////////////////////////
 }
 
 void EngineViewer::AutoLoadTestAddGO(const glm::vec3& pos, MeshAsset* model, ShaderAsset* vs, ShaderAsset* ps, TextureAsset* text, CollisionShape collisionShape)
 {
-	GameObject* goFloor = new GameObject(L"Obj");
-	m_GameObjectManager->AddGameObject(goFloor);
-	goFloor->SetPosition(pos);
+    GameObject* goFloor = new GameObject(L"Obj");
+    m_GameObjectManager->AddGameObject(goFloor);
+    goFloor->SetPosition(pos);
 
-	MeshGOC* meshFloor = new MeshGOC(goFloor);
-	goFloor->SetMeshGOC(meshFloor);
-	meshFloor->SetMeshAsset(model);
+    MeshGOC* meshFloor = new MeshGOC(goFloor);
+    goFloor->SetMeshGOC(meshFloor);
+    meshFloor->SetMeshAsset(model);
 
-	MeshMaterialGOC* matFloor = new MeshMaterialGOC(goFloor, L"Obj Mat");
-	goFloor->AddMeshMaterialGOC(matFloor);
-	matFloor->SetVertexShaderAsset(vs);
-	matFloor->SetPixelShaderAsset(ps);
-	matFloor->GetPixelShaderProperties()->SetTexture(L"DiffuseTexture", text);
+    MeshMaterialGOC* matFloor = new MeshMaterialGOC(goFloor, L"Obj Mat");
+    goFloor->AddMeshMaterialGOC(matFloor);
+    matFloor->SetVertexShaderAsset(vs);
+    matFloor->SetPixelShaderAsset(ps);
+    matFloor->GetPixelShaderProperties()->SetTexture(L"DiffuseTexture", text);
 
-	PhysicsGOC* physicsFloor = new PhysicsGOC(goFloor, this->GetPhysicsManager());
-	goFloor->SetPhysicsGOC(physicsFloor);
-	physicsFloor->AddRigidBody();
-	uint64_t physicsFloorColliderID = 0;
-	physicsFloor->AddCollider(collisionShape, physicsFloorColliderID);
+    PhysicsGOC* physicsFloor = new PhysicsGOC(goFloor, this->GetPhysicsManager());
+    goFloor->SetPhysicsGOC(physicsFloor);
+    physicsFloor->AddRigidBody();
+    uint64_t physicsFloorColliderID = 0;
+    physicsFloor->AddCollider(collisionShape, physicsFloorColliderID);
 
-	if (!m_LightManager->IsContainerFull() && AERandomHelpers::GetInt(0, 1) == 1)
-	{
-		LightGOC* lightGOC = new LightGOC(goFloor, m_LightManager);
-		goFloor->SetLightGOC(lightGOC);
-		lightGOC->ChangeLightType(LightType::Omni);
+    if (!m_LightManager->IsContainerFull() && AERandomHelpers::GetInt(0, 1) == 1)
+    {
+        LightGOC* lightGOC = new LightGOC(goFloor, m_LightManager);
+        goFloor->SetLightGOC(lightGOC);
+        lightGOC->ChangeLightType(LightType::Omni);
 
-		lightGOC->GetLight()->SetNearAttenuation(1);
-		lightGOC->GetLight()->SetFarAttenuation(6);
-		lightGOC->GetLight()->SetIntensity(AERandomHelpers::GetFloat(0.1f, 1.0f));
-		lightGOC->GetLight()->SetColor(Color(AERandomHelpers::GetUInt(0, 255), AERandomHelpers::GetUInt(0, 255), AERandomHelpers::GetUInt(0, 255), 1));
-	}
+        lightGOC->GetLight()->SetNearAttenuation(1);
+        lightGOC->GetLight()->SetFarAttenuation(6);
+        lightGOC->GetLight()->SetIntensity(AERandomHelpers::GetFloat(0.1f, 1.0f));
+        lightGOC->GetLight()->SetColor(Color(AERandomHelpers::GetUInt(0, 255), AERandomHelpers::GetUInt(0, 255), AERandomHelpers::GetUInt(0, 255), 1));
+    }
 }

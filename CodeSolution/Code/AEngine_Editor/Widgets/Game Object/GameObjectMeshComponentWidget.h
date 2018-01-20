@@ -48,43 +48,43 @@ class GameAssetManager;
 ******************/
 class GameObjectMeshComponentWidget sealed : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::GameObjectMeshComponentWidgetQt m_GameObjectMeshComponentWidgetQtUI;
+        Ui::GameObjectMeshComponentWidgetQt m_GameObjectMeshComponentWidgetQtUI;
 
-		GameObject* m_GameObject = nullptr;
+        GameObject* m_GameObject = nullptr;
 
-		GameAssetManager* m_GameAssetManager = nullptr;
+        GameAssetManager* m_GameAssetManager = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		void InitFields();
+        void InitFields();
 
-		void dragEnterEvent(QDragEnterEvent* enterEvent) override;
+        void dragEnterEvent(QDragEnterEvent* enterEvent) override;
 
-		void dragLeaveEvent(QDragLeaveEvent* leaveEvent) override;
+        void dragLeaveEvent(QDragLeaveEvent* leaveEvent) override;
 
-		void dragMoveEvent(QDragMoveEvent* moveEvent) override;
+        void dragMoveEvent(QDragMoveEvent* moveEvent) override;
 
-		void dropEvent(QDropEvent* dropEvent) override;
+        void dropEvent(QDropEvent* dropEvent) override;
 
-		AEResult DropAsset(QObject* object);
+        AEResult DropAsset(QObject* object);
 
-		AEResult SetGameAssetFromID(uint64_t gameAssetID);
+        AEResult SetGameAssetFromID(uint64_t gameAssetID);
 
-		AEResult RemoveGameAsset();
+        AEResult RemoveGameAsset();
 
-	private slots:
+    private slots:
 
-		void on_m_AddMeshAssetButton_clicked();
+        void on_m_AddMeshAssetButton_clicked();
 
-		void on_m_ClearMeshAssetButton_clicked();
+        void on_m_ClearMeshAssetButton_clicked();
 
-	public:
-		GameObjectMeshComponentWidget(GameObject* gameObject, GameAssetManager* gameAssetManager, QWidget *parent = nullptr);
-		~GameObjectMeshComponentWidget();
+    public:
+        GameObjectMeshComponentWidget(GameObject* gameObject, GameAssetManager* gameAssetManager, QWidget *parent = nullptr);
+        ~GameObjectMeshComponentWidget();
 };
 
 

@@ -40,12 +40,12 @@
 *   Function Defs   *
 *********************/
 NewRawGameAssetDialog::NewRawGameAssetDialog(QWidget *parent)
-	: QDialog(parent)
+    : QDialog(parent)
 {
-	m_NewRawGameAssetDialogQtUI.setupUi(this);
+    m_NewRawGameAssetDialogQtUI.setupUi(this);
 
-	AEQTHelpers::SetComboBoxGameContentSubType(m_NewRawGameAssetDialogQtUI.m_GameContentSubTypeComboBox);
-	m_NewRawGameAssetDialogQtUI.m_GameContentSubTypeComboBox->setCurrentIndex(0);
+    AEQTHelpers::SetComboBoxGameContentSubType(m_NewRawGameAssetDialogQtUI.m_GameContentSubTypeComboBox);
+    m_NewRawGameAssetDialogQtUI.m_GameContentSubTypeComboBox->setCurrentIndex(0);
 }
 
 NewRawGameAssetDialog::~NewRawGameAssetDialog()
@@ -54,32 +54,32 @@ NewRawGameAssetDialog::~NewRawGameAssetDialog()
 
 void NewRawGameAssetDialog::on_m_OpenFile_clicked()
 {
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Raw Game Asset"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Raw Game Asset"));
 
-	m_NewRawGameAssetDialogQtUI.m_RawAssetFileTextBox->setText(fileName);
+    m_NewRawGameAssetDialogQtUI.m_RawAssetFileTextBox->setText(fileName);
 }
 
 void NewRawGameAssetDialog::SetFilename(const QString& filename)
 {
-	m_NewRawGameAssetDialogQtUI.m_RawAssetFileTextBox->setText(filename);
+    m_NewRawGameAssetDialogQtUI.m_RawAssetFileTextBox->setText(filename);
 }
 
 std::wstring NewRawGameAssetDialog::GetFilename() const
 {
-	return m_NewRawGameAssetDialogQtUI.m_RawAssetFileTextBox->text().toStdWString();
+    return m_NewRawGameAssetDialogQtUI.m_RawAssetFileTextBox->text().toStdWString();
 }
 
 GameContentSubtype NewRawGameAssetDialog::GetGameContentSubtype() const
 {
-	int currentIndex = m_NewRawGameAssetDialogQtUI.m_GameContentSubTypeComboBox->currentIndex();
+    int currentIndex = m_NewRawGameAssetDialogQtUI.m_GameContentSubTypeComboBox->currentIndex();
 
-	AEAssert(currentIndex != -1);
-	if(currentIndex == -1)
-	{
-		return GameContentSubtype::None;
-	}
+    AEAssert(currentIndex != -1);
+    if(currentIndex == -1)
+    {
+        return GameContentSubtype::None;
+    }
 
-	GameContentSubtype gameContentSubtype = static_cast<GameContentSubtype>(m_NewRawGameAssetDialogQtUI.m_GameContentSubTypeComboBox->itemData(currentIndex).toUInt());
-	
-	return gameContentSubtype;
+    GameContentSubtype gameContentSubtype = static_cast<GameContentSubtype>(m_NewRawGameAssetDialogQtUI.m_GameContentSubTypeComboBox->itemData(currentIndex).toUInt());
+    
+    return gameContentSubtype;
 }

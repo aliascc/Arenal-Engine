@@ -44,18 +44,18 @@
 ******************/
 class GameObjectAddComponentDialog sealed : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
-		Ui::GameObjectAddComponentDialogQt m_GameObjectAddComponentDialogQtUI;
+    private:
+        Ui::GameObjectAddComponentDialogQt m_GameObjectAddComponentDialogQtUI;
 
-	private slots:
+    private slots:
 
-	public:
-		GameObjectAddComponentDialog(QWidget *parent = 0);
-		virtual ~GameObjectAddComponentDialog();
+    public:
+        GameObjectAddComponentDialog(QWidget *parent = 0);
+        virtual ~GameObjectAddComponentDialog();
 
-		GameObjectComponentTypeOption GetGameObjectComponentTypeOption() const;
+        GameObjectComponentTypeOption GetGameObjectComponentTypeOption() const;
 };
 
 #endif

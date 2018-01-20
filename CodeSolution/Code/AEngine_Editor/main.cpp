@@ -41,9 +41,9 @@
 *********************/
 int main(int argc, char *argv[])
 {
-	#if defined(_DEBUG)
-		MemLeaks::MemoryBegin();
-	#endif
+    #if defined(_DEBUG)
+        MemLeaks::MemoryBegin();
+    #endif
 
     if (CrashHandlerInst->InitCrashHandling() != AEResult::Ok)
     {
@@ -51,10 +51,10 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-	QApplication a(argc, argv);
-	AEngine_Editor w;
-	
-	w.show();
+    QApplication a(argc, argv);
+    AEngine_Editor w;
+    
+    w.show();
 
     int retCode = 0;
 

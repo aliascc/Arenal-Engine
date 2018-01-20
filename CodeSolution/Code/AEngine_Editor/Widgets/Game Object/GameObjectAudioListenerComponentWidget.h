@@ -47,23 +47,23 @@ class GameObject;
 ******************/
 class GameObjectAudioListenerComponentWidget sealed : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::GameObjectAudioListenerComponentWidgetQt m_GameObjectAudioListenerComponentWidgetQtUI;
+        Ui::GameObjectAudioListenerComponentWidgetQt m_GameObjectAudioListenerComponentWidgetQtUI;
 
-		GameObject* m_GameObject = nullptr;
+        GameObject* m_GameObject = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		void InitFields();;
+        void InitFields();;
 
-	private slots:
+    private slots:
 
-	public:
-		GameObjectAudioListenerComponentWidget(GameObject* gameObject, QWidget *parent = nullptr);
-		~GameObjectAudioListenerComponentWidget();
+    public:
+        GameObjectAudioListenerComponentWidget(GameObject* gameObject, QWidget *parent = nullptr);
+        ~GameObjectAudioListenerComponentWidget();
 };
 
 

@@ -38,17 +38,17 @@
 *   Function Defs   *
 *********************/
 GameObjectBaseInformationWidget::GameObjectBaseInformationWidget(GameObject* gameObject, EngineViewer* engineViewer, QWidget *parent)
-	: QWidget(parent)
-	, m_GameObject(gameObject)
-	, m_EngineViewer(engineViewer)
+    : QWidget(parent)
+    , m_GameObject(gameObject)
+    , m_EngineViewer(engineViewer)
 {
-	m_GameObjectBaseInformationWidgetQtUI.setupUi(this);
+    m_GameObjectBaseInformationWidgetQtUI.setupUi(this);
 
-	AEAssert(m_GameObject != nullptr);
+    AEAssert(m_GameObject != nullptr);
 
-	AEAssert(m_EngineViewer != nullptr);
+    AEAssert(m_EngineViewer != nullptr);
 
-	InitFields();
+    InitFields();
 }
 
 GameObjectBaseInformationWidget::~GameObjectBaseInformationWidget()
@@ -57,40 +57,40 @@ GameObjectBaseInformationWidget::~GameObjectBaseInformationWidget()
 
 void GameObjectBaseInformationWidget::InitFields()
 {
-	AEAssert(m_GameObject != nullptr);
-	AEAssert(m_EngineViewer != nullptr);
-	if (m_GameObject == nullptr || m_EngineViewer == nullptr)
-	{
-		return;
-	}
+    AEAssert(m_GameObject != nullptr);
+    AEAssert(m_EngineViewer != nullptr);
+    if (m_GameObject == nullptr || m_EngineViewer == nullptr)
+    {
+        return;
+    }
 
-	QString id = QString::number(m_GameObject->GetUniqueID());
-	m_GameObjectBaseInformationWidgetQtUI.m_GameObjectIDTextBox->setText(id);
+    QString id = QString::number(m_GameObject->GetUniqueID());
+    m_GameObjectBaseInformationWidgetQtUI.m_GameObjectIDTextBox->setText(id);
 
-	m_GameObjectBaseInformationWidgetQtUI.m_GameObjectNameTextBox->setText(QString::fromStdWString(m_GameObject->GetName()));
+    m_GameObjectBaseInformationWidgetQtUI.m_GameObjectNameTextBox->setText(QString::fromStdWString(m_GameObject->GetName()));
 }
 
 void GameObjectBaseInformationWidget::on_m_GameObjectNameTextBox_editingFinished()
 {
-	AEAssert(m_GameObject != nullptr);
+    AEAssert(m_GameObject != nullptr);
 
-	if(m_GameObject == nullptr)
-	{
-		return;
-	}
+    if(m_GameObject == nullptr)
+    {
+        return;
+    }
 
-	if(m_GameObjectBaseInformationWidgetQtUI.m_GameObjectNameTextBox->text().isEmpty())
-	{
-		m_GameObjectBaseInformationWidgetQtUI.m_GameObjectNameTextBox->setText(QString::fromStdWString(m_GameObject->GetName()));
+    if(m_GameObjectBaseInformationWidgetQtUI.m_GameObjectNameTextBox->text().isEmpty())
+    {
+        m_GameObjectBaseInformationWidgetQtUI.m_GameObjectNameTextBox->setText(QString::fromStdWString(m_GameObject->GetName()));
 
-		return;
-	}
+        return;
+    }
 
-	QString newName = m_GameObjectBaseInformationWidgetQtUI.m_GameObjectNameTextBox->text();
+    QString newName = m_GameObjectBaseInformationWidgetQtUI.m_GameObjectNameTextBox->text();
 
-	std::wstring newNameStd = newName.toStdWString();
-	
-	m_GameObject->SetName(newNameStd);
+    std::wstring newNameStd = newName.toStdWString();
+    
+    m_GameObject->SetName(newNameStd);
 
-	emit (NameChanged(m_GameObject->GetUniqueID()));
+    emit (NameChanged(m_GameObject->GetUniqueID()));
 }

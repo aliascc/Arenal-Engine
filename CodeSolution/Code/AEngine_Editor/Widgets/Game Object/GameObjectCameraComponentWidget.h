@@ -50,33 +50,33 @@ class EngineViewer;
 
 class GameObjectCameraComponentWidget sealed : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::GameObjectCameraComponentWidgetQt m_GameObjectCameraComponentWidgetQtUI;
+        Ui::GameObjectCameraComponentWidgetQt m_GameObjectCameraComponentWidgetQtUI;
 
-		EngineViewer* m_EngineViewer = nullptr;
+        EngineViewer* m_EngineViewer = nullptr;
 
-		GameObject* m_GameObject = nullptr;
+        GameObject* m_GameObject = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		void InitFields();
+        void InitFields();
 
-		CameraGOC* GetCameraGOC();
+        CameraGOC* GetCameraGOC();
 
-		Camera* GetCamera();
+        Camera* GetCamera();
 
-	private slots:
+    private slots:
 
-		void on_m_MakeDefaultButton_clicked();
+        void on_m_MakeDefaultButton_clicked();
 
-		void on_m_DrawFrustumEnabled_stateChanged(int newState);
+        void on_m_DrawFrustumEnabled_stateChanged(int newState);
 
-	public:
-		GameObjectCameraComponentWidget(GameObject* gameObject, EngineViewer* engineViewer, QWidget *parent = nullptr);
-		~GameObjectCameraComponentWidget();
+    public:
+        GameObjectCameraComponentWidget(GameObject* gameObject, EngineViewer* engineViewer, QWidget *parent = nullptr);
+        ~GameObjectCameraComponentWidget();
 };
 
 

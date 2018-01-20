@@ -42,9 +42,9 @@
 *   Function Defs   *
 *********************/
 LoadProjectDialog::LoadProjectDialog(QWidget *parent)
-	: QDialog(parent)
+    : QDialog(parent)
 {
-	m_LoadProjectDialogQtUI.setupUi(this);
+    m_LoadProjectDialogQtUI.setupUi(this);
 }
 
 LoadProjectDialog::~LoadProjectDialog()
@@ -53,10 +53,10 @@ LoadProjectDialog::~LoadProjectDialog()
 
 void LoadProjectDialog::on_m_SelectFileBtn_clicked()
 {
-	QString filter = "Project Configuration File (*.xml)";
-	QString configFile = QFileDialog::getOpenFileName(this, tr("Select Project Config"), QString(), filter);
+    QString filter = "Project Configuration File (*.xml)";
+    QString configFile = QFileDialog::getOpenFileName(this, tr("Select Project Config"), QString(), filter);
 
-	m_ConfigFile = configFile.toStdWString();
+    m_ConfigFile = configFile.toStdWString();
 
-	m_LoadProjectDialogQtUI.m_ProjectConfigTB->setText(configFile);
+    m_LoadProjectDialogQtUI.m_ProjectConfigTB->setText(configFile);
 }

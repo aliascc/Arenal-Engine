@@ -45,28 +45,28 @@ class EngineViewer;
 ******************/
 class LoadProjectDialog sealed : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::LoadProjectDialogQt m_LoadProjectDialogQtUI;
+        Ui::LoadProjectDialogQt m_LoadProjectDialogQtUI;
 
-		QString m_Directory = "";
+        QString m_Directory = "";
 
-		std::wstring m_ConfigFile;
+        std::wstring m_ConfigFile;
 
-	private slots:
+    private slots:
 
-		void on_m_SelectFileBtn_clicked();
+        void on_m_SelectFileBtn_clicked();
 
-	public:
-		LoadProjectDialog(QWidget *parent = 0);
-		virtual ~LoadProjectDialog();
+    public:
+        LoadProjectDialog(QWidget *parent = 0);
+        virtual ~LoadProjectDialog();
 
-		inline const std::wstring& GetConfigFile() const
-		{
-			return m_ConfigFile;
-		}
+        inline const std::wstring& GetConfigFile() const
+        {
+            return m_ConfigFile;
+        }
 };
 
 #endif

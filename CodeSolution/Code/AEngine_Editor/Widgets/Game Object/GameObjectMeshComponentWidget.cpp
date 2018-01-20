@@ -44,17 +44,17 @@
 *   Function Defs   *
 *********************/
 GameObjectMeshComponentWidget::GameObjectMeshComponentWidget(GameObject* gameObject, GameAssetManager* gameAssetManager, QWidget *parent)
-	: QWidget(parent)
-	, m_GameObject(gameObject)
-	, m_GameAssetManager(gameAssetManager)
+    : QWidget(parent)
+    , m_GameObject(gameObject)
+    , m_GameAssetManager(gameAssetManager)
 {
-	m_GameObjectMeshComponentWidgetQtUI.setupUi(this);
+    m_GameObjectMeshComponentWidgetQtUI.setupUi(this);
 
-	AEAssert(m_GameObject != nullptr);
+    AEAssert(m_GameObject != nullptr);
 
-	AEAssert(m_GameAssetManager != nullptr);
+    AEAssert(m_GameAssetManager != nullptr);
 
-	InitFields();
+    InitFields();
 }
 
 GameObjectMeshComponentWidget::~GameObjectMeshComponentWidget()
@@ -63,194 +63,194 @@ GameObjectMeshComponentWidget::~GameObjectMeshComponentWidget()
 
 void GameObjectMeshComponentWidget::InitFields()
 {
-	AEAssert(m_GameAssetManager != nullptr);
-	if(m_GameAssetManager == nullptr)
-	{
-		return;
-	}
+    AEAssert(m_GameAssetManager != nullptr);
+    if(m_GameAssetManager == nullptr)
+    {
+        return;
+    }
 
-	AEAssert(m_GameObject != nullptr);
-	if(m_GameObject == nullptr)
-	{
-		return;
-	}
+    AEAssert(m_GameObject != nullptr);
+    if(m_GameObject == nullptr)
+    {
+        return;
+    }
 
-	AEAssert(m_GameObject->HasMeshGOC());
-	if(!m_GameObject->HasMeshGOC())
-	{
-		return;
-	}
+    AEAssert(m_GameObject->HasMeshGOC());
+    if(!m_GameObject->HasMeshGOC())
+    {
+        return;
+    }
 
-	MeshGOC* meshGOC = m_GameObject->GetMeshGOC();
-	
-	m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->setText(QString::fromStdWString(meshGOC->GetMeshName()));
+    MeshGOC* meshGOC = m_GameObject->GetMeshGOC();
+    
+    m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->setText(QString::fromStdWString(meshGOC->GetMeshName()));
 
-	m_IsReady = true;
+    m_IsReady = true;
 }
 
 AEResult GameObjectMeshComponentWidget::DropAsset(QObject* object)
 {
-	if(!m_IsReady)
-	{
-		return AEResult::NotReady;
-	}
+    if(!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
 
-	AEAssert(object != nullptr);
-	if(object == nullptr)
-	{
-		return AEResult::NullParameter;
-	}
+    AEAssert(object != nullptr);
+    if(object == nullptr)
+    {
+        return AEResult::NullParameter;
+    }
 
-	QTreeWidget* gameAssetTree = reinterpret_cast<QTreeWidget*>(object);
+    QTreeWidget* gameAssetTree = reinterpret_cast<QTreeWidget*>(object);
 
-	QList<QTreeWidgetItem*> selectedItems = gameAssetTree->selectedItems();
+    QList<QTreeWidgetItem*> selectedItems = gameAssetTree->selectedItems();
 
-	if(selectedItems.count() == 0)
-	{
-		return AEResult::Ok;
-	}
+    if(selectedItems.count() == 0)
+    {
+        return AEResult::Ok;
+    }
 
-	QTreeWidgetItem* item = selectedItems[0];
-	
-	uint64_t gameAssetID = item->data(0, AE_QT_ITEM_DATA_ROLE_GAME_ASSET_UNIQUE_ID).toULongLong();
+    QTreeWidgetItem* item = selectedItems[0];
+    
+    uint64_t gameAssetID = item->data(0, AE_QT_ITEM_DATA_ROLE_GAME_ASSET_UNIQUE_ID).toULongLong();
 
-	return SetGameAssetFromID(gameAssetID);
+    return SetGameAssetFromID(gameAssetID);
 }
 
 void GameObjectMeshComponentWidget::on_m_AddMeshAssetButton_clicked()
 {
-	if(!m_IsReady)
-	{
-		return;
-	}
+    if(!m_IsReady)
+    {
+        return;
+    }
 
-	GameObjectSelectAssetDialog selectAssetDialog(m_GameAssetManager, GameContentType::Mesh, this);
+    GameObjectSelectAssetDialog selectAssetDialog(m_GameAssetManager, GameContentType::Mesh, this);
 
-	int result = selectAssetDialog.exec();
+    int result = selectAssetDialog.exec();
 
-	if(result != QDialog::Accepted)
-	{
-		return;
-	}
+    if(result != QDialog::Accepted)
+    {
+        return;
+    }
 
-	uint64_t gameAssetID = selectAssetDialog.GetGameAssetIDSelected();
+    uint64_t gameAssetID = selectAssetDialog.GetGameAssetIDSelected();
 
-	SetGameAssetFromID(gameAssetID);
+    SetGameAssetFromID(gameAssetID);
 }
 
 AEResult GameObjectMeshComponentWidget::SetGameAssetFromID(uint64_t gameAssetID)
 {
-	if(!m_IsReady)
-	{
-		return AEResult::NotReady;
-	}
+    if(!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
 
-	GameAsset* gameAsset = m_GameAssetManager->GetGameAsset(gameAssetID);
+    GameAsset* gameAsset = m_GameAssetManager->GetGameAsset(gameAssetID);
 
-	if(gameAsset == nullptr)
-	{
-		return AEResult::NotFound;
-	}
+    if(gameAsset == nullptr)
+    {
+        return AEResult::NotFound;
+    }
 
-	if(gameAsset->GetGameContentType() != GameContentType::Mesh)
-	{
-		return AEResult::InvalidObjType;
-	}
+    if(gameAsset->GetGameContentType() != GameContentType::Mesh)
+    {
+        return AEResult::InvalidObjType;
+    }
 
-	MeshGOC* meshGOC = m_GameObject->GetMeshGOC();
+    MeshGOC* meshGOC = m_GameObject->GetMeshGOC();
 
-	AEResult ret = meshGOC->SetMeshAsset(reinterpret_cast<MeshAsset*>(gameAsset));
+    AEResult ret = meshGOC->SetMeshAsset(reinterpret_cast<MeshAsset*>(gameAsset));
 
-	if(ret != AEResult::Ok)
-	{
-		return ret;
-	}
+    if(ret != AEResult::Ok)
+    {
+        return ret;
+    }
 
-	m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->setText(QString::fromStdWString(meshGOC->GetMeshName()));
+    m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->setText(QString::fromStdWString(meshGOC->GetMeshName()));
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 void GameObjectMeshComponentWidget::on_m_ClearMeshAssetButton_clicked()
 {
-	if(!m_IsReady)
-	{
-		return;
-	}
+    if(!m_IsReady)
+    {
+        return;
+    }
 
-	RemoveGameAsset();
+    RemoveGameAsset();
 }
 
 AEResult GameObjectMeshComponentWidget::RemoveGameAsset()
 {
-	if(!m_IsReady)
-	{
-		return AEResult::NotReady;
-	}
+    if(!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
 
-	MeshGOC* meshGOC = m_GameObject->GetMeshGOC();
+    MeshGOC* meshGOC = m_GameObject->GetMeshGOC();
 
-	AEResult ret = meshGOC->RemoveMeshAsset();
+    AEResult ret = meshGOC->RemoveMeshAsset();
 
-	if(ret != AEResult::Ok)
-	{
-		return ret;
-	}
+    if(ret != AEResult::Ok)
+    {
+        return ret;
+    }
 
-	m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->setText("");
+    m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->setText("");
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 void GameObjectMeshComponentWidget::dragEnterEvent(QDragEnterEvent* enterEvent)
 {
-	DragDropType type = AEQTHelpers::GetDragDropType(enterEvent);
+    DragDropType type = AEQTHelpers::GetDragDropType(enterEvent);
 
-	if(type == DragDropType::GameAsset)
-	{
-		enterEvent->accept();
-		return;
-	}
+    if(type == DragDropType::GameAsset)
+    {
+        enterEvent->accept();
+        return;
+    }
 
-	enterEvent->ignore();
+    enterEvent->ignore();
 }
 
 void GameObjectMeshComponentWidget::dragLeaveEvent(QDragLeaveEvent* leaveEvent)
 {
-	leaveEvent->accept();
+    leaveEvent->accept();
 }
 
 void GameObjectMeshComponentWidget::dragMoveEvent(QDragMoveEvent* moveEvent)
 {
-	DragDropType type = AEQTHelpers::GetDragDropType(moveEvent);
+    DragDropType type = AEQTHelpers::GetDragDropType(moveEvent);
 
-	if(m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->rect().contains(m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->mapFromParent(moveEvent->pos()))) 
-	{
-		if(type == DragDropType::GameAsset)
-		{
-			moveEvent->accept();
-			return;
-		}
-	}
+    if(m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->rect().contains(m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->mapFromParent(moveEvent->pos()))) 
+    {
+        if(type == DragDropType::GameAsset)
+        {
+            moveEvent->accept();
+            return;
+        }
+    }
 
-	moveEvent->ignore();
+    moveEvent->ignore();
 }
 
 void GameObjectMeshComponentWidget::dropEvent(QDropEvent* dropEvent)
 {
-	DragDropType type = AEQTHelpers::GetDragDropType(dropEvent);
-	
-	if(m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->rect().contains(m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->mapFromParent(dropEvent->pos()))) 
-	{
-		if(type == DragDropType::GameAsset)
-		{
-			if(DropAsset(dropEvent->source()) == AEResult::Ok)
-			{
-				dropEvent->accept();
-				return;
-			}
-		}
-	}
+    DragDropType type = AEQTHelpers::GetDragDropType(dropEvent);
+    
+    if(m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->rect().contains(m_GameObjectMeshComponentWidgetQtUI.m_MeshAssetTextBox->mapFromParent(dropEvent->pos()))) 
+    {
+        if(type == DragDropType::GameAsset)
+        {
+            if(DropAsset(dropEvent->source()) == AEResult::Ok)
+            {
+                dropEvent->accept();
+                return;
+            }
+        }
+    }
 
-	dropEvent->ignore();
+    dropEvent->ignore();
 }

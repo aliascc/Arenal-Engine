@@ -40,14 +40,14 @@
 *   Function Defs   *
 *********************/
 SelectAssetTextBoxWidget::SelectAssetTextBoxWidget(GameAssetManager* gameAssetManager, GameContentType gameContentType, QWidget *parent)
-	: QWidget(parent)
-	, m_GameAssetManager(gameAssetManager)
-	, m_GameContentType(gameContentType)
-	, m_SelectedID(0)
+    : QWidget(parent)
+    , m_GameAssetManager(gameAssetManager)
+    , m_GameContentType(gameContentType)
+    , m_SelectedID(0)
 {
-	m_SelectAssetTextBoxWidgetUI.setupUi(this);
+    m_SelectAssetTextBoxWidgetUI.setupUi(this);
 
-	AEAssert(gameAssetManager != nullptr);
+    AEAssert(gameAssetManager != nullptr);
 }
 
 SelectAssetTextBoxWidget::~SelectAssetTextBoxWidget()
@@ -56,102 +56,102 @@ SelectAssetTextBoxWidget::~SelectAssetTextBoxWidget()
 
 void SelectAssetTextBoxWidget::on_m_AddAsset_clicked()
 {
-	AEAssert(m_GameAssetManager != nullptr);
-	if(m_GameAssetManager == nullptr)
-	{
-		return;
-	}
+    AEAssert(m_GameAssetManager != nullptr);
+    if(m_GameAssetManager == nullptr)
+    {
+        return;
+    }
 
-	GameObjectSelectAssetDialog selectAssetDiag(m_GameAssetManager, m_GameContentType, this);
+    GameObjectSelectAssetDialog selectAssetDiag(m_GameAssetManager, m_GameContentType, this);
 
-	int result = selectAssetDiag.exec();
+    int result = selectAssetDiag.exec();
 
-	if(result != QDialog::Accepted)
-	{
-		return;
-	}
+    if(result != QDialog::Accepted)
+    {
+        return;
+    }
 
-	m_SelectedID = selectAssetDiag.GetGameAssetIDSelected();
+    m_SelectedID = selectAssetDiag.GetGameAssetIDSelected();
 
-	if(UpdateTextBox() != AEResult::Ok)
-	{
-		return;
-	}
+    if(UpdateTextBox() != AEResult::Ok)
+    {
+        return;
+    }
 
-	emit SelectedIDChanged(m_SelectedID);
+    emit SelectedIDChanged(m_SelectedID);
 }
 
 void SelectAssetTextBoxWidget::on_m_RemoveAsset_clicked()
 {
-	AEAssert(m_GameAssetManager != nullptr);
-	if(m_GameAssetManager == nullptr)
-	{
-		return;
-	}
+    AEAssert(m_GameAssetManager != nullptr);
+    if(m_GameAssetManager == nullptr)
+    {
+        return;
+    }
 
-	ClearSelectedID();
+    ClearSelectedID();
 
-	emit SelectedIDChanged(m_SelectedID);
+    emit SelectedIDChanged(m_SelectedID);
 }
 
 AEResult SelectAssetTextBoxWidget::UpdateTextBox()
 {
-	AEAssert(m_GameAssetManager != nullptr);
-	if(m_GameAssetManager == nullptr)
-	{
-		return AEResult::GameAssetManagerNull;
-	}
+    AEAssert(m_GameAssetManager != nullptr);
+    if(m_GameAssetManager == nullptr)
+    {
+        return AEResult::GameAssetManagerNull;
+    }
 
-	if(m_SelectedID == 0)
-	{
-		m_SelectAssetTextBoxWidgetUI.m_AssetNameTextBox->setText("");
-	}
-	else
-	{
-		GameAsset* asset = m_GameAssetManager->GetGameAsset(m_SelectedID);
+    if(m_SelectedID == 0)
+    {
+        m_SelectAssetTextBoxWidgetUI.m_AssetNameTextBox->setText("");
+    }
+    else
+    {
+        GameAsset* asset = m_GameAssetManager->GetGameAsset(m_SelectedID);
 
-		AEAssert(asset != nullptr);
-		if(asset == nullptr)
-		{
-			AETODO("log error");
-			return AEResult::NotFound;
-		}
+        AEAssert(asset != nullptr);
+        if(asset == nullptr)
+        {
+            AETODO("log error");
+            return AEResult::NotFound;
+        }
 
-		if(asset->GetGameContentType() != m_GameContentType)
-		{
-			return AEResult::InvalidObjType;
-		}
+        if(asset->GetGameContentType() != m_GameContentType)
+        {
+            return AEResult::InvalidObjType;
+        }
 
-		QString assetName = QString::fromStdWString(asset->GetName());
+        QString assetName = QString::fromStdWString(asset->GetName());
 
-		if(assetName.isEmpty())
-		{
-			AETODO("localization");
-			assetName = "<<Empty Name>>";
-		}
+        if(assetName.isEmpty())
+        {
+            AETODO("localization");
+            assetName = "<<Empty Name>>";
+        }
 
-		m_SelectAssetTextBoxWidgetUI.m_AssetNameTextBox->setText(assetName);
-	}
+        m_SelectAssetTextBoxWidgetUI.m_AssetNameTextBox->setText(assetName);
+    }
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 void SelectAssetTextBoxWidget::ClearSelectedID()
 {
-	m_SelectedID = 0;
+    m_SelectedID = 0;
 
-	UpdateTextBox();
+    UpdateTextBox();
 }
 
 void SelectAssetTextBoxWidget::SetTextureName(const QString& textureName)
 {
-	if(textureName.isEmpty())
-	{
-		AETODO("localization");
-		m_SelectAssetTextBoxWidgetUI.m_AssetNameTextBox->setText("<<Empty Name>>");
-	}
-	else
-	{
-		m_SelectAssetTextBoxWidgetUI.m_AssetNameTextBox->setText(textureName);
-	}
+    if(textureName.isEmpty())
+    {
+        AETODO("localization");
+        m_SelectAssetTextBoxWidgetUI.m_AssetNameTextBox->setText("<<Empty Name>>");
+    }
+    else
+    {
+        m_SelectAssetTextBoxWidgetUI.m_AssetNameTextBox->setText(textureName);
+    }
 }

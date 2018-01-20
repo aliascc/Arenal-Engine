@@ -46,43 +46,43 @@ class GameAssetManager;
 ******************/
 class SelectAssetTextBoxWidget sealed : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::SelectAssetTextBoxWidgetQt m_SelectAssetTextBoxWidgetUI;
+        Ui::SelectAssetTextBoxWidgetQt m_SelectAssetTextBoxWidgetUI;
 
-		GameAssetManager* m_GameAssetManager;
+        GameAssetManager* m_GameAssetManager;
 
-		GameContentType m_GameContentType;
+        GameContentType m_GameContentType;
 
-		uint64_t m_SelectedID;
+        uint64_t m_SelectedID;
 
-		AEResult UpdateTextBox();
+        AEResult UpdateTextBox();
 
-	private slots:
+    private slots:
 
-		void on_m_AddAsset_clicked();
+        void on_m_AddAsset_clicked();
 
-		void on_m_RemoveAsset_clicked();
+        void on_m_RemoveAsset_clicked();
 
-	public:
-		SelectAssetTextBoxWidget(GameAssetManager* gameAssetManager, GameContentType gameContentType, QWidget *parent = nullptr);
-		~SelectAssetTextBoxWidget();
+    public:
+        SelectAssetTextBoxWidget(GameAssetManager* gameAssetManager, GameContentType gameContentType, QWidget *parent = nullptr);
+        ~SelectAssetTextBoxWidget();
 
-		inline uint64_t GetSelectedID() const
-		{
-			return m_SelectedID;
-		}
+        inline uint64_t GetSelectedID() const
+        {
+            return m_SelectedID;
+        }
 
-		AETODO("need to remove this and find a better way");
-		void SetTextureName(const QString& textureName);
+        AETODO("need to remove this and find a better way");
+        void SetTextureName(const QString& textureName);
 
-		void ClearSelectedID();
+        void ClearSelectedID();
 
-	signals:
+    signals:
 
-		void SelectedIDChanged(uint64_t gameAssetID);
+        void SelectedIDChanged(uint64_t gameAssetID);
 };
 
 

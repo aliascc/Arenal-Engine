@@ -43,17 +43,17 @@
 *********************/
 
 GameObjectCameraComponentWidget::GameObjectCameraComponentWidget(GameObject* gameObject, EngineViewer* engineViewer, QWidget *parent)
-	: QWidget(parent)
-	, m_GameObject(gameObject)
-	, m_EngineViewer(engineViewer)
+    : QWidget(parent)
+    , m_GameObject(gameObject)
+    , m_EngineViewer(engineViewer)
 {
-	m_GameObjectCameraComponentWidgetQtUI.setupUi(this);
+    m_GameObjectCameraComponentWidgetQtUI.setupUi(this);
 
-	AEAssert(m_GameObject != nullptr);
+    AEAssert(m_GameObject != nullptr);
 
-	AEAssert(m_EngineViewer != nullptr);
+    AEAssert(m_EngineViewer != nullptr);
 
-	InitFields();
+    InitFields();
 }
 
 GameObjectCameraComponentWidget::~GameObjectCameraComponentWidget()
@@ -62,141 +62,141 @@ GameObjectCameraComponentWidget::~GameObjectCameraComponentWidget()
 
 CameraGOC* GameObjectCameraComponentWidget::GetCameraGOC()
 {
-	AEAssert(m_GameObject != nullptr);
-	if(m_GameObject == nullptr)
-	{
-		return nullptr;
-	}
+    AEAssert(m_GameObject != nullptr);
+    if(m_GameObject == nullptr)
+    {
+        return nullptr;
+    }
 
-	AEAssert(m_GameObject->HasCameraGOC());
-	if (!m_GameObject->HasCameraGOC())
-	{
-		return nullptr;
-	}
+    AEAssert(m_GameObject->HasCameraGOC());
+    if (!m_GameObject->HasCameraGOC())
+    {
+        return nullptr;
+    }
 
-	////////////////////////////////////////
-	// Get Camera GOC
-	CameraGOC* cameraGOC = m_GameObject->GetCameraGOC();
+    ////////////////////////////////////////
+    // Get Camera GOC
+    CameraGOC* cameraGOC = m_GameObject->GetCameraGOC();
 
-	return cameraGOC;
+    return cameraGOC;
 }
 
 Camera* GameObjectCameraComponentWidget::GetCamera()
 {
-	////////////////////////////////////////
-	// Get Camera GOC
-	CameraGOC* cameraGOC = GetCameraGOC();
+    ////////////////////////////////////////
+    // Get Camera GOC
+    CameraGOC* cameraGOC = GetCameraGOC();
 
-	AEAssert(cameraGOC != nullptr);
-	if (cameraGOC == nullptr)
-	{
-		return nullptr;
-	}
+    AEAssert(cameraGOC != nullptr);
+    if (cameraGOC == nullptr)
+    {
+        return nullptr;
+    }
 
-	////////////////////////////////////////
-	// Get Light
-	Camera* camera = cameraGOC->GetCamera();
+    ////////////////////////////////////////
+    // Get Light
+    Camera* camera = cameraGOC->GetCamera();
 
-	////////////////////////////////////////
-	// Verify Light Instance
-	AEAssert(camera != nullptr);
-	if (camera == nullptr)
-	{
-		AETODO("Set Log");
-		return nullptr;
-	}
+    ////////////////////////////////////////
+    // Verify Light Instance
+    AEAssert(camera != nullptr);
+    if (camera == nullptr)
+    {
+        AETODO("Set Log");
+        return nullptr;
+    }
 
-	return camera;
+    return camera;
 }
 
 void GameObjectCameraComponentWidget::InitFields()
 {
-	Camera* camera = nullptr;
-	CameraGOC* cameraGOC = nullptr;
+    Camera* camera = nullptr;
+    CameraGOC* cameraGOC = nullptr;
 
-	////////////////////////////////////////
-	// Set Ready to false, so Light cannot change
-	// properties while been initialized
-	m_IsReady = false;
+    ////////////////////////////////////////
+    // Set Ready to false, so Light cannot change
+    // properties while been initialized
+    m_IsReady = false;
 
-	////////////////////////////////////////
-	// Check Engine Viewer
-	AEAssert(m_EngineViewer != nullptr);
-	if (m_EngineViewer == nullptr)
-	{
-		return;
-	}
+    ////////////////////////////////////////
+    // Check Engine Viewer
+    AEAssert(m_EngineViewer != nullptr);
+    if (m_EngineViewer == nullptr)
+    {
+        return;
+    }
 
-	////////////////////////////////////////
-	// Verify LOC and Get Camera Object
-	cameraGOC = GetCameraGOC();
-	camera = GetCamera();
+    ////////////////////////////////////////
+    // Verify LOC and Get Camera Object
+    cameraGOC = GetCameraGOC();
+    camera = GetCamera();
 
-	if (camera == nullptr || cameraGOC == nullptr)
-	{
-		AETODO("Add log");
+    if (camera == nullptr || cameraGOC == nullptr)
+    {
+        AETODO("Add log");
 
-		return;
-	}
+        return;
+    }
 
-	////////////////////////////////////////
-	// Set Debug Draw
-	m_GameObjectCameraComponentWidgetQtUI.m_DrawFrustumEnabled->setChecked(cameraGOC->IsDrawFrustumEnabled());
+    ////////////////////////////////////////
+    // Set Debug Draw
+    m_GameObjectCameraComponentWidgetQtUI.m_DrawFrustumEnabled->setChecked(cameraGOC->IsDrawFrustumEnabled());
 
-	////////////////////////////////////////
-	// Set Default camera
-	bool isDefault = (m_EngineViewer->GetCameraManager()->GetDefaultCameraID() == camera->GetUniqueID());
-	m_GameObjectCameraComponentWidgetQtUI.m_DefaultCamera->setChecked(isDefault);
+    ////////////////////////////////////////
+    // Set Default camera
+    bool isDefault = (m_EngineViewer->GetCameraManager()->GetDefaultCameraID() == camera->GetUniqueID());
+    m_GameObjectCameraComponentWidgetQtUI.m_DefaultCamera->setChecked(isDefault);
 
-	////////////////////////////////////////
-	// Camera is Ready to change properties
-	m_IsReady = true;
+    ////////////////////////////////////////
+    // Camera is Ready to change properties
+    m_IsReady = true;
 }
 
 void GameObjectCameraComponentWidget::on_m_DrawFrustumEnabled_stateChanged(int newState)
 {
-	if (!m_IsReady)
-	{
-		return;
-	}
+    if (!m_IsReady)
+    {
+        return;
+    }
 
-	////////////////////////////////////////
-	// Verify LOC and Get Camera Object
-	CameraGOC* cameraGOC = GetCameraGOC();
-	if (cameraGOC == nullptr)
-	{
-		AETODO("Add log");
+    ////////////////////////////////////////
+    // Verify LOC and Get Camera Object
+    CameraGOC* cameraGOC = GetCameraGOC();
+    if (cameraGOC == nullptr)
+    {
+        AETODO("Add log");
 
-		return;
-	}
+        return;
+    }
 
-	cameraGOC->SetDrawFrustumEnabled(m_GameObjectCameraComponentWidgetQtUI.m_DrawFrustumEnabled->isChecked());
+    cameraGOC->SetDrawFrustumEnabled(m_GameObjectCameraComponentWidgetQtUI.m_DrawFrustumEnabled->isChecked());
 }
 
 void GameObjectCameraComponentWidget::on_m_MakeDefaultButton_clicked()
 {
-	if (!m_IsReady)
-	{
-		return;
-	}
+    if (!m_IsReady)
+    {
+        return;
+    }
 
-	////////////////////////////////////////
-	// Verify LOC and Get Camera Object
-	Camera* camera = GetCamera();
-	if (camera == nullptr)
-	{
-		AETODO("Add log");
+    ////////////////////////////////////////
+    // Verify LOC and Get Camera Object
+    Camera* camera = GetCamera();
+    if (camera == nullptr)
+    {
+        AETODO("Add log");
 
-		return;
-	}
+        return;
+    }
 
-	if (m_EngineViewer->GetCameraManager()->SetDefaultCamera(camera->GetUniqueID()) != AEResult::Ok)
-	{
-		AETODO("Add log");
-	}
-	else
-	{
-		m_GameObjectCameraComponentWidgetQtUI.m_DefaultCamera->setChecked(true);
-	}
+    if (m_EngineViewer->GetCameraManager()->SetDefaultCamera(camera->GetUniqueID()) != AEResult::Ok)
+    {
+        AETODO("Add log");
+    }
+    else
+    {
+        m_GameObjectCameraComponentWidgetQtUI.m_DefaultCamera->setChecked(true);
+    }
 }
 

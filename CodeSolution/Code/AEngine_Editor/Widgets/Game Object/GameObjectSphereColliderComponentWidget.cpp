@@ -42,15 +42,15 @@
 *   Function Defs   *
 *********************/
 GameObjectSphereColliderComponentWidget::GameObjectSphereColliderComponentWidget(GameObject* gameObject, uint64_t physicColliderID, QWidget *parent)
-	: QWidget(parent)
-	, m_GameObject(gameObject)
-	, m_PhysicColliderID(physicColliderID)
+    : QWidget(parent)
+    , m_GameObject(gameObject)
+    , m_PhysicColliderID(physicColliderID)
 {
-	m_GameObjectSphereColliderComponentWidgetUI.setupUi(this);
+    m_GameObjectSphereColliderComponentWidgetUI.setupUi(this);
 
-	AEAssert(m_GameObject != nullptr);
+    AEAssert(m_GameObject != nullptr);
 
-	InitFields();
+    InitFields();
 }
 
 GameObjectSphereColliderComponentWidget::~GameObjectSphereColliderComponentWidget()
@@ -59,72 +59,72 @@ GameObjectSphereColliderComponentWidget::~GameObjectSphereColliderComponentWidge
 
 void GameObjectSphereColliderComponentWidget::InitFields()
 {
-	/////////////////////////////
-	//Pre-check
-	AEAssert(m_GameObject != nullptr);
-	if (m_GameObject == nullptr)
-	{
-		return;
-	}
+    /////////////////////////////
+    //Pre-check
+    AEAssert(m_GameObject != nullptr);
+    if (m_GameObject == nullptr)
+    {
+        return;
+    }
 
-	/////////////////////////////
-	//Check that we have a Physics Actor and that is a collider
-	//and has been initialized
-	AEAssert(m_GameObject->HasPhysicsGOC());
-	if (!m_GameObject->HasPhysicsGOC())
-	{
-		return;
-	}
+    /////////////////////////////
+    //Check that we have a Physics Actor and that is a collider
+    //and has been initialized
+    AEAssert(m_GameObject->HasPhysicsGOC());
+    if (!m_GameObject->HasPhysicsGOC())
+    {
+        return;
+    }
 
-	PhysicsActor* physicsActor = m_GameObject->GetPhysicsGOC()->GetPhysicsActor();
-	if (physicsActor == nullptr)
-	{
-		return;
-	}
+    PhysicsActor* physicsActor = m_GameObject->GetPhysicsGOC()->GetPhysicsActor();
+    if (physicsActor == nullptr)
+    {
+        return;
+    }
 
-	if (!physicsActor->IsReady())
-	{
-		return;
-	}
+    if (!physicsActor->IsReady())
+    {
+        return;
+    }
 
-	/////////////////////////////
-	//Get Physic Collider
-	PhysicCollider* physicCollider = physicsActor->GetPhysicCollider(m_PhysicColliderID);
-	if (physicCollider == nullptr)
-	{
-		return;
-	}
+    /////////////////////////////
+    //Get Physic Collider
+    PhysicCollider* physicCollider = physicsActor->GetPhysicCollider(m_PhysicColliderID);
+    if (physicCollider == nullptr)
+    {
+        return;
+    }
 
-	if (physicCollider->GetCollisionShape() != CollisionShape::Sphere)
-	{
-		return;
-	}
+    if (physicCollider->GetCollisionShape() != CollisionShape::Sphere)
+    {
+        return;
+    }
 
-	PhysicColliderSphere* physicColliderSphere = dynamic_cast<PhysicColliderSphere*>(physicCollider);
+    PhysicColliderSphere* physicColliderSphere = dynamic_cast<PhysicColliderSphere*>(physicCollider);
 
-	/////////////////////////////
-	//Set variable types
-	float radius = physicColliderSphere->GetRadius();
+    /////////////////////////////
+    //Set variable types
+    float radius = physicColliderSphere->GetRadius();
 
-	m_GameObjectSphereColliderComponentWidgetUI.m_RadiusSB->setValue(radius);
+    m_GameObjectSphereColliderComponentWidgetUI.m_RadiusSB->setValue(radius);
 
-	/////////////////////////////
-	//Finish
-	m_IsReady = true;
+    /////////////////////////////
+    //Finish
+    m_IsReady = true;
 }
 
 void GameObjectSphereColliderComponentWidget::on_m_RadiusSB_valueChanged(double newValue)
 {
-	if (!m_IsReady)
-	{
-		return;
-	}
+    if (!m_IsReady)
+    {
+        return;
+    }
 
-	PhysicsActor* physicsActor = m_GameObject->GetPhysicsGOC()->GetPhysicsActor();
-	PhysicCollider* physicCollider = physicsActor->GetPhysicCollider(m_PhysicColliderID);
-	PhysicColliderSphere* physicColliderSphere = dynamic_cast<PhysicColliderSphere*>(physicCollider);
+    PhysicsActor* physicsActor = m_GameObject->GetPhysicsGOC()->GetPhysicsActor();
+    PhysicCollider* physicCollider = physicsActor->GetPhysicCollider(m_PhysicColliderID);
+    PhysicColliderSphere* physicColliderSphere = dynamic_cast<PhysicColliderSphere*>(physicCollider);
 
-	float radius = m_GameObjectSphereColliderComponentWidgetUI.m_RadiusSB->value();
+    float radius = m_GameObjectSphereColliderComponentWidgetUI.m_RadiusSB->value();
 
-	physicColliderSphere->SetRadius(radius);
+    physicColliderSphere->SetRadius(radius);
 }

@@ -46,34 +46,34 @@ class StringProxyFilterModel;
 ******************/
 class GameObjectSelectAssetDialog sealed : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
-		Ui::GameObjectSelectAssetDialogQt m_GameObjectSelectAssetDialogQtUI;
+    private:
+        Ui::GameObjectSelectAssetDialogQt m_GameObjectSelectAssetDialogQtUI;
 
-		GameAssetManager* m_GameAssetManager;
+        GameAssetManager* m_GameAssetManager;
 
-		StringProxyFilterModel* m_StringProxyFilterModel;
+        StringProxyFilterModel* m_StringProxyFilterModel;
 
-		bool m_IsReady;
+        bool m_IsReady;
 
-		void InitFields(GameContentType gameContentType);
+        void InitFields(GameContentType gameContentType);
 
-		void PopulateGameAssetsTree(GameContentType gameContentType);
+        void PopulateGameAssetsTree(GameContentType gameContentType);
 
-	private slots:
+    private slots:
 
-		void on_m_FilterAssetTextBox_textChanged(QString string);
+        void on_m_FilterAssetTextBox_textChanged(QString string);
 
-		void on_m_GameContentTypeComboBox_currentIndexChanged(int index);
+        void on_m_GameContentTypeComboBox_currentIndexChanged(int index);
 
-	public:
-		GameObjectSelectAssetDialog(GameAssetManager* gameAssetManager, GameContentType gameContentType, QWidget *parent = 0);
-		virtual ~GameObjectSelectAssetDialog();
+    public:
+        GameObjectSelectAssetDialog(GameAssetManager* gameAssetManager, GameContentType gameContentType, QWidget *parent = 0);
+        virtual ~GameObjectSelectAssetDialog();
 
-		void SetGameContentType(GameContentType gameContentType);
+        void SetGameContentType(GameContentType gameContentType);
 
-		uint64_t GetGameAssetIDSelected();
+        uint64_t GetGameAssetIDSelected();
 };
 
 #endif

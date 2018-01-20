@@ -47,38 +47,38 @@ class EngineViewer;
 ******************/
 class GameObjectPropsTreeWidget sealed : public QTreeWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		EngineViewer* m_EngineViewer = nullptr;
+        EngineViewer* m_EngineViewer = nullptr;
 
-		GameObject* m_CurrentGameObject = nullptr;
+        GameObject* m_CurrentGameObject = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-	private slots:
+    private slots:
 
-		void GameObjectChangedNameEvent(uint64_t gameObjectID);
+        void GameObjectChangedNameEvent(uint64_t gameObjectID);
 
-	public:
-		GameObjectPropsTreeWidget(QWidget* parent = nullptr);
-		~GameObjectPropsTreeWidget();
+    public:
+        GameObjectPropsTreeWidget(QWidget* parent = nullptr);
+        ~GameObjectPropsTreeWidget();
 
-		inline void SetEngineViewer(EngineViewer* engineViewer)
-		{
-			m_EngineViewer = engineViewer;
-		}
+        inline void SetEngineViewer(EngineViewer* engineViewer)
+        {
+            m_EngineViewer = engineViewer;
+        }
 
-		void InitFields();
+        void InitFields();
 
-		AEResult DisplayGameObjectInfo(GameObject* gameObject);
+        AEResult DisplayGameObjectInfo(GameObject* gameObject);
 
-		AEResult ReloadGameObjectInfo();
+        AEResult ReloadGameObjectInfo();
 
-	signals:
+    signals:
 
-		void GameObjectChangedName(uint64_t gameObjectID);
+        void GameObjectChangedName(uint64_t gameObjectID);
 };
 
 #endif

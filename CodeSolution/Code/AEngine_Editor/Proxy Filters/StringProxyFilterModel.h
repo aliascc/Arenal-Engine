@@ -43,53 +43,53 @@
 ******************/
 class StringProxyFilterModel sealed : public QSortFilterProxyModel
 {
-	private:
+    private:
 
-		uint32_t m_SearchColumn;
+        uint32_t m_SearchColumn;
 
-		QRegExp::PatternSyntax m_PatternSyntax;
+        QRegExp::PatternSyntax m_PatternSyntax;
 
-		Qt::CaseSensitivity m_CaseSensitivity;
+        Qt::CaseSensitivity m_CaseSensitivity;
 
-		bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+        bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
-		bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+        bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
 
-	public:
-		StringProxyFilterModel(QObject *parent = 0, uint32_t searchColumn = 0, QRegExp::PatternSyntax patternSyntax = QRegExp::PatternSyntax::FixedString, Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitivity::CaseInsensitive);
-		virtual ~StringProxyFilterModel(void);
+    public:
+        StringProxyFilterModel(QObject *parent = 0, uint32_t searchColumn = 0, QRegExp::PatternSyntax patternSyntax = QRegExp::PatternSyntax::FixedString, Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitivity::CaseInsensitive);
+        virtual ~StringProxyFilterModel(void);
 
-		inline Qt::CaseSensitivity GetCaseSensitive() const
-		{
-			return m_CaseSensitivity;
-		}
+        inline Qt::CaseSensitivity GetCaseSensitive() const
+        {
+            return m_CaseSensitivity;
+        }
 
-		inline uint32_t GetSearchColumn() const
-		{
-			return m_SearchColumn;
-		}
+        inline uint32_t GetSearchColumn() const
+        {
+            return m_SearchColumn;
+        }
 
-		inline QRegExp::PatternSyntax GetPatternSyntax() const
-		{
-			return m_PatternSyntax;
-		}
+        inline QRegExp::PatternSyntax GetPatternSyntax() const
+        {
+            return m_PatternSyntax;
+        }
 
-		inline void SetCaseSensitive(Qt::CaseSensitivity caseSensitivity)
-		{
-			m_CaseSensitivity = caseSensitivity;
-		}
+        inline void SetCaseSensitive(Qt::CaseSensitivity caseSensitivity)
+        {
+            m_CaseSensitivity = caseSensitivity;
+        }
 
-		inline void SetSearchColumn(uint32_t searchColumn)
-		{
-			m_SearchColumn = searchColumn;
-		}
+        inline void SetSearchColumn(uint32_t searchColumn)
+        {
+            m_SearchColumn = searchColumn;
+        }
 
-		inline void SetPatternSyntax(QRegExp::PatternSyntax patternSyntax)
-		{
-			m_PatternSyntax = patternSyntax;
-		}
+        inline void SetPatternSyntax(QRegExp::PatternSyntax patternSyntax)
+        {
+            m_PatternSyntax = patternSyntax;
+        }
 
-		void SetStringFilter(const QString& string);
+        void SetStringFilter(const QString& string);
 };
 
 #endif

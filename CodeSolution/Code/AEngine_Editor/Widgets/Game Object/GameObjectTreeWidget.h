@@ -48,45 +48,45 @@ class EngineViewer;
 ******************/
 class GameObjectTreeWidget sealed : public QTreeWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		EngineViewer* m_EngineViewer = nullptr;
+        EngineViewer* m_EngineViewer = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		AEResult CreateGameObjectBranch(GameObject* gameObject, QTreeWidgetItem* parentBranch = nullptr);
+        AEResult CreateGameObjectBranch(GameObject* gameObject, QTreeWidgetItem* parentBranch = nullptr);
 
-		QTreeWidgetItem* FindBranch(uint64_t gameObjectID);
+        QTreeWidgetItem* FindBranch(uint64_t gameObjectID);
 
-		QTreeWidgetItem* FindBranchChild(uint64_t gameObjectID, QTreeWidgetItem* parent);
+        QTreeWidgetItem* FindBranchChild(uint64_t gameObjectID, QTreeWidgetItem* parent);
 
-		void dropEvent(QDropEvent* dEvent) override;
+        void dropEvent(QDropEvent* dEvent) override;
 
-	private slots:
+    private slots:
 
-		void GameObjectSelectionChanged();
+        void GameObjectSelectionChanged();
 
-	public:
-		GameObjectTreeWidget(QWidget* parent = nullptr);
-		~GameObjectTreeWidget();
+    public:
+        GameObjectTreeWidget(QWidget* parent = nullptr);
+        ~GameObjectTreeWidget();
 
-		inline void SetEngineViewer(EngineViewer* engineViewer)
-		{
-			m_EngineViewer = engineViewer;
-		}
+        inline void SetEngineViewer(EngineViewer* engineViewer)
+        {
+            m_EngineViewer = engineViewer;
+        }
 
-		void InitFields();
+        void InitFields();
 
-		AEResult RefreshGameObjectsTree();
+        AEResult RefreshGameObjectsTree();
 
-		AEResult GameObjectNameChanged(uint64_t gameObjectID);
+        AEResult GameObjectNameChanged(uint64_t gameObjectID);
 
-		uint64_t GetCurrentGameObjectID();
+        uint64_t GetCurrentGameObjectID();
 
-	signals:
-		void GameObjectChanged(GameObject* gameObject);
+    signals:
+        void GameObjectChanged(GameObject* gameObject);
 
 };
 

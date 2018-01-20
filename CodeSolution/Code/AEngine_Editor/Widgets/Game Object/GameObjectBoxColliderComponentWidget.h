@@ -46,29 +46,29 @@ class EngineViewer;
 ******************/
 class GameObjectBoxColliderComponentWidget sealed : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::GameObjectBoxColliderComponentWidgetQt m_GameObjectBoxColliderComponentWidgetQtUI;
+        Ui::GameObjectBoxColliderComponentWidgetQt m_GameObjectBoxColliderComponentWidgetQtUI;
 
-		GameObject* m_GameObject = nullptr;
+        GameObject* m_GameObject = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		uint64_t m_PhysicColliderID = 0;
+        uint64_t m_PhysicColliderID = 0;
 
-		void InitFields();
+        void InitFields();
 
-	private slots:
+    private slots:
 
-		void on_m_SizeXSB_valueChanged(double newValue);
-		void on_m_SizeYSB_valueChanged(double newValue);
-		void on_m_SizeZSB_valueChanged(double newValue);
+        void on_m_SizeXSB_valueChanged(double newValue);
+        void on_m_SizeYSB_valueChanged(double newValue);
+        void on_m_SizeZSB_valueChanged(double newValue);
 
-	public:
-		GameObjectBoxColliderComponentWidget(GameObject* gameObject, uint64_t physicColliderID, QWidget *parent = nullptr);
-		~GameObjectBoxColliderComponentWidget();
+    public:
+        GameObjectBoxColliderComponentWidget(GameObject* gameObject, uint64_t physicColliderID, QWidget *parent = nullptr);
+        ~GameObjectBoxColliderComponentWidget();
 };
 
 

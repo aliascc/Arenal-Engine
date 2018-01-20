@@ -37,10 +37,10 @@
 *   Function Defs   *
 *********************/
 LineNumberCodeEditor::LineNumberCodeEditor(CodeEditorTextEdit* codeEditorTextEdit)
-	: QWidget(codeEditorTextEdit)
-	, m_CodeEditorTextEdit(codeEditorTextEdit)
+    : QWidget(codeEditorTextEdit)
+    , m_CodeEditorTextEdit(codeEditorTextEdit)
 {
-	AEAssert(codeEditorTextEdit != nullptr);
+    AEAssert(codeEditorTextEdit != nullptr);
 }
 
 LineNumberCodeEditor::~LineNumberCodeEditor()
@@ -49,18 +49,18 @@ LineNumberCodeEditor::~LineNumberCodeEditor()
 
 QSize LineNumberCodeEditor::sizeHint() const
 {
-	if(m_CodeEditorTextEdit != nullptr)
-	{
-		return QSize(m_CodeEditorTextEdit->GetLineNumberAreaWidth(), 0);
-	}
+    if(m_CodeEditorTextEdit != nullptr)
+    {
+        return QSize(m_CodeEditorTextEdit->GetLineNumberAreaWidth(), 0);
+    }
 
-	return QSize(0, 0);
+    return QSize(0, 0);
 }
 
 void LineNumberCodeEditor::paintEvent(QPaintEvent* pEvent)
 {
-	if(m_CodeEditorTextEdit != nullptr)
-	{
-		m_CodeEditorTextEdit->LineNumberAreaPaintEvent(pEvent);
-	}
+    if(m_CodeEditorTextEdit != nullptr)
+    {
+        m_CodeEditorTextEdit->LineNumberAreaPaintEvent(pEvent);
+    }
 }

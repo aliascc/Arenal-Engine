@@ -37,12 +37,12 @@
 *   Function Defs   *
 *********************/
 GameObjectAddComponentDialog::GameObjectAddComponentDialog(QWidget *parent)
-	: QDialog(parent)
+    : QDialog(parent)
 {
-	m_GameObjectAddComponentDialogQtUI.setupUi(this);
+    m_GameObjectAddComponentDialogQtUI.setupUi(this);
 
-	AEQTHelpers::SetComboBoxGameObjectComponentTypeOption(m_GameObjectAddComponentDialogQtUI.m_GameComponentTypeComboBox);
-	m_GameObjectAddComponentDialogQtUI.m_GameComponentTypeComboBox->setCurrentIndex(0);
+    AEQTHelpers::SetComboBoxGameObjectComponentTypeOption(m_GameObjectAddComponentDialogQtUI.m_GameComponentTypeComboBox);
+    m_GameObjectAddComponentDialogQtUI.m_GameComponentTypeComboBox->setCurrentIndex(0);
 }
 
 GameObjectAddComponentDialog::~GameObjectAddComponentDialog()
@@ -51,15 +51,15 @@ GameObjectAddComponentDialog::~GameObjectAddComponentDialog()
 
 GameObjectComponentTypeOption GameObjectAddComponentDialog::GetGameObjectComponentTypeOption() const
 {
-	int currentIndex = m_GameObjectAddComponentDialogQtUI.m_GameComponentTypeComboBox->currentIndex();
+    int currentIndex = m_GameObjectAddComponentDialogQtUI.m_GameComponentTypeComboBox->currentIndex();
 
-	AEAssert(currentIndex != -1);
-	if(currentIndex == -1)
-	{
-		return GameObjectComponentTypeOption::Mesh;
-	}
+    AEAssert(currentIndex != -1);
+    if(currentIndex == -1)
+    {
+        return GameObjectComponentTypeOption::Mesh;
+    }
 
-	GameObjectComponentTypeOption gameObjectComponentTypeOption = static_cast<GameObjectComponentTypeOption>(m_GameObjectAddComponentDialogQtUI.m_GameComponentTypeComboBox->itemData(currentIndex).toUInt());
-	
-	return gameObjectComponentTypeOption;
+    GameObjectComponentTypeOption gameObjectComponentTypeOption = static_cast<GameObjectComponentTypeOption>(m_GameObjectAddComponentDialogQtUI.m_GameComponentTypeComboBox->itemData(currentIndex).toUInt());
+    
+    return gameObjectComponentTypeOption;
 }

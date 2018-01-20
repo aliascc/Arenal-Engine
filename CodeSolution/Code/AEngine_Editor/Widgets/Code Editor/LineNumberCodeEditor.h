@@ -46,17 +46,17 @@ class CodeEditorTextEdit;
 ******************/
 class LineNumberCodeEditor sealed : public QWidget
 {
-	private:
-		CodeEditorTextEdit* m_CodeEditorTextEdit;
+    private:
+        CodeEditorTextEdit* m_CodeEditorTextEdit;
 
-	protected:
-		void paintEvent(QPaintEvent* pEvent) override;
+    protected:
+        void paintEvent(QPaintEvent* pEvent) override;
 
-	public:
-		LineNumberCodeEditor(CodeEditorTextEdit* codeEditorTextEdit);
-		~LineNumberCodeEditor();
+    public:
+        LineNumberCodeEditor(CodeEditorTextEdit* codeEditorTextEdit);
+        ~LineNumberCodeEditor();
 
-		QSize sizeHint() const override;
+        QSize sizeHint() const override;
 };
 
 #endif

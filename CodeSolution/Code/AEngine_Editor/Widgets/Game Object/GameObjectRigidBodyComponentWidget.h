@@ -46,30 +46,30 @@ class EngineViewer;
 ******************/
 class GameObjectRigidBodyComponentWidget sealed : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::GameObjectRigidBodyComponentWidgetQt m_GameObjectRigidBodyComponentWidgetQtUI;
+        Ui::GameObjectRigidBodyComponentWidgetQt m_GameObjectRigidBodyComponentWidgetQtUI;
 
-		GameObject* m_GameObject = nullptr;
+        GameObject* m_GameObject = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		void InitFields();
+        void InitFields();
 
-	private slots:
+    private slots:
 
-		void on_m_MassSB_valueChanged(double newValue);
-		void on_m_LinearDampingSB_valueChanged(double newValue);
-		void on_m_AngularDampingSB_valueChanged(double newValue);
+        void on_m_MassSB_valueChanged(double newValue);
+        void on_m_LinearDampingSB_valueChanged(double newValue);
+        void on_m_AngularDampingSB_valueChanged(double newValue);
 
-		void on_m_GravityEnabledCB_stateChanged(int newState);
-		void on_m_IsKinematicCB_stateChanged(int newState);
+        void on_m_GravityEnabledCB_stateChanged(int newState);
+        void on_m_IsKinematicCB_stateChanged(int newState);
 
-	public:
-		GameObjectRigidBodyComponentWidget(GameObject* gameObject, QWidget *parent = nullptr);
-		~GameObjectRigidBodyComponentWidget();
+    public:
+        GameObjectRigidBodyComponentWidget(GameObject* gameObject, QWidget *parent = nullptr);
+        ~GameObjectRigidBodyComponentWidget();
 };
 
 

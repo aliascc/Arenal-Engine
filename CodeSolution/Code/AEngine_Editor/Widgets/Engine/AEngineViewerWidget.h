@@ -48,56 +48,56 @@ class EngineViewer;
 ******************/
 class AEngineViewerWidget sealed : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
-		std::thread m_EngineViewerThread;
+    private:
+        std::thread m_EngineViewerThread;
 
-		EngineViewer* m_EngineViewer = nullptr;
+        EngineViewer* m_EngineViewer = nullptr;
 
-		bool m_ViewerHasFocus = false;
+        bool m_ViewerHasFocus = false;
 
-		bool m_ThreadRunning = false;
+        bool m_ThreadRunning = false;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		void RunEngineViewer();
+        void RunEngineViewer();
 
-		void paintEvent(QPaintEvent * event) override;
+        void paintEvent(QPaintEvent * event) override;
 
-		bool nativeEvent(const QByteArray & eventType, void * message, long * result) override;
+        bool nativeEvent(const QByteArray & eventType, void * message, long * result) override;
 
-	public:
-		AEngineViewerWidget(QWidget *parent = nullptr);
-		~AEngineViewerWidget();
+    public:
+        AEngineViewerWidget(QWidget *parent = nullptr);
+        ~AEngineViewerWidget();
 
-		inline EngineViewer* GetEngineViewer() const
-		{
-			return m_EngineViewer;
-		}
+        inline EngineViewer* GetEngineViewer() const
+        {
+            return m_EngineViewer;
+        }
 
-		inline bool IsReady() const
-		{
-			return m_IsReady;
-		}
+        inline bool IsReady() const
+        {
+            return m_IsReady;
+        }
 
-		void LinkEditorToEngine();
+        void LinkEditorToEngine();
 
-		AEResult StartEngineViewerThread(const std::wstring& configProjFile);
+        AEResult StartEngineViewerThread(const std::wstring& configProjFile);
 
-		void StopEngineInstanceAndDestroy();
+        void StopEngineInstanceAndDestroy();
 
-		AEResult AddRawGameAsset(const std::wstring& fileName, GameContentSubtype gameContentSubtype);
+        AEResult AddRawGameAsset(const std::wstring& fileName, GameContentSubtype gameContentSubtype);
 
-		AEResult ImportRawGameAsset(uint64_t id);
+        AEResult ImportRawGameAsset(uint64_t id);
 
-		AEResult ReloadRawGameAssets();
+        AEResult ReloadRawGameAssets();
 
-		AEResult CreateEmptyGameObject();
+        AEResult CreateEmptyGameObject();
 
-		AEResult AddGameObjectComponent(uint64_t gameObjectID, GameObjectComponentType componentType, GameObjectComponentTypeOption componentTypeOption);
+        AEResult AddGameObjectComponent(uint64_t gameObjectID, GameObjectComponentType componentType, GameObjectComponentTypeOption componentTypeOption);
 
-		QPaintEngine* paintEngine() const override;
+        QPaintEngine* paintEngine() const override;
 };
 
 

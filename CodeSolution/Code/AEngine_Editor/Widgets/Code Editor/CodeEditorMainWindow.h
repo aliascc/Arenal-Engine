@@ -46,46 +46,46 @@
 ******************/
 class CodeEditorMainWindow sealed : public QMainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	typedef std::map<QString, int32_t> TabFileMap;
+    typedef std::map<QString, int32_t> TabFileMap;
 
-	private:
+    private:
 
-		Ui::CodeEditorMainWindowQt m_CodeEditorMainWindowQtUI;
+        Ui::CodeEditorMainWindowQt m_CodeEditorMainWindowQtUI;
 
-		AEResult NewCodeTab(const QString& codeFilepath, const QString& fileName);
+        AEResult NewCodeTab(const QString& codeFilepath, const QString& fileName);
 
-		TabFileMap m_TabFileMap;
+        TabFileMap m_TabFileMap;
 
-		AEResult SaveCurrent(); 
+        AEResult SaveCurrent(); 
 
-		AEResult SaveAll(); 
+        AEResult SaveAll(); 
 
-		AEResult CloseCurrent();
+        AEResult CloseCurrent();
 
-		AEResult CloseAll();
+        AEResult CloseAll();
 
-		void closeEvent(QCloseEvent* cEvent) override;
+        void closeEvent(QCloseEvent* cEvent) override;
 
-	private slots:
+    private slots:
 
-		void on_m_SaveTBAction_triggered();
+        void on_m_SaveTBAction_triggered();
 
-		void on_m_SaveFileAction_triggered();
+        void on_m_SaveFileAction_triggered();
 
-		void on_m_SaveAllFileAction_triggered();
+        void on_m_SaveAllFileAction_triggered();
 
-		void on_m_CloseFileAction_triggered();
+        void on_m_CloseFileAction_triggered();
 
-	public:
+    public:
 
-		CodeEditorMainWindow(QWidget* parent = nullptr);
-		~CodeEditorMainWindow();
+        CodeEditorMainWindow(QWidget* parent = nullptr);
+        ~CodeEditorMainWindow();
 
-		AEResult AddCodeTab(const QString& codeFilepath);
+        AEResult AddCodeTab(const QString& codeFilepath);
 
-		AEResult AddCodeTab(const std::wstring& codeFilepath);
+        AEResult AddCodeTab(const std::wstring& codeFilepath);
 };
 
 #endif // AEngine_EDITOR_H

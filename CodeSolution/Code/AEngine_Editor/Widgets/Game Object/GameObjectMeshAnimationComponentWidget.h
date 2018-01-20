@@ -51,65 +51,65 @@ class GameAssetManager;
 ******************/
 class GameObjectMeshAnimationComponentWidget sealed : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private:
+    private:
 
-		Ui::GameObjectMeshAnimationComponentWidgetQt m_GameObjectMeshComponentWidgetQtUI;
+        Ui::GameObjectMeshAnimationComponentWidgetQt m_GameObjectMeshComponentWidgetQtUI;
 
-		GameObject* m_GameObject = nullptr;
+        GameObject* m_GameObject = nullptr;
 
-		GameApp* m_GameApp = nullptr;
+        GameApp* m_GameApp = nullptr;
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		bool m_HasInitObjs = false;
+        bool m_HasInitObjs = false;
 
-		void dragEnterEvent(QDragEnterEvent* enterEvent) override;
+        void dragEnterEvent(QDragEnterEvent* enterEvent) override;
 
-		void dragLeaveEvent(QDragLeaveEvent* leaveEvent) override;
+        void dragLeaveEvent(QDragLeaveEvent* leaveEvent) override;
 
-		void dragMoveEvent(QDragMoveEvent* moveEvent) override;
+        void dragMoveEvent(QDragMoveEvent* moveEvent) override;
 
-		void dropEvent(QDropEvent* dropEvent) override;
+        void dropEvent(QDropEvent* dropEvent) override;
 
-		void InitFields();
+        void InitFields();
 
-		AEResult DropAsset(QObject* object);
+        AEResult DropAsset(QObject* object);
 
-		AEResult AddGameAssetFromID(uint64_t gameAssetID);
+        AEResult AddGameAssetFromID(uint64_t gameAssetID);
 
-		AEResult AddSkeletonAsset(SkeletonAsset* skeletonAsset);
+        AEResult AddSkeletonAsset(SkeletonAsset* skeletonAsset);
 
-		AEResult RemoveSkeletonAsset();
+        AEResult RemoveSkeletonAsset();
 
-		AEResult AddAnimationAsset(AnimationAsset* animAsset);
+        AEResult AddAnimationAsset(AnimationAsset* animAsset);
 
-		AEResult RemoveAnimationAsset(uint64_t assetID);
+        AEResult RemoveAnimationAsset(uint64_t assetID);
 
-		void RefreshAnimationAssetTree();
+        void RefreshAnimationAssetTree();
 
-	private slots:
+    private slots:
 
-		void on_m_AddAnimationlButton_clicked();
+        void on_m_AddAnimationlButton_clicked();
 
-		void on_m_RemoveAnimationButton_clicked();
+        void on_m_RemoveAnimationButton_clicked();
 
-		void on_m_AddSkeletonAssetButton_clicked();
+        void on_m_AddSkeletonAssetButton_clicked();
 
-		void on_m_ClearSkeletonAssetButton_clicked();
+        void on_m_ClearSkeletonAssetButton_clicked();
 
-		void on_m_PlayTestAnimationButton_clicked();
+        void on_m_PlayTestAnimationButton_clicked();
 
-		void on_m_LoopAnim_stateChanged(int newState);
+        void on_m_LoopAnim_stateChanged(int newState);
 
-		void on_m_BlendAnimCB_stateChanged(int newState);
+        void on_m_BlendAnimCB_stateChanged(int newState);
 
-		void on_m_BlendTimeSB_editingFinished();
+        void on_m_BlendTimeSB_editingFinished();
 
-	public:
-		GameObjectMeshAnimationComponentWidget(GameObject* gameObject, GameApp* gameApp, QWidget *parent = nullptr);
-		~GameObjectMeshAnimationComponentWidget();
+    public:
+        GameObjectMeshAnimationComponentWidget(GameObject* gameObject, GameApp* gameApp, QWidget *parent = nullptr);
+        ~GameObjectMeshAnimationComponentWidget();
 };
 
 
