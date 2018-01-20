@@ -50,66 +50,65 @@
 
 class AngelScriptAddOn abstract : public AEObject
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Add-on ID 
-		/// </summary>
-		uint32_t m_AddOnID = 0;
+        /// <summary>
+        /// Add-on ID 
+        /// </summary>
+        uint32_t m_AddOnID = 0;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// AngelScriptAddOn Constructor
-		/// </summary>
-		/// <param name="addOnID">ID of the Add-on to be identified by the engine.</param>
-		AngelScriptAddOn(uint32_t addOnID);
+        /// <summary>
+        /// AngelScriptAddOn Constructor
+        /// </summary>
+        /// <param name="addOnID">ID of the Add-on to be identified by the engine.</param>
+        AngelScriptAddOn(uint32_t addOnID);
 
-		/// <summary>
-		/// Default AngelScriptAddOn Destructor
-		/// </summary>
-		virtual ~AngelScriptAddOn();
+        /// <summary>
+        /// Default AngelScriptAddOn Destructor
+        /// </summary>
+        virtual ~AngelScriptAddOn();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		inline uint32_t GetAddOnID() const
-		{
-			return m_AddOnID;
-		}
+        inline uint32_t GetAddOnID() const
+        {
+            return m_AddOnID;
+        }
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Registers the Add-on with the AS Engine.
-		/// </summary>
-		/// <param name="engine">AS Engine to register with.</param>
-		virtual AEResult Register(asIScriptEngine* engine) = 0;
+        /// <summary>
+        /// Registers the Add-on with the AS Engine.
+        /// </summary>
+        /// <param name="engine">AS Engine to register with.</param>
+        virtual AEResult Register(asIScriptEngine* engine) = 0;
 
 #pragma endregion
 
 };
-
 
 #endif

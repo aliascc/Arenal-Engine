@@ -35,7 +35,7 @@
 *   Function Defs   *
 *********************/
 AngelScriptAddOn::AngelScriptAddOn(uint32_t addOnID)
-	: m_AddOnID(addOnID)
+    : m_AddOnID(addOnID)
 {
 }
 

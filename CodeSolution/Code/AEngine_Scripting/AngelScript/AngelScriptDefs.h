@@ -53,7 +53,7 @@ struct TimerParams;
 /// <summary>
 /// Defines the Base Add on ID for Users Add-on
 /// </summary>
-#define AE_AS_ADD_ON_ID_USER_START		10000
+#define AE_AS_ADD_ON_ID_USER_START        10000
 
 /***********************
 *   Global Functions   *
@@ -61,9 +61,9 @@ struct TimerParams;
 
 namespace AEAngelScriptHelpers
 {
-	extern uint32_t GetSizeOfType(asETypeIdFlags typeID);
+    extern uint32_t GetSizeOfType(asETypeIdFlags typeID);
 
-	extern bool TypeIsBasic(asETypeIdFlags typeID);
+    extern bool TypeIsBasic(asETypeIdFlags typeID);
 }
 
 #endif
