@@ -49,67 +49,67 @@
 
 class Keyboard sealed : public AEObject
 {
-	private:
+    private:
 
-		//Variables
-		HKL m_KeyboardLayout = nullptr;
+        //Variables
+        HKL m_KeyboardLayout = nullptr;
 
-		AEVKWindows m_KeyMapVK[AE_MAX_KEYS];
+        AEVKWindows m_KeyMapVK[AE_MAX_KEYS];
 
-		uint8_t m_InMemBuffer[AE_MAX_KEYS];
+        uint8_t m_InMemBuffer[AE_MAX_KEYS];
 
-		uint8_t m_PreviousKeyboardState[AE_MAX_KEYS];
+        uint8_t m_PreviousKeyboardState[AE_MAX_KEYS];
 
-		uint8_t m_CurrentKeyboardState[AE_MAX_KEYS];
+        uint8_t m_CurrentKeyboardState[AE_MAX_KEYS];
 
-		std::vector<uint32_t> m_WritableCharsDX;
+        std::vector<uint32_t> m_WritableCharsDX;
 
-		uint64_t m_LockID = 0;
+        uint64_t m_LockID = 0;
 
-		std::mutex m_KeyboardMutex;
+        std::mutex m_KeyboardMutex;
 
-		//Private Methods
-		void InitBuffers();
+        //Private Methods
+        void InitBuffers();
 
-		void InitKeyVKMap();
+        void InitKeyVKMap();
 
-		void Destroy();
+        void Destroy();
 
-	public:
+    public:
 
-		Keyboard();
-		virtual ~Keyboard();
+        Keyboard();
+        virtual ~Keyboard();
 
-		//Framework Methods
-		AEResult LockKeyboard(uint64_t& lockID);
+        //Framework Methods
+        AEResult LockKeyboard(uint64_t& lockID);
 
-		AEResult UnlockKeyboard(uint64_t lockID);
+        AEResult UnlockKeyboard(uint64_t lockID);
 
-		void PressUnpressKey(AEKeys key, bool isDown);
+        void PressUnpressKey(AEKeys key, bool isDown);
 
-		void PressKey(AEKeys key);
+        void PressKey(AEKeys key);
 
-		void UnpressKey(AEKeys key);
+        void UnpressKey(AEKeys key);
 
-		bool IsShiftPressMemBuffer() const;
+        bool IsShiftPressMemBuffer() const;
 
-		bool WasKeyPressed(AEKeys key, uint64_t lockID = 0) const;
+        bool WasKeyPressed(AEKeys key, uint64_t lockID = 0) const;
 
-		bool IsKeyUp(AEKeys key, uint64_t lockID = 0) const;
+        bool IsKeyUp(AEKeys key, uint64_t lockID = 0) const;
 
-		bool IsKeyDown(AEKeys key, uint64_t lockID = 0) const;
+        bool IsKeyDown(AEKeys key, uint64_t lockID = 0) const;
 
-		bool IsHoldingKey(AEKeys key, uint64_t lockID = 0) const;
+        bool IsHoldingKey(AEKeys key, uint64_t lockID = 0) const;
 
-		bool HasReleasedKey(AEKeys key, uint64_t lockID = 0) const;
+        bool HasReleasedKey(AEKeys key, uint64_t lockID = 0) const;
 
-		wchar_t GetCurrentPressedChar(uint64_t lockID = 0) const;
+        wchar_t GetCurrentPressedChar(uint64_t lockID = 0) const;
 
-		AEResult Initialize();
+        AEResult Initialize();
 
-		void Update();
+        void Update();
 
-		void LoseFocus();
+        void LoseFocus();
 };
 
 #endif

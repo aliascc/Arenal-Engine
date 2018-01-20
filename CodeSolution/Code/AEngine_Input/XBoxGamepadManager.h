@@ -49,72 +49,72 @@ struct TimerParams;
 
 class XBoxGamepadManager sealed : public AEObject
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// XBox Gamepads
-		/// </summary>
-		XBoxGamepad* m_Gamepads[XUSER_MAX_COUNT];
+        /// <summary>
+        /// XBox Gamepads
+        /// </summary>
+        XBoxGamepad* m_Gamepads[XUSER_MAX_COUNT];
 
 #pragma endregion
 
-	public:
+    public:
 
-	/***************************************
-	*   Constructor & Destructor Methods   *
-	****************************************/
+    /***************************************
+    *   Constructor & Destructor Methods   *
+    ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default XBoxGamepadManager Constructor
-		/// </summary>
-		XBoxGamepadManager();
+        /// <summary>
+        /// Default XBoxGamepadManager Constructor
+        /// </summary>
+        XBoxGamepadManager();
 
-		/// <summary>
-		/// Default XBoxGamepadManager Destructor
-		/// </summary>
-		virtual ~XBoxGamepadManager();
+        /// <summary>
+        /// Default XBoxGamepadManager Destructor
+        /// </summary>
+        virtual ~XBoxGamepadManager();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		inline uint32_t GetMaxGamepads() const
-		{
-			return XUSER_MAX_COUNT;
-		}
+        inline uint32_t GetMaxGamepads() const
+        {
+            return XUSER_MAX_COUNT;
+        }
 
-		XBoxGamepad& GetGamepad(uint32_t index) const;
+        XBoxGamepad& GetGamepad(uint32_t index) const;
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Updates the states of the Gamepads.
-		/// </summary>
-		/// <param name="timerParams">Game Timer Parameters</param>
-		void Update(const TimerParams& timerParams);
+        /// <summary>
+        /// Updates the states of the Gamepads.
+        /// </summary>
+        /// <param name="timerParams">Game Timer Parameters</param>
+        void Update(const TimerParams& timerParams);
 
-		XBoxGamepad& operator[](uint32_t index) const;
+        XBoxGamepad& operator[](uint32_t index) const;
 
 #pragma endregion
 
