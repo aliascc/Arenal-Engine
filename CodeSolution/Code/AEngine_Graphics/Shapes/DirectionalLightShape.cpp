@@ -36,7 +36,7 @@
 *   Function Defs   *
 *********************/
 DirectionalLightShape::DirectionalLightShape(GraphicDevice* graphicDevice)
-	: LightShape(graphicDevice)
+    : LightShape(graphicDevice)
 {
 }
 
@@ -46,71 +46,71 @@ DirectionalLightShape::~DirectionalLightShape()
 
 AEResult DirectionalLightShape::BuildLightShape()
 {
-	///////////////////////////////////////////////////
-	//Pre-checks
-	AEAssert(m_GraphicDevice != nullptr);
-	if (m_GraphicDevice == nullptr)
-	{
-		return AEResult::GraphicDeviceNull;
-	}
+    ///////////////////////////////////////////////////
+    //Pre-checks
+    AEAssert(m_GraphicDevice != nullptr);
+    if (m_GraphicDevice == nullptr)
+    {
+        return AEResult::GraphicDeviceNull;
+    }
 
-	///////////////////////////////////////////////////
-	//Delete Current and set ready to false
-	m_IsReady = false;
-	CleanUp();
+    ///////////////////////////////////////////////////
+    //Delete Current and set ready to false
+    m_IsReady = false;
+    CleanUp();
 
-	///////////////////////////////////////////////////
-	//Variables 
+    ///////////////////////////////////////////////////
+    //Variables 
 
-	//Size if Calculate as 4 Lines for Arrow Tip and 1 for Arrow Line
-	//For total of 10 Vertexes
-	const uint32_t sizeOfVtx = 10;
+    //Size if Calculate as 4 Lines for Arrow Tip and 1 for Arrow Line
+    //For total of 10 Vertexes
+    const uint32_t sizeOfVtx = 10;
 
-	VertexPosition vtxs[sizeOfVtx];
-	memset(vtxs, 0, sizeof(VertexPosition)* sizeOfVtx);
+    VertexPosition vtxs[sizeOfVtx];
+    memset(vtxs, 0, sizeof(VertexPosition)* sizeOfVtx);
 
-	///////////////////////////////////////////////////
-	//Init Vertexs
+    ///////////////////////////////////////////////////
+    //Init Vertexs
 
-	//Arrow Line
-	vtxs[0].m_Position = AEMathHelpers::Vec3fZero;
-	vtxs[1].m_Position = glm::vec3(0.0f, 0.0f, 1.0f);
+    //Arrow Line
+    vtxs[0].m_Position = AEMathHelpers::Vec3fZero;
+    vtxs[1].m_Position = glm::vec3(0.0f, 0.0f, 1.0f);
 
-	//Arrow Tip
+    //Arrow Tip
 
-	// #1
-	vtxs[2].m_Position = glm::vec3(0.0f, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE);
-	vtxs[3].m_Position = glm::vec3(0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_HEIGHT_SIZE, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE - AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_SIZE);
+    // #1
+    vtxs[2].m_Position = glm::vec3(0.0f, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE);
+    vtxs[3].m_Position = glm::vec3(0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_HEIGHT_SIZE, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE - AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_SIZE);
 
-	// #2
-	vtxs[4].m_Position = glm::vec3(0.0f, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE);
-	vtxs[5].m_Position = glm::vec3(0.0f, -AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_HEIGHT_SIZE, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE - AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_SIZE);
+    // #2
+    vtxs[4].m_Position = glm::vec3(0.0f, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE);
+    vtxs[5].m_Position = glm::vec3(0.0f, -AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_HEIGHT_SIZE, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE - AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_SIZE);
 
-	// #3
-	vtxs[6].m_Position = glm::vec3(0.0f, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE);
-	vtxs[7].m_Position = glm::vec3(AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_HEIGHT_SIZE, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE - AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_SIZE);
+    // #3
+    vtxs[6].m_Position = glm::vec3(0.0f, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE);
+    vtxs[7].m_Position = glm::vec3(AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_HEIGHT_SIZE, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE - AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_SIZE);
 
-	// #4
-	vtxs[8].m_Position = glm::vec3(0.0f, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE);
-	vtxs[9].m_Position = glm::vec3(-AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_HEIGHT_SIZE, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE - AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_SIZE);
+    // #4
+    vtxs[8].m_Position = glm::vec3(0.0f, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE);
+    vtxs[9].m_Position = glm::vec3(-AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_HEIGHT_SIZE, 0.0f, AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_SIZE - AE_LIGHT_SHAPE_DIR_DEFAULT_ARROW_TIP_SIZE);
 
-	///////////////////////////////////////////////////
-	//Create Vertex Buffer
-	VertexBuffer<VertexPosition>* vertexBuffer = new VertexBuffer<VertexPosition>(m_GraphicDevice);
+    ///////////////////////////////////////////////////
+    //Create Vertex Buffer
+    VertexBuffer<VertexPosition>* vertexBuffer = new VertexBuffer<VertexPosition>(m_GraphicDevice);
 
-	if (vertexBuffer->CopyVertexBuffer(vtxs, sizeOfVtx) != AEResult::Ok)
-	{
-		AETODO("Better return message");
-		return AEResult::Fail;
-	}
+    if (vertexBuffer->CopyVertexBuffer(vtxs, sizeOfVtx) != AEResult::Ok)
+    {
+        AETODO("Better return message");
+        return AEResult::Fail;
+    }
 
-	///////////////////////////////////////////////////
-	//Add to Vector
-	m_VertexBufferVector.push_back(vertexBuffer);
+    ///////////////////////////////////////////////////
+    //Add to Vector
+    m_VertexBufferVector.push_back(vertexBuffer);
 
-	///////////////////////////////////////////////////
-	//Finish
-	m_IsReady = true;
+    ///////////////////////////////////////////////////
+    //Finish
+    m_IsReady = true;
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }

@@ -52,25 +52,25 @@ class IVertexBuffer;
 ******************/
 class LightShape abstract : public AEObject
 {
-	protected:
-		//Variables
-		bool m_IsReady = false;
+    protected:
+        //Variables
+        bool m_IsReady = false;
 
-		std::vector<IVertexBuffer*> m_VertexBufferVector;
+        std::vector<IVertexBuffer*> m_VertexBufferVector;
 
-		GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice* m_GraphicDevice = nullptr;
 
-		void CleanUp();
+        void CleanUp();
 
-	public:
-		//Constructor Destructor.
-		LightShape(GraphicDevice* graphicDevice);
-		virtual ~LightShape();
+    public:
+        //Constructor Destructor.
+        LightShape(GraphicDevice* graphicDevice);
+        virtual ~LightShape();
 
-		//Framework Methods
-		virtual AEResult BuildLightShape() = 0;
+        //Framework Methods
+        virtual AEResult BuildLightShape() = 0;
 
-		AEResult DrawLightShape();
+        AEResult DrawLightShape();
 };
 
 #endif

@@ -54,60 +54,60 @@ class Camera;
 ******************/
 class DirectionalLight sealed : public Light
 {
-	private:
+    private:
 
-		LightCascadeInfo m_LightCascadeInfo;
+        LightCascadeInfo m_LightCascadeInfo;
 
-		void GetMaxMinPoints(const FrustumCorners& corners, glm::vec3& maxPoint, glm::vec3& minPoint);
+        void GetMaxMinPoints(const FrustumCorners& corners, glm::vec3& maxPoint, glm::vec3& minPoint);
 
-		AEResult CalculateCascadeViewProjection(const Camera* camera, float farClip, float frustumNearClip, float frustumFarClip, glm::mat4& viewMatrix, glm::mat4& projectionMatrix, glm::vec3& shadowPos);
+        AEResult CalculateCascadeViewProjection(const Camera* camera, float farClip, float frustumNearClip, float frustumFarClip, glm::mat4& viewMatrix, glm::mat4& projectionMatrix, glm::vec3& shadowPos);
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// DirectionalLight Constructor
-		/// </summary>
-		DirectionalLight(const std::wstring& name = L"Directional Light", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& direction = AEMathHelpers::Vec3fZero, const Color& color = AEColors::White, float nearAtteniation = 0.0f, float farAttenuation = 0.0f, float intensity = 1.0f, bool enabled = true);
+        /// <summary>
+        /// DirectionalLight Constructor
+        /// </summary>
+        DirectionalLight(const std::wstring& name = L"Directional Light", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& direction = AEMathHelpers::Vec3fZero, const Color& color = AEColors::White, float nearAtteniation = 0.0f, float farAttenuation = 0.0f, float intensity = 1.0f, bool enabled = true);
 
-		/// <summary>
-		/// Default DirectionalLight Destructor
-		/// </summary>
-		virtual ~DirectionalLight();
+        /// <summary>
+        /// Default DirectionalLight Destructor
+        /// </summary>
+        virtual ~DirectionalLight();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		const LightCascadeInfo& GetLightCascadeInfo() const
-		{
-			return m_LightCascadeInfo;
-		}
+        const LightCascadeInfo& GetLightCascadeInfo() const
+        {
+            return m_LightCascadeInfo;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult UpdateCasacadeMatrices(const Camera* camera);
+        AEResult UpdateCasacadeMatrices(const Camera* camera);
 
-		void UpdateLightMatrices() override;
+        void UpdateLightMatrices() override;
 
 #pragma endregion
 

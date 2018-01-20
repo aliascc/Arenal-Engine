@@ -34,73 +34,73 @@
 *   Function Defs   *
 *********************/
 Light::Light(LightType lightType, const std::wstring& name, const glm::vec3& position, const glm::vec3& direction, const Color& color, float nearAtteniation, float farAttenuation, float intensity, bool enable)
-	: UniqueAEObjectNamed(name)
-	, m_Position(position)
-	, m_Direction(direction)
-	, m_Color(color)
-	, m_NearAttenuation(nearAtteniation)
-	, m_FarAttenuation(farAttenuation)
-	, m_Intensity(intensity)
-	, m_Enabled(enable)
-	, m_LightType(lightType)
+    : UniqueAEObjectNamed(name)
+    , m_Position(position)
+    , m_Direction(direction)
+    , m_Color(color)
+    , m_NearAttenuation(nearAtteniation)
+    , m_FarAttenuation(farAttenuation)
+    , m_Intensity(intensity)
+    , m_Enabled(enable)
+    , m_LightType(lightType)
 {
-	m_Frustum = new Frustum();
+    m_Frustum = new Frustum();
 }
 
 Light::~Light()
 {
-	DeleteMem(m_Frustum);
+    DeleteMem(m_Frustum);
 }
 
 Light& Light::operator=(const Light& other)
 {
-	this->m_Position			= other.m_Position;
-	this->m_Direction			= other.m_Direction;
-	this->m_Color				= other.m_Color;
-	this->m_NearAttenuation		= other.m_NearAttenuation;
-	this->m_FarAttenuation		= other.m_FarAttenuation;
-	this->m_Intensity			= other.m_Intensity;
-	this->m_Enabled				= other.m_Enabled;
-	this->m_ShadowEnabled		= other.m_ShadowEnabled;
-	this->m_ShadowTextureIndex	= other.m_ShadowTextureIndex;
+    this->m_Position            = other.m_Position;
+    this->m_Direction           = other.m_Direction;
+    this->m_Color               = other.m_Color;
+    this->m_NearAttenuation     = other.m_NearAttenuation;
+    this->m_FarAttenuation      = other.m_FarAttenuation;
+    this->m_Intensity           = other.m_Intensity;
+    this->m_Enabled             = other.m_Enabled;
+    this->m_ShadowEnabled       = other.m_ShadowEnabled;
+    this->m_ShadowTextureIndex  = other.m_ShadowTextureIndex;
 
-	return *this;
+    return *this;
 }
 
 bool Light::operator!=(const LightFX& other)
 {
-	return ( !(*this == other) );
+    return ( !(*this == other) );
 }
 
 bool Light::operator==(const LightFX& other)
 {
-	return	(
-				this->m_LightType			== other.m_LightType										&&
-				this->m_Color				== other.m_Color											&&
-				this->m_NearAttenuation		== other.m_NearAttenuation									&&
-				this->m_FarAttenuation		== other.m_FarAttenuation									&&
-				this->m_Position			== other.m_Position											&&
-				this->m_Direction			== other.m_Direction										&&
-				this->m_Intensity			== other.m_Intensity										&&
-				this->m_Enabled				== ((other.m_LightFXFlags & AE_LFXF_Enabled) != 0)			&&
-				this->m_ShadowEnabled		== ((other.m_LightFXFlags & AE_LFXF_ShadowEnabled) != 0)	&&
-				this->m_ShadowTextureIndex	== other.m_ShadowTextureIndex
-			);
+    return    (
+                this->m_LightType           == other.m_LightType                                        &&
+                this->m_Color               == other.m_Color                                            &&
+                this->m_NearAttenuation     == other.m_NearAttenuation                                  &&
+                this->m_FarAttenuation      == other.m_FarAttenuation                                   &&
+                this->m_Position            == other.m_Position                                         &&
+                this->m_Direction           == other.m_Direction                                        &&
+                this->m_Intensity           == other.m_Intensity                                        &&
+                this->m_Enabled             == ((other.m_LightFXFlags & AE_LFXF_Enabled) != 0)          &&
+                this->m_ShadowEnabled       == ((other.m_LightFXFlags & AE_LFXF_ShadowEnabled) != 0)    &&
+                this->m_ShadowTextureIndex  == other.m_ShadowTextureIndex
+            );
 }
 
 void Light::UpdateLighFX(LightFX& lightFX)
 {
-	memset(&lightFX, 0, sizeof(LightFX));
+    memset(&lightFX, 0, sizeof(LightFX));
 
-	lightFX.m_LightType				= this->m_LightType;
-	lightFX.m_Color					= this->m_Color;
-	lightFX.m_NearAttenuation		= this->m_NearAttenuation;
-	lightFX.m_FarAttenuation		= this->m_FarAttenuation;
-	lightFX.m_Position				= this->m_Position;
-	lightFX.m_Direction				= this->m_Direction;
-	lightFX.m_Intensity				= this->m_Intensity;
-	lightFX.m_ShadowTextureIndex	= this->m_ShadowTextureIndex;
-	
-	lightFX.m_LightFXFlags			|= (this->m_Enabled ? AE_LFXF_Enabled : 0x00);
-	lightFX.m_LightFXFlags			|= (this->m_ShadowEnabled ? AE_LFXF_ShadowEnabled : 0x00);
+    lightFX.m_LightType             = this->m_LightType;
+    lightFX.m_Color                 = this->m_Color;
+    lightFX.m_NearAttenuation       = this->m_NearAttenuation;
+    lightFX.m_FarAttenuation        = this->m_FarAttenuation;
+    lightFX.m_Position              = this->m_Position;
+    lightFX.m_Direction             = this->m_Direction;
+    lightFX.m_Intensity             = this->m_Intensity;
+    lightFX.m_ShadowTextureIndex    = this->m_ShadowTextureIndex;
+    
+    lightFX.m_LightFXFlags          |= (this->m_Enabled ? AE_LFXF_Enabled : 0x00);
+    lightFX.m_LightFXFlags          |= (this->m_ShadowEnabled ? AE_LFXF_ShadowEnabled : 0x00);
 }

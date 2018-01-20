@@ -50,18 +50,18 @@
 *******************/
 struct BoundingBox sealed : public AEObject
 {
-	glm::vec3 m_MinPos = AEMathHelpers::Vec3fMin;
-	glm::vec3 m_MaxPos = AEMathHelpers::Vec3fMax;
+    glm::vec3 m_MinPos = AEMathHelpers::Vec3fMin;
+    glm::vec3 m_MaxPos = AEMathHelpers::Vec3fMax;
 
-	BoundingBox();
+    BoundingBox();
 
-	BoundingBox(const glm::vec3& minPos, const glm::vec3& maxPos);
+    BoundingBox(const glm::vec3& minPos, const glm::vec3& maxPos);
 
-	virtual ~BoundingBox();
+    virtual ~BoundingBox();
 
-	void PushPositionPoint(const glm::vec3& pos);
+    void PushPositionPoint(const glm::vec3& pos);
 
-	glm::vec3 GetSize() const;
+    glm::vec3 GetSize() const;
 };
 
 #endif

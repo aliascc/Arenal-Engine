@@ -47,12 +47,12 @@ BonePose::BonePose()
 
 void BonePose::CalculateTransformMatrix()
 {
-	m_TransformMatrix = AEMathHelpers::AffineTransformationMatrix(m_Translation, AEMathHelpers::Vec3fZero, m_RotationQ, m_Scale);
+    m_TransformMatrix = AEMathHelpers::AffineTransformationMatrix(m_Translation, AEMathHelpers::Vec3fZero, m_RotationQ, m_Scale);
 }
 
 const glm::mat4& BonePose::GetTransformMatrix() const
 {
-	return m_TransformMatrix;
+    return m_TransformMatrix;
 }
 
 #pragma endregion

@@ -54,92 +54,92 @@ class GraphicDevice;
 class TextureCube sealed : public ITexture2D
 {
 
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		uint32_t m_Depth = 0;
+        uint32_t m_Depth = 0;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		/// <summary>
-		/// Cleans up memory use by the class
-		/// </summary>
-		void CleanUp();
+        /// <summary>
+        /// Cleans up memory use by the class
+        /// </summary>
+        void CleanUp();
 
 #pragma endregion
 
-		/*********************************
-		*   Private Destructor Methods   *
-		**********************************/
+        /*********************************
+        *   Private Destructor Methods   *
+        **********************************/
 #pragma region Private Destructor Methods
 
-		/// <summary>
-		/// Default TextureCube Destructor
-		/// Private so no one can call the destructor
-		/// Only Game Resource can
-		/// </summary>
-		virtual ~TextureCube();
+        /// <summary>
+        /// Default TextureCube Destructor
+        /// Private so no one can call the destructor
+        /// Only Game Resource can
+        /// </summary>
+        virtual ~TextureCube();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/**************************
-		*   Constructor Methods   *
-		***************************/
+        /**************************
+        *   Constructor Methods   *
+        ***************************/
 #pragma region Constructor Methods
 
-		/// <summary>
-		/// Default TextureCube Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
-		/// <param name="textureName">Name of the Texture</param>
-		TextureCube(GraphicDevice* graphicDevice, const std::wstring& textureName);
+        /// <summary>
+        /// Default TextureCube Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
+        /// <param name="textureName">Name of the Texture</param>
+        TextureCube(GraphicDevice* graphicDevice, const std::wstring& textureName);
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Gets Depth of the Texture
-		/// </summary>
-		/// <returns>Depth of the Texture</returns>
-		inline uint32_t GetDepth() const 
-		{ 
-			return m_Depth;
-		}
+        /// <summary>
+        /// Gets Depth of the Texture
+        /// </summary>
+        /// <returns>Depth of the Texture</returns>
+        inline uint32_t GetDepth() const 
+        { 
+            return m_Depth;
+        }
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Override Framework Methods
 
-		/// <summary>
-		/// Load a TextureCube File to memory
-		/// </summary>
-		/// <param name="textureFile">File path of the Texture2D</param>
-		/// <returns>AEResult::Ok if Texture2D was created from the file</returns>
-		AEResult CreateFromFile(const std::wstring& textureFile);
+        /// <summary>
+        /// Load a TextureCube File to memory
+        /// </summary>
+        /// <param name="textureFile">File path of the Texture2D</param>
+        /// <returns>AEResult::Ok if Texture2D was created from the file</returns>
+        AEResult CreateFromFile(const std::wstring& textureFile);
 
-		/// <summary>
-		/// Loads or Reloads the Texture File to memory if it was created from a file
-		/// </summary>
-		/// <returns>AEResult::Ok if if Texture File reload succeeded</returns>
-		AEResult Load() override;
+        /// <summary>
+        /// Loads or Reloads the Texture File to memory if it was created from a file
+        /// </summary>
+        /// <returns>AEResult::Ok if if Texture File reload succeeded</returns>
+        AEResult Load() override;
 
 #pragma endregion
 

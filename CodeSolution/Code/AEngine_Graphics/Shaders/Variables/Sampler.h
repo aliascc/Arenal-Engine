@@ -52,298 +52,298 @@ class GraphicDevice;
 ******************/
 class Sampler sealed : public ShaderBinding
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Graphic Device to be associated with this object
-		/// </summary>
-		GraphicDevice* m_GraphicDevice = nullptr;
+        /// <summary>
+        /// Graphic Device to be associated with this object
+        /// </summary>
+        GraphicDevice* m_GraphicDevice = nullptr;
 
-		/// <summary>
-		/// DirectX Sampler
-		/// </summary>
-		ID3D11SamplerState* m_SamplerDX = nullptr;
+        /// <summary>
+        /// DirectX Sampler
+        /// </summary>
+        ID3D11SamplerState* m_SamplerDX = nullptr;
 
-		/// <summary>
-		/// Determines if the class is ready to process data
-		/// </summary>
-		bool m_IsReady = false;
+        /// <summary>
+        /// Determines if the class is ready to process data
+        /// </summary>
+        bool m_IsReady = false;
 
-		/// <summary>
-		/// Determines if Sampler needs to reinitialize cause a variable change
-		/// </summary>
-		bool m_NeedsReinit = false;
+        /// <summary>
+        /// Determines if Sampler needs to reinitialize cause a variable change
+        /// </summary>
+        bool m_NeedsReinit = false;
 
-		ShaderFilter m_ShaderFilter = ShaderFilter::MinMagMipLinear;
+        ShaderFilter m_ShaderFilter = ShaderFilter::MinMagMipLinear;
 
-		ShaderTextureAddressMode m_TextureAddressModeU = ShaderTextureAddressMode::Clamp;
+        ShaderTextureAddressMode m_TextureAddressModeU = ShaderTextureAddressMode::Clamp;
 
-		ShaderTextureAddressMode m_TextureAddressModeV = ShaderTextureAddressMode::Clamp;
+        ShaderTextureAddressMode m_TextureAddressModeV = ShaderTextureAddressMode::Clamp;
 
-		ShaderTextureAddressMode m_TextureAddressModeW = ShaderTextureAddressMode::Clamp;
+        ShaderTextureAddressMode m_TextureAddressModeW = ShaderTextureAddressMode::Clamp;
 
-		float m_MinLOD = -std::numeric_limits<float>::max();
+        float m_MinLOD = -std::numeric_limits<float>::max();
 
-		float m_MaxLOD = std::numeric_limits<float>::max();
+        float m_MaxLOD = std::numeric_limits<float>::max();
 
-		float m_MipLODBias = 0.0f;
+        float m_MipLODBias = 0.0f;
 
-		uint32_t m_MaxAnisotropy = 1;
+        uint32_t m_MaxAnisotropy = 1;
 
-		ShaderCompFunct m_CompFunction = ShaderCompFunct::Never;
+        ShaderCompFunct m_CompFunction = ShaderCompFunct::Never;
 
-		Color m_BorderColor = AEColors::White;
+        Color m_BorderColor = AEColors::White;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default Sampler Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with this object</param>
-		/// <param name="name">Name of the Sampler</param>
-		/// <param name="bindIndex">Index where to bind</param>
-		Sampler(GraphicDevice* graphicDevice, const std::wstring& name, uint32_t bindIndex);
+        /// <summary>
+        /// Default Sampler Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with this object</param>
+        /// <param name="name">Name of the Sampler</param>
+        /// <param name="bindIndex">Index where to bind</param>
+        Sampler(GraphicDevice* graphicDevice, const std::wstring& name, uint32_t bindIndex);
 
-		/// <summary>
-		/// Default Sampler Destructor
-		/// </summary>
-		virtual ~Sampler();
+        /// <summary>
+        /// Default Sampler Destructor
+        /// </summary>
+        virtual ~Sampler();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Gets DirectX Sampler
-		/// </summary>
-		inline ID3D11SamplerState* GetSamplerDX() const
-		{
-			return m_SamplerDX;
-		}
+        /// <summary>
+        /// Gets DirectX Sampler
+        /// </summary>
+        inline ID3D11SamplerState* GetSamplerDX() const
+        {
+            return m_SamplerDX;
+        }
 
-		/// <summary>
-		/// Gets if the class is ready to process data
-		/// </summary>
-		inline bool IsReady() const
-		{
-			return m_IsReady;
-		}
+        /// <summary>
+        /// Gets if the class is ready to process data
+        /// </summary>
+        inline bool IsReady() const
+        {
+            return m_IsReady;
+        }
 
-		/// <summary>
-		/// Gets if Sampler needs to reinitialize cause a variable change
-		/// </summary>
-		inline bool NeedsReinit() const
-		{
-			return m_NeedsReinit;
-		}
+        /// <summary>
+        /// Gets if Sampler needs to reinitialize cause a variable change
+        /// </summary>
+        inline bool NeedsReinit() const
+        {
+            return m_NeedsReinit;
+        }
 
-		inline ShaderFilter GetShaderFilter() const
-		{
-			return m_ShaderFilter;
-		}
+        inline ShaderFilter GetShaderFilter() const
+        {
+            return m_ShaderFilter;
+        }
 
-		inline ShaderTextureAddressMode GetTextureAddressModeU() const
-		{
-			return m_TextureAddressModeU;
-		}
+        inline ShaderTextureAddressMode GetTextureAddressModeU() const
+        {
+            return m_TextureAddressModeU;
+        }
 
-		inline ShaderTextureAddressMode GetTextureAddressModeV() const
-		{
-			return m_TextureAddressModeV;
-		}
+        inline ShaderTextureAddressMode GetTextureAddressModeV() const
+        {
+            return m_TextureAddressModeV;
+        }
 
-		inline ShaderTextureAddressMode GetTextureAddressModeW() const
-		{
-			return m_TextureAddressModeW;
-		}
+        inline ShaderTextureAddressMode GetTextureAddressModeW() const
+        {
+            return m_TextureAddressModeW;
+        }
 
-		inline float GetMinLOD() const
-		{
-			return m_MinLOD;
-		}
+        inline float GetMinLOD() const
+        {
+            return m_MinLOD;
+        }
 
-		inline float GetMaxLOD() const
-		{
-			return m_MaxLOD;
-		}
+        inline float GetMaxLOD() const
+        {
+            return m_MaxLOD;
+        }
 
-		inline float GetMipLODBias() const
-		{
-			return m_MipLODBias;
-		}
+        inline float GetMipLODBias() const
+        {
+            return m_MipLODBias;
+        }
 
-		inline uint32_t GetMaxAnisotropy() const
-		{
-			return m_MaxAnisotropy;
-		}
+        inline uint32_t GetMaxAnisotropy() const
+        {
+            return m_MaxAnisotropy;
+        }
 
-		inline ShaderCompFunct GetCompFunction() const
-		{
-			return m_CompFunction;
-		}
+        inline ShaderCompFunct GetCompFunction() const
+        {
+            return m_CompFunction;
+        }
 
-		inline const Color& GetBorderColor() const
-		{
-			return m_BorderColor;
-		}
+        inline const Color& GetBorderColor() const
+        {
+            return m_BorderColor;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
-		inline void SetShaderFilter(ShaderFilter shaderFilter)
-		{
-			if (m_ShaderFilter == shaderFilter)
-			{
-				return;
-			}
-			
-			m_ShaderFilter = shaderFilter;
-			m_NeedsReinit = true;
-		}
+        inline void SetShaderFilter(ShaderFilter shaderFilter)
+        {
+            if (m_ShaderFilter == shaderFilter)
+            {
+                return;
+            }
+            
+            m_ShaderFilter = shaderFilter;
+            m_NeedsReinit = true;
+        }
 
-		inline void GetTextureAddressModeU(ShaderTextureAddressMode textureAddressMode)
-		{
-			if (m_TextureAddressModeU == textureAddressMode)
-			{
-				return;
-			}
+        inline void GetTextureAddressModeU(ShaderTextureAddressMode textureAddressMode)
+        {
+            if (m_TextureAddressModeU == textureAddressMode)
+            {
+                return;
+            }
 
-			m_TextureAddressModeU = textureAddressMode;
-			m_NeedsReinit = true;
-		}
+            m_TextureAddressModeU = textureAddressMode;
+            m_NeedsReinit = true;
+        }
 
-		inline void GetTextureAddressModeV(ShaderTextureAddressMode textureAddressMode)
-		{
-			if (m_TextureAddressModeV == textureAddressMode)
-			{
-				return;
-			}
+        inline void GetTextureAddressModeV(ShaderTextureAddressMode textureAddressMode)
+        {
+            if (m_TextureAddressModeV == textureAddressMode)
+            {
+                return;
+            }
 
-			m_TextureAddressModeV = textureAddressMode;
-			m_NeedsReinit = true;
-		}
+            m_TextureAddressModeV = textureAddressMode;
+            m_NeedsReinit = true;
+        }
 
-		inline void GetTextureAddressModeW(ShaderTextureAddressMode textureAddressMode)
-		{
-			if (m_TextureAddressModeW == textureAddressMode)
-			{
-				return;
-			}
+        inline void GetTextureAddressModeW(ShaderTextureAddressMode textureAddressMode)
+        {
+            if (m_TextureAddressModeW == textureAddressMode)
+            {
+                return;
+            }
 
-			m_TextureAddressModeW = textureAddressMode;
-			m_NeedsReinit = true;
-		}
+            m_TextureAddressModeW = textureAddressMode;
+            m_NeedsReinit = true;
+        }
 
-		inline void GetMinLOD(float minLOD)
-		{
-			if (m_MinLOD == minLOD)
-			{
-				return;
-			}
+        inline void GetMinLOD(float minLOD)
+        {
+            if (m_MinLOD == minLOD)
+            {
+                return;
+            }
 
-			m_MinLOD = minLOD;
-			m_NeedsReinit = true;
-		}
+            m_MinLOD = minLOD;
+            m_NeedsReinit = true;
+        }
 
-		inline void GetMaxLOD(float maxLOD)
-		{
-			if (m_MaxLOD == maxLOD)
-			{
-				return;
-			}
+        inline void GetMaxLOD(float maxLOD)
+        {
+            if (m_MaxLOD == maxLOD)
+            {
+                return;
+            }
 
-			m_MaxLOD = maxLOD;
-			m_NeedsReinit = true;
-		}
+            m_MaxLOD = maxLOD;
+            m_NeedsReinit = true;
+        }
 
-		inline void GetMipLODBias(float mipLODBias)
-		{
-			if (m_MipLODBias == mipLODBias)
-			{
-				return;
-			}
+        inline void GetMipLODBias(float mipLODBias)
+        {
+            if (m_MipLODBias == mipLODBias)
+            {
+                return;
+            }
 
-			m_MipLODBias = mipLODBias;
-			m_NeedsReinit = true;
-		}
+            m_MipLODBias = mipLODBias;
+            m_NeedsReinit = true;
+        }
 
-		inline void GetMaxAnisotropy(uint32_t maxAnisotropy)
-		{
-			if (m_MaxAnisotropy == maxAnisotropy)
-			{
-				return;
-			}
+        inline void GetMaxAnisotropy(uint32_t maxAnisotropy)
+        {
+            if (m_MaxAnisotropy == maxAnisotropy)
+            {
+                return;
+            }
 
-			m_MaxAnisotropy = maxAnisotropy;
-			m_NeedsReinit = true;
-		}
+            m_MaxAnisotropy = maxAnisotropy;
+            m_NeedsReinit = true;
+        }
 
-		inline void GetCompFunction(ShaderCompFunct compFunction)
-		{
-			if (m_CompFunction == compFunction)
-			{
-				return;
-			}
+        inline void GetCompFunction(ShaderCompFunct compFunction)
+        {
+            if (m_CompFunction == compFunction)
+            {
+                return;
+            }
 
-			m_CompFunction = compFunction;
-			m_NeedsReinit = true;
-		}
+            m_CompFunction = compFunction;
+            m_NeedsReinit = true;
+        }
 
-		inline void GetBorderColor(const Color& borderColor)
-		{
-			if (m_BorderColor == borderColor)
-			{
-				return;
-			}
+        inline void GetBorderColor(const Color& borderColor)
+        {
+            if (m_BorderColor == borderColor)
+            {
+                return;
+            }
 
-			m_BorderColor = borderColor;
-			m_NeedsReinit = true;
-		}
+            m_BorderColor = borderColor;
+            m_NeedsReinit = true;
+        }
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		/// <summary>
-		/// Initialize Sampler
-		/// </summary>
-		/// <returns>AEResult::Ok if successful</returns>
-		AEResult Initialize(ShaderFilter shaderFilter = ShaderFilter::MinMagMipLinear, ShaderTextureAddressMode textureAddressModeU = ShaderTextureAddressMode::Clamp, ShaderTextureAddressMode textureAddressModeV = ShaderTextureAddressMode::Clamp, ShaderTextureAddressMode textureAddressModeW = ShaderTextureAddressMode::Clamp, float minLOD = -std::numeric_limits<float>::max(), float maxLOD = std::numeric_limits<float>::max(), float mipLODBias = 0.0f, uint32_t maxAnisotropy = 1, ShaderCompFunct compFunction = ShaderCompFunct::Never, const Color& borderColor = AEColors::White);
+        /// <summary>
+        /// Initialize Sampler
+        /// </summary>
+        /// <returns>AEResult::Ok if successful</returns>
+        AEResult Initialize(ShaderFilter shaderFilter = ShaderFilter::MinMagMipLinear, ShaderTextureAddressMode textureAddressModeU = ShaderTextureAddressMode::Clamp, ShaderTextureAddressMode textureAddressModeV = ShaderTextureAddressMode::Clamp, ShaderTextureAddressMode textureAddressModeW = ShaderTextureAddressMode::Clamp, float minLOD = -std::numeric_limits<float>::max(), float maxLOD = std::numeric_limits<float>::max(), float mipLODBias = 0.0f, uint32_t maxAnisotropy = 1, ShaderCompFunct compFunction = ShaderCompFunct::Never, const Color& borderColor = AEColors::White);
 
-		/// <summary>
-		/// Re-initialize Sampler with current object settings
-		/// </summary>
-		/// <returns>AEResult::Ok if successful</returns>
-		AEResult Reinitialize();
+        /// <summary>
+        /// Re-initialize Sampler with current object settings
+        /// </summary>
+        /// <returns>AEResult::Ok if successful</returns>
+        AEResult Reinitialize();
 
 #pragma endregion
 

@@ -48,70 +48,70 @@ class GraphicDevice;
 ******************/
 class ITexture2D abstract : public Texture
 {
-	protected:
+    protected:
 
-		/**************************
-		*   Protected Variables   *
-		***************************/
+        /**************************
+        *   Protected Variables   *
+        ***************************/
 #pragma region Protected Variables
 
-		/// <summary>
-		/// DirectX Texture
-		/// </summary>
-		ID3D11Texture2D* m_TextureDX = nullptr;
+        /// <summary>
+        /// DirectX Texture
+        /// </summary>
+        ID3D11Texture2D* m_TextureDX = nullptr;
 
 #pragma endregion
 
-		/************************
-		*   Protected Methods   *
-		*************************/
+        /************************
+        *   Protected Methods   *
+        *************************/
 #pragma region Protected Methods
 
 #pragma endregion
 
-		/***********************************
-		*   Protected Destructor Methods   *
-		************************************/
+        /***********************************
+        *   Protected Destructor Methods   *
+        ************************************/
 #pragma region Protected Destructor Methods
 
-		/// <summary>
-		/// Default ITexture2D Destructor
-		/// Protected so only Childs can access it
-		/// </summary>
-		virtual ~ITexture2D();
+        /// <summary>
+        /// Default ITexture2D Destructor
+        /// Protected so only Childs can access it
+        /// </summary>
+        virtual ~ITexture2D();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/**************************
-		*   Constructor Methods   *
-		***************************/
+        /**************************
+        *   Constructor Methods   *
+        ***************************/
 #pragma region Constructor Methods
 
-		/// <summary>
-		/// Default Texture Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
-		/// <param name="textureName">Name of the Texture</param>
-		/// <param name="isCube">If true Texture 2D is a Texture Cube</param>
-		ITexture2D(GraphicDevice* graphicDevice, const std::wstring& textureName, bool isCube = false);
+        /// <summary>
+        /// Default Texture Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
+        /// <param name="textureName">Name of the Texture</param>
+        /// <param name="isCube">If true Texture 2D is a Texture Cube</param>
+        ITexture2D(GraphicDevice* graphicDevice, const std::wstring& textureName, bool isCube = false);
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// DirectX Texture Resource
-		/// </summary>
-		/// <returns>Returns DirectX Texture Resource</returns>
-		inline ID3D11Texture2D* GetDXTexture() const
-		{
-			return m_TextureDX;
-		}
+        /// <summary>
+        /// DirectX Texture Resource
+        /// </summary>
+        /// <returns>Returns DirectX Texture Resource</returns>
+        inline ID3D11Texture2D* GetDXTexture() const
+        {
+            return m_TextureDX;
+        }
 
 #pragma endregion
 

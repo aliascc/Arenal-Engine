@@ -37,14 +37,14 @@
 *   Function Defs   *
 *********************/
 TextureArray::TextureArray(GraphicDevice* graphicDevice, const std::wstring& name, TextureType textureType, uint32_t bindIndex)
-	: ShaderBinding(name, bindIndex)
-	, m_GraphicDevice(graphicDevice)
-	, m_TextureType(textureType)
+    : ShaderBinding(name, bindIndex)
+    , m_GraphicDevice(graphicDevice)
+    , m_TextureType(textureType)
 {
-	AEAssert(m_GraphicDevice != nullptr);
+    AEAssert(m_GraphicDevice != nullptr);
 }
 
 TextureArray::~TextureArray()
 {
-	ReleaseCOM(m_TextureArraySRV);
+    ReleaseCOM(m_TextureArraySRV);
 }

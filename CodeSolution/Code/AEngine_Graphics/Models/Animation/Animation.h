@@ -48,59 +48,59 @@ struct TimerParams;
 ******************/
 class Animation sealed : public GameResource
 {
-	private:
+    private:
 
-		std::vector<AnimationCallBack> m_AnimationCallbacks;
+        std::vector<AnimationCallBack> m_AnimationCallbacks;
 
-		std::vector<KeyFrame> m_KeyFrames;
+        std::vector<KeyFrame> m_KeyFrames;
 
-		uint32_t m_LastKeyFrameCheck = 0;
+        uint32_t m_LastKeyFrameCheck = 0;
 
-		float m_Duration = 0.0f;
+        float m_Duration = 0.0f;
 
-		bool m_NeedSort = false;
-		
-		void CleanUp();
-		
-		void SortKeyFrames();
+        bool m_NeedSort = false;
+        
+        void CleanUp();
+        
+        void SortKeyFrames();
 
-		virtual ~Animation();
+        virtual ~Animation();
 
-	public:
+    public:
 
-		/// <summary>
-		/// Animation Constructor
-		/// </summary>
-		/// <param name="resourceName">Resource Name</param>
-		Animation(const std::wstring& resourceName);
+        /// <summary>
+        /// Animation Constructor
+        /// </summary>
+        /// <param name="resourceName">Resource Name</param>
+        Animation(const std::wstring& resourceName);
 
-		inline float GetDuration() const
-		{
-			return m_Duration;
-		}
+        inline float GetDuration() const
+        {
+            return m_Duration;
+        }
 
-		inline uint32_t GetFrameCount() const
-		{
-			return (uint32_t)m_KeyFrames.size();
-		}
+        inline uint32_t GetFrameCount() const
+        {
+            return (uint32_t)m_KeyFrames.size();
+        }
 
-		AEResult Load() override;
+        AEResult Load() override;
 
-		AEResult CheckCallBacks(uint32_t currentKeyFrame);
+        AEResult CheckCallBacks(uint32_t currentKeyFrame);
 
-		AEResult AddAnimationCallBack(float time, AnimationCallBackFunc animCallBack);
+        AEResult AddAnimationCallBack(float time, AnimationCallBackFunc animCallBack);
 
-		AEResult AddKeyFrame(const KeyFrame& keyFrame);
-		
-		void Update(const TimerParams& timerParams); 
+        AEResult AddKeyFrame(const KeyFrame& keyFrame);
+        
+        void Update(const TimerParams& timerParams); 
 
-		const KeyFrame& GetKeyFrame(uint32_t index);
+        const KeyFrame& GetKeyFrame(uint32_t index);
 
-		const KeyFrame& operator[](uint32_t index);
+        const KeyFrame& operator[](uint32_t index);
 
-		// Prevent copying.
-		Animation(Animation const&) = delete;
-		Animation& operator= (Animation const&) = delete;
+        // Prevent copying.
+        Animation(Animation const&) = delete;
+        Animation& operator= (Animation const&) = delete;
 };
 
 #endif

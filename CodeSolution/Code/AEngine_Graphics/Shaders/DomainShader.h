@@ -52,76 +52,76 @@ class IConstantBuffer;
 ******************/
 class DomainShader sealed : public Shader
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
-				
-		///<summary>
-		///DirectX11 Domain Shader
-		///</summary>
-		ID3D11DomainShader* m_DSDX = nullptr;
+                
+        ///<summary>
+        ///DirectX11 Domain Shader
+        ///</summary>
+        ID3D11DomainShader* m_DSDX = nullptr;
 
 #pragma endregion
 
-		/************************
-		 *   Private Methods    *
-		 ************************/
+        /************************
+         *   Private Methods    *
+         ************************/
 #pragma region Private Methods
 
-		AEResult LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t length) override;
+        AEResult LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t length) override;
 
 #pragma endregion
 
-		/**********************************
-		 *   Private Destructor Methods   *
-		 **********************************/
+        /**********************************
+         *   Private Destructor Methods   *
+         **********************************/
 #pragma region Private Destructor Methods
 
-		///<summary>
-		///Default DomainShader Destructor
-		///</summary>
-		virtual ~DomainShader();
+        ///<summary>
+        ///Default DomainShader Destructor
+        ///</summary>
+        virtual ~DomainShader();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************
-		 *   Constructor Methods   *
-		 ***************************/
+        /***************************
+         *   Constructor Methods   *
+         ***************************/
 #pragma region Constructor Methods
 
-		///<summary>
-		///Default DomainShader Constructor
-		///</summary>
-		///<param name="graphicDevice">Graphic Device to be associated with this Shader</param>
-		///<param name="name">Name of Shader</param>
-		DomainShader(GraphicDevice* graphicDevice, const std::wstring& name = L"");
+        ///<summary>
+        ///Default DomainShader Constructor
+        ///</summary>
+        ///<param name="graphicDevice">Graphic Device to be associated with this Shader</param>
+        ///<param name="name">Name of Shader</param>
+        DomainShader(GraphicDevice* graphicDevice, const std::wstring& name = L"");
 
 #pragma endregion
-		
-		/******************
-		*   Get Methods   *
-		*******************/
+        
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		///<summary>
-		///Returns DirectX11 Domain Shader
-		///</summary>
-		///<returns>DirectX11 Domain Shader</returns>
-		inline ID3D11DomainShader* GetDomainShaderDX() const
-		{ 
-			return m_DSDX;
-		}
+        ///<summary>
+        ///Returns DirectX11 Domain Shader
+        ///</summary>
+        ///<returns>DirectX11 Domain Shader</returns>
+        inline ID3D11DomainShader* GetDomainShaderDX() const
+        { 
+            return m_DSDX;
+        }
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

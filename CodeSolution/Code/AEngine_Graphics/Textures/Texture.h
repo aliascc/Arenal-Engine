@@ -48,154 +48,154 @@ class GraphicDevice;
 ******************/
 class Texture abstract : public GameResource
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Type of the Texture
-		/// </summary>
-		TextureType m_TextureType = TextureType::Texture2D;
+        /// <summary>
+        /// Type of the Texture
+        /// </summary>
+        TextureType m_TextureType = TextureType::Texture2D;
 
 #pragma endregion
 
-	protected:
+    protected:
 
-		/**************************
-		*   Protected Variables   *
-		***************************/
+        /**************************
+        *   Protected Variables   *
+        ***************************/
 #pragma region Protected Variables
 
-		/// <summary>
-		/// Filename of the Texture
-		/// </summary>
-		std::wstring m_Filename = L"";
-		
-		/// <summary>
-		/// True is the Texture was loaded from a file
-		/// </summary>
-		bool m_FromFile = false;
+        /// <summary>
+        /// Filename of the Texture
+        /// </summary>
+        std::wstring m_Filename = L"";
+        
+        /// <summary>
+        /// True is the Texture was loaded from a file
+        /// </summary>
+        bool m_FromFile = false;
 
-		/// <summary>
-		/// Width of the Texture
-		/// </summary>
-		uint32_t m_Width = 0;
+        /// <summary>
+        /// Width of the Texture
+        /// </summary>
+        uint32_t m_Width = 0;
 
-		/// <summary>
-		/// Height of the Texture
-		/// </summary>
-		uint32_t m_Height = 0;
+        /// <summary>
+        /// Height of the Texture
+        /// </summary>
+        uint32_t m_Height = 0;
 
-		/// <summary>
-		/// Graphic Device associated with the Texture
-		/// </summary>
-		GraphicDevice* m_GraphicDevice = nullptr;
+        /// <summary>
+        /// Graphic Device associated with the Texture
+        /// </summary>
+        GraphicDevice* m_GraphicDevice = nullptr;
 
-		/// <summary>
-		/// DirectX Shader Resource use to bind the Texture to a Shader
-		/// </summary>
-		ID3D11ShaderResourceView* m_ShaderResourceView = nullptr;
+        /// <summary>
+        /// DirectX Shader Resource use to bind the Texture to a Shader
+        /// </summary>
+        ID3D11ShaderResourceView* m_ShaderResourceView = nullptr;
 
 #pragma endregion
 
-		/************************
-		*   Protected Methods   *
-		*************************/
+        /************************
+        *   Protected Methods   *
+        *************************/
 #pragma region Protected Methods
 
 #pragma endregion
 
-		/***********************************
-		*   Protected Destructor Methods   *
-		************************************/
+        /***********************************
+        *   Protected Destructor Methods   *
+        ************************************/
 #pragma region Protected Destructor Methods
 
-		/// <summary>
-		/// Default Texture Destructor
-		/// Protected so only Childs can access it
-		/// </summary>
-		virtual ~Texture();
+        /// <summary>
+        /// Default Texture Destructor
+        /// Protected so only Childs can access it
+        /// </summary>
+        virtual ~Texture();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/**************************
-		*   Constructor Methods   *
-		***************************/
+        /**************************
+        *   Constructor Methods   *
+        ***************************/
 #pragma region Constructor Methods
 
-		/// <summary>
-		/// Default Texture Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
-		/// <param name="textureType">Type of the Texture</param>
-		/// <param name="textureName">Name of the Texture</param>
-		Texture(GraphicDevice* graphicDevice, TextureType textureType, const std::wstring& textureName);
+        /// <summary>
+        /// Default Texture Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
+        /// <param name="textureType">Type of the Texture</param>
+        /// <param name="textureName">Name of the Texture</param>
+        Texture(GraphicDevice* graphicDevice, TextureType textureType, const std::wstring& textureName);
 
 #pragma endregion
 
-		/*******************
-		 *   Get Methods   *
-		 *******************/
+        /*******************
+         *   Get Methods   *
+         *******************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Get the Texture's Width
-		/// </summary>
-		/// <returns>Width of Depth Stencil</returns>
-		inline uint32_t GetWidth() const
-		{
-			return m_Width;
-		}
+        /// <summary>
+        /// Get the Texture's Width
+        /// </summary>
+        /// <returns>Width of Depth Stencil</returns>
+        inline uint32_t GetWidth() const
+        {
+            return m_Width;
+        }
 
-		/// <summary>
-		/// Get the Texture's Height
-		/// </summary>
-		/// <returns>Height of Depth Stencil</returns>
-		inline uint32_t GetHeight() const
-		{
-			return m_Height;
-		}
+        /// <summary>
+        /// Get the Texture's Height
+        /// </summary>
+        /// <returns>Height of Depth Stencil</returns>
+        inline uint32_t GetHeight() const
+        {
+            return m_Height;
+        }
 
-		/// <summary>
-		/// DirectX Shader Resource use to bind the Texture to a Shader
-		/// </summary>
-		/// <returns>Returns DirectX Shader Texture Resource</returns>
-		inline ID3D11ShaderResourceView* GetDXShaderResourceView() const
-		{
-			return m_ShaderResourceView;
-		}
+        /// <summary>
+        /// DirectX Shader Resource use to bind the Texture to a Shader
+        /// </summary>
+        /// <returns>Returns DirectX Shader Texture Resource</returns>
+        inline ID3D11ShaderResourceView* GetDXShaderResourceView() const
+        {
+            return m_ShaderResourceView;
+        }
 
-		/// <summary>
-		/// Gets the Texture Type
-		/// </summary>
-		/// <returns>Get the Type of the Texture</returns>
-		inline TextureType GetTextureType() const
-		{
-			return m_TextureType;
-		}
+        /// <summary>
+        /// Gets the Texture Type
+        /// </summary>
+        /// <returns>Get the Type of the Texture</returns>
+        inline TextureType GetTextureType() const
+        {
+            return m_TextureType;
+        }
 
-		/// <summary>
-		/// Returns the Filename of the Texture
-		/// </summary>
-		/// <returns>Filename of the Texture</returns>
-		inline const std::wstring& GetFilename() const
-		{ 
-			return m_Filename; 
-		}
+        /// <summary>
+        /// Returns the Filename of the Texture
+        /// </summary>
+        /// <returns>Filename of the Texture</returns>
+        inline const std::wstring& GetFilename() const
+        { 
+            return m_Filename; 
+        }
 
-		/// <summary>
-		/// Returns if the Texture was loaded from a file
-		/// </summary>
-		/// <returns>True if the Texture was loaded from a file</returns>
-		inline bool IsFromFile() const
-		{ 
-			return m_FromFile; 
-		}
+        /// <summary>
+        /// Returns if the Texture was loaded from a file
+        /// </summary>
+        /// <returns>True if the Texture was loaded from a file</returns>
+        inline bool IsFromFile() const
+        { 
+            return m_FromFile; 
+        }
 
 #pragma endregion
 

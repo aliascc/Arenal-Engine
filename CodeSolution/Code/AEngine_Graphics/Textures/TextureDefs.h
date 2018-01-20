@@ -46,15 +46,15 @@
 *************/
 enum class TextureType : uint32_t
 {
-	Texture2D = 0,
-	TextureCube
+    Texture2D = 0,
+    TextureCube
 };
 
 enum class TextureBindOption : uint32_t
 {
-	Default = 0,
-	RenderTarget,
-	DepthStencil
+    Default = 0,
+    RenderTarget,
+    DepthStencil
 };
 
 /******************

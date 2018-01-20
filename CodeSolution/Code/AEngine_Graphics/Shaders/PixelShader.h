@@ -53,78 +53,78 @@ class IConstantBuffer;
 
 class PixelShader : public Shader
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// DirectX11 Pixel Shader
-		/// </summary>
-		ID3D11PixelShader* m_PSDX = nullptr;
+        /// <summary>
+        /// DirectX11 Pixel Shader
+        /// </summary>
+        ID3D11PixelShader* m_PSDX = nullptr;
 
 #pragma endregion
 
-	protected:
+    protected:
 
-		/************************
-		*   Protected Methods   *
-		*************************/
+        /************************
+        *   Protected Methods   *
+        *************************/
 #pragma region Private Methods
 
-		AEResult LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t length) override;
+        AEResult LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t length) override;
 
 #pragma endregion
 
-		/***********************************
-		*   Protected Destructor Methods   *
-		************************************/
+        /***********************************
+        *   Protected Destructor Methods   *
+        ************************************/
 #pragma region Private Destructor Methods
 
-		/// <summary>
-		/// Default PixelShader Destructor
-		/// </summary>
-		virtual ~PixelShader();
+        /// <summary>
+        /// Default PixelShader Destructor
+        /// </summary>
+        virtual ~PixelShader();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/**************************
-		*   Constructor Methods   *
-		***************************/
+        /**************************
+        *   Constructor Methods   *
+        ***************************/
 #pragma region Constructor Methods
 
-		/// <summary>
-		/// Default PixelShader Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
-		/// <param name="name">Name of Shader</param>
-		PixelShader(GraphicDevice* graphicDevice, const std::wstring& name = L"");
+        /// <summary>
+        /// Default PixelShader Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
+        /// <param name="name">Name of Shader</param>
+        PixelShader(GraphicDevice* graphicDevice, const std::wstring& name = L"");
 
 #pragma endregion
-		
-		/******************
-		*   Get Methods   *
-		*******************/
+        
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Returns DirectX11 Pixel Shader
-		/// </summary>
-		/// <returns>DirectX11 Pixel Shader</returns>
-		inline ID3D11PixelShader* GetPixelShaderDX() const
-		{ 
-			return m_PSDX;
-		}
+        /// <summary>
+        /// Returns DirectX11 Pixel Shader
+        /// </summary>
+        /// <returns>DirectX11 Pixel Shader</returns>
+        inline ID3D11PixelShader* GetPixelShaderDX() const
+        { 
+            return m_PSDX;
+        }
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

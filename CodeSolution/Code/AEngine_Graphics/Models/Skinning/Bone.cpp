@@ -35,7 +35,7 @@
 *   Function Defs   *
 *********************/
 Bone::Bone()
-	: Named(L"")
+    : Named(L"")
 {
 }
 

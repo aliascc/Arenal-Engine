@@ -56,10 +56,10 @@ class Object3D;
 /// </summary>
 enum class Object3DChangeEventType : uint32_t
 {
-	PositionChange = 0,
-	RotationChange,
-	ScaleChange,
-	ParentChange
+    PositionChange = 0,
+    RotationChange,
+    ScaleChange,
+    ParentChange
 };
 
 /*************

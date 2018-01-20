@@ -48,12 +48,12 @@
 ******************/
 class DirectionalLightShape sealed : public LightShape
 {
-	public:
-		//Constructor Destructor.
-		DirectionalLightShape(GraphicDevice* graphicDevice);
-		virtual ~DirectionalLightShape();
+    public:
+        //Constructor Destructor.
+        DirectionalLightShape(GraphicDevice* graphicDevice);
+        virtual ~DirectionalLightShape();
 
-		AEResult BuildLightShape() override;
+        AEResult BuildLightShape() override;
 };
 
 #endif

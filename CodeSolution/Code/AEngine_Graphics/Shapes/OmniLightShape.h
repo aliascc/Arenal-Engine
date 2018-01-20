@@ -48,18 +48,18 @@
 ******************/
 class OmniLightShape sealed : public LightShape
 {
-	private:
+    private:
 
-		uint32_t m_NumEdges = 0;
+        uint32_t m_NumEdges = 0;
 
-		float m_Size = AE_LIGHT_SHAPE_OMNI_DEFAULT_RING_SIZE;
+        float m_Size = AE_LIGHT_SHAPE_OMNI_DEFAULT_RING_SIZE;
 
-	public:
-		//Constructor Destructor.
-		OmniLightShape(GraphicDevice* graphicDevice, uint32_t numEdges = AE_LIGHT_SHAPE_DEFAULT_NUM_EDGES);
-		virtual ~OmniLightShape();
+    public:
+        //Constructor Destructor.
+        OmniLightShape(GraphicDevice* graphicDevice, uint32_t numEdges = AE_LIGHT_SHAPE_DEFAULT_NUM_EDGES);
+        virtual ~OmniLightShape();
 
-		AEResult BuildLightShape() override;
+        AEResult BuildLightShape() override;
 };
 
 #endif

@@ -38,43 +38,43 @@
 *   Function Defs   *
 *********************/
 ComputeShader::ComputeShader(GraphicDevice* graphicDevice, const std::wstring& name)
-	: Shader(graphicDevice, ShaderType::ComputeShader, name)
+    : Shader(graphicDevice, ShaderType::ComputeShader, name)
 {
 }
 
 ComputeShader::~ComputeShader()
 {
-	ReleaseCOM(m_CSDX);
+    ReleaseCOM(m_CSDX);
 }
 
 AEResult ComputeShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t length)
 {
-	AEAssert(shaderByteCode != nullptr);
+    AEAssert(shaderByteCode != nullptr);
 
-	if(shaderByteCode == nullptr)
-	{
-		return AEResult::NullParameter;
-	}
-	
-	ID3D11ComputeShader* tempDX = nullptr;
+    if(shaderByteCode == nullptr)
+    {
+        return AEResult::NullParameter;
+    }
+    
+    ID3D11ComputeShader* tempDX = nullptr;
 
-	AETODO("Check Dynamic Class Linkage");
-	HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateComputeShader((void*)shaderByteCode, length, nullptr, &tempDX);
+    AETODO("Check Dynamic Class Linkage");
+    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateComputeShader((void*)shaderByteCode, length, nullptr, &tempDX);
 
-	if(hr != S_OK)
-	{
-		AETODO("Add log message here");
+    if(hr != S_OK)
+    {
+        AETODO("Add log message here");
 
-		DisplayError(hr);
+        DisplayError(hr);
 
-		return AEResult::Fail;
-	}
-	
-	//Release DirectX Object
-	ReleaseCOM(m_CSDX);
-	m_CSDX = tempDX;
+        return AEResult::Fail;
+    }
+    
+    //Release DirectX Object
+    ReleaseCOM(m_CSDX);
+    m_CSDX = tempDX;
 
-	AEGraphicHelpers::SetDebugObjectName<ID3D11ComputeShader>(m_CSDX, AE_DEBUG_CS_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
-	
-	return AEResult::Ok;
+    AEGraphicHelpers::SetDebugObjectName<ID3D11ComputeShader>(m_CSDX, AE_DEBUG_CS_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    
+    return AEResult::Ok;
 }

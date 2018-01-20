@@ -52,76 +52,76 @@ class IConstantBuffer;
 ******************/
 class GeometryShader sealed : public Shader
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
-				
-		///<summary>
-		///DirectX11 Geometry Shader
-		///</summary>
-		ID3D11GeometryShader* m_GSDX = nullptr;
+                
+        ///<summary>
+        ///DirectX11 Geometry Shader
+        ///</summary>
+        ID3D11GeometryShader* m_GSDX = nullptr;
 
 #pragma endregion
 
-		/************************
-		 *   Private Methods    *
-		 ************************/
+        /************************
+         *   Private Methods    *
+         ************************/
 #pragma region Private Methods
 
-		AEResult LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t length) override;
+        AEResult LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t length) override;
 
 #pragma endregion
 
-		/**********************************
-		 *   Private Destructor Methods   *
-		 **********************************/
+        /**********************************
+         *   Private Destructor Methods   *
+         **********************************/
 #pragma region Private Destructor Methods
 
-		///<summary>
-		///Default GeometryShader Destructor
-		///</summary>
-		virtual ~GeometryShader();
+        ///<summary>
+        ///Default GeometryShader Destructor
+        ///</summary>
+        virtual ~GeometryShader();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************
-		 *   Constructor Methods   *
-		 ***************************/
+        /***************************
+         *   Constructor Methods   *
+         ***************************/
 #pragma region Constructor Methods
 
-		///<summary>
-		///Default GeometryShader Constructor
-		///</summary>
-		///<param name="graphicDevice">Graphic Device to be associated with this Shader</param>
-		///<param name="name">Name of Shader</param>
-		GeometryShader(GraphicDevice* graphicDevice, const std::wstring& name = L"");
+        ///<summary>
+        ///Default GeometryShader Constructor
+        ///</summary>
+        ///<param name="graphicDevice">Graphic Device to be associated with this Shader</param>
+        ///<param name="name">Name of Shader</param>
+        GeometryShader(GraphicDevice* graphicDevice, const std::wstring& name = L"");
 
 #pragma endregion
-		
-		/******************
-		*   Get Methods   *
-		*******************/
+        
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		///<summary>
-		///Returns DirectX11 Geometry Shader
-		///</summary>
-		///<returns>DirectX11 Geometry Shader</returns>
-		inline ID3D11GeometryShader* GetGeometryShaderDX() const
-		{ 
-			return m_GSDX;
-		}
+        ///<summary>
+        ///Returns DirectX11 Geometry Shader
+        ///</summary>
+        ///<returns>DirectX11 Geometry Shader</returns>
+        inline ID3D11GeometryShader* GetGeometryShaderDX() const
+        { 
+            return m_GSDX;
+        }
 
 #pragma endregion
 
-		/*************************
-		*   Framework Methods   *
-		*************************/
+        /*************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

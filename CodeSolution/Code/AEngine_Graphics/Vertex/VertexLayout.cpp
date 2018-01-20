@@ -39,37 +39,38 @@
 *   Function Defs   *
 *********************/
 VertexLayout::VertexLayout()
-	: Named(L"")
+    : Named(L"")
 {
 }
 
 VertexLayout::~VertexLayout()
 {
-	ReleaseCOM(m_VertexLayoutDX);
+    ReleaseCOM(m_VertexLayoutDX);
 }
 
 AEResult VertexLayout::BuildVertexLayout(GraphicDevice* graphicDevice, const BYTE shaderByteCode[], uint32_t shadeByteCodeSize, const D3D11_INPUT_ELEMENT_DESC vertexDesc[], uint32_t elementCount, const std::wstring& name)
 {
-	if(graphicDevice == nullptr || vertexDesc == nullptr || shaderByteCode == nullptr || elementCount == 0)
-	{
-		return AEResult::Fail;
-	}
+    if(graphicDevice == nullptr || vertexDesc == nullptr || shaderByteCode == nullptr || elementCount == 0)
+    {
+        return AEResult::Fail;
+    }
 
-	// Create the input layout	
-	HRESULT hr = graphicDevice->GetDeviceDX()->CreateInputLayout(vertexDesc, elementCount, (void*)shaderByteCode, shadeByteCodeSize, &m_VertexLayoutDX);
+    // Create the input layout    
+    HRESULT hr = graphicDevice->GetDeviceDX()->CreateInputLayout(vertexDesc, elementCount, (void*)shaderByteCode, shadeByteCodeSize, &m_VertexLayoutDX);
 
-	if(hr != S_OK)
-	{
-		DisplayError(hr);
+    if(hr != S_OK)
+    {
+        DisplayError(hr);
 
-		return AEResult::Fail;
-	}
+        return AEResult::Fail;
+    }
 
-	m_Name = name;
+    m_Name = name;
 
-	AEGraphicHelpers::SetDebugObjectName<ID3D11InputLayout>(m_VertexLayoutDX, AE_DEBUG_VIL_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
-	
-	m_IsReady = true;
+    AEGraphicHelpers::SetDebugObjectName<ID3D11InputLayout>(m_VertexLayoutDX, AE_DEBUG_VIL_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    
+    m_IsReady = true;
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
+

@@ -49,15 +49,15 @@
 *******************/
 struct BoundingSphere sealed : public AEObject
 {
-	float m_Radius = 0.0f;
+    float m_Radius = 0.0f;
 
-	BoundingSphere();
+    BoundingSphere();
 
-	BoundingSphere(float radius);
+    BoundingSphere(float radius);
 
-	virtual ~BoundingSphere();
+    virtual ~BoundingSphere();
 
-	void PushPositionPoint(const glm::vec3& pos);
+    void PushPositionPoint(const glm::vec3& pos);
 };
 
 #endif

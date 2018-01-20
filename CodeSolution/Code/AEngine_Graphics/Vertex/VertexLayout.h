@@ -48,28 +48,28 @@ class GraphicDevice;
 ******************/
 class VertexLayout sealed : public Named
 {
-	private:
-		ID3D11InputLayout* m_VertexLayoutDX = nullptr;
-		bool m_IsReady = false;
+    private:
+        ID3D11InputLayout* m_VertexLayoutDX = nullptr;
+        bool m_IsReady = false;
 
-	public:
-		//Constructor and Destructor
-		VertexLayout();
-		virtual ~VertexLayout();
+    public:
+        //Constructor and Destructor
+        VertexLayout();
+        virtual ~VertexLayout();
 
-		//Framework Methods
-		AEResult BuildVertexLayout(GraphicDevice* graphicDevice, const BYTE shaderByteCode[], uint32_t shadeByteCodeSize, const D3D11_INPUT_ELEMENT_DESC vertexDesc[], uint32_t elementCount, const std::wstring& name = L"");
+        //Framework Methods
+        AEResult BuildVertexLayout(GraphicDevice* graphicDevice, const BYTE shaderByteCode[], uint32_t shadeByteCodeSize, const D3D11_INPUT_ELEMENT_DESC vertexDesc[], uint32_t elementCount, const std::wstring& name = L"");
 
-		//Get Methods
-		inline ID3D11InputLayout* GetDXLayout() const 
-		{ 
-			return m_VertexLayoutDX; 
-		}
+        //Get Methods
+        inline ID3D11InputLayout* GetDXLayout() const 
+        { 
+            return m_VertexLayoutDX; 
+        }
 
-		inline bool IsReady() const
-		{
-			return m_IsReady;
-		}
+        inline bool IsReady() const
+        {
+            return m_IsReady;
+        }
 };
 
 #endif

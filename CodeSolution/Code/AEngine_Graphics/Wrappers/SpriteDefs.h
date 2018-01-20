@@ -50,8 +50,8 @@
 *************/
 enum class SpriteStateChange : uint32_t
 {
-	Discard = 0,
-	Keep
+    Discard = 0,
+    Keep
 };
 
 /*************

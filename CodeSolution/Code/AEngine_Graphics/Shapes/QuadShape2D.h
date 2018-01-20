@@ -53,23 +53,23 @@ class IVertexBuffer;
 ******************/
 class QuadShape2D sealed : public QuadShape
 {
-	private:
-		//Variables
-		bool m_Dynamic = false;
+    private:
+        //Variables
+        bool m_Dynamic = false;
 
-		glm::vec4 m_CurrentTexCoords = AEMathHelpers::Vec4fZero;
+        glm::vec4 m_CurrentTexCoords = AEMathHelpers::Vec4fZero;
 
-		RECT m_CurrentSize;
+        RECT m_CurrentSize;
 
-	public:
-		//Constructor Destructor.
-		QuadShape2D(GraphicDevice* graphicDevice, bool dynamic = false, bool clockWise = true);
-		virtual ~QuadShape2D();
+    public:
+        //Constructor Destructor.
+        QuadShape2D(GraphicDevice* graphicDevice, bool dynamic = false, bool clockWise = true);
+        virtual ~QuadShape2D();
 
-		//Framework Methods
-		AEResult Resize(const RECT& size, const glm::vec4& textCoords);
+        //Framework Methods
+        AEResult Resize(const RECT& size, const glm::vec4& textCoords);
 
-		AEResult BuildQuad() override;
+        AEResult BuildQuad() override;
 };
 
 #endif

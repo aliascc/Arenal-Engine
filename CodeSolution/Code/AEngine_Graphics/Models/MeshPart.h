@@ -48,35 +48,46 @@ class GraphicDevice;
 ******************/
 class MeshPart : public AEObject
 {
-	protected:
-		//Variables
-		uint32_t m_TexMaterialID = 0;
+    protected:
+        //Variables
+        uint32_t m_TexMaterialID = 0;
 
-		IVertexBuffer* m_VertexBuffer = nullptr;
+        IVertexBuffer* m_VertexBuffer = nullptr;
 
-		IndexBuffer* m_IndexBuffer = nullptr;
+        IndexBuffer* m_IndexBuffer = nullptr;
 
-	public:
+    public:
 
-		//Constructor Destructor.
-		MeshPart();
-		virtual ~MeshPart();
+        //Constructor Destructor.
+        MeshPart();
+        virtual ~MeshPart();
 
-		//Sets
-		void					SetVertexBuffer			(IVertexBuffer* vb);
-		void					SetIndexBuffer			(IndexBuffer* ib);
+        //Sets
+        void SetVertexBuffer(IVertexBuffer* vb);
+        void SetIndexBuffer(IndexBuffer* ib);
 
-		inline void SetTexMaterialID(uint32_t texMaterialID)
-		{
-			m_TexMaterialID = texMaterialID;
-		}
+        inline void SetTexMaterialID(uint32_t texMaterialID)
+        {
+            m_TexMaterialID = texMaterialID;
+        }
 
-		//Gets
-		inline IVertexBuffer*		GetVertexBuffer			() const								{ return m_VertexBuffer; }
-		inline IndexBuffer*			GetIndexBuffer			() const								{ return m_IndexBuffer; }
-		inline uint32_t				GetTexMaterialID		() const								{ return m_TexMaterialID; }
+        //Gets
+        inline IVertexBuffer* GetVertexBuffer() const
+        {
+            return m_VertexBuffer;
+        }
 
-		//Framework Methods
+        inline IndexBuffer* GetIndexBuffer() const
+        {
+            return m_IndexBuffer;
+        }
+
+        inline uint32_t GetTexMaterialID() const
+        {
+            return m_TexMaterialID;
+        }
+
+        //Framework Methods
 };
 
 #endif

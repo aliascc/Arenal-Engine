@@ -39,7 +39,7 @@
 *   Function Defs   *
 *********************/
 GameObjectCamera::GameObjectCamera(const std::wstring& name, const glm::vec3& position, const glm::vec3& target, const glm::vec3& UP, const glm::ivec2& dimensions, float fov, float znear, float zfar)
-	: Camera(name, position, target, UP, dimensions, fov, znear, zfar)
+    : Camera(name, position, target, UP, dimensions, fov, znear, zfar)
 {
 }
 
@@ -49,10 +49,10 @@ GameObjectCamera::~GameObjectCamera()
 
 AEResult GameObjectCamera::ScreenDimensionsChanged(uint32_t newWidth, uint32_t newHeight)
 {
-	m_Dimensions.x = newWidth;
-	m_Dimensions.y = newHeight;
+    m_Dimensions.x = newWidth;
+    m_Dimensions.y = newHeight;
 
-	CreateProjection();
+    CreateProjection();
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }

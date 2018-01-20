@@ -54,196 +54,196 @@ class GraphicDevice;
 *   Class Decl   *
 ******************/
 class Shader abstract : public GameResource
-{	
-	private:
+{    
+    private:
 
-		/*************************
-		 *   Private Variables   *
-		 *************************/
+        /*************************
+         *   Private Variables   *
+         *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// Type of the Shader
-		/// </summary>
-		ShaderType m_ShaderType = ShaderType::VertexShader;
-		
+        /// <summary>
+        /// Type of the Shader
+        /// </summary>
+        ShaderType m_ShaderType = ShaderType::VertexShader;
+        
 #pragma endregion
 
-		/***********************
-		 *   Private Methods   *
-		 ***********************/
+        /***********************
+         *   Private Methods   *
+         ***********************/
 #pragma region Private Methods
 
-		AEResult ReadShaderByteCode(std::ifstream& fileStream, BYTE** shaderByteCode, uint32_t& shaderByteCodeSize);
+        AEResult ReadShaderByteCode(std::ifstream& fileStream, BYTE** shaderByteCode, uint32_t& shaderByteCodeSize);
 
-		AEResult ReadShaderConstantBuffers(std::ifstream& fileStream, ConstantBufferSignatureList& cbSigList);
+        AEResult ReadShaderConstantBuffers(std::ifstream& fileStream, ConstantBufferSignatureList& cbSigList);
 
-		AEResult ReadShaderSimpleBuffers(std::ifstream& fileStream, SimpleBufferSignatureList& simpleBufferSignatureList);
+        AEResult ReadShaderSimpleBuffers(std::ifstream& fileStream, SimpleBufferSignatureList& simpleBufferSignatureList);
 
-		AEResult ReadShaderStructuredBuffers(std::ifstream& fileStream, StructuredBufferSignatureList& structuredBufferSigList);
+        AEResult ReadShaderStructuredBuffers(std::ifstream& fileStream, StructuredBufferSignatureList& structuredBufferSigList);
 
-		AEResult ReadShaderTextureInputs(std::ifstream& fileStream, TextureInputSignatureList& texInputSigList);
+        AEResult ReadShaderTextureInputs(std::ifstream& fileStream, TextureInputSignatureList& texInputSigList);
 
-		AEResult ReadShaderTextureArrayInputs(std::ifstream& fileStream, TextureArrayInputSignatureList& texArrayInputSigList);
+        AEResult ReadShaderTextureArrayInputs(std::ifstream& fileStream, TextureArrayInputSignatureList& texArrayInputSigList);
 
-		AEResult ReadShaderSamplers(std::ifstream& fileStream, SamplerSignatureList& samplerSignatureList);
+        AEResult ReadShaderSamplers(std::ifstream& fileStream, SamplerSignatureList& samplerSignatureList);
 
 #pragma endregion
 
-	protected:
+    protected:
 
-		/***************************
-		 *   Protected Variables   *
-		 ***************************/
+        /***************************
+         *   Protected Variables   *
+         ***************************/
 #pragma region Protected Variables
 
-		/// <summary>
-		/// Graphic Device associated with the Texture
-		/// </summary>
-		GraphicDevice* m_GraphicDevice = nullptr;
+        /// <summary>
+        /// Graphic Device associated with the Texture
+        /// </summary>
+        GraphicDevice* m_GraphicDevice = nullptr;
 
-		/// <summary>
-		/// Lists Constant Buffer Signature, these are use to create 
-		/// the Constant Buffers that this shader needs
-		/// </summary>
-		ConstantBufferSignatureList m_ConstantBufferSignatureList;
+        /// <summary>
+        /// Lists Constant Buffer Signature, these are use to create 
+        /// the Constant Buffers that this shader needs
+        /// </summary>
+        ConstantBufferSignatureList m_ConstantBufferSignatureList;
 
-		/// <summary>
-		/// Lists Simple Buffer Signature, these are use to create 
-		/// the Simple Buffers that this shader needs
-		/// </summary>
-		SimpleBufferSignatureList m_SimpleBufferSignatureList;
+        /// <summary>
+        /// Lists Simple Buffer Signature, these are use to create 
+        /// the Simple Buffers that this shader needs
+        /// </summary>
+        SimpleBufferSignatureList m_SimpleBufferSignatureList;
 
-		/// <summary>
-		/// Lists Structured Buffer Signature, these are use to create 
-		/// the Structured Buffers that this shader needs
-		/// </summary>
-		StructuredBufferSignatureList m_StructuredBufferSignatureList;
+        /// <summary>
+        /// Lists Structured Buffer Signature, these are use to create 
+        /// the Structured Buffers that this shader needs
+        /// </summary>
+        StructuredBufferSignatureList m_StructuredBufferSignatureList;
 
-		/// <summary>
-		/// Lists Texture Inputs Signature, these are use to create 
-		/// the Texture Inputs that this shader needs
-		/// </summary>
-		TextureInputSignatureList m_TextureInputSignatureList;
+        /// <summary>
+        /// Lists Texture Inputs Signature, these are use to create 
+        /// the Texture Inputs that this shader needs
+        /// </summary>
+        TextureInputSignatureList m_TextureInputSignatureList;
 
-		/// <summary>
-		/// Lists Texture Array Inputs Signature, these are use to create 
-		/// the Texture Array Inputs that this shader needs
-		/// </summary>
-		TextureArrayInputSignatureList m_TextureArrayInputSignatureList;
+        /// <summary>
+        /// Lists Texture Array Inputs Signature, these are use to create 
+        /// the Texture Array Inputs that this shader needs
+        /// </summary>
+        TextureArrayInputSignatureList m_TextureArrayInputSignatureList;
 
-		/// <summary>
-		/// Lists Sampler Signature, these are use to create 
-		/// the Samplers that this shader needs
-		/// </summary>
-		SamplerSignatureList m_SamplerSignatureList;
+        /// <summary>
+        /// Lists Sampler Signature, these are use to create 
+        /// the Samplers that this shader needs
+        /// </summary>
+        SamplerSignatureList m_SamplerSignatureList;
 
 #pragma endregion
 
-		/**************************
-		 *   Protected Methods    *
-		 **************************/
+        /**************************
+         *   Protected Methods    *
+         **************************/
 #pragma region Protected Methods
-		
-		virtual AEResult LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t length) = 0;
+        
+        virtual AEResult LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t length) = 0;
 
 #pragma endregion
 
-		/***********************************
-		*   Protected Destructor Methods   *
-		************************************/
+        /***********************************
+        *   Protected Destructor Methods   *
+        ************************************/
 #pragma region Protected Destructor Methods
 
-		/// <summary>
-		/// Default Shader Destructor
-		/// </summary>
-		virtual ~Shader();
+        /// <summary>
+        /// Default Shader Destructor
+        /// </summary>
+        virtual ~Shader();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/**************************
-		*   Constructor Methods   *
-		***************************/
+        /**************************
+        *   Constructor Methods   *
+        ***************************/
 #pragma region Constructor Methods
 
-		/// <summary>
-		/// Default Shader Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
-		/// <param name="name">Name of Shader</param>
-		/// <param name="shaderType">Type of the Shader</param>
-		Shader(GraphicDevice* graphicDevice, ShaderType shaderType, const std::wstring& name = L"");
+        /// <summary>
+        /// Default Shader Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
+        /// <param name="name">Name of Shader</param>
+        /// <param name="shaderType">Type of the Shader</param>
+        Shader(GraphicDevice* graphicDevice, ShaderType shaderType, const std::wstring& name = L"");
 
 #pragma endregion
 
-		/**********************
-		 *     Get Methods    *
-		 **********************/
+        /**********************
+         *     Get Methods    *
+         **********************/
 #pragma region Get Methods
-		
-		/// <summary>
-		/// Gets the Shader Type
-		/// </summary>
-		/// <returns>Get the Type of the Shader</returns>
-		inline ShaderType GetShaderType() const
-		{
-			return m_ShaderType;
-		}
+        
+        /// <summary>
+        /// Gets the Shader Type
+        /// </summary>
+        /// <returns>Get the Type of the Shader</returns>
+        inline ShaderType GetShaderType() const
+        {
+            return m_ShaderType;
+        }
 
-		inline const ConstantBufferSignatureList& GetConstantBufferSignatureList() const
-		{
-			return m_ConstantBufferSignatureList;
-		}
+        inline const ConstantBufferSignatureList& GetConstantBufferSignatureList() const
+        {
+            return m_ConstantBufferSignatureList;
+        }
 
-		inline const SamplerSignatureList& GetSamplerSignatureList() const
-		{
-			return m_SamplerSignatureList;
-		}
+        inline const SamplerSignatureList& GetSamplerSignatureList() const
+        {
+            return m_SamplerSignatureList;
+        }
 
-		inline const SimpleBufferSignatureList& GetSimpleBufferSignatureList() const
-		{
-			return m_SimpleBufferSignatureList;
-		}
+        inline const SimpleBufferSignatureList& GetSimpleBufferSignatureList() const
+        {
+            return m_SimpleBufferSignatureList;
+        }
 
-		inline const StructuredBufferSignatureList& GetStructuredBufferSignatureList() const
-		{
-			return m_StructuredBufferSignatureList;
-		}
+        inline const StructuredBufferSignatureList& GetStructuredBufferSignatureList() const
+        {
+            return m_StructuredBufferSignatureList;
+        }
 
-		inline const TextureInputSignatureList& GetTextureInputSignatureList() const
-		{
-			return m_TextureInputSignatureList;
-		}
+        inline const TextureInputSignatureList& GetTextureInputSignatureList() const
+        {
+            return m_TextureInputSignatureList;
+        }
 
-		inline const TextureArrayInputSignatureList& GetTextureArrayInputSignatureList() const
-		{
-			return m_TextureArrayInputSignatureList;
-		}
+        inline const TextureArrayInputSignatureList& GetTextureArrayInputSignatureList() const
+        {
+            return m_TextureArrayInputSignatureList;
+        }
 
-		inline GraphicDevice* GetGraphicDevice()
-		{
-			return m_GraphicDevice;
-		}
+        inline GraphicDevice* GetGraphicDevice()
+        {
+            return m_GraphicDevice;
+        }
 
 #pragma endregion
-		
-		/**********************
-		 *     Set Methods    *
-		 **********************/
+        
+        /**********************
+         *     Set Methods    *
+         **********************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/**************************
-		 *   Framework Methods    *
-		 **************************/
+        /**************************
+         *   Framework Methods    *
+         **************************/
 #pragma region Framework Methods
-		
-		virtual AEResult Load() override;
+        
+        virtual AEResult Load() override;
 
-		AEResult LoadShader(const BYTE* shaderByteCode, uint32_t length);
+        AEResult LoadShader(const BYTE* shaderByteCode, uint32_t length);
 
 #pragma endregion
 

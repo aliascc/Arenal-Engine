@@ -50,166 +50,166 @@ class VertexLayout;
 *   Class Decl   *
 ******************/
 class IVertexBuffer abstract : public Named
-{	
-	protected:
+{    
+    protected:
 
-		/****************************
-		 *   Protected Variables    *
-		 ****************************/
+        /****************************
+         *   Protected Variables    *
+         ****************************/
 #pragma region Protected Variables
 
-		/// <summary>
-		/// Vertex Buffer Ready State
-		/// </summary>
-		bool m_IsReady = false;
-		
-		/// <summary>
-		/// Size of Vertex Buffer
-		/// </summary>
-		uint32_t m_Size = 0;
+        /// <summary>
+        /// Vertex Buffer Ready State
+        /// </summary>
+        bool m_IsReady = false;
+        
+        /// <summary>
+        /// Size of Vertex Buffer
+        /// </summary>
+        uint32_t m_Size = 0;
 
-		/// <summary>
-		/// DirectX 11 Vertex Buffer
-		/// </summary>
-		ID3D11Buffer* m_VertexBufferDX = nullptr;
-		
-		/// <summary>
-		/// Buffer Access of the CPU for the Vertex Buffer
-		/// </summary>
-		GraphicBufferAccess m_BufferAccess = GraphicBufferAccess::None;
-		
-		/// <summary>
-		/// Buffer Usage for the Vertex Buffer, for example: GraphicBufferUsage::Dynamic
-		/// </summary>
-		GraphicBufferUsage m_BufferUsage = GraphicBufferUsage::Default;
+        /// <summary>
+        /// DirectX 11 Vertex Buffer
+        /// </summary>
+        ID3D11Buffer* m_VertexBufferDX = nullptr;
+        
+        /// <summary>
+        /// Buffer Access of the CPU for the Vertex Buffer
+        /// </summary>
+        GraphicBufferAccess m_BufferAccess = GraphicBufferAccess::None;
+        
+        /// <summary>
+        /// Buffer Usage for the Vertex Buffer, for example: GraphicBufferUsage::Dynamic
+        /// </summary>
+        GraphicBufferUsage m_BufferUsage = GraphicBufferUsage::Default;
 
-		/// <summary>
-		/// Graphic Device associated with the Vertex Buffer
-		/// </summary>
-		GraphicDevice* m_GraphicDevice = nullptr;
+        /// <summary>
+        /// Graphic Device associated with the Vertex Buffer
+        /// </summary>
+        GraphicDevice* m_GraphicDevice = nullptr;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// IVertexBuffer Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with this Vertex Buffer</param>
-		/// <param name="memPool">How will the buffer be use</param>
-		/// <param name="memPool">How will the CPU Access the memory of the buffer</param>
-		IVertexBuffer(GraphicDevice* graphicDevice, GraphicBufferUsage bufferUsage = GraphicBufferUsage::Static, GraphicBufferAccess bufferAccess = GraphicBufferAccess::None)
-			: Named(L"")
-			, m_BufferAccess(bufferAccess)
-			, m_BufferUsage(bufferUsage)
-			, m_GraphicDevice(graphicDevice)
-		{
-			AEAssert(graphicDevice != nullptr);
-		}
-		
-		/// <summary>
-		/// Default IVertexBuffer Destructor
-		/// </summary>
-		virtual ~IVertexBuffer()
-		{
-			ReleaseCOM(m_VertexBufferDX);
-		}
+        /// <summary>
+        /// IVertexBuffer Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with this Vertex Buffer</param>
+        /// <param name="memPool">How will the buffer be use</param>
+        /// <param name="memPool">How will the CPU Access the memory of the buffer</param>
+        IVertexBuffer(GraphicDevice* graphicDevice, GraphicBufferUsage bufferUsage = GraphicBufferUsage::Static, GraphicBufferAccess bufferAccess = GraphicBufferAccess::None)
+            : Named(L"")
+            , m_BufferAccess(bufferAccess)
+            , m_BufferUsage(bufferUsage)
+            , m_GraphicDevice(graphicDevice)
+        {
+            AEAssert(graphicDevice != nullptr);
+        }
+        
+        /// <summary>
+        /// Default IVertexBuffer Destructor
+        /// </summary>
+        virtual ~IVertexBuffer()
+        {
+            ReleaseCOM(m_VertexBufferDX);
+        }
 
 #pragma endregion
-		
-		/**********************
-		 *     Get Methods    *
-		 **********************/
+        
+        /**********************
+         *     Get Methods    *
+         **********************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Returns DirectX Vertex Buffer
-		/// </summary>
-		/// <returns>DirectX Vertex Buffer</returns>
-		inline ID3D11Buffer* GetDXBuffer() const
-		{
-			return m_VertexBufferDX;
-		}
+        /// <summary>
+        /// Returns DirectX Vertex Buffer
+        /// </summary>
+        /// <returns>DirectX Vertex Buffer</returns>
+        inline ID3D11Buffer* GetDXBuffer() const
+        {
+            return m_VertexBufferDX;
+        }
 
-		/// <summary>
-		/// Returns if the Vertex Buffer is ready
-		/// </summary>
-		/// <returns>True if Vertex Buffer is ready</returns>
-		inline bool IsReady() const
-		{ 
-			return m_IsReady; 
-		}
+        /// <summary>
+        /// Returns if the Vertex Buffer is ready
+        /// </summary>
+        /// <returns>True if Vertex Buffer is ready</returns>
+        inline bool IsReady() const
+        { 
+            return m_IsReady; 
+        }
 
-		/// <summary>
-		/// Returns Size of Vertex Buffer
-		/// </summary>
-		/// <returns>Size of Vertex Buffer</returns>
-		inline uint32_t GetSize() const
-		{ 
-			return m_Size; 
-		}
-		
-		/// <summary>
-		/// Returns CPU Access flag of Vertex Buffer
-		/// </summary>
-		/// <returns>CPU Access flag of Vertex Buffer</returns>
-		inline GraphicBufferAccess GetBufferAccess() const
-		{ 
-			return m_BufferAccess;
-		}
-		
-		/// <summary>
-		/// Returns Usage for Vertex Buffer
-		/// </summary>
-		/// <returns>Usage for Vertex Buffer</returns>
-		inline GraphicBufferUsage GetBufferUsage() const
-		{
-			return m_BufferUsage; 
-		}		
-		
-		/// <summary>
-		/// Returns Vertex Type for this Buffer
-		/// </summary>
-		/// <returns>Vertex Type for Buffer</returns>
-		virtual VertexType GetVertexType() const = 0;
+        /// <summary>
+        /// Returns Size of Vertex Buffer
+        /// </summary>
+        /// <returns>Size of Vertex Buffer</returns>
+        inline uint32_t GetSize() const
+        { 
+            return m_Size; 
+        }
+        
+        /// <summary>
+        /// Returns CPU Access flag of Vertex Buffer
+        /// </summary>
+        /// <returns>CPU Access flag of Vertex Buffer</returns>
+        inline GraphicBufferAccess GetBufferAccess() const
+        { 
+            return m_BufferAccess;
+        }
+        
+        /// <summary>
+        /// Returns Usage for Vertex Buffer
+        /// </summary>
+        /// <returns>Usage for Vertex Buffer</returns>
+        inline GraphicBufferUsage GetBufferUsage() const
+        {
+            return m_BufferUsage; 
+        }        
+        
+        /// <summary>
+        /// Returns Vertex Type for this Buffer
+        /// </summary>
+        /// <returns>Vertex Type for Buffer</returns>
+        virtual VertexType GetVertexType() const = 0;
 
 #pragma endregion
-		
-		/**********************
-		 *     Set Methods    *
-		 **********************/
+        
+        /**********************
+         *     Set Methods    *
+         **********************/
 #pragma region Set Methods
 
 #pragma endregion
-		
+        
 
-		/**************************
-		 *   Framework Methods    *
-		 **************************/
+        /**************************
+         *   Framework Methods    *
+         **************************/
 #pragma region Framework Methods
-		
-		/// <summary>
-		/// Builds the Vertex Buffer.
-		/// </summary>
-		/// <returns>AEResult::Ok if Build Vertex Buffer succeeded</returns>
-		virtual AEResult BuildVertexBuffer() = 0;
+        
+        /// <summary>
+        /// Builds the Vertex Buffer.
+        /// </summary>
+        /// <returns>AEResult::Ok if Build Vertex Buffer succeeded</returns>
+        virtual AEResult BuildVertexBuffer() = 0;
 
-		/// <summary>
-		/// Size of the Vertex that the Vertex Buffer has
-		/// </summary>
-		/// <returns>Vertex Size</returns>
-		virtual uint32_t VertexSize() const = 0;
+        /// <summary>
+        /// Size of the Vertex that the Vertex Buffer has
+        /// </summary>
+        /// <returns>Vertex Size</returns>
+        virtual uint32_t VertexSize() const = 0;
 
-		/// <summary>
-		/// Vertex Layout of the Vertex that the Vertex Buffer has
-		/// </summary>
-		/// <returns>Vertex Layout of the Vertex</returns>
-		virtual const VertexLayout* GetVertexLayout() = 0;
+        /// <summary>
+        /// Vertex Layout of the Vertex that the Vertex Buffer has
+        /// </summary>
+        /// <returns>Vertex Layout of the Vertex</returns>
+        virtual const VertexLayout* GetVertexLayout() = 0;
 
 #pragma endregion
 

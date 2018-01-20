@@ -53,33 +53,40 @@ class IVertexBuffer;
 ******************/
 class QuadShape abstract : public AEObject
 {
-	protected:
-		//Variables
-		bool m_IsReady = false;
+    protected:
+        //Variables
+        bool m_IsReady = false;
 
-		bool m_ClockWise = false;
+        bool m_ClockWise = false;
 
-		VertexPositionTexture m_Vtx[4];
+        VertexPositionTexture m_Vtx[4];
 
-		VertexBuffer<VertexPositionTexture>* m_VB = nullptr;
+        VertexBuffer<VertexPositionTexture>* m_VB = nullptr;
 
-		IndexBuffer* m_IB = nullptr;
+        IndexBuffer* m_IB = nullptr;
 
-		GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice* m_GraphicDevice = nullptr;
 
-	public:
-		//Constructor Destructor.
-		QuadShape(GraphicDevice* graphicDevice, bool clockWise = true);
-		virtual ~QuadShape();
+    public:
+        //Constructor Destructor.
+        QuadShape(GraphicDevice* graphicDevice, bool clockWise = true);
+        virtual ~QuadShape();
 
-		//Get Methods
-		inline IVertexBuffer*	GetVertexBuffer		()									{ return m_VB; }
-		inline IndexBuffer*		GetIndexBuffer		()									{ return m_IB; }
+        //Get Methods
+        inline IVertexBuffer* GetVertexBuffer()
+        {
+            return m_VB;
+        }
 
-		//Framework Methods
-		virtual AEResult BuildQuad() = 0;
+        inline IndexBuffer* GetIndexBuffer()
+        {
+            return m_IB;
+        }
 
-		AEResult			DrawQuad			();
+        //Framework Methods
+        virtual AEResult BuildQuad() = 0;
+
+        AEResult DrawQuad();
 };
 
 #endif

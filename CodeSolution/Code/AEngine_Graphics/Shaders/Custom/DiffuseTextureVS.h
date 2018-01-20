@@ -54,7 +54,7 @@ class IConstantBuffer;
 /// <summary>
 /// Vertex Shader PNT Name
 /// </summary>
-#define AE_DIFFUSE_TEXTURE_VS_NAME			L"Diffuse Texture Vertex Shader"
+#define AE_DIFFUSE_TEXTURE_VS_NAME            L"Diffuse Texture Vertex Shader"
 
 /*****************
 *   Class Decl   *
@@ -63,61 +63,61 @@ class DiffuseTextureVS sealed : public VertexShader
 {
 private:
 
-	/************************
-	*   Private Variables   *
-	*************************/
+    /************************
+    *   Private Variables   *
+    *************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-	/**********************
-	*   Private Methods   *
-	***********************/
+    /**********************
+    *   Private Methods   *
+    ***********************/
 #pragma region Private Methods
 
 #pragma endregion
 
-	/*********************************
-	*   Private Destructor Methods   *
-	**********************************/
+    /*********************************
+    *   Private Destructor Methods   *
+    **********************************/
 #pragma region Private Destructor Methods
 
-	/// <summary>
-	/// Default DiffuseTextureVS Destructor
-	/// </summary>
-	virtual ~DiffuseTextureVS();
+    /// <summary>
+    /// Default DiffuseTextureVS Destructor
+    /// </summary>
+    virtual ~DiffuseTextureVS();
 
 #pragma endregion
 
 public:
 
-	/**************************
-	*   Constructor Methods   *
-	***************************/
+    /**************************
+    *   Constructor Methods   *
+    ***************************/
 #pragma region Constructor Methods
 
-	/// <summary>
-	/// Default DiffuseTextureVS Constructor
-	/// </summary>
-	/// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
-	/// <param name="name">Name of Shader</param>
-	DiffuseTextureVS(GraphicDevice* graphicDevice, const std::wstring& resourceName);
+    /// <summary>
+    /// Default DiffuseTextureVS Constructor
+    /// </summary>
+    /// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
+    /// <param name="name">Name of Shader</param>
+    DiffuseTextureVS(GraphicDevice* graphicDevice, const std::wstring& resourceName);
 
 #pragma endregion
 
-	/******************
-	*   Get Methods   *
-	*******************/
+    /******************
+    *   Get Methods   *
+    *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-	/************************
-	*   Framework Methods   *
-	*************************/
+    /************************
+    *   Framework Methods   *
+    *************************/
 #pragma region Framework Methods
 
-	AEResult Load() override;
+    AEResult Load() override;
 
 #pragma endregion
 

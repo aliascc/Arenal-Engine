@@ -51,48 +51,48 @@
 ******************/
 class OmniLight sealed : public Light
 {
-	protected:
-		//Variables
+    protected:
+        //Variables
 
-	public:
+    public:
 
-		/*****************************************
-		 *   Constructor & Destructor Methods   *
-		 *****************************************/
+        /*****************************************
+         *   Constructor & Destructor Methods   *
+         *****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// OmniLight Constructor
-		/// </summary>
-		OmniLight(const std::wstring& name = L"Omni Light", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& direction = AEMathHelpers::Vec3fZero, const Color& color = AEColors::White, float nearAtteniation = 0.0f, float farAttenuation = 0.0f, float intensity = 1.0f, bool enabled = true);
+        /// <summary>
+        /// OmniLight Constructor
+        /// </summary>
+        OmniLight(const std::wstring& name = L"Omni Light", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& direction = AEMathHelpers::Vec3fZero, const Color& color = AEColors::White, float nearAtteniation = 0.0f, float farAttenuation = 0.0f, float intensity = 1.0f, bool enabled = true);
 
-		/// <summary>
-		/// Default OmniLight Destructor
-		/// </summary>
-		virtual ~OmniLight();
+        /// <summary>
+        /// Default OmniLight Destructor
+        /// </summary>
+        virtual ~OmniLight();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		void UpdateLightMatrices() override;
+        void UpdateLightMatrices() override;
 
 #pragma endregion
 

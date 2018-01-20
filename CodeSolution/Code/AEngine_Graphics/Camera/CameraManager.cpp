@@ -44,211 +44,211 @@ CameraManager::CameraManager()
 
 CameraManager::~CameraManager()
 {
-	//////////////////////////////////////////////////
-	//Delete all cameras
-	for (auto cameraIt : m_CameraMap)
-	{
-		DeleteMem(cameraIt.second);
-	}
+    //////////////////////////////////////////////////
+    //Delete all cameras
+    for (auto cameraIt : m_CameraMap)
+    {
+        DeleteMem(cameraIt.second);
+    }
 
-	m_CameraMap.clear();
+    m_CameraMap.clear();
 }
 
 uint32_t CameraManager::GetNumberOfCamerass() const
 {
-	return static_cast<uint32_t>(m_CameraMap.size());
+    return static_cast<uint32_t>(m_CameraMap.size());
 }
 
 bool CameraManager::CameraExists(uint64_t cameraID)
 {
-	return (m_CameraMap.find(cameraID) != m_CameraMap.end());
+    return (m_CameraMap.find(cameraID) != m_CameraMap.end());
 }
 
 AEResult CameraManager::AddCamera(Camera* camera)
 {
-	AEAssert(camera != nullptr);
-	if (camera == nullptr)
-	{
-		return AEResult::NullParameter;
-	}
+    AEAssert(camera != nullptr);
+    if (camera == nullptr)
+    {
+        return AEResult::NullParameter;
+    }
 
-	AEAssert(!camera->GetName().empty());
-	if (camera->GetName().empty())
-	{
-		return AEResult::EmptyName;
-	}
+    AEAssert(!camera->GetName().empty());
+    if (camera->GetName().empty())
+    {
+        return AEResult::EmptyName;
+    }
 
-	if (CameraExists(camera->GetUniqueID()))
-	{
-		return AEResult::ObjExists;
-	}
+    if (CameraExists(camera->GetUniqueID()))
+    {
+        return AEResult::ObjExists;
+    }
 
-	m_CameraMap[camera->GetUniqueID()] = camera;
+    m_CameraMap[camera->GetUniqueID()] = camera;
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 const Camera* CameraManager::GetCamera(uint64_t cameraID)
 {
-	if (!CameraExists(cameraID))
-	{
-		return nullptr;
-	}
+    if (!CameraExists(cameraID))
+    {
+        return nullptr;
+    }
 
-	auto cameraIt = m_CameraMap.find(cameraID);
+    auto cameraIt = m_CameraMap.find(cameraID);
 
-	return cameraIt->second;
+    return cameraIt->second;
 }
 
 AEResult CameraManager::RemoveCamera(uint64_t cameraID)
 {
-	if (!CameraExists(cameraID))
-	{
-		return AEResult::NotFound;
-	}
+    if (!CameraExists(cameraID))
+    {
+        return AEResult::NotFound;
+    }
 
-	auto cameraIt = m_CameraMap.find(cameraID);
+    auto cameraIt = m_CameraMap.find(cameraID);
 
-	Camera* camera = cameraIt->second;
+    Camera* camera = cameraIt->second;
 
-	m_CameraMap.erase(cameraIt);
+    m_CameraMap.erase(cameraIt);
 
-	if (camera->GetUniqueID() == m_MainCamera->GetUniqueID())
-	{
-		m_RemoveMainCamera = true;
-	}
-	else
-	{
-		DeleteMem(camera);
-	}
+    if (camera->GetUniqueID() == m_MainCamera->GetUniqueID())
+    {
+        m_RemoveMainCamera = true;
+    }
+    else
+    {
+        DeleteMem(camera);
+    }
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult CameraManager::SetMainCamera(uint64_t cameraID)
 {
-	if (!CameraExists(cameraID))
-	{
-		return AEResult::NotFound;
-	}
+    if (!CameraExists(cameraID))
+    {
+        return AEResult::NotFound;
+    }
 
-	m_TempMainCamera = m_CameraMap[cameraID];
+    m_TempMainCamera = m_CameraMap[cameraID];
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult CameraManager::SetDefaultCamera(uint64_t cameraID)
 {
-	if (!CameraExists(cameraID))
-	{
-		return AEResult::NotFound;
-	}
+    if (!CameraExists(cameraID))
+    {
+        return AEResult::NotFound;
+    }
 
-	m_DefaultCamera = m_CameraMap[cameraID];
+    m_DefaultCamera = m_CameraMap[cameraID];
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult CameraManager::SetEditorCamera(uint64_t cameraID)
 {
-	if (!CameraExists(cameraID))
-	{
-		return AEResult::NotFound;
-	}
+    if (!CameraExists(cameraID))
+    {
+        return AEResult::NotFound;
+    }
 
-	m_EditorCamera = m_CameraMap[cameraID];
+    m_EditorCamera = m_CameraMap[cameraID];
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 uint64_t CameraManager::GetDefaultCameraID()
 {
-	if (m_DefaultCamera == nullptr)
-	{
-		return 0;
-	}
+    if (m_DefaultCamera == nullptr)
+    {
+        return 0;
+    }
 
-	return m_DefaultCamera->GetUniqueID();
+    return m_DefaultCamera->GetUniqueID();
 }
 
 AEResult CameraManager::SetDefaultCameraAsMain()
 {
-	if (m_DefaultCamera == nullptr)
-	{
-		return AEResult::NullObj;
-	}
+    if (m_DefaultCamera == nullptr)
+    {
+        return AEResult::NullObj;
+    }
 
-	m_TempMainCamera = m_DefaultCamera;
+    m_TempMainCamera = m_DefaultCamera;
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 AEResult CameraManager::SetEditorCameraAsMain()
 {
-	if (m_EditorCamera == nullptr)
-	{
-		return AEResult::NullObj;
-	}
+    if (m_EditorCamera == nullptr)
+    {
+        return AEResult::NullObj;
+    }
 
-	m_TempMainCamera = m_EditorCamera;
+    m_TempMainCamera = m_EditorCamera;
 
-	return AEResult::Ok;
+    return AEResult::Ok;
 }
 
 void CameraManager::Update(const TimerParams& timerParams)
 {
-	//////////////////////////////////////////////////
-	//Check if removal of Main camera is needed
-	if (m_RemoveMainCamera)
-	{
-		m_RemoveMainCamera = false;
+    //////////////////////////////////////////////////
+    //Check if removal of Main camera is needed
+    if (m_RemoveMainCamera)
+    {
+        m_RemoveMainCamera = false;
 
-		DeleteMem(m_MainCamera);
-	}
+        DeleteMem(m_MainCamera);
+    }
 
-	//////////////////////////////////////////////////
-	//Check if Change of Main camera is needed
-	if (m_TempMainCamera != nullptr)
-	{
-		m_MainCamera = m_TempMainCamera;
+    //////////////////////////////////////////////////
+    //Check if Change of Main camera is needed
+    if (m_TempMainCamera != nullptr)
+    {
+        m_MainCamera = m_TempMainCamera;
 
-		m_TempMainCamera = nullptr;
-	}
+        m_TempMainCamera = nullptr;
+    }
 
-	//////////////////////////////////////////////////
-	//Update all cameras
-	for (auto cameraIt : m_CameraMap)
-	{
-		cameraIt.second->Update(timerParams);
-	}
+    //////////////////////////////////////////////////
+    //Update all cameras
+    for (auto cameraIt : m_CameraMap)
+    {
+        cameraIt.second->Update(timerParams);
+    }
 }
 
 CameraMapIt CameraManager::begin()
 {
-	return m_CameraMap.begin();
+    return m_CameraMap.begin();
 }
 
 CameraMapIt CameraManager::end()
 {
-	return m_CameraMap.end();
+    return m_CameraMap.end();
 }
 
 CameraMapItConst CameraManager::begin() const
 {
-	return m_CameraMap.begin();
+    return m_CameraMap.begin();
 }
 
 CameraMapItConst CameraManager::end() const
 {
-	return m_CameraMap.end();
+    return m_CameraMap.end();
 }
 
 CameraMapItConst CameraManager::cbegin() const
 {
-	return m_CameraMap.cbegin();
+    return m_CameraMap.cbegin();
 }
 
 CameraMapItConst CameraManager::cend() const
 {
-	return m_CameraMap.cend();
+    return m_CameraMap.cend();
 }

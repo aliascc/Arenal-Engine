@@ -50,33 +50,33 @@ class Bone;
 ******************/
 class Skeleton sealed : public GameResource
 {
-	private:
-		std::vector<Bone*> m_BoneHierarchy;
+    private:
+        std::vector<Bone*> m_BoneHierarchy;
 
-		void CleanUp();
+        void CleanUp();
 
-		virtual ~Skeleton();
+        virtual ~Skeleton();
 
-	public:
+    public:
 
-		/// <summary>
-		/// Skeleton Constructor
-		/// </summary>
-		/// <param name="resourceName">Resource Name</param>
-		Skeleton(const std::wstring& resourceName);
+        /// <summary>
+        /// Skeleton Constructor
+        /// </summary>
+        /// <param name="resourceName">Resource Name</param>
+        Skeleton(const std::wstring& resourceName);
 
-		inline uint32_t GetSkeletonSize() const
-		{
-			return (uint32_t)m_BoneHierarchy.size();
-		}
-		
-		AEResult Load() override;
+        inline uint32_t GetSkeletonSize() const
+        {
+            return (uint32_t)m_BoneHierarchy.size();
+        }
+        
+        AEResult Load() override;
 
-		Bone* GetBone(uint32_t index) const;
+        Bone* GetBone(uint32_t index) const;
 
-		Bone* operator[](uint32_t index) const;
-		
-		AEResult AddBone(Bone* bone);
+        Bone* operator[](uint32_t index) const;
+        
+        AEResult AddBone(Bone* bone);
 };
 
 #endif

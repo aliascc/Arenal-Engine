@@ -61,128 +61,128 @@ typedef CameraMap::const_iterator CameraMapItConst;
 class CameraManager sealed : public AEObject
 {
 
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		bool m_RemoveMainCamera = false;
+        bool m_RemoveMainCamera = false;
 
-		Camera* m_TempMainCamera = nullptr;
+        Camera* m_TempMainCamera = nullptr;
 
-		Camera* m_DefaultCamera = nullptr;
+        Camera* m_DefaultCamera = nullptr;
 
-		Camera* m_EditorCamera = nullptr;
+        Camera* m_EditorCamera = nullptr;
 
-		Camera* m_MainCamera = nullptr;
+        Camera* m_MainCamera = nullptr;
 
-		CameraMap m_CameraMap;
+        CameraMap m_CameraMap;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// CameraManager Constructor
-		/// </summary>
-		CameraManager();
+        /// <summary>
+        /// CameraManager Constructor
+        /// </summary>
+        CameraManager();
 
-		/// <summary>
-		/// Default CameraManager Destructor
-		/// </summary>
-		virtual ~CameraManager();
+        /// <summary>
+        /// Default CameraManager Destructor
+        /// </summary>
+        virtual ~CameraManager();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Gets the number of Cameras Manage by the manager
-		/// </summary>
-		/// <returns>Number of cameras that are being managed</returns>
-		inline uint32_t GetSize() const
-		{
-			return static_cast<uint32_t>(m_CameraMap.size());
-		}
+        /// <summary>
+        /// Gets the number of Cameras Manage by the manager
+        /// </summary>
+        /// <returns>Number of cameras that are being managed</returns>
+        inline uint32_t GetSize() const
+        {
+            return static_cast<uint32_t>(m_CameraMap.size());
+        }
 
-		/// <summary>
-		/// Gets the number of Cameras
-		/// </summary>
-		/// <returns>Returns the number of Cameras</returns>
-		uint32_t GetNumberOfCamerass() const;
+        /// <summary>
+        /// Gets the number of Cameras
+        /// </summary>
+        /// <returns>Returns the number of Cameras</returns>
+        uint32_t GetNumberOfCamerass() const;
 
-		inline Camera* GetMainCamera() const
-		{
-			return m_MainCamera;
-		}
+        inline Camera* GetMainCamera() const
+        {
+            return m_MainCamera;
+        }
 
-		inline Camera* GetDefaultCamera() const
-		{
-			return m_DefaultCamera;
-		}
+        inline Camera* GetDefaultCamera() const
+        {
+            return m_DefaultCamera;
+        }
 
-		inline Camera* GetEditorCamera() const
-		{
-			return m_EditorCamera;
-		}
+        inline Camera* GetEditorCamera() const
+        {
+            return m_EditorCamera;
+        }
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult SetMainCamera(uint64_t cameraID);
+        AEResult SetMainCamera(uint64_t cameraID);
 
-		AEResult SetDefaultCamera(uint64_t cameraID);
+        AEResult SetDefaultCamera(uint64_t cameraID);
 
-		AEResult SetEditorCamera(uint64_t cameraID);
+        AEResult SetEditorCamera(uint64_t cameraID);
 
-		uint64_t GetDefaultCameraID();
+        uint64_t GetDefaultCameraID();
 
-		AEResult SetDefaultCameraAsMain();
+        AEResult SetDefaultCameraAsMain();
 
-		AEResult SetEditorCameraAsMain();
+        AEResult SetEditorCameraAsMain();
 
-		AEResult AddCamera(Camera* camera);
+        AEResult AddCamera(Camera* camera);
 
-		const Camera* GetCamera(uint64_t cameraID);
+        const Camera* GetCamera(uint64_t cameraID);
 
-		AEResult RemoveCamera(uint64_t cameraID);
+        AEResult RemoveCamera(uint64_t cameraID);
 
-		bool CameraExists(uint64_t cameraID);
+        bool CameraExists(uint64_t cameraID);
 
-		void Update(const TimerParams& timerParams);
+        void Update(const TimerParams& timerParams);
 
-		CameraMapIt begin();
+        CameraMapIt begin();
 
-		CameraMapIt end();
+        CameraMapIt end();
 
-		CameraMapItConst begin() const;
+        CameraMapItConst begin() const;
 
-		CameraMapItConst end() const;
+        CameraMapItConst end() const;
 
-		CameraMapItConst cbegin() const;
+        CameraMapItConst cbegin() const;
 
-		CameraMapItConst cend() const;
+        CameraMapItConst cend() const;
 
 #pragma endregion
 

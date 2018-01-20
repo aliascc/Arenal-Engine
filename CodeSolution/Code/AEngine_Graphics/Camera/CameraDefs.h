@@ -44,12 +44,12 @@
 /// <summary>
 /// Default Move Rate per second of the camera
 /// </summary>
-#define AE_CAMERA_DEFAULt_MOVE_RATE			20.0f
+#define AE_CAMERA_DEFAULt_MOVE_RATE            20.0f
 
 /// <summary>
 /// Default Spin Rate per second of the camera
 /// </summary>
-#define AE_CAMERA_DEFAULt_SPIN_RATE			20.0f
+#define AE_CAMERA_DEFAULt_SPIN_RATE            20.0f
 
 /****************
 *   Constants   *

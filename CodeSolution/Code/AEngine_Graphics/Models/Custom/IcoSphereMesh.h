@@ -52,7 +52,7 @@ class GraphicDevice;
 /// <summary>
 /// ICO Sphere Mesh Name
 /// </summary>
-#define AE_ICO_SPHERE_MESH_NAME				L"IcoSphere Mesh"
+#define AE_ICO_SPHERE_MESH_NAME                L"IcoSphere Mesh"
 
 /***************
 *   Typedefs   *
@@ -63,80 +63,80 @@ class GraphicDevice;
 ******************/
 class IcoSphereMesh sealed : public Mesh
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		bool m_IsLoaded = false;
+        bool m_IsLoaded = false;
 
-		uint32_t m_RecursionLevels = 6;
+        uint32_t m_RecursionLevels = 6;
 
-		std::vector<VertexPositionNormalTexture> m_VtxBuff;
+        std::vector<VertexPositionNormalTexture> m_VtxBuff;
 
-		std::vector<uint16_t> m_IdxBuff;
+        std::vector<uint16_t> m_IdxBuff;
 
-		std::unordered_map<std::wstring, uint16_t> m_VtxMap;
+        std::unordered_map<std::wstring, uint16_t> m_VtxMap;
 
-		void AddFace(const VertexPositionNormalTexture& vtx1, const VertexPositionNormalTexture& vtx2, const VertexPositionNormalTexture& vtx3);
+        void AddFace(const VertexPositionNormalTexture& vtx1, const VertexPositionNormalTexture& vtx2, const VertexPositionNormalTexture& vtx3);
 
-		uint16_t AddVtx(const VertexPositionNormalTexture& vtx);
+        uint16_t AddVtx(const VertexPositionNormalTexture& vtx);
 
-		void AddIdx(uint16_t idx);
+        void AddIdx(uint16_t idx);
 
-		uint16_t GetMiddlePoint(uint32_t vtxIndex1, uint32_t vtxIndex2);
+        uint16_t GetMiddlePoint(uint32_t vtxIndex1, uint32_t vtxIndex2);
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
 #pragma endregion
 
-		/*********************************
-		*   Private Destructor Methods   *
-		**********************************/
+        /*********************************
+        *   Private Destructor Methods   *
+        **********************************/
 #pragma region Private Destructor Methods
 
-		/// <summary>
-		/// Default IcoSphereMesh Destructor
-		/// </summary>
-		virtual ~IcoSphereMesh();
+        /// <summary>
+        /// Default IcoSphereMesh Destructor
+        /// </summary>
+        virtual ~IcoSphereMesh();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/**************************
-		*   Constructor Methods   *
-		***************************/
+        /**************************
+        *   Constructor Methods   *
+        ***************************/
 #pragma region Constructor Methods
 
-		/// <summary>
-		/// IcoSphereMesh Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device use to create Mesh</param>
-		/// <param name="resourceName">Resource Name</param>
-		IcoSphereMesh(GraphicDevice* graphicDevice, const std::wstring& resourceName);
+        /// <summary>
+        /// IcoSphereMesh Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device use to create Mesh</param>
+        /// <param name="resourceName">Resource Name</param>
+        IcoSphereMesh(GraphicDevice* graphicDevice, const std::wstring& resourceName);
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult Load() override;
+        AEResult Load() override;
 
 #pragma endregion
 
-		// Prevent copying.
-		IcoSphereMesh(IcoSphereMesh const&) = delete;
-		IcoSphereMesh& operator= (IcoSphereMesh const&) = delete;
+        // Prevent copying.
+        IcoSphereMesh(IcoSphereMesh const&) = delete;
+        IcoSphereMesh& operator= (IcoSphereMesh const&) = delete;
 };
 
 #endif

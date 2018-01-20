@@ -49,69 +49,69 @@
 ******************/
 class ShaderBinding abstract : public UniqueAEObjectNamed
 {
-	protected:
+    protected:
 
-		/****************************
-		 *   Protected Variables    *
-		 ****************************/
+        /****************************
+         *   Protected Variables    *
+         ****************************/
 #pragma region Protected Variables
-				
-		/// <summary>
-		/// Index to where to bind
-		/// </summary>
-		uint32_t m_BindIndex = 0;
+                
+        /// <summary>
+        /// Index to where to bind
+        /// </summary>
+        uint32_t m_BindIndex = 0;
 
 #pragma endregion
 
-	public:
-		/*****************************************
-		 *   Constructor & Destructor Methods   *
-		 *****************************************/
+    public:
+        /*****************************************
+         *   Constructor & Destructor Methods   *
+         *****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// ShaderBinding Constructor
-		/// </summary>
-		/// <param name="name">Name of the Binding</param>
-		/// <param name="bindIndex">Index where to bind</param>
-		ShaderBinding(const std::wstring& name, uint32_t bindIndex);
+        /// <summary>
+        /// ShaderBinding Constructor
+        /// </summary>
+        /// <param name="name">Name of the Binding</param>
+        /// <param name="bindIndex">Index where to bind</param>
+        ShaderBinding(const std::wstring& name, uint32_t bindIndex);
 
-		/// <summary>
-		/// Default ShaderBinding Destructor
-		/// </summary>
-		virtual ~ShaderBinding();
+        /// <summary>
+        /// Default ShaderBinding Destructor
+        /// </summary>
+        virtual ~ShaderBinding();
 
 #pragma endregion
 
-		/********************
-		 *   Get Methods    *
-		 ********************/
+        /********************
+         *   Get Methods    *
+         ********************/
 #pragma region Get Methods
 
-		/// <summary>
-		/// Gets Bind Index
-		/// </summary>
-		/// <returns>Bind Index</returns>
-		inline uint32_t GetBindIndex() const 
-		{ 
-			return m_BindIndex; 
-		}
+        /// <summary>
+        /// Gets Bind Index
+        /// </summary>
+        /// <returns>Bind Index</returns>
+        inline uint32_t GetBindIndex() const 
+        { 
+            return m_BindIndex; 
+        }
 
 #pragma endregion
 
-		/********************
-		 *   Set Methods    *
-		 ********************/
+        /********************
+         *   Set Methods    *
+         ********************/
 #pragma region Set Methods
 
-		/// <summary>
-		/// Sets the Bind Index to where to bind to the shader
-		/// </summary>
-		/// <param name="bindIndex">New Bind Index</param>
-		inline void SetBindIndex(uint32_t bindIndex) 
-		{ 
-			m_BindIndex = bindIndex; 
-		}
+        /// <summary>
+        /// Sets the Bind Index to where to bind to the shader
+        /// </summary>
+        /// <param name="bindIndex">New Bind Index</param>
+        inline void SetBindIndex(uint32_t bindIndex) 
+        { 
+            m_BindIndex = bindIndex; 
+        }
 
 #pragma endregion
 

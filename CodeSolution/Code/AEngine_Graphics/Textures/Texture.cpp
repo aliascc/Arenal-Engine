@@ -37,27 +37,27 @@
 *   Function Defs   *
 *********************/
 Texture::Texture(GraphicDevice* graphicDevice, TextureType textureType, const std::wstring& textureName)
-	: GameResource(textureName, GameResourceType::Unknown)
-	, m_GraphicDevice(graphicDevice)
-	, m_TextureType(textureType)
+    : GameResource(textureName, GameResourceType::Unknown)
+    , m_GraphicDevice(graphicDevice)
+    , m_TextureType(textureType)
 {
-	AEAssert(m_GraphicDevice != nullptr);
+    AEAssert(m_GraphicDevice != nullptr);
 
-	switch (m_TextureType)
-	{
-		case TextureType::Texture2D:
-			m_ResourceType = GameResourceType::Texture2D;
-			break;
-		case TextureType::TextureCube:
-			m_ResourceType = GameResourceType::TextureCube;
-			break;
-		default:
-			AEAssert(false);
-			break;
-	}
+    switch (m_TextureType)
+    {
+        case TextureType::Texture2D:
+            m_ResourceType = GameResourceType::Texture2D;
+            break;
+        case TextureType::TextureCube:
+            m_ResourceType = GameResourceType::TextureCube;
+            break;
+        default:
+            AEAssert(false);
+            break;
+    }
 }
 
 Texture::~Texture()
 {
-	ReleaseCOM(m_ShaderResourceView);
+    ReleaseCOM(m_ShaderResourceView);
 }

@@ -38,22 +38,22 @@
 *   Function Defs   *
 *********************/
 ShaderBuffer::ShaderBuffer(const std::wstring& name, uint32_t bindIndex, bool createAsRW, GraphicDevice* graphicDevice)
-	: ShaderBinding(name, bindIndex)
-	, m_GraphicDevice(graphicDevice)
-	, m_IsRWEnabled(createAsRW)
+    : ShaderBinding(name, bindIndex)
+    , m_GraphicDevice(graphicDevice)
+    , m_IsRWEnabled(createAsRW)
 {
-	AEAssert(m_GraphicDevice != nullptr);
-	AEAssert(!name.empty());
+    AEAssert(m_GraphicDevice != nullptr);
+    AEAssert(!name.empty());
 }
 
 ShaderBuffer::~ShaderBuffer()
 {
-	CleanUp();
+    CleanUp();
 }
 
 void ShaderBuffer::CleanUp()
 {
-	ReleaseCOM(m_BufferSRVDX);
-	ReleaseCOM(m_BufferDX);
-	ReleaseCOM(m_BufferUAVDX);
+    ReleaseCOM(m_BufferSRVDX);
+    ReleaseCOM(m_BufferDX);
+    ReleaseCOM(m_BufferUAVDX);
 }

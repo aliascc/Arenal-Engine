@@ -53,7 +53,7 @@ class Bone;
 ***************/
 
 //Has to match shader
-#define AE_MAX_BONES		96
+#define AE_MAX_BONES        96
 
 /****************
 *   Constants   *
@@ -68,19 +68,19 @@ class Bone;
 **************/
 struct BonePose sealed : public AEObject
 {
-	private:
-		glm::mat4 m_TransformMatrix = AEMathHelpers::Mat4Identity;
+    private:
+        glm::mat4 m_TransformMatrix = AEMathHelpers::Mat4Identity;
 
-	public:
-		glm::quat m_RotationQ = AEMathHelpers::QuaternionIdentity;
-		glm::vec3 m_Scale = AEMathHelpers::Vec3fOne;
-		glm::vec3 m_Translation = AEMathHelpers::Vec3fZero;
+    public:
+        glm::quat m_RotationQ = AEMathHelpers::QuaternionIdentity;
+        glm::vec3 m_Scale = AEMathHelpers::Vec3fOne;
+        glm::vec3 m_Translation = AEMathHelpers::Vec3fZero;
 
-		BonePose();
+        BonePose();
 
-		void CalculateTransformMatrix();
+        void CalculateTransformMatrix();
 
-		const glm::mat4& GetTransformMatrix() const;
+        const glm::mat4& GetTransformMatrix() const;
 };
 
 #endif

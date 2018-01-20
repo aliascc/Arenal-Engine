@@ -47,84 +47,84 @@
 **************/
 struct ConstantBufferSignature : public AEObject
 {
-	std::wstring m_Name = L"";
+    std::wstring m_Name = L"";
 
-	uint32_t m_BindIndex = 0;
+    uint32_t m_BindIndex = 0;
 
-	std::list<ShaderCustomVariable> m_ShaderCustomVariableList;
+    std::list<ShaderCustomVariable> m_ShaderCustomVariableList;
 
-	ConstantBufferSignature()
-	{
-	}
+    ConstantBufferSignature()
+    {
+    }
 };
 
 struct SimpleBufferSignature : public AEObject
 {
-	std::wstring m_Name = L"";
+    std::wstring m_Name = L"";
 
-	uint32_t m_BindIndex = 0;
+    uint32_t m_BindIndex = 0;
 
-	bool m_IsRW = false;
+    bool m_IsRW = false;
 
-	ShaderVariableClass m_VariableClass = ShaderVariableClass::Scalar;
+    ShaderVariableClass m_VariableClass = ShaderVariableClass::Scalar;
 
-	ShaderVariableType m_VariableType = ShaderVariableType::Int;
+    ShaderVariableType m_VariableType = ShaderVariableType::Int;
 
-	uint32_t m_ElementCount = 0;
+    uint32_t m_ElementCount = 0;
 
-	SimpleBufferSignature()
-	{
-	}
+    SimpleBufferSignature()
+    {
+    }
 };
 
 struct StructuredBufferSignature : public AEObject
 {
-	std::wstring m_Name = L"";
+    std::wstring m_Name = L"";
 
-	uint32_t m_BindIndex = 0;
+    uint32_t m_BindIndex = 0;
 
-	bool m_IsRW = false;
+    bool m_IsRW = false;
 
-	StructuredBufferSignature()
-	{
-	}
+    StructuredBufferSignature()
+    {
+    }
 };
 
 struct TextureInputSignature : public AEObject
 {
-	std::wstring m_Name = L"";
+    std::wstring m_Name = L"";
 
-	uint32_t m_BindIndex = 0;
+    uint32_t m_BindIndex = 0;
 
-	TextureType m_TextureType = TextureType::Texture2D;
+    TextureType m_TextureType = TextureType::Texture2D;
 
-	TextureInputSignature()
-	{
-	}
+    TextureInputSignature()
+    {
+    }
 };
 
 struct TextureArrayInputSignature : public AEObject
 {
-	std::wstring m_Name = L"";
+    std::wstring m_Name = L"";
 
-	uint32_t m_BindIndex = 0;
+    uint32_t m_BindIndex = 0;
 
-	TextureType m_TextureType = TextureType::Texture2D;
+    TextureType m_TextureType = TextureType::Texture2D;
 
-	TextureArrayInputSignature()
-	{
-	}
+    TextureArrayInputSignature()
+    {
+    }
 };
 
 struct SamplerSignature : public AEObject
 {
-	std::wstring m_Name = L"";
+    std::wstring m_Name = L"";
 
-	uint32_t m_BindIndex = 0;
+    uint32_t m_BindIndex = 0;
 
-	SamplerSignature()
-	{
-	}
+    SamplerSignature()
+    {
+    }
 };
 
 /**************
@@ -148,35 +148,35 @@ typedef std::list<SamplerSignature> SamplerSignatureList;
 
 namespace AEShaderSignatureHelpers
 {
-	extern ShaderCustomVariable CreateScalarVariable(const std::wstring& name, uint32_t offset, ShaderVariableType svType);
+    extern ShaderCustomVariable CreateScalarVariable(const std::wstring& name, uint32_t offset, ShaderVariableType svType);
 
-	extern ShaderCustomVariable CreateVectorVariable(const std::wstring& name, uint32_t offset, uint32_t numElementsInVector);
+    extern ShaderCustomVariable CreateVectorVariable(const std::wstring& name, uint32_t offset, uint32_t numElementsInVector);
 
-	extern ShaderCustomVariable CreateMatrixVariable(const std::wstring& name, uint32_t offset, bool isArray = false, uint32_t numElementsInArray = 0);
+    extern ShaderCustomVariable CreateMatrixVariable(const std::wstring& name, uint32_t offset, bool isArray = false, uint32_t numElementsInArray = 0);
 
-	extern ConstantBufferSignature CreateWorldViewProjCBSig(uint32_t bindIndex);
+    extern ConstantBufferSignature CreateWorldViewProjCBSig(uint32_t bindIndex);
 
-	extern ConstantBufferSignature CreateViewProjCBSig(uint32_t bindIndex);
+    extern ConstantBufferSignature CreateViewProjCBSig(uint32_t bindIndex);
 
-	extern ConstantBufferSignature CreateBonesCBSig(uint32_t bindIndex);
+    extern ConstantBufferSignature CreateBonesCBSig(uint32_t bindIndex);
 
-	extern ConstantBufferSignature CreateColorCBSig(uint32_t bindIndex);
+    extern ConstantBufferSignature CreateColorCBSig(uint32_t bindIndex);
 
-	extern ConstantBufferSignature CreateHalfPixelCBSig(uint32_t bindIndex);
+    extern ConstantBufferSignature CreateHalfPixelCBSig(uint32_t bindIndex);
 
-	extern ConstantBufferSignature CreateFPRLightCullingCBSig(uint32_t bindIndex);
+    extern ConstantBufferSignature CreateFPRLightCullingCBSig(uint32_t bindIndex);
 
-	extern ConstantBufferSignature CreateFPRLightsCBSig(uint32_t bindIndex);
+    extern ConstantBufferSignature CreateFPRLightsCBSig(uint32_t bindIndex);
 
-	extern StructuredBufferSignature CreateBufferLightBufferStructureBufferSig(uint32_t bindIndex);
+    extern StructuredBufferSignature CreateBufferLightBufferStructureBufferSig(uint32_t bindIndex);
 
-	extern StructuredBufferSignature CreateShadowSpotLightInfoStructureBufferSig(uint32_t bindIndex);
+    extern StructuredBufferSignature CreateShadowSpotLightInfoStructureBufferSig(uint32_t bindIndex);
 
-	extern StructuredBufferSignature CreateShadowDirectionalLightInfoStructureBufferSig(uint32_t bindIndex);
+    extern StructuredBufferSignature CreateShadowDirectionalLightInfoStructureBufferSig(uint32_t bindIndex);
 
-	extern SimpleBufferSignature CreateBufferPerTileLightIndexBufferSimpleBufferSig(uint32_t bindIndex);
+    extern SimpleBufferSignature CreateBufferPerTileLightIndexBufferSimpleBufferSig(uint32_t bindIndex);
 
-	extern void CreateForwardRenderingPlusSignatures(ConstantBufferSignatureList& cbSigList, StructuredBufferSignatureList& structuredBufferSigList, SimpleBufferSignatureList& simpleBufferSigList, TextureInputSignatureList& textureInputSigList);
+    extern void CreateForwardRenderingPlusSignatures(ConstantBufferSignatureList& cbSigList, StructuredBufferSignatureList& structuredBufferSigList, SimpleBufferSignatureList& simpleBufferSigList, TextureInputSignatureList& textureInputSigList);
 }
 
 #endif

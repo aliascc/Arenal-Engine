@@ -53,7 +53,7 @@
 *************/
 enum class AnimationBlendType : uint32_t
 {
-	Lerp = 0
+    Lerp = 0
 };
 
 /**************
@@ -66,11 +66,10 @@ typedef std::function<void ()> AnimationCallBackFunc;
 **************/
 struct AnimationCallBack sealed : public AEObject
 {
-	float m_Time = 0.0f;
-	AnimationCallBackFunc m_AnimFuncPtr = nullptr;
+    float m_Time = 0.0f;
+    AnimationCallBackFunc m_AnimFuncPtr = nullptr;
 
-	AnimationCallBack();
+    AnimationCallBack();
 };
-
 
 #endif

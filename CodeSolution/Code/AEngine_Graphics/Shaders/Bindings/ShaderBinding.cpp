@@ -35,8 +35,8 @@
 *   Function Defs   *
 *********************/
 ShaderBinding::ShaderBinding(const std::wstring& name, uint32_t bindIndex)
-	: UniqueAEObjectNamed(name)
-	, m_BindIndex(bindIndex)
+    : UniqueAEObjectNamed(name)
+    , m_BindIndex(bindIndex)
 {
 }
 

@@ -62,102 +62,102 @@ typedef MeshPartVector::const_iterator MeshPartVectorItConst;
 ******************/
 class Mesh : public GameResource
 {
-	protected:
+    protected:
 
-		/// <summary>
-		/// Vector containing the different Mesh Parts that make up the mesh
-		/// </summary>
-		MeshPartVector m_MeshPartVector;
+        /// <summary>
+        /// Vector containing the different Mesh Parts that make up the mesh
+        /// </summary>
+        MeshPartVector m_MeshPartVector;
 
-		GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice* m_GraphicDevice = nullptr;
 
-		BoundingBox m_BoundingBox;
+        BoundingBox m_BoundingBox;
 
-		BoundingSphere m_BoundingSphere;
+        BoundingSphere m_BoundingSphere;
 
-		void CleanUp();
+        void CleanUp();
 
-		/************************************
-		*   Protected Destructor Methods   *
-		************************************/
+        /************************************
+        *   Protected Destructor Methods   *
+        ************************************/
 #pragma region Protected Destructor Methods
 
-		/// <summary>
-		/// Default Mesh Destructor
-		/// Protected so only Childs can access it
-		/// </summary>
-		virtual ~Mesh();
+        /// <summary>
+        /// Default Mesh Destructor
+        /// Protected so only Childs can access it
+        /// </summary>
+        virtual ~Mesh();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/**************************
-		*   Constructor Methods   *
-		***************************/
+        /**************************
+        *   Constructor Methods   *
+        ***************************/
 #pragma region Constructor Methods
 
-		/// <summary>
-		/// Mesh Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device use to create Mesh</param>
-		/// <param name="resourceName">Resource Name</param>
-		Mesh(GraphicDevice* graphicDevice, const std::wstring& resourceName);
+        /// <summary>
+        /// Mesh Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device use to create Mesh</param>
+        /// <param name="resourceName">Resource Name</param>
+        Mesh(GraphicDevice* graphicDevice, const std::wstring& resourceName);
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		uint32_t GetNumberMeshParts() const
-		{
-			return (uint32_t)m_MeshPartVector.size();
-		}
+        uint32_t GetNumberMeshParts() const
+        {
+            return (uint32_t)m_MeshPartVector.size();
+        }
 
-		MeshPart* GetMeshPart(uint32_t index);
+        MeshPart* GetMeshPart(uint32_t index);
 
-		const BoundingBox& GetBoundingBox() const
-		{
-			return m_BoundingBox;
-		}
+        const BoundingBox& GetBoundingBox() const
+        {
+            return m_BoundingBox;
+        }
 
-		const BoundingSphere& GetBoundingSphere() const
-		{
-			return m_BoundingSphere;
-		}
+        const BoundingSphere& GetBoundingSphere() const
+        {
+            return m_BoundingSphere;
+        }
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		virtual AEResult Load() override;
+        virtual AEResult Load() override;
 
-		AEResult AddMeshPart(MeshPart* mp);
+        AEResult AddMeshPart(MeshPart* mp);
 
-		MeshPartVectorIt begin();
+        MeshPartVectorIt begin();
 
-		MeshPartVectorIt end();
+        MeshPartVectorIt end();
 
-		MeshPartVectorItConst begin() const;
+        MeshPartVectorItConst begin() const;
 
-		MeshPartVectorItConst end() const;
+        MeshPartVectorItConst end() const;
 
-		MeshPartVectorItConst cbegin() const;
+        MeshPartVectorItConst cbegin() const;
 
-		MeshPartVectorItConst cend() const;
+        MeshPartVectorItConst cend() const;
 
-		MeshPart* operator[](uint32_t index);
+        MeshPart* operator[](uint32_t index);
 
 #pragma endregion
 
-		// Prevent copying.
-		Mesh(Mesh const&) = delete;
-		Mesh& operator= (Mesh const&) = delete;
+        // Prevent copying.
+        Mesh(Mesh const&) = delete;
+        Mesh& operator= (Mesh const&) = delete;
 };
 
 #endif

@@ -52,7 +52,7 @@ class GraphicDevice;
 /// <summary>
 /// Cube Mesh Name
 /// </summary>
-#define AE_CUBE_MESH_NAME						L"Cube Mesh"
+#define AE_CUBE_MESH_NAME                        L"Cube Mesh"
 
 /***************
 *   Typedefs   *
@@ -63,72 +63,72 @@ class GraphicDevice;
 ******************/
 class CubeMesh sealed : public Mesh
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		bool m_IsLoaded = false;
+        bool m_IsLoaded = false;
 
-		std::vector<VertexPositionNormalTexture> m_VtxBuff;
+        std::vector<VertexPositionNormalTexture> m_VtxBuff;
 
-		std::vector<uint16_t> m_IdxBuff;
+        std::vector<uint16_t> m_IdxBuff;
 
-		std::map<std::wstring, uint16_t> m_VtxMap;
+        std::map<std::wstring, uint16_t> m_VtxMap;
 
-		uint16_t AddVtx(const VertexPositionNormalTexture& vtx);
+        uint16_t AddVtx(const VertexPositionNormalTexture& vtx);
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
 #pragma endregion
 
-		/*********************************
-		*   Private Destructor Methods   *
-		**********************************/
+        /*********************************
+        *   Private Destructor Methods   *
+        **********************************/
 #pragma region Private Destructor Methods
 
-		/// <summary>
-		/// Default CubeMesh Destructor
-		/// </summary>
-		virtual ~CubeMesh();
+        /// <summary>
+        /// Default CubeMesh Destructor
+        /// </summary>
+        virtual ~CubeMesh();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/**************************
-		*   Constructor Methods   *
-		***************************/
+        /**************************
+        *   Constructor Methods   *
+        ***************************/
 #pragma region Constructor Methods
 
-		/// <summary>
-		/// CubeMesh Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device use to create Mesh</param>
-		/// <param name="resourceName">Resource Name</param>
-		CubeMesh(GraphicDevice* graphicDevice, const std::wstring& resourceName);
+        /// <summary>
+        /// CubeMesh Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device use to create Mesh</param>
+        /// <param name="resourceName">Resource Name</param>
+        CubeMesh(GraphicDevice* graphicDevice, const std::wstring& resourceName);
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult Load() override;
+        AEResult Load() override;
 
 #pragma endregion
 
-		// Prevent copying.
-		CubeMesh(CubeMesh const&) = delete;
-		CubeMesh& operator= (CubeMesh const&) = delete;
+        // Prevent copying.
+        CubeMesh(CubeMesh const&) = delete;
+        CubeMesh& operator= (CubeMesh const&) = delete;
 };
 
 #endif

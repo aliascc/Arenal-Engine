@@ -54,7 +54,7 @@ class IConstantBuffer;
 /// <summary>
 /// Pixel Shader PNT Name
 /// </summary>
-#define AE_DIFFUSE_TEXTURE_PS_NAME			L"Diffuse Texture Pixel Shader"
+#define AE_DIFFUSE_TEXTURE_PS_NAME            L"Diffuse Texture Pixel Shader"
 
 /*****************
 *   Class Decl   *
@@ -62,65 +62,65 @@ class IConstantBuffer;
 class DiffuseTexturePS sealed : public PixelShader
 {
 
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
-	#pragma region Private Variables
+        /************************
+        *   Private Variables   *
+        *************************/
+    #pragma region Private Variables
 
-	#pragma endregion
+    #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
-	#pragma region Private Methods
+        /**********************
+        *   Private Methods   *
+        ***********************/
+    #pragma region Private Methods
 
-	#pragma endregion
+    #pragma endregion
 
-		/*********************************
-		*   Private Destructor Methods   *
-		**********************************/
-	#pragma region Private Destructor Methods
+        /*********************************
+        *   Private Destructor Methods   *
+        **********************************/
+    #pragma region Private Destructor Methods
 
-		/// <summary>
-		/// Default DiffuseTexturePS Destructor
-		/// </summary>
-		virtual ~DiffuseTexturePS();
+        /// <summary>
+        /// Default DiffuseTexturePS Destructor
+        /// </summary>
+        virtual ~DiffuseTexturePS();
 
-	#pragma endregion
+    #pragma endregion
 
-	public:
+    public:
 
-		/**************************
-		*   Constructor Methods   *
-		***************************/
-	#pragma region Constructor Methods
+        /**************************
+        *   Constructor Methods   *
+        ***************************/
+    #pragma region Constructor Methods
 
-		/// <summary>
-		/// Default DiffuseTexturePS Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
-		/// <param name="name">Name of Shader</param>
-		DiffuseTexturePS(GraphicDevice* graphicDevice, const std::wstring& resourceName);
+        /// <summary>
+        /// Default DiffuseTexturePS Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
+        /// <param name="name">Name of Shader</param>
+        DiffuseTexturePS(GraphicDevice* graphicDevice, const std::wstring& resourceName);
 
-	#pragma endregion
+    #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
-	#pragma region Get Methods
+        /******************
+        *   Get Methods   *
+        *******************/
+    #pragma region Get Methods
 
-	#pragma endregion
+    #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
-	#pragma region Framework Methods
+        /************************
+        *   Framework Methods   *
+        *************************/
+    #pragma region Framework Methods
 
-		AEResult Load() override;
+        AEResult Load() override;
 
-	#pragma endregion
+    #pragma endregion
 
 };
 

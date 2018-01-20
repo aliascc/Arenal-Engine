@@ -52,43 +52,43 @@ class IVertexBuffer;
 *   Defines   *
 ***************/
 
-#define AE_FRUSTUM_SIMPLE_SHAPE_SIZE	24
-#define AE_FRUSTUM_SHAPE_SIZE			252
+#define AE_FRUSTUM_SIMPLE_SHAPE_SIZE    24
+#define AE_FRUSTUM_SHAPE_SIZE            252
 
 /*****************
 *   Class Decl   *
 ******************/
 class FrustumShape sealed : public AEObject
 {
-	private:
-		//Variables
-		bool m_IsReady = false;
+    private:
+        //Variables
+        bool m_IsReady = false;
 
-		VertexPositionColor m_Vtx[AE_FRUSTUM_SHAPE_SIZE];
+        VertexPositionColor m_Vtx[AE_FRUSTUM_SHAPE_SIZE];
 
-		VertexBuffer<VertexPositionColor>* m_VB = nullptr;
+        VertexBuffer<VertexPositionColor>* m_VB = nullptr;
 
-		GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice* m_GraphicDevice = nullptr;
 
-		AEResult UpdateFrustumShapeVtx(const Frustum* frustum);
+        AEResult UpdateFrustumShapeVtx(const Frustum* frustum);
 
-	public:
-		//Constructor Destructor.
-		FrustumShape(GraphicDevice* graphicDevice);
-		virtual ~FrustumShape();
+    public:
+        //Constructor Destructor.
+        FrustumShape(GraphicDevice* graphicDevice);
+        virtual ~FrustumShape();
 
-		//Get Methods
-		inline IVertexBuffer* GetVertexBuffer()
-		{
-			return m_VB;
-		}
+        //Get Methods
+        inline IVertexBuffer* GetVertexBuffer()
+        {
+            return m_VB;
+        }
 
-		//Framework Methods
-		AEResult BuildFrustumShape();
+        //Framework Methods
+        AEResult BuildFrustumShape();
 
-		AEResult UpdateFrustumShape(const Frustum* frustum);
+        AEResult UpdateFrustumShape(const Frustum* frustum);
 
-		AEResult DrawFrustumShape(bool simple = false);
+        AEResult DrawFrustumShape(bool simple = false);
 };
 
 #endif

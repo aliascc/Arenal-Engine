@@ -54,13 +54,13 @@ class IVertexBuffer;
 ******************/
 class QuadShape3D sealed : public QuadShape
 {
-	public:
-		//Constructor Destructor.
-		QuadShape3D(GraphicDevice* graphicDevice, bool clockWise = true);
-		virtual ~QuadShape3D();
+    public:
+        //Constructor Destructor.
+        QuadShape3D(GraphicDevice* graphicDevice, bool clockWise = true);
+        virtual ~QuadShape3D();
 
-		//Framework Methods
-		AEResult BuildQuad() override;
+        //Framework Methods
+        AEResult BuildQuad() override;
 };
 
 #endif

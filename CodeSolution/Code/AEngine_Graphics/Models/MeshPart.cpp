@@ -51,34 +51,34 @@ MeshPart::MeshPart()
 
 MeshPart::~MeshPart()
 {
-	DeleteMem(m_IndexBuffer);
-	DeleteMem(m_VertexBuffer);
+    DeleteMem(m_IndexBuffer);
+    DeleteMem(m_VertexBuffer);
 }
 
 void MeshPart::SetVertexBuffer(IVertexBuffer* vb)
 {
-	AEAssert(vb != nullptr);
+    AEAssert(vb != nullptr);
 
-	if(vb == nullptr)
-	{
-		return;
-	}
+    if(vb == nullptr)
+    {
+        return;
+    }
 
-	DeleteMem(m_VertexBuffer);
+    DeleteMem(m_VertexBuffer);
 
-	m_VertexBuffer = vb;
+    m_VertexBuffer = vb;
 }
 
 void MeshPart::SetIndexBuffer(IndexBuffer* ib)
 {
-	AEAssert(ib != nullptr);
+    AEAssert(ib != nullptr);
 
-	if(ib == nullptr)
-	{
-		return;
-	}
+    if(ib == nullptr)
+    {
+        return;
+    }
 
-	DeleteMem(m_IndexBuffer);
+    DeleteMem(m_IndexBuffer);
 
-	m_IndexBuffer = ib;
+    m_IndexBuffer = ib;
 }

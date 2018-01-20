@@ -39,9 +39,9 @@ KeyFrame::KeyFrame()
 }
 
 KeyFrame::KeyFrame(int32_t boneIndex, float time, const BonePose& bonePose)
-	: m_BoneIndex(boneIndex)
-	, m_Time(time)
-	, m_BonePose(bonePose)
+    : m_BoneIndex(boneIndex)
+    , m_Time(time)
+    , m_BonePose(bonePose)
 {
 }
 
@@ -51,5 +51,5 @@ KeyFrame::~KeyFrame()
 
 bool KeyFrame::operator<(const KeyFrame& keyframe) const
 {
-	return (m_Time < keyframe.m_Time);
+    return (m_Time < keyframe.m_Time);
 }
