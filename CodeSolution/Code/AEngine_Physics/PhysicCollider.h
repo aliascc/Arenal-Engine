@@ -51,106 +51,106 @@ class PhysicsManager;
 
 class PhysicCollider abstract : public UniqueAEObject
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		CollisionShape m_CollisionShape = CollisionShape::Box;
+        CollisionShape m_CollisionShape = CollisionShape::Box;
 
-		physx::PxMaterial* m_PxMaterial = nullptr;
+        physx::PxMaterial* m_PxMaterial = nullptr;
 
 #pragma endregion
 
-	protected:
+    protected:
 
-		/**************************
-		*   Protected Variables   *
-		***************************/
+        /**************************
+        *   Protected Variables   *
+        ***************************/
 #pragma region Protected Variables
 
-		bool m_IsReady = false;
+        bool m_IsReady = false;
 
-		glm::vec3 m_Scale = AEMathHelpers::Vec3fOne;
+        glm::vec3 m_Scale = AEMathHelpers::Vec3fOne;
 
-		physx::PxShape* m_PxShape = nullptr;
+        physx::PxShape* m_PxShape = nullptr;
 
 #pragma endregion
 
-		/************************
-		*   Protected Methods   *
-		*************************/
+        /************************
+        *   Protected Methods   *
+        *************************/
 #pragma region Protected Methods
 
-		void CleanUp();
+        void CleanUp();
 
-		virtual physx::PxGeometry& CreateGeomtry(physx::PxPhysics* pxPhysics) = 0;
+        virtual physx::PxGeometry& CreateGeomtry(physx::PxPhysics* pxPhysics) = 0;
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default PhysicCollider Constructor
-		/// </summary>
-		PhysicCollider(CollisionShape m_CollisionShape);
+        /// <summary>
+        /// Default PhysicCollider Constructor
+        /// </summary>
+        PhysicCollider(CollisionShape m_CollisionShape);
 
-		/// <summary>
-		/// Default PhysicCollider Destructor
-		/// </summary>
-		virtual ~PhysicCollider();
+        /// <summary>
+        /// Default PhysicCollider Destructor
+        /// </summary>
+        virtual ~PhysicCollider();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		inline bool IsReady() const
-		{
-			return m_IsReady;
-		}
+        inline bool IsReady() const
+        {
+            return m_IsReady;
+        }
 
-		inline physx::PxShape* GetPxShape() const
-		{
-			return m_PxShape;
-		}
+        inline physx::PxShape* GetPxShape() const
+        {
+            return m_PxShape;
+        }
 
-		inline CollisionShape GetCollisionShape() const
-		{
-			return m_CollisionShape;
-		}
+        inline CollisionShape GetCollisionShape() const
+        {
+            return m_CollisionShape;
+        }
 
-		inline const glm::vec3& GetScale() const
-		{
-			return m_Scale;
-		}
+        inline const glm::vec3& GetScale() const
+        {
+            return m_Scale;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
-		virtual void SetScale(const glm::vec3& scale) = 0;
+        virtual void SetScale(const glm::vec3& scale) = 0;
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		AEResult Initialize(PhysicsManager* physicsManager);
+        AEResult Initialize(PhysicsManager* physicsManager);
 
 #pragma endregion
 

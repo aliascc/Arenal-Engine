@@ -43,54 +43,54 @@
 
 class ErrorCallbackPhysX sealed : public physx::PxErrorCallback
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default ErrorCallbackPhysX Constructor
-		/// </summary>
-		ErrorCallbackPhysX();
+        /// <summary>
+        /// Default ErrorCallbackPhysX Constructor
+        /// </summary>
+        ErrorCallbackPhysX();
 
-		/// <summary>
-		/// Default ErrorCallbackPhysX Destructor
-		/// </summary>
-		virtual ~ErrorCallbackPhysX();
+        /// <summary>
+        /// Default ErrorCallbackPhysX Destructor
+        /// </summary>
+        virtual ~ErrorCallbackPhysX();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
-		void reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line);
+        void reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line);
 
 #pragma endregion
 

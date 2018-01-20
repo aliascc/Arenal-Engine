@@ -51,73 +51,73 @@ class PhysicsManager;
 
 class PhysicColliderSphere sealed : public PhysicCollider
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		physx::PxSphereGeometry m_PxSphereGeometry;
+        physx::PxSphereGeometry m_PxSphereGeometry;
 
-		float m_Radius = 1.0f;
+        float m_Radius = 1.0f;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		physx::PxGeometry& CreateGeomtry(physx::PxPhysics* pxPhysics);
+        physx::PxGeometry& CreateGeomtry(physx::PxPhysics* pxPhysics);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default PhysicColliderSphere Constructor
-		/// </summary>
-		PhysicColliderSphere();
+        /// <summary>
+        /// Default PhysicColliderSphere Constructor
+        /// </summary>
+        PhysicColliderSphere();
 
-		/// <summary>
-		/// Default PhysicColliderSphere Destructor
-		/// </summary>
-		virtual ~PhysicColliderSphere();
+        /// <summary>
+        /// Default PhysicColliderSphere Destructor
+        /// </summary>
+        virtual ~PhysicColliderSphere();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		inline float GetRadius() const
-		{
-			return m_Radius;
-		}
+        inline float GetRadius() const
+        {
+            return m_Radius;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
-		void SetRadius(float radius);
+        void SetRadius(float radius);
 
-		void SetScale(const glm::vec3& scale) override;
+        void SetScale(const glm::vec3& scale) override;
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

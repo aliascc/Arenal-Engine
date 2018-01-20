@@ -38,7 +38,7 @@
 *********************/
 
 PhysicColliderSphere::PhysicColliderSphere()
-	: PhysicCollider(CollisionShape::Sphere)
+    : PhysicCollider(CollisionShape::Sphere)
 {
 }
 
@@ -48,70 +48,70 @@ PhysicColliderSphere::~PhysicColliderSphere()
 
 physx::PxGeometry& PhysicColliderSphere::CreateGeomtry(physx::PxPhysics* pxPhysics)
 {
-	m_PxSphereGeometry.radius = m_Radius;
+    m_PxSphereGeometry.radius = m_Radius;
 
-	return m_PxSphereGeometry;
+    return m_PxSphereGeometry;
 }
 
 void PhysicColliderSphere::SetRadius(float radius)
 {
-	if (radius < 0.0f)
-	{
-		radius = 0.0f;
-	}
+    if (radius < 0.0f)
+    {
+        radius = 0.0f;
+    }
 
-	m_Radius = radius;
-	if (!m_IsReady)
-	{
-		return;
-	}
+    m_Radius = radius;
+    if (!m_IsReady)
+    {
+        return;
+    }
 
-	m_PxSphereGeometry.radius = m_Radius;
+    m_PxSphereGeometry.radius = m_Radius;
 
-	m_PxShape->setGeometry(m_PxSphereGeometry);
+    m_PxShape->setGeometry(m_PxSphereGeometry);
 }
 
 void PhysicColliderSphere::SetScale(const glm::vec3& scale)
 {
-	m_Scale = scale;
+    m_Scale = scale;
 
-	if (m_Scale.x < 0.0f)
-	{
-		m_Scale.x = 0.0f;
-	}
+    if (m_Scale.x < 0.0f)
+    {
+        m_Scale.x = 0.0f;
+    }
 
-	if (m_Scale.y < 0.0f)
-	{
-		m_Scale.y = 0.0f;
-	}
+    if (m_Scale.y < 0.0f)
+    {
+        m_Scale.y = 0.0f;
+    }
 
-	if (m_Scale.z < 0.0f)
-	{
-		m_Scale.z = 0.0f;
-	}
+    if (m_Scale.z < 0.0f)
+    {
+        m_Scale.z = 0.0f;
+    }
 
-	if (!m_IsReady)
-	{
-		return;
-	}
+    if (!m_IsReady)
+    {
+        return;
+    }
 
-	float maxScale = 0.0f;
-	if (maxScale < m_Scale.x)
-	{
-		maxScale = m_Scale.x;
-	}
+    float maxScale = 0.0f;
+    if (maxScale < m_Scale.x)
+    {
+        maxScale = m_Scale.x;
+    }
 
-	if (maxScale < m_Scale.y)
-	{
-		maxScale = m_Scale.y;
-	}
+    if (maxScale < m_Scale.y)
+    {
+        maxScale = m_Scale.y;
+    }
 
-	if (maxScale < m_Scale.z)
-	{
-		maxScale = m_Scale.z;
-	}
+    if (maxScale < m_Scale.z)
+    {
+        maxScale = m_Scale.z;
+    }
 
-	m_PxSphereGeometry.radius = m_Radius * maxScale;
+    m_PxSphereGeometry.radius = m_Radius * maxScale;
 
-	m_PxShape->setGeometry(m_PxSphereGeometry);
+    m_PxShape->setGeometry(m_PxSphereGeometry);
 }

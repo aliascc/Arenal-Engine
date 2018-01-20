@@ -51,73 +51,73 @@ class PhysicsManager;
 
 class PhysicColliderBox sealed : public PhysicCollider
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
-		physx::PxBoxGeometry m_PxBoxGeometry;
+        physx::PxBoxGeometry m_PxBoxGeometry;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		glm::vec3 m_Size = AEMathHelpers::Vec3fOne;
+        glm::vec3 m_Size = AEMathHelpers::Vec3fOne;
 
-		physx::PxGeometry& CreateGeomtry(physx::PxPhysics* pxPhysics);
+        physx::PxGeometry& CreateGeomtry(physx::PxPhysics* pxPhysics);
 
 #pragma endregion
 
-	public:
+    public:
 
-		/***************************************
-		*   Constructor & Destructor Methods   *
-		****************************************/
+        /***************************************
+        *   Constructor & Destructor Methods   *
+        ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default PhysicColliderBox Constructor
-		/// </summary>
-		PhysicColliderBox();
+        /// <summary>
+        /// Default PhysicColliderBox Constructor
+        /// </summary>
+        PhysicColliderBox();
 
-		/// <summary>
-		/// Default PhysicColliderBox Destructor
-		/// </summary>
-		virtual ~PhysicColliderBox();
+        /// <summary>
+        /// Default PhysicColliderBox Destructor
+        /// </summary>
+        virtual ~PhysicColliderBox();
 
 #pragma endregion
 
-		/******************
-		*   Get Methods   *
-		*******************/
+        /******************
+        *   Get Methods   *
+        *******************/
 #pragma region Get Methods
 
-		inline const glm::vec3& GetSize() const
-		{
-			return m_Size;
-		}
+        inline const glm::vec3& GetSize() const
+        {
+            return m_Size;
+        }
 
 #pragma endregion
 
-		/******************
-		*   Set Methods   *
-		*******************/
+        /******************
+        *   Set Methods   *
+        *******************/
 #pragma region Set Methods
 
-		void SetSize(const glm::vec3& size);
+        void SetSize(const glm::vec3& size);
 
-		void SetScale(const glm::vec3& scale) override;
+        void SetScale(const glm::vec3& scale) override;
 
 #pragma endregion
 
-		/************************
-		*   Framework Methods   *
-		*************************/
+        /************************
+        *   Framework Methods   *
+        *************************/
 #pragma region Framework Methods
 
 #pragma endregion

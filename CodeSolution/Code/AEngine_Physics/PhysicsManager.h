@@ -57,161 +57,161 @@ typedef PhysicsActorMap::const_iterator PhysicsActorMapItConst;
 
 class PhysicsManager sealed : public AEObject
 {
-	private:
+    private:
 
-	/************************
-	*   Private Variables   *
-	*************************/
+    /************************
+    *   Private Variables   *
+    *************************/
 #pragma region Private Variables
 
-		/// <summary>
-		/// PhysX Default CPU Dispatcher
-		/// </summary>
-		physx::PxDefaultCpuDispatcher* m_CpuDispatcher = nullptr;
+        /// <summary>
+        /// PhysX Default CPU Dispatcher
+        /// </summary>
+        physx::PxDefaultCpuDispatcher* m_CpuDispatcher = nullptr;
 
-		/// <summary>
-		/// PhysX Pvd Debugger Connection
-		/// </summary>
-		physx::PxPvd* m_PxPvd = nullptr;
+        /// <summary>
+        /// PhysX Pvd Debugger Connection
+        /// </summary>
+        physx::PxPvd* m_PxPvd = nullptr;
 
-		/// <summary>
-		/// PhysX Pvd Transport
-		/// </summary>
-		physx::PxPvdTransport* m_PxPvdTransport = nullptr;
+        /// <summary>
+        /// PhysX Pvd Transport
+        /// </summary>
+        physx::PxPvdTransport* m_PxPvdTransport = nullptr;
 
-		/// <summary>
-		/// Default Allocator for PhysX
-		/// </summary>
-		physx::PxDefaultAllocator m_PxDefaultAllocatorCallback;
+        /// <summary>
+        /// Default Allocator for PhysX
+        /// </summary>
+        physx::PxDefaultAllocator m_PxDefaultAllocatorCallback;
 
-		/// <summary>
-		/// Defines if the PVD is connected
-		/// </summary>
-		bool mIsPVDConnected = false;
+        /// <summary>
+        /// Defines if the PVD is connected
+        /// </summary>
+        bool mIsPVDConnected = false;
 
-		/// <summary>
-		/// PhysX Foundation Instance
-		/// </summary>
-		physx::PxFoundation* m_PxFoundation = nullptr;
+        /// <summary>
+        /// PhysX Foundation Instance
+        /// </summary>
+        physx::PxFoundation* m_PxFoundation = nullptr;
 
-		/// <summary>
-		/// PhysX Instance
-		/// </summary>
-		physx::PxPhysics* m_PxPhysics = nullptr;
+        /// <summary>
+        /// PhysX Instance
+        /// </summary>
+        physx::PxPhysics* m_PxPhysics = nullptr;
 
-		/// <summary>
-		/// Error Callback Class to log PhysX Errors
-		/// </summary>
-		ErrorCallbackPhysX m_ErrorCallbackPhysX;
+        /// <summary>
+        /// Error Callback Class to log PhysX Errors
+        /// </summary>
+        ErrorCallbackPhysX m_ErrorCallbackPhysX;
 
-		/// <summary>
-		/// PhysX Scene Instance
-		/// </summary>
-		physx::PxScene* m_PxScene = nullptr;
+        /// <summary>
+        /// PhysX Scene Instance
+        /// </summary>
+        physx::PxScene* m_PxScene = nullptr;
 
-		/// <summary>
-		/// Default Gravity
-		/// </summary>
-		float m_DefaultGravity = 9.8f;
+        /// <summary>
+        /// Default Gravity
+        /// </summary>
+        float m_DefaultGravity = 9.8f;
 
-		/// <summary>
-		/// Defines if physics engine is ready to process data.
-		/// </summary>
-		bool m_IsReady = false;
+        /// <summary>
+        /// Defines if physics engine is ready to process data.
+        /// </summary>
+        bool m_IsReady = false;
 
-		PhysicsActorMap m_PhysicsActorMap;
+        PhysicsActorMap m_PhysicsActorMap;
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		void CleanUp();
+        void CleanUp();
 
-		AEResult UpdatePhysicsActorObject3D();
+        AEResult UpdatePhysicsActorObject3D();
 
 #pragma endregion
 
-	public:
+    public:
 
-	/***************************************
-	*   Constructor & Destructor Methods   *
-	****************************************/
+    /***************************************
+    *   Constructor & Destructor Methods   *
+    ****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// Default PhysicsManager Constructor
-		/// </summary>
-		PhysicsManager();
+        /// <summary>
+        /// Default PhysicsManager Constructor
+        /// </summary>
+        PhysicsManager();
 
-		/// <summary>
-		/// Default PhysicsManager Destructor
-		/// </summary>
-		virtual ~PhysicsManager();
+        /// <summary>
+        /// Default PhysicsManager Destructor
+        /// </summary>
+        virtual ~PhysicsManager();
 
 #pragma endregion
 
-	/******************
-	*   Get Methods   *
-	*******************/
+    /******************
+    *   Get Methods   *
+    *******************/
 #pragma region Get Methods
 
-		physx::PxPhysics* GetPhysX() const
-		{
-			return m_PxPhysics;
-		}
+        physx::PxPhysics* GetPhysX() const
+        {
+            return m_PxPhysics;
+        }
 
-		physx::PxScene* GetPxScene() const
-		{
-			return m_PxScene;
-		}
+        physx::PxScene* GetPxScene() const
+        {
+            return m_PxScene;
+        }
 
-		inline bool IsReady() const
-		{
-			return m_IsReady;
-		}
+        inline bool IsReady() const
+        {
+            return m_IsReady;
+        }
 
 #pragma endregion
 
-	/******************
-	*   Set Methods   *
-	*******************/
+    /******************
+    *   Set Methods   *
+    *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-	/************************
-	*   Framework Methods   *
-	*************************/
+    /************************
+    *   Framework Methods   *
+    *************************/
 #pragma region Framework Methods
 
-		AEResult Initialize();
+        AEResult Initialize();
 
-		AEResult Update(const TimerParams& timerParams);
+        AEResult Update(const TimerParams& timerParams);
 
-		AEResult ConnectToPhysXDebugger(const std::wstring& ip = L"127.0.0.1", uint32_t port = 5425, uint32_t timeout = 100);
+        AEResult ConnectToPhysXDebugger(const std::wstring& ip = L"127.0.0.1", uint32_t port = 5425, uint32_t timeout = 100);
 
-		AEResult DisconnectToPhysXDebugger();
+        AEResult DisconnectToPhysXDebugger();
 
-		AEResult AddPhysicsActor(PhysicsActor* physicsActor);
+        AEResult AddPhysicsActor(PhysicsActor* physicsActor);
 
-		AEResult RemovePhysicsActor(uint64_t id, bool deleteObj = true);
+        AEResult RemovePhysicsActor(uint64_t id, bool deleteObj = true);
 
-		bool ExistsPhysicsActor(uint64_t id);
+        bool ExistsPhysicsActor(uint64_t id);
 
-		PhysicsActorMapIt begin();
+        PhysicsActorMapIt begin();
 
-		PhysicsActorMapIt end();
+        PhysicsActorMapIt end();
 
-		PhysicsActorMapItConst begin() const;
+        PhysicsActorMapItConst begin() const;
 
-		PhysicsActorMapItConst end() const;
+        PhysicsActorMapItConst end() const;
 
-		PhysicsActorMapItConst cbegin() const;
+        PhysicsActorMapItConst cbegin() const;
 
-		PhysicsActorMapItConst cend() const;
+        PhysicsActorMapItConst cend() const;
 
 #pragma endregion
 
