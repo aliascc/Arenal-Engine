@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -44,17 +43,17 @@
 /// <summary>
 /// Default Service Name for Camera Updater
 /// </summary>
-#define AE_CAMERA_UPDATER_DEF_SERVICE_NAME                  L"AE Camera Updater Service"
+#define AE_CAMERA_UPDATER_DEF_SERVICE_NAME                  "AE Camera Updater Service"
 
 /// <summary>
 /// Default Service Name for Input Handler
 /// </summary>
-#define AE_INPUT_HANDLER_DEF_SERVICE_NAME                   L"AE Input Handler Service"
+#define AE_INPUT_HANDLER_DEF_SERVICE_NAME                   "AE Input Handler Service"
 
 /// <summary>
 /// Default Service Name for Forward Plus Rendering Main
 /// </summary>
-#define AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME               L"AE Forward Plus Rendering Main Service"
+#define AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME               "AE Forward Plus Rendering Main Service"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,82 +62,82 @@
 /// <summary>
 /// Default Component Name for Camera Updater
 /// </summary>
-#define AE_CAMERA_UPDATER_DEF_COMPONENT_NAME                L"AE Camera Updater Component"
+#define AE_CAMERA_UPDATER_DEF_COMPONENT_NAME                "AE Camera Updater Component"
 
 /// <summary>
 /// Default Game Component Name for Input Handler
 /// </summary>
-#define AE_INPUT_HANDLER_DEF_COMPONENT_NAME                 L"AE Input Handler Component"
+#define AE_INPUT_HANDLER_DEF_COMPONENT_NAME                 "AE Input Handler Component"
 
 /// <summary>
 /// Default Game Component Name for Forward Plus Rendering Main
 /// </summary>
-#define AE_FORWARD_PLUS_MAIN_DEF_COMPONENT_NAME             L"AE Forward Plus Rendering Main Component"
+#define AE_FORWARD_PLUS_MAIN_DEF_COMPONENT_NAME             "AE Forward Plus Rendering Main Component"
 
 /// <summary>
 /// Default Game Component Name for Forward Plus Rendering Z Pre Pass
 /// </summary>
-#define AE_FORWARD_PLUS_Z_PRE_PASS_DEF_COMPONENT_NAME       L"AE Forward Plus Rendering Pre Z Pass Component"
+#define AE_FORWARD_PLUS_Z_PRE_PASS_DEF_COMPONENT_NAME       "AE Forward Plus Rendering Pre Z Pass Component"
 
 /// <summary>
 /// Default Game Component Name for Forward Plus Rendering Object Draw
 /// </summary>
-#define AE_FORWARD_PLUS_OBJECT_DRAW_DEF_COMPONENT_NAME      L"AE Forward Plus Rendering Object Draw Component"
+#define AE_FORWARD_PLUS_OBJECT_DRAW_DEF_COMPONENT_NAME      "AE Forward Plus Rendering Object Draw Component"
 
 /// <summary>
 /// Default Game Component Name for Forward Plus Rendering Light Culling
 /// </summary>
-#define AE_FORWARD_PLUS_LIGHT_CULLING_DEF_COMPONENT_NAME    L"AE Forward Plus Light Culling Component"
+#define AE_FORWARD_PLUS_LIGHT_CULLING_DEF_COMPONENT_NAME    "AE Forward Plus Light Culling Component"
 
 /// <summary>
 /// Default Game Component Name for Game Lights Update
 /// </summary>
-#define AE_GAME_LIGHTS_UPDATE_DEF_COMPONENT_NAME            L"AE Game Lights Update Component"
+#define AE_GAME_LIGHTS_UPDATE_DEF_COMPONENT_NAME            "AE Game Lights Update Component"
 
 /// <summary>
 /// Default Game Component Name for Game Object Script Caller
 /// </summary>
-#define AE_GAME_GAME_OBJECT_SCRIPT_CALLER_COMPONENT_NAME    L"AE Game Object Script Caller Component"
+#define AE_GAME_GAME_OBJECT_SCRIPT_CALLER_COMPONENT_NAME    "AE Game Object Script Caller Component"
 
 /// <summary>
 /// Default Game Component Name for Game Animations Update
 /// </summary>
-#define AE_GAME_ANIMATIONS_UPDATE_DEF_COMPONENT_NAME        L"AE Game Animations Update Component"
+#define AE_GAME_ANIMATIONS_UPDATE_DEF_COMPONENT_NAME        "AE Game Animations Update Component"
 
 /// <summary>
 /// Default Game Component Name for Game Audio Update
 /// </summary>
-#define AE_GAME_AUDIO_UPDATE_DEF_COMPONENT_NAME             L"AE Game Audio Update Component"
+#define AE_GAME_AUDIO_UPDATE_DEF_COMPONENT_NAME             "AE Game Audio Update Component"
 
 /// <summary>
 /// Default Game Component Name for Game Physics Update
 /// </summary>
-#define AE_GAME_PHYSICS_UPDATE_DEF_COMPONENT_NAME           L"AE Game Physics Update Component"
+#define AE_GAME_PHYSICS_UPDATE_DEF_COMPONENT_NAME           "AE Game Physics Update Component"
 
 /// <summary>
 /// Default Game Component Name for Game Objects Debug Visualizer
 /// </summary>
-#define AE_GAME_OBJECTS_DEBUG_VISUALIZER_DEF_COMPONENT_NAME L"AE Game Objects Debug Visualizer Component"
+#define AE_GAME_OBJECTS_DEBUG_VISUALIZER_DEF_COMPONENT_NAME "AE Game Objects Debug Visualizer Component"
 
 /// <summary>
 /// Default Game Component Name for Game Object Camera Update
 /// </summary>
-#define AE_GAME_GAME_OBJECT_CAMERA_UPDATE_COMPONENT_NAME    L"AE Game Object Camera Update Component"
+#define AE_GAME_GAME_OBJECT_CAMERA_UPDATE_COMPONENT_NAME    "AE Game Object Camera Update Component"
 
 /// <summary>
 /// Default Game Component Name for Debug Stats
 /// </summary>
-#define AE_DEBUG_STATS_DEF_COMPONENT_NAME                   L"AE Debug Stats Component"
+#define AE_DEBUG_STATS_DEF_COMPONENT_NAME                   "AE Debug Stats Component"
 
 /// <summary>
 /// Default Game Component Name for Debug Stats
 /// </summary>
-#define AE_CONSOLE_DEF_COMPONENT_NAME                       L"AE Console Component"
+#define AE_CONSOLE_DEF_COMPONENT_NAME                       "AE Console Component"
 
 /// <summary>
 /// Default Name for Engine Editor Viewer Camera
 /// </summary>
-#define AE_CAMERA_EDITOR_ENG_DEFAULT_NAME                   L"AE Editor Main Camera"
+#define AE_CAMERA_EDITOR_ENG_DEFAULT_NAME                   "AE Editor Main Camera"
 
 /****************
 *   Constants   *

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -30,7 +35,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Object3D::Object3D(const std::wstring& name, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
+Object3D::Object3D(const std::string& name, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
     : UniqueAEObjectNamed(name)
     , m_Position(position)
     , m_Rotation(rotation)

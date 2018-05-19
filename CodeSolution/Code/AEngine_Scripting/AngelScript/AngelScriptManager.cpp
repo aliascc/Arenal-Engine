@@ -15,33 +15,25 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_scripting.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <fstream>
-#include <istream>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
-#include "AngelScript-Add-Ons\scriptarray\scriptarray.h"
-#include "AngelScript-Add-Ons\scripthandle\scripthandle.h"
-#include "AngelScript-Add-Ons\scriptbuilder\scriptbuilder.h"
-#include "AngelScript-Add-Ons\scriptstdwstring\scriptstdwstring.h"
-#include "AngelScript-Add-Ons\scriptwdictionary\scriptwdictionary.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Logger\Logger.h"
 #include "AngelScriptDefs.h"
 #include "AngelScriptManager.h"
-#include "Base\BaseFunctions.h"
 #include "Add-ons\AngelScriptAddOn.h"
-#include "Localization\LocalizationManager.h"
-#include "Localization\LocalizationManagerDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -72,7 +64,7 @@ AEResult AngelScriptManager::Initialize()
     
     if(m_ASEngine == nullptr)
     {
-        std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"AS_CREATE_ENGINE_FAIL_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = fmt::format(AELOCMAN->GetLiteral("AS_CREATE_ENGINE_FAIL_ERR_MSG"), __FUNCTION__);
         AELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -92,7 +84,7 @@ AEResult AngelScriptManager::Initialize()
     ret = m_ASEngine->SetMessageCallback(asMETHOD(AngelScriptManager, ASMessageCallback), this, asCALL_THISCALL);
     if(ret < 0)
     {
-        std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"AS_SET_MSG_CALLBACK_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = fmt::format(AELOCMAN->GetLiteral("AS_SET_MSG_CALLBACK_ERR_MSG"), __FUNCTION__);
         AELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -105,16 +97,16 @@ AEResult AngelScriptManager::Initialize()
     RegisterScriptArray(m_ASEngine, true);
 
     ////////////////////////////////////////////////////////////////////////
-    //Register STD WString
-    RegisterStdWString(m_ASEngine);
+    //Register STD String
+    RegisterStdString(m_ASEngine);
 
     ////////////////////////////////////////////////////////////////////////
-    //Register STD WString
-    RegisterStdWStringUtils(m_ASEngine);
+    //Register STD String
+    RegisterStdStringUtils(m_ASEngine);
 
     ////////////////////////////////////////////////////////////////////////
     //Register Dictionary Helper
-    RegisterScriptDictionaryW(m_ASEngine);
+    RegisterScriptDictionary(m_ASEngine);
 
     ////////////////////////////////////////////////////////////////////////
     //Register the generic handle type, called 'ref' in the script
@@ -152,19 +144,16 @@ AEResult AngelScriptManager::RegisterAddOn(AngelScriptAddOn& addOn)
     return AEResult::Ok;
 }
 
-AEResult AngelScriptManager::LoadScript(const std::wstring& scriptName, const std::wstring& module, asIScriptModule** asModule)
+AEResult AngelScriptManager::LoadScript(const std::string& scriptName, const std::string& module, asIScriptModule** asModule)
 {
     if(!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string sScriptName = AE_Base::WideStr2String(scriptName);
-    std::string sModule = AE_Base::WideStr2String(module);
-
     /////////////////////////////////////////////////////////////////////////////////////////////////
     // Check if the script has already been loaded
-    asIScriptModule* tempASModule = m_ASEngine->GetModule(sModule.c_str());
+    asIScriptModule* tempASModule = m_ASEngine->GetModule(module.c_str());
     if (tempASModule != nullptr)
     {
         if (asModule != nullptr)
@@ -178,7 +167,7 @@ AEResult AngelScriptManager::LoadScript(const std::wstring& scriptName, const st
     CScriptBuilder builder;
     int ret = 0;
 
-    ret = builder.StartNewModule(m_ASEngine, sModule.c_str());
+    ret = builder.StartNewModule(m_ASEngine, module.c_str());
     if(ret < 0)
     {
         return AEResult::ASModuleCreateFail;
@@ -186,10 +175,10 @@ AEResult AngelScriptManager::LoadScript(const std::wstring& scriptName, const st
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     // Let the builder load the script, and do the necessary pre-processing (include files, etc)
-    ret = builder.AddSectionFromFile(sScriptName.c_str());
+    ret = builder.AddSectionFromFile(scriptName.c_str());
     if(ret < 0)
     {
-        m_ASEngine->DiscardModule(sModule.c_str());
+        m_ASEngine->DiscardModule(module.c_str());
         return AEResult::ASAddSecModuleFail;
     }
 
@@ -198,7 +187,7 @@ AEResult AngelScriptManager::LoadScript(const std::wstring& scriptName, const st
     ret = builder.BuildModule();
     if(ret < 0)
     {
-        m_ASEngine->DiscardModule(sModule.c_str());
+        m_ASEngine->DiscardModule(module.c_str());
         return AEResult::ASBuildModuleFail;
     }
 
@@ -206,7 +195,7 @@ AEResult AngelScriptManager::LoadScript(const std::wstring& scriptName, const st
     // Assigned Module to Parameter if non null
     if (asModule != nullptr)
     {
-        tempASModule = m_ASEngine->GetModule(sModule.c_str());
+        tempASModule = m_ASEngine->GetModule(module.c_str());
 
         *asModule = tempASModule;
     }
@@ -214,7 +203,7 @@ AEResult AngelScriptManager::LoadScript(const std::wstring& scriptName, const st
     return AEResult::Ok;
 }
 
-AEResult AngelScriptManager::LoadScript(const std::vector<std::wstring>& scriptNames, const std::wstring& module, asIScriptModule** asModule)
+AEResult AngelScriptManager::LoadScript(const std::vector<std::string>& scriptNames, const std::string& module, asIScriptModule** asModule)
 {
     if(!m_IsReady)
     {
@@ -226,11 +215,9 @@ AEResult AngelScriptManager::LoadScript(const std::vector<std::wstring>& scriptN
         return AEResult::ZeroSize;
     }
 
-    std::string sModule = AE_Base::WideStr2String(module);
-
     /////////////////////////////////////////////////////////////////////////////////////////////////
     // Check if the script has already been loaded
-    asIScriptModule* tempASModule = m_ASEngine->GetModule(sModule.c_str());
+    asIScriptModule* tempASModule = m_ASEngine->GetModule(module.c_str());
 
     if (tempASModule != nullptr)
     {
@@ -245,7 +232,7 @@ AEResult AngelScriptManager::LoadScript(const std::vector<std::wstring>& scriptN
     CScriptBuilder builder;
     int ret = 0;
 
-    ret = builder.StartNewModule(m_ASEngine, sModule.c_str());
+    ret = builder.StartNewModule(m_ASEngine, module.c_str());
     if(ret < 0)
     {
         return AEResult::ASModuleCreateFail;
@@ -256,12 +243,10 @@ AEResult AngelScriptManager::LoadScript(const std::vector<std::wstring>& scriptN
     {
         /////////////////////////////////////////////////////////////////////////////////////////////////
         // Let the builder load the script, and do the necessary pre-processing (include files, etc)
-        std::string sScriptName = AE_Base::WideStr2String(scriptNames[i]);
-
-        ret = builder.AddSectionFromFile(sScriptName.c_str());
+        ret = builder.AddSectionFromFile(scriptNames[i].c_str());
         if(ret < 0)
         {
-            m_ASEngine->DiscardModule(sModule.c_str());
+            m_ASEngine->DiscardModule(module.c_str());
             return AEResult::ASAddSecModuleFail;
         }
     }
@@ -271,7 +256,7 @@ AEResult AngelScriptManager::LoadScript(const std::vector<std::wstring>& scriptN
     ret = builder.BuildModule();
     if(ret < 0)
     {
-        m_ASEngine->DiscardModule(sModule.c_str());
+        m_ASEngine->DiscardModule(module.c_str());
         return AEResult::ASBuildModuleFail;
     }
 
@@ -279,7 +264,7 @@ AEResult AngelScriptManager::LoadScript(const std::vector<std::wstring>& scriptN
     // Assigned Module to Parameter if non null
     if (asModule != nullptr)
     {
-        tempASModule = m_ASEngine->GetModule(sModule.c_str());
+        tempASModule = m_ASEngine->GetModule(module.c_str());
 
         *asModule = tempASModule;
     }
@@ -287,16 +272,14 @@ AEResult AngelScriptManager::LoadScript(const std::vector<std::wstring>& scriptN
     return AEResult::Ok;
 }
 
-AEResult AngelScriptManager::RemoveModule(const std::wstring& module)
+AEResult AngelScriptManager::RemoveModule(const std::string& module)
 {
     if(!m_IsReady)
     {
         return AEResult::NotReady;
     }
-    
-    std::string sModule = AE_Base::WideStr2String(module);
 
-    int ret = m_ASEngine->DiscardModule(sModule.c_str());
+    int ret = m_ASEngine->DiscardModule(module.c_str());
     if(ret < 0)
     {
         return AEResult::ASDiscardModuleFail;
@@ -325,9 +308,6 @@ void AngelScriptManager::ASMessageCallback(const asSMessageInfo& msg)
             break;
     }
 
-    std::wstring wSection = AE_Base::String2WideStr(msg.section);
-    std::wstring wMessage = AE_Base::String2WideStr(msg.message);
-
-    std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"AS_ENGINE_CALLBACK_ERR_MSG"), __FUNCTIONW__, wSection, msg.row, msg.col, wMessage);
+    std::string errMsg = fmt::format(AELOCMAN->GetLiteral("AS_ENGINE_CALLBACK_ERR_MSG"), __FUNCTION__, msg.section, msg.row, msg.col, msg.message);
     AELOGGER->AddNewLog(logLVL, errMsg);
 }

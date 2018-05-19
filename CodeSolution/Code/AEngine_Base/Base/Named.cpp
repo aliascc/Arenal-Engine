@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -34,7 +39,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Named::Named(const std::wstring& name)
+Named::Named(const std::string& name)
     : m_Name(name)
 {
 }
@@ -43,12 +48,12 @@ Named::~Named()
 {
 }
 
-void Named::SetName(const std::wstring name)
+void Named::SetName(const std::string name)
 {
     m_Name = name;
 }
 
-std::wstring Named::ToString() const
+std::string Named::ToString() const
 {
     return m_Name;
 }

@@ -18,6 +18,7 @@
     <ClCompile Include="AngelScript\Add-ons\AngelScriptAddOn.cpp">
       <Filter>AngelScript\Add-ons</Filter>
     </ClCompile>
+    <ClCompile Include="precomp_scripting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AngelScript\AngelScriptDefs.h">
@@ -29,5 +30,6 @@
     <ClInclude Include="AngelScript\Add-ons\AngelScriptAddOn.h">
       <Filter>AngelScript\Add-ons</Filter>
     </ClInclude>
+    <ClInclude Include="precomp_scripting.h" />
   </ItemGroup>
 </Project>

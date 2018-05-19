@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <iostream>
 
 /*************************
 *   3rd Party Includes   *
@@ -75,7 +79,7 @@ AEResult Logger::ActivateLogToFile()
         return AEResult::EmptyFilename;
     }
 
-    m_FileStream = std::wofstream(m_LogFilename, std::ios::out | std::ios::app);
+    m_FileStream = std::ofstream(m_LogFilename, std::ios::out | std::ios::app);
 
     if(!m_FileStream.is_open())
     {
@@ -83,7 +87,7 @@ AEResult Logger::ActivateLogToFile()
     }
 
     AETODO("Remove this from here and replace");
-    const std::wstring beginFile = L"----------------------------------------------------\n";
+    const std::string beginFile = "----------------------------------------------------\n";
     m_FileStream.write(beginFile.c_str(), beginFile.size());
 
     m_LogToFile = true;
@@ -107,7 +111,7 @@ AEResult Logger::DeactivateLogToFile()
     return AEResult::Ok;
 }
 
-AEResult Logger::SetLogFilename(const std::wstring& path)
+AEResult Logger::SetLogFilename(const std::string& path)
 {
     std::lock_guard<std::mutex> lock(m_LogMutex);
 
@@ -167,7 +171,7 @@ void Logger::ResetWarning()
     m_Warnings = false; 
 }
 
-void Logger::AddNewLog(LogLevel logLevel, const std::wstring& msg)
+void Logger::AddNewLog(LogLevel logLevel, const std::string& msg)
 {
     std::lock_guard<std::mutex> lock(m_LogMutex);
 
@@ -202,17 +206,17 @@ void Logger::AddNewLog(LogLevel logLevel, const std::wstring& msg)
 
         if(printSameLog)
         {
-            std::wstring sameLogMsg = L"";
+            std::string sameLogMsg = "";
 
             if (!AELOCMAN->GetCallByLocManager())
             {
-                sameLogMsg = fmt::format(AELOCMAN->GetLiteral(L"LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
+                sameLogMsg = fmt::format(AELOCMAN->GetLiteral("LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
             }
             else
             {
                 //This should never happen
                 AEAssert(false);
-                sameLogMsg = fmt::format(L"Localization Manager null or is calling Logger. Number of Messages repeated: {0}", m_LastLog.m_NumSameLogs);
+                sameLogMsg = fmt::format("Localization Manager null or is calling Logger. Number of Messages repeated: {0}", m_LastLog.m_NumSameLogs);
             }
 
             InsertLogNoLock(m_LastLog.m_Level, sameLogMsg, false);
@@ -228,7 +232,7 @@ void Logger::AddNewLog(LogLevel logLevel, const std::wstring& msg)
     }
 }
 
-void Logger::InsertLogNoLock(LogLevel logLevel, const std::wstring& msg, bool countEqual)
+void Logger::InsertLogNoLock(LogLevel logLevel, const std::string& msg, bool countEqual)
 {
     AELog newLog;
 
@@ -261,7 +265,7 @@ void Logger::InsertLogNoLock(LogLevel logLevel, const std::wstring& msg, bool co
 
     if(m_LogToFile)
     {
-        std::wstring logStr = newLog.ToString();
+        std::string logStr = newLog.ToString();
 
         m_FileStream.write(logStr.c_str(), logStr.size());
 
@@ -292,14 +296,14 @@ AEResult Logger::SaveLogsInFile()
         return AEResult::EmptyFilename;
     }
 
-    m_FileStream = std::wofstream(m_LogFilename, std::ios::out | std::ios::ate);
+    m_FileStream = std::ofstream(m_LogFilename, std::ios::out | std::ios::ate);
     if(!m_FileStream.is_open())
     {
         return AEResult::OpenFileFail;
     }
 
     AETODO("Remove this from here and replace");
-    const std::wstring beginFile = L"----------------------------------------------------\n";
+    const std::string beginFile = "----------------------------------------------------\n";
     m_FileStream.write(beginFile.c_str(), beginFile.size());
 
     auto it = m_Logs.cbegin();
@@ -307,7 +311,7 @@ AEResult Logger::SaveLogsInFile()
 
     for(; it != itEnd; ++it)
     {
-        std::wstring logStr = it->ToString();
+        std::string logStr = it->ToString();
 
         m_FileStream.write(logStr.c_str(), logStr.size());
     }
@@ -361,17 +365,17 @@ void Logger::MonitorRepeatedLogTimeOut()
 
             if(m_LastLog.m_ElapsedTimeSameLogPrint >= AE_LOG_DUPLICATE_TIMEOUT)
             {
-                std::wstring sameLogMsg = L"";
+                std::string sameLogMsg = "";
 
                 if(!AELOCMAN->GetCallByLocManager())
                 {
-                    sameLogMsg = fmt::format(sameLogMsg, AELOCMAN->GetLiteral(L"LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
+                    sameLogMsg = fmt::format(sameLogMsg, AELOCMAN->GetLiteral("LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
                 }
                 else
                 {
                     //This should never happen
                     AEAssert(false);
-                    sameLogMsg = fmt::format(L"Localization Manager null or is calling Logger. Number of Messages repeated: {0}", m_LastLog.m_NumSameLogs);
+                    sameLogMsg = fmt::format("Localization Manager null or is calling Logger. Number of Messages repeated: {0}", m_LastLog.m_NumSameLogs);
                 }
 
                 InsertLogNoLock(m_LastLog.m_Level, sameLogMsg, false);

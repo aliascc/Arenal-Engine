@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -100,7 +97,7 @@ class Texture2D sealed : public ITexture2D
         /// </summary>
         /// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
         /// <param name="textureName">Name of the Texture</param>
-        Texture2D(GraphicDevice* graphicDevice, const std::wstring& textureName);
+        Texture2D(GraphicDevice* graphicDevice, const std::string& textureName);
 
 #pragma endregion
 
@@ -141,7 +138,7 @@ class Texture2D sealed : public ITexture2D
         /// </summary>
         /// <param name="textureFile">File path of the Texture2D</param>
         /// <returns>AEResult::Ok if Texture2D was created from the file</returns>
-        AEResult CreateFromFile(const std::wstring& textureFile);
+        AEResult CreateFromFile(const std::string& textureFile);
 
         /// <summary>
         /// Loads or Reloads the Texture File to memory if it was created from a file

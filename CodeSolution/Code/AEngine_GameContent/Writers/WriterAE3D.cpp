@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecontent.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "boost\filesystem.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -59,10 +63,10 @@ WriterAE3D::~WriterAE3D()
 {
 }
 
-AEResult WriterAE3D::WriteToFile(ModelContent* content, const std::wstring& fileName, const std::wstring& filePath)
+AEResult WriterAE3D::WriteToFile(ModelContent* content, const std::string& fileName, const std::string& filePath)
 {
-    m_FileName = L"";
-    m_FullFileName = L"";
+    m_FileName = "";
+    m_FullFileName = "";
 
     AEAssert(content != nullptr);
 
@@ -87,13 +91,13 @@ AEResult WriterAE3D::WriteToFile(ModelContent* content, const std::wstring& file
     
     m_FilePath = filePath;
         
-    if(m_FilePath.back() != L'\\' && m_FilePath.back() != L'/')
+    if(m_FilePath.back() != '\\' && m_FilePath.back() != '/')
     {
-        m_FilePath.push_back(L'\\');
+        m_FilePath.push_back('\\');
     }
 
     //Set File Path and File Name
-    m_FileName = fileName + L"." + AE_CT_MODEL_EXT;    
+    m_FileName = fileName + "." + AE_CT_MODEL_EXT;    
     m_FullFileName = m_FilePath + m_FileName;
 
     std::ofstream modelFile;
@@ -137,7 +141,7 @@ AEResult WriterAE3D::WriteToFile(ModelContent* content, const std::wstring& file
         //Write name of Mesh Name
         AEGameContentHelpers::WriteString(modelFile, mesh->m_Name);
         
-        std::wstring meshFilePath = fileName + L"_" + content->m_Name + L"_" + mesh->m_Name + L"." + AE_CT_MESH_EXT;
+        std::string meshFilePath = fileName + "_" + content->m_Name + "_" + mesh->m_Name + "." + AE_CT_MESH_EXT;
         meshFilePath = m_FilePath + meshFilePath;
         AEGameContentHelpers::WriteString(modelFile, meshFilePath);
         
@@ -161,12 +165,12 @@ AEResult WriterAE3D::WriteToFile(ModelContent* content, const std::wstring& file
     {
         /////////////////////////////////////////////
         //Write Name of Skeleton
-        std::wstring skeletonName = content->m_Name + L" Skeleton";
+        std::string skeletonName = content->m_Name + " Skeleton";
         AEGameContentHelpers::WriteString(modelFile, skeletonName);
 
         /////////////////////////////////////////////
         //Write Skeleton File Name and size of Name
-        std::wstring skeletonFile = fileName + L"_" + content->m_Name + L"_Skeleton" + L"." + AE_CT_SKELETON_EXT;
+        std::string skeletonFile = fileName + "_" + content->m_Name + "_Skeleton" + "." + AE_CT_SKELETON_EXT;
         skeletonFile = m_FilePath + skeletonFile;
         AEGameContentHelpers::WriteString(modelFile, skeletonFile);
         
@@ -199,7 +203,7 @@ AEResult WriterAE3D::WriteToFile(ModelContent* content, const std::wstring& file
         
         /////////////////////////////////////////////
         //Write name of Animation File and size of name
-        std::wstring animFilePath = fileName + L"_" + content->m_Name + L"_" + anim->m_Name + L"." + AE_CT_ANIMATION_EXT;
+        std::string animFilePath = fileName + "_" + content->m_Name + "_" + anim->m_Name + "." + AE_CT_ANIMATION_EXT;
         animFilePath = m_FilePath + animFilePath;
         AEGameContentHelpers::WriteString(modelFile, animFilePath);
 
@@ -224,7 +228,7 @@ AEResult WriterAE3D::WriteToFile(ModelContent* content, const std::wstring& file
     return AEResult::Ok;
 }
 
-AEResult WriterAE3D::WriteMesh(const std::wstring& fileName, MeshContent* mesh)
+AEResult WriterAE3D::WriteMesh(const std::string& fileName, MeshContent* mesh)
 {
     AEAssert(mesh != nullptr);
 
@@ -342,7 +346,7 @@ AEResult WriterAE3D::WriteMesh(const std::wstring& fileName, MeshContent* mesh)
     return AEResult::Ok;
 }
 
-AEResult WriterAE3D::WriteSkeleton(const std::wstring& fileName, SkeletonContent* skeleton)
+AEResult WriterAE3D::WriteSkeleton(const std::string& fileName, SkeletonContent* skeleton)
 {
     AEAssert(skeleton != nullptr);
 
@@ -440,7 +444,7 @@ AEResult WriterAE3D::WriteSkeleton(const std::wstring& fileName, SkeletonContent
     return AEResult::Ok;
 }
 
-AEResult WriterAE3D::WriteAnimation(const std::wstring& fileName, AnimationContent* animation)
+AEResult WriterAE3D::WriteAnimation(const std::string& fileName, AnimationContent* animation)
 {
     AEAssert(animation != nullptr);
     if(animation == nullptr)

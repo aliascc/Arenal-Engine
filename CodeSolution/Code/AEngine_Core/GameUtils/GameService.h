@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -64,7 +62,7 @@ class GameService abstract : public UniqueAEObjectNamed
         ///<summary>
         ///GameService Constructor
         ///</summary>
-        GameService(const std::wstring& name = L"");
+        GameService(const std::string& name = "");
 
         ///<summary>
         ///Default GameService Destructor

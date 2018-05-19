@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -34,7 +39,7 @@
 /********************
 *   Function Defs   *
 *********************/
-ShaderBinding::ShaderBinding(const std::wstring& name, uint32_t bindIndex)
+ShaderBinding::ShaderBinding(const std::string& name, uint32_t bindIndex)
     : UniqueAEObjectNamed(name)
     , m_BindIndex(bindIndex)
 {

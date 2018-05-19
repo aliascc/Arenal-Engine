@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -32,9 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Color\Color.h"
-#include "Math\AEMathDefs.h"
 #include "AEGameComponentsDefs.h"
 #include "GameObjectsDebugDefs.h"
 #include "GameUtils\DrawableGameComponent.h"
@@ -124,7 +120,7 @@ class GameObjectsDebugVisualizer sealed : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        GameObjectsDebugVisualizer(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_OBJECTS_DEBUG_VISUALIZER_DEF_COMPONENT_NAME, const std::wstring& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectsDebugVisualizer);
+        GameObjectsDebugVisualizer(GameApp* gameApp, const std::string& gameComponentName = AE_GAME_OBJECTS_DEBUG_VISUALIZER_DEF_COMPONENT_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectsDebugVisualizer);
         virtual ~GameObjectsDebugVisualizer();
 
         void Initialize() override;

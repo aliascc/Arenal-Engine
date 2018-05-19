@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <list>
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -47,7 +44,7 @@
 **************/
 struct ConstantBufferSignature : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     uint32_t m_BindIndex = 0;
 
@@ -60,7 +57,7 @@ struct ConstantBufferSignature : public AEObject
 
 struct SimpleBufferSignature : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     uint32_t m_BindIndex = 0;
 
@@ -79,7 +76,7 @@ struct SimpleBufferSignature : public AEObject
 
 struct StructuredBufferSignature : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     uint32_t m_BindIndex = 0;
 
@@ -92,7 +89,7 @@ struct StructuredBufferSignature : public AEObject
 
 struct TextureInputSignature : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     uint32_t m_BindIndex = 0;
 
@@ -105,7 +102,7 @@ struct TextureInputSignature : public AEObject
 
 struct TextureArrayInputSignature : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     uint32_t m_BindIndex = 0;
 
@@ -118,7 +115,7 @@ struct TextureArrayInputSignature : public AEObject
 
 struct SamplerSignature : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     uint32_t m_BindIndex = 0;
 
@@ -148,11 +145,11 @@ typedef std::list<SamplerSignature> SamplerSignatureList;
 
 namespace AEShaderSignatureHelpers
 {
-    extern ShaderCustomVariable CreateScalarVariable(const std::wstring& name, uint32_t offset, ShaderVariableType svType);
+    extern ShaderCustomVariable CreateScalarVariable(const std::string& name, uint32_t offset, ShaderVariableType svType);
 
-    extern ShaderCustomVariable CreateVectorVariable(const std::wstring& name, uint32_t offset, uint32_t numElementsInVector);
+    extern ShaderCustomVariable CreateVectorVariable(const std::string& name, uint32_t offset, uint32_t numElementsInVector);
 
-    extern ShaderCustomVariable CreateMatrixVariable(const std::wstring& name, uint32_t offset, bool isArray = false, uint32_t numElementsInArray = 0);
+    extern ShaderCustomVariable CreateMatrixVariable(const std::string& name, uint32_t offset, bool isArray = false, uint32_t numElementsInArray = 0);
 
     extern ConstantBufferSignature CreateWorldViewProjCBSig(uint32_t bindIndex);
 

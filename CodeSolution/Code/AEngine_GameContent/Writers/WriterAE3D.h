@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <fstream>
 
 /*************************
 *   3rd Party Includes   *
@@ -54,17 +52,17 @@ struct AnimationContent;
 class WriterAE3D sealed : public AEObject
 {
     private:
-        std::wstring m_FileName = L"";
+        std::string m_FileName = "";
 
-        std::wstring m_FilePath = L"";
+        std::string m_FilePath = "";
 
-        std::wstring m_FullFileName = L"";
+        std::string m_FullFileName = "";
 
-        AEResult WriteMesh(const std::wstring& fileName, MeshContent* mesh);
+        AEResult WriteMesh(const std::string& fileName, MeshContent* mesh);
 
-        AEResult WriteSkeleton(const std::wstring& fileName, SkeletonContent* skeleton);
+        AEResult WriteSkeleton(const std::string& fileName, SkeletonContent* skeleton);
 
-        AEResult WriteAnimation(const std::wstring& fileName, AnimationContent* animation);
+        AEResult WriteAnimation(const std::string& fileName, AnimationContent* animation);
 
         AEResult WriteModelBody();
 
@@ -72,13 +70,13 @@ class WriterAE3D sealed : public AEObject
         WriterAE3D();
         virtual ~WriterAE3D();
 
-        const std::wstring& GetOutputFilePath() const 
+        const std::string& GetOutputFilePath() const 
         {
             return m_FullFileName;
         }
 
         //Framework
-        AEResult WriteToFile(ModelContent* content, const std::wstring& fileName, const std::wstring& filePath);
+        AEResult WriteToFile(ModelContent* content, const std::string& fileName, const std::string& filePath);
 };
 
 #endif

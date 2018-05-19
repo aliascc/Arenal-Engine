@@ -23,20 +23,14 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <vector>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "AngelScript-Add-Ons\scriptarray\scriptarray.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Color\Color.h"
-#include "Base\AEObject.h"
 
 /**************
 *   Defines   *
@@ -55,7 +49,7 @@
 /// <summary>
 /// Console Script Module Name
 /// </summary>
-#define AE_CONSOLE_SCRIPT_MOD_NAME          L"AE_Console_Module"
+#define AE_CONSOLE_SCRIPT_MOD_NAME          "AE_Console_Module"
 
 /// <summary>
 /// Max Console Line Chars
@@ -110,7 +104,7 @@ extern const Color ConsoleBackgroundDefaultColor;
 *******************/
 struct ConsoleShowLine sealed : public AEObject
 {
-    std::vector<std::wstring> m_ShowCols;
+    std::vector<std::string> m_ShowCols;
     std::vector<Color> m_Colors;
 
     ConsoleShowLine();

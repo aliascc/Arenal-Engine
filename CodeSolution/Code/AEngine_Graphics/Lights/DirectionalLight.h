@@ -23,13 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <array>
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -72,7 +69,7 @@ class DirectionalLight sealed : public Light
         /// <summary>
         /// DirectionalLight Constructor
         /// </summary>
-        DirectionalLight(const std::wstring& name = L"Directional Light", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& direction = AEMathHelpers::Vec3fZero, const Color& color = AEColors::White, float nearAtteniation = 0.0f, float farAttenuation = 0.0f, float intensity = 1.0f, bool enabled = true);
+        DirectionalLight(const std::string& name = "Directional Light", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& direction = AEMathHelpers::Vec3fZero, const Color& color = AEColors::White, float nearAtteniation = 0.0f, float farAttenuation = 0.0f, float intensity = 1.0f, bool enabled = true);
 
         /// <summary>
         /// Default DirectionalLight Destructor

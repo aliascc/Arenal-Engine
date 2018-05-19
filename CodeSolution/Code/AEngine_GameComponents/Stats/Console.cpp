@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,20 +27,16 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
 #include "Console.h"
 #include "Keyboard.h"
-#include "Color\Color.h"
-#include "Time\AETime.h"
 #include "GraphicDevice.h"
 #include "GameApp\GameApp.h"
 #include "ScriptConsoleLine.h"
 #include "Input\InputHandler.h"
-#include "Base\BaseFunctions.h"
 #include "Wrappers\SpriteFontAE.h"
 #include "Wrappers\SpriteBatchAE.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
@@ -50,7 +51,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Make H & W params")
-Console::Console(GameApp* gameApp, const std::wstring& gameComponentName, const std::wstring& inputHandlerServiceName, uint32_t callOrder)
+Console::Console(GameApp* gameApp, const std::string& gameComponentName, const std::string& inputHandlerServiceName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
     , m_ConsoleWidth(m_GraphicDevice->GetGraphicPP().m_BackBufferWidth)
     , m_InputHandlerServiceName(inputHandlerServiceName)
@@ -72,12 +73,12 @@ Console::~Console()
 
 void Console::Initialize()
 {
-    m_QuadColorMaterial = new QuadColorMaterial(m_GraphicDevice, m_GameResourceManager, L"AE_Console_QuadColorMaterial");
+    m_QuadColorMaterial = new QuadColorMaterial(m_GraphicDevice, m_GameResourceManager, "AE_Console_QuadColorMaterial");
     
     m_SpriteBatchAE = new SpriteBatchAE(m_GraphicDevice);
 
     AETODO("Set font to parameter");
-    m_SpriteFontAE = new SpriteFontAE(m_GraphicDevice, AE_Base_FS_PATH L"Data\\Fonts\\arial.spritefont");
+    m_SpriteFontAE = new SpriteFontAE(m_GraphicDevice, AE_Base_FS_PATH "Data\\Fonts\\arial.spritefont");
 
     m_Input = m_GameApp->GetGameService<InputHandler>(m_InputHandlerServiceName);
     AEAssert(m_Input != nullptr);
@@ -118,7 +119,7 @@ void Console::LoadContent()
 
     AETODO("Add background color as parameter at constructor");
     AETODO("Check to see if we can implement easy access to variables in QuadColorMaterial class, if so remove all includes for CB, shader props");
-    ret = m_QuadColorMaterial->GetPSProps()->GetConstantBuffer(L"_AE_CB_Color")->SetValueT<glm::vec4>(L"u_Color", m_BackgroundColor);
+    ret = m_QuadColorMaterial->GetPSProps()->GetConstantBuffer("_AE_CB_Color")->SetValueT<glm::vec4>("u_Color", m_BackgroundColor);
     if (ret != AEResult::Ok)
     {
         AETODO("Log message");
@@ -132,7 +133,7 @@ void Console::LoadContent()
         m_IsReady = false;
     }
 
-    m_CharDim = m_SpriteFontAE->MeasureString(L"|");
+    m_CharDim = m_SpriteFontAE->MeasureString("|");
 
     DrawableGameComponent::LoadContent();
 }
@@ -315,7 +316,7 @@ void Console::UpdateConsoleLine(const TimerParams& timerParams)
         return;
     }
 
-    wchar_t cc = keyboard->GetCurrentPressedChar(m_ConsoleLockKeyboard);
+    char cc = keyboard->GetCurrentPressedChar(m_ConsoleLockKeyboard);
     if (cc == L'\0')
     {
         return;
@@ -383,7 +384,7 @@ AEResult Console::ConsoleExecScript()
 {
     int ret = 0;
 
-    std::wstring exec(m_ConsoleLine);
+    std::string exec(m_ConsoleLine);
 
     m_ConsolePrintHistoryPos = 0;
 
@@ -473,7 +474,7 @@ AEResult Console::ProcessConsoleRetArray()
         for(uint32_t j = 0; j < subSize; ++j)
         {
             Color color = *reinterpret_cast<Color*>(ret->m_SA_Colors->At(j));
-            std::wstring line = *reinterpret_cast<std::wstring*>(ret->m_SA_Strings->At(j));
+            std::string line = *reinterpret_cast<std::string*>(ret->m_SA_Strings->At(j));
 
             newLine.m_Colors.push_back(color);
             newLine.m_ShowCols.push_back(line);
@@ -499,7 +500,7 @@ void Console::Render(const TimerParams& timerParams)
         return;
     }
 
-    m_GraphicDevice->BeginEvent(L"Console");
+    m_GraphicDevice->BeginEvent("Console");
 
     //Set Alpha Blend State
     m_GraphicDevice->SetBlendState(GraphicBlendStates::m_AlphaBlendState);
@@ -552,8 +553,8 @@ void Console::Render(const TimerParams& timerParams)
     }
 
     posX = 0;
-    m_SpriteFontAE->DrawString(m_SpriteBatchAE, L">", glm::vec2(0, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
-    stride = m_SpriteFontAE->MeasureString(L">");
+    m_SpriteFontAE->DrawString(m_SpriteBatchAE, ">", glm::vec2(0, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
+    stride = m_SpriteFontAE->MeasureString(">");
     posX += stride.x;
 
     if(m_ConsoleLinePos != 0)
@@ -565,7 +566,7 @@ void Console::Render(const TimerParams& timerParams)
 
     if(m_ShowNewCharUnderscore)
     {
-        m_SpriteFontAE->DrawString(m_SpriteBatchAE, L"_", glm::vec2(posX, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
+        m_SpriteFontAE->DrawString(m_SpriteBatchAE, "_", glm::vec2(posX, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
     }
 
     m_SpriteBatchAE->End();
@@ -591,8 +592,6 @@ void Console::OnResetDevice()
 AEResult Console::RegisterConsoleScriptInfo()
 {
     int ret = 0;
-
-    std::string sConsoleModuleName = AE_Base::WideStr2String(m_ConsoleModuleName);
 
     AngelScriptManager* asManager = m_GameApp->GetAngelScriptManager();
 
@@ -639,7 +638,7 @@ AEResult Console::RegisterConsoleScriptInfo()
     }
 
     AETODO("Add this somewhere not here");
-    if(asManager->LoadScript(L"..\\Data\\Scripts\\Console.as", m_ConsoleModuleName) != AEResult::Ok)
+    if(asManager->LoadScript("..\\Data\\Scripts\\Console.as", m_ConsoleModuleName) != AEResult::Ok)
     {
         return AEResult::Fail;
     }
@@ -650,14 +649,14 @@ AEResult Console::RegisterConsoleScriptInfo()
         return AEResult::Fail;
     }
 
-    m_ConsoleExecFunc = asManager->GetASEngine()->GetModule(sConsoleModuleName.c_str())->GetFunctionByDecl("void ConsoleExec(wstring)");
+    m_ConsoleExecFunc = asManager->GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void ConsoleExec(wstring)");
     if(m_ConsoleExecFunc == nullptr)
     {
         return AEResult::Fail;
     }
     m_ConsoleExecFunc->AddRef();
 
-    asIScriptFunction* func = asManager->GetASEngine()->GetModule(sConsoleModuleName.c_str())->GetFunctionByDecl("void InitializeConsoleScript()");
+    asIScriptFunction* func = asManager->GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void InitializeConsoleScript()");
     if(func == nullptr)
     {
         return AEResult::Fail;

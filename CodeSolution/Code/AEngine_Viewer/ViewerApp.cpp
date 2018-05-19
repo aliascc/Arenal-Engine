@@ -15,53 +15,53 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_viewer.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <DirectXMath.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Logger\Logger.h"
-#include "ViewerApp.h"
-#include "GraphicDevice.h"
-#include "Time\AETimeDefs.h"
-#include "Vertex\IndexBuffer.h"
-#include "Input\InputHandler.h"
-#include "Vertex\VertexBuffer.h"
-#include "Vertex\Types\VertexPositionColor.h"
 #include "Keyboard.h"
 #include "InputDefs.h"
-#include "Stats\DebugStats.h"
-#include "Stats\Console.h"
-#include "Wrappers\SpriteBatchAE.h"
-#include "Wrappers\SpriteFontAE.h"
-#include "Vertex\Types\VertexPositionTexture.h"
-#include "Textures\Texture2D.h"
+#include "ViewerApp.h"
 #include "Models\Mesh.h"
+#include "Stats\Console.h"
+#include "GraphicDevice.h"
 #include "Models\MeshPart.h"
+#include "Stats\DebugStats.h"
+#include "Vertex\IndexBuffer.h"
+#include "Input\InputHandler.h"
+#include "Textures\Texture2D.h"
+#include "Vertex\VertexBuffer.h"
+#include "Wrappers\SpriteFontAE.h"
+#include "Wrappers\SpriteBatchAE.h"
+#include "Vertex\Types\VertexPositionColor.h"
 #include "Models\Animation\AnimationPlayer.h"
+#include "Vertex\Types\VertexPositionTexture.h"
 
 #include "Graphic Extensions\Materials\Skinning\SkinningMaterial.h"
 #include "Graphic Extensions\Materials\Basic\DiffuseTextureMaterial.h"
 
-#include "Shaders\Bindings\ShaderTextureBinding.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
+#include "Shaders\Bindings\ShaderTextureBinding.h"
 #include "Graphic Extensions\Shader Extensions\Properties\ShaderProperties.h"
 
-#include "GameAssets\GameAssetManager.h"
-#include "GameObject\GameObject.h"
-#include "GameObject\Components\MeshGOC.h"
-#include "GameObject\GameObjectManager.h"
 #include "Models\Mesh.h"
 #include "Models\MeshPart.h"
+#include "GameObject\GameObject.h"
+#include "GameAssets\GameAssetManager.h"
+#include "GameObject\GameObjectManager.h"
+#include "GameObject\Components\MeshGOC.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -170,7 +170,7 @@ void ViewerApp::LoadContent()
 
 void ViewerApp::CallBackAnim1()
 {
-    AE_Base::ConsolePrintLine(L"Enter callback");
+    AE_Base::ConsolePrintLine("Enter callback");
 }
 
 void ViewerApp::UnLoadContent()

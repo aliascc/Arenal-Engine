@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <sstream>
 
 /*************************
 *   3rd Party Includes   *
@@ -108,62 +112,62 @@ GameProject::GameProject()
 
 namespace XEGameAppHelpers
 {
-    std::wstring BuildConfigProjectFile(const std::wstring& projectName)
+    std::string BuildConfigProjectFile(const std::string& projectName)
     {
-        std::wstringstream xmlFile;
+        std::stringstream xmlFile;
 
         xmlFile << AE_XML_HEADER;
-        xmlFile << L"<"        << AE_PROJ_CONFIG_MAIN_NODE          << L">";
+        xmlFile << "<"        << AE_PROJ_CONFIG_MAIN_NODE          << ">";
 
-        xmlFile << L"<"        << AE_PROJ_CONFIG_NODE               << L" " << AE_PROJ_CONFIG_NAME_PROP << L"=\""       << projectName                              << L"\" />";
-        xmlFile << L"<"        << AE_PROJ_DEV_CAPS_NODE             << L" " << AE_PROJ_CONFIG_FILE_PROP << L" = \""     << AE_PROJ_DEVCAPS_FILE_LOC                 << L"\" />";
-        xmlFile << L"<"        << AE_PROJ_GRAPHIC_OPTS_NODE         << L" " << AE_PROJ_CONFIG_FILE_PROP << L" = \""     << AE_PROJ_GRAPHIC_OPTS_FILE_LOC            << L"\" />";
-        xmlFile << L"<"        << AE_PROJ_INPUT_NODE                << L" " << AE_PROJ_CONFIG_FILE_PROP << L" = \""     << AE_PROJ_INPUT_FILE_LOC                   << L"\" />";
-        xmlFile << L"<"        << AE_PROJ_LOCALIZATION_NODE         << L" " << AE_PROJ_CONFIG_FILE_PROP << L" = \""     << AE_PROJ_LOCALIZATION_PROJ_FILE_LOC       << L"\" />";
-        xmlFile << L"<"        << AE_PROJ_ASSET_MANAGER_NODE        << L" " << AE_PROJ_CONFIG_FILE_PROP << L" = \""     << AE_PROJ_ASSET_MANAGER_FILE_LOC           << L"\" />";
-        xmlFile << L"<"        << AE_PROJ_GAME_OBJECT_MANAGER_NODE  << L" " << AE_PROJ_CONFIG_FILE_PROP << L" = \""     << AE_PROJ_GAME_OBJECT_MANAGER_FILE_LOC     << L"\" />";
+        xmlFile << "<"        << AE_PROJ_CONFIG_NODE               << " " << AE_PROJ_CONFIG_NAME_PROP << "=\""       << projectName                              << "\" />";
+        xmlFile << "<"        << AE_PROJ_DEV_CAPS_NODE             << " " << AE_PROJ_CONFIG_FILE_PROP << " = \""     << AE_PROJ_DEVCAPS_FILE_LOC                 << "\" />";
+        xmlFile << "<"        << AE_PROJ_GRAPHIC_OPTS_NODE         << " " << AE_PROJ_CONFIG_FILE_PROP << " = \""     << AE_PROJ_GRAPHIC_OPTS_FILE_LOC            << "\" />";
+        xmlFile << "<"        << AE_PROJ_INPUT_NODE                << " " << AE_PROJ_CONFIG_FILE_PROP << " = \""     << AE_PROJ_INPUT_FILE_LOC                   << "\" />";
+        xmlFile << "<"        << AE_PROJ_LOCALIZATION_NODE         << " " << AE_PROJ_CONFIG_FILE_PROP << " = \""     << AE_PROJ_LOCALIZATION_PROJ_FILE_LOC       << "\" />";
+        xmlFile << "<"        << AE_PROJ_ASSET_MANAGER_NODE        << " " << AE_PROJ_CONFIG_FILE_PROP << " = \""     << AE_PROJ_ASSET_MANAGER_FILE_LOC           << "\" />";
+        xmlFile << "<"        << AE_PROJ_GAME_OBJECT_MANAGER_NODE  << " " << AE_PROJ_CONFIG_FILE_PROP << " = \""     << AE_PROJ_GAME_OBJECT_MANAGER_FILE_LOC     << "\" />";
 
-        xmlFile << L"</"       << AE_PROJ_CONFIG_MAIN_NODE          << L">";
+        xmlFile << "</"       << AE_PROJ_CONFIG_MAIN_NODE          << ">";
 
         return xmlFile.str();
     }
 
-    std::wstring BuildAssetFile()
+    std::string BuildAssetFile()
     {
-        std::wstringstream xmlFile;
+        std::stringstream xmlFile;
 
         xmlFile << AE_XML_HEADER;
-        xmlFile << L"<"     << AE_ASSET_MANAGER_NODE_NAME   << L">";
+        xmlFile << "<"     << AE_ASSET_MANAGER_NODE_NAME   << ">";
 
-        xmlFile << L"<"     << AE_ASSET_CONFIG_NODE_NAME    << L" "     << AE_ASSET_PERSISTANTUNIQUEID_PROP_NAME    << L"=\""   << AE_GAME_ASSET_UNIQUE_ID_USER_START   << L"\"/>";
-        xmlFile << L"<"     << AE_ASSETS_NODE_NAME          << L">";
-        xmlFile << L"</"    << AE_ASSETS_NODE_NAME          << L">";
-        xmlFile << L"<"     << AE_RAW_FILES_NODE_NAME       << L">";
-        xmlFile << L"</"    << AE_RAW_FILES_NODE_NAME       << L">";
+        xmlFile << "<"     << AE_ASSET_CONFIG_NODE_NAME    << " "     << AE_ASSET_PERSISTANTUNIQUEID_PROP_NAME    << "=\""   << AE_GAME_ASSET_UNIQUE_ID_USER_START   << "\"/>";
+        xmlFile << "<"     << AE_ASSETS_NODE_NAME          << ">";
+        xmlFile << "</"    << AE_ASSETS_NODE_NAME          << ">";
+        xmlFile << "<"     << AE_RAW_FILES_NODE_NAME       << ">";
+        xmlFile << "</"    << AE_RAW_FILES_NODE_NAME       << ">";
 
-        xmlFile << L"</"    << AE_ASSET_MANAGER_NODE_NAME   << L">";
+        xmlFile << "</"    << AE_ASSET_MANAGER_NODE_NAME   << ">";
 
         return xmlFile.str();
     }
 
-    std::wstring BuildLocalizationFile()
+    std::string BuildLocalizationFile()
     {
-        std::wstringstream xmlFile;
+        std::stringstream xmlFile;
 
         xmlFile << AE_XML_HEADER;
-        xmlFile << L"<"             << AE_LOC_LOCALIZATION_NODE_NAME    << L">";
-        xmlFile << L"</"            << AE_LOC_LOCALIZATION_NODE_NAME    << L">";
+        xmlFile << "<"             << AE_LOC_LOCALIZATION_NODE_NAME    << ">";
+        xmlFile << "</"            << AE_LOC_LOCALIZATION_NODE_NAME    << ">";
 
         return xmlFile.str();
     }
 
-    std::wstring BuildGameObjectManagerFile()
+    std::string BuildGameObjectManagerFile()
     {
-        std::wstringstream xmlFile;
+        std::stringstream xmlFile;
 
         xmlFile << AE_XML_HEADER;
-        xmlFile << L"<"             << AE_GAME_OBJ_MANAGER_NODE_NAME << L">";
-        xmlFile << L"</"            << AE_GAME_OBJ_MANAGER_NODE_NAME << L">";
+        xmlFile << "<"             << AE_GAME_OBJ_MANAGER_NODE_NAME << ">";
+        xmlFile << "</"            << AE_GAME_OBJ_MANAGER_NODE_NAME << ">";
 
         return xmlFile.str();
     }

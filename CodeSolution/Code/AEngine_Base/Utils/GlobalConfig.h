@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -49,13 +46,13 @@
 ************************/
 namespace AE_GlobalConfig
 {
-    extern AEResult GetRecentProjects(std::vector<std::wstring>& recentProjects);
+    extern AEResult GetRecentProjects(std::vector<std::string>& recentProjects);
 
-    extern AEResult GetRecentProjectDirectory(std::wstring& recentProjectDir);
+    extern AEResult GetRecentProjectDirectory(std::string& recentProjectDir);
 
-    extern AEResult AddRecentProject(const std::wstring& recentProject);
+    extern AEResult AddRecentProject(const std::string& recentProject);
 
-    extern AEResult SetRecentProjectDirectory(const std::wstring& recentDir);
+    extern AEResult SetRecentProjectDirectory(const std::string& recentDir);
 };
 
 #endif

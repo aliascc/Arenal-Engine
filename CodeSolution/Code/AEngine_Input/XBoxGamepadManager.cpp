@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_input.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdexcept>
 
 /*************************
 *   3rd Party Includes   *
@@ -28,8 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "XBoxGamepad.h"
-#include "Time\AETimeDefs.h"
-#include "Base\BaseFunctions.h"
 #include "XBoxGamepadManager.h"
 
 //Always include last

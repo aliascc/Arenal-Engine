@@ -27,15 +27,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <list>
-#include <string>
-#include <stdint.h>
-#include <functional>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "angelscript.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -143,7 +138,7 @@ struct AELastLog sealed : public AEObject
     /// <summary>
     /// String that contains the Log
     /// </summary>
-    std::wstring m_Log = L"";
+    std::string m_Log = "";
     
     /// <summary>
     /// Log Level for this Log
@@ -189,7 +184,7 @@ struct AELog sealed : public AEObject
     /// <summary>
     /// String that contains the Log
     /// </summary>
-    std::wstring m_Log = L"";
+    std::string m_Log = "";
 
     /// <summary>
     /// Log Level for this Log
@@ -228,7 +223,7 @@ struct AELog sealed : public AEObject
     /// <summary>
     /// Override method ToString, use to convert a AELog to a string
     /// </summary>
-    std::wstring ToString() const override;
+    std::string ToString() const override;
 
     /// <summary>
     /// Override equal operator for AELog
@@ -249,14 +244,14 @@ namespace AELogHelpers
         /// </summary>
         /// <param name="lvl">LogLevel to convert to string</param>
         /// <returns>String name of the enum</returns>
-        extern std::wstring LogLevelStr(LogLevel lvl);
+        extern std::string LogLevelStr(LogLevel lvl);
 
         /// <summary>
         /// Converts a string to a enum LogLevel
         /// </summary>
         /// <param name="lvl">LogLevel to convert to string, string has to be the same name as the variable to convert to, if not it return LogLevel::None</param>
         /// <returns>enum LogLevel</returns>
-        extern LogLevel Str2LogLevel(std::wstring lvl);
+        extern LogLevel Str2LogLevel(std::string lvl);
 };
 
 /***************

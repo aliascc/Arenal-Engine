@@ -1,7 +1,7 @@
 Tool:          zlib
 Last Updated:  January 10 2018
 Version:       1.2.11
-Last Build:    January 10 2018
+Last Build:    May 18 2018
 
 Notes:
 

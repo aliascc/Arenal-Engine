@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -31,7 +36,7 @@
 /********************
 *   Function Defs   *
 *********************/
-SpotLight::SpotLight(const std::wstring& name, const glm::vec3& position, const glm::vec3& direction, const Color& color, float nearAtteniation, float farAttenuation, float intensity, bool enabled, float fallOffAngle, float angle)
+SpotLight::SpotLight(const std::string& name, const glm::vec3& position, const glm::vec3& direction, const Color& color, float nearAtteniation, float farAttenuation, float intensity, bool enabled, float fallOffAngle, float angle)
     : Light(LightType::Spot, name, position, direction, color, farAttenuation, nearAtteniation, intensity, enabled)
     , m_FallOffAngle(fallOffAngle)
     , m_Angle(angle)

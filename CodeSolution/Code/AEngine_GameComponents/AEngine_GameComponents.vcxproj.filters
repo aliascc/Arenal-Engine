@@ -174,6 +174,7 @@
     <ClCompile Include="Game Logic Update\GamePhysicsUpdate.cpp">
       <Filter>Game Logic Update</Filter>
     </ClCompile>
+    <ClCompile Include="precomp_gamecomponents.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input\InputHandler.h">
@@ -291,6 +292,7 @@
       <Filter>Game Logic Update</Filter>
     </ClInclude>
     <ClInclude Include="AEGameComponentsDefs.h" />
+    <ClInclude Include="precomp_gamecomponents.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Sky Covers\Materials\HLSL\SkySphereEffect.fx">

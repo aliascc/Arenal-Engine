@@ -7,6 +7,7 @@
     <ClCompile Include="PhysicColliderBox.cpp" />
     <ClCompile Include="PhysicsActor.cpp" />
     <ClCompile Include="PhysicColliderSphere.cpp" />
+    <ClCompile Include="precomp_physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PhysicsManager.h" />
@@ -16,5 +17,6 @@
     <ClInclude Include="PhysicColliderBox.h" />
     <ClInclude Include="PhysicsActor.h" />
     <ClInclude Include="PhysicColliderSphere.h" />
+    <ClInclude Include="precomp_physics.h" />
   </ItemGroup>
 </Project>

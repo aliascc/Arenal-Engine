@@ -63,7 +63,7 @@ class DrawableGameComponent abstract : public GameComponent
 
     public:
         //Constructor Destructor
-        DrawableGameComponent(GameApp* gameApp, const std::wstring& name = L"", uint32_t callOrder = 100);
+        DrawableGameComponent(GameApp* gameApp, const std::string& name = "", uint32_t callOrder = 100);
         virtual ~DrawableGameComponent();
 
         //Gets

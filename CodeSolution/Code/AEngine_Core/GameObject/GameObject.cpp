@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -46,7 +51,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check for Mutex");
-GameObject::GameObject(const std::wstring& name, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
+GameObject::GameObject(const std::string& name, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
     : Object3D(name, position, rotation, scale)
 {
 }
@@ -499,7 +504,7 @@ AEResult GameObject::RemoveGameObjectScriptGOC(uint64_t id)
     return AEResult::Ok;
 }
 
-AudioSourceGOC* GameObject::GetAudioSourceGOC(const std::wstring& name)
+AudioSourceGOC* GameObject::GetAudioSourceGOC(const std::string& name)
 {
     for (auto audioSourceGOC : m_AudioSourceGOCList)
     {

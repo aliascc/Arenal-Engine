@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -38,7 +43,7 @@
 /********************
 *   Function Defs   *
 *********************/
-StructuredBuffer::StructuredBuffer(const std::wstring& name, uint32_t bindIndex, bool createAsRW, GraphicDevice* graphicDevice)
+StructuredBuffer::StructuredBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, GraphicDevice* graphicDevice)
     : ShaderBuffer(name, bindIndex, createAsRW, graphicDevice)
 {
 }
@@ -109,7 +114,7 @@ AEResult StructuredBuffer::InitializeBuffer(uint32_t structSize, uint32_t numEle
         return AEResult::StructuredBufferInitFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_BufferDX, AE_DEBUG_SB_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_BufferDX, AE_DEBUG_SB_NAME_PREFIX + m_Name);
 
     /******************************************
     *3. Create SRV for Structured Buffer
@@ -134,7 +139,7 @@ AEResult StructuredBuffer::InitializeBuffer(uint32_t structSize, uint32_t numEle
         return AEResult::StructuredBufferInitFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_SB_SRV_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_SB_SRV_NAME_PREFIX + m_Name);
 
     /******************************************
     *4. Create UAV for Buffer if flag is set
@@ -163,7 +168,7 @@ AEResult StructuredBuffer::InitializeBuffer(uint32_t structSize, uint32_t numEle
             return AEResult::StructuredBufferInitFailed;
         }
 
-        AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_SB_UAV_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+        AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_SB_UAV_NAME_PREFIX + m_Name);
     }
 
     /******************************************

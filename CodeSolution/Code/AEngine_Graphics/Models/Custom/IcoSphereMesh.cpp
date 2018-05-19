@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -41,7 +46,7 @@
 /********************
 *   Function Defs   *
 *********************/
-IcoSphereMesh::IcoSphereMesh(GraphicDevice* graphicDevice, const std::wstring& resourceName)
+IcoSphereMesh::IcoSphereMesh(GraphicDevice* graphicDevice, const std::string& resourceName)
     : Mesh(graphicDevice, resourceName)
 {
 }
@@ -446,7 +451,7 @@ uint16_t IcoSphereMesh::AddVtx(const VertexPositionNormalTexture& vtx)
     tmpVtx.m_Position.y = vect.y;
     tmpVtx.m_Position.z = vect.z;
 
-    std::wstring vtxStr = AEVertexHelper::GetVertexString(tmpVtx);
+    std::string vtxStr = AEVertexHelper::GetVertexString(tmpVtx);
     uint16_t idx = 0;
 
     if (m_VtxMap.find(vtxStr) != m_VtxMap.end())

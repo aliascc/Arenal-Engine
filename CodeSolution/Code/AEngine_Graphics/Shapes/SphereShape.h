@@ -23,15 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <vector>
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -80,7 +75,7 @@ class SphereShape sealed : public AEObject
 
         std::vector<uint16_t> m_IdxBuff;
 
-        std::map<std::wstring, uint32_t> m_VtxMap;
+        std::map<std::string, uint32_t> m_VtxMap;
 
         //Methods
         uint16_t AddVtx(VertexPositionColor& vtx);

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -44,7 +48,7 @@
 
 namespace AEShaderSignatureHelpers
 {
-    ShaderCustomVariable CreateScalarVariable(const std::wstring& name, uint32_t offset, ShaderVariableType svType)
+    ShaderCustomVariable CreateScalarVariable(const std::string& name, uint32_t offset, ShaderVariableType svType)
     {
         ShaderCustomVariable scv;
 
@@ -68,7 +72,7 @@ namespace AEShaderSignatureHelpers
         return scv;
     }
 
-    ShaderCustomVariable CreateVectorVariable(const std::wstring& name, uint32_t offset, uint32_t numElementsInVector)
+    ShaderCustomVariable CreateVectorVariable(const std::string& name, uint32_t offset, uint32_t numElementsInVector)
     {
         ShaderCustomVariable scv;
 
@@ -88,7 +92,7 @@ namespace AEShaderSignatureHelpers
         return scv;
     }
 
-    ShaderCustomVariable CreateMatrixVariable(const std::wstring& name, uint32_t offset, bool isArray, uint32_t numElementsInArray)
+    ShaderCustomVariable CreateMatrixVariable(const std::string& name, uint32_t offset, bool isArray, uint32_t numElementsInArray)
     {
         ShaderCustomVariable scv;
 

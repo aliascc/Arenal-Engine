@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -38,7 +43,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-SkeletonAsset::SkeletonAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager)
+SkeletonAsset::SkeletonAsset(const std::string& filePath, GameResourceManager* gameResourceManager)
     : GameAsset(GameContentType::Skeleton, filePath, gameResourceManager)
 {
 }

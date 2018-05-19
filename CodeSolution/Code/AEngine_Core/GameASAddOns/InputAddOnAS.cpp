@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -64,8 +69,8 @@ AEResult InputAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterAEKeysEnum(engine) != AEResult::Ok)
     {
         AETODO("Add log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -74,8 +79,8 @@ AEResult InputAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterAEXBoxGamepadButtonEnum(engine) != AEResult::Ok)
     {
         AETODO("Add log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -84,8 +89,8 @@ AEResult InputAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterAEXBoxGamepadMovementsEnum(engine) != AEResult::Ok)
     {
         AETODO("Add log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -94,8 +99,8 @@ AEResult InputAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterKeyboardObject(engine) != AEResult::Ok)
     {
         AETODO("Add log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -104,8 +109,8 @@ AEResult InputAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterXBoxGamepadObject(engine) != AEResult::Ok)
     {
         AETODO("Add log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -114,8 +119,8 @@ AEResult InputAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterXBoxGamepadManagerObject(engine) != AEResult::Ok)
     {
         AETODO("Add log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -124,8 +129,8 @@ AEResult InputAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterInputManagerObject(engine) != AEResult::Ok)
     {
         AETODO("Add log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -134,8 +139,8 @@ AEResult InputAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterInputManagerObjectPointer(engine) != AEResult::Ok)
     {
         AETODO("Add log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;

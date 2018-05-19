@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -38,7 +43,7 @@
 /********************
 *   Function Defs   *
 *********************/
-SimpleBuffer::SimpleBuffer(const std::wstring& name, uint32_t bindIndex, bool createAsRW, ShaderVariableClass variableClass,  ShaderVariableType variableType, uint32_t elementCount, GraphicDevice* graphicDevice)
+SimpleBuffer::SimpleBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, ShaderVariableClass variableClass,  ShaderVariableType variableType, uint32_t elementCount, GraphicDevice* graphicDevice)
     : ShaderBuffer(name, bindIndex, createAsRW, graphicDevice)
     , m_VariableClass(variableClass)
     , m_VariableType(variableType)
@@ -276,7 +281,7 @@ AEResult SimpleBuffer::InitializeBuffer(uint32_t numElements, GraphicBufferUsage
         return AEResult::SimpleBufferInitFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_BufferDX, AE_DEBUG_B_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_BufferDX, AE_DEBUG_B_NAME_PREFIX + m_Name);
 
     /******************************************
     *3. Create SRV for Buffer
@@ -301,7 +306,7 @@ AEResult SimpleBuffer::InitializeBuffer(uint32_t numElements, GraphicBufferUsage
         return AEResult::SimpleBufferInitFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_B_SRV_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_B_SRV_NAME_PREFIX + m_Name);
 
     /******************************************
     *4. Create UAV for Buffer if flag is set
@@ -330,7 +335,7 @@ AEResult SimpleBuffer::InitializeBuffer(uint32_t numElements, GraphicBufferUsage
             return AEResult::SimpleBufferInitFailed;
         }
 
-        AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_B_UAV_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+        AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_B_UAV_NAME_PREFIX + m_Name);
     }
 
     /******************************************

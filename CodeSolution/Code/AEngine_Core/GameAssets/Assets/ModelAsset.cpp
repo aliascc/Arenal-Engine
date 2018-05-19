@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -41,7 +46,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-ModelAsset::ModelAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice)
+ModelAsset::ModelAsset(const std::string& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice)
     : GameAsset(GameContentType::Model, filePath, gameResourceManager)
     , m_GraphicDevice(graphicDevice)
 {
@@ -268,8 +273,8 @@ AEResult ModelAsset::ReadModelMeshFiles(std::ifstream& fileStream)
     {
         /////////////////////////////////////////////
         //Read Mesh Name and File Name
-        std::wstring meshName = AEGameContentHelpers::ReadString(fileStream);
-        std::wstring meshPath = AEGameContentHelpers::ReadString(fileStream);
+        std::string meshName = AEGameContentHelpers::ReadString(fileStream);
+        std::string meshPath = AEGameContentHelpers::ReadString(fileStream);
 
         auto mapIt = m_MeshAssetMap.find(meshName);
         if (mapIt != m_MeshAssetMap.end())
@@ -337,8 +342,8 @@ AEResult ModelAsset::ReadModelSkeletonFile(std::ifstream& fileStream)
 
     /////////////////////////////////////////////
     //Read Skeleton Name and File Name
-    std::wstring skeletonName = AEGameContentHelpers::ReadString(fileStream);
-    std::wstring skeletonFile = AEGameContentHelpers::ReadString(fileStream);
+    std::string skeletonName = AEGameContentHelpers::ReadString(fileStream);
+    std::string skeletonFile = AEGameContentHelpers::ReadString(fileStream);
 
     if(m_SkeletonAsset == nullptr || (m_SkeletonAsset->GetName().compare(skeletonName) != 0))
     {
@@ -382,8 +387,8 @@ AEResult ModelAsset::ReadModelAnimationFiles(std::ifstream& fileStream)
     {
         /////////////////////////////////////////////
         //Read Animation Name and File Name
-        std::wstring animName = AEGameContentHelpers::ReadString(fileStream);
-        std::wstring animFilePath = AEGameContentHelpers::ReadString(fileStream);
+        std::string animName = AEGameContentHelpers::ReadString(fileStream);
+        std::string animFilePath = AEGameContentHelpers::ReadString(fileStream);
 
         auto mapIt = m_AnimationAssetMap.find(animName);
         if (mapIt != m_AnimationAssetMap.end())

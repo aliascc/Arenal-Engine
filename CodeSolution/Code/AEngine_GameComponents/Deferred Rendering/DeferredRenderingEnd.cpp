@@ -115,7 +115,7 @@ AEResult DeferredRenderingEnd::SetFrameEffectParams()
 
 void DeferredRenderingEnd::Render(const TimerParams& timerParams)
 {
-	AE_Base::BeginUserEventPerf(L"Deferred Rendering End");
+	AE_Base::BeginUserEventPerf("Deferred Rendering End");
 
 	//Set Render Targets Back to Default
 	m_GraphicDevice->SetRenderTarget(1, nullptr);
@@ -160,7 +160,7 @@ void DeferredRenderingEnd::Render(const TimerParams& timerParams)
 
 AEResult DeferredRenderingEnd::DrawSkyCover()
 {
-	AE_Base::BeginUserEventPerf(L"Deferred Rendering End (Sky Cover)");
+	AE_Base::BeginUserEventPerf("Deferred Rendering End (Sky Cover)");
 
 	if(m_DREffect->ActivateTechnique(DeferredRenderingMaterial::AE_DEFREND_DFSKY_TECHNIQUE) != AEResult::Ok)
 	{
@@ -183,7 +183,7 @@ AEResult DeferredRenderingEnd::DrawSkyCover()
 
 AEResult DeferredRenderingEnd::DrawLights()
 {
-	AE_Base::BeginUserEventPerf(L"Deferred Rendering End (Lights)");
+	AE_Base::BeginUserEventPerf("Deferred Rendering End (Lights)");
 
 	
 
@@ -194,7 +194,7 @@ AEResult DeferredRenderingEnd::DrawLights()
 
 AEResult DeferredRenderingEnd::DrawCombine()
 {
-	AE_Base::BeginUserEventPerf(L"Deferred Rendering End (Combine)");
+	AE_Base::BeginUserEventPerf("Deferred Rendering End (Combine)");
 
 	if(m_DREffect->ActivateTechnique(DeferredRenderingMaterial::AE_DEFREND_DFCOMBINE) != AEResult::Ok)
 	{

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecontent.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -91,7 +96,7 @@ void ImporterFBX::CleanUp()
     m_HasAnimation = false;
 }
 
-AEResult ImporterFBX::ImportFBXFile(const std::wstring& filename, ModelContent** model, bool burnTransformation, bool importTangentBinormal, bool clockwise)
+AEResult ImporterFBX::ImportFBXFile(const std::string& filename, ModelContent** model, bool burnTransformation, bool importTangentBinormal, bool clockwise)
 {
     //////////////////////////////////////////////
     //Clean up old variables
@@ -195,7 +200,7 @@ AEResult ImporterFBX::InitializeFBXSDK()
     return AEResult::Ok;
 }
 
-AEResult ImporterFBX::LoadScene(const std::wstring& filename)
+AEResult ImporterFBX::LoadScene(const std::string& filename)
 {
     /////////////////////////////////////////////
     //Variables
@@ -228,7 +233,7 @@ AEResult ImporterFBX::LoadScene(const std::wstring& filename)
         if (importer->GetStatus() == FbxStatus::eInvalidFileVersion)
         {
             AETODO("FBX_FILE_VERSION_NOT_SUPPORTED_ERR_MSG check if it is there");
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_FILE_VERSION_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, sdkMajor, sdkMinor, sdkRevision, filename, fileMajor, fileMinor, fileRevision);
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_FILE_VERSION_NOT_SUPPORTED_ERR_MSG"), __FUNCTION__, sdkMajor, sdkMinor, sdkRevision, filename, fileMajor, fileMinor, fileRevision);
             AELOGGER->AddNewLog(LogLevel::Error, msgerr);
         }
 
@@ -256,7 +261,7 @@ AEResult ImporterFBX::LoadScene(const std::wstring& filename)
     if (status == false && importer->GetStatus() == FbxStatus::ePasswordError)
     {
         AETODO("FBX_SCENE_PASSWORD_PROTECTED_ERR_MSG check if it is there");
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_SCENE_PASSWORD_PROTECTED_ERR_MSG"), __FUNCTIONW__, filename);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_SCENE_PASSWORD_PROTECTED_ERR_MSG"), __FUNCTION__, filename);
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
     }
 
@@ -424,7 +429,7 @@ AEResult ImporterFBX::ExtractContent(FbxNode* node, const glm::mat4& parentTrans
             if (ret != AEResult::Ok)
             {
                 AETODO("Add FBX_MESH_LOAD_FAIL_ERR_MSG");
-                std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_MESH_LOAD_FAIL_ERR_MSG"), __FUNCTIONW__, static_cast<int32_t>(ret));
+                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_MESH_LOAD_FAIL_ERR_MSG"), __FUNCTION__, static_cast<int32_t>(ret));
                 AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
                 return AEResult::Fail;
@@ -460,7 +465,7 @@ AEResult ImporterFBX::ExtractContent(FbxNode* node, const glm::mat4& parentTrans
         default:
         {
             AETODO("Add FBX_NODE_ATTRIBUTE_NOT_SUPPORTED_ERR_MSG");
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_NODE_ATTRIBUTE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, static_cast<uint32_t>(attributeType));
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_NODE_ATTRIBUTE_NOT_SUPPORTED_ERR_MSG"), __FUNCTION__, static_cast<uint32_t>(attributeType));
             AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
         }
         break;
@@ -504,7 +509,7 @@ AEResult ImporterFBX::ExtractMesh(FbxNode* node, MeshHolder& meshHolder)
 
     ////////////////////////////////////////////
     //Set Name
-    std::wstring wMeshName = AE_Base::String2WideStr(node->GetName());
+    std::string wMeshName = AE_Base::String2WideStr(node->GetName());
     meshHolder.m_Name = wMeshName;
 
     ////////////////////////////////////////////
@@ -738,7 +743,7 @@ AEResult ImporterFBX::GetPolygonUV(FbxMesh* fbxMesh, int32_t controlPointIndex, 
     if (uvCount > 2)
     {
         AETODO("Add FBX_UV_COUNT_ERR_MSG");
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_UV_COUNT_ERR_MSG"), __FUNCTIONW__, uvCount, 2);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_UV_COUNT_ERR_MSG"), __FUNCTION__, uvCount, 2);
         AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
     }
 
@@ -771,7 +776,7 @@ AEResult ImporterFBX::GetPolygonUV(FbxMesh* fbxMesh, int32_t controlPointIndex, 
                     default:
                         {
                             AETODO("Add FBX_INVALID_UV_REF_MODE_ERR_MSG");
-                            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_INVALID_UV_REF_MODE_ERR_MSG"), __FUNCTIONW__);
+                            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_INVALID_UV_REF_MODE_ERR_MSG"), __FUNCTION__);
                             AELOGGER->AddNewLog(LogLevel::Error, msgerr);
                         }
                         break; // other reference modes not shown here!
@@ -792,7 +797,7 @@ AEResult ImporterFBX::GetPolygonUV(FbxMesh* fbxMesh, int32_t controlPointIndex, 
                         default:
                         {
                             AETODO("Add FBX_INVALID_UV_REF_MODE_ERR_MSG");
-                            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_INVALID_UV_REF_MODE_ERR_MSG"), __FUNCTIONW__);
+                            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_INVALID_UV_REF_MODE_ERR_MSG"), __FUNCTION__);
                             AELOGGER->AddNewLog(LogLevel::Error, msgerr);
                         }
                         break; // other reference modes not shown here!
@@ -805,7 +810,7 @@ AEResult ImporterFBX::GetPolygonUV(FbxMesh* fbxMesh, int32_t controlPointIndex, 
             case FbxGeometryElement::eNone:            // doesn't make much sense for UVs
                 {
                     AETODO("Add FBX_INVALID_UV_MAP_MODE_ERR_MSG");
-                    std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_INVALID_UV_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
+                    std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_INVALID_UV_MAP_MODE_ERR_MSG"), __FUNCTION__);
                     AELOGGER->AddNewLog(LogLevel::Error, msgerr);
                 }
                 break;
@@ -843,7 +848,7 @@ AEResult ImporterFBX::GetPolygonNormal(FbxMesh* fbxMesh, int32_t controlPointInd
     if (normalCount > 1)
     {
         AETODO("Add FBX_NORMAL_COUNT_ERR_MSG");
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_NORMAL_COUNT_ERR_MSG"), __FUNCTIONW__, normalCount, 1);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_NORMAL_COUNT_ERR_MSG"), __FUNCTION__, normalCount, 1);
         AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
     }
 
@@ -868,7 +873,7 @@ AEResult ImporterFBX::GetPolygonNormal(FbxMesh* fbxMesh, int32_t controlPointInd
             default:
             {
                 AETODO("Add FBX_INVALID_NORMAL_REF_MODE_ERR_MSG");
-                std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_INVALID_NORMAL_REF_MODE_ERR_MSG"), __FUNCTIONW__);
+                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_INVALID_NORMAL_REF_MODE_ERR_MSG"), __FUNCTION__);
                 AELOGGER->AddNewLog(LogLevel::Error, msgerr);
             }
             break; // other reference modes not shown here!
@@ -877,7 +882,7 @@ AEResult ImporterFBX::GetPolygonNormal(FbxMesh* fbxMesh, int32_t controlPointInd
     else
     {
         AETODO("Add FBX_INVALID_NORMAL_MAP_MODE_ERR_MSG");
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_INVALID_NORMAL_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_INVALID_NORMAL_MAP_MODE_ERR_MSG"), __FUNCTION__);
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
     }
 
@@ -910,7 +915,7 @@ AEResult ImporterFBX::GetPolygonTangent(FbxMesh* fbxMesh, int32_t controlPointIn
     if (tangentCount > 1)
     {
         AETODO("Add FBX_TANGENT_COUNT_ERR_MSG");
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_TANGENT_COUNT_ERR_MSG"), __FUNCTIONW__, tangentCount, 1);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_TANGENT_COUNT_ERR_MSG"), __FUNCTION__, tangentCount, 1);
         AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
     }
 
@@ -935,7 +940,7 @@ AEResult ImporterFBX::GetPolygonTangent(FbxMesh* fbxMesh, int32_t controlPointIn
             default:
                 {
                     AETODO("Add FBX_INVALID_TANGENT_REF_MODE_ERR_MSG");
-                    std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_INVALID_TANGENT_REF_MODE_ERR_MSG"), __FUNCTIONW__);
+                    std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_INVALID_TANGENT_REF_MODE_ERR_MSG"), __FUNCTION__);
                     AELOGGER->AddNewLog(LogLevel::Error, msgerr);
                 }
                 break; // other reference modes not shown here!
@@ -944,7 +949,7 @@ AEResult ImporterFBX::GetPolygonTangent(FbxMesh* fbxMesh, int32_t controlPointIn
     else
     {
         AETODO("Add FBX_INVALID_TANGENT_MAP_MODE_ERR_MSG");
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_INVALID_TANGENT_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_INVALID_TANGENT_MAP_MODE_ERR_MSG"), __FUNCTION__);
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
     }
 
@@ -977,7 +982,7 @@ AEResult ImporterFBX::GetPolygonBinormal(FbxMesh* fbxMesh, int32_t controlPointI
     if (binormalCount > 1)
     {
         AETODO("Add FBX_BINORMAL_COUNT_ERR_MSG");
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_BINORMAL_COUNT_ERR_MSG"), __FUNCTIONW__, binormalCount, 1);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_BINORMAL_COUNT_ERR_MSG"), __FUNCTION__, binormalCount, 1);
         AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
     }
 
@@ -1002,7 +1007,7 @@ AEResult ImporterFBX::GetPolygonBinormal(FbxMesh* fbxMesh, int32_t controlPointI
             default:
             {
                 AETODO("Add FBX_INVALID_BINORMAL_REF_MODE_ERR_MSG");
-                std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_INVALID_BINORMAL_REF_MODE_ERR_MSG"), __FUNCTIONW__);
+                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_INVALID_BINORMAL_REF_MODE_ERR_MSG"), __FUNCTION__);
                 AELOGGER->AddNewLog(LogLevel::Error, msgerr);
             }
             break; // other reference modes not shown here!
@@ -1011,7 +1016,7 @@ AEResult ImporterFBX::GetPolygonBinormal(FbxMesh* fbxMesh, int32_t controlPointI
     else
     {
         AETODO("Add FBX_INVALID_BINORMAL_MAP_MODE_ERR_MSG");
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_INVALID_BINORMAL_MAP_MODE_ERR_MSG"), __FUNCTIONW__);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_INVALID_BINORMAL_MAP_MODE_ERR_MSG"), __FUNCTION__);
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
     }
 
@@ -1058,7 +1063,7 @@ AEResult ImporterFBX::GetMeshMaterialMapping(FbxMesh* fbxMesh, MeshHolder& meshH
             else
             {
                 AETODO("Add FBX_UNSUPPORTED_MATERIAL_REF_MODE_ERR_MSG");
-                std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_UNSUPPORTED_MATERIAL_REF_MODE_ERR_MSG"), __FUNCTIONW__, (int32_t)matElement->GetReferenceMode());
+                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_UNSUPPORTED_MATERIAL_REF_MODE_ERR_MSG"), __FUNCTION__, (int32_t)matElement->GetReferenceMode());
                 AELOGGER->AddNewLog(LogLevel::Error, msgerr);
             }
         }
@@ -1135,7 +1140,7 @@ AEResult ImporterFBX::GetMaterialProperties(FbxGeometry* fbxGeometry)
                 AEAssert(false);
 
                 AETODO("Add FBX_MATERIAL_NOT_SUPPORTED_ERR_MSG");
-                std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_MATERIAL_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, materialHolder.m_Name);
+                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_MATERIAL_NOT_SUPPORTED_ERR_MSG"), __FUNCTION__, materialHolder.m_Name);
                 AELOGGER->AddNewLog(LogLevel::Error, msgerr);
             }
 
@@ -1166,7 +1171,7 @@ AEResult ImporterFBX::GetMaterialTextures(FbxGeometry* fbxGeometry)
         if (m_MatIdxToMatIDMap.find(materialIndex) == m_MatIdxToMatIDMap.end())
         {
             AETODO("Add FBX_MAT_INDEX_NOT_FOUND_ERR_MSG");
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_MAT_INDEX_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, materialIndex);
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_MAT_INDEX_NOT_FOUND_ERR_MSG"), __FUNCTION__, materialIndex);
             AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 
             return AEResult::Fail;
@@ -1195,7 +1200,7 @@ AEResult ImporterFBX::GetMaterialTextures(FbxGeometry* fbxGeometry)
                         if (layeredTexture)
                         {
                             AETODO("Add FBX_LAYERED_TEXTURE_NOT_SUPPORTED_ERR_MSG");
-                            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_LAYERED_TEXTURE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__);
+                            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_LAYERED_TEXTURE_NOT_SUPPORTED_ERR_MSG"), __FUNCTION__);
                             AELOGGER->AddNewLog(LogLevel::Error, msgerr);
                         }
                         else
@@ -1210,8 +1215,8 @@ AEResult ImporterFBX::GetMaterialTextures(FbxGeometry* fbxGeometry)
                                 if (fileTexture != nullptr)
                                 {
                                     std::string sTextureType = propertyFbx.GetName();
-                                    std::wstring textureType = AE_Base::String2WideStr(sTextureType);
-                                    std::wstring filename = AE_Base::GetFilename(AE_Base::String2WideStr(fileTexture->GetFileName()));
+                                    std::string textureType = AE_Base::String2WideStr(sTextureType);
+                                    std::string filename = AE_Base::GetFilename(AE_Base::String2WideStr(fileTexture->GetFileName()));
 
                                     if (textureType.compare(L"DiffuseColor") == 0)
                                     {
@@ -1224,17 +1229,17 @@ AEResult ImporterFBX::GetMaterialTextures(FbxGeometry* fbxGeometry)
                                     else
                                     {
                                         AETODO("Add FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG");
-                                        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, textureType);
+                                        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG"), __FUNCTION__, textureType);
                                         AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
                                     }
                                 }
                                 else
                                 {
                                     std::string sTextureType = texture->GetTextureType();
-                                    std::wstring textureType = AE_Base::String2WideStr(sTextureType);
+                                    std::string textureType = AE_Base::String2WideStr(sTextureType);
 
                                     AETODO("Add FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG");
-                                    std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG"), __FUNCTIONW__, textureType);
+                                    std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_TEXTURE_TYPE_NOT_SUPPORTED_ERR_MSG"), __FUNCTION__, textureType);
                                     AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
                                 }
                             }
@@ -1296,7 +1301,7 @@ AEResult ImporterFBX::CreateMeshParts(MeshHolder& meshHolder)
 
         MeshPartHolder meshPartHolder;
 
-        std::map<std::wstring, uint16_t> vxtToIdx;
+        std::map<std::string, uint16_t> vxtToIdx;
         uint64_t matID = 0;
 
         uint32_t polySize = static_cast<uint32_t>(polyVect.size());
@@ -1319,7 +1324,7 @@ AEResult ImporterFBX::CreateMeshParts(MeshHolder& meshHolder)
 
             for (uint32_t j = 0; j < 3; ++j)
             {
-                std::wstring vtxString = vertexs[j].ToString();
+                std::string vtxString = vertexs[j].ToString();
 
                 if (vxtToIdx.find(vtxString) != vxtToIdx.end())
                 {
@@ -1413,7 +1418,7 @@ VertexType ImporterFBX::GetVertexType()
     }
 
     AETODO("Add FBX_INVALID_COMB_VTX_TYPE_ERR_MSG");
-    std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"FBX_INVALID_COMB_VTX_TYPE_ERR_MSG"), __FUNCTIONW__, L"Position-Normal-TextCoords");
+    std::string msgerr = fmt::format(AELOCMAN->GetLiteral("FBX_INVALID_COMB_VTX_TYPE_ERR_MSG"), __FUNCTION__, "Position-Normal-TextCoords");
     AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
     return VertexType::VtxPosNorTex;

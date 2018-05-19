@@ -15,16 +15,18 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
-#include <sstream>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "boost\lexical_cast.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -57,21 +59,21 @@ TimeStamp::TimeStamp()
 {
 }
 
-TimeStamp::TimeStamp(const std::wstring& str)
+TimeStamp::TimeStamp(const std::string& str)
 {
     GetFromString(str);
 }
 
-AEResult TimeStamp::GetFromString(const std::wstring& str)
+AEResult TimeStamp::GetFromString(const std::string& str)
 {
     if(str.empty())
     {
         return AEResult::EmptyString;
     }
 
-    std::vector<std::wstring> subStrings;
+    std::vector<std::string> subStrings;
 
-    AE_Base::SplitString(str, subStrings, L"(-|:)", true);
+    AE_Base::SplitString(str, subStrings, "(-|:)", true);
 
     if(subStrings.size() != 6)
     {
@@ -88,7 +90,7 @@ AEResult TimeStamp::GetFromString(const std::wstring& str)
     return AEResult::Ok;
 }
 
-TimeStamp& TimeStamp::operator=(const std::wstring& str)
+TimeStamp& TimeStamp::operator=(const std::string& str)
 {
     GetFromString(str);
 
@@ -168,11 +170,11 @@ bool TimeStamp::operator>=(const TimeStamp& other)
     }
 }
 
-std::wstring TimeStamp::ToString() const 
+std::string TimeStamp::ToString() const 
 {
-    std::wstringstream strDate;
+    std::stringstream strDate;
 
-    strDate << m_Year << L"-" << m_Month << L"-" << m_Day << L" " << m_Hour << L":" << m_Minute << L":" << m_Second;
+    strDate << m_Year << "-" << m_Month << "-" << m_Day << " " << m_Hour << ":" << m_Minute << ":" << m_Second;
 
     return strDate.str();
 }

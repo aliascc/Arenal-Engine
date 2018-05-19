@@ -1,7 +1,7 @@
 Tool:           ASSIMP (Open Assert Import Library)
 Last Updated:   January 9 2018
 Version:        4.1.0
-Last Build:     January 9 2018
+Last Build:     May 18 2018
 
 Comments:
  - Download: https://github.com/assimp/assimp/releases
@@ -14,7 +14,10 @@ Comments:
 
  - To Build:
   - Use CMAKE
-  - Library Suffix: _x64 and _x64_d (include IrrXML)
+  - Only build Collada Importer
+  - Uncheck "Shared Libs"
+  - Library Suffix: _x64 and _x64_d
+  - Fix ASSIMP_BUILD_NO_3MF_EXPORTER in Exporter.cpp line 168
   - CMAKE names the libraries directly without using variables
   - Under Patches apply the patches (patch.exe --binary -p1 < "file.patch")
   - Change Charset to Unicode

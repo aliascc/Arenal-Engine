@@ -228,6 +228,7 @@
     <ClCompile Include="GameObject\Components\PhysicsGOC.cpp">
       <Filter>GameObject\Components</Filter>
     </ClCompile>
+    <ClCompile Include="precomp_core.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameApp\GameApp.h">
@@ -413,5 +414,6 @@
     <ClInclude Include="GameObject\Components\PhysicsGOC.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="precomp_core.h" />
   </ItemGroup>
 </Project>

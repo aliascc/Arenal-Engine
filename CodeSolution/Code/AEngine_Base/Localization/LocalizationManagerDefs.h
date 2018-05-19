@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <unordered_map>
-#include <string>
 
 /***************************
 *   Game Engine Includes   *
@@ -48,53 +46,53 @@ class LocalizationManager;
 /// <summary>
 /// XML Localization Node Name
 /// </summary>
-#define AE_LOC_LOCALIZATION_NODE_NAME   L"Localization"
+#define AE_LOC_LOCALIZATION_NODE_NAME   "Localization"
 
 /// <summary>
 /// XML Default Language Node Name
 /// </summary>
-#define AE_LOC_DEFAULT_LANG_NODE_NAME   L"Default"
+#define AE_LOC_DEFAULT_LANG_NODE_NAME   "Default"
 
 /// <summary>
 /// XML Language Property Name
 /// </summary>
-#define AE_LOC_LANGUAGE_PROP_NAME       L"lang"
+#define AE_LOC_LANGUAGE_PROP_NAME       "lang"
 
 /// <summary>
 /// XML Language Property Node Name
 /// </summary>
-#define AE_LOC_LANGUAGE_NODE_NAME       L"Language"
+#define AE_LOC_LANGUAGE_NODE_NAME       "Language"
 
 /// <summary>
 /// XML Language Name Property Name
 /// </summary>
-#define AE_LOC_LANG_NAME_PROP_NAME      L"name"
+#define AE_LOC_LANG_NAME_PROP_NAME      "name"
 
 /// <summary>
 /// XML File Property Name
 /// </summary>
-#define AE_LOC_FILE_PROP_NAME           L"file"
+#define AE_LOC_FILE_PROP_NAME           "file"
 
 /// <summary>
 /// XML Literal Node Name
 /// </summary>
-#define AE_LOC_LITERAL_NODE_NAME        L"Literal"
+#define AE_LOC_LITERAL_NODE_NAME        "Literal"
 
 /// <summary>
 /// XML Literal Property Name
 /// </summary>
-#define AE_LOC_LITERAL_NAME_PROP_NAME   L"name"
+#define AE_LOC_LITERAL_NAME_PROP_NAME   "name"
 
 /// <summary>
 /// XML Literal Message Property Name
 /// </summary>
-#define AE_LOC_LITERAL_MSG_PROP_NAME    L"msg"
+#define AE_LOC_LITERAL_MSG_PROP_NAME    "msg"
 
 /****************
 *   Constants   *
 *****************/
-extern const std::wstring AE_LOC_LANG_DEFAULT_LITERAL;
-extern const std::wstring AE_LOC_LANG_NO_LANGUAGE;
+extern const std::string AE_LOC_LANG_DEFAULT_LITERAL;
+extern const std::string AE_LOC_LANG_NO_LANGUAGE;
 
 /************
 *   Enums   *
@@ -105,17 +103,17 @@ extern const std::wstring AE_LOC_LANG_NO_LANGUAGE;
 **************/
 struct LocalizationLiteral sealed : public Named
 {
-    std::wstring m_Msg = L"";
+    std::string m_Msg = "";
 
     //Constructors
     LocalizationLiteral();
-    LocalizationLiteral(const std::wstring& name, const std::wstring& message);
+    LocalizationLiteral(const std::string& name, const std::string& message);
 };
 
 /***************
 *   Typedefs   *
 ****************/
-typedef std::unordered_map<std::wstring, LocalizationLiteral>   LiteralMap;
-typedef std::unordered_map<std::wstring, LiteralMap>            LanguageMap;
+typedef std::unordered_map<std::string, LocalizationLiteral>   LiteralMap;
+typedef std::unordered_map<std::string, LiteralMap>            LanguageMap;
 
 #endif

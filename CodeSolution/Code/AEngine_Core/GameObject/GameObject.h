@@ -23,15 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <list>
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -119,7 +114,7 @@ class GameObject sealed : public Object3D
         /// <summary>
         /// Group that the Game Object belongs to
         /// </summary>
-        std::wstring m_GroupName = L"";
+        std::string m_GroupName = "";
 
         /// <summary>
         /// Parent Game Object for this Game Object
@@ -217,7 +212,7 @@ class GameObject sealed : public Object3D
         /// <param name="position">Position of Game Object</param>
         /// <param name="rotation">Rotation of Game Object in Degrees</param>
         /// <param name="scale">Scale of Game Object</param>
-        GameObject(const std::wstring& name = L"", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& rotation = AEMathHelpers::Vec3fZero, const glm::vec3& scale = AEMathHelpers::Vec3fOne);
+        GameObject(const std::string& name = "", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& rotation = AEMathHelpers::Vec3fZero, const glm::vec3& scale = AEMathHelpers::Vec3fOne);
 
         /// <summary>
         /// Default GameObject Destructor
@@ -235,7 +230,7 @@ class GameObject sealed : public Object3D
         /// Gets the Game Object Group Name that it belongs to
         /// </summary>
         /// <returns>Game Object Group Name that it belongs to</returns>
-        inline const std::wstring& GetGroupName() const
+        inline const std::string& GetGroupName() const
         { 
             return m_GroupName; 
         }
@@ -339,7 +334,7 @@ class GameObject sealed : public Object3D
             return m_AudioSourceGOCList;
         }
 
-        AudioSourceGOC* GetAudioSourceGOC(const std::wstring& name);
+        AudioSourceGOC* GetAudioSourceGOC(const std::string& name);
 
         AudioSourceGOC* GetAudioSourceGOC(uint64_t id);
 
@@ -359,7 +354,7 @@ class GameObject sealed : public Object3D
         /// Sets the Game Object Group Name that it belongs to
         /// </summary>
         /// <param name="groupName">New Game Object Group Name that it belongs to</param>
-        inline void SetGroupName(const std::wstring& groupName) 
+        inline void SetGroupName(const std::string& groupName) 
         { 
             m_GroupName = groupName; 
         }

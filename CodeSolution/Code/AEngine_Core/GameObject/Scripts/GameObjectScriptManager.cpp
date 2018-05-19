@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -48,12 +53,12 @@ void GameObjectScriptManager::CleanUp()
 {
 }
 
-bool GameObjectScriptManager::Exists(const std::wstring& name)
+bool GameObjectScriptManager::Exists(const std::string& name)
 {
     return ( m_GameObjectScriptMap.find(name) != m_GameObjectScriptMap.end() );
 }
 
-AEResult GameObjectScriptManager::Add(const std::wstring& name, GameObjectScriptInstance* instance)
+AEResult GameObjectScriptManager::Add(const std::string& name, GameObjectScriptInstance* instance)
 {
     if (Exists(name))
     {
@@ -65,7 +70,7 @@ AEResult GameObjectScriptManager::Add(const std::wstring& name, GameObjectScript
     return AEResult::Ok;
 }
 
-AEResult GameObjectScriptManager::Remove(const std::wstring& name)
+AEResult GameObjectScriptManager::Remove(const std::string& name)
 {
     if (!Exists(name))
     {
@@ -77,7 +82,7 @@ AEResult GameObjectScriptManager::Remove(const std::wstring& name)
     return AEResult::Ok;
 }
 
-GameObjectScriptInstance* GameObjectScriptManager::Get(const std::wstring& name)
+GameObjectScriptInstance* GameObjectScriptManager::Get(const std::string& name)
 {
     if (!Exists(name))
     {
@@ -87,7 +92,7 @@ GameObjectScriptInstance* GameObjectScriptManager::Get(const std::wstring& name)
     return m_GameObjectScriptMap[name];
 }
 
-asIScriptObject* GameObjectScriptManager::GetScript(const std::wstring& name)
+asIScriptObject* GameObjectScriptManager::GetScript(const std::string& name)
 {
     if (!Exists(name))
     {
@@ -131,7 +136,7 @@ GameObjectScriptMapItConst GameObjectScriptManager::cend() const
     return m_GameObjectScriptMap.cend();
 }
 
-GameObjectScriptInstance* GameObjectScriptManager::operator[](const std::wstring& name)
+GameObjectScriptInstance* GameObjectScriptManager::operator[](const std::string& name)
 {
     return Get(name);
 }

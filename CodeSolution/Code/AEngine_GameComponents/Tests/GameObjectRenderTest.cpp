@@ -15,11 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
 
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -28,20 +31,19 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Time\AETime.h"
+#include "Models\Mesh.h"
+#include "Camera\Camera.h"
+#include "GraphicDevice.h"
+#include "Models\MeshPart.h"
 #include "GameApp\GameApp.h"
+#include "Vertex\IndexBuffer.h"
 #include "GameObjectRenderTest.h"
 #include "GameObject\GameObject.h"
 #include "GameObject\GameObjectManager.h"
-#include "Models\Mesh.h"
-#include "Models\MeshPart.h"
 #include "GameObject\Components\MeshGOC.h"
-#include "GameObject\Components\MeshMaterialGOC.h"
-#include "GraphicDevice.h"
-#include "Vertex\IndexBuffer.h"
-#include "Camera\Camera.h"
-#include "Graphic Extensions\Shader Extensions\Properties\ShaderProperties.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
+#include "GameObject\Components\MeshMaterialGOC.h"
+#include "Graphic Extensions\Shader Extensions\Properties\ShaderProperties.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -49,7 +51,7 @@
 /********************
 *   Function Defs   *
 *********************/
-GameObjectRenderTest::GameObjectRenderTest(GameApp* gameApp, const std::wstring& gameComponentName)
+GameObjectRenderTest::GameObjectRenderTest(GameApp* gameApp, const std::string& gameComponentName)
     : DrawableGameComponent(gameApp, gameComponentName)
 {
 }
@@ -62,7 +64,7 @@ void GameObjectRenderTest::Initialize()
 {
     m_GameObjectManager = m_GameApp->GetGameObjectManager();
 
-    m_Camera = m_GameApp->GetGameService<Camera>(L"Camera");
+    m_Camera = m_GameApp->GetGameService<Camera>("Camera");
 
     DrawableGameComponent::Initialize();
 }
@@ -114,11 +116,11 @@ void GameObjectRenderTest::DrawGameObject(GameObject* gameObject)
 
                 if(vsProps != nullptr)
                 {
-                    ConstantBuffer* cb = vsProps->GetConstantBuffer(L"_AE_CB_World_View_Proj");
+                    ConstantBuffer* cb = vsProps->GetConstantBuffer("_AE_CB_World_View_Proj");
 
-                    cb->SetValueT<glm::mat4>(L"_AE_View", m_Camera->GetViewMatrix());
-                    cb->SetValueT<glm::mat4>(L"_AE_PROJection", m_Camera->GetProjectionMatrix());
-                    cb->SetValueT<glm::mat4>(L"_AE_World", gameObject->GetWorldTransform());
+                    cb->SetValueT<glm::mat4>("_AE_View", m_Camera->GetViewMatrix());
+                    cb->SetValueT<glm::mat4>("_AE_PROJection", m_Camera->GetProjectionMatrix());
+                    cb->SetValueT<glm::mat4>("_AE_World", gameObject->GetWorldTransform());
                 }
 
                 meshMat->ApplyShaders(m_GraphicDevice);

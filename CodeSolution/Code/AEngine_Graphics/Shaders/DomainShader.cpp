@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -37,7 +42,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DomainShader::DomainShader(GraphicDevice* graphicDevice, const std::wstring& name)
+DomainShader::DomainShader(GraphicDevice* graphicDevice, const std::string& name)
     : Shader(graphicDevice, ShaderType::DomainShader, name)
 {
 }
@@ -74,7 +79,7 @@ AEResult DomainShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_
     ReleaseCOM(m_DSDX);
     m_DSDX = tempDX;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11DomainShader>(m_DSDX, AE_DEBUG_DS_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11DomainShader>(m_DSDX, AE_DEBUG_DS_NAME_PREFIX + m_Name);
     
     return AEResult::Ok;
 }

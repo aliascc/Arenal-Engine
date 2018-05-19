@@ -96,7 +96,7 @@ void DeferredRendering::Update(const TimerParams& timerParams)
 
 void DeferredRendering::Render(const TimerParams& timerParams)
 {
-	AE_Base::BeginUserEventPerf(L"Deferred Rendering");
+	AE_Base::BeginUserEventPerf("Deferred Rendering");
 
 	//Clean The Render Targets
 	m_GraphicDevice->ColorFill(m_DiffuseRT, XMCOLORCornflowerBlue);

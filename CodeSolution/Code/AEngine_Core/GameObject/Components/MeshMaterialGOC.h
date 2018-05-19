@@ -63,7 +63,7 @@ class MeshMaterialGOC sealed : public GameObjectComponent
          *************************/
 #pragma region Private Variables
 
-        std::wstring m_Name = L"";
+        std::string m_Name = "";
         
         /// <summary>
         /// Game Object Pair with Vertex Shader that this Game Object Component uses
@@ -147,7 +147,7 @@ class MeshMaterialGOC sealed : public GameObjectComponent
         AEResult ShaderPropertiesReloadTemplate(GameObjectAssetPair<T>& gameAssetPair, ShaderProperties** shaderProperties);
 
         template<class T>
-        std::wstring GetShaderResourceNameTemplate(const GameObjectAssetPair<T>& gameAssetPair) const;
+        std::string GetShaderResourceNameTemplate(const GameObjectAssetPair<T>& gameAssetPair) const;
 
         template<class T>
         AEResult SetShaderAssetTemplate(ShaderAsset* asset, ShaderType shaderType, GameObjectAssetPair<T>& gameAssetPair);
@@ -169,7 +169,7 @@ class MeshMaterialGOC sealed : public GameObjectComponent
         /// </summary>
         /// <param name="gameObject">Game Object that this Component is attached too</param>
         /// <param name="name">Name of the Mesh Material</param>
-        MeshMaterialGOC(GameObject* gameObject, const std::wstring& name = L"");
+        MeshMaterialGOC(GameObject* gameObject, const std::string& name = "");
 
         /// <summary>
         /// Default MeshMaterialGOC Destructor
@@ -198,7 +198,7 @@ class MeshMaterialGOC sealed : public GameObjectComponent
             return m_VertexShaderProps;
         }
 
-        std::wstring GetVertexShaderName() const;
+        std::string GetVertexShaderName() const;
 
         inline PixelShader* GetPixelShaderResource() const
         {
@@ -215,7 +215,7 @@ class MeshMaterialGOC sealed : public GameObjectComponent
             return m_PixelShaderProps;
         }
 
-        std::wstring GetPixelShaderName() const;
+        std::string GetPixelShaderName() const;
 
         inline GeometryShader* GetGeometryShaderResource() const
         {
@@ -232,7 +232,7 @@ class MeshMaterialGOC sealed : public GameObjectComponent
             return m_GeometryShaderProps;
         }
 
-        std::wstring GetGeometryShaderName() const;
+        std::string GetGeometryShaderName() const;
 
         inline ComputeShader* GetComputeShaderResource() const
         {
@@ -249,7 +249,7 @@ class MeshMaterialGOC sealed : public GameObjectComponent
             return m_ComputeShaderProps;
         }
 
-        std::wstring GetComputeShaderName() const;
+        std::string GetComputeShaderName() const;
 
         inline HullShader* GetHullShaderResource() const
         {
@@ -266,7 +266,7 @@ class MeshMaterialGOC sealed : public GameObjectComponent
             return m_HullShaderProps;
         }
 
-        std::wstring GetHullShaderName() const;
+        std::string GetHullShaderName() const;
 
         inline DomainShader* GetDomainShaderResource() const
         {
@@ -283,9 +283,9 @@ class MeshMaterialGOC sealed : public GameObjectComponent
             return m_DomainShaderProps;
         }
 
-        std::wstring GetDomainShaderName() const;
+        std::string GetDomainShaderName() const;
 
-        inline const std::wstring& GetName() const
+        inline const std::string& GetName() const
         {
             return m_Name;
         }
@@ -309,7 +309,7 @@ class MeshMaterialGOC sealed : public GameObjectComponent
 
         AEResult SetDomainShaderAsset(ShaderAsset* asset);
 
-        void SetName(const std::wstring& name)
+        void SetName(const std::string& name)
         {
             m_Name = name;
         }

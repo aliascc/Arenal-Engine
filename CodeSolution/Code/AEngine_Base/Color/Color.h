@@ -27,12 +27,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <array>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *

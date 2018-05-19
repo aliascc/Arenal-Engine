@@ -1,7 +1,7 @@
 Tool:           fmt
 Last Updated:   January 10 2018
 Version:        4.1.0
-Last Build:     January 10 2018
+Last Build:     May 18 2018
 
 Comments:
 

@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <mutex>
-#include <stdint.h>
-#include <functional>
 
 /*************************
 *   3rd Party Includes   *
@@ -99,12 +96,12 @@ class GameResource abstract : public UniqueAEObjectNamed
         /// <summary>
         /// FileName from where the Resource was read
         /// </summary>
-        std::wstring m_FileName = L"";
+        std::string m_FileName = "";
 
         /// <summary>
         /// String that Identifies the Resource in the Resource Manager
         /// </summary>
-        std::wstring m_StringIdentifier = L"";
+        std::string m_StringIdentifier = "";
 
 #pragma endregion
 
@@ -123,7 +120,7 @@ class GameResource abstract : public UniqueAEObjectNamed
         /// a Thread safe function of a Game Resource needs to change the Filename
         /// </remarks>
         /// <param name="fileName">File from where the resource was read</param>
-        void SetFileNameWithoutLock(const std::wstring& fileName);
+        void SetFileNameWithoutLock(const std::string& fileName);
 
         /// <summary>
         /// Sets the Name of the Resource
@@ -133,7 +130,7 @@ class GameResource abstract : public UniqueAEObjectNamed
         /// a Thread safe function of a Game Resource needs to change the Name
         /// </remarks>
         /// <param name="name">Name of the Resource</param>
-        void SetNameWithoutLock(const std::wstring name);
+        void SetNameWithoutLock(const std::string name);
 
 #pragma endregion
 
@@ -162,7 +159,7 @@ class GameResource abstract : public UniqueAEObjectNamed
         /// </summary>
         /// <param name="resourceName">Resource Name</param>
         /// <param name="resourceType">Game Resource Type</param>
-        GameResource(const std::wstring& resourceName, GameResourceType resourceType);
+        GameResource(const std::string& resourceName, GameResourceType resourceType);
 
 #pragma endregion
 
@@ -218,7 +215,7 @@ class GameResource abstract : public UniqueAEObjectNamed
         /// (if it was loaded from a file)
         /// </summary>
         /// <returns>File Name of the Resource</returns>
-        inline const std::wstring& GetFileName() const
+        inline const std::string& GetFileName() const
         {
             return m_FileName;
         }
@@ -227,7 +224,7 @@ class GameResource abstract : public UniqueAEObjectNamed
         /// Returns the String Identifier use in the Game Resource Manager
         /// </summary>
         /// <returns>String Identifier use in Game Resource Manager, empty if none is set</returns>
-        inline const std::wstring& GetStringIdentifier() const
+        inline const std::string& GetStringIdentifier() const
         {
             return m_StringIdentifier;
         }
@@ -245,13 +242,13 @@ class GameResource abstract : public UniqueAEObjectNamed
         /// (if it was loaded from a file)
         /// </summary>
         /// <param name="fileName">File from where the resource was read</param>
-        void SetFileName(const std::wstring& fileName);
+        void SetFileName(const std::string& fileName);
         
         /// <summary>
         /// Sets the Name of the Resource
         /// </summary>
         /// <param name="name">Name of the Resource</param>
-        void SetName(const std::wstring name) override;
+        void SetName(const std::string name) override;
 
 #pragma endregion
 

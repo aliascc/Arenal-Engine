@@ -1,9 +1,9 @@
 Tool:           Boost
-Last Updated:   January 10 2018
-Version:        1.58_0
+Last Updated:   May 18 2018
+Version:        1.67_0
 Last Build:	
-		- January 10 2018 - System
-		- January 10 2018 - Filesystem
+		- May 18 2018 - System
+		- May 18 2018 - Filesystem
 
 Comments:
 - To use (If already built):

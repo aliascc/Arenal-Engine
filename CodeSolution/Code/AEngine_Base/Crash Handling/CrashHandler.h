@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <Windows.h>
 
 /*************************
 *   3rd Party Includes   *

@@ -15,25 +15,25 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
 
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
 #include "DebugStats.h"
-#include "Time\AETime.h"
 #include "Camera\Camera.h"
 #include "GameApp\GameApp.h"
-#include "Base\BaseFunctions.h"
 #include "Vertex\VertexBuffer.h"
 #include "Camera\CameraUpdater.h"
 #include "Wrappers\SpriteFontAE.h"
@@ -48,7 +48,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DebugStats::DebugStats(GameApp* gameApp, const DebugStatsConfig& debugStatsConfig, const std::wstring& gameComponentName, const std::wstring& cameraServiceName, uint32_t callOrder)
+DebugStats::DebugStats(GameApp* gameApp, const DebugStatsConfig& debugStatsConfig, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
     , m_DebugStatsConfig(debugStatsConfig)
 {
@@ -73,7 +73,7 @@ void DebugStats::Initialize()
     m_AxisVertexBuffer = new VertexBuffer<VertexPositionColor>(m_GraphicDevice);
 
     AETODO("Set Define for name of material");
-    m_BasicColorMaterial = new BasicColorMaterial(m_GraphicDevice, m_GameResourceManager, L"AE_DebugStats_BasicColorMaterial");
+    m_BasicColorMaterial = new BasicColorMaterial(m_GraphicDevice, m_GameResourceManager, "AE_DebugStats_BasicColorMaterial");
     
     m_SpriteBatchAE = new SpriteBatchAE(m_GraphicDevice);
 
@@ -199,13 +199,13 @@ void DebugStats::Render(const TimerParams& timerParams)
 {
     glm::vec2 stride(0.0f, 0.0f);
     glm::vec2 pos(10.0f, 10.0f);
-    std::wstring msg = L"";
+    std::string msg = "";
 
-    m_GraphicDevice->BeginEvent(L"Debug Stats");
+    m_GraphicDevice->BeginEvent("Debug Stats");
 
     if(m_DebugStatsConfig.m_GridEnabled || m_DebugStatsConfig.m_AxisEnabled)
     {
-        m_GraphicDevice->BeginEvent(L"Debug Grid Axis");
+        m_GraphicDevice->BeginEvent("Debug Grid Axis");
 
         //Set Topology to LineList for Both Axis and Grid
         m_GraphicDevice->SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
@@ -235,17 +235,17 @@ void DebugStats::Render(const TimerParams& timerParams)
 
     if(m_DebugStatsConfig.m_FPSEnabled)
     {
-        m_GraphicDevice->BeginEvent(L"Debug Text");
+        m_GraphicDevice->BeginEvent("Debug Text");
 
         m_SpriteBatchAE->Begin();
 
         AETODO("Change to Localization Literals");
-        msg = fmt::format(L"FPS: {0}", m_GameApp->GetTimer().GetFPS());
+        msg = fmt::format("FPS: {0}", m_GameApp->GetTimer().GetFPS());
         m_SpriteFontAE->DrawString(m_SpriteBatchAE, msg, pos, m_DebugStatsConfig.m_TextColor);
         stride = m_SpriteFontAE->MeasureString(msg);
         pos.y += stride.y;
 
-        msg = fmt::format(L"Milliseconds/Frame: {0}", m_GameApp->GetTimer().GetMilliPerFrame());
+        msg = fmt::format("Milliseconds/Frame: {0}", m_GameApp->GetTimer().GetMilliPerFrame());
         m_SpriteFontAE->DrawString(m_SpriteBatchAE, msg, pos, m_DebugStatsConfig.m_TextColor);
         stride = m_SpriteFontAE->MeasureString(msg);
         pos.y += stride.y;

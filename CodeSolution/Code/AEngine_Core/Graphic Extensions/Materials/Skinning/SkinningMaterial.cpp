@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -54,7 +59,7 @@
 /********************
 *   Function Defs   *
 *********************/
-SkinningMaterial::SkinningMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name)
+SkinningMaterial::SkinningMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
     : Material(graphicDevice, gameResourceManager, name)
 {
 }
@@ -202,7 +207,7 @@ AEResult SkinningMaterial::CreatePixelShaderTextureBinding()
     // Texture2D _AE_DiffuseTexture : register(t0);
     //
 
-    ShaderTextureBinding* stb = new ShaderTextureBinding(L"_AE_DiffuseTexture", 0, TextureType::Texture2D, nullptr);
+    ShaderTextureBinding* stb = new ShaderTextureBinding("_AE_DiffuseTexture", 0, TextureType::Texture2D, nullptr);
 
     ret = m_PSProps->AddShaderTextureBinding(stb);
 

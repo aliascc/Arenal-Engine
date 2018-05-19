@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -35,7 +40,7 @@
 *   Function Defs   *
 *********************/
 Bone::Bone()
-    : Named(L"")
+    : Named("")
 {
 }
 

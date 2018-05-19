@@ -23,11 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <list>
-#include <string>
-#include <fstream>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -174,7 +169,7 @@ class Shader abstract : public GameResource
         /// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
         /// <param name="name">Name of Shader</param>
         /// <param name="shaderType">Type of the Shader</param>
-        Shader(GraphicDevice* graphicDevice, ShaderType shaderType, const std::wstring& name = L"");
+        Shader(GraphicDevice* graphicDevice, ShaderType shaderType, const std::string& name = "");
 
 #pragma endregion
 

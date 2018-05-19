@@ -15,12 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <Windows.h>
-#include <DirectXMath.h>
-#include <DirectXPackedVector.h>
 
 /*************************
 *   3rd Party Includes   *

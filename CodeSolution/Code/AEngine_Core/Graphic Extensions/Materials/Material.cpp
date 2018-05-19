@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -44,7 +49,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Material::Material(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name)
+Material::Material(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
     : Named(name)
     , m_GraphicDevice(graphicDevice)
     , m_GameResourceManager(gameResourceManager)

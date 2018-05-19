@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
-#include <Windows.h>
-#include <Xinput.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -34,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\AEObject.h"
 
 /**************
 *   Defines   *

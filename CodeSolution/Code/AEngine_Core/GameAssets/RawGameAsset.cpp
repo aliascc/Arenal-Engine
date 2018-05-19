@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,8 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
-#include "boost\filesystem.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -38,7 +41,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-RawGameAsset::RawGameAsset(const std::wstring& filePath, const std::wstring& projectDirectory, const std::wstring& name)
+RawGameAsset::RawGameAsset(const std::string& filePath, const std::string& projectDirectory, const std::string& name)
     : UniqueAEObjectNamed(name)
     , m_CustomName(name)
     , m_FilePath(filePath)
@@ -114,7 +117,7 @@ void RawGameAsset::SetLastModifiedTimeStamp(TimeStamp lastModifiedTimeStamp)
     //m_ContentSubtypeChanged = true;
 }
 
-void RawGameAsset::SetOutputFileName(std::wstring outputFileName)
+void RawGameAsset::SetOutputFileName(std::string outputFileName)
 {
     if (m_OutputFileName == outputFileName)
     {
@@ -140,7 +143,7 @@ AEResult RawGameAsset::ParseRawGameAssetFile()
         return AEResult::EmptyFilename;
     }
 
-    std::wstring fileName = AE_Base::GetFilenameOnly(m_FilePath);
+    std::string fileName = AE_Base::GetFilenameOnly(m_FilePath);
     if(fileName.empty())
     {
         return AEResult::EmptyFilename;

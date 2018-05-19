@@ -15,12 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <Windows.h>
-#include <DirectXMath.h>
-#include <DirectXPackedVector.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -44,7 +46,7 @@
 /********************
 *   Function Defs   *
 *********************/
-SpriteFontAE::SpriteFontAE(GraphicDevice* graphicDevice, const std::wstring spriteFontFile)
+SpriteFontAE::SpriteFontAE(GraphicDevice* graphicDevice, const std::string spriteFontFile)
     : m_GraphicDevice(graphicDevice)
     , m_SpriteFontFile(spriteFontFile)
 {
@@ -77,11 +79,12 @@ AEResult SpriteFontAE::Initialize()
 
     try
     {
-        m_SpriteFont = new DirectX::SpriteFont(m_GraphicDevice->GetDeviceDX(), m_SpriteFontFile.c_str());
+        std::wstring spriteFontFileW = AE_Base::String2WideStr(m_SpriteFontFile);
+        m_SpriteFont = new DirectX::SpriteFont(m_GraphicDevice->GetDeviceDX(), spriteFontFileW.c_str());
     }
-    AETODO("Get correct Exception")
     catch(...)
     {
+        AETODO("Get correct Exception")
         return AEResult::Fail;
     }
 
@@ -90,7 +93,7 @@ AEResult SpriteFontAE::Initialize()
     return AEResult::Ok;
 }
 
-AEResult SpriteFontAE::DrawString(const SpriteBatchAE* spriteBatch, const std::wstring& text, const glm::vec2& position, const Color& color, float rotation, const glm::vec2& origin, float scale, DirectX::SpriteEffects effects, float layerDepth)
+AEResult SpriteFontAE::DrawString(const SpriteBatchAE* spriteBatch, const std::string& text, const glm::vec2& position, const Color& color, float rotation, const glm::vec2& origin, float scale, DirectX::SpriteEffects effects, float layerDepth)
 {
     if(!m_IsReady)
     {
@@ -112,13 +115,15 @@ AEResult SpriteFontAE::DrawString(const SpriteBatchAE* spriteBatch, const std::w
     DirectX::XMFLOAT2 xmPosition(position.x, position.y);
     DirectX::XMVECTOR xmColor = DirectX::XMVectorSet(color.r, color.g, color.b, color.a);
     DirectX::XMFLOAT2 xmOrigin(origin.x, origin.y);
-    
-    m_SpriteFont->DrawString(spriteBatch->m_SpriteBatch, text.c_str(), xmPosition, xmColor, rotation, xmOrigin, scale, effects, layerDepth);
+
+    std::wstring textW = AE_Base::String2WideStr(text);
+
+    m_SpriteFont->DrawString(spriteBatch->m_SpriteBatch, textW.c_str(), xmPosition, xmColor, rotation, xmOrigin, scale, effects, layerDepth);
 
     return AEResult::Ok;
 }
 
-AEResult SpriteFontAE::DrawString(const SpriteBatchAE* spriteBatch, const std::wstring& text, const glm::vec2& position, const Color& color, float rotation, const glm::vec2& origin, const glm::vec2& scale, DirectX::SpriteEffects effects, float layerDepth)
+AEResult SpriteFontAE::DrawString(const SpriteBatchAE* spriteBatch, const std::string& text, const glm::vec2& position, const Color& color, float rotation, const glm::vec2& origin, const glm::vec2& scale, DirectX::SpriteEffects effects, float layerDepth)
 {
     if(!m_IsReady)
     {
@@ -142,19 +147,23 @@ AEResult SpriteFontAE::DrawString(const SpriteBatchAE* spriteBatch, const std::w
     DirectX::XMFLOAT2 xmOrigin(origin.x, origin.y);
     DirectX::XMFLOAT2 xmScale(scale.x, scale.y);
 
-    m_SpriteFont->DrawString(spriteBatch->m_SpriteBatch, text.c_str(), xmPosition, xmColor, rotation, xmOrigin, xmScale, effects, layerDepth);
+    std::wstring textW = AE_Base::String2WideStr(text);
+
+    m_SpriteFont->DrawString(spriteBatch->m_SpriteBatch, textW.c_str(), xmPosition, xmColor, rotation, xmOrigin, xmScale, effects, layerDepth);
 
     return AEResult::Ok;
 }
 
-glm::vec2 SpriteFontAE::MeasureString(const std::wstring& text) const
+glm::vec2 SpriteFontAE::MeasureString(const std::string& text) const
 {
     if(!m_IsReady)
     {
         return AEMathHelpers::Vec2fZero;
     }
 
-    DirectX::XMVECTOR xmVec = m_SpriteFont->MeasureString(text.c_str());
+    std::wstring textW = AE_Base::String2WideStr(text);
+
+    DirectX::XMVECTOR xmVec = m_SpriteFont->MeasureString(textW.c_str());
     DirectX::XMFLOAT2 xmSize;
     DirectX::XMStoreFloat2(&xmSize, xmVec);
 

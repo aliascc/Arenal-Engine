@@ -23,10 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <assert.h>
-#include <vector>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -324,7 +320,7 @@ class VertexBuffer sealed : public IVertexBuffer
                 return AEResult::Fail;
             }
 
-            AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_VertexBufferDX, AE_DEBUG_VB_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+            AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_VertexBufferDX, AE_DEBUG_VB_NAME_PREFIX + m_Name);
 
             m_IsReady = true;
 

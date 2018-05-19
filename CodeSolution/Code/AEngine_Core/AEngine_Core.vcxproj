@@ -70,6 +70,10 @@
     <ClCompile Include="Graphic Extensions\Materials\Shadows\VarianceSkinningShadowMaterial.cpp" />
     <ClCompile Include="Graphic Extensions\Materials\Skinning\SkinningMaterial.cpp" />
     <ClCompile Include="Graphic Extensions\Shader Extensions\Properties\ShaderProperties.cpp" />
+    <ClCompile Include="precomp_core.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameApp\GameApp.h" />
@@ -133,6 +137,7 @@
     <ClInclude Include="Graphic Extensions\Materials\Shadows\VarianceSkinningShadowMaterial.h" />
     <ClInclude Include="Graphic Extensions\Materials\Skinning\SkinningMaterial.h" />
     <ClInclude Include="Graphic Extensions\Shader Extensions\Properties\ShaderProperties.h" />
+    <ClInclude Include="precomp_core.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0173BBDA-4173-4E88-959B-91CE221A6894}</ProjectGuid>
@@ -149,7 +154,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
@@ -157,7 +162,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -182,17 +187,18 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>GLM_FORCE_RADIANS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\AEngine_Base\;$(SolutionDir)\Code\AEngine_Scripting\;$(SolutionDir)\Code\AEngine_Input\;$(SolutionDir)\Code\AEngine_Shaders\;$(SolutionDir)\Code\AEngine_GameContent\;$(SolutionDir)\Code\AEngine_Graphics\;$(SolutionDir)\Code\AEngine_Audio\;$(SolutionDir)\Code\AEngine_Physics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>
-      </MultiProcessorCompilation>
-      <MinimalRebuild>true</MinimalRebuild>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeaderFile>precomp_core.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -202,17 +208,20 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>GLM_FORCE_RADIANS;WIN32;WIN64;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\AEngine_Base\;$(SolutionDir)\Code\AEngine_Scripting\;$(SolutionDir)\Code\AEngine_Input\;$(SolutionDir)\Code\AEngine_Shaders\;$(SolutionDir)\Code\AEngine_GameContent\;$(SolutionDir)\Code\AEngine_Graphics\;$(SolutionDir)\Code\AEngine_Audio\;$(SolutionDir)\Code\AEngine_Physics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>
-      </MultiProcessorCompilation>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PrecompiledHeaderFile>precomp_core.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

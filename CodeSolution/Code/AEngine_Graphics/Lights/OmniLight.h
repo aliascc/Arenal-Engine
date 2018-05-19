@@ -23,12 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -64,7 +62,7 @@ class OmniLight sealed : public Light
         /// <summary>
         /// OmniLight Constructor
         /// </summary>
-        OmniLight(const std::wstring& name = L"Omni Light", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& direction = AEMathHelpers::Vec3fZero, const Color& color = AEColors::White, float nearAtteniation = 0.0f, float farAttenuation = 0.0f, float intensity = 1.0f, bool enabled = true);
+        OmniLight(const std::string& name = "Omni Light", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& direction = AEMathHelpers::Vec3fZero, const Color& color = AEColors::White, float nearAtteniation = 0.0f, float farAttenuation = 0.0f, float intensity = 1.0f, bool enabled = true);
 
         /// <summary>
         /// Default OmniLight Destructor

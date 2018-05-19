@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -38,7 +43,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-GameObjectScriptAsset::GameObjectScriptAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager)
+GameObjectScriptAsset::GameObjectScriptAsset(const std::string& filePath, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager)
     : GameAsset(GameContentType::GameObjectScript, filePath, gameResourceManager)
     , m_AngelScriptManager(angelScriptManager)
 {
@@ -107,7 +112,7 @@ AEResult GameObjectScriptAsset::LoadAssetResource()
             return AEResult::Ok;
         }
 
-        std::wstring scriptName = AE_Base::GetFilenameOnly(m_FilePath);
+        std::string scriptName = AE_Base::GetFilenameOnly(m_FilePath);
         m_GameObjectScript = new GameObjectScript(scriptName, m_AngelScriptManager);
 
         m_GameObjectScript->SetFileName(m_FilePath);

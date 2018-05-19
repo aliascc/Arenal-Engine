@@ -1,5 +1,5 @@
---- ColladaLoader.h.orig	2017-12-11 14:22:45.000000000 +0100
-+++ ColladaLoader.h	2018-01-09 03:17:35.037665900 +0100
+--- ./ColladaLoader.h.orig	2017-12-11 14:22:45.000000000 +0100
++++ ./ColladaLoader.h	2018-01-09 03:17:35.037665900 +0100
 @@ -96,6 +96,12 @@
      bool CanRead( const std::string& pFile, IOSystem* pIOHandler, bool checkSig) const;
  

@@ -47,6 +47,7 @@
     <ClCompile Include="Writers\WriterAE3D.cpp">
       <Filter>Writers</Filter>
     </ClCompile>
+    <ClCompile Include="precomp_gamecontent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameContentDefs.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="Writers\WriterAE3D.h">
       <Filter>Writers</Filter>
     </ClInclude>
+    <ClInclude Include="precomp_gamecontent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Content">

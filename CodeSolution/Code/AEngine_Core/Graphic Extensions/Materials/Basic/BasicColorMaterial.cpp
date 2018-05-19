@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -51,7 +56,7 @@
 /********************
 *   Function Defs   *
 *********************/
-BasicColorMaterial::BasicColorMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name)
+BasicColorMaterial::BasicColorMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
     : Material(graphicDevice, gameResourceManager, name)
 {
 }

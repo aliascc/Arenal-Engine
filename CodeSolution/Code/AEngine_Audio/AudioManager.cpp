@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_audio.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -27,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "AudioManager.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

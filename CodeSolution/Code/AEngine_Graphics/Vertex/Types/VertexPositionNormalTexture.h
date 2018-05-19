@@ -23,13 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -88,7 +85,7 @@ struct VertexPositionNormalTexture
 
         m_VertexLayout = new VertexLayout();
 
-        AEResult ret = m_VertexLayout->BuildVertexLayout(graphicDevice, DummyVertexPositionNormalTexture, sizeof(DummyVertexPositionNormalTexture), vertexDesc, 3, L"VertexPositionNormalTextureLayout");
+        AEResult ret = m_VertexLayout->BuildVertexLayout(graphicDevice, DummyVertexPositionNormalTexture, sizeof(DummyVertexPositionNormalTexture), vertexDesc, 3, "VertexPositionNormalTextureLayout");
 
         if(ret != AEResult::Ok)
         {

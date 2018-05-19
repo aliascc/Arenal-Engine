@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -53,7 +58,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DiffuseTextureMaterial::DiffuseTextureMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name)
+DiffuseTextureMaterial::DiffuseTextureMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
     : Material(graphicDevice, gameResourceManager, name)
 {
 }

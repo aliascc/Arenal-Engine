@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <list>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *

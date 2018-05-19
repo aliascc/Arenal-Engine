@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -37,7 +42,7 @@
 /********************
 *   Function Defs   *
 *********************/
-GeometryShader::GeometryShader(GraphicDevice* graphicDevice, const std::wstring& name)
+GeometryShader::GeometryShader(GraphicDevice* graphicDevice, const std::string& name)
     : Shader(graphicDevice, ShaderType::GeometryShader, name)
 {
 }
@@ -74,7 +79,7 @@ AEResult GeometryShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint3
     ReleaseCOM(m_GSDX);
     m_GSDX = tempDX;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11GeometryShader>(m_GSDX, AE_DEBUG_GS_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11GeometryShader>(m_GSDX, AE_DEBUG_GS_NAME_PREFIX + m_Name);
     
     return AEResult::Ok;
 }

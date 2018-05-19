@@ -15,6 +15,10 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
 
 /**********************
 *   System Includes   *
@@ -25,7 +29,6 @@
 ****************************/
 #include "AudioPlayer.h"
 #include "AudioListener.h"
-#include "Time\AETimeDefs.h"
 #include "GameAudioUpdate.h"
 #include "GameApp\GameApp.h"
 #include "GameObject\GameObject.h"
@@ -39,7 +42,7 @@
 /********************
 *   Function Defs   *
 *********************/
-GameAudioUpdate::GameAudioUpdate(GameApp* gameApp, const std::wstring& gameComponentName, uint32_t callOrder)
+GameAudioUpdate::GameAudioUpdate(GameApp* gameApp, const std::string& gameComponentName, uint32_t callOrder)
     : GameComponent(gameApp, gameComponentName, callOrder)
 {
 }

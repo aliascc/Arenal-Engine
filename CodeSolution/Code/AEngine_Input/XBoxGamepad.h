@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <Windows.h>
-#include <Xinput.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -33,9 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "InputDefs.h"
-#include "Base\AEObject.h"
 
 /********************
 *   Forward Decls   *

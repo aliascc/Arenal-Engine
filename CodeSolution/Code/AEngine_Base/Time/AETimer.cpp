@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <Windows.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -56,7 +60,7 @@ double AETimer::GetLapTime(bool updatePrevTime)
 
     double elapsedTime = ((currentTimeStamp - m_PrevTime) * m_SecondPerCount);
 
-#if defined(_DEBUG)
+#if defined(AE_TIME_STEP_LOCK)
 
     //If we are debugging and we are inspecting a break point 
     //it is very likely that elapsed time will be more than a sec

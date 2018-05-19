@@ -23,15 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <Windows.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -159,7 +154,7 @@ private:
 
         GraphicsPresentationParameters m_gPP;
 
-#if defined(_DEBUG) || defined(PROFILE)
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
 
         ID3DUserDefinedAnnotation*    m_UserDefinedAnnotationDX = nullptr;
 
@@ -402,12 +397,18 @@ private:
 
         AEResult DispatchComputeShader(uint32_t threadGroupCountX, uint32_t threadGroupCountY, uint32_t threadGroupCountZ);
 
-        AEResult BeginEvent(const std::wstring& eventName);
-        AEResult EndEvent();
-        AEResult SetEventmarker(const std::wstring& eventName);
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
+        void BeginEvent(const std::string& eventName);
+        void EndEvent();
+        void SetEventmarker(const std::string& eventName);
+#else
+        inline void BeginEvent(const std::string& eventName) {}
+        inline void EndEvent() {}
+        inline void SetEventmarker(const std::string& eventName) {}
+#endif
 
         //Framework Methods
-        AEResult CheckDevCaps(const std::wstring& file);
+        AEResult CheckDevCaps(const std::string& file);
         AEResult DrawFullScreenQuad(const glm::vec4& texCoord = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
         AEResult DrawQuad2D(const RECT& size, const glm::vec4& texCoord = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 

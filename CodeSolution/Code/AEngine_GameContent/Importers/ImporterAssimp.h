@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -67,13 +65,13 @@ class ImporterAssimp sealed : public AEObject
 
         ModelContent* m_Model = nullptr;
 
-        std::map<std::wstring, MeshHolder*> m_MeshHolderMap;
+        std::map<std::string, MeshHolder*> m_MeshHolderMap;
 
         std::map<uint32_t, MeshHolder*> m_MeshPartIDToMeshHolderMap;
 
-        std::map<std::wstring, TransformsHolder> m_TransformsMap;
+        std::map<std::string, TransformsHolder> m_TransformsMap;
 
-        std::map<std::wstring, Bone*> m_BoneMap;
+        std::map<std::string, Bone*> m_BoneMap;
 
         std::vector<AnimationHolder> m_AnimationHolderVec;
 
@@ -83,9 +81,9 @@ class ImporterAssimp sealed : public AEObject
 
         AEResult CreateBoudingShapes();
 
-        AEResult ProcessSceneAnimations(const aiScene* scene, const std::vector<std::wstring>& animationNewNames);
+        AEResult ProcessSceneAnimations(const aiScene* scene, const std::vector<std::string>& animationNewNames);
 
-        AEResult ProcessScene(const aiScene* scene, const std::vector<std::wstring>& animationNewNames);
+        AEResult ProcessScene(const aiScene* scene, const std::vector<std::string>& animationNewNames);
 
         AEResult ProcessMeshes(const aiScene* scene);
 
@@ -99,17 +97,17 @@ class ImporterAssimp sealed : public AEObject
 
         AEResult ProcessNode(const aiNode* node, const glm::mat4& parentTransform = AEMathHelpers::Mat4Identity);
 
-        AEResult ProcessAnimations(const aiScene* scene, const std::vector<std::wstring>& animationNewNames);
+        AEResult ProcessAnimations(const aiScene* scene, const std::vector<std::string>& animationNewNames);
         
         AEResult GetAnimationKeyFrames(const aiScene* scene);
         
-        AEResult BuildAnimations(const std::vector<std::wstring>& animationNewNames);
+        AEResult BuildAnimations(const std::vector<std::string>& animationNewNames);
 
         AEResult ProcessMaterials(const aiScene* scene);
 
         AEResult BuildMaterials();
 
-        std::wstring GetTexturePath(aiMaterial* assimpMat, uint32_t textureID, aiTextureType textType);
+        std::string GetTexturePath(aiMaterial* assimpMat, uint32_t textureID, aiTextureType textType);
 
         AEResult ProcessEmbeddedTextures(const aiScene* scene);
 
@@ -117,7 +115,7 @@ class ImporterAssimp sealed : public AEObject
 
         void CleanUpMemory();
 
-        void ReplaceAutoGenAssimpName(std::wstring& name, const std::wstring& newName, const std::wstring& typeName, int32_t idx, bool overrideNotAuto = false);
+        void ReplaceAutoGenAssimpName(std::string& name, const std::string& newName, const std::string& typeName, int32_t idx, bool overrideNotAuto = false);
 
     public:
 
@@ -138,9 +136,9 @@ class ImporterAssimp sealed : public AEObject
 
 #pragma endregion
 
-        AEResult ImportModel(const std::wstring& filePath, ModelContent** loadedModel, const std::wstring& texturePath = L".\\", bool calcTangentsBinormals = false, bool clockwise = true, bool lefthanded = false, const std::vector<std::wstring>& animationNewNames = std::vector<std::wstring>(0));
+        AEResult ImportModel(const std::string& filePath, ModelContent** loadedModel, const std::string& texturePath = ".\\", bool calcTangentsBinormals = false, bool clockwise = true, bool lefthanded = false, const std::vector<std::string>& animationNewNames = std::vector<std::string>(0));
 
-        AEResult ImportAnimations(const std::wstring& filePath, ModelContent** loadedAnimations, bool lefthanded = false, const std::vector<std::wstring>& animationNewNames = std::vector<std::wstring>(0));
+        AEResult ImportAnimations(const std::string& filePath, ModelContent** loadedAnimations, bool lefthanded = false, const std::vector<std::string>& animationNewNames = std::vector<std::string>(0));
 
 };
 

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecontent.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -61,9 +65,9 @@ TreeBone::~TreeBone()
 /*******************
 *   VertexHolder   *
 ********************/
-std::wstring VertexHolder::ToString() const
+std::string VertexHolder::ToString() const
 {
-    std::wstring vtxString = fmt::format(L"{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}",
+    std::string vtxString = fmt::format("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}{16}{17}{18}{19}{20}{21}{22}{23}{24}{25}{26}",
         m_Position.x,                       // 0
         m_Position.y,                       // 1
         m_Position.z,                       // 2

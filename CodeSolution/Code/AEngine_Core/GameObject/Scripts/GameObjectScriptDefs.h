@@ -27,9 +27,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <stdint.h>
-#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -99,7 +96,7 @@ struct GameObjectScriptInstance sealed : public AEObject
     /// <summary>
     /// Name of the instance of the Game Object Script
     /// </summary>
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     /// <summary>
     /// Angel Script Object
@@ -167,7 +164,7 @@ struct GameObjectScriptProperty sealed : public AEObject
     /// <summary>
     /// Name of the Property
     /// </summary>
-    std::wstring m_PropertyName = L"";
+    std::string m_PropertyName = "";
 
     /// <summary>
     /// Index use by the Property
@@ -224,7 +221,7 @@ struct GameObjectScriptProperties sealed : public AEObject
     /// <summary>
     /// Map Containing the Script Properties
     /// </summary>
-    std::unordered_map<std::wstring, GameObjectScriptProperty*> m_PropertiesMap;
+    std::unordered_map<std::string, GameObjectScriptProperty*> m_PropertiesMap;
 
     /// <summary>
     /// Default Constructor
@@ -244,14 +241,14 @@ struct GameObjectScriptProperties sealed : public AEObject
 
     void ClearPropertiesAddress();
 
-    inline bool GameObjectScriptPropertyExists(const std::wstring& name) const
+    inline bool GameObjectScriptPropertyExists(const std::string& name) const
     {
         return (m_PropertiesMap.find(name) != m_PropertiesMap.end());
     }
 
     AEResult CopySavedValuesToProperties(GameObjectScriptProperties& target);
 
-    GameObjectScriptProperty* GetGameObjectScriptProperty(const std::wstring& name);
+    GameObjectScriptProperty* GetGameObjectScriptProperty(const std::string& name);
 };
 
 #endif

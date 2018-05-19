@@ -1,5 +1,5 @@
---- Macros.cmake.orig	2017-02-08 12:29:16.000000000 +0100
-+++ Macros.cmake	2018-01-10 23:38:37.467844400 +0100
+--- ./Macros.cmake.orig	2017-02-08 12:29:16.000000000 +0100
++++ ./Macros.cmake	2018-01-10 23:38:37.467844400 +0100
 @@ -21,11 +21,23 @@
      # adjust the output file prefix/suffix to match our conventions
      if(BUILD_SHARED_LIBS)

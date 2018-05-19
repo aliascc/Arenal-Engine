@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -54,7 +51,7 @@ class IConstantBuffer;
 /// <summary>
 /// Vertex Shader PNT Name
 /// </summary>
-#define AE_DIFFUSE_TEXTURE_VS_NAME            L"Diffuse Texture Vertex Shader"
+#define AE_DIFFUSE_TEXTURE_VS_NAME            "Diffuse Texture Vertex Shader"
 
 /*****************
 *   Class Decl   *
@@ -101,7 +98,7 @@ public:
     /// </summary>
     /// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
     /// <param name="name">Name of Shader</param>
-    DiffuseTextureVS(GraphicDevice* graphicDevice, const std::wstring& resourceName);
+    DiffuseTextureVS(GraphicDevice* graphicDevice, const std::string& resourceName);
 
 #pragma endregion
 

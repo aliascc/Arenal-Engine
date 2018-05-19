@@ -24,9 +24,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <vector>
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -88,25 +85,25 @@ class ShaderProperties sealed : public AEObject
         }
     };
 
-    typedef std::map<std::wstring, ConstantBuffer*> ConstantBufferMap;
+    typedef std::map<std::string, ConstantBuffer*> ConstantBufferMap;
     typedef std::vector<ConstantBuffer*> ConstantBufferVector;
 
-    typedef std::map<std::wstring, ShaderPropertyObject<SimpleBuffer>*> SimpleBufferMap;
+    typedef std::map<std::string, ShaderPropertyObject<SimpleBuffer>*> SimpleBufferMap;
     typedef std::vector<ShaderPropertyObject<SimpleBuffer>*> SimpleBufferVector;
 
-    typedef std::map<std::wstring, ShaderPropertyObject<StructuredBuffer>*> StructuredBufferMap;
+    typedef std::map<std::string, ShaderPropertyObject<StructuredBuffer>*> StructuredBufferMap;
     typedef std::vector<ShaderPropertyObject<StructuredBuffer>*> StructuredBufferVector;
 
-    typedef std::map<std::wstring, ShaderTextureBinding*> TextureBindingMap;
+    typedef std::map<std::string, ShaderTextureBinding*> TextureBindingMap;
     typedef std::vector<ShaderTextureBinding*> TextureBindingVector;
 
-    typedef std::map<std::wstring, ShaderPropertyObject<TextureArray>*> TextureArrayMap;
+    typedef std::map<std::string, ShaderPropertyObject<TextureArray>*> TextureArrayMap;
     typedef std::vector<ShaderPropertyObject<TextureArray>*> TextureArrayVector;
 
-    typedef std::map<std::wstring, ShaderPropertyObject<Sampler>*> SamplerMap;
+    typedef std::map<std::string, ShaderPropertyObject<Sampler>*> SamplerMap;
     typedef std::vector<ShaderPropertyObject<Sampler>*> SamplerVector;
 
-    typedef std::map<std::wstring, GameObjectAssetPair<Texture>> TextureAssetMap;
+    typedef std::map<std::string, GameObjectAssetPair<Texture>> TextureAssetMap;
 
     private:
 
@@ -197,7 +194,7 @@ class ShaderProperties sealed : public AEObject
         ***********************/
 #pragma region Private Methods
 
-        AEResult CopyTexturePairData(const std::wstring& textureName, const GameObjectAssetPair<Texture>& otherTexturePair);
+        AEResult CopyTexturePairData(const std::string& textureName, const GameObjectAssetPair<Texture>& otherTexturePair);
 
         //////////////////////////////
 
@@ -223,9 +220,9 @@ class ShaderProperties sealed : public AEObject
 
         AEResult SetTextureToBinding(ShaderTextureBinding* stb, Texture* baseTexture);
 
-        AEResult AddTextureAssetBinding(const std::wstring& name, TextureAsset* asset);
+        AEResult AddTextureAssetBinding(const std::string& name, TextureAsset* asset);
 
-        AEResult RemoveTextureAssetBinding(const std::wstring& name, bool informGameAsset = true);
+        AEResult RemoveTextureAssetBinding(const std::string& name, bool informGameAsset = true);
 
 #pragma endregion
 
@@ -298,7 +295,7 @@ class ShaderProperties sealed : public AEObject
         /// </summary>
         /// <param name="name">Name of the Sampler</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult RemoveSampler(const std::wstring& name);
+        AEResult RemoveSampler(const std::string& name);
 
         /// <summary>
         /// Overrides a Sampler of the Shader Properties
@@ -309,7 +306,7 @@ class ShaderProperties sealed : public AEObject
         /// <param name="bindIndex">New Bind Index</param>
         /// <param name="deleteAtShaderDestroy">When Shader Properties get destroyed, destroy the object as well</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult OverrideSampler(const std::wstring& name, Sampler* sampler, bool overrideBindIndex = false, uint32_t bindIndex = 0, bool deleteAtShaderDestroy = false);
+        AEResult OverrideSampler(const std::string& name, Sampler* sampler, bool overrideBindIndex = false, uint32_t bindIndex = 0, bool deleteAtShaderDestroy = false);
 
         /// <summary>
         /// Adds a Simple Buffer to the Shader Properties
@@ -323,7 +320,7 @@ class ShaderProperties sealed : public AEObject
         /// </summary>
         /// <param name="name">Name of the Simple Buffer</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult RemoveSimpleBuffer(const std::wstring& name);
+        AEResult RemoveSimpleBuffer(const std::string& name);
 
         /// <summary>
         /// Overrides a Simple Buffer of the Shader Properties
@@ -336,7 +333,7 @@ class ShaderProperties sealed : public AEObject
         /// <param name="bindIndex">New Bind Index</param>
         /// <param name="deleteAtShaderDestroy">When Shader Properties get destroyed, destroy the object as well</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult OverrideSimpleBuffer(const std::wstring& name, SimpleBuffer* simpleBuffer, bool overwriteRW = false, bool setRW = false, bool overrideBindIndex = false, uint32_t bindIndex = 0, bool deleteAtShaderDestroy = false);
+        AEResult OverrideSimpleBuffer(const std::string& name, SimpleBuffer* simpleBuffer, bool overwriteRW = false, bool setRW = false, bool overrideBindIndex = false, uint32_t bindIndex = 0, bool deleteAtShaderDestroy = false);
 
         /// <summary>
         /// Adds a Structured Buffer to the Shader Properties
@@ -350,7 +347,7 @@ class ShaderProperties sealed : public AEObject
         /// </summary>
         /// <param name="name">Name of the Structured Buffer</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult RemoveStructuredBuffer(const std::wstring& name);
+        AEResult RemoveStructuredBuffer(const std::string& name);
 
         /// <summary>
         /// Overrides a Structured Buffer of the Shader Properties
@@ -363,7 +360,7 @@ class ShaderProperties sealed : public AEObject
         /// <param name="bindIndex">New Bind Index</param>
         /// <param name="deleteAtShaderDestroy">When Shader Properties get destroyed, destroy the object as well</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult OverrideStructuredBuffer(const std::wstring& name, StructuredBuffer* structuredBuffer, bool overwriteRW = false, bool setRW = false, bool overrideBindIndex = false, uint32_t bindIndex = 0, bool deleteAtShaderDestroy = false);
+        AEResult OverrideStructuredBuffer(const std::string& name, StructuredBuffer* structuredBuffer, bool overwriteRW = false, bool setRW = false, bool overrideBindIndex = false, uint32_t bindIndex = 0, bool deleteAtShaderDestroy = false);
 
         /// <summary>
         /// Adds a Shader Texture Binding to the Shader Properties
@@ -384,7 +381,7 @@ class ShaderProperties sealed : public AEObject
         /// </summary>
         /// <param name="name">Name of the Texture Array</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult RemoveTextureArray(const std::wstring& name);
+        AEResult RemoveTextureArray(const std::string& name);
 
         /// <summary>
         /// Overrides a Texture Array of the Shader Properties
@@ -395,56 +392,56 @@ class ShaderProperties sealed : public AEObject
         /// <param name="bindIndex">New Bind Index</param>
         /// <param name="deleteAtShaderDestroy">When Shader Properties get destroyed, destroy the object as well</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult OverrideTextureArray(const std::wstring& name, TextureArray* textureArray, bool overrideBindIndex = false, uint32_t bindIndex = 0, bool deleteAtShaderDestroy = false);
+        AEResult OverrideTextureArray(const std::string& name, TextureArray* textureArray, bool overrideBindIndex = false, uint32_t bindIndex = 0, bool deleteAtShaderDestroy = false);
 
         /// <summary>
         /// Checks if a Constant Buffer exists in the Map
         /// </summary>
         /// <param name="name">Name of the Constant Buffer</param>
         /// <returns>True if it exists</returns>
-        bool ConstantBufferExists(const std::wstring& name) const;
+        bool ConstantBufferExists(const std::string& name) const;
 
         /// <summary>
         /// Checks if a Sampler exists in the Map
         /// </summary>
         /// <param name="name">Name of the Sampler</param>
         /// <returns>True if it exists</returns>
-        bool SamplerExists(const std::wstring& name) const;
+        bool SamplerExists(const std::string& name) const;
 
         /// <summary>
         /// Checks if a Simple Buffer exists in the Map
         /// </summary>
         /// <param name="name">Name of the Simple Buffer</param>
         /// <returns>True if it exists</returns>
-        bool SimpleBufferExists(const std::wstring& name) const;
+        bool SimpleBufferExists(const std::string& name) const;
 
         /// <summary>
         /// Checks if a Structured Buffer exists in the Map
         /// </summary>
         /// <param name="name">Name of the Structured Buffer</param>
         /// <returns>True if it exists</returns>
-        bool StructuredBufferExists(const std::wstring& name) const;
+        bool StructuredBufferExists(const std::string& name) const;
 
         /// <summary>
         /// Checks if a Shader Texture Binding exists in the Map
         /// </summary>
         /// <param name="name">Name of the Shader Texture Binding</param>
         /// <returns>True if it exists</returns>
-        bool ShaderTextureBindingExists(const std::wstring& name) const;
+        bool ShaderTextureBindingExists(const std::string& name) const;
 
         /// <summary>
         /// Checks if a Texture Array exists in the Map
         /// </summary>
         /// <param name="name">Name of the Texture Array</param>
         /// <returns>True if it exists</returns>
-        bool TextureArrayExists(const std::wstring& name) const;
+        bool TextureArrayExists(const std::string& name) const;
 
         /// <summary>
         /// Gets the Constant Buffer from the map
         /// </summary>
         /// <param name="name">Name of the Constant Buffer</param>
         /// <returns>Shader Constant Buffer if found, if not returns null</returns>
-        ConstantBuffer* GetConstantBuffer(const std::wstring& name);
+        ConstantBuffer* GetConstantBuffer(const std::string& name);
 
         /// <summary>
         /// Gets the Constant Buffer from the map
@@ -458,7 +455,7 @@ class ShaderProperties sealed : public AEObject
         /// </summary>
         /// <param name="name">Name of the Sampler</param>
         /// <returns>Shader Sampler if found, if not returns null</returns>
-        Sampler* GetSampler(const std::wstring& name);
+        Sampler* GetSampler(const std::string& name);
 
         /// <summary>
         /// Gets a Sampler from the map
@@ -472,7 +469,7 @@ class ShaderProperties sealed : public AEObject
         /// </summary>
         /// <param name="name">Name of the Simple Buffer</param>
         /// <returns>Shader Simple Buffer if found, if not returns null</returns>
-        SimpleBuffer* GetSimpleBuffer(const std::wstring& name);
+        SimpleBuffer* GetSimpleBuffer(const std::string& name);
 
         /// <summary>
         /// Gets the Simple Buffer from the map
@@ -486,7 +483,7 @@ class ShaderProperties sealed : public AEObject
         /// </summary>
         /// <param name="name">Name of the Structured Buffer</param>
         /// <returns>Shader Structured Buffer if found, if not returns null</returns>
-        StructuredBuffer* GetStructuredBuffer(const std::wstring& name);
+        StructuredBuffer* GetStructuredBuffer(const std::string& name);
 
         /// <summary>
         /// Gets the Structured Buffer from the map
@@ -500,7 +497,7 @@ class ShaderProperties sealed : public AEObject
         /// </summary>
         /// <param name="name">Name of the Texture Binding</param>
         /// <returns>Shader Texture Binding from the Map if found, if not returns null</returns>
-        const ShaderTextureBinding* GetShaderTextureBinding(const std::wstring& name) const;
+        const ShaderTextureBinding* GetShaderTextureBinding(const std::string& name) const;
 
         /// <summary>
         /// Gets the Shader Texture Binding
@@ -514,7 +511,7 @@ class ShaderProperties sealed : public AEObject
         /// </summary>
         /// <param name="name">Name of the Texture Array</param>
         /// <returns>Texture Array if found, if not returns null</returns>
-        TextureArray* GetTextureArray(const std::wstring& name);
+        TextureArray* GetTextureArray(const std::string& name);
 
         /// <summary>
         /// Gets the Texture Array from the map
@@ -523,9 +520,9 @@ class ShaderProperties sealed : public AEObject
         /// <returns>Texture Array if found, if not returns null</returns>
         TextureArray* GetTextureArray(uint32_t index);
 
-        AEResult SetTexture(const std::wstring& name, TextureAsset* asset);
+        AEResult SetTexture(const std::string& name, TextureAsset* asset);
 
-        AEResult SetTexture(const std::wstring& name, Texture* texture);
+        AEResult SetTexture(const std::string& name, Texture* texture);
 
         AEResult SetTexture(uint32_t index, TextureAsset* asset);
 
@@ -533,7 +530,7 @@ class ShaderProperties sealed : public AEObject
 
         AEResult CopyVariableData(const ShaderProperties* otherShaderProps);
 
-        uint64_t GetTextureAssetID(const std::wstring& name);
+        uint64_t GetTextureAssetID(const std::string& name);
 
         AEResult ApplyAll();
 

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -112,7 +116,7 @@ GraphicDevice::~GraphicDevice()
     ReleaseCOM(m_SwapChainDX);
     ReleaseCOM(m_DefaultDepthStencilBufferDX);
 
-#if defined(_DEBUG) || defined(PROFILE)
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
     ReleaseCOM(m_UserDefinedAnnotationDX);
 #endif
 
@@ -247,7 +251,7 @@ AEResult GraphicDevice::DrawQuad2D(const RECT& size, const glm::vec4& texCoord)
     return m_QuadShape2D->DrawQuad();
 }
 
-AEResult GraphicDevice::CheckDevCaps(const std::wstring& file)
+AEResult GraphicDevice::CheckDevCaps(const std::string& file)
 {
     AEAssert(!file.empty());
 
@@ -256,13 +260,13 @@ AEResult GraphicDevice::CheckDevCaps(const std::wstring& file)
     AEXMLParser newFile;
     if (newFile.LoadFile(file) != AEResult::Ok)
     {
-        std::wstring msg_error = fmt::format(AELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, file);
+        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, file);
         
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
         return AEResult::Fail;
     }
 
-    AEXMLParser devCapsXML = newFile[L"DevCaps"];
+    AEXMLParser devCapsXML = newFile["DevCaps"];
     if ( !devCapsXML.IsReady() )
     {
         return AEResult::Fail;
@@ -274,33 +278,33 @@ AEResult GraphicDevice::CheckDevCaps(const std::wstring& file)
     {
         AEXMLParser child = devCapsXML(i);
 
-        std::wstring l_Type = child.GetName();
+        std::string l_Type = child.GetName();
 
-        if( l_Type.compare(L"PixelShader") == 0 )
+        if( l_Type.compare("PixelShader") == 0 )
         {
-            devCaps.PS_V = child.GetVect2i(L"Ver", glm::ivec2(2, 0), false);
+            devCaps.PS_V = child.GetVect2i("Ver", glm::ivec2(2, 0), false);
         }
-        else if ( l_Type.compare(L"VertexShader") == 0 )
+        else if ( l_Type.compare("VertexShader") == 0 )
         {
-            devCaps.VS_V = child.GetVect2i(L"Ver", glm::ivec2(2, 0), false);
+            devCaps.VS_V = child.GetVect2i("Ver", glm::ivec2(2, 0), false);
         }
-        else if( l_Type.compare(L"PureDevice") == 0 )
+        else if( l_Type.compare("PureDevice") == 0 )
         {
             devCaps.PureDevice = true;
         }
-        else if( l_Type.compare(L"HWTransformedLight") == 0 )
+        else if( l_Type.compare("HWTransformedLight") == 0 )
         {
             devCaps.HWTransformedLight = true;
         }
-        else if( l_Type.compare(L"ScissorTest") == 0 )
+        else if( l_Type.compare("ScissorTest") == 0 )
         {
             devCaps.ScissorTest = true;
         }
-        else if( l_Type.compare(L"PixelFormat") == 0 )
+        else if( l_Type.compare("PixelFormat") == 0 )
         {
-            std::wstring displayFormat = child.GetString(L"DisplayFormat", L"NOT_FOUND");
-            std::wstring backFufferFormat = child.GetString(L"BackBufferFormat", L"NOT_FOUND");
-            bool windowed = child.GetBool(L"Windowed");
+            std::string displayFormat = child.GetString("DisplayFormat", "NOT_FOUND");
+            std::string backFufferFormat = child.GetString("BackBufferFormat", "NOT_FOUND");
+            bool windowed = child.GetBool("Windowed");
 
             GraphicsCheckFormat chFmt;
 
@@ -310,9 +314,9 @@ AEResult GraphicDevice::CheckDevCaps(const std::wstring& file)
 
             devCaps.CheckFormatsVect.push_back(chFmt);
         }
-        else if( l_Type.compare(L"MAXRTS") == 0 )
+        else if( l_Type.compare("MAXRTS") == 0 )
         {
-            devCaps.MaxSimultaneousRTs = child.GetUInt(L"num", 4, false);
+            devCaps.MaxSimultaneousRTs = child.GetUInt("num", 4, false);
         }
     }
 
@@ -650,7 +654,7 @@ AEResult GraphicDevice::InitDevice()
 
     UINT createDeviceFlags = 0;
 
-#if defined(DEBUG) || defined(_DEBUG)  
+#ifdef AE_GRAPHIC_DEBUG_DEVICE
     createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
@@ -727,7 +731,7 @@ AEResult GraphicDevice::InitDevice()
         ReleaseCOM(m_DeviceDX);
         ReleaseCOM(m_DeviceContextDX);
 
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"DX_11_UNSUPPORTED_ERR_MSG"), __FUNCTIONW__);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_11_UNSUPPORTED_ERR_MSG"), __FUNCTION__);
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
         return AEResult::FeatureLvlUnsupported;
@@ -751,7 +755,7 @@ AEResult GraphicDevice::InitDevice()
         ReleaseCOM(m_DeviceDX);
         ReleaseCOM(m_DeviceContextDX);
 
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"DX_11_FAIL_SWAP_CHAIN_ERR_MSG"), __FUNCTIONW__);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_11_FAIL_SWAP_CHAIN_ERR_MSG"), __FUNCTION__);
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
         return AEResult::CreateDXSwapChainFail;
@@ -763,7 +767,7 @@ AEResult GraphicDevice::InitDevice()
         ReleaseCOM(m_DeviceDX);
         ReleaseCOM(m_DeviceContextDX);
 
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"DX_11_FAIL_RENDER_TARGETS_ERR_MSG"), __FUNCTIONW__);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_11_FAIL_RENDER_TARGETS_ERR_MSG"), __FUNCTION__);
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
         return AEResult::CreateDXDefaultRTDSFail;
@@ -775,13 +779,13 @@ AEResult GraphicDevice::InitDevice()
         ReleaseCOM(m_DeviceDX);
         ReleaseCOM(m_DeviceContextDX);
 
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"DX_11_FAIL_VIEWPORT_ERR_MSG"), __FUNCTIONW__);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_11_FAIL_VIEWPORT_ERR_MSG"), __FUNCTION__);
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
         return AEResult::InitViewportFail;
     }
 
-#if defined(_DEBUG) || defined(PROFILE)
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
 
     hr = m_DeviceContextDX->QueryInterface(__uuidof(ID3DUserDefinedAnnotation), reinterpret_cast<void**>(&m_UserDefinedAnnotationDX));
     
@@ -1881,81 +1885,6 @@ AEResult GraphicDevice::SetSamplerStates(ShaderType type, uint32_t index, uint32
     return AEResult::Ok;
 }
 
-AEResult GraphicDevice::BeginEvent(const std::wstring& eventName)
-{
-#if defined(_DEBUG) || defined (PROFILE)
-
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
-
-    if(m_UserDefinedAnnotationDX == nullptr)
-    {
-        return AEResult::NullObj;
-    }
-
-    if(m_UserDefinedAnnotationDX->BeginEvent(eventName.c_str()) != 0)
-    {
-        return AEResult::Fail;
-    }
-
-    return AEResult::Ok;
-
-#else
-    return AEResult::Ok;
-#endif
-}
-
-AEResult GraphicDevice::EndEvent()
-{
-#if defined(_DEBUG) || defined (PROFILE)
-
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
-
-    if(m_UserDefinedAnnotationDX == nullptr)
-    {
-        return AEResult::NullObj;
-    }
-
-    if(m_UserDefinedAnnotationDX->EndEvent() != 0)
-    {
-        return AEResult::Fail;
-    }
-
-    return AEResult::Ok;
-
-#else
-    return AEResult::Ok;
-#endif
-}
-
-AEResult GraphicDevice::SetEventmarker(const std::wstring& eventName)
-{
-#if defined(_DEBUG) || defined (PROFILE)
-
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
-
-    if(m_UserDefinedAnnotationDX == nullptr)
-    {
-        return AEResult::NullObj;
-    }
-
-    m_UserDefinedAnnotationDX->SetMarker(eventName.c_str());
-
-    return AEResult::Ok;
-
-#else
-    return AEResult::Ok;
-#endif
-}
-
 AEResult GraphicDevice::GetBlendState(ID3D11BlendState** blendState, glm::vec4& blendFactor, uint32_t& sampleMask)
 {
     if (!m_IsReady)
@@ -1994,3 +1923,43 @@ AEResult GraphicDevice::SetBlendState(ID3D11BlendState* blendState, const glm::v
 
     return AEResult::Ok;
 }
+
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
+void GraphicDevice::BeginEvent(const std::string& eventName)
+{
+    if (!m_IsReady || m_UserDefinedAnnotationDX == nullptr)
+    {
+        return;
+    }
+
+    std::wstring eventNameW = AE_Base::String2WideStr(eventName);
+    if (m_UserDefinedAnnotationDX->BeginEvent(eventNameW.c_str()) != 0)
+    {
+        AETODO("Log Message");
+    }
+}
+
+void GraphicDevice::EndEvent()
+{
+    if (!m_IsReady || m_UserDefinedAnnotationDX == nullptr)
+    {
+        return;
+    }
+
+    if (m_UserDefinedAnnotationDX->EndEvent() != 0)
+    {
+        AETODO("Log Message");
+    }
+}
+
+void GraphicDevice::SetEventmarker(const std::string& eventName)
+{
+    if (!m_IsReady || m_UserDefinedAnnotationDX == nullptr)
+    {
+        return;
+    }
+
+    std::wstring eventNameW = AE_Base::String2WideStr(eventName);
+    m_UserDefinedAnnotationDX->SetMarker(eventNameW.c_str());
+}
+#endif // defined(AE_GRAPHIC_DEBUG_DEVICE)

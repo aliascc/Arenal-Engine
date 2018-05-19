@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_input.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -351,23 +356,23 @@ bool Keyboard::HasReleasedKey(AEKeys key, uint64_t lockID) const
     return false;
 }
 
-wchar_t Keyboard::GetCurrentPressedChar(uint64_t lockID) const
+char Keyboard::GetCurrentPressedChar(uint64_t lockID) const
 {
     if(m_LockID != 0 && m_LockID != lockID)
     {
-        return L'\0';
+        return '\0';
     }
 
     //ToUnicodeEx returns a key for ctrl + ANYKEY, we do not want any, so it if it is press, return no key
     if(m_CurrentKeyboardState[(uint32_t)AEKeys::LCTRL] & AE_INPUT_PRESS || m_CurrentKeyboardState[(uint32_t)AEKeys::RCTRL] & AE_INPUT_PRESS)
     {
-        return L'\0';
+        return '\0';
     }
 
     //ToUnicodeEx returns a key for backspace, we do not want any, so it if it is press, return no key
     if(m_CurrentKeyboardState[(uint32_t)AEKeys::BACKSPACE] & AE_INPUT_PRESS)
     {
-        return L'\0';
+        return '\0';
     }
 
     BYTE state[256];
@@ -375,7 +380,7 @@ wchar_t Keyboard::GetCurrentPressedChar(uint64_t lockID) const
 
     if (GetKeyboardState(state) == FALSE)
     {
-        return L'\0';
+        return '\0';
     }
 
     //For Shift/Ctrl/Alt/Caps Keys we need to set them
@@ -391,16 +396,16 @@ wchar_t Keyboard::GetCurrentPressedChar(uint64_t lockID) const
             uint32_t vk = (uint32_t)m_KeyMapVK[i];
 
             uint32_t scanCode = MapVirtualKeyEx(vk, MAPVK_VK_TO_VSC, m_KeyboardLayout);
-            wchar_t result[] = { 0, 0 };
+            char result[] = { 0, 0 };
 
-            if (ToUnicodeEx(vk, scanCode, state, result, 2, 0, m_KeyboardLayout) > 0)
+            if (ToAsciiEx(vk, scanCode, state, (LPWORD)result, 0, m_KeyboardLayout) > 0)
             {
                 return result[0];
             }
         }
     }
 
-    return L'\0';
+    return '\0';
 }
 
 void Keyboard::Update()

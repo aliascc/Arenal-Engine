@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -42,7 +47,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-TextureAsset::TextureAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, TextureType textureType, GraphicDevice* graphicDevice)
+TextureAsset::TextureAsset(const std::string& filePath, GameResourceManager* gameResourceManager, TextureType textureType, GraphicDevice* graphicDevice)
     : GameAsset(GameContentType::Texture, filePath, gameResourceManager)
     , m_TextureType(textureType)
     , m_GraphicDevice(graphicDevice)

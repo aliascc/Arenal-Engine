@@ -23,18 +23,14 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "angelscript.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 
 /************
 *   Using   *

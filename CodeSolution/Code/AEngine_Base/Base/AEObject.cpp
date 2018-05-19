@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -38,7 +43,7 @@ AEObject::~AEObject()
 {
 }
 
-std::wstring AEObject::ToString() const
+std::string AEObject::ToString() const
 {
-    return L"";
+    return "";
 }

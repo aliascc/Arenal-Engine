@@ -4,7 +4,7 @@ Version:        0.9.8.5
 
 Comments:
 
- - Download: https://github.com/g-truc/glm/tags
+ - Download: https://github.com/g-truc/glm/releases
 
  - General Comments:
    - Make sure to remove "GLM_FORCE_RADIANS" from projects when GLM no longer accepts degrees as parameter

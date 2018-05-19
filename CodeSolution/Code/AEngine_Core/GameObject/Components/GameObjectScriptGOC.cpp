@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -42,7 +47,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-GameObjectScriptGOC::GameObjectScriptGOC(GameObject* gameObject, const std::wstring& name, AngelScriptManager* angelScriptManager, GameObjectScriptManager* gameObjectScriptManager)
+GameObjectScriptGOC::GameObjectScriptGOC(GameObject* gameObject, const std::string& name, AngelScriptManager* angelScriptManager, GameObjectScriptManager* gameObjectScriptManager)
     : GameObjectComponent(gameObject, GameObjectComponentType::GameObjectScript)
     , m_Name(name)
     , m_AngelScriptManager(angelScriptManager)
@@ -125,7 +130,7 @@ void GameObjectScriptGOC::GameObjectScriptAssetPreReload(GameAsset* asset)
         m_TempGameObjectScriptProperties->ClearPropertiesAddress();
     }
 
-    std::wstring instanceName = m_GameObjectScriptInstance->m_Name;
+    std::string instanceName = m_GameObjectScriptInstance->m_Name;
     if (RemoveGameObjectScriptInstance() != AEResult::Ok)
     {
         AETODO("Add log");
@@ -254,7 +259,7 @@ AEResult GameObjectScriptGOC::ClearGameObjectScriptAsset(bool informGameAsset)
     return AEResult::Ok;
 }
 
-std::wstring GameObjectScriptGOC::GetGameObjectScriptName() const
+std::string GameObjectScriptGOC::GetGameObjectScriptName() const
 {
     if (m_GameObjectScript.m_ResourceAsset != nullptr)
     {
@@ -262,11 +267,11 @@ std::wstring GameObjectScriptGOC::GetGameObjectScriptName() const
     }
     else
     {
-        return L"";
+        return "";
     }
 }
 
-std::wstring GameObjectScriptGOC::GetGameObjectScriptInstanceName() const
+std::string GameObjectScriptGOC::GetGameObjectScriptInstanceName() const
 {
     if (m_GameObjectScriptInstance != nullptr)
     {
@@ -274,11 +279,11 @@ std::wstring GameObjectScriptGOC::GetGameObjectScriptInstanceName() const
     }
     else
     {
-        return L"";
+        return "";
     }
 }
 
-AEResult GameObjectScriptGOC::CreateGameObjectScriptInstance(const std::wstring& instanceName)
+AEResult GameObjectScriptGOC::CreateGameObjectScriptInstance(const std::string& instanceName)
 {
     /////////////////////////////////////////
     //Pre-checks
@@ -392,7 +397,7 @@ AEResult GameObjectScriptGOC::CreateGameObjectScriptInstance(const std::wstring&
         GameObjectScriptProperty* gosProperty = new GameObjectScriptProperty();
 
         gosProperty->m_PropertyType     = type;
-        gosProperty->m_PropertyName     = AE_Base::String2WideStr(m_GameObjectScriptInstance->m_ASObj->GetPropertyName(i));
+        gosProperty->m_PropertyName     = m_GameObjectScriptInstance->m_ASObj->GetPropertyName(i);
         gosProperty->m_PropertyAddress  = m_GameObjectScriptInstance->m_ASObj->GetAddressOfProperty(i);
 
         m_GameObjectScriptProperties->m_PropertiesMap[gosProperty->m_PropertyName] = gosProperty;

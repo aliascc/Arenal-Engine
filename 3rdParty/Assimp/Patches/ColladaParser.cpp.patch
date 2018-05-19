@@ -1,5 +1,5 @@
---- ColladaParser.cpp.orig	2017-12-11 14:22:45.000000000 +0100
-+++ ColladaParser.cpp	2018-01-09 03:23:21.904872600 +0100
+--- ./ColladaParser.cpp.orig	2017-12-11 14:22:45.000000000 +0100
++++ ./ColladaParser.cpp	2018-01-09 03:23:21.904872600 +0100
 @@ -1962,6 +1962,7 @@
          {
              data.mStrings.reserve( count);

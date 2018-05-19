@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -101,7 +100,7 @@ class AEObject abstract
         /// Converts the Objects to a String. 
         /// </summary>
         /// <returns>Object in String format</returns>
-        virtual std::wstring ToString() const;
+        virtual std::string ToString() const;
 
 #pragma endregion
 

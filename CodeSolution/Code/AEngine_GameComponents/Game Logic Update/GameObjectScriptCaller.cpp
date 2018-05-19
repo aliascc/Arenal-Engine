@@ -15,6 +15,10 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
 
 /**********************
 *   System Includes   *
@@ -24,7 +28,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameApp\GameApp.h"
-#include "Time\AETimeDefs.h"
 #include "GameObject\GameObject.h"
 #include "GameObjectScriptCaller.h"
 #include "GameObject\GameObjectManager.h"
@@ -35,7 +38,7 @@
 /********************
 *   Function Defs   *
 *********************/
-GameObjectScriptCaller::GameObjectScriptCaller(GameApp* gameApp, const std::wstring& gameComponentName, uint32_t callOrder)
+GameObjectScriptCaller::GameObjectScriptCaller(GameApp* gameApp, const std::string& gameComponentName, uint32_t callOrder)
     : GameComponent(gameApp, gameComponentName, callOrder)
 {
 }

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -152,7 +157,7 @@ AEResult MeshAnimationGOC::RemoveSkeletonAsset()
     return ClearAsset<Skeleton>(m_SkeletonAsset, true);
 }
 
-std::wstring MeshAnimationGOC::GetSkeletonName() const
+std::string MeshAnimationGOC::GetSkeletonName() const
 {
     if (m_SkeletonAsset.m_ResourceAsset != nullptr)
     {
@@ -160,7 +165,7 @@ std::wstring MeshAnimationGOC::GetSkeletonName() const
     }
     else
     {
-        return L"";
+        return "";
     }
 }
 

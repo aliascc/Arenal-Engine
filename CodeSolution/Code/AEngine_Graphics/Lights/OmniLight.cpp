@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -30,7 +35,7 @@
 /********************
 *   Function Defs   *
 *********************/
-OmniLight::OmniLight(const std::wstring& name, const glm::vec3& position, const glm::vec3& direction, const Color& color, float nearAtteniation, float farAttenuation, float intensity, bool enabled)
+OmniLight::OmniLight(const std::string& name, const glm::vec3& position, const glm::vec3& direction, const Color& color, float nearAtteniation, float farAttenuation, float intensity, bool enabled)
     : Light(LightType::Omni, name, position, direction, color, farAttenuation, nearAtteniation, intensity, enabled)
 {
 }

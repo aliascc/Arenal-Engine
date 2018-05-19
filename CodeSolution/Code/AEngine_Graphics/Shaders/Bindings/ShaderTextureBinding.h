@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -84,7 +82,7 @@ class ShaderTextureBinding sealed : public ShaderBinding
         /// <param name="bindIndex">Index where the Texture is going to be bound to the shader</param>
         /// <param name="textureType">Type of Texture</param>
         /// <param name="texture">Texture to bind to the Shader</param>
-        ShaderTextureBinding(const std::wstring& name, uint32_t bindIndex, TextureType textureType, Texture* texture);
+        ShaderTextureBinding(const std::string& name, uint32_t bindIndex, TextureType textureType, Texture* texture);
 
         /// <summary>
         /// Default ShaderTextureBinding Destructor
@@ -120,7 +118,7 @@ class ShaderTextureBinding sealed : public ShaderBinding
         /// Gets the Texture's name
         /// </summary>
         /// <returns>Name of the Texture</returns>
-        std::wstring GetTextureName() const;
+        std::string GetTextureName() const;
 
 #pragma endregion
 

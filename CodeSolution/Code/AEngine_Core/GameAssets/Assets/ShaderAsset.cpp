@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -46,7 +51,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-ShaderAsset::ShaderAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, ShaderType shaderType, GraphicDevice* graphicDevice)
+ShaderAsset::ShaderAsset(const std::string& filePath, GameResourceManager* gameResourceManager, ShaderType shaderType, GraphicDevice* graphicDevice)
     : GameAsset(GameContentType::Shader, filePath, gameResourceManager)
     , m_ShaderType(shaderType)
     , m_GraphicDevice(graphicDevice)

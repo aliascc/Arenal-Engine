@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdexcept>
 
 /*************************
 *   3rd Party Includes   *

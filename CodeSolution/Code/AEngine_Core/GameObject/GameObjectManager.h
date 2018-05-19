@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -134,11 +131,11 @@ class GameObjectManager sealed : public UniqueAEObject
 
         AEResult SaveToXMLCBShaderVariable(AEXMLWriter& xmlWriter, const ShaderCustomVariable* scv, ConstantBuffer* cb) const;
 
-        AEResult SaveToXMLCBScalar(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType) const;
+        AEResult SaveToXMLCBScalar(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType) const;
 
-        AEResult SaveToXMLCBVector(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns) const;
+        AEResult SaveToXMLCBVector(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType, uint32_t columns) const;
 
-        AEResult SaveToXMLCBMatrix(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows) const;
+        AEResult SaveToXMLCBMatrix(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows) const;
 
         AEResult SaveToXMLGameObjectScriptsComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
 
@@ -172,11 +169,11 @@ class GameObjectManager sealed : public UniqueAEObject
 
         AEResult LoadXMLCBShaderVariable(AEXMLParser& xmlParser, ConstantBuffer* cb);
 
-        AEResult LoadXMLCBScalar(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType);
+        AEResult LoadXMLCBScalar(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType);
 
-        AEResult LoadXMLCBVector(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns);
+        AEResult LoadXMLCBVector(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType, uint32_t columns);
 
-        AEResult LoadXMLCBMatrix(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows);
+        AEResult LoadXMLCBMatrix(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows);
 
         AEResult LoadXMLGameObjectScriptsComponents(AEXMLParser& xmlParser, GameObject* gameObject);
 
@@ -253,9 +250,9 @@ class GameObjectManager sealed : public UniqueAEObject
         *************************/
 #pragma region Framework Methods
 
-        AEResult LoadGameObjectManagerFile(const std::wstring& file);
+        AEResult LoadGameObjectManagerFile(const std::string& file);
 
-        AEResult SaveToXML(const std::wstring& file) const;
+        AEResult SaveToXML(const std::string& file) const;
 
         bool GameObjectExistsTopLevel(uint64_t goID) const;
 

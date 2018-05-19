@@ -23,10 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <mutex>
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -49,7 +45,7 @@ class GameResource;
 ******************/
 class GameResourceManager sealed : public AEObject
 {
-    typedef std::map<std::wstring, uint64_t> StringToIDMap;
+    typedef std::map<std::string, uint64_t> StringToIDMap;
     typedef std::map<uint64_t, GameResource*> GameResourceMap;
 
     private:
@@ -91,7 +87,7 @@ class GameResourceManager sealed : public AEObject
         /// Determines if a Game Resources exists giving an string ID
         /// </summary>
         /// <returns>True if Game Resource exists</returns>
-        bool GameResourceStringIDExists(const std::wstring& stringId);
+        bool GameResourceStringIDExists(const std::string& stringId);
 
         /// <summary>
         /// Callback for Game Resource when release is called
@@ -146,7 +142,7 @@ class GameResourceManager sealed : public AEObject
         /// <param name='stringId'>Gets a Game Resource by a String ID</param>
         /// <param name='checkType'>Filters the result to an specific Game Resource Type</param>
         /// <returns>If found, returns Game Resource, if not null</returns>
-        GameResource* AcquireGameResourceByStringID(const std::wstring& stringId, GameResourceType checkType = GameResourceType::Unknown);
+        GameResource* AcquireGameResourceByStringID(const std::string& stringId, GameResourceType checkType = GameResourceType::Unknown);
 
         /// <summary>
         /// Gets a Game Resource by Unique ID
@@ -163,7 +159,7 @@ class GameResourceManager sealed : public AEObject
         /// <param name='stringID'>String ID for this Game Resource</param>
         /// <param name='keepAlive'>If true, Game Resource will not be deleted from memory even if reference count reaches 0</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult ManageGameResource(GameResource* gameResource, const std::wstring& stringID = L"", bool keepAlive = false);
+        AEResult ManageGameResource(GameResource* gameResource, const std::string& stringID = "", bool keepAlive = false);
 
         /// <summary>
         /// Removes a Game Resource from Game Resource Manager

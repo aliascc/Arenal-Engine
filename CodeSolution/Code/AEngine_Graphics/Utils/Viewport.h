@@ -23,12 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *

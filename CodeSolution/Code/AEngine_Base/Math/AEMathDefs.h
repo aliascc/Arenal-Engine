@@ -23,18 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
-#include <limits>
-#include <stdint.h>
-#include <Windows.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
-#include "glm\gtx\norm.hpp"
-#include "glm\gtx\transform.hpp"
-#include "glm\gtc\quaternion.hpp"
 
 /***************************
 *   Game Engine Includes   *

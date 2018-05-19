@@ -1,7 +1,9 @@
 Tool:           DirectXTK
-Last Updated:   January 10 2018
-Version:        v December 13, 2017
-Last Build      January 10 2018
+Last Updated:   May 18 2018
+Version:        May 2018
+Last Build      May 18 2018
+
+Web Page: https://github.com/Microsoft/DirectXTK/releases
 
 Comments:
   - Add Library suffix _x64 and _x64_d

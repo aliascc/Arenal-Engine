@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\gtx\compatibility.hpp"
 
 /***************************
 *   Game Engine Includes   *

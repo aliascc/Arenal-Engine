@@ -23,10 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <limits>
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -121,7 +117,7 @@ class Sampler sealed : public ShaderBinding
         /// <param name="graphicDevice">Graphic Device to be associated with this object</param>
         /// <param name="name">Name of the Sampler</param>
         /// <param name="bindIndex">Index where to bind</param>
-        Sampler(GraphicDevice* graphicDevice, const std::wstring& name, uint32_t bindIndex);
+        Sampler(GraphicDevice* graphicDevice, const std::string& name, uint32_t bindIndex);
 
         /// <summary>
         /// Default Sampler Destructor

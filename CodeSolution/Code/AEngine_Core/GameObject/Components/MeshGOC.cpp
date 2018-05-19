@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -140,7 +145,7 @@ AEResult MeshGOC::ClearMeshAsset(bool informGameAsset)
     return AEResult::Ok;
 }
 
-std::wstring MeshGOC::GetMeshName() const
+std::string MeshGOC::GetMeshName() const
 {
     if(m_Mesh.m_ResourceAsset != nullptr)
     {
@@ -148,6 +153,6 @@ std::wstring MeshGOC::GetMeshName() const
     }
     else
     {
-        return L"";
+        return "";
     }
 }

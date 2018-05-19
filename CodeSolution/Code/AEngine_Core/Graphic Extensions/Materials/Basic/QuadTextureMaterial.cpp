@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -53,7 +58,7 @@
 /********************
 *   Function Defs   *
 *********************/
-QuadTextureMaterial::QuadTextureMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name)
+QuadTextureMaterial::QuadTextureMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
     : Material(graphicDevice, gameResourceManager, name)
 {
 }
@@ -184,7 +189,7 @@ AEResult QuadTextureMaterial::CreatePixelShaderTextureBinding()
     // Texture2D _AE_QuadTexture : register(t0);
     //
 
-    ShaderTextureBinding* stb = new ShaderTextureBinding(L"_AE_QuadTexture", 0, TextureType::Texture2D, nullptr);
+    ShaderTextureBinding* stb = new ShaderTextureBinding("_AE_QuadTexture", 0, TextureType::Texture2D, nullptr);
 
     ret = m_PSProps->AddShaderTextureBinding(stb);
 

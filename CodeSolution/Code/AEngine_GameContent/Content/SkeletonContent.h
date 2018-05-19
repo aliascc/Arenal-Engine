@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
 
 /*************************
 *   3rd Party Includes   *

@@ -23,10 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <string>
-#include <vector>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -52,7 +48,7 @@ class GraphicDevice;
 /// <summary>
 /// Cube Mesh Name
 /// </summary>
-#define AE_CUBE_MESH_NAME                        L"Cube Mesh"
+#define AE_CUBE_MESH_NAME                        "Cube Mesh"
 
 /***************
 *   Typedefs   *
@@ -76,7 +72,7 @@ class CubeMesh sealed : public Mesh
 
         std::vector<uint16_t> m_IdxBuff;
 
-        std::map<std::wstring, uint16_t> m_VtxMap;
+        std::map<std::string, uint16_t> m_VtxMap;
 
         uint16_t AddVtx(const VertexPositionNormalTexture& vtx);
 
@@ -113,7 +109,7 @@ class CubeMesh sealed : public Mesh
         /// </summary>
         /// <param name="graphicDevice">Graphic Device use to create Mesh</param>
         /// <param name="resourceName">Resource Name</param>
-        CubeMesh(GraphicDevice* graphicDevice, const std::wstring& resourceName);
+        CubeMesh(GraphicDevice* graphicDevice, const std::string& resourceName);
 
 #pragma endregion
 

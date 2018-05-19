@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -135,7 +132,7 @@ class ShaderBuffer abstract : public ShaderBinding
         /// <param name="bindIndex">Index where the Texture is going to be bound to the shader</param>
         /// <param name="createAsRW">If true, enables Read and Write usage in the shader for the Buffer</param>
         /// <param name="graphicDevice">Graphic Device to create buffer</param>
-        ShaderBuffer(const std::wstring& name, uint32_t bindIndex, bool createAsRW, GraphicDevice* graphicDevice);
+        ShaderBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, GraphicDevice* graphicDevice);
 
         /// <summary>
         /// Default ShaderBuffer Destructor

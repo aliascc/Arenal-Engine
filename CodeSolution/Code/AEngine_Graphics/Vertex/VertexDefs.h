@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /***************************
 *   Game Engine Includes   *
@@ -116,9 +114,9 @@ namespace AEVertexHelper
 {
     extern uint32_t GetVertexSizeByType(VertexType vtxType);
 
-    extern std::wstring GetVertexString(const VertexPositionColor& vtx);
+    extern std::string GetVertexString(const VertexPositionColor& vtx);
 
-    extern std::wstring GetVertexString(const VertexPositionNormalTexture& vtx);
+    extern std::string GetVertexString(const VertexPositionNormalTexture& vtx);
 }
 
 #endif

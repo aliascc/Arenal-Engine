@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -54,8 +59,8 @@ AEResult LocalizationAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterLocalizationObject(engine) != AEResult::Ok)
     {
         AETODO("Add log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -64,8 +69,8 @@ AEResult LocalizationAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterLocalizationObjectPointer(engine) != AEResult::Ok)
     {
         AETODO("Add log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOC_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;

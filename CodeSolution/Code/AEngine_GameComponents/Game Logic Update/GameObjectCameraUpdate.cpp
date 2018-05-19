@@ -15,6 +15,10 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
 
 /**********************
 *   System Includes   *
@@ -25,7 +29,6 @@
 ****************************/
 #include "Camera\Camera.h"
 #include "GameApp\GameApp.h"
-#include "Time\AETimeDefs.h"
 #include "GameObject\GameObject.h"
 #include "GameObjectCameraUpdate.h"
 #include "GameObject\GameObjectManager.h"
@@ -37,7 +40,7 @@
 /********************
 *   Function Defs   *
 *********************/
-GameObjectCameraUpdate::GameObjectCameraUpdate(GameApp* gameApp, const std::wstring& gameComponentName, uint32_t callOrder)
+GameObjectCameraUpdate::GameObjectCameraUpdate(GameApp* gameApp, const std::string& gameComponentName, uint32_t callOrder)
     : GameComponent(gameApp, gameComponentName, callOrder)
 {
 }

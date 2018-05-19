@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <list>
 
 /*************************
 *   3rd Party Includes   *
@@ -50,7 +49,7 @@
 *******************/
 struct ShaderContent sealed : public GameContent
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     ShaderType m_ShaderType = ShaderType::VertexShader;
 

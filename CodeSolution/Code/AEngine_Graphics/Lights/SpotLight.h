@@ -23,12 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -66,7 +64,7 @@ class SpotLight sealed : public Light
         /// <summary>
         /// SpotLight Constructor
         /// </summary>
-        SpotLight(const std::wstring& name = L"Light", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& direction = AEMathHelpers::Vec3fZero, const Color& color = AEColors::White, float nearAtteniation = 0.0f, float farAttenuation = 0.0f, float intensity = 1.0f, bool enabled = true, float fallOffAngle = 0.0f, float angle = 0.0f);
+        SpotLight(const std::string& name = "Light", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& direction = AEMathHelpers::Vec3fZero, const Color& color = AEColors::White, float nearAtteniation = 0.0f, float farAttenuation = 0.0f, float intensity = 1.0f, bool enabled = true, float fallOffAngle = 0.0f, float angle = 0.0f);
 
         /// <summary>
         /// Default SpotLight Destructor

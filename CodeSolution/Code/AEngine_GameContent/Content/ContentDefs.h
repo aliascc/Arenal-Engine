@@ -23,16 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <vector>
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
-#include "assimp\scene.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -89,7 +83,7 @@ typedef std::map<int32_t, std::vector<PolygonHolder>> PolygonHolderVecMap;
 
 struct SamplerShaderHolder sealed : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     uint32_t m_BindIndex = 0;
 
@@ -100,7 +94,7 @@ struct SamplerShaderHolder sealed : public AEObject
 
 struct TextureArrayShaderVariableHolder sealed : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     uint32_t m_BindIndex = 0;
 
@@ -113,7 +107,7 @@ struct TextureArrayShaderVariableHolder sealed : public AEObject
 
 struct SimpleBufferShaderHolder sealed : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     uint32_t m_BindIndex = 0;
 
@@ -132,7 +126,7 @@ struct SimpleBufferShaderHolder sealed : public AEObject
 
 struct StructuredBufferShaderHolder sealed : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
     uint32_t m_BindIndex = 0;
     bool m_IsRW = false;
 
@@ -143,7 +137,7 @@ struct StructuredBufferShaderHolder sealed : public AEObject
 
 struct ConstantBufferShaderHolder sealed : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     uint32_t m_BindIndex = 0;
 
@@ -156,7 +150,7 @@ struct ConstantBufferShaderHolder sealed : public AEObject
 
 struct TextureShaderVariableHolder sealed : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     uint32_t m_BindIndex = 0;
 
@@ -190,9 +184,9 @@ struct VertexHolder sealed : public AEObject
 
     glm::vec4 m_BlendWeights = AEMathHelpers::Vec4fZero;;
 
-    std::map<std::wstring, uint32_t> m_BoneToIndex;
+    std::map<std::string, uint32_t> m_BoneToIndex;
 
-    std::map<uint32_t, std::wstring> m_IndexToBone;
+    std::map<uint32_t, std::string> m_IndexToBone;
 
     uint32_t m_BlendIndexCount = 0;
 
@@ -204,7 +198,7 @@ struct VertexHolder sealed : public AEObject
     {
     }
 
-    std::wstring ToString() const override;
+    std::string ToString() const override;
 };
 
 struct PolygonHolder final : public AEObject
@@ -253,17 +247,17 @@ struct MaterialHolder sealed : public AEObject
 
     uint64_t m_MaterialID = 0;
 
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
-    std::wstring m_DiffuseTextureString = L"";
+    std::string m_DiffuseTextureString = "";
 
-    std::wstring m_NormalTextureString = L"";
+    std::string m_NormalTextureString = "";
 
-    std::wstring m_SpecularTextureString = L"";
+    std::string m_SpecularTextureString = "";
 
-    std::wstring m_LightMapTextureString = L"";
+    std::string m_LightMapTextureString = "";
 
-    std::wstring m_DisplacementTextureString = L"";
+    std::string m_DisplacementTextureString = "";
 
     Color m_DiffuseColor = AEColors::White;
 
@@ -289,7 +283,7 @@ struct MeshPartHolder sealed : public AEObject
 
 struct MeshHolder sealed : public AEObject
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     glm::mat4 m_WorldTransform = AEMathHelpers::Mat4Identity;
 
@@ -317,7 +311,7 @@ struct KeyFrameHolder sealed : public AEObject
 {
     std::map<float, BonePose> m_BonePoseMap;
 
-    std::wstring m_BoneName = L"";
+    std::string m_BoneName = "";
 
     KeyFrameHolder()
     {
@@ -330,7 +324,7 @@ struct AnimationHolder sealed : public AEObject
 
     float m_Duration = 0.0f;
 
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     AnimationHolder()
     {

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -40,7 +44,7 @@
 /********************
 *   Function Defs   *
 *********************/
-TextureCube::TextureCube(GraphicDevice* graphicDevice, const std::wstring& textureName)
+TextureCube::TextureCube(GraphicDevice* graphicDevice, const std::string& textureName)
     : ITexture2D(graphicDevice, textureName, true)
 {
 }
@@ -81,10 +85,11 @@ AEResult TextureCube::Load()
     HRESULT hr = S_OK;
     DirectX::TexMetadata texMetadata;
     DirectX::ScratchImage scratchImage;
+    std::wstring filenameW = AE_Base::String2WideStr(m_Filename);
 
     /////////////////////////////////////////////////////////////
     //Use DirectX Tex to get meta data from file
-    hr = GetMetadataFromDDSFile(m_Filename.c_str(), DirectX::DDS_FLAGS_NONE, texMetadata);
+    hr = GetMetadataFromDDSFile(filenameW.c_str(), DirectX::DDS_FLAGS_NONE, texMetadata);
 
     if (hr != S_OK)
     {
@@ -102,7 +107,7 @@ AEResult TextureCube::Load()
 
     /////////////////////////////////////////////////////////////
     //Load file with DirectX Tex
-    hr = LoadFromDDSFile(m_Filename.c_str(), DirectX::DDS_FLAGS_NONE, &texMetadata, scratchImage);
+    hr = LoadFromDDSFile(filenameW.c_str(), DirectX::DDS_FLAGS_NONE, &texMetadata, scratchImage);
 
     if (hr != S_OK)
     {
@@ -126,7 +131,7 @@ AEResult TextureCube::Load()
 
     m_TextureDX = reinterpret_cast<ID3D11Texture2D*>(resource);
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_CUBE_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_CUBE_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Shader Resource View
@@ -149,7 +154,7 @@ AEResult TextureCube::Load()
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_CUBE_SRV_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_CUBE_SRV_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Set Width and Height
@@ -160,7 +165,7 @@ AEResult TextureCube::Load()
     return AEResult::Ok;
 }
 
-AEResult TextureCube::CreateFromFile(const std::wstring& textureFile)
+AEResult TextureCube::CreateFromFile(const std::string& textureFile)
 {
     m_Filename = textureFile;
     m_FromFile = true;

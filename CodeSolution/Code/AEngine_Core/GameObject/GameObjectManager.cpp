@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -227,7 +231,7 @@ AEResult GameObjectManager::SetSelectedGameObject(GameObject* gameObject)
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXML(const std::wstring& file) const
+AEResult GameObjectManager::SaveToXML(const std::string& file) const
 {
     if (file.empty())
     {
@@ -807,7 +811,7 @@ AEResult GameObjectManager::SaveToXMLCBShaderVariable(AEXMLWriter& xmlWriter, co
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLCBScalar(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType) const
+AEResult GameObjectManager::SaveToXMLCBScalar(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType) const
 {
     if (cb == nullptr)
     {
@@ -877,7 +881,7 @@ AEResult GameObjectManager::SaveToXMLCBScalar(AEXMLWriter& xmlWriter, ConstantBu
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLCBVector(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns) const
+AEResult GameObjectManager::SaveToXMLCBVector(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType, uint32_t columns) const
 {
     if (cb == nullptr)
     {
@@ -1041,7 +1045,7 @@ AEResult GameObjectManager::SaveToXMLCBVector(AEXMLWriter& xmlWriter, ConstantBu
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLCBMatrix(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows) const
+AEResult GameObjectManager::SaveToXMLCBMatrix(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows) const
 {
     if (cb == nullptr)
     {
@@ -1622,7 +1626,7 @@ AEResult GameObjectManager::SaveToXMLPhysicsComponent(AEXMLWriter& xmlWriter, Ga
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadGameObjectManagerFile(const std::wstring& file)
+AEResult GameObjectManager::LoadGameObjectManagerFile(const std::string& file)
 {
     if (m_GameAssetManager == nullptr)
     {
@@ -1677,7 +1681,7 @@ AEResult GameObjectManager::LoadGameObjectManagerFile(const std::wstring& file)
     AEXMLParser newFile;
     if (newFile.LoadFile(file) != AEResult::Ok)
     {
-        std::wstring msg_error = fmt::format(AELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, file);
+        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, file);
 
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
         return AEResult::OpenFileFail;
@@ -1694,7 +1698,7 @@ AEResult GameObjectManager::LoadGameObjectManagerFile(const std::wstring& file)
     {
         AEXMLParser child = configXML(i);
 
-        std::wstring l_Type = child.GetName();
+        std::string l_Type = child.GetName();
 
         if (l_Type.compare(AE_GAME_OBJ_NODE_NAME) == 0)
         {
@@ -1725,7 +1729,7 @@ AEResult GameObjectManager::LoadXMLGameObject(AEXMLParser& xmlParser, GameObject
 
     ////////////////////////////
     //Get Game Object Props
-    std::wstring name    = xmlParser.GetString(AE_GAME_OBJ_NAME_PROP);
+    std::string name    = xmlParser.GetString(AE_GAME_OBJ_NAME_PROP);
     glm::vec3 pos        = xmlParser.GetVect3f(AE_GAME_OBJ_POSITION_PROP);
     glm::vec3 rot        = xmlParser.GetVect3f(AE_GAME_OBJ_ROTATION_PROP);
     glm::vec3 scale        = xmlParser.GetVect3f(AE_GAME_OBJ_SCALE_PROP);
@@ -1744,7 +1748,7 @@ AEResult GameObjectManager::LoadXMLGameObject(AEXMLParser& xmlParser, GameObject
     {
         AEXMLParser child = xmlParser(i);
 
-        std::wstring l_Type = child.GetName();
+        std::string l_Type = child.GetName();
 
         if (l_Type.compare(AE_GAME_OBJ_COMPONENTS_NODE_NAME) == 0)
         {
@@ -1760,7 +1764,7 @@ AEResult GameObjectManager::LoadXMLGameObject(AEXMLParser& xmlParser, GameObject
             {
                 AEXMLParser childObject = child(i);
 
-                std::wstring childType = childObject.GetName();
+                std::string childType = childObject.GetName();
 
                 if (l_Type.compare(AE_GAME_OBJ_NODE_NAME) == 0)
                 {
@@ -1793,7 +1797,7 @@ AEResult GameObjectManager::LoadXMLGameObjectComponents(AEXMLParser& xmlParser, 
     {
         AEXMLParser child = xmlParser(i);
 
-        std::wstring childType = child.GetName();
+        std::string childType = child.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_MESH_NODE_NAME) == 0)
         {
@@ -1922,7 +1926,7 @@ AEResult GameObjectManager::LoadXMLMeshMaterialsComponent(AEXMLParser& xmlParser
     {
         AEXMLParser childObject = xmlParser(i);
 
-        std::wstring childType = childObject.GetName();
+        std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_MAT_NODE_NAME) == 0)
         {
@@ -1945,7 +1949,7 @@ AEResult GameObjectManager::LoadXMLMeshMaterialComponent(AEXMLParser& xmlParser,
 
     MeshMaterialGOC* material = new MeshMaterialGOC(gameObject);
 
-    std::wstring name = xmlParser.GetString(AE_GAME_OBJ_GOC_MAT_NAME_PROP);
+    std::string name = xmlParser.GetString(AE_GAME_OBJ_GOC_MAT_NAME_PROP);
 
     material->SetName(name);
 
@@ -1954,7 +1958,7 @@ AEResult GameObjectManager::LoadXMLMeshMaterialComponent(AEXMLParser& xmlParser,
     {
         AEXMLParser childObject = xmlParser(i);
 
-        std::wstring childType = childObject.GetName();
+        std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_MAT_SHADER_NODE_NAME) == 0)
         {
@@ -2078,7 +2082,7 @@ AEResult GameObjectManager::LoadXMLShader(AEXMLParser& xmlParser, MeshMaterialGO
     {
         AEXMLParser childObject = xmlParser(i);
 
-        std::wstring childType = childObject.GetName();
+        std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_MAT_SHADER_PROPS_NODE_NAME) == 0)
         {
@@ -2104,11 +2108,11 @@ AEResult GameObjectManager::LoadXMLShaderProperties(AEXMLParser& xmlParser, Shad
     {
         AEXMLParser childObject = xmlParser(i);
 
-        std::wstring childType = childObject.GetName();
+        std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_MAT_SHADER_CB_NODE_NAME) == 0)
         {
-            std::wstring cbName = childObject.GetString(AE_GAME_OBJ_GOC_MAT_SHADER_CB_NAME_PROP);
+            std::string cbName = childObject.GetString(AE_GAME_OBJ_GOC_MAT_SHADER_CB_NAME_PROP);
 
             ConstantBuffer* cb = properties->GetConstantBuffer(cbName);
             if (cb == nullptr)
@@ -2124,7 +2128,7 @@ AEResult GameObjectManager::LoadXMLShaderProperties(AEXMLParser& xmlParser, Shad
 
         if (childType.compare(AE_GAME_OBJ_GOC_MAT_TEXTURE_NODE_NAME) == 0)
         {
-            std::wstring name = childObject.GetString(AE_GAME_OBJ_GOC_MAT_TEXTURE_NAME_PROP);
+            std::string name = childObject.GetString(AE_GAME_OBJ_GOC_MAT_TEXTURE_NAME_PROP);
             uint64_t assetID = childObject.GetUInt64(AE_GAME_OBJ_COMPONENT_ASSETID_PROP);
 
             GameAsset* gameAsset = m_GameAssetManager->GetGameAsset(assetID);
@@ -2156,13 +2160,13 @@ AEResult GameObjectManager::LoadXMLCBShaderVariable(AEXMLParser& xmlParser, Cons
     {
         AEXMLParser varObject = xmlParser(i);
 
-        std::wstring varType = varObject.GetName();
+        std::string varType = varObject.GetName();
 
         if (varType.compare(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_NODE_NAME) == 0)
         {
             AEResult ret = AEResult::Ok;
 
-            std::wstring varName        = xmlParser.GetString(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_NAME_PROP);
+            std::string varName        = xmlParser.GetString(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_NAME_PROP);
             ShaderVariableClass svc        = (ShaderVariableClass)xmlParser.GetUInt(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_CLASS_PROP);
             ShaderVariableType svt        = (ShaderVariableType)xmlParser.GetUInt(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_TYPE_PROP);
             uint32_t columns            = xmlParser.GetUInt(AE_GAME_OBJ_GOC_MAT_SHADER_COLUMNS_PROP);
@@ -2196,7 +2200,7 @@ AEResult GameObjectManager::LoadXMLCBShaderVariable(AEXMLParser& xmlParser, Cons
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLCBScalar(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType)
+AEResult GameObjectManager::LoadXMLCBScalar(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType)
 {
     if (cb == nullptr)
     {
@@ -2260,7 +2264,7 @@ AEResult GameObjectManager::LoadXMLCBScalar(AEXMLParser& xmlParser, ConstantBuff
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLCBVector(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns)
+AEResult GameObjectManager::LoadXMLCBVector(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType, uint32_t columns)
 {
     if (cb == nullptr)
     {
@@ -2412,7 +2416,7 @@ AEResult GameObjectManager::LoadXMLCBVector(AEXMLParser& xmlParser, ConstantBuff
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLCBMatrix(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::wstring& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows)
+AEResult GameObjectManager::LoadXMLCBMatrix(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows)
 {
     if (cb == nullptr)
     {
@@ -2458,7 +2462,7 @@ AEResult GameObjectManager::LoadXMLGameObjectScriptsComponents(AEXMLParser& xmlP
     {
         AEXMLParser childObject = xmlParser(i);
 
-        std::wstring childType = childObject.GetName();
+        std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_SCRIPT_NODE_NAME) == 0)
         {
@@ -2479,7 +2483,7 @@ AEResult GameObjectManager::LoadXMLGameObjectScriptsComponent(AEXMLParser& xmlPa
         return AEResult::NullParameter;
     }
 
-    std::wstring name    = xmlParser.GetString(AE_GAME_OBJ_GOC_SCRIPT_NAME_PROP);
+    std::string name    = xmlParser.GetString(AE_GAME_OBJ_GOC_SCRIPT_NAME_PROP);
     uint64_t assetID    = xmlParser.GetUInt64(AE_GAME_OBJ_COMPONENT_ASSETID_PROP);
     bool hasInstance    = xmlParser.GetBool(AE_GAME_OBJ_GOC_SCRIPT_HAS_INSTANCE_PROP);
 
@@ -2487,7 +2491,7 @@ AEResult GameObjectManager::LoadXMLGameObjectScriptsComponent(AEXMLParser& xmlPa
 
     if (hasInstance)
     {
-        std::wstring instanceIname = xmlParser.GetString(AE_GAME_OBJ_GOC_SCRIPT_INSTANCE_NAME_PROP);
+        std::string instanceIname = xmlParser.GetString(AE_GAME_OBJ_GOC_SCRIPT_INSTANCE_NAME_PROP);
         if (gameObjectScriptGOC->CreateGameObjectScriptInstance(instanceIname) != AEResult::Ok)
         {
             DeleteMem(gameObjectScriptGOC);
@@ -2522,11 +2526,11 @@ AEResult GameObjectManager::LoadXMLGameObjectScriptsProperties(AEXMLParser& xmlP
     {
         AEXMLParser childObject = xmlParser(i);
 
-        std::wstring childType = childObject.GetName();
+        std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_SCRIPT_PROPERTY_NODE_NAME) == 0)
         {
-            std::wstring propName = xmlParser.GetString(AE_GAME_OBJ_GOC_SCRIPT_PROPERTY_NAME_PROP);
+            std::string propName = xmlParser.GetString(AE_GAME_OBJ_GOC_SCRIPT_PROPERTY_NAME_PROP);
             asETypeIdFlags propType = (asETypeIdFlags)xmlParser.GetUInt(AE_GAME_OBJ_GOC_SCRIPT_PROPERTY_TYPE_PROP);
 
             GameObjectScriptProperty* prop = properties->GetGameObjectScriptProperty(propName);
@@ -2747,7 +2751,7 @@ AEResult GameObjectManager::LoadXMLMeshAnimationComponent(AEXMLParser& xmlParser
     {
         AEXMLParser childObject = xmlParser(i);
 
-        std::wstring childType = childObject.GetName();
+        std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_ANIM_ASSET_NODE_NAME) == 0)
         {
@@ -2843,11 +2847,11 @@ AEResult GameObjectManager::LoadXMLAudioSourceComponent(AEXMLParser& xmlParser, 
     {
         AEXMLParser childObject = xmlParser(i);
 
-        std::wstring childType = childObject.GetName();
+        std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_AUDIO_SOURCE_NODE_NAME) == 0)
         {
-            std::wstring name        = xmlParser.GetString(AE_GAME_OBJ_GOC_AUDIO_SOURCE_NAME_PROP);
+            std::string name        = xmlParser.GetString(AE_GAME_OBJ_GOC_AUDIO_SOURCE_NAME_PROP);
             uint64_t audioAssetID    = xmlParser.GetUInt64(AE_GAME_OBJ_COMPONENT_ASSETID_PROP);
 
             AudioSourceGOC* audioSourceGOC = new AudioSourceGOC(gameObject, name);
@@ -2906,7 +2910,7 @@ AEResult GameObjectManager::LoadXMLPhysicsComponent(AEXMLParser& xmlParser, Game
     {
         AEXMLParser childObject = xmlParser(i);
 
-        std::wstring childType = childObject.GetName();
+        std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_PHYSICS_COLLIDER_NODE_NAME) == 0)
         {

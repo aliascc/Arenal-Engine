@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -43,7 +48,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DiffuseTextureVS::DiffuseTextureVS(GraphicDevice* graphicDevice, const std::wstring& name)
+DiffuseTextureVS::DiffuseTextureVS(GraphicDevice* graphicDevice, const std::string& name)
     : VertexShader(graphicDevice, name)
 {
 }

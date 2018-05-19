@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <functional>
 
 /*************************
 *   3rd Party Includes   *
@@ -74,9 +73,9 @@ class GameObjectScriptGOC sealed : public GameObjectComponent
 
         asIScriptContext* m_ASContext = nullptr;
 
-        std::wstring m_Name = L"";
+        std::string m_Name = "";
 
-        std::wstring m_TempInstanceName = L"";
+        std::string m_TempInstanceName = "";
 
         /// <summary>
         /// Game Object Pair with Game Object Script that this Game Object Component uses
@@ -122,7 +121,7 @@ class GameObjectScriptGOC sealed : public GameObjectComponent
         /// <param name="name">Name of the Script GOC.</param>
         /// <param name="angelScriptManager">Angel Script Manager to associate the Scripts with.</param>
         /// <param name="gameObjectScriptManager">Game Object Script Manager to associate the scripts with.</param>
-        GameObjectScriptGOC(GameObject* gameObject, const std::wstring& name, AngelScriptManager* angelScriptManager, GameObjectScriptManager* gameObjectScriptManager);
+        GameObjectScriptGOC(GameObject* gameObject, const std::string& name, AngelScriptManager* angelScriptManager, GameObjectScriptManager* gameObjectScriptManager);
 
         /// <summary>
         /// Default GameObjectScriptGOC Destructor
@@ -136,14 +135,14 @@ class GameObjectScriptGOC sealed : public GameObjectComponent
         *******************/
 #pragma region Get Methods
 
-        inline const std::wstring& GetName() const
+        inline const std::string& GetName() const
         {
             return m_Name;
         }
 
-        std::wstring GetGameObjectScriptName() const;
+        std::string GetGameObjectScriptName() const;
 
-        std::wstring GetGameObjectScriptInstanceName() const;
+        std::string GetGameObjectScriptInstanceName() const;
 
         inline bool HasScriptInstance() const
         {
@@ -167,7 +166,7 @@ class GameObjectScriptGOC sealed : public GameObjectComponent
         *******************/
 #pragma region Set Methods
 
-        inline void SetName(const std::wstring& name)
+        inline void SetName(const std::string& name)
         {
             m_Name = name;
         }
@@ -181,7 +180,7 @@ class GameObjectScriptGOC sealed : public GameObjectComponent
         *************************/
 #pragma region Framework Methods
 
-        AEResult CreateGameObjectScriptInstance(const std::wstring& instanceName);
+        AEResult CreateGameObjectScriptInstance(const std::string& instanceName);
 
         AEResult RemoveGameObjectScriptInstance();
 

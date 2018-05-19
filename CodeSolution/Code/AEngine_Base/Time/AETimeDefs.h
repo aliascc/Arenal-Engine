@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /***************************
 *   Game Engine Includes   *
@@ -129,7 +127,7 @@ struct TimeStamp sealed : public AEObject
     /// <summary>
     /// TimeStamp Constructor
     /// </summary>
-    TimeStamp(const std::wstring& str);
+    TimeStamp(const std::string& str);
 
 #pragma endregion
 
@@ -146,7 +144,7 @@ struct TimeStamp sealed : public AEObject
     /// </remarks>
     /// <param name="str">String to parse and convert to TimeStamp</param>
     /// <returns>AEResult::Ok if parse was successful</returns>
-    AEResult GetFromString(const std::wstring& str);
+    AEResult GetFromString(const std::string& str);
 
 #pragma endregion
 
@@ -163,7 +161,7 @@ struct TimeStamp sealed : public AEObject
     /// </remarks>
     /// <param name="str">String to parse and convert to TimeStamp</param>
     /// <returns>Returns Time Stamp</returns>
-    TimeStamp& operator=(const std::wstring& str);
+    TimeStamp& operator=(const std::string& str);
 
     /// <summary>
     /// Equal operator overload
@@ -194,7 +192,7 @@ struct TimeStamp sealed : public AEObject
     /// To String method override, Gets Time Stamp as a string
     /// </summary>
     /// <returns>Returns Time Stamp as a string</returns>
-    std::wstring ToString() const override;
+    std::string ToString() const override;
 
 #pragma endregion
 

@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <iostream>
 
 /*************************
 *   3rd Party Includes   *
@@ -39,7 +43,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Sampler::Sampler(GraphicDevice* graphicDevice, const std::wstring& name, uint32_t bindIndex)
+Sampler::Sampler(GraphicDevice* graphicDevice, const std::string& name, uint32_t bindIndex)
     : ShaderBinding(name, bindIndex)
     , m_GraphicDevice(graphicDevice)
 {

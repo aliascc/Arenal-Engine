@@ -23,21 +23,16 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
-#include "PxPhysicsAPI.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "PhysicsDefs.h"
 #include "PhysicCollider.h"
-#include "Math\AEMathDefs.h"
 
 /********************
 *   Forward Decls   *

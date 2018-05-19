@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecontent.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -26,6 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "ContentDefs.h"
 #include "MeshContent.h"
 #include "ModelContent.h"
 #include "SkeletonContent.h"

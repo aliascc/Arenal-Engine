@@ -15,15 +15,18 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <iostream>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -163,7 +166,7 @@ namespace AEShaderHelper
                 break;
             default:
                 {
-                    std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"DX Filter", static_cast<uint32_t>(shaderFilter), L"D3D11_FILTER_MIN_MAG_MIP_LINEAR");
+                    std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Filter", static_cast<uint32_t>(shaderFilter), "D3D11_FILTER_MIN_MAG_MIP_LINEAR");
                     AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
                 }
                 break;
@@ -195,7 +198,7 @@ namespace AEShaderHelper
                 break;
             default:
                 {
-                    std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"DX Texture Address Mode", static_cast<uint32_t>(textureAddressMode), L"D3D11_TEXTURE_ADDRESS_CLAMP");
+                    std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Texture Address Mode", static_cast<uint32_t>(textureAddressMode), "D3D11_TEXTURE_ADDRESS_CLAMP");
                     AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
                 }
                 break;
@@ -236,7 +239,7 @@ namespace AEShaderHelper
                 break;
             default:
                 {
-                    std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"DX Comparison Function", static_cast<uint32_t>(compFunct), L"D3D11_COMPARISON_NEVER");
+                    std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Comparison Function", static_cast<uint32_t>(compFunct), "D3D11_COMPARISON_NEVER");
                     AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
                 }
                 break;

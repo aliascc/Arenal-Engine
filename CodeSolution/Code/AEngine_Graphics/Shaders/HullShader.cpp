@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -37,7 +42,7 @@
 /********************
 *   Function Defs   *
 *********************/
-HullShader::HullShader(GraphicDevice* graphicDevice, const std::wstring& name)
+HullShader::HullShader(GraphicDevice* graphicDevice, const std::string& name)
     : Shader(graphicDevice, ShaderType::HullShader, name)
 {
 }
@@ -74,7 +79,7 @@ AEResult HullShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t 
     ReleaseCOM(m_HSDX);
     m_HSDX = tempDX;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11HullShader>(m_HSDX, AE_DEBUG_HS_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11HullShader>(m_HSDX, AE_DEBUG_HS_NAME_PREFIX + m_Name);
     
     return AEResult::Ok;
 }

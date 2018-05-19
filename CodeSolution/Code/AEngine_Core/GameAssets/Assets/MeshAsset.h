@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -88,7 +86,7 @@ class MeshAsset sealed : public GameAsset
         /// <param name="filePath">File Path of Game Asset to Load</param>
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
         /// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
-        MeshAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice);
+        MeshAsset(const std::string& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice);
 
         /// <summary>
         /// Default SkeletonAsset Destructor

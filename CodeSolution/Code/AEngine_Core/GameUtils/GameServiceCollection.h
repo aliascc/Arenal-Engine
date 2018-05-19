@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -49,7 +46,7 @@ class LocalizationManager;
 class GameServiceCollection : public AEObject
 {
     //Typedefs to handle Map Collection
-    typedef std::unordered_map<std::wstring, GameService*> GameServiceMap;
+    typedef std::unordered_map<std::string, GameService*> GameServiceMap;
 
     private:
 
@@ -96,7 +93,7 @@ class GameServiceCollection : public AEObject
          *******************/
 #pragma region Get Methods
 
-        GameService* GetGameService(const std::wstring& name);
+        GameService* GetGameService(const std::string& name);
 
 #pragma endregion
 
@@ -105,13 +102,13 @@ class GameServiceCollection : public AEObject
          *************************/
 #pragma region Framework Methods
 
-        bool Exists(const std::wstring& name) const;
+        bool Exists(const std::string& name) const;
 
-        AEResult Add(const std::wstring& name, GameService* gameService);
+        AEResult Add(const std::string& name, GameService* gameService);
 
-        AEResult Remove(const std::wstring& name);
+        AEResult Remove(const std::string& name);
 
-        inline GameService* operator[] (const std::wstring& name)
+        inline GameService* operator[] (const std::string& name)
         {
             return GetGameService(name);
         }

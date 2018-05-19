@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -41,7 +46,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-AudioSourceGOC::AudioSourceGOC(GameObject* gameObject, const std::wstring& name)
+AudioSourceGOC::AudioSourceGOC(GameObject* gameObject, const std::string& name)
     : GameObjectComponent(gameObject, GameObjectComponentType::AudioSource)
     , m_Name(name)
 {
@@ -193,7 +198,7 @@ AEResult AudioSourceGOC::ClearAudioAsset(bool informGameAsset)
     return AEResult::Ok;
 }
 
-std::wstring AudioSourceGOC::GetAudioName() const
+std::string AudioSourceGOC::GetAudioName() const
 {
     if (m_Audio.m_ResourceAsset != nullptr)
     {
@@ -201,6 +206,6 @@ std::wstring AudioSourceGOC::GetAudioName() const
     }
     else
     {
-        return L"";
+        return "";
     }
 }

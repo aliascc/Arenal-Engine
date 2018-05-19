@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <vector>
 
 /*************************
 *   3rd Party Includes   *
@@ -87,7 +85,7 @@ class VarianceShadowMaterial sealed : public Material
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
         /// <param name="name">Name of the Effect</param>
-        VarianceShadowMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_VARIANCE_SHADOW_MAT_NAME);
+        VarianceShadowMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name = AE_VARIANCE_SHADOW_MAT_NAME);
 
         /// <summary>
         /// Default VarianceShadowMaterial Destructor

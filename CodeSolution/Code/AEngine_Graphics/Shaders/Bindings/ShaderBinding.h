@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -74,7 +72,7 @@ class ShaderBinding abstract : public UniqueAEObjectNamed
         /// </summary>
         /// <param name="name">Name of the Binding</param>
         /// <param name="bindIndex">Index where to bind</param>
-        ShaderBinding(const std::wstring& name, uint32_t bindIndex);
+        ShaderBinding(const std::string& name, uint32_t bindIndex);
 
         /// <summary>
         /// Default ShaderBinding Destructor

@@ -23,12 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <list>
-#include <mutex>
-#include <string>
-#include <stdint.h>
-#include <functional>
 
 /*************************
 *   3rd Party Includes   *
@@ -132,7 +126,7 @@ class GameAsset abstract : public UniqueAEObjectNamed
         /// <summary>
         /// File Path of the Game Asset
         /// </summary>
-        std::wstring m_FilePath = L"";
+        std::string m_FilePath = "";
         
         /// <summary>
         /// Mutex to be able to handle multiple request from different threads
@@ -147,7 +141,7 @@ class GameAsset abstract : public UniqueAEObjectNamed
         /// <summary>
         /// Custom name of the Game Asset
         /// </summary>
-        std::wstring m_CustomName = L"";
+        std::string m_CustomName = "";
 
         /// <summary>
         /// Parent Game Asset
@@ -182,7 +176,7 @@ class GameAsset abstract : public UniqueAEObjectNamed
         /// <param name="gameContentType">Asset Content Type</param>
         /// <param name="filePath">File Path of Game Asset to Load</param>
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
-        GameAsset(GameContentType gameContentType, const std::wstring& filePath, GameResourceManager* gameResourceManager);
+        GameAsset(GameContentType gameContentType, const std::string& filePath, GameResourceManager* gameResourceManager);
 
         /// <summary>
         /// Default GameAsset Destructor
@@ -200,7 +194,7 @@ class GameAsset abstract : public UniqueAEObjectNamed
         /// File Path of the Game Asset
         /// </summary>
         /// <returns>File path of Game Asset</returns>
-        inline const std::wstring& GetFilePath() const
+        inline const std::string& GetFilePath() const
         {
             return m_FilePath;
         }
@@ -264,7 +258,7 @@ class GameAsset abstract : public UniqueAEObjectNamed
         /// Custom Name of the Game Asset
         /// </summary>
         /// <returns>Custom Name of Game Asset</returns>
-        inline const std::wstring& GetCustomName() const
+        inline const std::string& GetCustomName() const
         {
             return m_CustomName;
         }
@@ -287,7 +281,7 @@ class GameAsset abstract : public UniqueAEObjectNamed
         /// <summary>
         /// Sets the File Path of the Game Asset
         /// </summary>
-        inline void SetFilePath(const std::wstring& filePath)
+        inline void SetFilePath(const std::string& filePath)
         {
             m_FilePath = filePath;
         }
@@ -303,7 +297,7 @@ class GameAsset abstract : public UniqueAEObjectNamed
         /// <summary>
         /// Sets the Custom Name of the Game Asset
         /// </summary>
-        inline void SetCustomName(const std::wstring& customName)
+        inline void SetCustomName(const std::string& customName)
         {
             m_CustomName = customName;
         }

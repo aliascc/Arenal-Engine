@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -101,7 +98,7 @@ class VertexShader : public Shader
         ///</summary>
         ///<param name="graphicDevice">Graphic Device to be associated with this Shader</param>
         ///<param name="name">Name of Shader</param>
-        VertexShader(GraphicDevice* graphicDevice, const std::wstring& name = L"");
+        VertexShader(GraphicDevice* graphicDevice, const std::string& name = "");
 
 #pragma endregion
         

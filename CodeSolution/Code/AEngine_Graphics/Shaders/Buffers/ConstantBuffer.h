@@ -23,10 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
-#include <string>
-#include <d3d11_1.h>
-#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -56,7 +52,7 @@ class ConstantBuffer sealed : public Named
     /// <summary>
     /// Typedef for Shader Variable Map
     /// </summary>
-    typedef std::unordered_map<std::wstring, ShaderCustomVariable*> VariableMap;
+    typedef std::unordered_map<std::string, ShaderCustomVariable*> VariableMap;
     
     /// <summary>
     /// Typedef for Shader Variable Vector
@@ -147,7 +143,7 @@ class ConstantBuffer sealed : public Named
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="bindIndex">Bind Index of the Constant Buffer</param>
         /// <param name="name">Name of the Constant Buffer</param>
-        ConstantBuffer(GraphicDevice* graphicDevice, uint32_t bindIndex, const std::wstring& name = L"");
+        ConstantBuffer(GraphicDevice* graphicDevice, uint32_t bindIndex, const std::string& name = "");
 
         /// <summary>
         /// Default ConstantBuffer Destructor
@@ -204,7 +200,7 @@ class ConstantBuffer sealed : public Named
 
         const ShaderCustomVariable* GetVariable(uint32_t index) const;
 
-        const ShaderCustomVariable* GetVariable(const std::wstring& name) const;
+        const ShaderCustomVariable* GetVariable(const std::string& name) const;
 
 #pragma endregion
         
@@ -245,7 +241,7 @@ class ConstantBuffer sealed : public Named
         /// </summary>
         /// <param name="name">Name of the Variable</param>
         /// <returns>True if it exists</returns>
-        bool Exists(const std::wstring& name) const;
+        bool Exists(const std::string& name) const;
 
         /// <summary>
         /// Adds a Variable to the Constant Buffer
@@ -263,7 +259,7 @@ class ConstantBuffer sealed : public Named
         /// <param name="varSize">Max size to copy to memory, this is use to try to not invaded unwanted memory</param>
         /// <param name="user">Determine if variable should be user variable only</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult SetValue(const std::wstring& varName, const void* value, uint32_t varSize, bool user = false);
+        AEResult SetValue(const std::string& varName, const void* value, uint32_t varSize, bool user = false);
         
         /// <summary>
         /// Gets a value to an specific variable
@@ -273,7 +269,7 @@ class ConstantBuffer sealed : public Named
         /// <param name="varSize">Max size to copy from memory, this is use to try to not invaded unwanted memory</param>
         /// <param name="user">Determine if variable should be user variable only</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult GetValue(const std::wstring& varName, void* value, uint32_t varSize, bool user = false);
+        AEResult GetValue(const std::string& varName, void* value, uint32_t varSize, bool user = false);
 
         /// <summary>
         /// Sets a value to an specific variable
@@ -284,7 +280,7 @@ class ConstantBuffer sealed : public Named
         /// <param name="user">Determine if variable should be user variable only</param>
         /// <returns>AEResult::Ok if successful</returns>
         template<class T>
-        AEResult SetValueT(const std::wstring& varName, const T& value, bool user = false)
+        AEResult SetValueT(const std::string& varName, const T& value, bool user = false)
         {
             return SetValue(varName, &value, (uint32_t)sizeof(T), user);
         }
@@ -298,7 +294,7 @@ class ConstantBuffer sealed : public Named
         /// <param name="user">Determine if variable should be user variable only</param>
         /// <returns>AEResult::Ok if successful</returns>
         template<class T>
-        AEResult GetValueT(const std::wstring& varName, T& value, bool user = false)
+        AEResult GetValueT(const std::string& varName, T& value, bool user = false)
         {
             return GetValue(varName, &value, (uint32_t)sizeof(T), user);
         }

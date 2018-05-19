@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <functional>
 
 /*************************
 *   3rd Party Includes   *
@@ -52,7 +49,7 @@
 struct GCBasicProps sealed : public AEObject
 {
     uint64_t m_GCID = 0;
-    std::wstring m_GCName = L"";
+    std::string m_GCName = "";
     uint32_t m_GCCallOrder = 0;
     bool m_Drawable = false;
     bool m_Enabled = false;

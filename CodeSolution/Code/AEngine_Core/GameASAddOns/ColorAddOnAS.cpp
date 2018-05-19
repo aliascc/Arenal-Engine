@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -91,8 +96,8 @@ AEResult ColorAddOnAS::Register(asIScriptEngine* engine)
     {
         AETODO("Add Log and return");
         AETODO("Wrong Literal Change");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_CONSTS_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_CONSTS_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -100,10 +105,10 @@ AEResult ColorAddOnAS::Register(asIScriptEngine* engine)
 
     if (RegisterColorEnum(engine) != AEResult::Ok)
     {
-        std::wstring errMsg = L"";
+        std::string errMsg = "";
         AETODO("Add Log and return");
         AETODO("Wrong Literal Change");
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_ENUM_ERR_MSG"), __FUNCTIONW__, L"AEResult");
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_ENUM_ERR_MSG"), __FUNCTION__, "AEResult");
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;

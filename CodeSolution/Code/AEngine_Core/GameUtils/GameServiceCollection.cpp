@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -48,7 +53,7 @@ GameServiceCollection::~GameServiceCollection()
 {
 }
 
-GameService* GameServiceCollection::GetGameService(const std::wstring& name)
+GameService* GameServiceCollection::GetGameService(const std::string& name)
 {
     if(!Exists(name))
     {
@@ -58,7 +63,7 @@ GameService* GameServiceCollection::GetGameService(const std::wstring& name)
     return m_GameServiceMap[name];
 }
 
-bool GameServiceCollection::Exists(const std::wstring& name) const
+bool GameServiceCollection::Exists(const std::string& name) const
 {
     auto it = m_GameServiceMap.find(name);
 
@@ -70,7 +75,7 @@ bool GameServiceCollection::Exists(const std::wstring& name) const
     return false;
 }
 
-AEResult GameServiceCollection::Add(const std::wstring& name, GameService* gameService)
+AEResult GameServiceCollection::Add(const std::string& name, GameService* gameService)
 {
     AEAssert(gameService != nullptr);
     if(Exists(name))
@@ -83,7 +88,7 @@ AEResult GameServiceCollection::Add(const std::wstring& name, GameService* gameS
     return AEResult::Ok;
 }
 
-AEResult GameServiceCollection::Remove(const std::wstring& name)
+AEResult GameServiceCollection::Remove(const std::string& name)
 {
     if(!Exists(name))
     {

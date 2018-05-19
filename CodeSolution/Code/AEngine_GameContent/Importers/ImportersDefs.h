@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -46,10 +45,10 @@
 #define AE_IMPORTER_MAX_COLOR_CHANNELS          1
 #define AE_IMPORTER_DEFAULT_FPS                 30.0f
 
-#define AE_IMPORTER_ASSIMP_COLLADA_AUTO_NAME    L"$ColladaAutoName$"
-#define AE_IMPORTER_TYPE_MODEL_NAME             L"Model"
-#define AE_IMPORTER_TYPE_MESH_NAME              L"Mesh"
-#define AE_IMPORTER_TYPE_ANIMATION_NAME         L"Anim"
+#define AE_IMPORTER_ASSIMP_COLLADA_AUTO_NAME    "$ColladaAutoName$"
+#define AE_IMPORTER_TYPE_MODEL_NAME             "Model"
+#define AE_IMPORTER_TYPE_MESH_NAME              "Mesh"
+#define AE_IMPORTER_TYPE_ANIMATION_NAME         "Anim"
 
 /****************
 *   Constants   *

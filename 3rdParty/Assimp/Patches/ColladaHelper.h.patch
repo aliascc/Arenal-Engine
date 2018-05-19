@@ -1,5 +1,5 @@
---- ColladaHelper.h.orig	2017-12-11 14:22:45.000000000 +0100
-+++ ColladaHelper.h	2018-01-09 03:11:29.166871800 +0100
+--- ./ColladaHelper.h.orig	2017-12-11 14:22:45.000000000 +0100
++++ ./ColladaHelper.h	2018-01-09 03:11:29.166871800 +0100
 @@ -256,6 +256,8 @@
      Node* mParent;
      std::vector<Node*> mChildren;

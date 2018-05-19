@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecontent.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <algorithm>
 
 /*************************
 *   3rd Party Includes   *

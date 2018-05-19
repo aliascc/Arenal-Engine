@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -37,7 +42,7 @@
 /********************
 *   Function Defs   *
 *********************/
-ConstantBuffer::ConstantBuffer(GraphicDevice* graphicDevice, uint32_t bindIndex, const std::wstring& name)
+ConstantBuffer::ConstantBuffer(GraphicDevice* graphicDevice, uint32_t bindIndex, const std::string& name)
     : Named(name)
     , m_GraphicDevice(graphicDevice)
     , m_BindIndex(bindIndex)
@@ -145,7 +150,7 @@ AEResult ConstantBuffer::Initialize()
         return AEResult::ConstantBufferInitFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_ConstantBufferDX, AE_DEBUG_CB_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_ConstantBufferDX, AE_DEBUG_CB_NAME_PREFIX + m_Name);
 
     /******************************************
     *3. Finish
@@ -201,7 +206,7 @@ const ShaderCustomVariable* ConstantBuffer::GetVariable(uint32_t index) const
     return m_VariableVector[index];
 }
 
-const ShaderCustomVariable* ConstantBuffer::GetVariable(const std::wstring& name) const
+const ShaderCustomVariable* ConstantBuffer::GetVariable(const std::string& name) const
 {
     if(!Exists(name))
     {
@@ -211,7 +216,7 @@ const ShaderCustomVariable* ConstantBuffer::GetVariable(const std::wstring& name
     return m_VariableMap.find(name)->second;
 }
 
-bool ConstantBuffer::Exists(const std::wstring& name) const
+bool ConstantBuffer::Exists(const std::string& name) const
 {
     return (m_VariableMap.find(name) != m_VariableMap.end());
 }
@@ -253,7 +258,7 @@ AEResult ConstantBuffer::AddVariable(ShaderCustomVariable* scv)
     return AEResult::Ok;
 }
 
-AEResult ConstantBuffer::SetValue(const std::wstring& varName, const void* value, uint32_t varSize, bool user)
+AEResult ConstantBuffer::SetValue(const std::string& varName, const void* value, uint32_t varSize, bool user)
 {
     if(!m_IsReady)
     {
@@ -297,7 +302,7 @@ AEResult ConstantBuffer::SetValue(const std::wstring& varName, const void* value
     return AEResult::Ok;
 }
 
-AEResult ConstantBuffer::GetValue(const std::wstring& varName, void* value, uint32_t varSize, bool user)
+AEResult ConstantBuffer::GetValue(const std::string& varName, void* value, uint32_t varSize, bool user)
 {
     if(!m_IsReady)
     {

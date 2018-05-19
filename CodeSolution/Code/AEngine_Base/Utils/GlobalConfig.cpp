@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <windows.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -38,7 +42,7 @@ namespace AE_GlobalConfig
 {
     static AEResult OpenRegistry(HKEY& hKey)
     {
-        LONG res = RegOpenKeyExW(HKEY_CURRENT_USER, AE_GC_EDITOR_REGISTRY_SUBKEY, 0, KEY_READ, &hKey);
+        LONG res = RegOpenKeyEx(HKEY_CURRENT_USER, AE_GC_EDITOR_REGISTRY_SUBKEY, 0, KEY_READ, &hKey);
         if (res != ERROR_SUCCESS)
         {
             return AEResult::ConfigLoadError;
@@ -57,7 +61,7 @@ namespace AE_GlobalConfig
         RegCloseKey(hKey);
     }
 
-    static AEResult ReadStringInRegistry(const std::wstring& attributeName, std::wstring& value)
+    static AEResult ReadStringInRegistry(const std::string& attributeName, std::string& value)
     {
         HKEY hKey = nullptr;
         if (OpenRegistry(hKey) != AEResult::Ok)
@@ -67,22 +71,23 @@ namespace AE_GlobalConfig
 
         DWORD sizeOfBuffer = 0;
 
-        ULONG errorCode = RegQueryValueExW(hKey, attributeName.c_str(), 0, nullptr, nullptr, &sizeOfBuffer);
+        ULONG errorCode = RegQueryValueEx(hKey, attributeName.c_str(), 0, nullptr, nullptr, &sizeOfBuffer);
         if (errorCode != ERROR_SUCCESS)
         {
             CloseRegistry(hKey);
             return AEResult::ConfigLoadError;
         }
 
-        wchar_t* buffer = new wchar_t[sizeOfBuffer];
-        errorCode = RegQueryValueExW(hKey, attributeName.c_str(), 0, nullptr, (LPBYTE)buffer, &sizeOfBuffer);
+        char* buffer = new char[sizeOfBuffer];
+        errorCode = RegQueryValueEx(hKey, attributeName.c_str(), 0, nullptr, (LPBYTE)buffer, &sizeOfBuffer);
         if (errorCode != ERROR_SUCCESS)
         {
+            DeleteMem(buffer);
             CloseRegistry(hKey);
             return AEResult::ConfigLoadError;
         }
 
-        value = std::wstring(buffer);
+        value = std::string(buffer);
 
         DeleteMem(buffer);
 
@@ -91,12 +96,12 @@ namespace AE_GlobalConfig
         return AEResult::Ok;
     }
 
-    static AEResult WriteStringToRegistry(const std::wstring& attributeName, const std::wstring& value)
+    static AEResult WriteStringToRegistry(const std::string& attributeName, const std::string& value)
     {
         DWORD sizeOfBuffer = (DWORD)(value.length() + 1) * sizeof(wchar_t);
 
-        LONG status = RegSetKeyValueW(HKEY_LOCAL_MACHINE, AE_GC_EDITOR_REGISTRY_SUBKEY,
-                                      attributeName.c_str(), REG_SZ, value.c_str(), sizeOfBuffer);
+        LONG status = RegSetKeyValue(HKEY_LOCAL_MACHINE, AE_GC_EDITOR_REGISTRY_SUBKEY,
+                                     attributeName.c_str(), REG_SZ, value.c_str(), sizeOfBuffer);
         if (status != ERROR_SUCCESS)
         {
             return AEResult::ConfigLoadError;
@@ -105,22 +110,22 @@ namespace AE_GlobalConfig
         return AEResult::Ok;
     }
 
-    AEResult GetRecentProjects(std::vector<std::wstring>& recentProjects)
+    AEResult GetRecentProjects(std::vector<std::string>& recentProjects)
     {
-        std::wstring projects = L"";
+        std::string projects = "";
         if (ReadStringInRegistry(AE_GC_RECENT_PROJECTS, projects) != AEResult::Ok)
         {
             return AEResult::ConfigLoadError;
         }
 
-        AE_Base::SplitString(projects, recentProjects, L";", true);
+        AE_Base::SplitString(projects, recentProjects, ";", true);
 
         return AEResult::Ok;
     }
 
-    AEResult GetRecentProjectDirectory(std::wstring& recentProjectDir)
+    AEResult GetRecentProjectDirectory(std::string& recentProjectDir)
     {
-        recentProjectDir = L"";
+        recentProjectDir = "";
         if (ReadStringInRegistry(AE_GC_RECENT_PROJECT_DIR, recentProjectDir) != AEResult::Ok)
         {
             return AEResult::ConfigLoadError;
@@ -129,15 +134,15 @@ namespace AE_GlobalConfig
         return AEResult::Ok;
     }
 
-    AEResult AddRecentProject(const std::wstring& recentProject)
+    AEResult AddRecentProject(const std::string& recentProject)
     {
-        std::wstring projects = L"";
+        std::string projects = "";
         if (ReadStringInRegistry(AE_GC_RECENT_PROJECTS, projects) != AEResult::Ok)
         {
             return AEResult::ConfigLoadError;
         }
 
-        projects = recentProject + L";" + projects;
+        projects = recentProject + ";" + projects;
 
         if (WriteStringToRegistry(AE_GC_RECENT_PROJECTS, projects) != AEResult::Ok)
         {
@@ -147,7 +152,7 @@ namespace AE_GlobalConfig
         return AEResult::Ok;
     }
 
-    AEResult SetRecentProjectDirectory(const std::wstring& recentDir)
+    AEResult SetRecentProjectDirectory(const std::string& recentDir)
     {
         if (WriteStringToRegistry(AE_GC_RECENT_PROJECT_DIR, recentDir) != AEResult::Ok)
         {

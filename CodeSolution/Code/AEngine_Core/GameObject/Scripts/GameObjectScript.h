@@ -81,7 +81,7 @@ class GameObjectScript sealed : public GameResource
         /// </summary>
         /// <param name="resourceName">Resource Name</param>
         /// <param name="angelScriptManager">Angel Script Manager</param>
-        GameObjectScript(const std::wstring& resourceName, AngelScriptManager* angelScriptManager);
+        GameObjectScript(const std::string& resourceName, AngelScriptManager* angelScriptManager);
 
         /// <summary>
         /// Default GameObjectScript Destructor

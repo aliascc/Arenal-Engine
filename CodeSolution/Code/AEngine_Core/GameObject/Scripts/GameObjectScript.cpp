@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -38,7 +43,7 @@
 /********************
 *   Function Defs   *
 *********************/
-GameObjectScript::GameObjectScript(const std::wstring& resourceName, AngelScriptManager* angelScriptManager)
+GameObjectScript::GameObjectScript(const std::string& resourceName, AngelScriptManager* angelScriptManager)
     : GameResource(resourceName, GameResourceType::Animation)
     , m_AngelScriptManager(angelScriptManager)
 {

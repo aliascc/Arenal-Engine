@@ -27,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "PxPhysicsAPI.h"
 
 /***************************
 *   Game Engine Includes   *

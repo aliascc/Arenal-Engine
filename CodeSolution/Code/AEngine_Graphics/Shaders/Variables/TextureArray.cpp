@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -36,7 +41,7 @@
 /********************
 *   Function Defs   *
 *********************/
-TextureArray::TextureArray(GraphicDevice* graphicDevice, const std::wstring& name, TextureType textureType, uint32_t bindIndex)
+TextureArray::TextureArray(GraphicDevice* graphicDevice, const std::string& name, TextureType textureType, uint32_t bindIndex)
     : ShaderBinding(name, bindIndex)
     , m_GraphicDevice(graphicDevice)
     , m_TextureType(textureType)

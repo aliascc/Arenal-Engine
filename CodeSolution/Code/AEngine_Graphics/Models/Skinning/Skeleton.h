@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -63,7 +61,7 @@ class Skeleton sealed : public GameResource
         /// Skeleton Constructor
         /// </summary>
         /// <param name="resourceName">Resource Name</param>
-        Skeleton(const std::wstring& resourceName);
+        Skeleton(const std::string& resourceName);
 
         inline uint32_t GetSkeletonSize() const
         {

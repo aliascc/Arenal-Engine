@@ -15,11 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
 
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -28,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Time\AETime.h"
 #include "Lights\Light.h"
 #include "Utils\Frustum.h"
 #include "Camera\Camera.h"
@@ -68,7 +70,7 @@
 *********************/
 AETODO("Check Order of GC Call");
 AETODO("Set is ready variable");
-GameObjectsDebugVisualizer::GameObjectsDebugVisualizer(GameApp* gameApp, const std::wstring& gameComponentName, const std::wstring& cameraServiceName, uint32_t callOrder)
+GameObjectsDebugVisualizer::GameObjectsDebugVisualizer(GameApp* gameApp, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
 {
     AETODO("Check var and set variable if it is ready");
@@ -164,7 +166,7 @@ void GameObjectsDebugVisualizer::LoadContent()
 
 void GameObjectsDebugVisualizer::Render(const TimerParams& timerParams)
 {
-    m_GraphicDevice->BeginEvent(L"Game Objects Debug Visualizer");
+    m_GraphicDevice->BeginEvent("Game Objects Debug Visualizer");
 
     AETODO("Check returns");
     if (m_GameObjectsDebugVisualizerConfig.m_GameObjectDebugRenderEnabled)

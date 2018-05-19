@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -38,7 +43,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Texture2DArray::Texture2DArray(GraphicDevice* graphicDevice, const std::wstring& name, uint32_t bindIndex)
+Texture2DArray::Texture2DArray(GraphicDevice* graphicDevice, const std::string& name, uint32_t bindIndex)
     : TextureArray(graphicDevice, name, TextureType::Texture2D, bindIndex)
 {
 }
@@ -147,7 +152,7 @@ AEResult Texture2DArray::Initialize(uint32_t arraySize, uint32_t width, uint32_t
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureArrayDX, AE_DEBUG_TEX_2D_ARRAY_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureArrayDX, AE_DEBUG_TEX_2D_ARRAY_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Texture Array Shader Resource View
@@ -172,7 +177,7 @@ AEResult Texture2DArray::Initialize(uint32_t arraySize, uint32_t width, uint32_t
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_TextureArraySRV, AE_DEBUG_TEX_2D_ARRAY_SRV_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_TextureArraySRV, AE_DEBUG_TEX_2D_ARRAY_SRV_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Render Target Views
@@ -206,7 +211,7 @@ AEResult Texture2DArray::Initialize(uint32_t arraySize, uint32_t width, uint32_t
 
             m_RenderTargetViewsVector.push_back(rtv);
 
-            AEGraphicHelpers::SetDebugObjectName<ID3D11RenderTargetView>(rtv, AE_DEBUG_TEX_2D_ARRAY_RTVS_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+            AEGraphicHelpers::SetDebugObjectName<ID3D11RenderTargetView>(rtv, AE_DEBUG_TEX_2D_ARRAY_RTVS_NAME_PREFIX + m_Name);
         }
     }
 

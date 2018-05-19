@@ -27,14 +27,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <mutex>
-#include <thread>
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -57,21 +53,21 @@
 *   Defines   *
 ***************/
 
-#define AE_PROJ_CONFIG_MAIN_NODE            L"ConfigProject"
-#define AE_PROJ_CONFIG_NODE                 L"Config"
-#define AE_PROJ_ASSET_MANAGER_NODE          L"AssetManager"
-#define AE_PROJ_GAME_OBJECT_MANAGER_NODE    L"GameObjectManager"
-#define AE_PROJ_LOCALIZATION_NODE           L"Localization"
-#define AE_PROJ_INPUT_NODE                  L"Input"
-#define AE_PROJ_DEV_CAPS_NODE               L"DevCaps"
-#define AE_PROJ_GRAPHIC_OPTS_NODE           L"GraphicOpts"
-#define AE_PROJ_CONFIG_NAME_PROP            L"name"
-#define AE_PROJ_CONFIG_FILE_PROP            L"file"
+#define AE_PROJ_CONFIG_MAIN_NODE            "ConfigProject"
+#define AE_PROJ_CONFIG_NODE                 "Config"
+#define AE_PROJ_ASSET_MANAGER_NODE          "AssetManager"
+#define AE_PROJ_GAME_OBJECT_MANAGER_NODE    "GameObjectManager"
+#define AE_PROJ_LOCALIZATION_NODE           "Localization"
+#define AE_PROJ_INPUT_NODE                  "Input"
+#define AE_PROJ_DEV_CAPS_NODE               "DevCaps"
+#define AE_PROJ_GRAPHIC_OPTS_NODE           "GraphicOpts"
+#define AE_PROJ_CONFIG_NAME_PROP            "name"
+#define AE_PROJ_CONFIG_FILE_PROP            "file"
 
-#define AE_ENGINE_CONFIG_MAIN_NODE          L"ConfigEngine"
-#define AE_ENGINE_LOCALIZATION_NODE         L"Localization"
-#define AE_ENGINE_GAMEOPTS                  L"GameOpts"
-#define AE_ENGINE_CONFIG_FILE_PROP          L"file"
+#define AE_ENGINE_CONFIG_MAIN_NODE          "ConfigEngine"
+#define AE_ENGINE_LOCALIZATION_NODE         "Localization"
+#define AE_ENGINE_GAMEOPTS                  "GameOpts"
+#define AE_ENGINE_CONFIG_FILE_PROP          "file"
 
 /****************
 *   Constants   *
@@ -143,12 +139,12 @@ struct GameEngineConfig sealed : public AEObject
     /// <summary>
     /// Saves the file path of that will be use to initialize the Game Application Options
     /// </summary>
-    std::wstring m_GameOptsFile = L"";
+    std::string m_GameOptsFile = "";
 
     /// <summary>
     /// Saves the file path of that will be use to initialize the Localization Strings to handle multiple languages
     /// </summary>
-    std::wstring m_LocalizationFile = L"";
+    std::string m_LocalizationFile = "";
 
     /// <summary>
     /// Default GameEngineConfig Constructor
@@ -165,32 +161,32 @@ struct GameProjectConfig sealed : public AEObject
     /// <summary>
     /// Saves the file path of that will be use to test certain the device capabilities
     /// </summary>
-    std::wstring m_DevCapFile = L"";
+    std::string m_DevCapFile = "";
 
     /// <summary>
     /// Saves the file path of that will be use to initialize the input devices
     /// </summary>
-    std::wstring m_InputFile = L"";
+    std::string m_InputFile = "";
 
     /// <summary>
     /// Saves the file path of that will be use to initialize the Localization Strings to handle multiple languages
     /// </summary>
-    std::wstring m_LocalizationFile = L"";
+    std::string m_LocalizationFile = "";
 
     /// <summary>
     /// Saves the file path of that will be use to initialize the Game Graphics Option
     /// </summary>
-    std::wstring m_GraphicOptsFile = L"";
+    std::string m_GraphicOptsFile = "";
 
     /// <summary>
     /// Saves the file path of that will be use to load the Asset Manager
     /// </summary>
-    std::wstring m_AssetManagerFile = L"";
+    std::string m_AssetManagerFile = "";
 
     /// <summary>
     /// Saves the file path of that will be use to load the Game Object Manager File
     /// </summary>
-    std::wstring m_GameObjectManagerFile = L"";
+    std::string m_GameObjectManagerFile = "";
 
     /// <summary>
     /// Default GameProjectConfig Constructor
@@ -212,12 +208,12 @@ struct GameAppOpts sealed : public AEObject
     /// <summary>
     /// Stores the Window Title.
     /// </summary>
-    std::wstring m_WinCaption = L"";
+    std::string m_WinCaption = "";
     
     /// <summary>
     /// For Windows OS it stores the HWND Window Class Name.
     /// </summary>
-    std::wstring m_WinClassName = L"";
+    std::string m_WinClassName = "";
     
     /// <summary>
     /// Lets the Game Application know if it should sample the Frame Rate.
@@ -240,7 +236,7 @@ struct GameAppOpts sealed : public AEObject
     /// <summary>
     /// If saving the files to disk, this will store to which file it should be saved.
     /// </summary>
-    std::wstring m_LogFilePath = L"";
+    std::string m_LogFilePath = "";
     
     /// <summary>
     /// Maximum of logs to be kept in memory.
@@ -263,14 +259,14 @@ struct GameAppOpts sealed : public AEObject
 /// </summary>
 struct GameProject sealed : public AEObject
 {
-    std::wstring m_ProjectName = L"";
+    std::string m_ProjectName = "";
     
-    std::wstring m_ProjectConfigFile = L"";
-    std::wstring m_ProjectLocation = L"";
+    std::string m_ProjectConfigFile = "";
+    std::string m_ProjectLocation = "";
     GameProjectConfig m_GameProjectConfig;
     
-    std::wstring m_EngineConfigFile = L"";
-    std::wstring m_EngineLocation = L"";
+    std::string m_EngineConfigFile = "";
+    std::string m_EngineLocation = "";
     GameEngineConfig m_GameEngineConfig;
 
     GameProject();
@@ -282,13 +278,13 @@ struct GameProject sealed : public AEObject
 
 namespace XEGameAppHelpers
 {
-    std::wstring BuildConfigProjectFile(const std::wstring& projectName);
+    std::string BuildConfigProjectFile(const std::string& projectName);
 
-    std::wstring BuildAssetFile();
+    std::string BuildAssetFile();
 
-    std::wstring BuildLocalizationFile();
+    std::string BuildLocalizationFile();
 
-    std::wstring BuildGameObjectManagerFile();
+    std::string BuildGameObjectManagerFile();
 }
 
 #endif
