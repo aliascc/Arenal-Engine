@@ -39,65 +39,22 @@
 /********************
 *   Function Defs   *
 *********************/
-AETime::AETime(bool sampleFPS)
+AETime::AETime(bool sampleFPS, uint32_t numSamples)
     : m_IsSamplingFPS(sampleFPS)
+    , m_NumOfSamples(numSamples)
 {
+    m_FrameSamples.resize(m_NumOfSamples);
+    for (uint32_t i = 0; i < m_NumOfSamples; i++)
+    {
+        m_FrameSamples[i] = 0.0;
+    }
 }
 
 AETime::~AETime()
 {
 }
 
-void AETime::UpdateAllTimers()
-{
-    UpdateConstantUpdateTimer();
-    UpdateUpdateTimer();
-    UpdatePostUpdateTimer();
-    UpdateRenderTimer();
-    UpdateFrameTimer();
-}
-
-void AETime::UpdateConstantUpdateTimer()
-{
-    m_ConstantUpdateTimer.Update();
-}
-
-void AETime::PostUpdateConstantUpdateTimer()
-{
-    m_ConstantUpdateTimer.PostUpdate();
-}
-
-void AETime::UpdateUpdateTimer()
-{
-    m_UpdateTimer.Update();
-}
-
-void AETime::PostUpdateUpdateTimer()
-{
-    m_UpdateTimer.PostUpdate();
-}
-
-void AETime::UpdatePostUpdateTimer()
-{
-    m_PostUpdateTimer.Update();
-}
-
-void AETime::PostUpdatePostUpdateTimer()
-{
-    m_PostUpdateTimer.PostUpdate();
-}
-
-void AETime::UpdateRenderTimer()
-{
-    m_RenderTimer.Update();
-}
-
-void AETime::PostUpdateRenderTimer()
-{
-    m_RenderTimer.PostUpdate();
-}
-
-void AETime::UpdateFrameTimer()
+void AETime::Update()
 {
     m_FrameTimer.Update();
 
@@ -109,16 +66,42 @@ void AETime::UpdateFrameTimer()
 
 void AETime::SampleFPS()
 {
-    m_FrameCount++;
+    m_SampleFramePos++;
 
-    double diff = m_FrameTimer.GetTimerParams().m_TotalElapsedTime - m_LastFPSTime;
-
-    if( diff >= 1.0 )
+    if (m_SampleFramePos >= m_NumOfSamples)
     {
-        m_FPS =  m_FrameCount/(float)diff;
-        m_FrameCount = 0;
-        m_LastFPSTime = m_FrameTimer.GetTimerParams().m_TotalElapsedTime;
-
-        m_MilliPerFrame = 1000.0f / m_FPS;
+        m_SampleFramePos = 0;
     }
+
+    double diff = m_FrameTimer.GetTimerParams().m_ElapsedTimePression;
+    m_FrameSamples[m_SampleFramePos] = diff;
+
+    double totalTime = 0.;
+    for (uint32_t i = 0; i < m_NumOfSamples; i++)
+    {
+        totalTime += m_FrameSamples[i];
+    }
+
+    m_MilliPerFrame = totalTime / m_NumOfSamples;
+    m_FPS = 1. / m_MilliPerFrame;
+}
+
+bool AETime::NeedToRunConstantUpdate()
+{
+    const TimerParams& frameTimer = m_FrameTimer.GetTimerParams();
+
+    double diff = frameTimer.m_TotalElapsedTimePression - m_ConstantUpdateTimerParams.m_TotalElapsedTimePression;
+
+    if (diff >= m_ConstantUpdateStep)
+    {
+        m_ConstantUpdateTimerParams.m_ElapsedTimePression       = m_ConstantUpdateStep;
+        m_ConstantUpdateTimerParams.m_ElapsedTime               = (float)m_ConstantUpdateTimerParams.m_ElapsedTimePression;
+
+        m_ConstantUpdateTimerParams.m_TotalElapsedTimePression  += m_ConstantUpdateTimerParams.m_ElapsedTime;
+        m_ConstantUpdateTimerParams.m_TotalElapsedTime          = (float)m_ConstantUpdateTimerParams.m_TotalElapsedTimePression;
+
+        return true;
+    }
+
+    return false;
 }

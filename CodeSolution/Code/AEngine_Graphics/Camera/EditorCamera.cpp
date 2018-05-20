@@ -58,7 +58,7 @@ AEResult EditorCamera::Update(const TimerParams& timerParams)
     //    Keyboard* keyboard = m_Input->GetKeyboard();
 
     //    glm::vec3 movement = AEMathHelpers::Vec3fZero;
-    //    float dt = (float)timerParams.m_ElapsedTime;
+    //    float dt = timerParams.m_ElapsedTime;
 
     //    if (keyboard->IsHoldingKey(AEKeys::UP))
     //    {

@@ -54,8 +54,16 @@ ImGuiWindow::~ImGuiWindow()
 
 bool ImGuiWindow::PreUpdate()
 {
-    if (!ImGui::Begin("Benchmark", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav))
+    bool* closeIconBool = nullptr;
+    if (m_ShowCloseIcon)
     {
+        closeIconBool = &m_Visible;
+    }
+
+    if (!ImGui::Begin(m_Name.c_str(), closeIconBool, m_Flags))
+    {
+        AETODO("Add log message");
+
         ImGui::End();
         return false;
     }

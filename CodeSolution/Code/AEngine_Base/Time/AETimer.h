@@ -118,16 +118,17 @@ class AETimer sealed : public AEObject
 #pragma region Framework Methods
 
         /// <summary>
-        /// Tells the Timer to update it self and all the properties
+        /// Updates the Timer's Elapsed Time (since the last update call) and Total Elapsed Time
         /// </summary>
         void Update();
 
         /// <summary>
-        /// Updates Time Parameter 'Previous Call Time'
+        /// Updates the Timer Previous Call Time (since the previous Update Call), but does not update Elapse Time or Total Elapse Time
         /// </summary>
         void PostUpdate();
 
 #pragma endregion
+
 };
 
 #endif

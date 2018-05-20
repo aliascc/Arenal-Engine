@@ -184,7 +184,7 @@ void Logger::AddNewLog(LogLevel logLevel, const std::string& msg)
 
         if(msg.compare(m_LastLog.m_Log) == 0)
         {
-            double tempElapsedTime = m_Timer.GetTimerParams().m_ElapsedTime;
+            double tempElapsedTime = m_Timer.GetTimerParams().m_ElapsedTimePression;
 
             isTheSame = true;
 
@@ -361,7 +361,7 @@ void Logger::MonitorRepeatedLogTimeOut()
         {
             m_Timer.Update();
 
-            m_LastLog.m_ElapsedTimeSameLogPrint += m_Timer.GetTimerParams().m_ElapsedTime;
+            m_LastLog.m_ElapsedTimeSameLogPrint += m_Timer.GetTimerParams().m_ElapsedTimePression;
 
             if(m_LastLog.m_ElapsedTimeSameLogPrint >= AE_LOG_DUPLICATE_TIMEOUT)
             {

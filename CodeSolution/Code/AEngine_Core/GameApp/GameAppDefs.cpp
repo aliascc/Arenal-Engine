@@ -46,38 +46,6 @@
 *   Functions Defs   *
 **********************/
 
-/************************
-*   GameAppScopedLock   *
-*************************/
-GameAppScopedLock::GameAppScopedLock(std::mutex* gameAppMutexPtr)
-    : m_GameAppMutexPtr(gameAppMutexPtr)
-{
-    AEAssert(m_GameAppMutexPtr != nullptr);
-}
-
-GameAppScopedLock::~GameAppScopedLock()
-{
-    EndLock();
-}
-
-void GameAppScopedLock::StartLock()
-{
-    if (m_GameAppMutexPtr != nullptr)
-    {
-        m_GameAppMutexPtr->lock();
-        m_IsLock = true;
-    }
-}
-
-void GameAppScopedLock::EndLock()
-{
-    if (m_GameAppMutexPtr != nullptr && m_IsLock)
-    {
-        m_GameAppMutexPtr->unlock();
-        m_IsLock = false;
-    }
-}
-
 /***********************
 *   GameEngineConfig   *
 ************************/

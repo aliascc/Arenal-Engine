@@ -74,9 +74,8 @@
 /********************
 *   Function Defs   *
 *********************/
-GameApp::GameApp(HINSTANCE hInstance, GameAppRunOpt gameAppRunOpt)
+GameApp::GameApp(HINSTANCE hInstance)
     : m_AppInst(hInstance)
-    , m_GameAppRunOpt(gameAppRunOpt)
 {
 #if defined(AE_MEM_CHECK)
     MemLeaks::MemoryBegin();
@@ -163,6 +162,92 @@ void GameApp::CleanUp()
     AudioListener::DestroyInstance();
     LocalizationManager::DestroyInstance();
 }
+
+#ifdef AE_EDITOR_MODE
+
+AEResult GameApp::EditorPlay()
+{
+    if (!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
+
+    if (m_GameEditorPlayState == GameEditorPlayState::Playing)
+    {
+        return AEResult::Ok;
+    }
+
+    AEResult ret = AEResult::Ok;
+
+    ret = m_CameraManager->SetDefaultCameraAsMain();
+
+    m_GameEditorPlayState = GameEditorPlayState::Playing;
+
+    return ret;
+}
+
+AEResult GameApp::EditorPause()
+{
+    if (!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
+
+    if (m_GameEditorPlayState == GameEditorPlayState::Paused || m_GameEditorPlayState == GameEditorPlayState::Stop)
+    {
+        return AEResult::Ok;
+    }
+
+    AEResult ret = AEResult::Ok;
+
+    m_GameEditorPlayState = GameEditorPlayState::Paused;
+
+    return ret;
+}
+
+AEResult GameApp::EditorStop()
+{
+    if (!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
+
+    if (m_GameEditorPlayState == GameEditorPlayState::Stop)
+    {
+        return AEResult::Ok;
+    }
+
+    AEResult ret = AEResult::Ok;
+
+    ret = m_CameraManager->SetEditorCameraAsMain();
+
+    m_GameEditorPlayState = GameEditorPlayState::Stop;
+
+    return ret;
+}
+
+void GameApp::OpenConsole()
+{
+    if (AllocConsole() != TRUE)
+    {
+        AETODO("ADD LOG MESSAGE");
+        return;
+    }
+
+    HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
+    int hCrt = _open_osfhandle((intptr_t)handle_out, _O_TEXT);
+    FILE* hf_out = _fdopen(hCrt, "w");
+    setvbuf(hf_out, nullptr, _IONBF, 1);
+    *stdout = *hf_out;
+
+    HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
+    hCrt = _open_osfhandle((intptr_t)handle_in, _O_TEXT);
+    FILE* hf_in = _fdopen(hCrt, "r");
+    setvbuf(hf_in, nullptr, _IONBF, 128);
+    *stdin = *hf_in;
+}
+
+#endif //AE_EDITOR MODE
 
 void GameApp::ShutDownGameApp()
 {
@@ -283,14 +368,13 @@ AEResult GameApp::ExtractGameProjectConfig()
 
 AEResult GameApp::ExtractGameConfigInput()
 {
+#ifdef AE_EDITOR_MODE
     //In Editor enable all modes
-    if (m_GameAppRunOpt == GameAppRunOpt::EditorMode)
-    {
-        m_GameConfigInput.m_KeyboardEnabled     = true;
-        m_GameConfigInput.m_XBoxGamepadEnabled  = true;
+    m_GameConfigInput.m_KeyboardEnabled     = true;
+    m_GameConfigInput.m_XBoxGamepadEnabled  = true;
 
-        return AEResult::Ok;
-    }
+    return AEResult::Ok;
+#else //AE_EDITOR_MODE
 
     AEAssert(!m_GameProject.m_GameProjectConfig.m_InputFile.empty());
 
@@ -298,7 +382,7 @@ AEResult GameApp::ExtractGameConfigInput()
     if (newFile.LoadFile(m_GameProject.m_GameProjectConfig.m_InputFile) != AEResult::Ok)
     {
         std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_GameProjectConfig.m_InputFile);
-        
+
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
         return AEResult::OpenFileFail;
     }
@@ -327,6 +411,8 @@ AEResult GameApp::ExtractGameConfigInput()
     }
 
     return AEResult::Ok;
+
+#endif // !AE_EDITOR_MODE
 }
 
 AEResult GameApp::ExtractGameAppOpts()
@@ -372,10 +458,12 @@ AEResult GameApp::ExtractGameAppOpts()
             m_GameAppOpts.m_SampleFPS = true;
             m_Timer.IsSamplingFPS(true);
         }
+#ifdef AE_EDITOR_MODE
         else if(l_Type.compare("ShowConsole") == 0)
         {
             m_GameAppOpts.m_ShowConsole = true;
         }
+#endif //AE_EDITOR_MODE
         else if(l_Type.compare("Log") == 0)
         {
             m_GameAppOpts.m_AELogLvl        = AELogHelpers::Str2LogLevel(child.GetString("Level", "NONE", false));
@@ -399,18 +487,19 @@ AEResult GameApp::ExtractGameAppOpts()
 
 AEResult GameApp::ExtractGraphicOpts()
 {
-    //In Editor set defaults
-    if (m_GameAppRunOpt == GameAppRunOpt::EditorMode)
-    {
-        m_GraphicOptsPreferred.m_ScreenResolution.x             = 1024;
-        m_GraphicOptsPreferred.m_ScreenResolution.y             = 768;
-        m_GraphicOptsPreferred.m_FullScreen                     = false;
-        m_GraphicOptsPreferred.m_BackBufferFormatWindowed       = "DXGI_FORMAT_R8G8B8A8_UNORM";
-        m_GraphicOptsPreferred.m_BackBufferFormatFullScreen     = "DXGI_FORMAT_R8G8B8A8_UNORM";
-        m_GraphicOptsPreferred.m_SingleThreaded                 = true;
+#ifdef AE_EDITOR_MODE
 
-        return AEResult::Ok;
-    }
+    //In Editor set defaults
+    m_GraphicOptsPreferred.m_ScreenResolution.x             = 1024;
+    m_GraphicOptsPreferred.m_ScreenResolution.y             = 768;
+    m_GraphicOptsPreferred.m_FullScreen                     = false;
+    m_GraphicOptsPreferred.m_BackBufferFormatWindowed       = "DXGI_FORMAT_R8G8B8A8_UNORM";
+    m_GraphicOptsPreferred.m_BackBufferFormatFullScreen     = "DXGI_FORMAT_R8G8B8A8_UNORM";
+    m_GraphicOptsPreferred.m_SingleThreaded                 = true;
+
+    return AEResult::Ok;
+
+#else //AE_EDITOR_MODE
 
     AEAssert(!m_GameProject.m_GameProjectConfig.m_GraphicOptsFile.empty());
 
@@ -453,6 +542,8 @@ AEResult GameApp::ExtractGraphicOpts()
     }
 
     return AEResult::Ok;
+
+#endif //!AE_EDITOR_MODE
 }
 
 AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::string& configProjFile, std::string& errorMsg)
@@ -530,10 +621,12 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
         return AEResult::Fail;
     }
 
+#ifdef AE_EDITOR_MODE
     if (m_GameAppOpts.m_ShowConsole)
     {
         OpenConsole();
     }
+#endif //AE_EDITOR_MODE
 
     if (ExtractGraphicOpts() != AEResult::Ok)
     {
@@ -544,21 +637,13 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
         return AEResult::Fail;
     }
 
-    if (!m_ForeignMainWindow)
+    if (InitMainWindow() != AEResult::Ok)
     {
-        if (InitMainWindow() != AEResult::Ok)
-        {
-            errorMsg = AELOCMAN->GetLiteral("INIT_MAIN_WINDOW_ERR_MSG");
+        errorMsg = AELOCMAN->GetLiteral("INIT_MAIN_WINDOW_ERR_MSG");
 
-            AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
+        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
 
-            return AEResult::Fail;
-        }
-    }
-    else
-    {
-        //If using External Foreign Window, disable FullScreen at Startup
-        m_GraphicOptsPreferred.m_FullScreen = false;
+        return AEResult::Fail;
     }
     
     if (Init3D_Device() != AEResult::Ok)
@@ -927,11 +1012,6 @@ AEResult GameApp::RegisterScriptData()
     return AEResult::Ok;
 }
 
-GameAppScopedLock GameApp::GetGameAppScopedLock()
-{
-    return GameAppScopedLock(&m_GameAppMutex);
-}
-
 void GameApp::Initialize()
 {
     m_GameComponentCollection->InitializeCollection();
@@ -959,10 +1039,7 @@ void GameApp::OnResize(uint32_t width, uint32_t heigth)
         return;
     }
 
-    //Lock this request as it can come in from other threads to be modified
-    //or the screen is been resized
-    std::lock_guard<std::mutex> lock(m_GameAppMutex);
-
+    AETODO("Add to GameCommandManager when it has been implemented")
     m_ResizeRequested = true;
 
     m_NewResize.x = width;
@@ -1108,103 +1185,6 @@ GameService* GameApp::GetGameServiceBase(const std::string& serviceName) const
     return m_GameServiceCollection->GetGameService(serviceName);
 }
 
-AEResult GameApp::EditorPlay()
-{
-    if (!m_IsReady || m_GameAppRunOpt == GameAppRunOpt::GameMode)
-    {
-        return AEResult::NotReady;
-    }
-
-    if (m_GameEditorPlayState == GameEditorPlayState::Playing)
-    {
-        return AEResult::Ok;
-    }
-
-    AEResult ret = AEResult::Ok;
-
-    ret = m_CameraManager->SetDefaultCameraAsMain();
-
-    m_GameEditorPlayState = GameEditorPlayState::Playing;
-
-    return ret;
-}
-
-AEResult GameApp::EditorPause()
-{
-    if (!m_IsReady || m_GameAppRunOpt == GameAppRunOpt::GameMode)
-    {
-        return AEResult::NotReady;
-    }
-
-    if (m_GameEditorPlayState == GameEditorPlayState::Paused || m_GameEditorPlayState == GameEditorPlayState::Stop)
-    {
-        return AEResult::Ok;
-    }
-
-    AEResult ret = AEResult::Ok;
-
-    m_GameEditorPlayState = GameEditorPlayState::Paused;
-
-    return ret;
-}
-
-AEResult GameApp::EditorStop()
-{
-    if (!m_IsReady || m_GameAppRunOpt == GameAppRunOpt::GameMode)
-    {
-        return AEResult::NotReady;
-    }
-
-    if (m_GameEditorPlayState == GameEditorPlayState::Stop)
-    {
-        return AEResult::Ok;
-    }
-
-    AEResult ret = AEResult::Ok;
-
-    ret = m_CameraManager->SetEditorCameraAsMain();
-
-    m_GameEditorPlayState = GameEditorPlayState::Stop;
-
-    return ret;
-}
-
-void GameApp::OpenConsole()
-{
-    if(AllocConsole() != TRUE)
-    {
-        AETODO("ADD LOG MESSAGE");
-        return;
-    }
-
-    HANDLE handle_out   = GetStdHandle(STD_OUTPUT_HANDLE);
-    int hCrt            = _open_osfhandle((intptr_t) handle_out, _O_TEXT);
-    FILE* hf_out        = _fdopen(hCrt, "w");
-    setvbuf(hf_out, nullptr, _IONBF, 1);
-    *stdout = *hf_out;
-
-    HANDLE handle_in    = GetStdHandle(STD_INPUT_HANDLE);
-    hCrt                = _open_osfhandle((intptr_t) handle_in, _O_TEXT);
-    FILE* hf_in         = _fdopen(hCrt, "r");
-    setvbuf(hf_in, nullptr, _IONBF, 128);
-    *stdin = *hf_in;
-}
-
-AEResult GameApp::SetMainWindow(HWND mainWindow)
-{
-    AEAssert(mainWindow != nullptr);
-
-    if(m_IsReady || m_MainWnd != nullptr || mainWindow == nullptr)
-    {
-        return AEResult::Fail;
-    }
-
-    m_MainWnd = mainWindow;
-    m_ForeignMainWindow = true;
-
-    return AEResult::Ok;
-}
-
 void GameApp::PreRender()
 {
     if(m_ResizeRequested == true)
@@ -1244,57 +1224,6 @@ void GameApp::PostUpdate(const TimerParams& timerParams)
     m_GameComponentCollection->PostUpdateCollection(timerParams);
 }
 
-void GameApp::RunConstantUpdate()
-{
-    //Let the thread sleep for 0.5 seconds before beginning
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
-    while(!m_Quiting)
-    {
-        std::this_thread::sleep_for(std::chrono::seconds(2));
-
-        m_GameAppMutex.lock();
-
-        m_ConstantUpdateMutex.lock();
-
-        m_Timer.UpdateConstantUpdateTimer();
-        ConstantUpdate(m_Timer.GetConstantUpdateTimerParams());
-        m_Timer.PostUpdateConstantUpdateTimer();
-
-        m_GameAppMutex.unlock();
-
-        m_ConstantUpdateMutex.unlock();
-    }
-}
-
-void GameApp::RunUpdate()
-{
-    m_Timer.UpdateUpdateTimer();
-    Update(m_Timer.GetUpdateTimerParams());
-    m_Timer.PostUpdateUpdateTimer();
-}
-
-void GameApp::RunPostUpdate()
-{
-    m_Timer.UpdatePostUpdateTimer();
-    PostUpdate(m_Timer.GetPostUpdateTimerParams());
-    m_Timer.PostUpdatePostUpdateTimer();
-}
-
-void GameApp::RunRender()
-{
-    m_Timer.UpdateRenderTimer();
-    PreRender();
-    Render(m_Timer.GetRenderTimerParams());
-    PostRender();
-    m_Timer.PostUpdateRenderTimer();
-}
-
-void GameApp::StartConstantUpdateThread()
-{
-    m_ConstantUpdateThread = std::thread(&GameApp::RunConstantUpdate, this);
-}
-
 int GameApp::Run()
 {
     if(!m_IsReady)
@@ -1307,14 +1236,11 @@ int GameApp::Run()
     MSG  msg;
     msg.message = WM_NULL;
 
-    m_Timer.UpdateAllTimers();
+    m_Timer.Update();
 
     //Initialize Game and Load Content
     Initialize();
     LoadContent();
-    
-    //Start Constant Update Thread
-    StartConstantUpdateThread();
 
     while(msg.message != WM_QUIT && !m_StartShutdown)
     {
@@ -1327,48 +1253,47 @@ int GameApp::Run()
         // Otherwise, do animation/game stuff.
         else
         {
-            // If the application is paused then free some CPU cycles to other 
+            // If the application is inactive then free some CPU cycles to other 
             // applications and then continue on to the next frame.
-            if(m_AppPaused )
+            if(m_AppInactive)
             {
+                AETODO("If application is inactive, update needs to run but we can skip render");
+                AETODO("REMOVE THIS!!!")
                 std::this_thread::sleep_for(std::chrono::seconds(20));
                 continue;
             }
 
-            //Lock this request as it can come in from other threads to be modified
-            //Let the thread sleep if the FPS is going fast as we need to give some time
-            //to the other thread to get the lock before the loop
-            //if (m_Timer.GetFPS() >= 60)
-            {
-                std::this_thread::sleep_for(std::chrono::microseconds(500));
-            }
-            
-            m_GameAppMutex.lock();
-
-            m_ConstantUpdateMutex.lock();
-
             //Update Timer
-            m_Timer.UpdateFrameTimer();
+            m_Timer.Update();
+
+            //Constant Update
+            const TimerParams& constUpdateTimerParams = m_Timer.GetConstantUpdateTimerParams();
+            while (m_Timer.NeedToRunConstantUpdate())
+            {
+                ConstantUpdate(constUpdateTimerParams);
+            }
+
+            //Frame Timer
+            const TimerParams& frameTimerParams = m_Timer.GetFrameTimerParams();
 
             //Update Game
-            RunUpdate();
+            Update(frameTimerParams);
 
             //A Post Update, so stuff like cameras can be updated after all the scene has
-            RunPostUpdate();
+            PostUpdate(frameTimerParams);
+
+            //Pre Render Commands
+            PreRender();
 
             //Render Game
-            RunRender();
+            Render(frameTimerParams);
 
-            m_GameAppMutex.unlock();
-
-            m_ConstantUpdateMutex.unlock();
+            //Post Render Commands
+            PostRender();
         }
     }
 
     m_Quiting = true;
-
-    //Join Threads
-    m_ConstantUpdateThread.join();
 
     UnLoadContent();
 
@@ -1596,11 +1521,11 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
         case WM_ACTIVATE:
             if( LOWORD(wParam) == WA_INACTIVE )
             {
-                m_AppPaused = true;
+                m_AppInactive = true;
             }
             else
             {
-                m_AppPaused = false;
+                m_AppInactive = false;
             }
 
             return 0;
@@ -1613,13 +1538,13 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
             if( wParam == SIZE_MINIMIZED )
             {
-                m_AppPaused = true;
+                m_AppInactive = true;
                 m_Minimized = true;
                 m_Maximized = false;
             }
             else if( wParam == SIZE_MAXIMIZED )
             {
-                m_AppPaused = false;
+                m_AppInactive = false;
                 m_Minimized = false;
                 m_Maximized = true;
 
@@ -1634,14 +1559,14 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
                 // Restoring from minimized state?
                 if(m_Minimized)
                 {
-                    m_AppPaused = false;
+                    m_AppInactive = false;
                     m_Minimized = false;
                     OnResize(width, height);
                 }
                 // Restoring from maximized state?
                 else if(m_Maximized)
                 {
-                    m_AppPaused = false;
+                    m_AppInactive = false;
                     m_Maximized = false;
                     OnResize(width, height);
                 }
@@ -1665,7 +1590,7 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
             return 0;
 
         case WM_ENTERSIZEMOVE:
-            m_AppPaused = true;
+            m_AppInactive = true;
             m_Resizing  = true;
             return 0;
 
@@ -1677,7 +1602,7 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
             width  = (uint32_t)clientRect.right;
             height = (uint32_t)clientRect.bottom;
 
-            m_AppPaused = false;
+            m_AppInactive = false;
             m_Resizing  = false;
 
             OnResize(width, height);
@@ -1687,10 +1612,7 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
         // WM_CLOSE is sent when the user presses the 'X' button in the
         // caption bar menu.
         case WM_CLOSE:
-            if(!m_ForeignMainWindow)
-            {
-                DestroyWindow(m_MainWnd);
-            }
+            DestroyWindow(m_MainWnd);
             return 0;
 
         // WM_DESTROY is sent when the window is being destroyed.

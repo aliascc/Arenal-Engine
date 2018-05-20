@@ -222,7 +222,7 @@ AEResult GameCoreAddOnAS::RegisterGCBasicPropsObject(asIScriptEngine* engine)
         return AEResult::RegObjPropFail;
     }
 
-    ret = engine->RegisterObjectProperty("GCBasicProps", "wstring m_GCName", asOFFSET(GCBasicProps, m_GCName));
+    ret = engine->RegisterObjectProperty("GCBasicProps", "string m_GCName", asOFFSET(GCBasicProps, m_GCName));
     if (ret < 0)
     {
         return AEResult::RegObjPropFail;
@@ -384,7 +384,7 @@ AEResult GameCoreAddOnAS::RegisterGameObjectScriptManagerObject(asIScriptEngine*
     int ret = 0;
 
     std::string getScriptMethodDecl = AE_GOS_INTERFACE_NAME;
-    getScriptMethodDecl += "@ GetScript(const wstring&in)";
+    getScriptMethodDecl += "@ GetScript(const string&in)";
     ret = engine->RegisterObjectMethod("GameObjectScriptManager", getScriptMethodDecl.c_str(), asMETHOD(GameObjectScriptManager, GetScript), asCALL_THISCALL);
     if (ret < 0)
     {
@@ -438,7 +438,7 @@ AEResult GameCoreAddOnAS::RegisterGameObjectObject(asIScriptEngine* engine)
         return AEResult::RegObjMethodFail;
     }
 
-    ret = engine->RegisterObjectMethod("GameObject", "AudioSourceGOC@ GetAudioSourceGOC(const wstring&in)", asMETHODPR(GameObject, GetAudioSourceGOC, (const std::string&), AudioSourceGOC*), asCALL_THISCALL);
+    ret = engine->RegisterObjectMethod("GameObject", "AudioSourceGOC@ GetAudioSourceGOC(const string&in)", asMETHODPR(GameObject, GetAudioSourceGOC, (const std::string&), AudioSourceGOC*), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;

@@ -110,14 +110,14 @@ bool XBoxGamepad::VerifyConnectionAndState(const TimerParams& timerParams)
 
             if (Initialize() != AEResult::Ok)
             {
-                m_InitNextRetry += (float)timerParams.m_ElapsedTime;
+                m_InitNextRetry += timerParams.m_ElapsedTime;
 
                 return false;
             }
         }
         else
         {
-            m_InitNextRetry += (float)timerParams.m_ElapsedTime;
+            m_InitNextRetry += timerParams.m_ElapsedTime;
 
             return false;
         }

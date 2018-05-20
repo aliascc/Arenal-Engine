@@ -51,7 +51,7 @@ ParticleEmitter::~ParticleEmitter()
 void ParticleEmitter::Update(const TimerParams& timerParams, const XMFLOAT3& newPosition)
 {
 	// Work out how much time has passed since the previous update.
-	float elapsedTime = (float)timerParams.m_ElapsedTime;
+	float elapsedTime = timerParams.m_ElapsedTime;
 
 	if (elapsedTime > 0 && m_ParticleSystem != nullptr)
 	{

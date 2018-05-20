@@ -77,6 +77,8 @@
 *   Enums   *
 *************/
 
+#ifdef AE_EDITOR_MODE
+
 enum class GameEditorPlayState : uint32_t
 {
     Playing = 0,
@@ -84,51 +86,11 @@ enum class GameEditorPlayState : uint32_t
     Stop
 };
 
-enum class GameAppRunOpt : uint32_t
-{
-    GameMode = 0,
-    EditorMode
-};
+#endif //AE_EDITOR_MODE
 
 /*************
 *   Struct   *
 **************/
-
-/// <summary>
-/// This structure is use to lock the Game App Loop with the Mutex from Game App
-/// </summary>
-struct GameAppScopedLock sealed : public AEObject
-{
-    private:
-        /// <summary>
-        /// Mutex Pointer for Game App Mutex
-        /// </summary>
-        std::mutex* m_GameAppMutexPtr = nullptr;
-
-        /// <summary>
-        /// Marks if mutex was locked
-        /// </summary>
-        bool m_IsLock = false;
-
-    public:
-        /// <summary>
-        /// GameAppScopedLock Constructor
-        /// </summary>
-        /// <param name="gameAppMutexPtr">Pointer to Game App Mutex</param>
-        GameAppScopedLock(std::mutex* gameAppMutexPtr);
-        ~GameAppScopedLock();
-
-        /// <summary>
-        /// Locks the mutex for the duration of this object's life
-        /// or until EndLock is called
-        /// </summary>
-        void StartLock();
-
-        /// <summary>
-        /// Unlocks the mutex
-        /// </summary>
-        void EndLock();
-};
 
 /// <summary>
 /// This structure is use to save the files needed to initialize
@@ -221,14 +183,6 @@ struct GameAppOpts sealed : public AEObject
     bool m_SampleFPS = false;
     
     /// <summary>    
-    /// If true, a console window will be open with the Game Application .
-    /// </summary>
-    /// <remarks>
-    /// This should only be use for debugging the Game.
-    /// </remarks>
-    bool m_ShowConsole = false;
-    
-    /// <summary>    
     /// Lets the Game Application know which at which level it should store logs.
     /// </summary>
     LogLevel m_AELogLvl = LogLevel::None;
@@ -248,13 +202,22 @@ struct GameAppOpts sealed : public AEObject
     /// </summary>
     bool m_LogToFile = false;
     
+#ifdef AE_EDITOR_MODE
+
+    /// <summary>
+    /// If true, a console window will be open with the Game Application .
+    /// </summary>
+    bool m_ShowConsole = false;
+
+#endif //AE_EDITOR_MODE
+
     /// <summary>
     /// Default GameConfigInput Constructor
     /// </summary>
     GameAppOpts();
 };
 
-/// <summary>    
+/// <summary>
 /// This structure is use to save the variables needed to for the Game Project
 /// </summary>
 struct GameProject sealed : public AEObject

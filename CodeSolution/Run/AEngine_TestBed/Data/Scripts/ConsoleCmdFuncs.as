@@ -1,5 +1,5 @@
-﻿//Function Declaration to Pointer
-funcdef array<ScriptConsoleLine>@ CALLBACKEXEC(array<wstring>@ subCommands);
+//Function Declaration to Pointer
+funcdef array<ScriptConsoleLine>@ CALLBACKEXEC(array<string>@ subCommands);
 
 //Dictionary to Help
 wdictionary Cmd2Help;
@@ -19,19 +19,19 @@ void ConsoleInitializeHelpDictionary()
 }
 
 //Help Commands
-array<ScriptConsoleLine>@ ConsoleHelpExec(array<wstring>@ subCommands)
+array<ScriptConsoleLine>@ ConsoleHelpExec(array<string>@ subCommands)
 {
 	array<ScriptConsoleLine> crlArr;
 
 	for (uint i = 0; i < ConsoleCmds.length(); ++i)
 	{
-		array<wstring> line();
+		array<string> line();
 		array<Color> color();
 
 		line.insertLast(ConsoleCmds[i] + ":");
 		color.insertLast(GetColorByEnum(AEColorType::Yellow));
 
-		wstring helpStr;
+		string helpStr;
 		Cmd2Help.get(ConsoleCmds[i], helpStr);
 
 		line.insertLast(helpStr);
@@ -48,12 +48,12 @@ array<ScriptConsoleLine>@ ConsoleHelpExec(array<wstring>@ subCommands)
 	return crlArr;
 }
 
-array<ScriptConsoleLine>@ ConsoleEngineExec(array<wstring>@ subCommands)
+array<ScriptConsoleLine>@ ConsoleEngineExec(array<string>@ subCommands)
 {
 	array<ScriptConsoleLine> crlArr;
 
 	{
-		array<wstring> line();
+		array<string> line();
 		array<Color> color();
 
 		line.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_ENGINE_VER") + ":");
@@ -71,7 +71,7 @@ array<ScriptConsoleLine>@ ConsoleEngineExec(array<wstring>@ subCommands)
 	}
 
 	{
-		array<wstring> line();
+		array<string> line();
 		array<Color> color();
 
 		line.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_ENGINE_CODENAME") + ":");
@@ -91,14 +91,14 @@ array<ScriptConsoleLine>@ ConsoleEngineExec(array<wstring>@ subCommands)
 	return crlArr;
 }
 
-array<ScriptConsoleLine>@ ConsoleSetGCVExec(array<wstring>@ subCommands)
+array<ScriptConsoleLine>@ ConsoleSetGCVExec(array<string>@ subCommands)
 {
 	array<ScriptConsoleLine> crlArr;
 
 	if (subCommands.length() < 2)
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_MISS_PARAMS"));
@@ -116,7 +116,7 @@ array<ScriptConsoleLine>@ ConsoleSetGCVExec(array<wstring>@ subCommands)
 	if (id == 0)
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_INV_SYNTAX") + ":");
@@ -136,7 +136,7 @@ array<ScriptConsoleLine>@ ConsoleSetGCVExec(array<wstring>@ subCommands)
 	if (subCommands[1] != "1" && subCommands[1] != "0")
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_INV_SYNTAX") + ":");
@@ -161,7 +161,7 @@ array<ScriptConsoleLine>@ ConsoleSetGCVExec(array<wstring>@ subCommands)
 
 	AEResult ret = m_GameComponentCollection.SetGCVisible(id, vis);
 
-	array<wstring> line();
+	array<string> line();
 	array<Color> color();
 
 	if (ret == AEResult::Ok)
@@ -186,14 +186,14 @@ array<ScriptConsoleLine>@ ConsoleSetGCVExec(array<wstring>@ subCommands)
 }
 
 //Show GC Detail
-array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<wstring>@ subCommands)
+array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<string>@ subCommands)
 {
 	array<ScriptConsoleLine> crlArr;
 
 	if (subCommands.length() == 0)
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_MISS_PARAMS"));
@@ -211,7 +211,7 @@ array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<wstring>@ subCommands)
 	if (id == 0)
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_INV_SYNTAX") + ":");
@@ -231,7 +231,7 @@ array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<wstring>@ subCommands)
 	if (m_GameComponentCollection.DoesIDExist(id) == false)
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_INV_ID"));
@@ -249,7 +249,7 @@ array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<wstring>@ subCommands)
 
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 		lineArr.insertLast("-----------");
 		colorArr.insertLast(GetColorByEnum(AEColorType::White));
@@ -266,7 +266,7 @@ array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<wstring>@ subCommands)
 
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_ID"));
 		colorArr.insertLast(GetColorByEnum(AEColorType::Yellow));
@@ -281,7 +281,7 @@ array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<wstring>@ subCommands)
 
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_NAME"));
 		colorArr.insertLast(GetColorByEnum(AEColorType::Yellow));
@@ -296,7 +296,7 @@ array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<wstring>@ subCommands)
 
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_CALL_ORDER") + ":");
 		colorArr.insertLast(GetColorByEnum(AEColorType::Yellow));
@@ -311,12 +311,12 @@ array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<wstring>@ subCommands)
 
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_ENABLED") + ":");
 		colorArr.insertLast(GetColorByEnum(AEColorType::Yellow));
 
-		wstring strEnable = gcProp.m_Enabled ? m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_YES") : m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_NO");
+		string strEnable = gcProp.m_Enabled ? m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_YES") : m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_NO");
 
 		lineArr.insertLast(strEnable);
 		colorArr.insertLast(GetColorByEnum(AEColorType::White));
@@ -329,12 +329,12 @@ array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<wstring>@ subCommands)
 
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_DRAW") + ":");
 		colorArr.insertLast(GetColorByEnum(AEColorType::Yellow));
 
-		wstring strDrawable = gcProp.m_Drawable ? m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_YES") : m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_NO");
+		string strDrawable = gcProp.m_Drawable ? m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_YES") : m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_NO");
 
 		lineArr.insertLast(strDrawable);
 		colorArr.insertLast(GetColorByEnum(AEColorType::White));
@@ -349,12 +349,12 @@ array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<wstring>@ subCommands)
 		if (gcProp.m_Drawable)
 		{
 			ScriptConsoleLine crl;
-			array<wstring> lineArr();
+			array<string> lineArr();
 			array<Color> colorArr();
 			lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_VISIBLE") + ":");
 			colorArr.insertLast(GetColorByEnum(AEColorType::Yellow));
 
-			wstring strVisible = gcProp.m_Visibled ? m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_YES") : m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_NO");
+			string strVisible = gcProp.m_Visibled ? m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_YES") : m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_NO");
 
 			lineArr.insertLast(strVisible);
 			colorArr.insertLast(GetColorByEnum(AEColorType::White));
@@ -370,14 +370,14 @@ array<ScriptConsoleLine>@ ConsoleShowGCDExec(array<wstring>@ subCommands)
 }
 
 //Show GCs
-array<ScriptConsoleLine>@ ConsoleShowGCsExec(array<wstring>@ subCommands)
+array<ScriptConsoleLine>@ ConsoleShowGCsExec(array<string>@ subCommands)
 {
 	array<ScriptConsoleLine> crlArr;
 	ScriptConsoleLine crl;
 
 	uint numGCs = m_GameComponentCollection.GetSize();
 
-	array<wstring> lineArr();
+	array<string> lineArr();
 	array<Color> colorArr();
 
 	lineArr.insertLast("-----------");
@@ -398,7 +398,7 @@ array<ScriptConsoleLine>@ ConsoleShowGCsExec(array<wstring>@ subCommands)
 	{
 		ScriptConsoleLine mCrl;
 		GCBasicProps gcProp = m_GameComponentCollection.GetGCBasicProps(i);
-		array<wstring> mLineArr();
+		array<string> mLineArr();
 		array<Color> mColorArr();
 
 		mLineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_ID") + ":");
@@ -423,7 +423,7 @@ array<ScriptConsoleLine>@ ConsoleShowGCsExec(array<wstring>@ subCommands)
 	}
 
 	ScriptConsoleLine eCrl;
-	array<wstring> eLineArr();
+	array<string> eLineArr();
 	array<Color> eColorArr();
 
 	eLineArr.insertLast("------------------------------------------------------------------");
@@ -437,14 +437,14 @@ array<ScriptConsoleLine>@ ConsoleShowGCsExec(array<wstring>@ subCommands)
 	return crlArr;
 }
 
-array<ScriptConsoleLine>@ ConsoleShowLogsExec(array<wstring>@ subCommands)
+array<ScriptConsoleLine>@ ConsoleShowLogsExec(array<string>@ subCommands)
 {
 	array<ScriptConsoleLine> crlArr;
 
 	array<AELog>@ logsXE = m_Logger.GetLogsScript();
 
 	{
-		array<wstring> line();
+		array<string> line();
 		array<Color> color();
 
 		ScriptConsoleLine crl;
@@ -460,7 +460,7 @@ array<ScriptConsoleLine>@ ConsoleShowLogsExec(array<wstring>@ subCommands)
 
 	for (uint i = 0; i < logsXE.length(); ++i)
 	{
-		array<wstring> line();
+		array<string> line();
 		array<Color> color();
 
 		line.insertLast("" + logsXE[i].m_LogLine + ": ");
@@ -499,7 +499,7 @@ array<ScriptConsoleLine>@ ConsoleShowLogsExec(array<wstring>@ subCommands)
 	}
 
 	{
-		array<wstring> line();
+		array<string> line();
 		array<Color> color();
 
 		ScriptConsoleLine crl;
@@ -516,14 +516,14 @@ array<ScriptConsoleLine>@ ConsoleShowLogsExec(array<wstring>@ subCommands)
 	return crlArr;
 }
 
-array<ScriptConsoleLine>@ ConsoleSaveLogsExec(array<wstring>@ subCommands)
+array<ScriptConsoleLine>@ ConsoleSaveLogsExec(array<string>@ subCommands)
 {
 	array<ScriptConsoleLine> crlArr;
 
 	//Execute Save logs
 	AEResult ret = m_Logger.SaveLogsInFile();
 
-	array<wstring> line();
+	array<string> line();
 	array<Color> color();
 
 	if (ret == AEResult::Ok)
@@ -547,14 +547,14 @@ array<ScriptConsoleLine>@ ConsoleSaveLogsExec(array<wstring>@ subCommands)
 	return crlArr;
 }
 
-array<ScriptConsoleLine>@ ConsoleChangeLangExec(array<wstring>@ subCommands)
+array<ScriptConsoleLine>@ ConsoleChangeLangExec(array<string>@ subCommands)
 {
 	array<ScriptConsoleLine> crlArr;
 
 	if (subCommands.length() == 0)
 	{
 		ScriptConsoleLine crl;
-		array<wstring> lineArr();
+		array<string> lineArr();
 		array<Color> colorArr();
 
 		lineArr.insertLast(m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_MISS_PARAMS"));
@@ -571,7 +571,7 @@ array<ScriptConsoleLine>@ ConsoleChangeLangExec(array<wstring>@ subCommands)
 	//Execute Save logs
 	AEResult ret = m_LocalizationManager.SetDefaultLanguage(subCommands[0]);
 
-	array<wstring> line();
+	array<string> line();
 	array<Color> color();
 
 	if (ret == AEResult::Ok)

@@ -163,7 +163,7 @@ void ParticleSystem::LoadContent()
 
 void ParticleSystem::Update(const TimerParams& timerParams)
 {
-	m_CurrentTime += (float)timerParams.m_ElapsedTime;
+	m_CurrentTime += timerParams.m_ElapsedTime;
 
 	RetireActiveParticles();
 	FreeRetiredParticles();

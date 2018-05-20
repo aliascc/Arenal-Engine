@@ -189,7 +189,7 @@ void Console::UpdateConsolePosition(const TimerParams& timerParams)
 {
     Keyboard* keyboard = m_Input->GetKeyboard();
 
-    float elapsedTime = (float)timerParams.m_ElapsedTime;
+    float elapsedTime = timerParams.m_ElapsedTime;
     
     m_TimePass += elapsedTime;
 
@@ -232,7 +232,7 @@ void Console::UpdateConsolePosition(const TimerParams& timerParams)
 
 void Console::UpdateConsoleLine(const TimerParams& timerParams)
 {
-    m_TimeBetweenUnderscore += (float)timerParams.m_ElapsedTime;
+    m_TimeBetweenUnderscore += timerParams.m_ElapsedTime;
 
     if(m_TimeBetweenUnderscore >= m_TimeUnderscore)
     {
@@ -290,7 +290,7 @@ void Console::UpdateConsoleLine(const TimerParams& timerParams)
             m_FirstBackspace = false;
         }
 
-        m_TimeSinceLastBackSpace += (float)timerParams.m_ElapsedTime;
+        m_TimeSinceLastBackSpace += timerParams.m_ElapsedTime;
 
         if(m_TimeSinceLastBackSpace >= AE_CONSOLE_BACKSPACE_TIME)
         {
@@ -601,7 +601,7 @@ AEResult Console::RegisterConsoleScriptInfo()
         return AEResult::RegObjTypeFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterObjectProperty("ScriptConsoleLine", "array<wstring>@ m_SA_Strings",  asOFFSET(ScriptConsoleLine, m_SA_Strings));
+    ret = asManager->GetASEngine()->RegisterObjectProperty("ScriptConsoleLine", "array<string>@ m_SA_Strings",  asOFFSET(ScriptConsoleLine, m_SA_Strings));
     if(ret < 0)
     {
         return AEResult::RegObjPropFail;
@@ -649,7 +649,7 @@ AEResult Console::RegisterConsoleScriptInfo()
         return AEResult::Fail;
     }
 
-    m_ConsoleExecFunc = asManager->GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void ConsoleExec(wstring)");
+    m_ConsoleExecFunc = asManager->GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void ConsoleExec(string)");
     if(m_ConsoleExecFunc == nullptr)
     {
         return AEResult::Fail;
