@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -91,7 +89,7 @@ class DiffuseTextureBasicMaterial sealed : public Material
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="graphicDevice">Game Resource Manager to get the manage resources</param>
         /// <param name="name">Name of the Effect</param>
-        DiffuseTextureBasicMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = AE_DIFFUSE_TEXTURE_BASIC_MAT_NAME);
+        DiffuseTextureBasicMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name = AE_DIFFUSE_TEXTURE_BASIC_MAT_NAME);
 
         /// <summary>
         /// Default DiffuseTextureBasicMaterial Destructor

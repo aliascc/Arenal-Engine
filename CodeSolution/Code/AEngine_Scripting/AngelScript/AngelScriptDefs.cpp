@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_scripting.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -27,10 +32,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Color\Color.h"
 #include "AngelScriptDefs.h"
-#include "Time\AETimeDefs.h"
-#include "Logger\LoggerDefs.h"
 
 /********************
 *   Function Defs   *

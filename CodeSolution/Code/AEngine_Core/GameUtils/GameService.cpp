@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -35,7 +40,7 @@
 *   Function Defs   *
 *********************/
 AETODO("add mutex");
-GameService::GameService(const std::wstring& name)
+GameService::GameService(const std::string& name)
     : UniqueAEObjectNamed(name)
 {
 }

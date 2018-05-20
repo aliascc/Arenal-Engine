@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_physics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -28,7 +33,6 @@
 ****************************/
 #include "PhysicsManager.h"
 #include "Utils\Object3D.h"
-#include "Base\BaseFunctions.h"
 #include "PhysicColliderSphere.h"
 
 #include "Memory\MemLeaks.h"

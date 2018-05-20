@@ -23,14 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <list>
-#include <mutex>
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *

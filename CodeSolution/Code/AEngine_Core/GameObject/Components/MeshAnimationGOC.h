@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -142,7 +140,7 @@ class MeshAnimationGOC sealed : public GameObjectComponent
             return m_AnimationPlayer;
         }
 
-        std::wstring GetSkeletonName() const;
+        std::string GetSkeletonName() const;
 
         inline uint64_t MeshAnimationGOC::GetSkeletonAssetID() const
         {

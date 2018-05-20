@@ -19,6 +19,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -159,7 +164,7 @@ AEResult GameObjectScriptProperties::CopySavedValuesToProperties(GameObjectScrip
 {
     for (auto scriptProperty : target.m_PropertiesMap)
     {
-        const std::wstring& propName = scriptProperty.first;
+        const std::string& propName = scriptProperty.first;
 
         GameObjectScriptProperty* gosProp = scriptProperty.second;
         if (gosProp->m_PropertyAddress == nullptr)
@@ -194,7 +199,7 @@ AEResult GameObjectScriptProperties::CopySavedValuesToProperties(GameObjectScrip
     return AEResult::Ok;
 }
 
-GameObjectScriptProperty* GameObjectScriptProperties::GetGameObjectScriptProperty(const std::wstring& name)
+GameObjectScriptProperty* GameObjectScriptProperties::GetGameObjectScriptProperty(const std::string& name)
 {
     if (!GameObjectScriptPropertyExists(name))
     {

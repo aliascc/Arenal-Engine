@@ -23,19 +23,14 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "PxPhysicsAPI.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 #include "ErrorCallbackPhysX.h"
 
 /********************
@@ -191,7 +186,7 @@ class PhysicsManager sealed : public AEObject
 
         AEResult Update(const TimerParams& timerParams);
 
-        AEResult ConnectToPhysXDebugger(const std::wstring& ip = L"127.0.0.1", uint32_t port = 5425, uint32_t timeout = 100);
+        AEResult ConnectToPhysXDebugger(const std::string& ip = "127.0.0.1", uint32_t port = 5425, uint32_t timeout = 100);
 
         AEResult DisconnectToPhysXDebugger();
 

@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -76,7 +75,7 @@ class UniqueAEObjectNamed abstract : public Named
         /// Default UniqueAEObjectNamed Constructor
         /// </summary>
         /// <param name="name">Name of the AEObject</param>
-        UniqueAEObjectNamed(const std::wstring& name = L"");
+        UniqueAEObjectNamed(const std::string& name = "");
 
         /// <summary>
         /// Default UniqueAEObjectNamed Destructor

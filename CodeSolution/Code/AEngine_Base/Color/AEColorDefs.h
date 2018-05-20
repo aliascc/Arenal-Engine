@@ -27,13 +27,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
-#include <Windows.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *

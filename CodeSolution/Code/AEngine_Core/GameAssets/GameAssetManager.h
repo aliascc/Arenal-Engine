@@ -23,10 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <mutex>
-#include <string>
-#include <stdint.h>
-#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -89,9 +85,9 @@ class GameAssetManager sealed : public AEObject
 
         bool m_IsReady = false;
 
-        std::wstring m_OutputDirAssets = L"";
+        std::string m_OutputDirAssets = "";
 
-        std::wstring m_ProjectDirectory = L"";
+        std::string m_ProjectDirectory = "";
 
         GameAssetBuiltIns m_GameAssetBuiltIns;
 
@@ -178,7 +174,7 @@ class GameAssetManager sealed : public AEObject
         /// <param name="audioManager">Audio Manager to handle the Audio</param>
         /// <param name="outputDirAssets">Output Directory for Assets</param>
         /// <param name="projectDir">Project Directory</param>
-        GameAssetManager(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager, AudioManager* audioManager, const std::wstring& projectDir, const std::wstring& outputDirAssets);
+        GameAssetManager(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager, AudioManager* audioManager, const std::string& projectDir, const std::string& outputDirAssets);
 
         /// <summary>
         /// Default GameAssetManager Destructor
@@ -232,15 +228,15 @@ class GameAssetManager sealed : public AEObject
 
         AEResult Initialize();
 
-        AEResult CreateNewRawGameAsset(const std::wstring& filePath, GameContentSubtype contentSubtype = GameContentSubtype::Unknown, uint64_t* rawAssetID = nullptr);
+        AEResult CreateNewRawGameAsset(const std::string& filePath, GameContentSubtype contentSubtype = GameContentSubtype::Unknown, uint64_t* rawAssetID = nullptr);
 
         AEResult ImportRawGameAsset(uint64_t rawAssetID);
 
         AEResult CheckForLatestRawGameAssetsAndImport();
 
-        AEResult SaveToXML(const std::wstring& gameAssetsFilename) const;
+        AEResult SaveToXML(const std::string& gameAssetsFilename) const;
 
-        AEResult LoadAssetManagerFile(const std::wstring& gameAssetsFilename);
+        AEResult LoadAssetManagerFile(const std::string& gameAssetsFilename);
 
 #pragma endregion
 

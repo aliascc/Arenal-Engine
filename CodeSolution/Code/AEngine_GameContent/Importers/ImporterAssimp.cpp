@@ -15,16 +15,18 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecontent.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
-#include "glm\gtc\matrix_transform.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -95,7 +97,7 @@ void ImporterAssimp::CleanUpMemory()
     m_Model = nullptr;
 }
 
-AEResult ImporterAssimp::ImportAnimations(const std::wstring& filePath, ModelContent** loadedAnimations, bool lefthanded, const std::vector<std::wstring>& animationNewNames)
+AEResult ImporterAssimp::ImportAnimations(const std::string& filePath, ModelContent** loadedAnimations, bool lefthanded, const std::vector<std::string>& animationNewNames)
 {
     AEAssert(loadedAnimations != nullptr);
     if(loadedAnimations == nullptr)
@@ -109,20 +111,18 @@ AEResult ImporterAssimp::ImportAnimations(const std::wstring& filePath, ModelCon
         return AEResult::EmptyFilename;
     }
 
-    uint32_t assimpImportFlags =    aiProcess_LimitBoneWeights    |        //Limit Bone to 4
-                                    aiProcess_RemoveComponent    ;        //Remove unnecessary components
+    uint32_t assimpImportFlags =    aiProcess_LimitBoneWeights  |        //Limit Bone to 4
+                                    aiProcess_RemoveComponent   ;        //Remove unnecessary components
     
     if(lefthanded)
     {
         assimpImportFlags |= aiProcess_MakeLeftHanded; //Make Left Handed
     }
 
-    std::string sFilePath = AE_Base::WideStr2String(filePath);
-
     Assimp::Importer assimpImporter;
 
     //Set Remove Component Flags
-    assimpImporter.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,    aiComponent_NORMALS                |  
+    assimpImporter.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,   aiComponent_NORMALS                 |  
                                                                 aiComponent_TANGENTS_AND_BITANGENTS |
                                                                 aiComponent_COLORS                  |
                                                                 aiComponent_TEXCOORDS               |  
@@ -132,13 +132,13 @@ AEResult ImporterAssimp::ImportAnimations(const std::wstring& filePath, ModelCon
                                                                 aiComponent_MESHES                  |
                                                                 aiComponent_MATERIALS              );
 
-    const aiScene* assimpScene = assimpImporter.ReadFile(sFilePath, assimpImportFlags);
+    const aiScene* assimpScene = assimpImporter.ReadFile(filePath, assimpImportFlags);
 
     if(assimpScene == nullptr)
     {
-        std::wstring assimpError = AE_Base::String2WideStr(assimpImporter.GetErrorString());
+        std::string assimpError = assimpImporter.GetErrorString();
 
-        std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_LOAD_SCENE_FAIL_ERR_MSG"), __FUNCTIONW__, assimpError);
+        std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_LOAD_SCENE_FAIL_ERR_MSG"), __FUNCTION__, assimpError);
         AELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::LoadFileFailed;
@@ -173,7 +173,7 @@ AEResult ImporterAssimp::ImportAnimations(const std::wstring& filePath, ModelCon
     return AEResult::Ok;
 }
 
-AEResult ImporterAssimp::ProcessSceneAnimations(const aiScene* scene, const std::vector<std::wstring>& animationNewNames)
+AEResult ImporterAssimp::ProcessSceneAnimations(const aiScene* scene, const std::vector<std::string>& animationNewNames)
 {
     if(scene == nullptr)
     {
@@ -199,7 +199,7 @@ AEResult ImporterAssimp::ProcessSceneAnimations(const aiScene* scene, const std:
     return AEResult::Ok;
 }
 
-AEResult ImporterAssimp::ImportModel(const std::wstring& filePath, ModelContent** loadedModel, const std::wstring& texturePath, bool calcTangentsBinormals, bool clockwise, bool lefthanded, const std::vector<std::wstring>& animationNewNames)
+AEResult ImporterAssimp::ImportModel(const std::string& filePath, ModelContent** loadedModel, const std::string& texturePath, bool calcTangentsBinormals, bool clockwise, bool lefthanded, const std::vector<std::string>& animationNewNames)
 {
     AEAssert(loadedModel != nullptr);
 
@@ -236,17 +236,15 @@ AEResult ImporterAssimp::ImportModel(const std::wstring& filePath, ModelContent*
         assimpImportFlags |= aiProcess_FlipWindingOrder; //For Clockwise
     }
 
-    std::string sFilePath = AE_Base::WideStr2String(filePath);
-
     Assimp::Importer assimpImporter;
 
-    const aiScene* assimpScene = assimpImporter.ReadFile(sFilePath, assimpImportFlags);
+    const aiScene* assimpScene = assimpImporter.ReadFile(filePath, assimpImportFlags);
 
     if(assimpScene == nullptr)
     {
-        std::wstring assimpError = AE_Base::String2WideStr(assimpImporter.GetErrorString());
+        std::string assimpError = assimpImporter.GetErrorString();
 
-        std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_LOAD_SCENE_FAIL_ERR_MSG"), __FUNCTIONW__, assimpError);
+        std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_LOAD_SCENE_FAIL_ERR_MSG"), __FUNCTION__, assimpError);
         AELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::LoadFileFailed;
@@ -281,7 +279,7 @@ AEResult ImporterAssimp::ImportModel(const std::wstring& filePath, ModelContent*
     return AEResult::Ok;
 }
 
-AEResult ImporterAssimp::ProcessScene(const aiScene* scene, const std::vector<std::wstring>& animationNewNames)
+AEResult ImporterAssimp::ProcessScene(const aiScene* scene, const std::vector<std::string>& animationNewNames)
 {
     if(scene == nullptr)
     {
@@ -347,7 +345,7 @@ AEResult ImporterAssimp::ProcessSceneGraph(const aiScene* scene)
         return AEResult::Ok;
     }
 
-    m_Model->m_Name = AE_Base::String2WideStr(scene->mRootNode->mName.C_Str());
+    m_Model->m_Name = scene->mRootNode->mName.C_Str();
     ReplaceAutoGenAssimpName(m_Model->m_Name, m_Model->m_FileName, AE_IMPORTER_TYPE_MODEL_NAME, -1);
 
     for(uint32_t i = 0; i < root->mNumChildren; ++i)
@@ -368,18 +366,18 @@ AEResult ImporterAssimp::ProcessNode(const aiNode* node, const glm::mat4& parent
         return AEResult::Ok;
     }
 
-    std::wstring nodeName = AE_Base::String2WideStr(node->mName.C_Str());
+    std::string nodeName = node->mName.C_Str();
 
     if(nodeName.empty())
     {
-        std::wstring parentName = L"!NO PARENT!";
+        std::string parentName = "!NO PARENT!";
     
         if(node->mParent != nullptr)
         {
-            parentName = AE_Base::String2WideStr(node->mParent->mName.C_Str());
+            parentName = node->mParent->mName.C_Str();
         }
 
-        std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_NODE_NAME_EMPTY_ERR_MSG"), __FUNCTIONW__, parentName);
+        std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_NODE_NAME_EMPTY_ERR_MSG"), __FUNCTION__, parentName);
         AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 
         return AEResult::Ok;
@@ -455,7 +453,7 @@ AEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
         //triangulated the mesh in the importer.
         if(assimpMesh->mPrimitiveTypes != aiPrimitiveType_TRIANGLE)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_PRIMTIVE_TYPE_WRG_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_PRIMTIVE_TYPE_WRG_ERR_MSG"), __FUNCTION__, meshHolder->m_Name);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             
             continue;
@@ -465,7 +463,7 @@ AEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
         //indexed, we will not accept this
         if(!assimpMesh->HasFaces())
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_NO_FACES_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_NO_FACES_ERR_MSG"), __FUNCTION__, meshHolder->m_Name);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             
             continue;
@@ -477,7 +475,7 @@ AEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
 
         if(assimpMesh->HasPositions() == false)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_NO_POSITIONS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_NO_POSITIONS_ERR_MSG"), __FUNCTION__, meshHolder->m_Name);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             
             continue;
@@ -487,7 +485,7 @@ AEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
         //Let the user know we will import only 2 and the rest are ignored
         if(assimpMesh->GetNumUVChannels() > AE_IMPORTER_MAX_TEX_COORD_CHANNELS)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEX_COORD_NUM_CHANNELS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), AE_IMPORTER_MAX_TEX_COORD_CHANNELS);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEX_COORD_NUM_CHANNELS_ERR_MSG"), __FUNCTION__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), AE_IMPORTER_MAX_TEX_COORD_CHANNELS);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
         }
 
@@ -499,7 +497,7 @@ AEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
             //and continue with next mesh            
             if(assimpMesh->mNumUVComponents[0] != AE_IMPORTER_MAX_TEX_COORD_COMPONENTS)
             {
-                std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEX_COORD_NUM_COMPONENTS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), AE_IMPORTER_MAX_TEX_COORD_COMPONENTS);
+                std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEX_COORD_NUM_COMPONENTS_ERR_MSG"), __FUNCTION__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), AE_IMPORTER_MAX_TEX_COORD_COMPONENTS);
                 AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 
                 continue;
@@ -528,7 +526,7 @@ AEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
             //Let the user know we will import only 1 and the rest are ignored
             if(assimpMesh->GetNumColorChannels() > AE_IMPORTER_MAX_COLOR_CHANNELS)
             {
-                std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_COLOR_NUM_CHANNELS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), AE_IMPORTER_MAX_COLOR_CHANNELS);
+                std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_COLOR_NUM_CHANNELS_ERR_MSG"), __FUNCTION__, meshHolder->m_Name, assimpMesh->GetNumUVChannels(), AE_IMPORTER_MAX_COLOR_CHANNELS);
                 AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             }
 
@@ -559,7 +557,7 @@ AEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
         //User know
         if(!AEImporterHelpers::IsVertexTypeValid((VertexType)vtxType))
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_COMB_VERTEX_PROPS_ERR_MSG"), __FUNCTIONW__, meshHolder->m_Name, vtxType);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_COMB_VERTEX_PROPS_ERR_MSG"), __FUNCTION__, meshHolder->m_Name, vtxType);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             
             continue;
@@ -659,7 +657,7 @@ AEResult ImporterAssimp::ProcessMeshes(const aiScene* scene)
             aiBone* assimpBone = assimpMesh->mBones[j];
             Bone* bone = nullptr;
 
-            std::wstring boneName = AE_Base::String2WideStr(assimpBone->mName.C_Str());
+            std::string boneName = assimpBone->mName.C_Str();
 
             glm::mat4 boneOffset = AEImporterHelpers::ConvertAssimpMatrix(assimpBone->mOffsetMatrix);
 
@@ -774,7 +772,7 @@ AEResult ImporterAssimp::BuildSkeleton(const aiNode* node, TreeBone* childBone)
         return AEResult::Ok;
     }
     
-    std::wstring nodeName = AE_Base::String2WideStr(node->mName.C_Str());
+    std::string nodeName = node->mName.C_Str();
 
     //This Means there are no child bones
     //No need to explore more...
@@ -857,7 +855,7 @@ AEResult ImporterAssimp::CorrectBoneIndices()
                 {
                     AEAssert(vtxHolder.m_IndexToBone.find(x) != vtxHolder.m_IndexToBone.end());
 
-                    const std::wstring& boneName = vtxHolder.m_IndexToBone[x];
+                    const std::string& boneName = vtxHolder.m_IndexToBone[x];
 
                     AEAssert(m_BoneMap.find(boneName) != m_BoneMap.end());
 
@@ -876,7 +874,7 @@ AEResult ImporterAssimp::CorrectBoneIndices()
     return AEResult::Ok;
 }
 
-AEResult ImporterAssimp::ProcessAnimations(const aiScene* scene, const std::vector<std::wstring>& animationNewNames)
+AEResult ImporterAssimp::ProcessAnimations(const aiScene* scene, const std::vector<std::string>& animationNewNames)
 {
     if(scene == nullptr)
     {
@@ -914,7 +912,7 @@ AEResult ImporterAssimp::GetAnimationKeyFrames(const aiScene* scene)
         aiAnimation* assimpAnim = scene->mAnimations[i];
         
         //Get Animation Name
-        std::wstring animName = AE_Base::String2WideStr(assimpAnim->mName.C_Str());
+        std::string animName = assimpAnim->mName.C_Str();
 
         //Get Duration of Animation
         float duration = (float)assimpAnim->mDuration;
@@ -930,7 +928,7 @@ AEResult ImporterAssimp::GetAnimationKeyFrames(const aiScene* scene)
 
         if(ticksPerSecond == 0.0f)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_DEFAULT_FPS_ERR_MSG"), __FUNCTIONW__, AE_IMPORTER_DEFAULT_FPS);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_DEFAULT_FPS_ERR_MSG"), __FUNCTION__, AE_IMPORTER_DEFAULT_FPS);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 
             ticksPerSecond = AE_IMPORTER_DEFAULT_FPS;
@@ -947,11 +945,11 @@ AEResult ImporterAssimp::GetAnimationKeyFrames(const aiScene* scene)
             aiNodeAnim* assimpAnimChannel = assimpAnim->mChannels[j];
             
             //Get Affect Node Name
-            std::wstring nodeName = AE_Base::String2WideStr(assimpAnimChannel->mNodeName.C_Str());
+            std::string nodeName = assimpAnimChannel->mNodeName.C_Str();
 
             if(m_BoneMap.find(nodeName) == m_BoneMap.end())
             {
-                std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_ANIM_NO_BONE_ERR_MSG"), __FUNCTIONW__, nodeName, j, animName);
+                std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_ANIM_NO_BONE_ERR_MSG"), __FUNCTION__, nodeName, j, animName);
                 AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 
                 continue;
@@ -966,14 +964,14 @@ AEResult ImporterAssimp::GetAnimationKeyFrames(const aiScene* scene)
             //Get Pre Animation Behavior
             if(assimpAnimChannel->mPreState != aiAnimBehaviour_DEFAULT)
             {
-                std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_ANIM_PRE_STATE_ERR_MSG"), __FUNCTIONW__, (uint32_t)assimpAnimChannel->mPreState, j, animName, (uint32_t)aiAnimBehaviour_DEFAULT);
+                std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_ANIM_PRE_STATE_ERR_MSG"), __FUNCTION__, (uint32_t)assimpAnimChannel->mPreState, j, animName, (uint32_t)aiAnimBehaviour_DEFAULT);
                 AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             }
 
             //Get Post Animation Behavior
             if(assimpAnimChannel->mPostState != aiAnimBehaviour_DEFAULT)
             {
-                std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_ANIM_POST_STATE_ERR_MSG"), __FUNCTIONW__, (uint32_t)assimpAnimChannel->mPostState, j, animName, (uint32_t)aiAnimBehaviour_DEFAULT);
+                std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_ANIM_POST_STATE_ERR_MSG"), __FUNCTION__, (uint32_t)assimpAnimChannel->mPostState, j, animName, (uint32_t)aiAnimBehaviour_DEFAULT);
                 AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             }
 
@@ -1020,7 +1018,7 @@ AEResult ImporterAssimp::GetAnimationKeyFrames(const aiScene* scene)
     return AEResult::Ok;
 }
         
-AEResult ImporterAssimp::BuildAnimations(const std::vector<std::wstring>& animationNewNames)
+AEResult ImporterAssimp::BuildAnimations(const std::vector<std::string>& animationNewNames)
 {
     for(size_t i = 0; i < m_AnimationHolderVec.size(); ++i)
     {
@@ -1099,7 +1097,7 @@ AEResult ImporterAssimp::BuildAnimations(const std::vector<std::wstring>& animat
         //Add Animation Clip to Model
         if(m_Model->m_Animations.find(animContent->m_Name) != m_Model->m_Animations.end())
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_ANIM_ADD_ERR_MSG"), __FUNCTIONW__, animContent->m_Name);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_ANIM_ADD_ERR_MSG"), __FUNCTION__, animContent->m_Name);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
 
             DeleteMem(animContent);
@@ -1144,7 +1142,7 @@ AEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
 
             if(textCount > 1)
             {
-                std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"DIFFUSE", textCount, 1);
+                std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "DIFFUSE", textCount, 1);
                 AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             }
         }
@@ -1156,7 +1154,7 @@ AEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
 
             if(textCount > 1)
             {
-                std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"NORMAL", textCount, 1);
+                std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "NORMAL", textCount, 1);
                 AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             }
         }
@@ -1168,7 +1166,7 @@ AEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
 
             if(textCount > 1)
             {
-                std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"SPECULAR", textCount, 1);
+                std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "SPECULAR", textCount, 1);
                 AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             }
         }
@@ -1180,7 +1178,7 @@ AEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
 
             if(textCount > 1)
             {
-                std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"DISPLACEMENT", textCount, 1);
+                std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "DISPLACEMENT", textCount, 1);
                 AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             }
         }
@@ -1192,7 +1190,7 @@ AEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
 
             if(textCount > 1)
             {
-                std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"LIGHTMAP", textCount, 1);
+                std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "LIGHTMAP", textCount, 1);
                 AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
             }
         }
@@ -1206,49 +1204,49 @@ AEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
         textCount = assimpMat->GetTextureCount(aiTextureType_AMBIENT);
         if(textCount != 0)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"AMBIENT", textCount, 0);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "AMBIENT", textCount, 0);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
         }
 
         textCount = assimpMat->GetTextureCount(aiTextureType_EMISSIVE);
         if(textCount != 0)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"EMISSIVE", textCount, 0);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "EMISSIVE", textCount, 0);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
         }
 
         textCount = assimpMat->GetTextureCount(aiTextureType_HEIGHT);
         if(textCount != 0)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"HEIGHT", textCount, 0);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "HEIGHT", textCount, 0);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
         }
 
         textCount = assimpMat->GetTextureCount(aiTextureType_SHININESS);
         if(textCount != 0)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"SHININESS", textCount, 0);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "SHININESS", textCount, 0);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
         }
 
         textCount = assimpMat->GetTextureCount(aiTextureType_OPACITY);
         if(textCount != 0)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"OPACITY", textCount, 0);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "OPACITY", textCount, 0);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
         }
 
         textCount = assimpMat->GetTextureCount(aiTextureType_REFLECTION);
         if(textCount != 0)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"REFLECTION", textCount, 0);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "REFLECTION", textCount, 0);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
         }
 
         textCount = assimpMat->GetTextureCount(aiTextureType_UNKNOWN);
         if(textCount != 0)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTIONW__, L"UNKNOWN", textCount, 0);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_TEXTURE_TYPE_NUM_ERR_MSG"), __FUNCTION__, "UNKNOWN", textCount, 0);
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
         }
 
@@ -1269,22 +1267,20 @@ AEResult ImporterAssimp::ProcessMaterials(const aiScene* scene)
     return AEResult::Ok;
 }
 
-std::wstring ImporterAssimp::GetTexturePath(aiMaterial* assimpMat, uint32_t textureID, aiTextureType textType)
+std::string ImporterAssimp::GetTexturePath(aiMaterial* assimpMat, uint32_t textureID, aiTextureType textType)
 {
     if(assimpMat == nullptr)
     {
-        return L"";
+        return "";
     }
     
     aiString path("");
 
     assimpMat->GetTexture(textType, textureID, &path);
 
-    std::wstring filePath = AE_Base::String2WideStr(path.C_Str());
-
     //Extract only the File Name as we will load the texture
     //from a path the user provides to us
-    std::wstring fileName = AE_Base::GetFilename(filePath);
+    std::string fileName = AE_Base::GetFilename(path.C_Str());
 
     return fileName;
 }
@@ -1313,7 +1309,7 @@ AEResult ImporterAssimp::ProcessEmbeddedTextures(const aiScene* scene)
 
     if(scene->HasTextures())
     {
-        std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_EMBEDDED_TEXTURES_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_EMBEDDED_TEXTURES_ERR_MSG"), __FUNCTION__);
         AELOGGER->AddNewLog(LogLevel::Error, errMsg);
     }
 
@@ -1339,7 +1335,7 @@ AEResult ImporterAssimp::ConstructModel()
         //Add our mesh to the Model
         if(m_Model->m_Meshes.find(mesh->m_Name) != m_Model->m_Meshes.end())
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_MESH_ADD_ERR_MSG"), __FUNCTIONW__, mesh->m_Name);
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_MESH_ADD_ERR_MSG"), __FUNCTION__, mesh->m_Name);
             AELOGGER->AddNewLog(LogLevel::Error, errMsg);
             
             DeleteMem(mesh);
@@ -1363,7 +1359,7 @@ AEResult ImporterAssimp::ConstructModel()
             
             if(AEImporterHelpers::ConvertToMeshContent(meshPartHolder, &meshPart) != AEResult::Ok)
             {
-                std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_MESH_PART_ADD_ERR_MSG"), __FUNCTIONW__, i, mesh->m_Name);
+                std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_MESH_PART_ADD_ERR_MSG"), __FUNCTION__, i, mesh->m_Name);
                 AELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
                 return AEResult::Fail;
@@ -1391,7 +1387,7 @@ AEResult ImporterAssimp::CreateBoudingShapes()
         if (m_Model->m_Meshes.find(meshHolder->m_Name) == m_Model->m_Meshes.end())
         {
             AETODO("Add err message");
-            //std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"ASSIMP_MESH_ADD_ERR_MSG"), __FUNCTIONW__, mesh->m_Name);
+            //std::string errMsg = fmt::format(AELOCMAN->GetLiteral("ASSIMP_MESH_ADD_ERR_MSG"), __FUNCTION__, mesh->m_Name);
             //AELOGGER->AddNewLog(LogLevel::Error, errMsg);
 
             return AEResult::Fail;
@@ -1416,13 +1412,13 @@ AEResult ImporterAssimp::CreateBoudingShapes()
     return AEResult::Ok;
 }
 
-void ImporterAssimp::ReplaceAutoGenAssimpName(std::wstring& name, const std::wstring& newName, const std::wstring& typeName, int32_t idx, bool overrideNotAuto)
+void ImporterAssimp::ReplaceAutoGenAssimpName(std::string& name, const std::string& newName, const std::string& typeName, int32_t idx, bool overrideNotAuto)
 {
     AETODO("Add list so it will also check against others not only collada");
 
     if (!overrideNotAuto)
     {
-        if (name.compare(0, wcslen(AE_IMPORTER_ASSIMP_COLLADA_AUTO_NAME), AE_IMPORTER_ASSIMP_COLLADA_AUTO_NAME) != 0)
+        if (name.compare(0, strlen(AE_IMPORTER_ASSIMP_COLLADA_AUTO_NAME), AE_IMPORTER_ASSIMP_COLLADA_AUTO_NAME) != 0)
         {
             return;
         }
@@ -1432,10 +1428,10 @@ void ImporterAssimp::ReplaceAutoGenAssimpName(std::wstring& name, const std::wst
 
     if (idx >= 0)
     {
-        name = fmt::format(L"{0} {1} {2}", newName, typeName, idx);
+        name = fmt::format("{0} {1} {2}", newName, typeName, idx);
     }
     else
     {
-        name = fmt::format(L"{0} {1}", newName, typeName);
+        name = fmt::format("{0} {1}", newName, typeName);
     }
 }

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -26,8 +31,8 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "UniqueAEObjectNamed.h"
 #include "Base\BaseFunctions.h"
+#include "UniqueAEObjectNamed.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -35,7 +40,7 @@
 /********************
 *   Function Defs   *
 *********************/
-UniqueAEObjectNamed::UniqueAEObjectNamed(const std::wstring& name)
+UniqueAEObjectNamed::UniqueAEObjectNamed(const std::string& name)
     : Named(name)
 {
     m_UniqueID = AE_Base::GetNextUniqueID();

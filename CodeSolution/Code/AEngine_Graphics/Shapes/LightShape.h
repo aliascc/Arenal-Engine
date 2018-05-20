@@ -23,12 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *

@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -33,9 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Color\Color.h"
-#include "Math\AEMathDefs.h"
-#include "Color\AEColorDefs.h"
 #include "AEGameComponentsDefs.h"
 #include "GameUtils\DrawableGameComponent.h"
 #include "Vertex\Types\VertexPositionColor.h"
@@ -62,7 +57,7 @@ class VertexBuffer;
 ***************/
 struct DebugStatsConfig
 {
-    std::wstring m_SpriteFontFile = L"";
+    std::string m_SpriteFontFile = "";
     Color m_TextColor = AEColors::White;
     bool m_FPSEnabled = true;
     bool m_AxisEnabled = true;
@@ -97,7 +92,7 @@ class DebugStats : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        DebugStats(GameApp* gameApp, const DebugStatsConfig& debugStatsConfig, const std::wstring& gameComponentName = AE_DEBUG_STATS_DEF_COMPONENT_NAME, const std::wstring& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_DebugStats);
+        DebugStats(GameApp* gameApp, const DebugStatsConfig& debugStatsConfig, const std::string& gameComponentName = AE_DEBUG_STATS_DEF_COMPONENT_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_DebugStats);
         virtual ~DebugStats();
 
         //Gets

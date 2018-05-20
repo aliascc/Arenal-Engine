@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -54,7 +51,7 @@ class IConstantBuffer;
 /// <summary>
 /// Pixel Shader PNT Name
 /// </summary>
-#define AE_DIFFUSE_TEXTURE_PS_NAME            L"Diffuse Texture Pixel Shader"
+#define AE_DIFFUSE_TEXTURE_PS_NAME            "Diffuse Texture Pixel Shader"
 
 /*****************
 *   Class Decl   *
@@ -102,7 +99,7 @@ class DiffuseTexturePS sealed : public PixelShader
         /// </summary>
         /// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
         /// <param name="name">Name of Shader</param>
-        DiffuseTexturePS(GraphicDevice* graphicDevice, const std::wstring& resourceName);
+        DiffuseTexturePS(GraphicDevice* graphicDevice, const std::string& resourceName);
 
     #pragma endregion
 

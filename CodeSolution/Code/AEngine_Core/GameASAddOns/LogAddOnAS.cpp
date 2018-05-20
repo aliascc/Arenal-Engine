@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -74,8 +79,8 @@ AEResult LogAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterLogLevelEnum(engine) != AEResult::Ok)
     {
         AETODO("Add Log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_ENUM_ERR_MSG"), __FUNCTIONW__, L"LogLevel");
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_ENUM_ERR_MSG"), __FUNCTION__, L"LogLevel");
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -84,8 +89,8 @@ AEResult LogAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterAELogObject(engine) != AEResult::Ok)
     {
         AETODO("Add Log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -94,8 +99,8 @@ AEResult LogAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterLoggerObject(engine) != AEResult::Ok)
     {
         AETODO("Add Log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -104,8 +109,8 @@ AEResult LogAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterLoggerObjectPointer(engine) != AEResult::Ok)
     {
         AETODO("Add Log");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;

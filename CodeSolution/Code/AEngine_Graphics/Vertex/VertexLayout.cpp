@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,8 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
-#include "Localization\LocalizationManager.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -31,6 +34,7 @@
 #include "VertexLayout.h"
 #include "GraphicDevice.h"
 #include "Base\BaseFunctions.h"
+#include "Localization\LocalizationManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -39,7 +43,7 @@
 *   Function Defs   *
 *********************/
 VertexLayout::VertexLayout()
-    : Named(L"")
+    : Named("")
 {
 }
 
@@ -48,7 +52,7 @@ VertexLayout::~VertexLayout()
     ReleaseCOM(m_VertexLayoutDX);
 }
 
-AEResult VertexLayout::BuildVertexLayout(GraphicDevice* graphicDevice, const BYTE shaderByteCode[], uint32_t shadeByteCodeSize, const D3D11_INPUT_ELEMENT_DESC vertexDesc[], uint32_t elementCount, const std::wstring& name)
+AEResult VertexLayout::BuildVertexLayout(GraphicDevice* graphicDevice, const BYTE shaderByteCode[], uint32_t shadeByteCodeSize, const D3D11_INPUT_ELEMENT_DESC vertexDesc[], uint32_t elementCount, const std::string& name)
 {
     if(graphicDevice == nullptr || vertexDesc == nullptr || shaderByteCode == nullptr || elementCount == 0)
     {
@@ -67,7 +71,7 @@ AEResult VertexLayout::BuildVertexLayout(GraphicDevice* graphicDevice, const BYT
 
     m_Name = name;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11InputLayout>(m_VertexLayoutDX, AE_DEBUG_VIL_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11InputLayout>(m_VertexLayoutDX, AE_DEBUG_VIL_NAME_PREFIX + m_Name);
     
     m_IsReady = true;
 

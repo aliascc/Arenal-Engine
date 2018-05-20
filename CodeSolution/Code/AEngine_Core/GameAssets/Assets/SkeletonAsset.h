@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -82,7 +80,7 @@ class SkeletonAsset sealed : public GameAsset
         /// </summary>
         /// <param name="filePath">File Path of Game Asset to Load</param>
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
-        SkeletonAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager);
+        SkeletonAsset(const std::string& filePath, GameResourceManager* gameResourceManager);
 
         /// <summary>
         /// Default SkeletonAsset Destructor

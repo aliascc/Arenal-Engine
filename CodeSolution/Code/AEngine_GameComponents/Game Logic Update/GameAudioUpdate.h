@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <vector>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -34,10 +31,8 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "AEGameComponentsDefs.h"
 #include "GameUtils\GameComponent.h"
-
 
 /********************
 *   Forward Decls   *
@@ -63,7 +58,7 @@ class GameAudioUpdate sealed : public GameComponent
 
     public:
         //Constructor Destructor.
-        GameAudioUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_AUDIO_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameAudioUpdate);
+        GameAudioUpdate(GameApp* gameApp, const std::string& gameComponentName = AE_GAME_AUDIO_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameAudioUpdate);
 
         virtual ~GameAudioUpdate();
 

@@ -1,7 +1,7 @@
 Tool:          SFML
-Last Updated:  January 10 2018
-Last Build:    January 10 2018
-Version:	   2.4.2
+Last Updated:  May 18 2018
+Last Build:    May 18 2018
+Version:	   2.5.0
 
 Notes:
 
@@ -9,6 +9,7 @@ Download:     https://www.sfml-dev.org/download.php
 
 Instructions: https://www.sfml-dev.org/tutorials/2.4/compile-with-cmake.php
 
-- Patch the files
+- Patch the files (patch.exe --binary -p1 < "file.patch")
 - Use CMAKE to create targets for VS
+- Build only System - Audio - Main
 - Copy ext libs and DLLs

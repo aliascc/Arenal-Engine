@@ -23,13 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -96,7 +93,7 @@ struct VertexPositionNormalTangentBinormalTexture
 
         m_VertexLayout = new VertexLayout();
 
-        AEResult ret = m_VertexLayout->BuildVertexLayout(graphicDevice, DummyVertexPositionNormalTangentBinormalTexture, sizeof(DummyVertexPositionNormalTangentBinormalTexture), vertexDesc, 5, L"VertexPositionNormalTangentBinormalTextureLayout");
+        AEResult ret = m_VertexLayout->BuildVertexLayout(graphicDevice, DummyVertexPositionNormalTangentBinormalTexture, sizeof(DummyVertexPositionNormalTangentBinormalTexture), vertexDesc, 5, "VertexPositionNormalTangentBinormalTextureLayout");
 
         if(ret != AEResult::Ok)
         {

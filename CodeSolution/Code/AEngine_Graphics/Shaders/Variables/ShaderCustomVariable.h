@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -63,7 +61,7 @@ struct ShaderCustomVariable sealed : public AEObject
 
     uint32_t m_Columns = 0;
 
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     void* m_Memory = nullptr;
 
@@ -79,7 +77,7 @@ struct ShaderCustomVariable sealed : public AEObject
 
     ShaderCustomVariable();
 
-    ShaderCustomVariable(uint32_t size, uint32_t startOffset, uint32_t offset, uint32_t elementSize, uint32_t rows, uint32_t columns, std::wstring name, void* memory, bool userVariable, bool isArray, uint32_t elements, ShaderVariableClass shaderVariableClass, ShaderVariableType shaderVariableType);
+    ShaderCustomVariable(uint32_t size, uint32_t startOffset, uint32_t offset, uint32_t elementSize, uint32_t rows, uint32_t columns, std::string name, void* memory, bool userVariable, bool isArray, uint32_t elements, ShaderVariableClass shaderVariableClass, ShaderVariableType shaderVariableType);
 
     ShaderCustomVariable(const ShaderCustomVariable& other);
 

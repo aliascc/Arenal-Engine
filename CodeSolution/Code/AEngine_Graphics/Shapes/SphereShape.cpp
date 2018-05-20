@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -77,7 +81,7 @@ uint16_t SphereShape::AddVtx(VertexPositionColor& vtx)
     vtx.m_Position.y = vect.y;
     vtx.m_Position.z = vect.z;
 
-    std::wstring vtxStr = AEVertexHelper::GetVertexString(vtx);
+    std::string vtxStr = AEVertexHelper::GetVertexString(vtx);
     uint16_t idx = 0;
 
     if(m_VtxMap.find(vtxStr) != m_VtxMap.end())

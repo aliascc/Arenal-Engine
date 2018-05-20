@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -99,7 +96,7 @@ class GeometryShader sealed : public Shader
         ///</summary>
         ///<param name="graphicDevice">Graphic Device to be associated with this Shader</param>
         ///<param name="name">Name of Shader</param>
-        GeometryShader(GraphicDevice* graphicDevice, const std::wstring& name = L"");
+        GeometryShader(GraphicDevice* graphicDevice, const std::string& name = "");
 
 #pragma endregion
         

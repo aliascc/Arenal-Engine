@@ -23,10 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *

@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -95,7 +92,7 @@ class ITexture2D abstract : public Texture
         /// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
         /// <param name="textureName">Name of the Texture</param>
         /// <param name="isCube">If true Texture 2D is a Texture Cube</param>
-        ITexture2D(GraphicDevice* graphicDevice, const std::wstring& textureName, bool isCube = false);
+        ITexture2D(GraphicDevice* graphicDevice, const std::string& textureName, bool isCube = false);
 
 #pragma endregion
 

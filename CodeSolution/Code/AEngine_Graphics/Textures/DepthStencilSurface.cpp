@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -39,7 +43,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DepthStencilSurface::DepthStencilSurface(GraphicDevice* graphicDevice, const std::wstring& name)
+DepthStencilSurface::DepthStencilSurface(GraphicDevice* graphicDevice, const std::string& name)
     : ITexture2D(graphicDevice, name)
 {
 }
@@ -104,7 +108,7 @@ AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint
         return AEResult::CreateTextureFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_DEPTH_T_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_DEPTH_T_NAME_PREFIX + m_Name);
 
     D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
     memset(&srvDesc, 0, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
@@ -129,7 +133,7 @@ AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint
         return AEResult::CreateSRViewFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_DEPTH_SRV_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_DEPTH_SRV_NAME_PREFIX + m_Name);
 
     D3D11_DEPTH_STENCIL_VIEW_DESC dsDesc;
     memset(&dsDesc, 0, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
@@ -156,7 +160,7 @@ AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint
         return AEResult::CreateDSViewFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11DepthStencilView>(m_DepthStencilDX, AE_DEBUG_DEPTH_S_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11DepthStencilView>(m_DepthStencilDX, AE_DEBUG_DEPTH_S_NAME_PREFIX + m_Name);
 
     m_Width = width;
     m_Height = height;

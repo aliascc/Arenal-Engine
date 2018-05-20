@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -61,7 +60,7 @@ class Named abstract : public AEObject
         /// <summary>
         /// Name of AEObject
         /// </summary>
-        std::wstring m_Name = L"";
+        std::string m_Name = "";
 
 #pragma endregion
         
@@ -76,7 +75,7 @@ class Named abstract : public AEObject
         /// Named Constructor
         /// </summary>
         /// <param name="name">Name of the AEObject</param>
-        Named(const std::wstring& name);
+        Named(const std::string& name);
         
         /// <summary>
         /// Default Named Destructor
@@ -94,7 +93,7 @@ class Named abstract : public AEObject
         /// Gets the Name of AEObject
         /// </summary>
         /// <returns>Name of AEObject</returns>
-        inline const std::wstring& GetName() const
+        inline const std::string& GetName() const
         {
             return m_Name;
         }
@@ -110,7 +109,7 @@ class Named abstract : public AEObject
         /// Sets the Name of the AEObject
         /// </summary>
         /// <param name="name">Name of the AEObject"</param>
-        virtual void SetName(const std::wstring name);
+        virtual void SetName(const std::string name);
 
 #pragma endregion
         
@@ -123,7 +122,7 @@ class Named abstract : public AEObject
         /// Converts the Objects to a String. In case of Named it is the name
         /// </summary>
         /// <returns>Name of AEObject</returns>
-        virtual std::wstring ToString() const override;
+        virtual std::string ToString() const override;
 
 #pragma endregion
 

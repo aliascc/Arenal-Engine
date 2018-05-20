@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -27,7 +32,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "ScriptConsoleLine.h"
 
 /********************

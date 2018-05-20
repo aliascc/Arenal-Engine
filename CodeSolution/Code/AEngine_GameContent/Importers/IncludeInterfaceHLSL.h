@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <D3Dcommon.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -47,9 +45,9 @@
 ******************/
 struct IncludeInterfaceHLSL : public ID3DInclude
 {
-    std::wstring m_ShaderCurrentDir = L"";
+    std::string m_ShaderCurrentDir = "";
 
-    IncludeInterfaceHLSL(const std::wstring& currentDirectory);
+    IncludeInterfaceHLSL(const std::string& currentDirectory);
 
     HRESULT __stdcall Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes) override;
 

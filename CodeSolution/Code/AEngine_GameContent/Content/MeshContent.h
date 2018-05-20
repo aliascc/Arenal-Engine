@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
 
 /*************************
 *   3rd Party Includes   *
@@ -52,7 +51,7 @@ struct MeshPartContent;
 *******************/
 struct MeshContent sealed : public GameContent
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     BoundingBox m_BoundingBox;
 

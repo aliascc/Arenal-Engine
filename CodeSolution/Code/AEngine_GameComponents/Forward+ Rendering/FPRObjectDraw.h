@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -32,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "AEGameComponentsDefs.h"
 #include "GameUtils\DrawableGameComponent.h"
 
@@ -72,7 +70,7 @@ class FPRObjectDraw sealed : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        FPRObjectDraw(GameApp* gameApp, const std::wstring& gameComponentName = AE_FORWARD_PLUS_OBJECT_DRAW_DEF_COMPONENT_NAME, const std::wstring& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::wstring& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightObjectDraw);
+        FPRObjectDraw(GameApp* gameApp, const std::string& gameComponentName = AE_FORWARD_PLUS_OBJECT_DRAW_DEF_COMPONENT_NAME, const std::string& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightObjectDraw);
         virtual ~FPRObjectDraw();
 
         //Gets

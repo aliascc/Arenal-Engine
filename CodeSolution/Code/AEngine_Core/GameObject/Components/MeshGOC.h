@@ -114,7 +114,7 @@ class MeshGOC sealed : public GameObjectComponent
             return m_Mesh.m_AssetID;
         }
 
-        std::wstring GetMeshName() const;
+        std::string GetMeshName() const;
 
 #pragma endregion
 

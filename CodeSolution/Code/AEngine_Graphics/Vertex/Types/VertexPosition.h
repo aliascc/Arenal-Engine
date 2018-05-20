@@ -23,14 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -82,7 +78,7 @@ struct VertexPosition
 
         m_VertexLayout = new VertexLayout();
 
-        AEResult ret = m_VertexLayout->BuildVertexLayout(graphicDevice, DummyVertexPosition, sizeof(DummyVertexPosition), vertexDesc, 1, L"VertexPositionLayout");
+        AEResult ret = m_VertexLayout->BuildVertexLayout(graphicDevice, DummyVertexPosition, sizeof(DummyVertexPosition), vertexDesc, 1, "VertexPositionLayout");
 
         if(ret != AEResult::Ok)
         {

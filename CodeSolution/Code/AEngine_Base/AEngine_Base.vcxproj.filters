@@ -132,6 +132,10 @@
     <ClInclude Include="Crash Handling\CrashHandlerDefs.h">
       <Filter>Crash Handling</Filter>
     </ClInclude>
+    <ClInclude Include="Base\ProjectConfig.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="precomp_base.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Memory\MemLeaks.cpp">
@@ -206,5 +210,6 @@
     <ClCompile Include="Crash Handling\CrashHandler.cpp">
       <Filter>Crash Handling</Filter>
     </ClCompile>
+    <ClCompile Include="precomp_base.cpp" />
   </ItemGroup>
 </Project>

@@ -15,11 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_audio.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <fstream>
-#include <istream>
 
 /*************************
 *   3rd Party Includes   *
@@ -29,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Audio.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -38,7 +40,7 @@
 *   Function Defs   *
 *********************/
 
-Audio::Audio(const std::wstring& audioName)
+Audio::Audio(const std::string& audioName)
     : GameResource(audioName, GameResourceType::Audio)
 {
 }
@@ -48,7 +50,7 @@ Audio::~Audio()
     DeleteMemArr(m_AudioData);
 }
 
-AEResult Audio::LoadFile(const std::wstring& file)
+AEResult Audio::LoadFile(const std::string& file)
 {
     if (file.empty())
     {

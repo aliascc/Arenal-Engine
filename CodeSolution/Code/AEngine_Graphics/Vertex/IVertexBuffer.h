@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -104,7 +101,7 @@ class IVertexBuffer abstract : public Named
         /// <param name="memPool">How will the buffer be use</param>
         /// <param name="memPool">How will the CPU Access the memory of the buffer</param>
         IVertexBuffer(GraphicDevice* graphicDevice, GraphicBufferUsage bufferUsage = GraphicBufferUsage::Static, GraphicBufferAccess bufferAccess = GraphicBufferAccess::None)
-            : Named(L"")
+            : Named("")
             , m_BufferAccess(bufferAccess)
             , m_BufferUsage(bufferUsage)
             , m_GraphicDevice(graphicDevice)

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecontent.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "boost\filesystem.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -49,7 +53,7 @@ WriterHLSL::~WriterHLSL()
 {
 }
 
-AEResult WriterHLSL::GetExtensionForShader(ShaderType type, std::wstring& extension)
+AEResult WriterHLSL::GetExtensionForShader(ShaderType type, std::string& extension)
 {
     switch (type)
     {
@@ -73,17 +77,17 @@ AEResult WriterHLSL::GetExtensionForShader(ShaderType type, std::wstring& extens
             break;
         default:
             AEAssert(false);
-            extension = L"";
+            extension = "";
             return AEResult::InvalidShaderType;
     }
 
     return AEResult::Ok;
 }
 
-AEResult WriterHLSL::WriteToFile(ShaderContent* content, const std::wstring& fileName, const std::wstring& filePath)
+AEResult WriterHLSL::WriteToFile(ShaderContent* content, const std::string& fileName, const std::string& filePath)
 {
-    m_FileName = L"";
-    m_FullFileName = L"";
+    m_FileName = "";
+    m_FullFileName = "";
 
     AEAssert(content != nullptr);
 
@@ -108,13 +112,13 @@ AEResult WriterHLSL::WriteToFile(ShaderContent* content, const std::wstring& fil
     
     m_FilePath = filePath;
         
-    if(m_FilePath.back() != L'\\' && m_FilePath.back() != L'/')
+    if(m_FilePath.back() != '\\' && m_FilePath.back() != '/')
     {
-        m_FilePath.push_back(L'\\');
+        m_FilePath.push_back('\\');
     }
 
     //Get Extension for File
-    std::wstring extension = L"";
+    std::string extension = "";
 
     if(GetExtensionForShader(content->m_ShaderType, extension) != AEResult::Ok)
     {
@@ -122,7 +126,7 @@ AEResult WriterHLSL::WriteToFile(ShaderContent* content, const std::wstring& fil
     }
 
     //Set File Path and File Name
-    m_FileName = fileName + L"." + extension;
+    m_FileName = fileName + "." + extension;
     m_FullFileName = m_FilePath + m_FileName;
 
     std::ofstream shaderFile;

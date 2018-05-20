@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -142,7 +146,7 @@ void ShaderProperties::TextureAssetDeletion(GameAsset* asset)
         return;
     }
 
-    std::wstring textureName = L"";
+    std::string textureName = "";
 
     for(auto texturePairIt : m_TextureAssetMap)
     {
@@ -160,7 +164,7 @@ void ShaderProperties::TextureAssetDeletion(GameAsset* asset)
     }
 }
 
-uint64_t ShaderProperties::GetTextureAssetID(const std::wstring& name)
+uint64_t ShaderProperties::GetTextureAssetID(const std::string& name)
 {
     auto textureAssetIt = m_TextureAssetMap.find(name);
     if (textureAssetIt == m_TextureAssetMap.end())
@@ -171,7 +175,7 @@ uint64_t ShaderProperties::GetTextureAssetID(const std::wstring& name)
     return textureAssetIt->second.m_AssetID;
 }
 
-AEResult ShaderProperties::AddTextureAssetBinding(const std::wstring& name, TextureAsset* asset)
+AEResult ShaderProperties::AddTextureAssetBinding(const std::string& name, TextureAsset* asset)
 {
     AEAssert(asset != nullptr);
     if(asset == nullptr)
@@ -218,7 +222,7 @@ AEResult ShaderProperties::AddTextureAssetBinding(const std::wstring& name, Text
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::RemoveTextureAssetBinding(const std::wstring& name, bool informGameAsset)
+AEResult ShaderProperties::RemoveTextureAssetBinding(const std::string& name, bool informGameAsset)
 {
     if(m_TextureAssetMap.find(name) == m_TextureAssetMap.end())
     {
@@ -253,7 +257,7 @@ AEResult ShaderProperties::SetTextureToBinding(ShaderTextureBinding* stb, Textur
         return AEResult::NullParameter;
     }
 
-    const std::wstring& textureName = stb->GetName();
+    const std::string& textureName = stb->GetName();
 
     if(m_TextureAssetMap.find(textureName) == m_TextureAssetMap.end())
     {
@@ -292,7 +296,7 @@ AEResult ShaderProperties::SetTextureToBinding(ShaderTextureBinding* stb, Textur
         return AEResult::NullParameter;
     }
 
-    const std::wstring& textureName = stb->GetName();
+    const std::string& textureName = stb->GetName();
 
     Texture* refTexture = reinterpret_cast<Texture*>(texture->AddRef());
 
@@ -317,7 +321,7 @@ AEResult ShaderProperties::SetTextureToBinding(ShaderTextureBinding* stb, Textur
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::SetTexture(const std::wstring& name, TextureAsset* asset)
+AEResult ShaderProperties::SetTexture(const std::string& name, TextureAsset* asset)
 {
     if(!ShaderTextureBindingExists(name))
     {
@@ -341,7 +345,7 @@ AEResult ShaderProperties::SetTexture(uint32_t index, TextureAsset* asset)
     return SetTextureToBinding(stb, asset);
 }
 
-AEResult ShaderProperties::SetTexture(const std::wstring& name, Texture* texture)
+AEResult ShaderProperties::SetTexture(const std::string& name, Texture* texture)
 {
     if(!ShaderTextureBindingExists(name))
     {
@@ -383,7 +387,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_CB_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), AE_Base::GetAEResultString(ret));
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_CB_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
         return ret;
@@ -397,7 +401,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_SAM_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), AE_Base::GetAEResultString(ret));
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_SAM_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
         return ret;
@@ -411,7 +415,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_B_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), AE_Base::GetAEResultString(ret));
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_B_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
         return ret;
@@ -425,7 +429,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_SB_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), AE_Base::GetAEResultString(ret));
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_SB_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
         return ret;
@@ -439,7 +443,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_TB_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), AE_Base::GetAEResultString(ret));
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_TB_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
         return ret;
@@ -453,7 +457,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_TA_ADD_SIG_LIST_ERR_MSG"), __FUNCTIONW__, shader->GetName(), AE_Base::GetAEResultString(ret));
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_TA_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
         AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
         return ret;
@@ -487,7 +491,7 @@ AEResult ShaderProperties::AddConstantBuffersFromSigList(const ConstantBufferSig
             {
                 DeleteMem(scVar);
 
-                std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_CB_SIG_ADD_VAR_DBG_MSG"), __FUNCTIONW__, constSCVar.m_Name, cb->GetName(), AE_Base::GetAEResultString(ret));
+                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_CB_SIG_ADD_VAR_DBG_MSG"), __FUNCTION__, constSCVar.m_Name, cb->GetName(), AE_Base::GetAEResultString(ret));
                 AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
                 break;
@@ -504,7 +508,7 @@ AEResult ShaderProperties::AddConstantBuffersFromSigList(const ConstantBufferSig
         ret = cb->Initialize();
         if(ret != AEResult::Ok)
         {
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_CB_SIG_INIT_CB_DBG_MSG"), __FUNCTIONW__, cb->GetName(), AE_Base::GetAEResultString(ret));
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_CB_SIG_INIT_CB_DBG_MSG"), __FUNCTION__, cb->GetName(), AE_Base::GetAEResultString(ret));
             AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
             return ret; 
@@ -513,7 +517,7 @@ AEResult ShaderProperties::AddConstantBuffersFromSigList(const ConstantBufferSig
         ret = AddConstantBuffer(cb);
         if(ret != AEResult::Ok)
         {
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_CB_SIG_ADD_CB_DBG_MSG"), __FUNCTIONW__, cb->GetName(), AE_Base::GetAEResultString(ret));
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_CB_SIG_ADD_CB_DBG_MSG"), __FUNCTION__, cb->GetName(), AE_Base::GetAEResultString(ret));
             AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
             DeleteMem(cb);
@@ -542,7 +546,7 @@ AEResult ShaderProperties::AddSamplersFromSigList(const SamplerSignatureList& sa
         ret = sampler->Initialize();
         if (ret != AEResult::Ok)
         {
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_SAM_SIG_INIT_CB_DBG_MSG"), __FUNCTIONW__, sampler->GetName(), AE_Base::GetAEResultString(ret));
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_SAM_SIG_INIT_CB_DBG_MSG"), __FUNCTION__, sampler->GetName(), AE_Base::GetAEResultString(ret));
             AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
             return ret;
@@ -551,7 +555,7 @@ AEResult ShaderProperties::AddSamplersFromSigList(const SamplerSignatureList& sa
         ret = AddSampler(sampler);
         if (ret != AEResult::Ok)
         {
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_SAM_SIG_ADD_CB_DBG_MSG"), __FUNCTIONW__, sampler->GetName(), AE_Base::GetAEResultString(ret));
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_SAM_SIG_ADD_CB_DBG_MSG"), __FUNCTION__, sampler->GetName(), AE_Base::GetAEResultString(ret));
             AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
             DeleteMem(sampler);
@@ -583,7 +587,7 @@ AEResult ShaderProperties::AddSimpleBuffersFromSigList(const SimpleBufferSignatu
         {
             DeleteMem(simpleBuffer);
 
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_B_SIG_ADD_B_DBG_MSG"), __FUNCTIONW__, simpleBufferSig.m_Name, AE_Base::GetAEResultString(ret));
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_B_SIG_ADD_B_DBG_MSG"), __FUNCTION__, simpleBufferSig.m_Name, AE_Base::GetAEResultString(ret));
             AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
             return ret;
@@ -613,7 +617,7 @@ AEResult ShaderProperties::AddStructuredBuffersFromSigList(const StructuredBuffe
         {
             DeleteMem(structuredBuffer);
 
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_SB_SIG_ADD_SB_DBG_MSG"), __FUNCTIONW__, structuredBufferSig.m_Name, AE_Base::GetAEResultString(ret));
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_SB_SIG_ADD_SB_DBG_MSG"), __FUNCTION__, structuredBufferSig.m_Name, AE_Base::GetAEResultString(ret));
             AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
             return ret;
@@ -643,7 +647,7 @@ AEResult ShaderProperties::AddTextureBindingsFromSigList(const TextureInputSigna
         {
             DeleteMem(stb);
 
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_TB_SIG_ADD_TB_DBG_MSG"), __FUNCTIONW__, textBindingSig.m_Name, AE_Base::GetAEResultString(ret));
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_TB_SIG_ADD_TB_DBG_MSG"), __FUNCTION__, textBindingSig.m_Name, AE_Base::GetAEResultString(ret));
             AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
             return ret;
@@ -688,7 +692,7 @@ AEResult ShaderProperties::AddTextureArraysFromSigList(const TextureArrayInputSi
         {
             DeleteMem(textureArray);
 
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_TA_SIG_ADD_SB_DBG_MSG"), __FUNCTIONW__, textArrayInput.m_Name, AE_Base::GetAEResultString(ret));
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_TA_SIG_ADD_SB_DBG_MSG"), __FUNCTION__, textArrayInput.m_Name, AE_Base::GetAEResultString(ret));
             AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
 
             return ret;
@@ -751,7 +755,7 @@ AEResult ShaderProperties::AddSampler(Sampler* sampler)
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::RemoveSampler(const std::wstring& name)
+AEResult ShaderProperties::RemoveSampler(const std::string& name)
 {
     if (!SamplerExists(name))
     {
@@ -781,7 +785,7 @@ AEResult ShaderProperties::RemoveSampler(const std::wstring& name)
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::OverrideSampler(const std::wstring& name, Sampler* sampler, bool overrideBindIndex, uint32_t bindIndex, bool deleteAtShaderDestroy)
+AEResult ShaderProperties::OverrideSampler(const std::string& name, Sampler* sampler, bool overrideBindIndex, uint32_t bindIndex, bool deleteAtShaderDestroy)
 {
     AEAssert(sampler != nullptr);
     if (sampler == nullptr)
@@ -854,7 +858,7 @@ AEResult ShaderProperties::AddSimpleBuffer(SimpleBuffer* simpleBuffer)
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::RemoveSimpleBuffer(const std::wstring& name)
+AEResult ShaderProperties::RemoveSimpleBuffer(const std::string& name)
 {
     if(!SimpleBufferExists(name))
     {
@@ -884,7 +888,7 @@ AEResult ShaderProperties::RemoveSimpleBuffer(const std::wstring& name)
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::OverrideSimpleBuffer(const std::wstring& name, SimpleBuffer* simpleBuffer, bool overwriteRW, bool setRW, bool overrideBindIndex, uint32_t bindIndex, bool deleteAtShaderDestroy)
+AEResult ShaderProperties::OverrideSimpleBuffer(const std::string& name, SimpleBuffer* simpleBuffer, bool overwriteRW, bool setRW, bool overrideBindIndex, uint32_t bindIndex, bool deleteAtShaderDestroy)
 {
     AEAssert(simpleBuffer != nullptr);
     if(simpleBuffer == nullptr)
@@ -960,7 +964,7 @@ AEResult ShaderProperties::AddStructuredBuffer(StructuredBuffer* structuredBuffe
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::RemoveStructuredBuffer(const std::wstring& name)
+AEResult ShaderProperties::RemoveStructuredBuffer(const std::string& name)
 {
     if(!StructuredBufferExists(name))
     {
@@ -991,7 +995,7 @@ AEResult ShaderProperties::RemoveStructuredBuffer(const std::wstring& name)
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::OverrideStructuredBuffer(const std::wstring& name, StructuredBuffer* structuredBuffer, bool overwriteRW, bool setRW, bool overrideBindIndex, uint32_t bindIndex, bool deleteAtShaderDestroy)
+AEResult ShaderProperties::OverrideStructuredBuffer(const std::string& name, StructuredBuffer* structuredBuffer, bool overwriteRW, bool setRW, bool overrideBindIndex, uint32_t bindIndex, bool deleteAtShaderDestroy)
 {
     AEAssert(structuredBuffer != nullptr);
     if(structuredBuffer == nullptr)
@@ -1067,7 +1071,7 @@ AEResult ShaderProperties::AddTextureArray(TextureArray* textureArray)
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::RemoveTextureArray(const std::wstring& name)
+AEResult ShaderProperties::RemoveTextureArray(const std::string& name)
 {
     if (!StructuredBufferExists(name))
     {
@@ -1098,7 +1102,7 @@ AEResult ShaderProperties::RemoveTextureArray(const std::wstring& name)
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::OverrideTextureArray(const std::wstring& name, TextureArray* textureArray, bool overrideBindIndex, uint32_t bindIndex, bool deleteAtShaderDestroy)
+AEResult ShaderProperties::OverrideTextureArray(const std::string& name, TextureArray* textureArray, bool overrideBindIndex, uint32_t bindIndex, bool deleteAtShaderDestroy)
 {
     AEAssert(textureArray != nullptr);
     if (textureArray == nullptr)
@@ -1168,37 +1172,37 @@ AEResult ShaderProperties::AddShaderTextureBinding(ShaderTextureBinding* stb)
     return AEResult::Ok;
 }
 
-bool ShaderProperties::ConstantBufferExists(const std::wstring& name) const
+bool ShaderProperties::ConstantBufferExists(const std::string& name) const
 {
     return (m_ConstantBufferMap.find(name) != m_ConstantBufferMap.end());
 }
 
-bool ShaderProperties::SamplerExists(const std::wstring& name) const
+bool ShaderProperties::SamplerExists(const std::string& name) const
 {
     return (m_SamplerMap.find(name) != m_SamplerMap.end());
 }
 
-bool ShaderProperties::SimpleBufferExists(const std::wstring& name) const
+bool ShaderProperties::SimpleBufferExists(const std::string& name) const
 {
     return (m_SimpleBufferMap.find(name) != m_SimpleBufferMap.end());
 }
 
-bool ShaderProperties::StructuredBufferExists(const std::wstring& name) const
+bool ShaderProperties::StructuredBufferExists(const std::string& name) const
 {
     return (m_StructuredBufferMap.find(name) != m_StructuredBufferMap.end());
 }
 
-bool ShaderProperties::ShaderTextureBindingExists(const std::wstring& name) const
+bool ShaderProperties::ShaderTextureBindingExists(const std::string& name) const
 {
     return (m_TextureBindingMap.find(name) != m_TextureBindingMap.end());
 }
 
-bool ShaderProperties::TextureArrayExists(const std::wstring& name) const
+bool ShaderProperties::TextureArrayExists(const std::string& name) const
 {
     return (m_TextureArrayMap.find(name) != m_TextureArrayMap.end());
 }
 
-ConstantBuffer* ShaderProperties::GetConstantBuffer(const std::wstring& name)
+ConstantBuffer* ShaderProperties::GetConstantBuffer(const std::string& name)
 {
     if(!ConstantBufferExists(name))
     {
@@ -1218,7 +1222,7 @@ ConstantBuffer* ShaderProperties::GetConstantBuffer(uint32_t index)
     return m_ConstantBufferVector[index];
 }
 
-Sampler* ShaderProperties::GetSampler(const std::wstring& name)
+Sampler* ShaderProperties::GetSampler(const std::string& name)
 {
     if (!SamplerExists(name))
     {
@@ -1238,7 +1242,7 @@ Sampler* ShaderProperties::GetSampler(uint32_t index)
     return m_SamplerVector[index]->m_Object;
 }
 
-SimpleBuffer* ShaderProperties::GetSimpleBuffer(const std::wstring& name)
+SimpleBuffer* ShaderProperties::GetSimpleBuffer(const std::string& name)
 {
     if(!SimpleBufferExists(name))
     {
@@ -1258,7 +1262,7 @@ SimpleBuffer* ShaderProperties::GetSimpleBuffer(uint32_t index)
     return m_SimpleBufferVector[index]->m_Object;
 }
 
-StructuredBuffer* ShaderProperties::GetStructuredBuffer(const std::wstring& name)
+StructuredBuffer* ShaderProperties::GetStructuredBuffer(const std::string& name)
 {
     if(!StructuredBufferExists(name))
     {
@@ -1278,7 +1282,7 @@ StructuredBuffer* ShaderProperties::GetStructuredBuffer(uint32_t index)
     return m_StructuredBufferVector[index]->m_Object;
 }
 
-const ShaderTextureBinding* ShaderProperties::GetShaderTextureBinding(const std::wstring& name) const
+const ShaderTextureBinding* ShaderProperties::GetShaderTextureBinding(const std::string& name) const
 {
     if(!ShaderTextureBindingExists(name))
     {
@@ -1298,7 +1302,7 @@ const ShaderTextureBinding* ShaderProperties::GetShaderTextureBinding(uint32_t i
     return m_TextureBindingVector[index];
 }
 
-TextureArray* ShaderProperties::GetTextureArray(const std::wstring& name)
+TextureArray* ShaderProperties::GetTextureArray(const std::string& name)
 {
     if (!TextureArrayExists(name))
     {
@@ -1363,7 +1367,7 @@ AEResult ShaderProperties::CopyVariableData(const ShaderProperties* otherShaderP
 
                     if(ret != AEResult::Ok)
                     {
-                        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_CB_SET_VALUE_ERR_MSG"), __FUNCTIONW__, thisShaderVar->m_Name, thisCB->GetName(), AE_Base::GetAEResultString(ret));
+                        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_CB_SET_VALUE_ERR_MSG"), __FUNCTION__, thisShaderVar->m_Name, thisCB->GetName(), AE_Base::GetAEResultString(ret));
                         AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
                     }
                 }
@@ -1398,7 +1402,7 @@ AEResult ShaderProperties::CopyVariableData(const ShaderProperties* otherShaderP
                     {
                         AERelease(reference);
 
-                        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"SHADER_TEX_BINDING_SET_ERR_MSG"), __FUNCTIONW__, thisTextBinding->GetName(), AE_Base::GetAEResultString(ret));
+                        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_TEX_BINDING_SET_ERR_MSG"), __FUNCTION__, thisTextBinding->GetName(), AE_Base::GetAEResultString(ret));
                         AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 
                         continue;
@@ -1433,7 +1437,7 @@ AEResult ShaderProperties::CopyVariableData(const ShaderProperties* otherShaderP
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::CopyTexturePairData(const std::wstring& textureName, const GameObjectAssetPair<Texture>& otherTexturePair)
+AEResult ShaderProperties::CopyTexturePairData(const std::string& textureName, const GameObjectAssetPair<Texture>& otherTexturePair)
 {
     if(m_TextureAssetMap.find(textureName) == m_TextureAssetMap.end())
     {

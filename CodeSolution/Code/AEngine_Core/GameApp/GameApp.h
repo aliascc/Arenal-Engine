@@ -23,16 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <mutex>
-#include <thread>
-#include <string>
-#include <stdint.h>
-#include <Windows.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -81,7 +75,7 @@ class GameApp abstract : public AEObject
         *************************/
 #pragma region Private Variables 
 
-#if defined(_DEBUG) || defined(PROFILE)
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
         GraphicDebugDX* m_GraphicDebugDX = nullptr;
 #endif
 
@@ -399,7 +393,7 @@ class GameApp abstract : public AEObject
 
         inline bool IsNewProject() const
         {
-            return (m_GameProject.m_ProjectName.compare(L"") == 0);
+            return (m_GameProject.m_ProjectName.compare("") == 0);
         }
 
         /// <summary>
@@ -467,13 +461,13 @@ class GameApp abstract : public AEObject
 
         AEResult RemoveComponent(GameComponent* gc);
 
-        AEResult RegisterGameService(const std::wstring& serviceName, GameService* gc);
+        AEResult RegisterGameService(const std::string& serviceName, GameService* gc);
 
-        AEResult UnRegisterGameService(const std::wstring& serviceName);
+        AEResult UnRegisterGameService(const std::string& serviceName);
 
-        AEResult InitGameApp(const std::wstring& configEngineFile, const std::wstring& configProjFile, std::wstring& errorMsg);
+        AEResult InitGameApp(const std::string& configEngineFile, const std::string& configProjFile, std::string& errorMsg);
 
-        GameService* GetGameServiceBase(const std::wstring& serviceName) const;
+        GameService* GetGameServiceBase(const std::string& serviceName) const;
 
         void ShutDownGameApp();
 
@@ -481,7 +475,7 @@ class GameApp abstract : public AEObject
 
         AEResult LoadGameProjectInfo();
 
-        AEResult CreateProjectFolder(const std::wstring& projectFolder, const std::wstring& projectName, bool createFolder);
+        AEResult CreateProjectFolder(const std::string& projectFolder, const std::string& projectName, bool createFolder);
 
         virtual void Initialize();
 
@@ -498,7 +492,7 @@ class GameApp abstract : public AEObject
         virtual void PostUpdate(const TimerParams& timerParams);
 
         template<class T>
-        T* GetGameService(const std::wstring& serviceName) const
+        T* GetGameService(const std::string& serviceName) const
         {
             return reinterpret_cast<T*>(GetGameServiceBase(serviceName));
         }

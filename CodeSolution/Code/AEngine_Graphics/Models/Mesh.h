@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -102,7 +100,7 @@ class Mesh : public GameResource
         /// </summary>
         /// <param name="graphicDevice">Graphic Device use to create Mesh</param>
         /// <param name="resourceName">Resource Name</param>
-        Mesh(GraphicDevice* graphicDevice, const std::wstring& resourceName);
+        Mesh(GraphicDevice* graphicDevice, const std::string& resourceName);
 
 #pragma endregion
 

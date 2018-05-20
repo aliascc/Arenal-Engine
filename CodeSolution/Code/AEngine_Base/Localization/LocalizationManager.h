@@ -23,11 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <set>
-#include <mutex>
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -57,9 +52,9 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 
     private:
 
-        typedef std::set<std::wstring> LiteralsSet;
+        typedef std::set<std::string> LiteralsSet;
 
-        typedef std::map<std::wstring, LiteralsSet> ExtendedLiteralsMap;
+        typedef std::map<std::string, LiteralsSet> ExtendedLiteralsMap;
 
         /************************
         *   Private Variables   *
@@ -84,17 +79,17 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <summary>
         /// Default Language
         /// </summary>
-        std::wstring m_DefaultLanguage = L"";
+        std::string m_DefaultLanguage = "";
 
         /// <summary>
         /// Engine File name where the Languages and their messages are
         /// </summary>
-        std::wstring m_FilenameEngine = L"";
+        std::string m_FilenameEngine = "";
 
         /// <summary>
         /// Project File name where the Languages and their messages are
         /// </summary>
-        std::wstring m_FilenameProject = L"";
+        std::string m_FilenameProject = "";
 
         /// <summary>
         /// Defines if Localization Manager is ready to run
@@ -126,7 +121,7 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <param name="name">Name of the Language</param>
         /// <param name="file">File from where to load</param>
         /// <returns>Returns AEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-        AEResult LoadLanguageLiterals(const std::wstring& name, const std::wstring& file);
+        AEResult LoadLanguageLiterals(const std::string& name, const std::string& file);
 
         /// <summary>
         /// Loads and specific Extended Languages from a file, its literals and messages
@@ -134,7 +129,7 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <param name="name">Name of the Language</param>
         /// <param name="file">File from where to load</param>
         /// <returns>Returns AEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-        AEResult LoadExtendedLanguageLiterals(const std::wstring& name, const std::wstring& file);
+        AEResult LoadExtendedLanguageLiterals(const std::string& name, const std::string& file);
 
         /// <summary>
         /// Clears all information from all of the Languages
@@ -152,28 +147,28 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <param name='enginePath'>Path to look for the language files for the engine localization file</param> 
         /// <param name='projectPath'>Path to look for the language files for the project localization file</param> 
         /// <returns>Returns AEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-        AEResult ReloadAllWithoutLock(const std::wstring& enginePath, const std::wstring& projectPath);
+        AEResult ReloadAllWithoutLock(const std::string& enginePath, const std::string& projectPath);
 
         /// <summary>
         /// Reloads Engine information for Localization Manager, does not lock the thread
         /// </summary>
         /// <param name='enginePath'>Path to look for the language files</param> 
         /// <returns>Returns AEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-        AEResult ReloadEngineWithoutLock(const std::wstring& enginePath);
+        AEResult ReloadEngineWithoutLock(const std::string& enginePath);
 
         /// <summary>
         /// Reloads Project information for Localization Manager, does not lock the thread
         /// </summary>
         /// <param name='projectPath'>Path to look for the language files</param> 
         /// <returns>Returns AEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-        AEResult ReloadProjectWithoutLock(const std::wstring& projectPath);
+        AEResult ReloadProjectWithoutLock(const std::string& projectPath);
 
         /// <summary>
         /// Sets the current default, does not lock the thread
         /// </summary>
         /// <param name='languageName'>Language to set</param>
         /// <returns>Returns AEResult::OK if Languages was set successfully, if not an appropriate error code</returns>
-        AEResult SetDefaultLanguageWithoutLock(const std::wstring& languageName);
+        AEResult SetDefaultLanguageWithoutLock(const std::string& languageName);
 
         /// <summary>
         /// Save Extended Literals from a language to an XML
@@ -182,7 +177,7 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <param name='literalSet'>Extended Literal Set</param>
         /// <param name='languageName'>Language of Literals</param>
         /// <returns>Returns AEResult::OK if it was successful</returns>
-        AEResult SaveToXMLExtentedLiteral(const std::wstring& filename, const LiteralsSet& literalSet, const std::wstring& languageName) const;
+        AEResult SaveToXMLExtentedLiteral(const std::string& filename, const LiteralsSet& literalSet, const std::string& languageName) const;
 
 #pragma endregion
 
@@ -223,7 +218,7 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// Gets the Current Default Language
         /// </summary>
         /// <returns>Returns AEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-        const std::wstring& GetDefaultLanguage() const;
+        const std::string& GetDefaultLanguage() const;
 
 #pragma endregion
 
@@ -238,7 +233,7 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <param name='file'>File from where to load the Localization Information</param> 
         /// <param name='enginePath'>Path to look for the language files</param> 
         /// <returns>Returns AEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-        AEResult Initialize(const std::wstring& file, const std::wstring& enginePath);
+        AEResult Initialize(const std::string& file, const std::string& enginePath);
 
         /// <summary>
         /// Reloads all of the information for Localization Manager
@@ -246,21 +241,21 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <param name='enginePath'>Path to look for the language files for the engine localization file</param> 
         /// <param name='projectPath'>Path to look for the language files for the project localization file</param> 
         /// <returns>Returns AEResult::OK if Languages was loaded successfully, if not an appropriate error code</returns>
-        AEResult ReloadAll(const std::wstring& enginePath, const std::wstring& projectPath);
+        AEResult ReloadAll(const std::string& enginePath, const std::string& projectPath);
 
         /// <summary>
         /// Gets a Literal
         /// </summary>
         /// <param name='literalName'>Name of the literal to get</param>
         /// <returns>Returns Literal if found, if not, just returns AE_LOC_LANG_DEFAULT_LITERAL</returns>
-        const std::wstring& GetLiteral(const std::wstring& literalName);
+        const std::string& GetLiteral(const std::string& literalName);
 
         /// <summary>
         /// Sets the current default
         /// </summary>
         /// <param name='languageName'>Language to set</param>
         /// <returns>Returns AEResult::OK if Languages was set successfully, if not an appropriate error code</returns>
-        AEResult SetDefaultLanguage(const std::wstring& languageName);
+        AEResult SetDefaultLanguage(const std::string& languageName);
 
         /// <summary>
         /// Load Project Localization
@@ -268,14 +263,14 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <param name='filename'>Localization Project Filename</param>
         /// <param name='projectPath'>Path to look for the language files for the project localization file</param> 
         /// <returns>Returns AEResult::OK if it was successful</returns>
-        AEResult LoadProjectFile(const std::wstring& filename, const std::wstring& projectPath);
+        AEResult LoadProjectFile(const std::string& filename, const std::string& projectPath);
 
         /// <summary>
         /// Add a Language to Extend
         /// </summary>
         /// <param name='languageName'>Language to Extend</param>
         /// <returns>Returns AEResult::OK if it was successful</returns>
-        AEResult AddExtendedLanguage(const std::wstring& languageName);
+        AEResult AddExtendedLanguage(const std::string& languageName);
 
         /// <summary>
         /// Add Extended Literal
@@ -284,14 +279,14 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <param name='literalName'>Literal Name</param>
         /// <param name='literalMessage'>Literal Message</param>
         /// <returns>Returns AEResult::OK if it was successful</returns>
-        AEResult AddExtendedLiteral(const std::wstring& languageName, const std::wstring& literalName, const std::wstring& literalMessage);
+        AEResult AddExtendedLiteral(const std::string& languageName, const std::string& literalName, const std::string& literalMessage);
 
         /// <summary>
         /// Remove Extended Language
         /// </summary>
         /// <param name='languageName'>Extended Language</param>
         /// <returns>Returns AEResult::OK if it was successful</returns>
-        AEResult RemoveExtendedLanguage(const std::wstring& languageName);
+        AEResult RemoveExtendedLanguage(const std::string& languageName);
 
         /// <summary>
         /// Remove Extended Literal
@@ -299,7 +294,7 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <param name='languageName'>Extended Language</param>
         /// <param name='literalName'>Literal Name</param>
         /// <returns>Returns AEResult::OK if it was successful</returns>
-        AEResult RemoveExtendedLiteral(const std::wstring& languageName, const std::wstring& literalName);
+        AEResult RemoveExtendedLiteral(const std::string& languageName, const std::string& literalName);
 
         /// <summary>
         /// Save All Extended Literals to XML
@@ -307,7 +302,7 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <param name='filename'>Filename to extend</param>
         /// <param name='projectDir'>Project Directory</param>
         /// <returns>Returns AEResult::OK if it was successful</returns>
-        AEResult SaveToXML(const std::wstring& filename, const std::wstring& projectDir) const;
+        AEResult SaveToXML(const std::string& filename, const std::string& projectDir) const;
 
 #pragma endregion
 

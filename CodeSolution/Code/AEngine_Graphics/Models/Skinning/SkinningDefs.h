@@ -23,14 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <list>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
-#include "glm\gtc\quaternion.hpp"
 
 /***************************
 *   Game Engine Includes   *

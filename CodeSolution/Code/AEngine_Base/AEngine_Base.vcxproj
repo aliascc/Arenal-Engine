@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
@@ -33,7 +33,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -62,18 +62,19 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>GLM_FORCE_RADIANS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\GLM\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <MultiProcessorCompilation>
-      </MultiProcessorCompilation>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>
+      </MinimalRebuild>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeaderFile>precomp_base.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -84,17 +85,20 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>GLM_FORCE_RADIANS;WIN32;NDEBUG;_WINDOWS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\GLM\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <MultiProcessorCompilation>
-      </MultiProcessorCompilation>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PrecompiledHeaderFile>precomp_base.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -110,6 +114,7 @@
     <ClInclude Include="Base\BaseFunctions.h" />
     <ClInclude Include="Base\BaseLocations.h" />
     <ClInclude Include="Base\Named.h" />
+    <ClInclude Include="Base\ProjectConfig.h" />
     <ClInclude Include="Base\UniqueAEObject.h" />
     <ClInclude Include="Base\UniqueAEObjectNamed.h" />
     <ClInclude Include="Color\AEColorDefs.h" />
@@ -122,6 +127,7 @@
     <ClInclude Include="Logger\LoggerDefs.h" />
     <ClInclude Include="Math\AEMathDefs.h" />
     <ClInclude Include="Memory\MemLeaks.h" />
+    <ClInclude Include="precomp_base.h" />
     <ClInclude Include="Resource\GameResource.h" />
     <ClInclude Include="Resource\GameResourceDefs.h" />
     <ClInclude Include="Resource\GameResourceManager.h" />
@@ -153,6 +159,10 @@
     <ClCompile Include="Logger\LoggerDefs.cpp" />
     <ClCompile Include="Math\AEMathDefs.cpp" />
     <ClCompile Include="Memory\MemLeaks.cpp" />
+    <ClCompile Include="precomp_base.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Resource\GameResource.cpp" />
     <ClCompile Include="Resource\GameResourceManager.cpp" />
     <ClCompile Include="Time\AETime.cpp" />

@@ -23,13 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -86,7 +83,7 @@ struct VertexPositionColor
 
         m_VertexLayout = new VertexLayout();
 
-        AEResult ret = m_VertexLayout->BuildVertexLayout(graphicDevice, DummyVertexPositionColor, sizeof(DummyVertexPositionColor), vertexDesc, 2, L"VertexPositionColorLayout");
+        AEResult ret = m_VertexLayout->BuildVertexLayout(graphicDevice, DummyVertexPositionColor, sizeof(DummyVertexPositionColor), vertexDesc, 2, "VertexPositionColorLayout");
 
         if(ret != AEResult::Ok)
         {

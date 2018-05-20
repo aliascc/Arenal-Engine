@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -58,8 +63,8 @@ AEResult AudioAddOnAS::Register(asIScriptEngine* engine)
     if (RegisterAudioPlayerObject(engine) != AEResult::Ok)
     {
         AETODO("Add Log and return");
-        std::wstring errMsg = L"";
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_TIME_ERR_MSG"), __FUNCTIONW__);
+        std::string errMsg = "";
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_TIME_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;

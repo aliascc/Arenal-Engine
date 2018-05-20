@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_physics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,15 +27,11 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Logger\Logger.h"
 #include "ErrorCallbackPhysX.h"
-#include "Base\BaseFunctions.h"
-#include "Localization\LocalizationManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -98,8 +99,6 @@ void ErrorCallbackPhysX::reportError(physx::PxErrorCode::Enum code, const char* 
             break;
     }
 
-    std::wstring wMessage        = AE_Base::String2WideStr(message);
-
-    std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"PHYSICS_ENGINE_CALLBACK_ERR_MSG"), wMessage);
+    std::string errMsg = fmt::format(AELOCMAN->GetLiteral("PHYSICS_ENGINE_CALLBACK_ERR_MSG"), message);
     AELOGGER->AddNewLog(logLVL, errMsg);
 }

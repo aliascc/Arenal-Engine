@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -40,7 +45,7 @@
 *********************/
 
 AETODO("Check if this class needs a mutex");
-AudioAsset::AudioAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, AudioManager* audioManager)
+AudioAsset::AudioAsset(const std::string& filePath, GameResourceManager* gameResourceManager, AudioManager* audioManager)
     : GameAsset(GameContentType::Audio, filePath, gameResourceManager)
     , m_AudioManager(audioManager)
 {

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -75,9 +80,9 @@ AEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 
     if (RegisterObjects(engine) != AEResult::Ok)
     {
-        std::wstring errMsg = L"";
+        std::string errMsg = "";
         AETODO("Add Log & Wrong Literal Change");
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -85,9 +90,9 @@ AEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 
     if (RegisterGCBasicPropsObject(engine) != AEResult::Ok)
     {
-        std::wstring errMsg = L"";
+        std::string errMsg = "";
         AETODO("Add Log & Wrong Literal Change");
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -95,9 +100,9 @@ AEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 
     if (RegisterGameComponentCollectionObject(engine) != AEResult::Ok)
     {
-        std::wstring errMsg = L"";
+        std::string errMsg = "";
         AETODO("Add Log & Wrong Literal Change");
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -105,9 +110,9 @@ AEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 
     if (RegisterGameComponentCollectionObjectPointer(engine) != AEResult::Ok)
     {
-        std::wstring errMsg = L"";
+        std::string errMsg = "";
         AETODO("Add Log & Wrong Literal Change");
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -115,9 +120,9 @@ AEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 
     if (RegisterGameObjectScriptInterface(engine) != AEResult::Ok)
     {
-        std::wstring errMsg = L"";
+        std::string errMsg = "";
         AETODO("Add Log & Wrong Literal Change");
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -125,9 +130,9 @@ AEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 
     if (RegisterGameObjectScriptManagerObject(engine) != AEResult::Ok)
     {
-        std::wstring errMsg = L"";
+        std::string errMsg = "";
         AETODO("Add Log & Wrong Literal Change");
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -135,9 +140,9 @@ AEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 
     if (RegisterGameObjectScriptManagerObjectPointer(engine) != AEResult::Ok)
     {
-        std::wstring errMsg = L"";
+        std::string errMsg = "";
         AETODO("Add Log & Wrong Literal Change");
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -145,9 +150,9 @@ AEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 
     if (RegisterGameObjectObject(engine) != AEResult::Ok)
     {
-        std::wstring errMsg = L"";
+        std::string errMsg = "";
         AETODO("Add Log & Wrong Literal Change");
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -155,9 +160,9 @@ AEResult GameCoreAddOnAS::Register(asIScriptEngine* engine)
 
     if (RegisterAudioSourceGOCObject(engine) != AEResult::Ok)
     {
-        std::wstring errMsg = L"";
+        std::string errMsg = "";
         AETODO("Add Log & Wrong Literal Change");
-        //fmt::format(m_LocalizationManager->GetLiteral(L"AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTIONW__);
+        //fmt::format(m_LocalizationManager->GetLiteral("AS_REG_BASIC_LOGGER_ERR_MSG"), __FUNCTION__);
         //m_Logger->AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
@@ -433,7 +438,7 @@ AEResult GameCoreAddOnAS::RegisterGameObjectObject(asIScriptEngine* engine)
         return AEResult::RegObjMethodFail;
     }
 
-    ret = engine->RegisterObjectMethod("GameObject", "AudioSourceGOC@ GetAudioSourceGOC(const wstring&in)", asMETHODPR(GameObject, GetAudioSourceGOC, (const std::wstring&), AudioSourceGOC*), asCALL_THISCALL);
+    ret = engine->RegisterObjectMethod("GameObject", "AudioSourceGOC@ GetAudioSourceGOC(const wstring&in)", asMETHODPR(GameObject, GetAudioSourceGOC, (const std::string&), AudioSourceGOC*), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;

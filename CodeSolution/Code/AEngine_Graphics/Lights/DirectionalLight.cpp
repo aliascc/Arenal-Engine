@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -34,7 +39,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DirectionalLight::DirectionalLight(const std::wstring& name, const glm::vec3& position, const glm::vec3& direction, const Color& color, float nearAtteniation, float farAttenuation, float intensity, bool enabled)
+DirectionalLight::DirectionalLight(const std::string& name, const glm::vec3& position, const glm::vec3& direction, const Color& color, float nearAtteniation, float farAttenuation, float intensity, bool enabled)
     : Light(LightType::Directional, name, position, direction, color, farAttenuation, nearAtteniation, intensity, enabled)
 {
 }

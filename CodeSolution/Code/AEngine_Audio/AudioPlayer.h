@@ -23,19 +23,15 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
-#include "SFML\Audio.hpp"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
 #include "AudioDefs.h"
-#include "Base\AEObject.h"
 
 /********************
 *   Forward Decls   *

@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <fstream>
 
 /*************************
 *   3rd Party Includes   *
@@ -52,13 +50,13 @@ struct ShaderContent;
 class WriterHLSL sealed : public AEObject
 {
     private:
-        std::wstring m_FileName = L"";
+        std::string m_FileName = "";
 
-        std::wstring m_FilePath = L"";
+        std::string m_FilePath = "";
 
-        std::wstring m_FullFileName = L"";
+        std::string m_FullFileName = "";
 
-        AEResult GetExtensionForShader(ShaderType type, std::wstring& extension);
+        AEResult GetExtensionForShader(ShaderType type, std::string& extension);
 
         AEResult WriteShaderByteCode(std::ofstream& fileStream, ShaderContent* content);
 
@@ -78,13 +76,13 @@ class WriterHLSL sealed : public AEObject
         WriterHLSL();
         virtual ~WriterHLSL();
 
-        const std::wstring& GetOutputFilePath() const 
+        const std::string& GetOutputFilePath() const 
         {
             return m_FullFileName;
         }
 
         //Framework
-        AEResult WriteToFile(ShaderContent* content, const std::wstring& fileName, const std::wstring& filePath);
+        AEResult WriteToFile(ShaderContent* content, const std::string& fileName, const std::string& filePath);
 };
 
 #endif

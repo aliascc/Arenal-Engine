@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -30,8 +35,8 @@
 /****************
 *   Constants   *
 *****************/
-const std::wstring AE_LOC_LANG_DEFAULT_LITERAL    = L"NO LITERAL FOUND!";
-const std::wstring AE_LOC_LANG_NO_LANGUAGE        = L"NO LANGUAGE FOUND!";
+const std::string AE_LOC_LANG_DEFAULT_LITERAL    = "NO LITERAL FOUND!";
+const std::string AE_LOC_LANG_NO_LANGUAGE        = "NO LANGUAGE FOUND!";
 
 /********************
 *   Function Defs   *
@@ -43,11 +48,11 @@ const std::wstring AE_LOC_LANG_NO_LANGUAGE        = L"NO LANGUAGE FOUND!";
 #pragma region Struct LocalizationLiteral
 
 LocalizationLiteral::LocalizationLiteral()
-    : Named(L"")
+    : Named("")
 {
 }
 
-LocalizationLiteral::LocalizationLiteral(const std::wstring& name, const std::wstring& message)
+LocalizationLiteral::LocalizationLiteral(const std::string& name, const std::string& message)
     : Named(name)
     , m_Msg(message)
 {

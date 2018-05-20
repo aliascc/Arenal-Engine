@@ -23,22 +23,15 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
-#include "PxPhysicsAPI.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "PhysicsDefs.h"
-#include "Math\AEMathDefs.h"
-#include "Base\UniqueAEObject.h"
 #include "Utils\GraphicUtilsDefs.h"
 
 /********************

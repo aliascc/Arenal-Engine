@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -39,7 +44,7 @@
 *   Function Defs   *
 *********************/
 AETODO("add mutex");
-DrawableGameComponent::DrawableGameComponent(GameApp* gameApp, const std::wstring& name, uint32_t callOrder)
+DrawableGameComponent::DrawableGameComponent(GameApp* gameApp, const std::string& name, uint32_t callOrder)
     : GameComponent(gameApp, name, callOrder)
 {
     AEAssert(gameApp != nullptr);

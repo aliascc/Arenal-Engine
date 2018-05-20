@@ -6,12 +6,14 @@
     <ClCompile Include="Tests\TestHDR.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="precomp_viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewerApp.h" />
     <ClInclude Include="Tests\TestHDR.h">
       <Filter>Tests</Filter>
     </ClInclude>
+    <ClInclude Include="precomp_viewer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">

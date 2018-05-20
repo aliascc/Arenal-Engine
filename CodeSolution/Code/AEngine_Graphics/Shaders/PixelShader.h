@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -102,7 +99,7 @@ class PixelShader : public Shader
         /// </summary>
         /// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
         /// <param name="name">Name of Shader</param>
-        PixelShader(GraphicDevice* graphicDevice, const std::wstring& name = L"");
+        PixelShader(GraphicDevice* graphicDevice, const std::string& name = "");
 
 #pragma endregion
         

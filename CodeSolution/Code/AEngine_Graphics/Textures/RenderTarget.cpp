@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -39,7 +43,7 @@
 /********************
 *   Function Defs   *
 *********************/
-RenderTarget::RenderTarget(GraphicDevice* graphicDevice, const std::wstring& renderTargetName)
+RenderTarget::RenderTarget(GraphicDevice* graphicDevice, const std::string& renderTargetName)
     : ITexture2D(graphicDevice, renderTargetName)
 {
 }
@@ -114,7 +118,7 @@ AEResult RenderTarget::InitializeRenderTarget(uint32_t width, uint32_t height, D
         return AEResult::CreateTextureFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_RT_T_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_RT_T_NAME_PREFIX + m_Name);
 
     AETODO("Check Shader Resource Desc");
     hr = m_GraphicDevice->GetDeviceDX()->CreateShaderResourceView(m_TextureDX, nullptr, &m_ShaderResourceView);
@@ -129,7 +133,7 @@ AEResult RenderTarget::InitializeRenderTarget(uint32_t width, uint32_t height, D
         return AEResult::CreateSRViewFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_RT_SRV_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_RT_SRV_NAME_PREFIX + m_Name);
 
     AETODO("Check Render Target Desc");
     hr = m_GraphicDevice->GetDeviceDX()->CreateRenderTargetView(m_TextureDX, nullptr, &m_RenderTargetDX);
@@ -145,7 +149,7 @@ AEResult RenderTarget::InitializeRenderTarget(uint32_t width, uint32_t height, D
         return AEResult::CreateRTViewFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11RenderTargetView>(m_RenderTargetDX, AE_DEBUG_RT_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11RenderTargetView>(m_RenderTargetDX, AE_DEBUG_RT_NAME_PREFIX + m_Name);
 
     m_Width = width;
     m_Height = height;

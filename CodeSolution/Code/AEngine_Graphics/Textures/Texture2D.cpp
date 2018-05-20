@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,8 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
-#include "DirectXTex\DirectXTex.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -42,7 +45,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Texture2D::Texture2D(GraphicDevice* graphicDevice, const std::wstring& textureName)
+Texture2D::Texture2D(GraphicDevice* graphicDevice, const std::string& textureName)
     : ITexture2D(graphicDevice, textureName)
 {
 }
@@ -78,7 +81,7 @@ AEResult Texture2D::CreateTexture(uint32_t width, uint32_t height, DXGI_FORMAT f
     //Clean up memory for new load
     CleanUp();
 
-    m_Filename = L"";
+    m_Filename = "";
     m_FromFile = false;
 
     m_Height = 0;
@@ -116,7 +119,7 @@ AEResult Texture2D::CreateTexture(uint32_t width, uint32_t height, DXGI_FORMAT f
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Shader Resource View
@@ -139,7 +142,7 @@ AEResult Texture2D::CreateTexture(uint32_t width, uint32_t height, DXGI_FORMAT f
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Finish
@@ -170,7 +173,7 @@ AEResult Texture2D::CreateColorTexture(uint32_t width, uint32_t height, const Co
     //Clean up memory for new load
     CleanUp();
 
-    m_Filename = L"";
+    m_Filename = "";
     m_FromFile = false;
 
     m_Height = 0;
@@ -224,7 +227,7 @@ AEResult Texture2D::CreateColorTexture(uint32_t width, uint32_t height, const Co
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Shader Resource View
@@ -247,7 +250,7 @@ AEResult Texture2D::CreateColorTexture(uint32_t width, uint32_t height, const Co
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Finish
@@ -257,7 +260,7 @@ AEResult Texture2D::CreateColorTexture(uint32_t width, uint32_t height, const Co
     return AEResult::Ok;
 }
 
-AEResult Texture2D::CreateFromFile(const std::wstring& textureFile)
+AEResult Texture2D::CreateFromFile(const std::string& textureFile)
 {
     m_Filename = textureFile;
     m_FromFile = true;
@@ -304,10 +307,11 @@ AEResult Texture2D::Load()
     HRESULT hr = S_OK;
     DirectX::TexMetadata texMetadata;
     DirectX::ScratchImage scratchImage;
+    std::wstring fileNameW = AE_Base::String2WideStr(m_Filename);
 
     /////////////////////////////////////////////////////////////
     //Use DirectX Tex to get meta data from file
-    hr = GetMetadataFromDDSFile(m_Filename.c_str(), DirectX::DDS_FLAGS_NONE, texMetadata);
+    hr = GetMetadataFromDDSFile(fileNameW.c_str(), DirectX::DDS_FLAGS_NONE, texMetadata);
 
     if(hr != S_OK)
     {
@@ -325,7 +329,7 @@ AEResult Texture2D::Load()
 
     /////////////////////////////////////////////////////////////
     //Load file with DirectX Tex
-    hr = LoadFromDDSFile(m_Filename.c_str(), DirectX::DDS_FLAGS_NONE, &texMetadata, scratchImage);
+    hr = LoadFromDDSFile(fileNameW.c_str(), DirectX::DDS_FLAGS_NONE, &texMetadata, scratchImage);
 
     if(hr != S_OK)
     {
@@ -349,7 +353,7 @@ AEResult Texture2D::Load()
 
     m_TextureDX = reinterpret_cast<ID3D11Texture2D*>(resource);
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Shader Resource View
@@ -372,7 +376,7 @@ AEResult Texture2D::Load()
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Set Width and Height

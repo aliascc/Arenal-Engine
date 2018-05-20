@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -38,7 +43,7 @@
 *   Function Defs   *
 *********************/
 AETODO("add mutex");
-GameComponent::GameComponent(GameApp* gameApp, const std::wstring& name, uint32_t callOrder)
+GameComponent::GameComponent(GameApp* gameApp, const std::string& name, uint32_t callOrder)
     : GameService(name)
     , m_GameApp(gameApp)
     , m_CallOrder(callOrder)

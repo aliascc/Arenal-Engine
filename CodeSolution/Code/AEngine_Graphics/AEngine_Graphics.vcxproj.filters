@@ -317,6 +317,7 @@
     <ClInclude Include="Wrappers\SpriteBatchAE.h">
       <Filter>Wrappers</Filter>
     </ClInclude>
+    <ClInclude Include="precomp_graphics.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicDevice.cpp" />
@@ -525,5 +526,6 @@
     <ClCompile Include="Wrappers\SpriteBatchAE.cpp">
       <Filter>Wrappers</Filter>
     </ClCompile>
+    <ClCompile Include="precomp_graphics.cpp" />
   </ItemGroup>
 </Project>

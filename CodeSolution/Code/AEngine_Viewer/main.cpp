@@ -15,11 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_viewer.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <Windows.h>
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -29,11 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "ViewerApp.h"
-#include "Crash Handling\CrashHandler.h"
-#include "Crash Handling\CrashHandlerDefs.h"
-
-//Always include last
-#include "Memory\MemLeaks.h"
 
 /********************
 *   Function Defs   *
@@ -41,13 +39,7 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
                    PSTR cmdLine, int showCmd)
 {
-    if (CrashHandlerInst->InitCrashHandling() != AEResult::Ok)
-    {
-        AETODO("Add error window");
-        return EXIT_FAILURE;
-    }
-
-    std::wstring errorMsg = L"";
+    std::string errorMsg = "";
 
     ViewerApp app(hInstance);
 
@@ -59,8 +51,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
     }
 
     app.Run();
-
-    CrashHandlerInst->DeinitCrashHandling();
 
     return EXIT_SUCCESS;
 }

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -38,7 +43,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-MeshAsset::MeshAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice)
+MeshAsset::MeshAsset(const std::string& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice)
     : GameAsset(GameContentType::Mesh, filePath, gameResourceManager)
     , m_GraphicDevice(graphicDevice)
 {

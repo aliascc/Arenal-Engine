@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -37,7 +42,7 @@
 /********************
 *   Function Defs   *
 *********************/
-VertexShader::VertexShader(GraphicDevice* graphicDevice, const std::wstring& name)
+VertexShader::VertexShader(GraphicDevice* graphicDevice, const std::string& name)
     : Shader(graphicDevice, ShaderType::VertexShader, name)
 {
 }
@@ -73,7 +78,7 @@ AEResult VertexShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_
     ReleaseCOM(m_VSDX);
     m_VSDX = tempDX;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11VertexShader>(m_VSDX, AE_DEBUG_VS_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11VertexShader>(m_VSDX, AE_DEBUG_VS_NAME_PREFIX + m_Name);
     
     return AEResult::Ok;
 }

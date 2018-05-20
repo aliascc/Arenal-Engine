@@ -23,19 +23,14 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <set>
-#include <vector>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "angelscript.h"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 
 /************
 *   Using   *
@@ -148,7 +143,7 @@ class AngelScriptManager sealed : public AEObject
         /// <param name='module'>Module on which script will be loaded, module can not exist</param>
         /// <param name='asModule'>If Module exist Angel Script Module will be assigned to this parameter if non null</param>
         /// <returns>Return Ok if script was loaded was successfully</returns>
-        AEResult LoadScript(const std::wstring& scriptName, const std::wstring& module, asIScriptModule** asModule = nullptr);
+        AEResult LoadScript(const std::string& scriptName, const std::string& module, asIScriptModule** asModule = nullptr);
 
         /// <summary>
         /// Loads Scripts to Memory
@@ -157,14 +152,14 @@ class AngelScriptManager sealed : public AEObject
         /// <param name='module'>Module on which the scripts will be loaded, module can not exist</param>
         /// <param name='asModule'>If Module exist or is created, Angel Script Module will be assigned to this parameter if non null</param>
         /// <returns>Return Ok if the scripts were loaded was successfully</returns>
-        AEResult LoadScript(const std::vector<std::wstring>& scriptNames, const std::wstring& module, asIScriptModule** asModule = nullptr);
+        AEResult LoadScript(const std::vector<std::string>& scriptNames, const std::string& module, asIScriptModule** asModule = nullptr);
 
         /// <summary>
         /// Removes a Module from Memory
         /// </summary>
         /// <param name='module'>Module Name to remove</param>
         /// <returns>Return Ok if module was removed was successfully</returns>
-        AEResult RemoveModule(const std::wstring& module);
+        AEResult RemoveModule(const std::string& module);
 
 #pragma endregion
 

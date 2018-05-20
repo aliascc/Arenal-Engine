@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -51,9 +55,9 @@ AELog::AELog()
 {
 }
 
-std::wstring AELog::ToString() const
+std::string AELog::ToString() const
 {
-    std::wstring fileLine = fmt::format(L"{0}-({1}): {2}- \'{3}\'\n", m_LogLine, m_TimeStamp.ToString(), AELogHelpers::LogLevelStr(m_Level), m_Log);
+    std::string fileLine = fmt::format("{0}-({1}): {2}- \'{3}\'\n", m_LogLine, m_TimeStamp.ToString(), AELogHelpers::LogLevelStr(m_Level), m_Log);
 
     return fileLine;
 }
@@ -74,50 +78,50 @@ AELog& AELog::operator=(const AELog &other)
 namespace AELogHelpers
 {
 
-    std::wstring AELogHelpers::LogLevelStr(LogLevel lvl)
+    std::string AELogHelpers::LogLevelStr(LogLevel lvl)
     {
         switch (lvl)
         {
             case LogLevel::None:
-                return L"NONE";
+                return "NONE";
 
             case LogLevel::Info:
-                return L"INFO";
+                return "INFO";
 
             case LogLevel::Warning:
-                return L"WARNING";
+                return "WARNING";
 
             case LogLevel::Error:
-                return L"ERROR";
+                return "ERROR";
 
             case LogLevel::Debug:
-                return L"DEBUG";
+                return "DEBUG";
         }
 
         AEAssert(false);
 
-        return L"";
+        return "";
     }
 
-    LogLevel AELogHelpers::Str2LogLevel(std::wstring lvl)
+    LogLevel AELogHelpers::Str2LogLevel(std::string lvl)
     {
-        if (lvl.compare(L"NONE") == 0)
+        if (lvl.compare("NONE") == 0)
         {
             return LogLevel::None;
         }
-        else if (lvl.compare(L"INFO") == 0)
+        else if (lvl.compare("INFO") == 0)
         {
             return LogLevel::Info;
         }
-        else if (lvl.compare(L"WARNING") == 0)
+        else if (lvl.compare("WARNING") == 0)
         {
             return LogLevel::Warning;
         }
-        else if (lvl.compare(L"ERROR") == 0)
+        else if (lvl.compare("ERROR") == 0)
         {
             return LogLevel::Error;
         }
-        else if (lvl.compare(L"DEBUG") == 0)
+        else if (lvl.compare("DEBUG") == 0)
         {
             return LogLevel::Debug;
         }

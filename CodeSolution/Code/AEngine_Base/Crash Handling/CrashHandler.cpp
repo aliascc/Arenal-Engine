@@ -15,17 +15,18 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <Windows.h>
-#include <DbgHelp.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
-#include "boost\filesystem.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -90,7 +91,7 @@ void CrashHandler::CreateCoreDump(PEXCEPTION_POINTERS exceptionInfo)
     AE_Base::GetDate(timeStamp);    
 
     //Get Core Dump File
-    std::wstring coreDumpFileName = fmt::format(AE_CONFIG_ENGINE_CORE_DUMP, timeStamp.ToString());
+    std::string coreDumpFileName = fmt::format(AE_CONFIG_ENGINE_CORE_DUMP, timeStamp.ToString());
 
     //Open File using Window Handles
     HANDLE hFile = CreateFile(coreDumpFileName.c_str(), GENERIC_ALL, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);

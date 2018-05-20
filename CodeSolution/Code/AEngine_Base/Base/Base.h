@@ -27,10 +27,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <sstream>
-#include <stdlib.h>
-#include <stdint.h>
 
 /***************************
 *   Game Engine Includes   *
@@ -39,12 +35,6 @@
 /**************
 *   Defines   *
 ***************/
-
-//Uncomment for verbose deleting and releasing
-//or define in the CPP where delete or release is
-//taking place
-//#define AE_DEBUG_DEL_PRINT_VAR_NAME
-//#define AE_DEBUG_REL_PRINT_VAR_NAME
 
 #define _AEWSTR(x)  L#x
 #define _AESTR(x)   #x 
@@ -91,24 +81,25 @@
                             x = nullptr;    \
                         }
 
+#if defined(AE_DEBUG_REL_PRINT_VAR_NAME)
+#define ReleaseCOM(x)   if(x != nullptr)                                                                        \
+                        {                                                                                       \
+                            uint32_t rel = x->Release();                                                        \
+                            x = nullptr;                                                                        \
+                            std::stringstream sst;                                                              \
+                            sst << rel;                                                                         \
+                            std::string file(__FILEW__);                                                        \
+                            std::string line(AESTR(__LINE__));                                                  \
+                            std::string mvName = std::string("Release DirectX Var: ") + std::string(AESTR(x));  \
+                            std::string rem = std::string(", remaining: ") + sst.str();                         \
+                            std::string output = file + "(" + line + "): " + mvName + rem + "\n";               \
+                            OutputDebugString(output.c_str());                                                  \
+                        }
+#else
+
 /// <summary>
 /// Release DirectX COM Interfaces
 /// </summary>
-#if defined(_DEBUG) && defined(AE_DEBUG_REL_PRINT_VAR_NAME)
-#define ReleaseCOM(x)   if(x != nullptr)                                                                            \
-                        {                                                                                           \
-                            uint32_t rel = x->Release();                                                            \
-                            x = nullptr;                                                                            \
-                            std::wstringstream sst;                                                                 \
-                            sst << rel;                                                                             \
-                            std::wstring file(__FILEW__);                                                           \
-                            std::wstring line(AEWSTR(__LINE__));                                                    \
-                            std::wstring mvName = std::wstring(L"Release DirectX Var: ") + std::wstring(AEWSTR(x)); \
-                            std::wstring rem = std::wstring(L", remaining: ") + sst.str();                          \
-                            std::wstring output = file + L"(" + line + L"): " + mvName + rem + L"\n";               \
-                            OutputDebugString(output.c_str());                                                      \
-                        }
-#else
 #define ReleaseCOM(x)    if(x != nullptr)   \
                         {                   \
                             x->Release();   \
@@ -116,6 +107,18 @@
                         }
 #endif
 
+#if defined(AE_DEBUG_DEL_PRINT_VAR_NAME)
+#define DeleteMem(x)    if(x != nullptr)                                                                    \
+                        {                                                                                   \
+                            delete x;                                                                       \
+                            x = nullptr;                                                                    \
+                            std::string file(__FILEW__);                                                    \
+                            std::string line(AESTR(__LINE__));                                              \
+                            std::string vname = std::string("Deleting Pointer: ") + std::string(AESTR(x));  \
+                            std::string output = file + "(" + line + "): " + vname + "\n";                  \
+                            OutputDebugString(output.c_str());                                              \
+                        }
+#else
 
 /// <summary>
 /// Deletes a pointer. Checks that the pointer is not null
@@ -124,24 +127,25 @@
 /// <remarks>
 /// This should be use instead of 'delete'
 /// </remarks>
-#if defined(_DEBUG) && defined(AE_DEBUG_DEL_PRINT_VAR_NAME)
-#define DeleteMem(x)    if(x != nullptr)                                                                        \
-                        {                                                                                       \
-                            delete x;                                                                           \
-                            x = nullptr;                                                                        \
-                            std::wstring file(__FILEW__);                                                       \
-                            std::wstring line(AEWSTR(__LINE__));                                                \
-                            std::wstring vname = std::wstring(L"Deleting Pointer: ") + std::wstring(AEWSTR(x)); \
-                            std::wstring output = file + L"(" + line + L"): " + vname + L"\n";                  \
-                            OutputDebugString(output.c_str());                                                  \
-                        }
-#else
 #define DeleteMem(x)    if(x != nullptr)    \
                         {                   \
                             delete x;       \
                             x = nullptr;    \
                         }
 #endif
+
+#if defined(AE_DEBUG_DEL_PRINT_VAR_NAME)
+#define DeleteMemArr(x) if(x != nullptr)                                                                            \
+                        {                                                                                           \
+                            delete[] x;                                                                             \
+                            x = nullptr;                                                                            \
+                            std::string file(__FILEW__);                                                            \
+                            std::string line(AESTR(__LINE__));                                                      \
+                            std::string vname = std::string("Deleting Pointer Array: ") + std::string(AESTR(x));    \
+                            std::string output = file + "(" + line + "): " + vname + "\n";                          \
+                            OutputDebugString(output.c_str());                                                      \
+                        }
+#else
 
 /// <summary>
 /// Deletes a Array pointer. Checks that the pointer is not null
@@ -150,18 +154,6 @@
 /// <remarks>
 /// This should be use instead of 'delete[]'
 /// </remarks>
-#if defined(_DEBUG) && defined(AE_DEBUG_DEL_PRINT_VAR_NAME)
-#define DeleteMemArr(x) if(x != nullptr)                                                                                \
-                        {                                                                                               \
-                            delete[] x;                                                                                 \
-                            x = nullptr;                                                                                \
-                            std::wstring file(__FILEW__);                                                               \
-                            std::wstring line(AEWSTR(__LINE__));                                                        \
-                            std::wstring vname = std::wstring(L"Deleting Pointer Array: ") + std::wstring(AEWSTR(x));   \
-                            std::wstring output = file + L"(" + line + L"): " + vname + L"\n";                          \
-                            OutputDebugString(output.c_str());                                                          \
-                        }
-#else
 #define DeleteMemArr(x) if(x != nullptr)    \
                         {                   \
                             delete[] x;     \
@@ -172,7 +164,7 @@
 /// <summary>
 /// Base Filesystem Path for files to use.
 /// </summary>
-#define AE_Base_FS_PATH        L"..\\"
+#define AE_Base_FS_PATH        "..\\"
 
 /*************
 *   Aligns   *

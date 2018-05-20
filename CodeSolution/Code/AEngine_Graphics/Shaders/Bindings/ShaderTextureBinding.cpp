@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -37,7 +42,7 @@
 /********************
 *   Function Defs   *
 *********************/
-ShaderTextureBinding::ShaderTextureBinding(const std::wstring& name, uint32_t bindIndex, TextureType textureType, Texture* texture)
+ShaderTextureBinding::ShaderTextureBinding(const std::string& name, uint32_t bindIndex, TextureType textureType, Texture* texture)
     : ShaderBinding(name, bindIndex)
     , m_Texture(texture)
     , m_TextureType(textureType)
@@ -64,11 +69,11 @@ AEResult ShaderTextureBinding::SetTexture(Texture* texture)
     return AEResult::Ok;
 }
 
-std::wstring ShaderTextureBinding::GetTextureName() const
+std::string ShaderTextureBinding::GetTextureName() const
 {
     if (m_Texture == nullptr)
     {
-        return L"";
+        return "";
     }
 
     return m_Texture->GetName();

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecontent.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "boost\algorithm\string.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -46,87 +50,87 @@
 ****************************/
 namespace AEGameContentHelpers
 {
-    std::wstring GameContentTypeToString(GameContentType gameContentType)
+    std::string GameContentTypeToString(GameContentType gameContentType)
     {
         switch (gameContentType)
         {
             case GameContentType::Unknown:
-                return L"Unknown";
+                return "Unknown";
 
             case GameContentType::Model:
-                return L"Model";
+                return "Model";
 
             case GameContentType::Mesh:
-                return L"Mesh";
+                return "Mesh";
 
             case GameContentType::Animation:
-                return L"Animation";
+                return "Animation";
 
             case GameContentType::Skeleton:
-                return L"Skeleton";
+                return "Skeleton";
 
             case GameContentType::Texture:
-                return L"Texture";
+                return "Texture";
 
             case GameContentType::Shader:
-                return L"Shader";
+                return "Shader";
 
             case GameContentType::GameObjectScript:
-                return L"Game Object Script";
+                return "Game Object Script";
 
             case GameContentType::Audio:
-                return L"Audio";
+                return "Audio";
 
             default:
                 AEAssert(false)
-                return L"";
+                return "";
         }
     }
 
-    std::wstring GameContentSubtypeToString(GameContentSubtype gameContentSubtype)
+    std::string GameContentSubtypeToString(GameContentSubtype gameContentSubtype)
     {
         switch (gameContentSubtype)
         {
             case GameContentSubtype::Unknown:
-                return L"Unknown";
+                return "Unknown";
 
             case GameContentSubtype::None:
-                return L"None";
+                return "None";
 
             case GameContentSubtype::AnimationClip:
-                return L"Animation Clip";
+                return "Animation Clip";
 
             case GameContentSubtype::VertexShaderHLSL:
-                return L"Vertex Shader HLSL";
+                return "Vertex Shader HLSL";
 
             case GameContentSubtype::PixelShaderHLSL:
-                return L"Pixel Shader HLSL";
+                return "Pixel Shader HLSL";
 
             case GameContentSubtype::GeometryShaderHLSL:
-                return L"Geometry Shader HLSL";
+                return "Geometry Shader HLSL";
 
             case GameContentSubtype::ComputeShaderHLSL:
-                return L"Compute Shader HLSL";
+                return "Compute Shader HLSL";
 
             case GameContentSubtype::DomainShaderHLSL:
-                return L"Domain Shader HLSL";
+                return "Domain Shader HLSL";
 
             case GameContentSubtype::HullShaderHLSL:
-                return L"Hull Shader HLSL";
+                return "Hull Shader HLSL";
 
             case GameContentSubtype::Texture2D:
-                return L"Texture 2D";
+                return "Texture 2D";
 
             case GameContentSubtype::TextureCube:
-                return L"Texture Cube";
+                return "Texture Cube";
 
             default:
                 AEAssert(false);
-                return L"";
+                return "";
         }
     }
 
-    AEResult FileGameContentType(const std::wstring& file, GameContentType& contentType, GameContextFileExt& fileExt)
+    AEResult FileGameContentType(const std::string& file, GameContentType& contentType, GameContextFileExt& fileExt)
     {
         contentType = GameContentType::Unknown;
 
@@ -136,7 +140,7 @@ namespace AEGameContentHelpers
             return AEResult::EmptyFilename;
         }
 
-        std::wstring ext = AE_Base::GetFilenameExtension(file);
+        std::string ext = AE_Base::GetFilenameExtension(file);
 
         if (ext.empty())
         {
@@ -204,7 +208,7 @@ namespace AEGameContentHelpers
         return AEResult::UnknownFileExtension;
     }
         
-    AEResult FileShaderyType(const std::wstring& file, ShaderType& shaderType)
+    AEResult FileShaderyType(const std::string& file, ShaderType& shaderType)
     {
         AEAssert(!file.empty());
 
@@ -213,7 +217,7 @@ namespace AEGameContentHelpers
             return AEResult::EmptyFilename;
         }
 
-        std::wstring ext = AE_Base::GetFilenameExtension(file);
+        std::string ext = AE_Base::GetFilenameExtension(file);
 
         if(ext.empty())
         {
@@ -356,7 +360,7 @@ namespace AEGameContentHelpers
         return true;
     }
 
-    void WriteString(std::ofstream& fileStream, const std::wstring& str)
+    void WriteString(std::ofstream& fileStream, const std::string& str)
     {
         const char* tempPtr = nullptr;
         uint32_t size = 0;
@@ -377,9 +381,9 @@ namespace AEGameContentHelpers
         }
     }
 
-    std::wstring ReadString(std::ifstream& fileStream)
+    std::string ReadString(std::ifstream& fileStream)
     {
-        std::wstring str = L"";
+        std::string str = "";
 
         char* tempPtr = nullptr;
         uint32_t size = 0;
@@ -393,17 +397,16 @@ namespace AEGameContentHelpers
         if(size != 0)
         {
             //Get Name
-            tempPtr         = new char[sizeof(wchar_t) * (size + 1)];
-            sizeToRead      = sizeof(wchar_t) * size;
-            memset(tempPtr, 0, sizeof(wchar_t) * (size + 1));
+            tempPtr         = new char[(size + 1)];
+            sizeToRead      = sizeof(char) * size;
+            memset(tempPtr, 0, sizeof(char) * (size + 1));
             fileStream.read(tempPtr, sizeToRead);
 
-            str = std::wstring(reinterpret_cast<wchar_t*>(tempPtr));
+            str = std::string(tempPtr);
 
             DeleteMemArr(tempPtr);
         }
-    
+
         return str;
     }
-
 }

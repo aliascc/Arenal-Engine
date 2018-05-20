@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -79,17 +77,17 @@ class RawGameAsset sealed : public UniqueAEObjectNamed
         /// <summary>
         /// File Path of the Raw Asset to import
         /// <summary>
-        std::wstring m_FilePath = L"";
+        std::string m_FilePath = "";
 
         /// <summary>
         /// Project Directory for the Raw Asset File
         /// <summary>
-        std::wstring m_ProjectDirectory = L"";
+        std::string m_ProjectDirectory = "";
 
         /// <summary>
         /// File Name to use when outputting the Raw Asset File
         /// <summary>
-        std::wstring m_OutputFileName = L"";
+        std::string m_OutputFileName = "";
 
         /// <summary>
         /// Lets know if the Raw File needs to be imported again
@@ -112,7 +110,7 @@ class RawGameAsset sealed : public UniqueAEObjectNamed
         /// <summary>
         /// Custom name of the Game Asset
         /// </summary>
-        std::wstring m_CustomName = L"";
+        std::string m_CustomName = "";
 
 #pragma endregion
 
@@ -153,7 +151,7 @@ class RawGameAsset sealed : public UniqueAEObjectNamed
         /// <param name="filePath">File Path of the Raw Asset to import</param>
         /// <param name="projectDirectory">Project Directory</param>
         /// <param name="name">Name of the Raw Asset</param>
-        RawGameAsset(const std::wstring& filePath, const std::wstring& projectDirectory, const std::wstring& name = L"");
+        RawGameAsset(const std::string& filePath, const std::string& projectDirectory, const std::string& name = "");
 
         /// <summary>
         /// Default RawGameAsset Destructor
@@ -207,7 +205,7 @@ class RawGameAsset sealed : public UniqueAEObjectNamed
         /// File Path of the Raw Asset to import
         /// </summary>
         /// <returns>File path of Raw Asset</returns>
-        inline const std::wstring& GetFilePath() const
+        inline const std::string& GetFilePath() const
         {
             return m_FilePath;
         }
@@ -216,7 +214,7 @@ class RawGameAsset sealed : public UniqueAEObjectNamed
         /// File Name to Use when outputting the Raw Asset File
         /// </summary>
         /// <returns>Output File Name</returns>
-        inline const std::wstring& GetOutputFileName() const
+        inline const std::string& GetOutputFileName() const
         {
             return m_OutputFileName;
         }
@@ -240,7 +238,7 @@ class RawGameAsset sealed : public UniqueAEObjectNamed
         /// Custom Name of the Game Asset
         /// </summary>
         /// <returns>Custom Name of Game Asset</returns>
-        inline const std::wstring& GetCustomName() const
+        inline const std::string& GetCustomName() const
         {
             return m_CustomName;
         }
@@ -273,12 +271,12 @@ class RawGameAsset sealed : public UniqueAEObjectNamed
 
         void SetLastModifiedTimeStamp(TimeStamp lastModifiedTimeStamp);
 
-        void SetOutputFileName(std::wstring outputFileName);
+        void SetOutputFileName(std::string outputFileName);
 
         /// <summary>
         /// Sets the Custom Name of the Game Asset
         /// </summary>
-        inline void SetCustomName(const std::wstring& customName)
+        inline void SetCustomName(const std::string& customName)
         {
             m_CustomName = customName;
         }

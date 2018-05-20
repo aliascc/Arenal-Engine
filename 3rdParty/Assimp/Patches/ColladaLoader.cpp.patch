@@ -1,5 +1,5 @@
---- ColladaLoader.cpp.orig	2017-12-11 14:22:45.000000000 +0100
-+++ ColladaLoader.cpp	2018-01-09 04:02:45.966241200 +0100
+--- ./ColladaLoader.cpp.orig	2017-12-11 14:22:45.000000000 +0100
++++ ./ColladaLoader.cpp	2018-01-09 04:02:45.966241200 +0100
 @@ -132,6 +132,84 @@
      ignoreUpDirection = pImp->GetPropertyInteger(AI_CONFIG_IMPORT_COLLADA_IGNORE_UP_DIRECTION,0) != 0;
  }

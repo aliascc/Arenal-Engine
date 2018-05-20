@@ -23,12 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -43,7 +41,6 @@
 /********************
 *   Forward Decls   *
 *********************/
-class InputManager;
 struct TimerParams;
 
 /*****************
@@ -57,13 +54,11 @@ class EditorCamera sealed : public Camera
 
         float m_SpinRate = AE_CAMERA_DEFAULt_SPIN_RATE;
 
-        InputManager* m_Input = nullptr;
-
         bool m_IsInputReady = false;
 
     public:
         //Constructor Destructor.
-        EditorCamera(InputManager* input, const std::wstring& name, const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& target = AEMathHelpers::Vec3fZero, const glm::vec3& UP = AEMathHelpers::Vec3fUp, const glm::ivec2& dimensions = AEMathHelpers::Vec2iZero, float fov = 0.0f, float znear = 1.0f, float zfar = 1000.0f);
+        EditorCamera(const std::string& name, const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& target = AEMathHelpers::Vec3fZero, const glm::vec3& UP = AEMathHelpers::Vec3fUp, const glm::ivec2& dimensions = AEMathHelpers::Vec2iZero, float fov = 0.0f, float znear = 1.0f, float zfar = 1000.0f);
 
         virtual ~EditorCamera();
 

@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -81,7 +78,7 @@ class StructuredBuffer sealed : public ShaderBuffer
         /// <param name="bindIndex">Index where the Texture is going to be bound to the shader</param>
         /// <param name="createAsRW">If true, enables Read and Write usage in the shader for the Buffer</param>
         /// <param name="graphicDevice">Graphic Device to create structured buffer</param>
-        StructuredBuffer(const std::wstring& name, uint32_t bindIndex, bool createAsRW, GraphicDevice* graphicDevice);
+        StructuredBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, GraphicDevice* graphicDevice);
 
         /// <summary>
         /// Default StructuredBuffer Destructor

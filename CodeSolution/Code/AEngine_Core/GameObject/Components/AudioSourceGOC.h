@@ -59,7 +59,7 @@ class AudioSourceGOC sealed : public GameObjectComponent
 
         AudioPlayer m_AudioPlayer;
 
-        std::wstring m_Name = L"";
+        std::string m_Name = "";
 
         /// <summary>
         /// Game Object Pair with Audio Sound that this Game Object Component uses
@@ -103,7 +103,7 @@ class AudioSourceGOC sealed : public GameObjectComponent
         /// </summary>
         /// <param name="gameObject">Game Object that this Component is attached too</param>
         /// <param name="name">Name of the Audio.</param>
-        AudioSourceGOC(GameObject* gameObject, const std::wstring& name);
+        AudioSourceGOC(GameObject* gameObject, const std::string& name);
 
         /// <summary>
         /// Default AudioSourceGOC Destructor
@@ -117,7 +117,7 @@ class AudioSourceGOC sealed : public GameObjectComponent
         *******************/
 #pragma region Get Methods
 
-        inline const std::wstring& GetName() const
+        inline const std::string& GetName() const
         {
             return m_Name;
         }
@@ -134,7 +134,7 @@ class AudioSourceGOC sealed : public GameObjectComponent
         *******************/
 #pragma region Set Methods
 
-        inline void SetName(const std::wstring& name)
+        inline void SetName(const std::string& name)
         {
             m_Name = name;
         }
@@ -144,7 +144,7 @@ class AudioSourceGOC sealed : public GameObjectComponent
             return m_Audio.m_AssetID;
         }
 
-        std::wstring GetAudioName() const;
+        std::string GetAudioName() const;
 
         AEResult SetAudioAsset(AudioAsset* asset);
 

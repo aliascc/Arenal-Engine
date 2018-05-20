@@ -131,7 +131,7 @@ void SkySphere::Update(const TimerParams& timerParams)
 
 void SkySphere::Render(const TimerParams& timerParams)
 {
-	AE_Base::BeginUserEventPerf(L"Sky Sphere");
+	AE_Base::BeginUserEventPerf("Sky Sphere");
 
 	uint32_t passes = 0;
 

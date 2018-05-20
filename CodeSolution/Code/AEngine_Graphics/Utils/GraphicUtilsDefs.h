@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
-#include <functional>
 
 /***************************
 *   Game Engine Includes   *

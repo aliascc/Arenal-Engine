@@ -15,6 +15,10 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
 
 /**********************
 *   System Includes   *
@@ -25,7 +29,6 @@
 ****************************/
 #include "AudioListener.h"
 #include "PhysicsManager.h"
-#include "Time\AETimeDefs.h"
 #include "GameApp\GameApp.h"
 #include "GamePhysicsUpdate.h"
 #include "GamePhysicsUpdate.h"
@@ -40,7 +43,7 @@
 /********************
 *   Function Defs   *
 *********************/
-GamePhysicsUpdate::GamePhysicsUpdate(GameApp* gameApp, const std::wstring& gameComponentName, uint32_t callOrder)
+GamePhysicsUpdate::GamePhysicsUpdate(GameApp* gameApp, const std::string& gameComponentName, uint32_t callOrder)
     : GameComponent(gameApp, gameComponentName, callOrder)
 {
 }

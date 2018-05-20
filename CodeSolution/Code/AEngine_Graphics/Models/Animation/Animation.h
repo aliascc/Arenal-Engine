@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -72,7 +70,7 @@ class Animation sealed : public GameResource
         /// Animation Constructor
         /// </summary>
         /// <param name="resourceName">Resource Name</param>
-        Animation(const std::wstring& resourceName);
+        Animation(const std::string& resourceName);
 
         inline float GetDuration() const
         {

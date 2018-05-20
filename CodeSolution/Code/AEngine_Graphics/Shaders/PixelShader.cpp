@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -37,7 +42,7 @@
 /********************
 *   Function Defs   *
 *********************/
-PixelShader::PixelShader(GraphicDevice* graphicDevice, const std::wstring& name)
+PixelShader::PixelShader(GraphicDevice* graphicDevice, const std::string& name)
     : Shader(graphicDevice, ShaderType::PixelShader, name)
 {
 }
@@ -74,7 +79,7 @@ AEResult PixelShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t
     ReleaseCOM(m_PSDX);
     m_PSDX = tempDX;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11PixelShader>(m_PSDX, AE_DEBUG_PS_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11PixelShader>(m_PSDX, AE_DEBUG_PS_NAME_PREFIX + m_Name);
 
     return AEResult::Ok;
 }

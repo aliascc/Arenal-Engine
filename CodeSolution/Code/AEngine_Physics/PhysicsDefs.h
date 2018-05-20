@@ -27,13 +27,10 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\AEObject.h"
-#include "Math\AEMathDefs.h"
 
 /************
 *   Using   *

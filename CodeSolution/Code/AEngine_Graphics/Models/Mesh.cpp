@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <fstream>
 
 /*************************
 *   3rd Party Includes   *
@@ -42,7 +46,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Mesh::Mesh(GraphicDevice* graphicDevice, const std::wstring& resourceName)
+Mesh::Mesh(GraphicDevice* graphicDevice, const std::string& resourceName)
     : GameResource(resourceName, GameResourceType::Mesh)
     , m_GraphicDevice(graphicDevice)
 {

@@ -15,6 +15,10 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
 
 /**********************
 *   System Includes   *
@@ -29,7 +33,6 @@
 ****************************/
 #include "FPRPreZ.h"
 #include "FPRDefs.h"
-#include "Time\AETime.h"
 #include "FPRObjectDraw.h"
 #include "GraphicDevice.h"
 #include "FPRLightCulling.h"
@@ -50,7 +53,7 @@
 /********************
 *   Function Defs   *
 *********************/
-ForwardPlusRendering::ForwardPlusRendering(GameApp* gameApp, const std::wstring& gameComponentName, const std::wstring& serviceName, uint32_t callOrder)
+ForwardPlusRendering::ForwardPlusRendering(GameApp* gameApp, const std::string& gameComponentName, const std::string& serviceName, uint32_t callOrder)
     : GameComponent(gameApp, gameComponentName, callOrder)
     , m_ServiceName(serviceName)
 {

@@ -15,6 +15,10 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
 
 /**********************
 *   System Includes   *
@@ -24,11 +28,9 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Keyboard.h"
-#include "Base\Base.h"
 #include "InputHandler.h"
 #include "InputManager.h"
 #include "GameApp\GameApp.h"
-#include "Time\AETimeDefs.h"
 #include "XBoxGamepadManager.h"
 
 //Always include last
@@ -37,7 +39,7 @@
 /********************
 *   Function Defs   *
 *********************/
-InputHandler::InputHandler(GameApp* gameApp, const std::wstring& gameComponentName, const std::wstring& serviceName, uint32_t callOrder)
+InputHandler::InputHandler(GameApp* gameApp, const std::string& gameComponentName, const std::string& serviceName, uint32_t callOrder)
     : GameComponent(gameApp, gameComponentName, callOrder)
     , m_ServiceName(serviceName)
 {
@@ -100,5 +102,6 @@ bool InputHandler::IsKeyboardActive() const
 
 bool InputHandler::IsXBoxGamepadManagerActive() const
 {
+    AETODO("Check How to do this better, maybe pass the reference to input manager or use service locator at the start...");
     return m_GameApp->GetInputManager()->IsXBoxGamepadManagerActive();
 }

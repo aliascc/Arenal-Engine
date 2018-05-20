@@ -23,12 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <d3d11_1.h>
-
-#define INITGUID
-#include <d3dcompiler.h>
-#undef INITGUID
 
 /*************************
 *   3rd Party Includes   *
@@ -37,8 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 #include "Shaders\ShaderDefs.h"
 #include "IncludeInterfaceHLSL.h"
 
@@ -123,7 +115,7 @@ class ImporterHLSL sealed : public AEObject
         *************************/
 #pragma region Framework Methods
 
-        AEResult ImportShader(const std::wstring& filename, ShaderType shaderType, ShaderModel shaderModel, ShaderContent** shaderContent);
+        AEResult ImportShader(const std::string& filename, ShaderType shaderType, ShaderModel shaderModel, ShaderContent** shaderContent);
 
 #pragma endregion
 

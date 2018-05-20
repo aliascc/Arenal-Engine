@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -33,7 +38,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Light::Light(LightType lightType, const std::wstring& name, const glm::vec3& position, const glm::vec3& direction, const Color& color, float nearAtteniation, float farAttenuation, float intensity, bool enable)
+Light::Light(LightType lightType, const std::string& name, const glm::vec3& position, const glm::vec3& direction, const Color& color, float nearAtteniation, float farAttenuation, float intensity, bool enable)
     : UniqueAEObjectNamed(name)
     , m_Position(position)
     , m_Direction(direction)

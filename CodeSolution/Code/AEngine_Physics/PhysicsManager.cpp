@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_physics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -28,7 +33,6 @@
 ****************************/
 #include "PhysicsActor.h"
 #include "PhysicsManager.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -136,7 +140,7 @@ AEResult PhysicsManager::Initialize()
     return AEResult::Ok;
 }
 
-AEResult PhysicsManager::ConnectToPhysXDebugger(const std::wstring& ip, uint32_t port, uint32_t timeout)
+AEResult PhysicsManager::ConnectToPhysXDebugger(const std::string& ip, uint32_t port, uint32_t timeout)
 {
     //////////////////////////////
     //Pre-checks
@@ -152,8 +156,7 @@ AEResult PhysicsManager::ConnectToPhysXDebugger(const std::wstring& ip, uint32_t
 
     //////////////////////////////
     //Get Connection Manager
-    std::string ipStr = AE_Base::WideStr2String(ip);
-    m_PxPvdTransport = physx::PxDefaultPvdSocketTransportCreate(ipStr.c_str(), port, timeout);
+    m_PxPvdTransport = physx::PxDefaultPvdSocketTransportCreate(ip.c_str(), port, timeout);
     if (m_PxPvdTransport == nullptr)
     {
         AETODO("better ret code");

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -36,7 +41,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Allow constructor to be public and destructor only private, that way GRs are only created by new and not static, when this add ref++ in constructor")
-GameResource::GameResource(const std::wstring& resourceName, GameResourceType resourceType)
+GameResource::GameResource(const std::string& resourceName, GameResourceType resourceType)
     : UniqueAEObjectNamed(resourceName)
     , m_ResourceType(resourceType)
 {
@@ -59,17 +64,17 @@ GameResource* GameResource::AddRef()
     return this;
 }
 
-void GameResource::SetNameWithoutLock(const std::wstring name)
+void GameResource::SetNameWithoutLock(const std::string name)
 {
     m_Name = name;
 }
 
-void GameResource::SetFileNameWithoutLock(const std::wstring& fileName)
+void GameResource::SetFileNameWithoutLock(const std::string& fileName)
 {
     m_FileName = fileName;
 }
 
-void GameResource::SetName(const std::wstring name)
+void GameResource::SetName(const std::string name)
 {
     //This has to be an atomic operation
     std::lock_guard<std::mutex> lock(m_GameResourceMutex);
@@ -77,7 +82,7 @@ void GameResource::SetName(const std::wstring name)
     SetNameWithoutLock(name);
 }
 
-void GameResource::SetFileName(const std::wstring& fileName)
+void GameResource::SetFileName(const std::string& fileName)
 {
     //This has to be an atomic operation
     std::lock_guard<std::mutex> lock(m_GameResourceMutex);

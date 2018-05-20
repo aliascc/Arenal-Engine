@@ -23,17 +23,14 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\AEObject.h"
 
 /************
 *   Using   *
@@ -45,7 +42,7 @@
 
 #define AE_TILE_RES                         16
 
-#define AE_FORWARD_PLUS_DEPTH_STENCIL_NAME  L"Forward Plus Z DS"
+#define AE_FORWARD_PLUS_DEPTH_STENCIL_NAME  "Forward Plus Z DS"
 
 /****************
 *   Constants   *

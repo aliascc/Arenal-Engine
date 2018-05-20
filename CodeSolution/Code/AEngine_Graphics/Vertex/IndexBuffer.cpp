@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -40,7 +44,7 @@
 *   Function Defs   *
 *********************/
 IndexBuffer::IndexBuffer(GraphicDevice* graphicDevice, GraphicBufferUsage bufferUsage, GraphicBufferAccess bufferAccess)
-    : Named(L"")
+    : Named("")
     , m_BufferAccess(bufferAccess)
     , m_BufferUsage(bufferUsage)
     , m_GraphicDevice(graphicDevice)
@@ -203,7 +207,7 @@ AEResult IndexBuffer::BuildIndexBuffer()
         return AEResult::FailIndexBufferInit;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_IndexBufferDX, AE_DEBUG_IB_NAME_PREFIX + AE_Base::WideStr2String(m_Name));
+    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_IndexBufferDX, AE_DEBUG_IB_NAME_PREFIX + m_Name);
 
     m_IsReady = true;
 

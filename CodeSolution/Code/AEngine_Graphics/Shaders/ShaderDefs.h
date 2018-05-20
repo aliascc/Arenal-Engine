@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -51,81 +49,81 @@ class LocalizationManager;
 ***************/
 #define ELEMENT_SIZE_SIMPLE_BUFFER                          4
 
-#define AE_VARIANCE_SHADOW_MAT_NAME                         L"AE Variance Shadow Material"
-#define AE_VARIANCE_SHADOW_MAT_VS_NAME                      L"_AE_VarianceShadowMaterialVS"
-#define AE_VARIANCE_SHADOW_MAT_PS_NAME                      L"_AE_VarianceShadowMaterialPS"
-#define AE_VARIANCE_SKINNING_SHADOW_MAT_NAME                L"AE Variance Skinning Shadow Material"
-#define AE_VARIANCE_SKINNING_SHADOW_MAT_VS_NAME             L"_AE_VarianceSkinningShadowMaterialVS"
+#define AE_VARIANCE_SHADOW_MAT_NAME                         "AE Variance Shadow Material"
+#define AE_VARIANCE_SHADOW_MAT_VS_NAME                      "_AE_VarianceShadowMaterialVS"
+#define AE_VARIANCE_SHADOW_MAT_PS_NAME                      "_AE_VarianceShadowMaterialPS"
+#define AE_VARIANCE_SKINNING_SHADOW_MAT_NAME                "AE Variance Skinning Shadow Material"
+#define AE_VARIANCE_SKINNING_SHADOW_MAT_VS_NAME             "_AE_VarianceSkinningShadowMaterialVS"
 
-#define AE_BASIC_COLOR_MAT_NAME                             L"AE Basic Color Material"
-#define AE_BASIC_COLOR_MAT_VS_NAME                          L"_AE_BasicColorMaterialVS"
-#define AE_BASIC_COLOR_MAT_PS_NAME                          L"_AE_BasicColorMaterialPS"
+#define AE_BASIC_COLOR_MAT_NAME                             "AE Basic Color Material"
+#define AE_BASIC_COLOR_MAT_VS_NAME                          "_AE_BasicColorMaterialVS"
+#define AE_BASIC_COLOR_MAT_PS_NAME                          "_AE_BasicColorMaterialPS"
 
-#define AE_BASIC_LINE_MAT_NAME                              L"AE Basic Line Material"
-#define AE_BASIC_LINE_MAT_VS_NAME                           L"_AE_BasicLineMaterialVS"
-#define AE_BASIC_LINE_MAT_PS_NAME                           L"_AE_BasicLineMaterialPS"
+#define AE_BASIC_LINE_MAT_NAME                              "AE Basic Line Material"
+#define AE_BASIC_LINE_MAT_VS_NAME                           "_AE_BasicLineMaterialVS"
+#define AE_BASIC_LINE_MAT_PS_NAME                           "_AE_BasicLineMaterialPS"
 
-#define AE_QUAD_MAT_VS_NAME                                 L"_AE_QuadMaterialVS"
+#define AE_QUAD_MAT_VS_NAME                                 "_AE_QuadMaterialVS"
 
-#define AE_QUAD_COLOR_MAT_NAME                              L"AE Quad Color Material"
-#define AE_QUAD_COLOR_MAT_PS_NAME                           L"_AE_QuadColorMaterialPS"
+#define AE_QUAD_COLOR_MAT_NAME                              "AE Quad Color Material"
+#define AE_QUAD_COLOR_MAT_PS_NAME                           "_AE_QuadColorMaterialPS"
 
-#define AE_QUAD_TEXTURE_MAT_NAME                            L"AE Quad Texture Material"
-#define AE_QUAD_TEXTURE_MAT_PS_NAME                         L"_AE_QuadTextureMaterialPS"
+#define AE_QUAD_TEXTURE_MAT_NAME                            "AE Quad Texture Material"
+#define AE_QUAD_TEXTURE_MAT_PS_NAME                         "_AE_QuadTextureMaterialPS"
 
-#define AE_DIFFUSE_TEXTURE_BASIC_MAT_NAME                   L"AE Diffuse Texture Basic Material"
-#define AE_DIFFUSE_TEXTURE_BASIC_MAT_VS_NAME                L"_AE_DiffuseTextureBasicMaterialVS"
-#define AE_DIFFUSE_TEXTURE_BASIC_MAT_PS_NAME                L"_AE_DiffuseTextureBasicMaterialPS"
+#define AE_DIFFUSE_TEXTURE_BASIC_MAT_NAME                   "AE Diffuse Texture Basic Material"
+#define AE_DIFFUSE_TEXTURE_BASIC_MAT_VS_NAME                "_AE_DiffuseTextureBasicMaterialVS"
+#define AE_DIFFUSE_TEXTURE_BASIC_MAT_PS_NAME                "_AE_DiffuseTextureBasicMaterialPS"
 
-#define AE_DIFFUSE_TEXTURE_MAT_NAME                         L"AE Diffuse Texture Material"
-#define AE_DIFFUSE_TEXTURE_MAT_VS_NAME                      L"_AE_DiffuseTextureMaterialVS"
-#define AE_DIFFUSE_TEXTURE_MAT_PS_NAME                      L"_AE_DiffuseTextureMaterialPS"
+#define AE_DIFFUSE_TEXTURE_MAT_NAME                         "AE Diffuse Texture Material"
+#define AE_DIFFUSE_TEXTURE_MAT_VS_NAME                      "_AE_DiffuseTextureMaterialVS"
+#define AE_DIFFUSE_TEXTURE_MAT_PS_NAME                      "_AE_DiffuseTextureMaterialPS"
 
-#define AE_SKINNING_MAT_NAME                                L"AE Skinning Material"
-#define AE_SKINNING_MAT_VS_NAME                             L"_AE_SkinningMaterialVS"
-#define AE_SKINNING_MAT_PS_NAME                             L"_AE_SkinningMaterialPS"
+#define AE_SKINNING_MAT_NAME                                "AE Skinning Material"
+#define AE_SKINNING_MAT_VS_NAME                             "_AE_SkinningMaterialVS"
+#define AE_SKINNING_MAT_PS_NAME                             "_AE_SkinningMaterialPS"
 
-#define AE_FORWARD_PLUS_Z_PRE_PASS_MAT_NAME                 L"AE Forward Plus Z Pre Pass"
-#define AE_FORWARD_PLUS_Z_PRE_PASS_MAT_VS_NAME              L"_AE_ForwardPlusZPrePassVS"
-#define AE_FORWARD_PLUS_Z_PRE_PASS_SKINNING_MAT_VS_NAME     L"_AE_ForwardPlusZPrePassSkinningVS"
+#define AE_FORWARD_PLUS_Z_PRE_PASS_MAT_NAME                 "AE Forward Plus Z Pre Pass"
+#define AE_FORWARD_PLUS_Z_PRE_PASS_MAT_VS_NAME              "_AE_ForwardPlusZPrePassVS"
+#define AE_FORWARD_PLUS_Z_PRE_PASS_SKINNING_MAT_VS_NAME     "_AE_ForwardPlusZPrePassSkinningVS"
 
-#define AE_FORWARD_PLUS_LIGHT_CULLING_MAT_NAME              L"AE Forward Plus Light Culling Material"
-#define AE_FORWARD_PLUS_LIGHT_CULLING_MAT_CS_NAME           L"_AE_ForwardPlusLightCullingCS"
+#define AE_FORWARD_PLUS_LIGHT_CULLING_MAT_NAME              "AE Forward Plus Light Culling Material"
+#define AE_FORWARD_PLUS_LIGHT_CULLING_MAT_CS_NAME           "_AE_ForwardPlusLightCullingCS"
 
-#define AE_CB_VIEW_PROJ_NAME                                L"_AE_CB_View_Proj"
-#define AE_CB_WORLD_VIEW_PROJ_NAME                          L"_AE_CB_World_View_Proj"
-#define AE_CB_BONES_NAME                                    L"_AE_CB_Bones"
-#define AE_CB_COLOR_NAME                                    L"_AE_CB_Color"
-#define AE_CB_HALF_PIXEL_NAME                               L"_AE_CB_HalfPixel"
-#define AE_CB_FPR_LIGHT_CULLING_NAME                        L"_AE_CB_FPR_LightCulling"
-#define AE_CB_FPR_LIGHTS_NAME                               L"_AE_CB_FPR_Lights"
+#define AE_CB_VIEW_PROJ_NAME                                "_AE_CB_View_Proj"
+#define AE_CB_WORLD_VIEW_PROJ_NAME                          "_AE_CB_World_View_Proj"
+#define AE_CB_BONES_NAME                                    "_AE_CB_Bones"
+#define AE_CB_COLOR_NAME                                    "_AE_CB_Color"
+#define AE_CB_HALF_PIXEL_NAME                               "_AE_CB_HalfPixel"
+#define AE_CB_FPR_LIGHT_CULLING_NAME                        "_AE_CB_FPR_LightCulling"
+#define AE_CB_FPR_LIGHTS_NAME                               "_AE_CB_FPR_Lights"
 
-#define AE_CB_WORLD_VAR_NAME                                L"_AE_World"
-#define AE_CB_VIEW_VAR_NAME                                 L"_AE_View"
-#define AE_CB_PROJECTION_VAR_NAME                           L"_AE_Projection"
-#define AE_CB_INV_PROJECTION_VAR_NAME                       L"_AE_InvProjection"
-#define AE_CB_BONE_TRANSFORMS_VAR_NAME                      L"_AE_BoneTransforms"
-#define AE_CB_COLOR_VAR_NAME                                L"u_Color"
-#define AE_CB_HALF_PIXEL_VAR_NAME                           L"_AE_HalfPixel"
-#define AE_CB_WINDOW_HEIGHT_VAR_NAME                        L"_AE_WindowHeight"
-#define AE_CB_WINDOW_WIDTH_VAR_NAME                         L"_AE_WindowWidth"
-#define AE_CB_NUM_LIGHTS_VAR_NAME                           L"_AE_NumLights"
-#define AE_CB_CAMERA_POS_VAR_NAME                           L"_AE_CameraPos"
-#define AE_CB_BONE_TRANSFORMS_VAR_NAME                      L"_AE_BoneTransforms"
+#define AE_CB_WORLD_VAR_NAME                                "_AE_World"
+#define AE_CB_VIEW_VAR_NAME                                 "_AE_View"
+#define AE_CB_PROJECTION_VAR_NAME                           "_AE_Projection"
+#define AE_CB_INV_PROJECTION_VAR_NAME                       "_AE_InvProjection"
+#define AE_CB_BONE_TRANSFORMS_VAR_NAME                      "_AE_BoneTransforms"
+#define AE_CB_COLOR_VAR_NAME                                "u_Color"
+#define AE_CB_HALF_PIXEL_VAR_NAME                           "_AE_HalfPixel"
+#define AE_CB_WINDOW_HEIGHT_VAR_NAME                        "_AE_WindowHeight"
+#define AE_CB_WINDOW_WIDTH_VAR_NAME                         "_AE_WindowWidth"
+#define AE_CB_NUM_LIGHTS_VAR_NAME                           "_AE_NumLights"
+#define AE_CB_CAMERA_POS_VAR_NAME                           "_AE_CameraPos"
+#define AE_CB_BONE_TRANSFORMS_VAR_NAME                      "_AE_BoneTransforms"
 
-#define AE_TX_DEPTH_TEXTURE_CULL_NAME                       L"_AE_DepthTexture"
-#define AE_TX_DIFFUSE_TEXTURE_NAME                          L"DiffuseTexture"
+#define AE_TX_DEPTH_TEXTURE_CULL_NAME                       "_AE_DepthTexture"
+#define AE_TX_DIFFUSE_TEXTURE_NAME                          "DiffuseTexture"
 
-#define AE_SAM_DIFFUSE_TEXTURE_SAMPLER_NAME                 L"_AE_DiffuseTextureSampler"
-#define AE_SAM_SHADOW_TEXTURE_SAMPLER_NAME                  L"_AE_ShadowTextureSampler"
+#define AE_SAM_DIFFUSE_TEXTURE_SAMPLER_NAME                 "_AE_DiffuseTextureSampler"
+#define AE_SAM_SHADOW_TEXTURE_SAMPLER_NAME                  "_AE_ShadowTextureSampler"
 
-#define AE_TXA_SPOT_LIGHT_SHADOW_TEXTURE_ARRAY_NAME         L"_AE_SpotLightShadowTextureArray"
-#define AE_TXA_DIR_LIGHT_SHADOW_TEXTURE_ARRAY_NAME          L"_AE_DirLightShadowTextureArray"
+#define AE_TXA_SPOT_LIGHT_SHADOW_TEXTURE_ARRAY_NAME         "_AE_SpotLightShadowTextureArray"
+#define AE_TXA_DIR_LIGHT_SHADOW_TEXTURE_ARRAY_NAME          "_AE_DirLightShadowTextureArray"
 
-#define AE_BF_LIGHT_BUFFER_NAME                             L"_AE_LightBuffer"
-#define AE_BF_SHADOW_SPOT_LIGHT_INFO_BUFFER_NAME            L"_AE_ShadowSpotLightInfoBuffer"
-#define AE_BF_PER_TILE_LIGHT_INDEX_BUFFER_NAME              L"_AE_PerTileLightIndexBuffer"
-#define AE_BF_SHADOW_DIR_LIGHT_INFO_BUFFER_NAME             L"_AE_ShadowDirLightInfoBuffer"
+#define AE_BF_LIGHT_BUFFER_NAME                             "_AE_LightBuffer"
+#define AE_BF_SHADOW_SPOT_LIGHT_INFO_BUFFER_NAME            "_AE_ShadowSpotLightInfoBuffer"
+#define AE_BF_PER_TILE_LIGHT_INDEX_BUFFER_NAME              "_AE_PerTileLightIndexBuffer"
+#define AE_BF_SHADOW_DIR_LIGHT_INFO_BUFFER_NAME             "_AE_ShadowDirLightInfoBuffer"
 
 #define AE_BI_FPR_LIGHTS_CB_BIND_IDX                        0
 #define AE_BI_SHADOW_TEXTURE_SAMPLER_BIND_IDX               0

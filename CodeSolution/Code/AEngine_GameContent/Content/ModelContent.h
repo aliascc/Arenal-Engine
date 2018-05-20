@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <string>
-#include <vector>
 
 /*************************
 *   3rd Party Includes   *
@@ -34,10 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "GameContent.h"
-#include "Base\AEObject.h"
-#include "ContentDefs.h"
 
 /************
 *   Using   *
@@ -47,6 +41,7 @@
 *   Forward Decls   *
 *********************/
 struct MeshContent;
+struct MaterialHolder;
 struct SkeletonContent;
 struct AnimationContent;
 
@@ -56,17 +51,17 @@ struct AnimationContent;
 AETODO("Need to change materials to create material and associate it with shader");
 struct ModelContent sealed : public GameContent
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
-    std::wstring m_FileName = L"";
+    std::string m_FileName = "";
 
     SkeletonContent* m_SkeletonContent = nullptr;
 
-    std::map<std::wstring, AnimationContent*> m_Animations;
+    std::map<std::string, AnimationContent*> m_Animations;
 
     std::vector<MaterialHolder> m_Materials;
 
-    std::map<std::wstring, MeshContent*> m_Meshes;
+    std::map<std::string, MeshContent*> m_Meshes;
 
     ModelContent();
     virtual ~ModelContent();

@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <mutex>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -33,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\AEObject.h"
 
 /********************
 *   Forward Decls   *

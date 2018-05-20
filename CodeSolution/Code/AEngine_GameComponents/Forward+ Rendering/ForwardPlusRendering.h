@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -32,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Math\AEMathDefs.h"
 #include "AEGameComponentsDefs.h"
 #include "GameUtils\DrawableGameComponent.h"
 
@@ -67,7 +65,7 @@ class ForwardPlusRendering sealed : public GameComponent
 
         glm::uvec2 m_NumTiles = AEMathHelpers::Vec2uZero;
 
-        std::wstring m_ServiceName = L"";
+        std::string m_ServiceName = "";
 
         FPRPreZ* m_FPRPreZ = nullptr;
 
@@ -114,7 +112,7 @@ class ForwardPlusRendering sealed : public GameComponent
         /// <param name="gameComponentName">Game Component Name to be set</param>
         /// <param name="serviceName">Service Name to be Set for this Game Component</param>
         /// <param name="callOder">Call order of Game Component</param>
-        ForwardPlusRendering(GameApp* gameApp, const std::wstring& gameComponentName = AE_FORWARD_PLUS_MAIN_DEF_COMPONENT_NAME, const std::wstring& serviceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusMain);
+        ForwardPlusRendering(GameApp* gameApp, const std::string& gameComponentName = AE_FORWARD_PLUS_MAIN_DEF_COMPONENT_NAME, const std::string& serviceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusMain);
 
         /// <summary>
         /// Default ForwardPlusRendering Destructor

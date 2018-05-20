@@ -23,10 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <mutex>
-#include <vector>
-#include <stdint.h>
-#include <Windows.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -103,7 +99,7 @@ class Keyboard sealed : public AEObject
 
         bool HasReleasedKey(AEKeys key, uint64_t lockID = 0) const;
 
-        wchar_t GetCurrentPressedChar(uint64_t lockID = 0) const;
+        char GetCurrentPressedChar(uint64_t lockID = 0) const;
 
         AEResult Initialize();
 

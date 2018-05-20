@@ -15,11 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
 
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -30,12 +33,10 @@
 ****************************/
 #include "FPRPreZ.h"
 #include "Models\Mesh.h"
-#include "Time\AETime.h"
 #include "Camera\Camera.h"
 #include "GraphicDevice.h"
 #include "GameApp\GameApp.h"
 #include "Models\MeshPart.h"
-#include "Base\BaseFunctions.h"
 #include "Vertex\IndexBuffer.h"
 #include "Camera\CameraUpdater.h"
 #include "ForwardPlusRendering.h"
@@ -58,7 +59,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check object instances and calls to where it is init");
-FPRPreZ::FPRPreZ(GameApp* gameApp, const std::wstring& gameComponentName, const std::wstring& fprServiceName, const std::wstring& cameraServiceName, uint32_t callOrder)
+FPRPreZ::FPRPreZ(GameApp* gameApp, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
 {
     m_ForwardPlusRendering = m_GameApp->GetGameService<ForwardPlusRendering>(fprServiceName);
@@ -108,7 +109,7 @@ void FPRPreZ::LoadContent()
 
 void FPRPreZ::Render(const TimerParams& timerParams)
 {
-    m_GraphicDevice->BeginEvent(L"Forward+ Rendering Z Pre Pass");
+    m_GraphicDevice->BeginEvent("Forward+ Rendering Z Pre Pass");
 
     AEResult ret = RenderPreZ();
 

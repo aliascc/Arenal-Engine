@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -62,7 +61,7 @@ class GameObjectRenderTest sealed : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        GameObjectRenderTest(GameApp* gameApp, const std::wstring& gameComponentName = L"Game Object Render Test");
+        GameObjectRenderTest(GameApp* gameApp, const std::string& gameComponentName = "Game Object Render Test");
         virtual ~GameObjectRenderTest();
 
         //Gets

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -49,7 +54,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-MeshMaterialGOC::MeshMaterialGOC(GameObject* gameObject, const std::wstring& name)
+MeshMaterialGOC::MeshMaterialGOC(GameObject* gameObject, const std::string& name)
     : GameObjectComponent(gameObject, GameObjectComponentType::MeshMaterial)
     , m_Name(name)
 {
@@ -83,7 +88,7 @@ MeshMaterialGOC::~MeshMaterialGOC()
 }
 
 template<class T>
-std::wstring MeshMaterialGOC::GetShaderResourceNameTemplate(const GameObjectAssetPair<T>& gameAssetPair) const
+std::string MeshMaterialGOC::GetShaderResourceNameTemplate(const GameObjectAssetPair<T>& gameAssetPair) const
 {
     if(gameAssetPair.m_ResourceAsset != nullptr)
     {
@@ -91,7 +96,7 @@ std::wstring MeshMaterialGOC::GetShaderResourceNameTemplate(const GameObjectAsse
     }
     else
     {
-        return L"";
+        return "";
     }
 }
 
@@ -469,7 +474,7 @@ void MeshMaterialGOC::ShaderAssetReload(GameAsset* asset)
  *   Vertex Shader   *
  *********************/
 
-std::wstring MeshMaterialGOC::GetVertexShaderName() const
+std::string MeshMaterialGOC::GetVertexShaderName() const
 {
     return GetShaderResourceNameTemplate<VertexShader>(m_VertexShader);
 }
@@ -489,7 +494,7 @@ AEResult MeshMaterialGOC::RemoveVertexShaderAsset()
  *   Pixel Shader   *
  ********************/
 
-std::wstring MeshMaterialGOC::GetPixelShaderName() const
+std::string MeshMaterialGOC::GetPixelShaderName() const
 {
     return GetShaderResourceNameTemplate<PixelShader>(m_PixelShader);
 }
@@ -509,7 +514,7 @@ AEResult MeshMaterialGOC::RemovePixelShaderAsset()
  *   Geometry Shader   *
  ***********************/
 
-std::wstring MeshMaterialGOC::GetGeometryShaderName() const
+std::string MeshMaterialGOC::GetGeometryShaderName() const
 {
     return GetShaderResourceNameTemplate<GeometryShader>(m_GeometryShader);
 }
@@ -529,7 +534,7 @@ AEResult MeshMaterialGOC::RemoveGeometryShaderAsset()
  *   Compute Shader   *
  **********************/
 
-std::wstring MeshMaterialGOC::GetComputeShaderName() const
+std::string MeshMaterialGOC::GetComputeShaderName() const
 {
     return GetShaderResourceNameTemplate<ComputeShader>(m_ComputeShader);
 }
@@ -549,7 +554,7 @@ AEResult MeshMaterialGOC::RemoveComputeShaderAsset()
  *   Hull Shader   *
  *******************/
 
-std::wstring MeshMaterialGOC::GetHullShaderName() const
+std::string MeshMaterialGOC::GetHullShaderName() const
 {
     return GetShaderResourceNameTemplate<HullShader>(m_HullShader);
 }
@@ -569,7 +574,7 @@ AEResult MeshMaterialGOC::RemoveHullShaderAsset()
  *   Domain Shader   *
  *********************/
 
-std::wstring MeshMaterialGOC::GetDomainShaderName() const
+std::string MeshMaterialGOC::GetDomainShaderName() const
 {
     return GetShaderResourceNameTemplate<DomainShader>(m_DomainShader);
 }

@@ -15,15 +15,18 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <functional>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -54,12 +57,12 @@ bool GameResourceManager::GameResourceExists(uint64_t id)
     return (m_GameResourceMap.find(id) != m_GameResourceMap.end());
 }
 
-bool GameResourceManager::GameResourceStringIDExists(const std::wstring& stringId)
+bool GameResourceManager::GameResourceStringIDExists(const std::string& stringId)
 {
     return (m_StringIDToGameResource.find(stringId) != m_StringIDToGameResource.end());
 }
 
-GameResource* GameResourceManager::AcquireGameResourceByStringID(const std::wstring& stringId, GameResourceType checkType)
+GameResource* GameResourceManager::AcquireGameResourceByStringID(const std::string& stringId, GameResourceType checkType)
 {
     std::lock_guard<std::mutex> lock(m_GameResourceManagerMutex);
 
@@ -110,7 +113,7 @@ GameResource* GameResourceManager::AcquireGameResourceByID(uint64_t id, GameReso
     return resource->AddRef();    
 }
 
-AEResult GameResourceManager::ManageGameResource(GameResource* gameResource, const std::wstring& stringID, bool keepAlive)
+AEResult GameResourceManager::ManageGameResource(GameResource* gameResource, const std::string& stringID, bool keepAlive)
 {
     AEAssert(gameResource != nullptr);
     if(gameResource == nullptr)
@@ -139,7 +142,7 @@ AEResult GameResourceManager::ManageGameResource(GameResource* gameResource, con
 
             if(GameResourceExists(id))
             {
-                std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"GAME_RESOURCE_STR_ID_EXISTS_ERR_MSG"), __FUNCTIONW__, stringID);
+                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("GAME_RESOURCE_STR_ID_EXISTS_ERR_MSG"), __FUNCTION__, stringID);
                 AELOGGER->AddNewLog(LogLevel::Error, msgerr);
 
                 return AEResult::ObjExists;
@@ -178,7 +181,7 @@ AEResult GameResourceManager::UnManageGameResource(uint64_t id)
     gameResource->m_Managed = false;
     gameResource->m_ReleaseCallback = nullptr;
     gameResource->m_KeepAlive = false;
-    gameResource->m_StringIdentifier = L"";
+    gameResource->m_StringIdentifier = "";
 
     m_GameResourceMap.erase(m_GameResourceMap.find(id));
 
@@ -196,7 +199,7 @@ void GameResourceManager::GameResourceReleaseCallback(uint64_t id, bool wasDelet
     
     if(!GameResourceExists(id))
     {
-        std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"GAME_RESOURCE_RELEASE_ID_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, id);
+        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("GAME_RESOURCE_RELEASE_ID_NOT_FOUND_ERR_MSG"), __FUNCTION__, id);
         AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 
         return;

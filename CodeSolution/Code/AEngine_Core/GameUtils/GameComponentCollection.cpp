@@ -15,15 +15,18 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <assert.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -205,7 +208,7 @@ AEResult GameComponentCollection::Add(GameComponent* gc)
     {
         if(AELOGGER != nullptr && AELOCMAN != nullptr)
         {
-            std::wstring errMsg = fmt::format(AELOCMAN->GetLiteral(L"GC_ID_DUPLICATE_ERR_MSG"), __FUNCTIONW__, gc->GetUniqueID());
+            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("GC_ID_DUPLICATE_ERR_MSG"), __FUNCTION__, gc->GetUniqueID());
             AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
         }
 

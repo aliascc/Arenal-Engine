@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <vector>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -34,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "AEGameComponentsDefs.h"
 #include "GameUtils\GameComponent.h"
 
@@ -64,7 +60,7 @@ class GameObjectScriptCaller sealed : public GameComponent
 
     public:
         //Constructor Destructor.
-        GameObjectScriptCaller(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_GAME_OBJECT_SCRIPT_CALLER_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectScriptCaller);
+        GameObjectScriptCaller(GameApp* gameApp, const std::string& gameComponentName = AE_GAME_GAME_OBJECT_SCRIPT_CALLER_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectScriptCaller);
 
         virtual ~GameObjectScriptCaller();
 

@@ -28,6 +28,10 @@
     </ClCompile>
     <ClCompile Include="Importers\ImporterHLSL.cpp" />
     <ClCompile Include="Importers\IncludeInterfaceHLSL.cpp" />
+    <ClCompile Include="precomp_gamecontent.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Writers\WriterHLSL.cpp" />
     <ClCompile Include="Writers\WriterAE3D.cpp" />
   </ItemGroup>
@@ -50,6 +54,7 @@
     <ClInclude Include="Importers\ImporterHLSL.h" />
     <ClInclude Include="Importers\ImportersDefs.h" />
     <ClInclude Include="Importers\IncludeInterfaceHLSL.h" />
+    <ClInclude Include="precomp_gamecontent.h" />
     <ClInclude Include="Writers\WriterHLSL.h" />
     <ClInclude Include="Writers\WriterAE3D.h" />
   </ItemGroup>
@@ -69,14 +74,14 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -100,14 +105,17 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>GLM_FORCE_RADIANS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\AEngine_Base\;$(SolutionDir)\Code\AEngine_Shaders\;$(SolutionDir)\Code\AEngine_Graphics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(FBXSDK_INCLUDE)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MinimalRebuild />
+      <PrecompiledHeaderFile>precomp_gamecontent.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -117,15 +125,20 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>GLM_FORCE_RADIANS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\AEngine_Base\;$(SolutionDir)\Code\AEngine_Shaders\;$(SolutionDir)\Code\AEngine_Graphics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(FBXSDK_INCLUDE)</AdditionalIncludeDirectories>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PrecompiledHeaderFile>precomp_gamecontent.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

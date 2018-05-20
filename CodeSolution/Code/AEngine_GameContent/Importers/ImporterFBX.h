@@ -23,13 +23,11 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "fbxsdk.h"
-#include "glm\glm.hpp"
+//#include "fbxsdk.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -142,7 +140,7 @@ class ImporterFBX sealed : public AEObject
         /// Loads the File FBX Scene to Memory
         /// </summary>
         /// <returns>Returns AEResult::Ok if Scene was loaded successfully<seealso cref="AEResult"/></returns>
-        AEResult LoadScene(const std::wstring& filename);
+        AEResult LoadScene(const std::string& filename);
 
         AEResult BuildSkeletonHierarchy();
 
@@ -230,7 +228,7 @@ class ImporterFBX sealed : public AEObject
 #pragma region Framework Methods
 
         /// <param name="clockwise">How to import a Model for cull mode</param>
-        AEResult ImportFBXFile(const std::wstring& filename, ModelContent** model, bool burnTransformation = true, bool importTangentBinormal = true, bool clockwise = true);
+        AEResult ImportFBXFile(const std::string& filename, ModelContent** model, bool burnTransformation = true, bool importTangentBinormal = true, bool clockwise = true);
 
 #pragma endregion
 

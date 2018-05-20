@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -49,9 +46,9 @@ class GameResourceManager;
 /**************
 *   Typedef   *
 ***************/
-typedef std::unordered_map<std::wstring, GameAssetLoadStatus<MeshAsset>> MeshAssetMap;
+typedef std::unordered_map<std::string, GameAssetLoadStatus<MeshAsset>> MeshAssetMap;
 
-typedef std::unordered_map<std::wstring, GameAssetLoadStatus<AnimationAsset>> AnimationAssetMap;
+typedef std::unordered_map<std::string, GameAssetLoadStatus<AnimationAsset>> AnimationAssetMap;
 
 /*****************
 *   Class Decl   *
@@ -114,7 +111,7 @@ class ModelAsset sealed : public GameAsset
         /// <param name="filePath">File Path of Game Asset to Load</param>
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
         /// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
-        ModelAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice);
+        ModelAsset(const std::string& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice);
 
         /// <summary>
         /// Default ModelAsset Destructor

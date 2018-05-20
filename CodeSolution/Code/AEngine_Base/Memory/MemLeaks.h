@@ -20,14 +20,11 @@
 #ifndef _MEMLEAKS_H
 #define _MEMLEAKS_H
 
-#if defined( _DEBUG )
+#if defined( AE_MEM_CHECK )
 
 /**********************
 *   System Includes   *
 ***********************/
-#include <map>
-#include <list>
-#include <string>
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_scripting.h"
+
 /**********************
 *   System Includes   *
 ***********************/

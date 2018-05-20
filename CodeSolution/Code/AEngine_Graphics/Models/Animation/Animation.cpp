@@ -15,12 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <fstream>
-#include <algorithm>
-#include <stdexcept>
 
 /*************************
 *   3rd Party Includes   *
@@ -40,7 +42,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Animation::Animation(const std::wstring& resourceName)
+Animation::Animation(const std::string& resourceName)
     : GameResource(resourceName, GameResourceType::Animation)
 {
 }

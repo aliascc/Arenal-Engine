@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -41,7 +46,7 @@
 /********************
 *   Function Defs   *
 *********************/
-CubeMesh::CubeMesh(GraphicDevice* graphicDevice, const std::wstring& resourceName)
+CubeMesh::CubeMesh(GraphicDevice* graphicDevice, const std::string& resourceName)
     : Mesh(graphicDevice, resourceName)
 {
 }
@@ -353,7 +358,7 @@ AEResult CubeMesh::Load()
 uint16_t CubeMesh::AddVtx(const VertexPositionNormalTexture& vtx)
 {
     uint16_t idx = 0;
-    std::wstring vtxStr = AEVertexHelper::GetVertexString(vtx);
+    std::string vtxStr = AEVertexHelper::GetVertexString(vtx);
 
     if (m_VtxMap.find(vtxStr) != m_VtxMap.end())
     {

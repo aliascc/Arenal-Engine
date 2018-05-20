@@ -15,19 +15,18 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <io.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <assert.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "angelscript.h"
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -45,8 +44,6 @@
 #include "XML\AEXMLParser.h"
 #include "Time\AETimeDefs.h"
 #include "Logger\LoggerDefs.h"
-#include "Base\BaseLocations.h"
-#include "Base\BaseFunctions.h"
 #include "Lights\LightManager.h"
 #include "Camera\CameraManager.h"
 #include "GameUtils\GameService.h"
@@ -58,11 +55,13 @@
 #include "GameASAddOns\AudioAddOnAS.h"
 #include "GameASAddOns\InputAddOnAS.h"
 #include "GameASAddOns\ColorAddOnAS.h"
+#include "Crash Handling\CrashHandler.h"
 #include "GameAssets\GameAssetManager.h"
 #include "GameASAddOns\GameCoreAddOnAS.h"
 #include "GameObject\GameObjectManager.h"
 #include "Resource\GameResourceManager.h"
 #include "AngelScript\AngelScriptManager.h"
+#include "Crash Handling\CrashHandlerDefs.h"
 #include "GameUtils\GameServiceCollection.h"
 #include "GameASAddOns\LocalizationAddOnAS.h"
 #include "Localization\LocalizationManager.h"
@@ -79,17 +78,23 @@ GameApp::GameApp(HINSTANCE hInstance, GameAppRunOpt gameAppRunOpt)
     : m_AppInst(hInstance)
     , m_GameAppRunOpt(gameAppRunOpt)
 {
-    #if defined(_DEBUG)
-        MemLeaks::MemoryBegin();
-    #endif
+#if defined(AE_MEM_CHECK)
+    MemLeaks::MemoryBegin();
+#endif
+
+    if (CrashHandlerInst->InitCrashHandling() != AEResult::Ok)
+    {
+        AETODO("Add error window");
+    }
 }
 
 GameApp::~GameApp()
 {
+    CrashHandlerInst->DeinitCrashHandling();
 
-    #if defined(_DEBUG)
-        MemLeaks::MemoryEnd();
-    #endif
+#if defined(AE_MEM_CHECK)
+    MemLeaks::MemoryEnd();
+#endif
 }
 
 void GameApp::CleanUp()
@@ -136,7 +141,7 @@ void GameApp::CleanUp()
     //Delete Graphic Device Last after Components, Resources and Services
     DeleteMem(m_GraphicDevice);
 
-#if defined(_DEBUG) || defined(PROFILE)
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
 
     //Report Live Objects and then Delete Graphic Debug
     if (m_GraphicDebugDX != nullptr)
@@ -180,7 +185,7 @@ AEResult GameApp::ExtractGameEngineConfig()
     AEXMLParser newFile;
     if (newFile.LoadFile(m_GameProject.m_EngineConfigFile) != AEResult::Ok)
     {
-        std::wstring msg_error = fmt::format(AELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_EngineConfigFile);
+        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_EngineConfigFile);
         
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
         return AEResult::OpenFileFail;
@@ -192,14 +197,14 @@ AEResult GameApp::ExtractGameEngineConfig()
         return AEResult::XMLReadError;
     }
 
-    m_GameProject.m_EngineLocation = boost::filesystem::current_path().wstring();
+    m_GameProject.m_EngineLocation = boost::filesystem::current_path().string();
 
     uint32_t l_Count = configXML.GetNumChildren();
     for (uint32_t i = 0; i < l_Count; ++i)
     {
         AEXMLParser child = configXML(i);
 
-        std::wstring l_Type = child.GetName();
+        std::string l_Type = child.GetName();
         
         if (l_Type.compare(AE_ENGINE_LOCALIZATION_NODE) == 0)
         {
@@ -221,7 +226,7 @@ AEResult GameApp::ExtractGameProjectConfig()
     AEXMLParser newFile;
     if (newFile.LoadFile(m_GameProject.m_ProjectConfigFile) != AEResult::Ok)
     {
-        std::wstring msg_error = fmt::format(AELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_ProjectConfigFile);
+        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_ProjectConfigFile);
 
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
         return AEResult::OpenFileFail;
@@ -241,7 +246,7 @@ AEResult GameApp::ExtractGameProjectConfig()
     {
         AEXMLParser child = configXML(i);
 
-        std::wstring l_Type = child.GetName();
+        std::string l_Type = child.GetName();
 
         if (l_Type.compare(AE_PROJ_DEV_CAPS_NODE) == 0)
         {
@@ -292,13 +297,13 @@ AEResult GameApp::ExtractGameConfigInput()
     AEXMLParser newFile;
     if (newFile.LoadFile(m_GameProject.m_GameProjectConfig.m_InputFile) != AEResult::Ok)
     {
-        std::wstring msg_error = fmt::format(AELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_GameProjectConfig.m_InputFile);
+        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_GameProjectConfig.m_InputFile);
         
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
         return AEResult::OpenFileFail;
     }
 
-    AEXMLParser inputXML = newFile[L"Input"];
+    AEXMLParser inputXML = newFile["Input"];
     if (!inputXML.IsReady())
     {
         return AEResult::XMLReadError;
@@ -309,13 +314,13 @@ AEResult GameApp::ExtractGameConfigInput()
     {
         AEXMLParser child = inputXML(i);
 
-        std::wstring l_Type = child.GetName();
+        std::string l_Type = child.GetName();
 
-        if (l_Type.compare(L"Keyboard") == 0)
+        if (l_Type.compare("Keyboard") == 0)
         {
             m_GameConfigInput.m_KeyboardEnabled = true;
         }
-        else if (l_Type.compare(L"XBoxGamepad") == 0)
+        else if (l_Type.compare("XBoxGamepad") == 0)
         {
             m_GameConfigInput.m_XBoxGamepadEnabled = true;
         }
@@ -331,13 +336,13 @@ AEResult GameApp::ExtractGameAppOpts()
     AEXMLParser newFile;
     if (newFile.LoadFile(m_GameProject.m_GameEngineConfig.m_GameOptsFile) != AEResult::Ok)
     {
-        std::wstring msg_error = fmt::format(AELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_GameEngineConfig.m_GameOptsFile);
+        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_GameEngineConfig.m_GameOptsFile);
 
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
         return AEResult::OpenFileFail;
     }
 
-    AEXMLParser gameOptXML = newFile[L"GameOpts"];
+    AEXMLParser gameOptXML = newFile["GameOpts"];
     if (!gameOptXML.IsReady())
     {
         return AEResult::XMLReadError;
@@ -348,43 +353,43 @@ AEResult GameApp::ExtractGameAppOpts()
     {
         AEXMLParser child = gameOptXML(i);
 
-        std::wstring l_Type = child.GetName();
+        std::string l_Type = child.GetName();
             
-        if (l_Type.compare(L"WindowsPosition") == 0)
+        if (l_Type.compare("WindowsPosition") == 0)
         {
-            m_GameAppOpts.m_InitialWinPos = child.GetVect2i(L"Pos");
+            m_GameAppOpts.m_InitialWinPos = child.GetVect2i("Pos");
         }
-        else if(l_Type.compare(L"WinCaption") == 0)
+        else if(l_Type.compare("WinCaption") == 0)
         {
-            m_GameAppOpts.m_WinCaption = child.GetString(L"WP");
+            m_GameAppOpts.m_WinCaption = child.GetString("WP");
         }
-        else if(l_Type.compare(L"WinClassName") == 0)
+        else if(l_Type.compare("WinClassName") == 0)
         {
-            m_GameAppOpts.m_WinClassName = child.GetString(L"WCN");
+            m_GameAppOpts.m_WinClassName = child.GetString("WCN");
         }
-        else if(l_Type.compare(L"SampleFPS") == 0)
+        else if(l_Type.compare("SampleFPS") == 0)
         {
             m_GameAppOpts.m_SampleFPS = true;
             m_Timer.IsSamplingFPS(true);
         }
-        else if(l_Type.compare(L"ShowConsole") == 0)
+        else if(l_Type.compare("ShowConsole") == 0)
         {
             m_GameAppOpts.m_ShowConsole = true;
         }
-        else if(l_Type.compare(L"Log") == 0)
+        else if(l_Type.compare("Log") == 0)
         {
-            m_GameAppOpts.m_AELogLvl        = AELogHelpers::Str2LogLevel(child.GetString(L"Level", L"NONE", false));
-            m_GameAppOpts.m_LogCapacity     = child.GetUInt(L"Capacity", AE_LOG_CAPACITY, false);
-            m_GameAppOpts.m_LogToFile       = child.GetBool(L"LogToFile", false, false);
+            m_GameAppOpts.m_AELogLvl        = AELogHelpers::Str2LogLevel(child.GetString("Level", "NONE", false));
+            m_GameAppOpts.m_LogCapacity     = child.GetUInt("Capacity", AE_LOG_CAPACITY, false);
+            m_GameAppOpts.m_LogToFile       = child.GetBool("LogToFile", false, false);
 
-            m_GameAppOpts.m_LogFilePath = child.GetString(L"LogFile", L"", m_GameAppOpts.m_LogToFile);
-            if (m_GameAppOpts.m_LogFilePath.compare(L"") == 0)
+            m_GameAppOpts.m_LogFilePath = child.GetString("LogFile", "", m_GameAppOpts.m_LogToFile);
+            if (m_GameAppOpts.m_LogFilePath.compare("") == 0)
             {
                 m_GameAppOpts.m_LogFilePath = m_GameProject.m_EngineLocation + AE_ENGINE_BIN_TO_DATA_PATH_ADD + AE_PROJ_LOG_FILE_LOC;
             }
             else
             {
-                m_GameAppOpts.m_LogFilePath = m_GameProject.m_ProjectLocation + L"/" + m_GameAppOpts.m_LogFilePath;
+                m_GameAppOpts.m_LogFilePath = m_GameProject.m_ProjectLocation + "/" + m_GameAppOpts.m_LogFilePath;
             }
         }
     }
@@ -400,8 +405,8 @@ AEResult GameApp::ExtractGraphicOpts()
         m_GraphicOptsPreferred.m_ScreenResolution.x             = 1024;
         m_GraphicOptsPreferred.m_ScreenResolution.y             = 768;
         m_GraphicOptsPreferred.m_FullScreen                     = false;
-        m_GraphicOptsPreferred.m_BackBufferFormatWindowed       = L"DXGI_FORMAT_R8G8B8A8_UNORM";
-        m_GraphicOptsPreferred.m_BackBufferFormatFullScreen     = L"DXGI_FORMAT_R8G8B8A8_UNORM";
+        m_GraphicOptsPreferred.m_BackBufferFormatWindowed       = "DXGI_FORMAT_R8G8B8A8_UNORM";
+        m_GraphicOptsPreferred.m_BackBufferFormatFullScreen     = "DXGI_FORMAT_R8G8B8A8_UNORM";
         m_GraphicOptsPreferred.m_SingleThreaded                 = true;
 
         return AEResult::Ok;
@@ -412,13 +417,13 @@ AEResult GameApp::ExtractGraphicOpts()
     AEXMLParser newFile;
     if (newFile.LoadFile(m_GameProject.m_GameProjectConfig.m_GraphicOptsFile) != AEResult::Ok)
     {
-        std::wstring msg_error = fmt::format(AELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, m_GameProject.m_GameProjectConfig.m_GraphicOptsFile);
+        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_GameProjectConfig.m_GraphicOptsFile);
         
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
         return AEResult::OpenFileFail;
     }
 
-    AEXMLParser graphicOptXML = newFile[L"GraphicOpts"];
+    AEXMLParser graphicOptXML = newFile["GraphicOpts"];
     if (!graphicOptXML.IsReady())
     {
         return AEResult::XMLReadError;
@@ -428,20 +433,20 @@ AEResult GameApp::ExtractGraphicOpts()
     for (uint32_t i = 0; i < l_Count; ++i)
     {
         AEXMLParser child = graphicOptXML(i);
-        std::wstring l_Type = child.GetName();
+        std::string l_Type = child.GetName();
 
-        if( l_Type.compare(L"ScreenResolution") == 0 )
+        if( l_Type.compare("ScreenResolution") == 0 )
         {
-            m_GraphicOptsPreferred.m_ScreenResolution.x             = child.GetInt(L"Width", 1024);
-            m_GraphicOptsPreferred.m_ScreenResolution.y             = child.GetInt(L"Height", 768);
+            m_GraphicOptsPreferred.m_ScreenResolution.x             = child.GetInt("Width", 1024);
+            m_GraphicOptsPreferred.m_ScreenResolution.y             = child.GetInt("Height", 768);
         }
-        else if( l_Type.compare(L"RenderMode") == 0 )
+        else if( l_Type.compare("RenderMode") == 0 )
         {
-            m_GraphicOptsPreferred.m_FullScreen                     = child.GetBool(L"FullScreenMode");
-            m_GraphicOptsPreferred.m_BackBufferFormatWindowed       = child.GetString(L"WindowFormat");
-            m_GraphicOptsPreferred.m_BackBufferFormatFullScreen     = child.GetString(L"FullScreenFormat");
+            m_GraphicOptsPreferred.m_FullScreen                     = child.GetBool("FullScreenMode");
+            m_GraphicOptsPreferred.m_BackBufferFormatWindowed       = child.GetString("WindowFormat");
+            m_GraphicOptsPreferred.m_BackBufferFormatFullScreen     = child.GetString("FullScreenFormat");
         }
-        else if( l_Type.compare(L"SingleThreaded") == 0)
+        else if( l_Type.compare("SingleThreaded") == 0)
         {
             m_GraphicOptsPreferred.m_SingleThreaded                 = true;
         }
@@ -450,9 +455,9 @@ AEResult GameApp::ExtractGraphicOpts()
     return AEResult::Ok;
 }
 
-AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::wstring& configProjFile, std::wstring& errorMsg)
+AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::string& configProjFile, std::string& errorMsg)
 {
-    errorMsg = L"";
+    errorMsg = "";
 
     if(m_IsReady)
     {
@@ -478,7 +483,7 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
 
     if (ExtractGameEngineConfig() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral(L"EXTRACT_GAME_CONFIG_ERR_MSG");
+        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GAME_CONFIG_ERR_MSG");
         
         AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
         
@@ -488,7 +493,7 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
     if (ExtractGameProjectConfig() != AEResult::Ok)
     {
         AETODO("Add literal for project config");
-        errorMsg = AELOCMAN->GetLiteral(L"EXTRACT_GAME_CONFIG_ERR_MSG");
+        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GAME_CONFIG_ERR_MSG");
 
         AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
 
@@ -498,7 +503,7 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
     if (InitLocalizationManager() != AEResult::Ok)
     {
         /*Hard coded strings here because Localization Manager failed to start*/
-        errorMsg = L"Localization Parameters could not be initialize";
+        errorMsg = "Localization Parameters could not be initialize";
 
         AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
 
@@ -507,7 +512,7 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
 
     if (ExtractGameAppOpts() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral(L"EXTRACT_GAME_OPTS_ERR_MSG");
+        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GAME_OPTS_ERR_MSG");
 
         AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
 
@@ -517,8 +522,8 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
     if (InitLogger() != AEResult::Ok)
     {
         AETODO("Add to loc files");
-        errorMsg = L"Log Error";
-        //m_LocalizationManager->GetLiteral(L"EXTRACT_GAME_OPTS_ERR_MSG");
+        errorMsg = "Log Error";
+        //m_LocalizationManager->GetLiteral("EXTRACT_GAME_OPTS_ERR_MSG");
 
         AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
 
@@ -532,7 +537,7 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
 
     if (ExtractGraphicOpts() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral(L"EXTRACT_GRAPHIC_OPTS_ERR_MSG");
+        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GRAPHIC_OPTS_ERR_MSG");
 
         AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
 
@@ -543,7 +548,7 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
     {
         if (InitMainWindow() != AEResult::Ok)
         {
-            errorMsg = AELOCMAN->GetLiteral(L"INIT_MAIN_WINDOW_ERR_MSG");
+            errorMsg = AELOCMAN->GetLiteral("INIT_MAIN_WINDOW_ERR_MSG");
 
             AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
 
@@ -558,7 +563,7 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
     
     if (Init3D_Device() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral(L"INIT_3D_DEVICE_ERR_MSG");
+        errorMsg = AELOCMAN->GetLiteral("INIT_3D_DEVICE_ERR_MSG");
 
         AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
 
@@ -567,7 +572,7 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
 
     if (InitInputManager() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral(L"INIT_INPUT_DEVICES_FAIL_ERR_MSG");
+        errorMsg = AELOCMAN->GetLiteral("INIT_INPUT_DEVICES_FAIL_ERR_MSG");
 
         AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
 
@@ -577,7 +582,7 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
     if (InitPhysicsManager() != AEResult::Ok)
     {
         AETODO("Add correct log msg")
-        //errorMsg = AELOCMAN->GetLiteral(L"SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
+        //errorMsg = AELOCMAN->GetLiteral("SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
         //AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
 
         return AEResult::Fail;
@@ -585,7 +590,7 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
 
     if (InitScriptingEngine() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral(L"SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
+        errorMsg = AELOCMAN->GetLiteral("SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
 
         AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
         
@@ -626,12 +631,12 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
 
     ////////////////////////////////////////////////
     // Create and Initialize Game Asset Manager
-    m_GameAssetManager = new GameAssetManager(m_GraphicDevice, m_GameResourceManager, m_AngelScriptManager, m_AudioManager, m_GameProject.m_ProjectLocation, m_GameProject.m_ProjectLocation + L"/" + AE_PROJ_ASSETS_DIR_LOC);
+    m_GameAssetManager = new GameAssetManager(m_GraphicDevice, m_GameResourceManager, m_AngelScriptManager, m_AudioManager, m_GameProject.m_ProjectLocation, m_GameProject.m_ProjectLocation + "/" + AE_PROJ_ASSETS_DIR_LOC);
 
     if(m_GameAssetManager->Initialize() != AEResult::Ok)
     {
         AETODO("Better init of asset game manager");
-        /*errorMsg = m_LocalizationManager->GetLiteral(L"SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
+        /*errorMsg = m_LocalizationManager->GetLiteral("SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
 
         m_Logger->AddNewLog(LogLevel::Error, errorMsg);*/
 
@@ -648,17 +653,17 @@ AEResult GameApp::InitGameApp(const std::wstring& configEngineFile, const std::w
 
     //////////////////////////////////
     //Log that Engine is ready to run
-    AELOGGER->AddNewLog(LogLevel::Info, AELOCMAN->GetLiteral(L"AE_GAME_APP_READY_INFO_MSG"));
+    AELOGGER->AddNewLog(LogLevel::Info, AELOCMAN->GetLiteral("AE_GAME_APP_READY_INFO_MSG"));
 
     //////////////////////////////////
     //Load Project
     if (LoadGameProjectInfo() == AEResult::Ok)
     {
-        AELOGGER->AddNewLog(LogLevel::Info, AELOCMAN->GetLiteral(L"AE_GAME_APP_LOAD_PROJ_INFO_MSG"));
+        AELOGGER->AddNewLog(LogLevel::Info, AELOCMAN->GetLiteral("AE_GAME_APP_LOAD_PROJ_INFO_MSG"));
     }
     else
     {
-        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral(L"AE_GAME_APP_LOAD_PROJ_FAIL_ERR_MSG"));
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("AE_GAME_APP_LOAD_PROJ_FAIL_ERR_MSG"));
     }
 
     //////////////////////////////////
@@ -682,7 +687,7 @@ AEResult GameApp::InitMainWindow()
 
     if( !RegisterClass(&wc) )
     {
-        std::wstring msg_error = fmt::format(AELOCMAN->GetLiteral(L"REGISTER_CLASS_FAIL_MSG"), __FUNCTIONW__);
+        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("REGISTER_CLASS_FAIL_MSG"), __FUNCTION__);
 
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
 
@@ -720,7 +725,7 @@ AEResult GameApp::InitMainWindow()
 
     if( !m_MainWnd )
     {
-        std::wstring msg_error = fmt::format(AELOCMAN->GetLiteral(L"CREATE_WINDOW_FAIL_MSG"), __FUNCTIONW__);
+        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("CREATE_WINDOW_FAIL_MSG"), __FUNCTION__);
 
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
 
@@ -745,7 +750,7 @@ AEResult GameApp::Init3D_Device()
     //Check for Graphic Device Capabilities Support
     //if(m_GraphicDevice->CheckDevCaps(m_GameConfig.m_DevCapFile) != AEResult::Ok)
     //{
-    //    std::wstring msgerr = fmt::format(m_LocalizationManager->GetLiteral(L"CHECK_DEV_CAPS_ERR_MSG"), __FUNCTIONW__);
+    //    std::string msgerr = fmt::format(m_LocalizationManager->GetLiteral("CHECK_DEV_CAPS_ERR_MSG"), __FUNCTION__);
 
     //    m_Logger->AddNewLog(LogLevel::Error, msgerr);
     //    return AEResult::Fail;
@@ -757,7 +762,7 @@ AEResult GameApp::Init3D_Device()
         return AEResult::Fail;
     }
 
-#if defined(_DEBUG) || defined(PROFILE)
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
 
     m_GraphicDebugDX = new GraphicDebugDX(m_GraphicDevice);
 
@@ -1065,7 +1070,7 @@ AEResult GameApp::RemoveComponent(GameComponent* gc)
     return m_GameComponentCollection->Remove(gc);
 }
 
-AEResult GameApp::RegisterGameService(const std::wstring& serviceName, GameService* gs)
+AEResult GameApp::RegisterGameService(const std::string& serviceName, GameService* gs)
 {
     if(!m_IsReady)
     {
@@ -1083,7 +1088,7 @@ AEResult GameApp::RegisterGameService(const std::wstring& serviceName, GameServi
     return AEResult::Ok;
 }
 
-AEResult GameApp::UnRegisterGameService(const std::wstring& serviceName)
+AEResult GameApp::UnRegisterGameService(const std::string& serviceName)
 {
     if(!m_IsReady)
     {
@@ -1093,7 +1098,7 @@ AEResult GameApp::UnRegisterGameService(const std::wstring& serviceName)
     return m_GameServiceCollection->Remove(serviceName);
 }
 
-GameService* GameApp::GetGameServiceBase(const std::wstring& serviceName) const
+GameService* GameApp::GetGameServiceBase(const std::string& serviceName) const
 {
     if(!m_IsReady)
     {
@@ -1438,7 +1443,7 @@ AEResult GameApp::LoadGameProjectInfo()
     return AEResult::Ok;
 }
 
-AEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const std::wstring& projectName, bool createFolder)
+AEResult GameApp::CreateProjectFolder(const std::string& projectFolder, const std::string& projectName, bool createFolder)
 {
     //////////////////////////////////////
     //Pre-checks
@@ -1460,7 +1465,7 @@ AEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const s
 
     //////////////////////////////////////
     //Create Config Project File
-    std::wofstream configFile(projectFolder + L"/" + AE_PROJ_CONFIG_PROJ_FILE);
+    std::ofstream configFile(projectFolder + "/" + AE_PROJ_CONFIG_PROJ_FILE);
     if (!configFile.is_open())
     {
         return AEResult::OpenFileFail;
@@ -1471,49 +1476,49 @@ AEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const s
 
     //////////////////////////////////////
     //Create Sub-folders
-    if (!boost::filesystem::create_directory(projectFolder + L"/" + AE_PROJ_DATA_DIR))
+    if (!boost::filesystem::create_directory(projectFolder + "/" + AE_PROJ_DATA_DIR))
     {
         AETODO("Better return code");
         return AEResult::Fail;
     }
 
-    if (!boost::filesystem::create_directory(projectFolder + L"/" + AE_PROJ_ASSETS_DIR_LOC))
+    if (!boost::filesystem::create_directory(projectFolder + "/" + AE_PROJ_ASSETS_DIR_LOC))
     {
         AETODO("Better return code");
         return AEResult::Fail;
     }
 
-    if (!boost::filesystem::create_directory(projectFolder + L"/" + AE_PROJ_ASSET_MANAGER_DIR_LOC))
+    if (!boost::filesystem::create_directory(projectFolder + "/" + AE_PROJ_ASSET_MANAGER_DIR_LOC))
     {
         AETODO("Better return code");
         return AEResult::Fail;
     }
 
-    if (!boost::filesystem::create_directory(projectFolder + L"/" + AE_PROJ_GLOBAL_DIR_LOC))
+    if (!boost::filesystem::create_directory(projectFolder + "/" + AE_PROJ_GLOBAL_DIR_LOC))
     {
         AETODO("Better return code");
         return AEResult::Fail;
     }
 
-    if (!boost::filesystem::create_directory(projectFolder + L"/" + AE_PROJ_INPUT_DIR_LOC))
+    if (!boost::filesystem::create_directory(projectFolder + "/" + AE_PROJ_INPUT_DIR_LOC))
     {
         AETODO("Better return code");
         return AEResult::Fail;
     }
 
-    if (!boost::filesystem::create_directory(projectFolder + L"/" + AE_PROJ_GAME_OBJECTS_DIR_LOC))
+    if (!boost::filesystem::create_directory(projectFolder + "/" + AE_PROJ_GAME_OBJECTS_DIR_LOC))
     {
         AETODO("Better return code");
         return AEResult::Fail;
     }
 
-    if (!boost::filesystem::create_directory(projectFolder + L"/" + AE_PROJ_LOCALIZATION_DIR_LOC))
+    if (!boost::filesystem::create_directory(projectFolder + "/" + AE_PROJ_LOCALIZATION_DIR_LOC))
     {
         AETODO("Better return code");
         return AEResult::Fail;
     }
 
-    if (!boost::filesystem::create_directory(projectFolder + L"/" + AE_PROJ_LOG_DIR_LOC))
+    if (!boost::filesystem::create_directory(projectFolder + "/" + AE_PROJ_LOG_DIR_LOC))
     {
         AETODO("Better return code");
         return AEResult::Fail;
@@ -1523,7 +1528,7 @@ AEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const s
     //Create XML Files
 
     //Asset Manager File
-    std::wofstream assetManagerFile(projectFolder + L"/" + AE_PROJ_ASSET_MANAGER_FILE_LOC);
+    std::ofstream assetManagerFile(projectFolder + "/" + AE_PROJ_ASSET_MANAGER_FILE_LOC);
     if (!assetManagerFile.is_open())
     {
         return AEResult::OpenFileFail;
@@ -1532,7 +1537,7 @@ AEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const s
     assetManagerFile.close();
 
     //Localization File
-    std::wofstream projectLocalizationFile(projectFolder + L"/" + AE_PROJ_LOCALIZATION_PROJ_FILE_LOC);
+    std::ofstream projectLocalizationFile(projectFolder + "/" + AE_PROJ_LOCALIZATION_PROJ_FILE_LOC);
     if (!projectLocalizationFile.is_open())
     {
         return AEResult::OpenFileFail;
@@ -1541,7 +1546,7 @@ AEResult GameApp::CreateProjectFolder(const std::wstring& projectFolder, const s
     projectLocalizationFile.close();
 
     //Game Object Manager File
-    std::wofstream gameObjectManagerFile(projectFolder + L"/" + AE_PROJ_GAME_OBJECT_MANAGER_FILE_LOC);
+    std::ofstream gameObjectManagerFile(projectFolder + "/" + AE_PROJ_GAME_OBJECT_MANAGER_FILE_LOC);
     if (!gameObjectManagerFile.is_open())
     {
         return AEResult::OpenFileFail;

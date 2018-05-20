@@ -23,10 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <vector>
-#include <stdint.h>
-#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -52,7 +48,7 @@ class GraphicDevice;
 /// <summary>
 /// ICO Sphere Mesh Name
 /// </summary>
-#define AE_ICO_SPHERE_MESH_NAME                L"IcoSphere Mesh"
+#define AE_ICO_SPHERE_MESH_NAME                "IcoSphere Mesh"
 
 /***************
 *   Typedefs   *
@@ -78,7 +74,7 @@ class IcoSphereMesh sealed : public Mesh
 
         std::vector<uint16_t> m_IdxBuff;
 
-        std::unordered_map<std::wstring, uint16_t> m_VtxMap;
+        std::unordered_map<std::string, uint16_t> m_VtxMap;
 
         void AddFace(const VertexPositionNormalTexture& vtx1, const VertexPositionNormalTexture& vtx2, const VertexPositionNormalTexture& vtx3);
 
@@ -121,7 +117,7 @@ class IcoSphereMesh sealed : public Mesh
         /// </summary>
         /// <param name="graphicDevice">Graphic Device use to create Mesh</param>
         /// <param name="resourceName">Resource Name</param>
-        IcoSphereMesh(GraphicDevice* graphicDevice, const std::wstring& resourceName);
+        IcoSphereMesh(GraphicDevice* graphicDevice, const std::string& resourceName);
 
 #pragma endregion
 

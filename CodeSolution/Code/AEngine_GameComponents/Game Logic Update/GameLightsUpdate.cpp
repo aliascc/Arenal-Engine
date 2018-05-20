@@ -15,6 +15,10 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
 
 /**********************
 *   System Includes   *
@@ -23,7 +27,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Models\Mesh.h"
 #include "Lights\Light.h"
 #include "Camera\Camera.h"
@@ -31,7 +34,6 @@
 #include "Utils\Viewport.h"
 #include "Models\MeshPart.h"
 #include "GameApp\GameApp.h"
-#include "Time\AETimeDefs.h"
 #include "GameLightsUpdate.h"
 #include "Math\AEMathDefs.h"
 #include "Vertex\IndexBuffer.h"
@@ -57,7 +59,7 @@
 /********************
 *   Function Defs   *
 *********************/
-GameLightsUpdate::GameLightsUpdate(GameApp* gameApp, const std::wstring& gameComponentName, const std::wstring& cameraServiceName, uint32_t callOrder)
+GameLightsUpdate::GameLightsUpdate(GameApp* gameApp, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
 {
     m_CameraUpdater = m_GameApp->GetGameService<CameraUpdater>(cameraServiceName);
@@ -85,12 +87,12 @@ void GameLightsUpdate::Initialize()
     m_VarianceSkinningShadowMaterial = new VarianceSkinningShadowMaterial(m_GraphicDevice, m_GameResourceManager);
 
     AETODO("Set name in macro");
-    m_SpotLightShadowTexturesDS = new DepthStencilSurface(m_GraphicDevice, L"AE Spot Light Shadow Textures DS");
+    m_SpotLightShadowTexturesDS = new DepthStencilSurface(m_GraphicDevice, "AE Spot Light Shadow Textures DS");
 
     m_SpotLightShadowViewport = new Viewport();
 
     AETODO("Set name in macro");
-    m_DirLightShadowTexturesDS = new DepthStencilSurface(m_GraphicDevice, L"AE Dir Light Shadow Textures DS");
+    m_DirLightShadowTexturesDS = new DepthStencilSurface(m_GraphicDevice, "AE Dir Light Shadow Textures DS");
 
     for (uint32_t i = 0; i < AE_LIGHT_NUM_CASCADE_MAPS; i++)
     {
@@ -154,8 +156,9 @@ void GameLightsUpdate::Update(const TimerParams& timerParams)
     //Update Light Manager
     Camera* camera = m_CameraUpdater->GetMainCamera();
 
+    AETODO("Check to remove?");
     //glm::ivec2 dimension(m_GraphicDevice->GetGraphicPP().m_BackBufferWidth, m_GraphicDevice->GetGraphicPP().m_BackBufferHeight);
-    //Camera camera(L"Dummy Test", glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), AEMathHelpers::Vec3fUp, dimension, 45.0f, 1.0f, 1000.0f);
+    //Camera camera("Dummy Test", glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), AEMathHelpers::Vec3fUp, dimension, 45.0f, 1.0f, 1000.0f);
     //camera.Initialize();
     AEResult ret = lightManager->Update(camera);
     if(ret != AEResult::Ok)
@@ -199,16 +202,16 @@ void GameLightsUpdate::UpdateGameObjectLight(GameObject* gameObject)
 
 void GameLightsUpdate::Render(const TimerParams& timerParams)
 {
-    m_GraphicDevice->BeginEvent(L"Game Lights Update");
+    m_GraphicDevice->BeginEvent("Game Lights Update");
 
-    m_GraphicDevice->BeginEvent(L"Spot Light Shadow Render");
+    m_GraphicDevice->BeginEvent("Spot Light Shadow Render");
 
     AETODO("Check return");
     ShadowSpotLightRenderGameObject();
 
     m_GraphicDevice->EndEvent(); //Spot Light Shadow Render
 
-    m_GraphicDevice->BeginEvent(L"Directional Light Shadow Render");
+    m_GraphicDevice->BeginEvent("Directional Light Shadow Render");
 
     AETODO("Check return");
     ShadowDirLightRenderGameObject();

@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "boost\lexical_cast.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -58,7 +62,7 @@ void AEXMLWriter::CleanUp()
     AEXMLBufferFree(m_XMLBuffer);
 }
 
-AEResult AEXMLWriter::CreateXML(const std::wstring& file, bool inMemory)
+AEResult AEXMLWriter::CreateXML(const std::string& file, bool inMemory)
 {
     if (m_IsReady)
     {
@@ -93,9 +97,7 @@ AEResult AEXMLWriter::CreateXML(const std::wstring& file, bool inMemory)
     }
     else
     {
-        std::string fileStr = AE_Base::WideStr2String(file);
-
-        m_XMLWriter = xmlNewTextWriterFilename(fileStr.c_str(), 0);
+        m_XMLWriter = xmlNewTextWriterFilename(file.c_str(), 0);
         if (m_XMLWriter == NULL)
         {
             AETODO("Better return code");
@@ -119,16 +121,14 @@ AEResult AEXMLWriter::CreateXML(const std::wstring& file, bool inMemory)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::StartNode(const std::wstring& name)
+AEResult AEXMLWriter::StartNode(const std::string& name)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string nameStr = AE_Base::WideStr2String(name);
-
-    int ret = xmlTextWriterStartElement(m_XMLWriter, BAD_CAST nameStr.c_str());
+    int ret = xmlTextWriterStartElement(m_XMLWriter, BAD_CAST name.c_str());
     if (ret < 0)
     {
         AETODO("Better return code");
@@ -190,17 +190,14 @@ AEResult AEXMLWriter::FinalizeXML()
     return ret;
 }
 
-AEResult AEXMLWriter::WriteString(const std::wstring& propName, const std::wstring& value)
+AEResult AEXMLWriter::WriteString(const std::string& propName, const std::string& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-    std::string valueStr = AE_Base::WideStr2String(value);
-
-    int rsc = xmlTextWriterWriteAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), BAD_CAST valueStr.c_str());
+    int rsc = xmlTextWriterWriteAttribute(m_XMLWriter, BAD_CAST propName.c_str(), BAD_CAST value.c_str());
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -210,16 +207,14 @@ AEResult AEXMLWriter::WriteString(const std::wstring& propName, const std::wstri
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteInt8(const std::wstring& propName, int8_t value)
+AEResult AEXMLWriter::WriteInt8(const std::string& propName, int8_t value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%hh", value);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%hh", value);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -229,16 +224,14 @@ AEResult AEXMLWriter::WriteInt8(const std::wstring& propName, int8_t value)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteUInt8(const std::wstring& propName, uint8_t value)
+AEResult AEXMLWriter::WriteUInt8(const std::string& propName, uint8_t value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%hhu", value);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%hhu", value);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -248,16 +241,14 @@ AEResult AEXMLWriter::WriteUInt8(const std::wstring& propName, uint8_t value)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteInt16(const std::wstring& propName, int16_t value)
+AEResult AEXMLWriter::WriteInt16(const std::string& propName, int16_t value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%h", value);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%h", value);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -267,16 +258,14 @@ AEResult AEXMLWriter::WriteInt16(const std::wstring& propName, int16_t value)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteUInt16(const std::wstring& propName, uint16_t value)
+AEResult AEXMLWriter::WriteUInt16(const std::string& propName, uint16_t value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%hu", value);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%hu", value);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -286,16 +275,14 @@ AEResult AEXMLWriter::WriteUInt16(const std::wstring& propName, uint16_t value)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteInt(const std::wstring& propName, int32_t value)
+AEResult AEXMLWriter::WriteInt(const std::string& propName, int32_t value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%d", value);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%d", value);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -305,16 +292,14 @@ AEResult AEXMLWriter::WriteInt(const std::wstring& propName, int32_t value)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteUInt(const std::wstring& propName, uint32_t value)
+AEResult AEXMLWriter::WriteUInt(const std::string& propName, uint32_t value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%u", value);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%u", value);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -324,16 +309,14 @@ AEResult AEXMLWriter::WriteUInt(const std::wstring& propName, uint32_t value)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteInt64(const std::wstring& propName, int64_t value)
+AEResult AEXMLWriter::WriteInt64(const std::string& propName, int64_t value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%ll", value);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%ll", value);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -343,16 +326,14 @@ AEResult AEXMLWriter::WriteInt64(const std::wstring& propName, int64_t value)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteUInt64(const std::wstring& propName, uint64_t value)
+AEResult AEXMLWriter::WriteUInt64(const std::string& propName, uint64_t value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%llu", value);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%llu", value);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -362,16 +343,14 @@ AEResult AEXMLWriter::WriteUInt64(const std::wstring& propName, uint64_t value)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteFloat(const std::wstring& propName, float value)
+AEResult AEXMLWriter::WriteFloat(const std::string& propName, float value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%.4f", value);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.4f", value);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -381,16 +360,14 @@ AEResult AEXMLWriter::WriteFloat(const std::wstring& propName, float value)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteDouble(const std::wstring& propName, double value)
+AEResult AEXMLWriter::WriteDouble(const std::string& propName, double value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%.6f", value);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.6f", value);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -400,17 +377,16 @@ AEResult AEXMLWriter::WriteDouble(const std::wstring& propName, double value)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteBool(const std::wstring& propName, bool value)
+AEResult AEXMLWriter::WriteBool(const std::string& propName, bool value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
     std::string valueStr = (value ? "true" : "false");
 
-    int rsc = xmlTextWriterWriteAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), BAD_CAST valueStr.c_str());
+    int rsc = xmlTextWriterWriteAttribute(m_XMLWriter, BAD_CAST propName.c_str(), BAD_CAST valueStr.c_str());
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -420,16 +396,14 @@ AEResult AEXMLWriter::WriteBool(const std::wstring& propName, bool value)
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect2f(const std::wstring& propName, const glm::vec2& value)
+AEResult AEXMLWriter::WriteVect2f(const std::string& propName, const glm::vec2& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%.4f %.4f", value.x, value.y);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.4f %.4f", value.x, value.y);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -439,16 +413,14 @@ AEResult AEXMLWriter::WriteVect2f(const std::wstring& propName, const glm::vec2&
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect3f(const std::wstring& propName, const glm::vec3& value)
+AEResult AEXMLWriter::WriteVect3f(const std::string& propName, const glm::vec3& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%.4f %.4f %.4f", value.x, value.y, value.z);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.4f %.4f %.4f", value.x, value.y, value.z);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -458,16 +430,14 @@ AEResult AEXMLWriter::WriteVect3f(const std::wstring& propName, const glm::vec3&
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect4f(const std::wstring& propName, const glm::vec4& value)
+AEResult AEXMLWriter::WriteVect4f(const std::string& propName, const glm::vec4& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%.4f %.4f %.4f %.4f", value.x, value.y, value.z, value.w);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.4f %.4f %.4f %.4f", value.x, value.y, value.z, value.w);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -477,16 +447,14 @@ AEResult AEXMLWriter::WriteVect4f(const std::wstring& propName, const glm::vec4&
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect2d(const std::wstring& propName, const glm::dvec2& value)
+AEResult AEXMLWriter::WriteVect2d(const std::string& propName, const glm::dvec2& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%.6f %.6f", value.x, value.y);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.6f %.6f", value.x, value.y);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -496,16 +464,14 @@ AEResult AEXMLWriter::WriteVect2d(const std::wstring& propName, const glm::dvec2
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect3d(const std::wstring& propName, const glm::dvec3& value)
+AEResult AEXMLWriter::WriteVect3d(const std::string& propName, const glm::dvec3& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%.6f %.6f %.6f", value.x, value.y, value.z);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.6f %.6f %.6f", value.x, value.y, value.z);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -515,16 +481,14 @@ AEResult AEXMLWriter::WriteVect3d(const std::wstring& propName, const glm::dvec3
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect4d(const std::wstring& propName, const glm::dvec4& value)
+AEResult AEXMLWriter::WriteVect4d(const std::string& propName, const glm::dvec4& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%.6f %.6f %.6f %.6f", value.x, value.y, value.z, value.w);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.6f %.6f %.6f %.6f", value.x, value.y, value.z, value.w);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -534,18 +498,17 @@ AEResult AEXMLWriter::WriteVect4d(const std::wstring& propName, const glm::dvec4
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect2b(const std::wstring& propName, const glm::bvec2& value)
+AEResult AEXMLWriter::WriteVect2b(const std::string& propName, const glm::bvec2& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
     std::string valueStrX = (value.x ? "true" : "false");
     std::string valueStrY = (value.y ? "true" : "false");
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%s %s", valueStrX, valueStrY);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%s %s", valueStrX, valueStrY);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -555,19 +518,18 @@ AEResult AEXMLWriter::WriteVect2b(const std::wstring& propName, const glm::bvec2
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect3b(const std::wstring& propName, const glm::bvec3& value)
+AEResult AEXMLWriter::WriteVect3b(const std::string& propName, const glm::bvec3& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
     std::string valueStrX = (value.x ? "true" : "false");
     std::string valueStrY = (value.y ? "true" : "false");
     std::string valueStrZ = (value.z ? "true" : "false");
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%s %s %s", valueStrX, valueStrY, valueStrZ);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%s %s %s", valueStrX, valueStrY, valueStrZ);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -577,20 +539,19 @@ AEResult AEXMLWriter::WriteVect3b(const std::wstring& propName, const glm::bvec3
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect4b(const std::wstring& propName, const glm::bvec4& value)
+AEResult AEXMLWriter::WriteVect4b(const std::string& propName, const glm::bvec4& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
     std::string valueStrX = (value.x ? "true" : "false");
     std::string valueStrY = (value.y ? "true" : "false");
     std::string valueStrZ = (value.z ? "true" : "false");
     std::string valueStrW = (value.w ? "true" : "false");
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%s %s %s %s", valueStrX, valueStrY, valueStrZ, valueStrW);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%s %s %s %s", valueStrX, valueStrY, valueStrZ, valueStrW);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -600,16 +561,14 @@ AEResult AEXMLWriter::WriteVect4b(const std::wstring& propName, const glm::bvec4
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect2i(const std::wstring& propName, const glm::ivec2& value)
+AEResult AEXMLWriter::WriteVect2i(const std::string& propName, const glm::ivec2& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%d %d", value.x, value.y);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%d %d", value.x, value.y);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -619,16 +578,14 @@ AEResult AEXMLWriter::WriteVect2i(const std::wstring& propName, const glm::ivec2
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect3i(const std::wstring& propName, const glm::ivec3& value)
+AEResult AEXMLWriter::WriteVect3i(const std::string& propName, const glm::ivec3& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%d %d %d", value.x, value.y, value.z);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%d %d %d", value.x, value.y, value.z);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -638,16 +595,14 @@ AEResult AEXMLWriter::WriteVect3i(const std::wstring& propName, const glm::ivec3
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect4i(const std::wstring& propName, const glm::ivec4& value)
+AEResult AEXMLWriter::WriteVect4i(const std::string& propName, const glm::ivec4& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), "%d %d %d %d", value.x, value.y, value.z, value.w);
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%d %d %d %d", value.x, value.y, value.z, value.w);
     if (rsc < 0)
     {
         AETODO("Better return code");
@@ -657,16 +612,14 @@ AEResult AEXMLWriter::WriteVect4i(const std::wstring& propName, const glm::ivec4
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteMat2f(const std::wstring& propName, const glm::mat2& value)
+AEResult AEXMLWriter::WriteMat2f(const std::string& propName, const glm::mat2& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(),
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(),
         "%.4f %.4f "
         "%.4f %.4f"
         , value[0].x, value[0].y
@@ -681,16 +634,14 @@ AEResult AEXMLWriter::WriteMat2f(const std::wstring& propName, const glm::mat2& 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteMat3f(const std::wstring& propName, const glm::mat3& value)
+AEResult AEXMLWriter::WriteMat3f(const std::string& propName, const glm::mat3& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), 
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(),
                 "%.4f %.4f %.4f "
                 "%.4f %.4f %.4f "
                 "%.4f %.4f %.4f"
@@ -707,16 +658,14 @@ AEResult AEXMLWriter::WriteMat3f(const std::wstring& propName, const glm::mat3& 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteMat4f(const std::wstring& propName, const glm::mat4& value)
+AEResult AEXMLWriter::WriteMat4f(const std::string& propName, const glm::mat4& value)
 {
     if (!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    std::string propNameStr = AE_Base::WideStr2String(propName);
-
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propNameStr.c_str(), 
+    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(),
                 "%.4f %.4f %.4f %.4f "
                 "%.4f %.4f %.4f %.4f "
                 "%.4f %.4f %.4f %.4f "

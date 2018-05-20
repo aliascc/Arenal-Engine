@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <fstream>
 
 /*************************
 *   3rd Party Includes   *
@@ -39,7 +43,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Skeleton::Skeleton(const std::wstring& resourceName)
+Skeleton::Skeleton(const std::string& resourceName)
     : GameResource(resourceName, GameResourceType::Skeleton)
 {
 }

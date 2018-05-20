@@ -23,13 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <list>
-#include <functional>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -119,7 +116,7 @@ class Object3D : public UniqueAEObjectNamed
         /// <param name="position">Position of Game Object</param>
         /// <param name="rotation">Rotation of Game Object in Degrees</param>
         /// <param name="scale">Scale of Game Object</param>
-        Object3D(const std::wstring& name = L"", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& rotation = AEMathHelpers::Vec3fZero, const glm::vec3& scale = AEMathHelpers::Vec3fOne);
+        Object3D(const std::string& name = "", const glm::vec3& position = AEMathHelpers::Vec3fZero, const glm::vec3& rotation = AEMathHelpers::Vec3fZero, const glm::vec3& scale = AEMathHelpers::Vec3fOne);
 
         /// <summary>
         /// Default Object3D Destructor

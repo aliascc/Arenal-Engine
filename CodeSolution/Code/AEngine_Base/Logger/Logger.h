@@ -23,18 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <mutex>
-#include <thread>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <stdint.h>
-#include <functional>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "AngelScript-Add-Ons\scriptarray\scriptarray.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -122,7 +114,7 @@ class Logger : public Singleton<Logger>
         /// <summary>
         /// Filename of the log file.
         /// </summary>
-        std::wstring m_LogFilename = L"";
+        std::string m_LogFilename = "";
 
         /// <summary>
         /// Determines if the Logs need to be printed also in a file
@@ -132,7 +124,7 @@ class Logger : public Singleton<Logger>
         /// <summary>
         /// File Stream of Log File when it is open
         /// </summary>
-        std::wofstream m_FileStream;
+        std::ofstream m_FileStream;
 
         /// <summary>
         /// Mutex for Logger so it will be thread safe
@@ -158,7 +150,7 @@ class Logger : public Singleton<Logger>
         /// <param name="logLevel">Log Level of log</param>
         /// <param name="msg">Log message</param>
         /// <param name="countEqual">If this log is to be monitored for repeated ones</param>
-        void InsertLogNoLock(LogLevel logLevel, const std::wstring& msg, bool countEqual);
+        void InsertLogNoLock(LogLevel logLevel, const std::string& msg, bool countEqual);
 
         /// <summary>
         /// Function to monitor if any duplicate logs have to be flush to log after a timeout
@@ -208,7 +200,7 @@ class Logger : public Singleton<Logger>
         /// </summary>
         /// <param name="path">File path</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult SetLogFilename(const std::wstring& path);
+        AEResult SetLogFilename(const std::string& path);
 
         /// <summary>
         /// Sets the Script "AELog Array" type
@@ -245,7 +237,7 @@ class Logger : public Singleton<Logger>
         /// Log File where Logs will be flush also if activated
         /// </summary>
         /// <returns>Name of Log File</returns>
-        inline const std::wstring& GetLogFilename() const
+        inline const std::string& GetLogFilename() const
         {
             return m_LogFilename;
         }
@@ -302,7 +294,7 @@ class Logger : public Singleton<Logger>
         /// </summary>
         /// <param name="logLevel">Log Level of the Log</param>
         /// <param name="msg">Log message</param>
-        void AddNewLog(LogLevel logLevel, const std::wstring& msg);
+        void AddNewLog(LogLevel logLevel, const std::string& msg);
 
         /// <summary>
         /// Returns a Script Array of the current Logs

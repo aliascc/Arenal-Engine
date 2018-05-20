@@ -1,49 +1,50 @@
+/*
+* Copyright (c) 2018 <Carlos Chacón>
+* All rights reserved
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_consoletests.h"
 
-#include "Importers\ImporterAssimp.h"
-#include "Writers\WriterAE3D.h"
-#include "Importers\ImportersDefs.h"
-#include "Content\ModelContent.h"
-#include "Content\MeshContent.h"
-#include "Content\MeshPartContent.h"
-#include "Content\VertexBufferContent.h"
+/**********************
+*   System Includes   *
+***********************/
 
-#include <Windows.h>
-#include <Xinput.h>
-#include <iostream>
-#include <stdint.h>
-#include <iostream>
-#include <chrono>
-#include <thread>
-#include <stdio.h>
-#include <stdint.h>
+/*************************
+*   3rd Party Includes   *
+**************************/
 
-#include "Utils\Singleton.h"
-#include <SFML/Audio.hpp>
-
-#include "PhysicsManager.h"
-#include "Time\AETimeDefs.h"
-
+/***************************
+*   Game Engine Includes   *
+****************************/
 #include "PhysicsActor.h"
 #include "Utils\Object3D.h"
 #include "PhysicColliderBox.h"
+#include "Writers\WriterAE3D.h"
+#include "Content\MeshContent.h"
+#include "Content\ModelContent.h"
+#include "Importers\ImportersDefs.h"
+#include "Content\MeshPartContent.h"
+#include "Importers\ImporterAssimp.h"
+#include "Content\VertexBufferContent.h"
+#include "Vertex\Types\VertexPositionNormalTexture.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
-
-#include "XML\AEXMLWriter.h"
-
-#include "cppformat\format.h"
-
-#include "Vertex\Types\VertexPositionNormalTexture.h"
-
-#include <fstream>
-
-#include <list>
-#include <vector>
-
-#include <atomic>
-#include <regex>
 
 void main()
 {
@@ -67,7 +68,7 @@ void main()
 }
 
 #if 0
-LONG GetDWORDRegKey(HKEY hKey, const std::wstring &strValueName, DWORD &nValue, DWORD nDefaultValue)
+LONG GetDWORDRegKey(HKEY hKey, const std::string &strValueName, DWORD &nValue, DWORD nDefaultValue)
 {
     nValue = nDefaultValue;
     DWORD dwBufferSize(sizeof(DWORD));
@@ -86,7 +87,7 @@ LONG GetDWORDRegKey(HKEY hKey, const std::wstring &strValueName, DWORD &nValue, 
 }
 
 
-LONG GetBoolRegKey(HKEY hKey, const std::wstring &strValueName, bool &bValue, bool bDefaultValue)
+LONG GetBoolRegKey(HKEY hKey, const std::string &strValueName, bool &bValue, bool bDefaultValue)
 {
     DWORD nDefValue((bDefaultValue) ? 1 : 0);
     DWORD nResult(nDefValue);
@@ -99,7 +100,7 @@ LONG GetBoolRegKey(HKEY hKey, const std::wstring &strValueName, bool &bValue, bo
 }
 
 
-LONG GetStringRegKey(HKEY hKey, const std::wstring &strValueName, std::wstring &strValue, const std::wstring &strDefaultValue)
+LONG GetStringRegKey(HKEY hKey, const std::string &strValueName, std::string &strValue, const std::string &strDefaultValue)
 {
     strValue = strDefaultValue;
     WCHAR szBuffer[512];
@@ -120,7 +121,7 @@ void main()
     LONG lRes = RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\ArenalEngine\\Editor", 0, KEY_READ, &hKey);
     bool bExistsAndSuccess(lRes == ERROR_SUCCESS);
     bool bDoesNotExistsSpecifically(lRes == ERROR_FILE_NOT_FOUND);
-    std::wstring strValueOfBinDir;
+    std::string strValueOfBinDir;
     DWORD Test = 9;
     GetDWORDRegKey(hKey, L"LAST_CONNECTION_INDEX", Test, 6);
     GetStringRegKey(hKey, L"LAST_CONNECTION_INDEX", strValueOfBinDir, L"bad");
@@ -338,7 +339,7 @@ void main()
 #if 0
 void main()
 {
-    std::wstring aa = fmt::format(L"Mi nada {0}, aa {1}, bb {2}, cc {3}, dd {4}", "mio", 1.23f, false, 5.789456, 10);
+    std::string aa = fmt::format(L"Mi nada {0}, aa {1}, bb {2}, cc {3}, dd {4}", "mio", 1.23f, false, 5.789456, 10);
 
     std::wcout <<  aa << std::endl;
 }

@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <list>
 
 /*************************
 *   3rd Party Includes   *
@@ -37,7 +41,7 @@
 /********************
 *   Function Defs   *
 *********************/
-GameAsset::GameAsset(GameContentType gameContentType, const std::wstring& filePath, GameResourceManager* gameResourceManager)
+GameAsset::GameAsset(GameContentType gameContentType, const std::string& filePath, GameResourceManager* gameResourceManager)
     : m_GameContentType(gameContentType)
     , m_FilePath(filePath)
     , m_GameResourceManager(gameResourceManager)

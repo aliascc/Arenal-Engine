@@ -36,10 +36,10 @@
 *   Defines   *
 ***************/
 
-#define AE_GC_EDITOR_REGISTRY_SUBKEY    L"Software\\ArenalEngine\\Editor"
+#define AE_GC_EDITOR_REGISTRY_SUBKEY    "Software\\ArenalEngine\\Editor"
 
-#define AE_GC_RECENT_PROJECTS           L"RecentProjects"
+#define AE_GC_RECENT_PROJECTS           "RecentProjects"
 
-#define AE_GC_RECENT_PROJECT_DIR        L"RecentProjectDir"
+#define AE_GC_RECENT_PROJECT_DIR        "RecentProjectDir"
 
 #endif

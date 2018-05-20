@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
 
 /*************************
 *   3rd Party Includes   *
@@ -32,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "AEGameComponentsDefs.h"
 #include "GameUtils\GameComponent.h"
 
@@ -58,7 +56,7 @@ class CameraUpdater sealed : public GameComponent
         *************************/
 #pragma region Private Variables
 
-        std::wstring m_ServiceName = L"";
+        std::string m_ServiceName = "";
 
         bool m_IsReady = false;
 
@@ -85,7 +83,7 @@ class CameraUpdater sealed : public GameComponent
         /// <param name="name">Component Name of the Camera Manager</param>
         /// <param name="serviceName">Service Name of the Camera Manager</param>
         /// <param name="callOrder">Call order of the Camera Manager</param>
-        CameraUpdater(GameApp* gameApp, const std::wstring& name = AE_CAMERA_UPDATER_DEF_COMPONENT_NAME, const std::wstring& serviceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_CameraUpdater);
+        CameraUpdater(GameApp* gameApp, const std::string& name = AE_CAMERA_UPDATER_DEF_COMPONENT_NAME, const std::string& serviceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_CameraUpdater);
 
         /// <summary>
         /// Default CameraManager Destructor

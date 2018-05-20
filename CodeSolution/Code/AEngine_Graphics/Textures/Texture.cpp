@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -36,7 +41,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Texture::Texture(GraphicDevice* graphicDevice, TextureType textureType, const std::wstring& textureName)
+Texture::Texture(GraphicDevice* graphicDevice, TextureType textureType, const std::string& textureName)
     : GameResource(textureName, GameResourceType::Unknown)
     , m_GraphicDevice(graphicDevice)
     , m_TextureType(textureType)

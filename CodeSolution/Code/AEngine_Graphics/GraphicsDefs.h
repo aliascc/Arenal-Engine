@@ -23,22 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
-#include <string>
-#include <stdint.h>
-#include <Windows.h>
-#include <d3d11_1.h>
-
-#if defined(_DEBUG) || defined(PROFILE)
-#include <Initguid.h> 
-#include <dxgidebug.h>
-#include <d3dcommon.h>
-#endif
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -121,7 +109,7 @@ class GraphicDevice;
 /// <summary>
 /// Default Texture 2D Name
 /// </summary>
-#define AE_DEFAULT_TEX_2D_NAME                       L"AEngine Default Texture 2D"
+#define AE_DEFAULT_TEX_2D_NAME                       "AEngine Default Texture 2D"
 
 /// <summary>
 /// Debug Prefix for Vertex Buffer when setting Debug Name for DirectX Graphic Debugger
@@ -303,7 +291,7 @@ enum class GraphicResourceMap : uint32_t
 /*************
 *   Struct   *
 **************/
-#if defined(_DEBUG) || defined(PROFILE)
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
 
 struct GraphicDebugDX sealed : public AEObject
 {
@@ -334,8 +322,8 @@ struct GraphicDebugDX sealed : public AEObject
 
 struct GraphicOptsPreferred sealed : public AEObject
 {
-    std::wstring m_BackBufferFormatWindowed = L"";
-    std::wstring m_BackBufferFormatFullScreen = L"";
+    std::string m_BackBufferFormatWindowed = "";
+    std::string m_BackBufferFormatFullScreen = "";
     glm::ivec2 m_ScreenResolution = AEMathHelpers::Vec2iZero;
     bool m_FullScreen = false;
 
@@ -435,7 +423,7 @@ namespace AEGraphicHelpers
 {
     extern glm::ivec2 GetWindowSize(HWND hWnd);
 
-    extern DXGI_FORMAT GetPXFormatFromString(const std::wstring& pxFormat);
+    extern DXGI_FORMAT GetPXFormatFromString(const std::string& pxFormat);
 
     extern D3D11_USAGE GetDXUsage(GraphicBufferUsage bufferUsage);
 
@@ -445,18 +433,18 @@ namespace AEGraphicHelpers
 
     extern uint32_t GetSizeOfDXFormat(DXGI_FORMAT format);
 
-    extern std::wstring GetShaderTypeString(ShaderType shaderType);
+    extern std::string GetShaderTypeString(ShaderType shaderType);
 
-    extern ShaderType GetShaderTypeFromString(std::wstring shaderType);
+    extern ShaderType GetShaderTypeFromString(std::string shaderType);
 
-    extern std::wstring GetTextureTypeString(TextureType textureType);
+    extern std::string GetTextureTypeString(TextureType textureType);
 
-    extern TextureType GetTextureTypeString(std::wstring textureType);
+    extern TextureType GetTextureTypeString(std::string textureType);
 
     template<class T>
     inline void SetDebugObjectName(T* resource, const std::string& name)
     {
-#if defined(_DEBUG) || defined(PROFILE)
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
         AEAssert(resource != nullptr);
 
         if(resource == nullptr)

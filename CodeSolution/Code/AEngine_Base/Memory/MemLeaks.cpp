@@ -15,15 +15,20 @@
 * limitations under the License.
 */
 
-/**********************
-*   System Includes   *
-***********************/
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
+/***************************
+*   Game Engine Includes   *
+****************************/
 #include "MemLeaks.h"
 
 /*********************
 *   Function Decls   *
 **********************/
-#if defined( _DEBUG )
+#if defined( AE_MEM_CHECK )
 
 bool MemLeaks::MemoryBegin()
 {

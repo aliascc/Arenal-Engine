@@ -15,16 +15,18 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_core.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <functional>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
-#include "boost\filesystem.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -33,7 +35,6 @@
 #include "GameAsset.h"
 #include "AudioManager.h"
 #include "RawGameAsset.h"
-#include "Logger\Logger.h"
 #include "GraphicDevice.h"
 #include "Time\AETimeDefs.h"
 #include "XML\AEXMLWriter.h"
@@ -43,12 +44,12 @@
 #include "Assets\ModelAsset.h"
 #include "Assets\AudioAsset.h"
 #include "Assets\ShaderAsset.h"
-#include "Base\BaseFunctions.h"
 #include "Writers\WriterAE3D.h"
 #include "Writers\WriterHLSL.h"
 #include "Assets\TextureAsset.h"
 #include "Assets\SkeletonAsset.h"
 #include "Content\ModelContent.h"
+#include "Content\ShaderContent.h"
 #include "Assets\AnimationAsset.h"
 #include "Importers\ImporterHLSL.h"
 #include "Models\Custom\CubeMesh.h"
@@ -59,8 +60,6 @@
 #include "AngelScript\AngelScriptManager.h"
 #include "Shaders\Custom\DiffuseTexturePS.h"
 #include "Shaders\Custom\DiffuseTextureVS.h"
-#include "Localization\LocalizationManager.h"
-#include "Localization\LocalizationManagerDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -72,7 +71,7 @@
 AETODO("Check for Mutex");
 AETODO("When importing need to handle change of directory");
 AETODO("When importing need to handle change of sub content type");
-GameAssetManager::GameAssetManager(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager, AudioManager* audioManager, const std::wstring& projectDir, const std::wstring& outputDirAssets)
+GameAssetManager::GameAssetManager(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager, AudioManager* audioManager, const std::string& projectDir, const std::string& outputDirAssets)
     : m_GraphicDevice(graphicDevice)
     , m_GameResourceManager(gameResourceManager)
     , m_AngelScriptManager(angelScriptManager)
@@ -402,7 +401,7 @@ AEResult GameAssetManager::ImportBuiltInDiffuseTextureShader()
     return AEResult::Ok;
 }
 
-AEResult GameAssetManager::CreateNewRawGameAsset(const std::wstring& filePath, GameContentSubtype contentSubtype, uint64_t* rawAssetID)
+AEResult GameAssetManager::CreateNewRawGameAsset(const std::string& filePath, GameContentSubtype contentSubtype, uint64_t* rawAssetID)
 {
     if(!m_IsReady)
     {
@@ -423,7 +422,7 @@ AEResult GameAssetManager::CreateNewRawGameAsset(const std::wstring& filePath, G
     std::lock_guard<std::mutex> lock(m_GameAssetManagerMutex);
 
     AETODO("Copy raw file to raw directory if it is not present currently there");
-    std::wstring rawAssetFilepath = AE_Base::GetRelativePath(filePath);
+    std::string rawAssetFilepath = AE_Base::GetRelativePath(filePath);
     RawGameAsset* rawGA = new RawGameAsset(rawAssetFilepath, m_ProjectDirectory, AE_Base::GetFilenameOnly(filePath));
 
     rawGA->SetContentSubtype(contentSubtype);
@@ -874,7 +873,7 @@ AEResult GameAssetManager::ImportTexture(RawGameAsset* rawGA)
         isNew = true;
 
         AETODO("When creating own texture reader make sure to put it in the asset paths the output");
-        std::wstring textureName = AE_Base::GetFilenameOnly(rawGA->GetFilePath());
+        std::string textureName = AE_Base::GetFilenameOnly(rawGA->GetFilePath());
         textureAsset = new TextureAsset(rawGA->GetFilePath(), m_GameResourceManager, textureType, m_GraphicDevice);
         textureAsset->SetName(textureName);
         textureAsset->SetCustomName(textureName);
@@ -936,7 +935,7 @@ AEResult GameAssetManager::ImportGameObjectScript(RawGameAsset* rawGA)
         isNew = true;
 
         AETODO("When creating own texture reader make sure to put it in the asset paths the output");
-        std::wstring gameScriptObjectName = AE_Base::GetFilenameOnly(rawGA->GetFilePath());
+        std::string gameScriptObjectName = AE_Base::GetFilenameOnly(rawGA->GetFilePath());
         gosAsset = new GameObjectScriptAsset(rawGA->GetFilePath(), m_GameResourceManager, m_AngelScriptManager);
         gosAsset->SetName(gameScriptObjectName);
         gosAsset->SetCustomName(gameScriptObjectName);
@@ -1001,7 +1000,7 @@ AEResult GameAssetManager::ImportAudio(RawGameAsset* rawGA)
         isNew = true;
 
         AETODO("When creating own audio reader make sure to put it in the asset paths the output");
-        std::wstring audioName = AE_Base::GetFilenameOnly(rawGA->GetFilePath());
+        std::string audioName = AE_Base::GetFilenameOnly(rawGA->GetFilePath());
         audioAsset = new AudioAsset(rawGA->GetFilePath(), m_GameResourceManager, m_AudioManager);
         audioAsset->SetName(audioName);
         audioAsset->SetCustomName(audioName);
@@ -1428,7 +1427,7 @@ AEResult GameAssetManager::LoadAudioAsset(const GameAssetLoadingDetails& details
     return AEResult::Ok;
 }
 
-AEResult GameAssetManager::SaveToXML(const std::wstring& gameAssetsFilename) const
+AEResult GameAssetManager::SaveToXML(const std::string& gameAssetsFilename) const
 {
     if (!m_IsReady)
     {
@@ -1609,7 +1608,7 @@ AEResult GameAssetManager::SaveToXMLRawGameAssets(AEXMLWriter& xmlWriter) const
     return AEResult::Ok;
 }
 
-AEResult GameAssetManager::LoadAssetManagerFile(const std::wstring& gameAssetsFilename)
+AEResult GameAssetManager::LoadAssetManagerFile(const std::string& gameAssetsFilename)
 {
     if (!m_IsReady)
     {
@@ -1624,7 +1623,7 @@ AEResult GameAssetManager::LoadAssetManagerFile(const std::wstring& gameAssetsFi
     AEXMLParser newFile;
     if (newFile.LoadFile(gameAssetsFilename) != AEResult::Ok)
     {
-        std::wstring msg_error = fmt::format(AELOCMAN->GetLiteral(L"INIT_COULDNT_READ_FILE_MSG"), __FUNCTIONW__, gameAssetsFilename);
+        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, gameAssetsFilename);
 
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
         return AEResult::OpenFileFail;
@@ -1641,7 +1640,7 @@ AEResult GameAssetManager::LoadAssetManagerFile(const std::wstring& gameAssetsFi
     {
         AEXMLParser child = configXML(i);
 
-        std::wstring l_Type = child.GetName();
+        std::string l_Type = child.GetName();
 
         if (l_Type.compare(AE_ASSET_CONFIG_NODE_NAME) == 0)
         {
@@ -1673,19 +1672,19 @@ AEResult GameAssetManager::LoadRawAssets(AEXMLParser& rawAssetXML)
     {
         AEXMLParser child = rawAssetXML(i);
 
-        std::wstring l_Type = child.GetName();
+        std::string l_Type = child.GetName();
 
-        if (l_Type.compare(L"RawFile") == 0)
+        if (l_Type.compare("RawFile") == 0)
         {
             TimeStamp modTimeStamp(child.GetString(AE_RAW_FILE_LASTMODIFIEDTIMESTAMP_PROP));
-            std::wstring name               = child.GetString(AE_RAW_FILE_NAME_PROP);
-            std::wstring customName         = child.GetString(AE_RAW_FILE_CUSTOM_NAME_PROP);
-            std::wstring filepath           = child.GetString(AE_RAW_FILE_FILEPATH_PROP);
+            std::string name               = child.GetString(AE_RAW_FILE_NAME_PROP);
+            std::string customName         = child.GetString(AE_RAW_FILE_CUSTOM_NAME_PROP);
+            std::string filepath           = child.GetString(AE_RAW_FILE_FILEPATH_PROP);
             GameContentSubtype subType      = (GameContentSubtype)child.GetUInt(AE_RAW_FILE_CONTENTSUBTYPE_PROP);
             uint64_t uniqueAssociatedID     = child.GetUInt64(AE_RAW_FILE_ASSOCIATED_ASSET_ID_PROP);
             GameContentType contentType     = (GameContentType)child.GetUInt(AE_RAW_FILE_CONTENTTYPE_PROP);
             GameContextFileExt fileExt      = (GameContextFileExt)child.GetUInt(AE_RAW_FILE_GAMECONTEXTFILEEXT_PROP);
-            std::wstring outputFilename     = child.GetString(AE_RAW_FILE_OUTPUTFILENAME_PROP);
+            std::string outputFilename     = child.GetString(AE_RAW_FILE_OUTPUTFILENAME_PROP);
             bool reloadNeeded               = child.GetBool(AE_RAW_FILE_RELOADNEEDED_PROP);
             bool contentSubtypeChanged      = child.GetBool(AE_RAW_FILE_CONTENTSUBTYPECHANGED_PROP);
 
@@ -1714,9 +1713,9 @@ AEResult GameAssetManager::LoadGameAssets(AEXMLParser& gameAssetXML)
     {
         AEXMLParser child = gameAssetXML(i);
 
-        std::wstring l_Type = child.GetName();
+        std::string l_Type = child.GetName();
 
-        if (l_Type.compare(L"Asset") == 0)
+        if (l_Type.compare("Asset") == 0)
         {
             GameContentType type = (GameContentType)child.GetUInt(AE_ASSET_GAMECONTENTTYPE_PROP);
 

@@ -23,17 +23,14 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Utils\Singleton.h"
 
 /********************
 *   Forward Decls   *

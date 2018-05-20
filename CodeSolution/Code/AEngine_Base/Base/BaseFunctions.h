@@ -27,20 +27,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <time.h>
-#include <string>
-#include <vector>
-#include <sstream>
-#include <stdio.h>
-#include <stdint.h>
-#include <assert.h>
-#include <Windows.h>
-#include <sys/stat.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "boost\filesystem.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -53,8 +43,10 @@
 *   Defines   *
 ***************/
 
-//Uncomment to make AE_ASSERT assert and not debug
-//#define AE_ASSERT_NO_DEBUG
+/// <summary>
+/// Displays in the output window an human readable error for HRESULT 
+/// <summary>
+#if defined(AE_HRESULT_EXTRA_INFO)
 
 //FORMAT_MESSAGE_FROM_SYSTEM = use system message tables to retrieve error text
 //FORMAT_MESSAGE_ALLOCATE_BUFFER = allocate buffer on local heap for error text
@@ -63,21 +55,20 @@
 /// <summary>
 /// Displays in the output window an human readable error for HRESULT 
 /// <summary>
-#if defined(_DEBUG)
 #define DisplayError(hr){                                                                                                           \
-                            LPWSTR errorText = nullptr;                                                                             \
-                            std::wstring errorStr = L"";                                                                            \
-                            std::wstring file(__FILEW__);                                                                           \
-                            std::wstring line(AEWSTR(__LINE__));                                                                    \
+                            LPSTR errorText = nullptr;                                                                              \
+                            std::string errorStr = "";                                                                              \
+                            std::string file(__FILE__);                                                                             \
+                            std::string line(AESTR(__LINE__));                                                                      \
                             FormatMessage(                                                                                          \
                                 FORMAT_MESSAGE_FROM_SYSTEM     | FORMAT_MESSAGE_ALLOCATE_BUFFER  | FORMAT_MESSAGE_IGNORE_INSERTS,   \
                                 nullptr,                                                                                            \
                                 hr,                                                                                                 \
                                 MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),                                                          \
-                                (LPWSTR)&errorText,                                                                                 \
+                                (LPSTR)&errorText,                                                                                  \
                                 0,                                                                                                  \
                                 nullptr);                                                                                           \
-                            errorStr = file + L"(" + line + L"): " + std::wstring(errorText);                                       \
+                            errorStr = file + "(" + line + "): " + std::string(errorText);                                          \
                             LocalFree(errorText);                                                                                   \
                             errorText = nullptr;                                                                                    \
                             OutputDebugString(errorStr.c_str());                                                                    \
@@ -86,11 +77,10 @@
 #define DisplayError(x)
 #endif
 
-
+#if defined(AE_HRESULT_EXTRA_INFO)
 /// <summary>
 /// Checks an HRESULT and if it is an error displays in the output window an human readable error for HRESULT 
 /// <summary>
-#if defined(_DEBUG)
 #define CheckError(hr)  if(FAILED(hr))          \
                         {                       \
                             DisplayError(hr);   \
@@ -100,21 +90,14 @@
 #endif
 
 
-/// <summary>
-/// AEngine Modified Assert.
-/// <list type="bullet">
-/// <item>If AE_ASSERT_NO_DEBUG is define, AEAssert will work like a normal assert.</item>
-/// <item>If AE_ASSERT_NO_DEBUG is not defined instead of an assert it will create a debug breakpoint.</item>
-/// </list>
-/// </summary>    
-#if defined(_DEBUG)
-#ifdef AE_ASSERT_NO_DEBUG
-#define AEAssert(cond)    assert(cond)
-#else
+#if defined(AE_ENABLE_ASSERT)
+#ifdef AE_ASSERT_DBG_BRK
 #define AEAssert(cond)  if(!(cond))         \
                         {                   \
                             DebugBreak();   \
                         }
+#else
+#define AEAssert(cond)    assert(cond)
 #endif
 #else
 #define AEAssert(x)
@@ -143,12 +126,12 @@ namespace AE_Base
     /// <summary>
     /// String containing Current Version, Mayor and Minor of AEngine
     /// </summary>    
-    extern const std::wstring AE_VERSION;
+    extern const std::string AE_VERSION;
 
     /// <summary>
     /// Codename of the Current Version of AEngine
     /// </summary>    
-    extern const std::wstring AE_CODENAME;
+    extern const std::string AE_CODENAME;
 
 /************
 *   Enums   *
@@ -190,21 +173,21 @@ namespace AE_Base
     /// </remarks>
     /// <param name="fullPath">File name from where to get the extension</param>
     /// <returns>Extension of the file name</returns>
-    inline std::wstring GetFilenameExtension(const std::wstring& fullPath)
+    inline std::string GetFilenameExtension(const std::string& fullPath)
     {
         if(fullPath.empty())
         {
-            return L"";
+            return "";
         }
 
         boost::filesystem::path boostPath(fullPath);
 
         if(!boostPath.has_extension())
         {
-            return L"";
+            return "";
         }
 
-        std::wstring ext = boostPath.extension().c_str();
+        std::string ext = boostPath.extension().string();
         ext.erase(ext.begin());
 
         return ext;
@@ -218,16 +201,16 @@ namespace AE_Base
     /// </remarks>
     /// <param name="fullPath">Full path from where to get the file name</param>
     /// <returns>File name</returns>
-    inline std::wstring GetFilename(const std::wstring& fullPath)
+    inline std::string GetFilename(const std::string& fullPath)
     {
         if(fullPath.empty())
         {
-            return L"";
+            return "";
         }
 
         boost::filesystem::path boostPath(fullPath);
 
-        std::wstring fileName = boostPath.filename().c_str();
+        std::string fileName = boostPath.filename().string();
         
         return fileName;
     }
@@ -240,16 +223,16 @@ namespace AE_Base
     /// </remarks>
     /// <param name="fullPath">Full path from where to get the file name</param>
     /// <returns>File name</returns>
-    inline std::wstring GetFilenameOnly(const std::wstring& fullPath)
+    inline std::string GetFilenameOnly(const std::string& fullPath)
     {
         if(fullPath.empty())
         {
-            return L"";
+            return "";
         }
 
         boost::filesystem::path boostPath(fullPath);
 
-        std::wstring fileName = boostPath.filename().replace_extension(L"").c_str();
+        std::string fileName = boostPath.filename().replace_extension("").string();
 
         return fileName;
     }
@@ -317,7 +300,7 @@ namespace AE_Base
     /// </summary>
     /// <param name="filepath">File path to create relative path</param>
     /// <returns>File path Relative to current working directory</returns>
-    std::wstring GetRelativePath(const std::wstring& filepath);
+    std::string GetRelativePath(const std::string& filepath);
 
     /// <summary>
     /// Splits a String into substrings by delimiters set
@@ -335,7 +318,7 @@ namespace AE_Base
     /// <param name="tokens">Vector of Strings where to insert sub strings</param>
     /// <param name="regex">Regular Expression to separate the string</param>
     /// <param name="trimEmpty">If true, it will not insert empty substrings to the vector</param>
-    void SplitString(const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& regex, bool trimEmpty = false);
+    void SplitWString(const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& regex, bool trimEmpty = false);
 
     /// <summary>
     /// Gets the Last Time Stamp when the File was modified
@@ -343,19 +326,19 @@ namespace AE_Base
     /// <param name="fileName">File name with path</param>
     /// <param name="timeStamp">TimeStamp object to get store the information</param>
     /// <returns>AEResult::OK if successful</returns>
-    AEResult GetFileModifiedTime(const std::wstring& fileName, TimeStamp& timeStamp);
+    AEResult GetFileModifiedTime(const std::string& fileName, TimeStamp& timeStamp);
 
     /// <summary>
     /// Print a message to the console window
     /// </summary>
     /// <param name="msg"Message to print</param>
-    void ConsolePrint(const std::wstring& msg);
+    void ConsolePrint(const std::string& msg);
 
     /// <summary>
     /// Print a message to the console window with a break line at the end
     /// </summary>
     /// <param name="msg"Message to print</param>
-    void ConsolePrintLine(const std::wstring& msg);
+    void ConsolePrintLine(const std::string& msg);
     
     /// <summary>
     /// Gets a unique ID
@@ -372,7 +355,7 @@ namespace AE_Base
     /// </summary>
     /// <param name="fileName">AEResult to Translate</param>
     /// <returns>AEResult in String Format</returns>
-    std::wstring GetAEResultString(AEResult result);
+    std::string GetAEResultString(AEResult result);
 }
 
 #endif

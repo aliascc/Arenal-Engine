@@ -6,11 +6,13 @@
     <ClInclude Include="XBoxGamepadManager.h" />
     <ClInclude Include="XBoxGamepad.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="precomp_input.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="XBoxGamepadManager.cpp" />
     <ClCompile Include="XBoxGamepad.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="precomp_input.cpp" />
   </ItemGroup>
 </Project>

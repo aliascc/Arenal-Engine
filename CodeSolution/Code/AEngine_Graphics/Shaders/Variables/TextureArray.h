@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -138,7 +135,7 @@ class TextureArray abstract : public ShaderBinding
         /// <param name="name">Name of the Texture Array</param>
         /// <param name="textureType">Type of the Texture of the Array</param>
         /// <param name="bindIndex">Index where to bind</param>
-        TextureArray(GraphicDevice* graphicDevice, const std::wstring& name, TextureType textureType, uint32_t bindIndex);
+        TextureArray(GraphicDevice* graphicDevice, const std::string& name, TextureType textureType, uint32_t bindIndex);
 
         /// <summary>
         /// Default TextureArray Destructor

@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecontent.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <fstream>
 
 /*************************
 *   3rd Party Includes   *
@@ -42,22 +46,22 @@
 *   Function Defs   *
 *********************/
 AETODO("Using D3DCompiler, add Editor Flag");
-IncludeInterfaceHLSL::IncludeInterfaceHLSL(const std::wstring& currentDirectory)
-    : m_ShaderCurrentDir(currentDirectory + L"\\")
+IncludeInterfaceHLSL::IncludeInterfaceHLSL(const std::string& currentDirectory)
+    : m_ShaderCurrentDir(currentDirectory + "\\")
 {
 }
 
 HRESULT __stdcall IncludeInterfaceHLSL::Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes)
 {    
-    std::wstring fileName = L"";
+    std::string fileName = "";
 
     if(IncludeType == D3D_INCLUDE_SYSTEM)
     {
-        fileName = AE_SHADER_SYS_INC_PATH + AE_Base::String2WideStr(pFileName);;
+        fileName = AE_SHADER_SYS_INC_PATH + std::string(pFileName);
     }
     else
     {
-        fileName = m_ShaderCurrentDir + AE_Base::String2WideStr(pFileName);
+        fileName = m_ShaderCurrentDir + pFileName;
     }
 
     //////////////////////////////////////////////

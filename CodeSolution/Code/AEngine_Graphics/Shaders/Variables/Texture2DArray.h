@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -96,7 +93,7 @@ class Texture2DArray sealed : public TextureArray
         /// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
         /// <param name="name">Name of the Texture Array</param>
         /// <param name="bindIndex">Index where to bind</param>
-        Texture2DArray(GraphicDevice* graphicDevice, const std::wstring& name, uint32_t bindIndex);
+        Texture2DArray(GraphicDevice* graphicDevice, const std::string& name, uint32_t bindIndex);
 
         /// <summary>
         /// Default Texture2DArray Destructor

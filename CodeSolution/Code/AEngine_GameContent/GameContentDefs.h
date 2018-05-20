@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <fstream>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -78,32 +75,32 @@
 #define AE_CT_AEHFX_FILE_VERSION_MINOR      2
 #define AE_CT_AEHFX_FILE_VERSION_REVISON    0
 
-#define AE_CT_UNKNOWNL_EXT                  L"unkwn"
-#define AE_CT_MODEL_EXT                     L"ae3d"
-#define AE_CT_MESH_EXT                      L"ae3dm"
-#define AE_CT_ANIMATION_EXT                 L"ae3da"
-#define AE_CT_SKELETON_EXT                  L"ae3ds"
-#define AE_CT_TEX2D_EXT                     L"aet2"
-#define AE_CT_TEXCUBE_EXT                   L"aetc"
-#define AE_CT_SHADER_HLSL_VS_EXT            L"aehvs"
-#define AE_CT_SHADER_HLSL_PS_EXT            L"aehps"
-#define AE_CT_SHADER_HLSL_GS_EXT            L"aehgs"
-#define AE_CT_SHADER_HLSL_DS_EXT            L"aehds"
-#define AE_CT_SHADER_HLSL_HS_EXT            L"aehhs"
-#define AE_CT_SHADER_HLSL_CS_EXT            L"aehcs"
+#define AE_CT_UNKNOWNL_EXT                  "unkwn"
+#define AE_CT_MODEL_EXT                     "ae3d"
+#define AE_CT_MESH_EXT                      "ae3dm"
+#define AE_CT_ANIMATION_EXT                 "ae3da"
+#define AE_CT_SKELETON_EXT                  "ae3ds"
+#define AE_CT_TEX2D_EXT                     "aet2"
+#define AE_CT_TEXCUBE_EXT                   "aetc"
+#define AE_CT_SHADER_HLSL_VS_EXT            "aehvs"
+#define AE_CT_SHADER_HLSL_PS_EXT            "aehps"
+#define AE_CT_SHADER_HLSL_GS_EXT            "aehgs"
+#define AE_CT_SHADER_HLSL_DS_EXT            "aehds"
+#define AE_CT_SHADER_HLSL_HS_EXT            "aehhs"
+#define AE_CT_SHADER_HLSL_CS_EXT            "aehcs"
 
-#define AE_CT_GAMEOBJECT_SCRIPT_EXT         L"aegos"
+#define AE_CT_GAMEOBJECT_SCRIPT_EXT         "aegos"
 
-#define AE_CT_MODEL_COLLADA_EXT             L"dae"
-#define AE_CT_MODEL_FBX_EXT                 L"fbx"
+#define AE_CT_MODEL_COLLADA_EXT             "dae"
+#define AE_CT_MODEL_FBX_EXT                 "fbx"
 
-#define AE_CT_SHADER_HLSL_1_EXT             L"fx"
-#define AE_CT_SHADER_HLSL_2_EXT             L"hlsl"
+#define AE_CT_SHADER_HLSL_1_EXT             "fx"
+#define AE_CT_SHADER_HLSL_2_EXT             "hlsl"
 
-#define AE_CT_TEXTURE_DDS_EXT               L"dds"
+#define AE_CT_TEXTURE_DDS_EXT               "dds"
 
-#define AE_CT_AUDIO_1_EXT                   L"wav"
-#define AE_CT_AUDIO_2_EXT                   L"ogg"
+#define AE_CT_AUDIO_1_EXT                   "wav"
+#define AE_CT_AUDIO_2_EXT                   "ogg"
 
 /****************
 *   Constants   *
@@ -166,13 +163,13 @@ enum class GameContentSubtype : uint32_t
 ************************/
 namespace AEGameContentHelpers
 {
-    extern std::wstring GameContentTypeToString(GameContentType gameContentType);
+    extern std::string GameContentTypeToString(GameContentType gameContentType);
 
-    extern std::wstring GameContentSubtypeToString(GameContentSubtype gameContentSubtype);
+    extern std::string GameContentSubtypeToString(GameContentSubtype gameContentSubtype);
 
-    extern AEResult FileGameContentType(const std::wstring& file, GameContentType& contentType, GameContextFileExt& fileExt);
+    extern AEResult FileGameContentType(const std::string& file, GameContentType& contentType, GameContextFileExt& fileExt);
 
-    extern AEResult FileShaderyType(const std::wstring& file, ShaderType& shaderType);
+    extern AEResult FileShaderyType(const std::string& file, ShaderType& shaderType);
 
     extern void WriteFileHeader(std::ofstream& fileStream, uint16_t fileHeader, uint32_t mayorVersion, uint32_t minorVersion, uint32_t revisionVersion);
 
@@ -182,9 +179,9 @@ namespace AEGameContentHelpers
 
     extern bool ReadFileFooterAndVerify(std::ifstream& fileStream, uint16_t fileFooter);
 
-    extern void WriteString(std::ofstream& fileStream, const std::wstring& str);
+    extern void WriteString(std::ofstream& fileStream, const std::string& str);
 
-    extern std::wstring ReadString(std::ifstream& fileStream);
+    extern std::string ReadString(std::ifstream& fileStream);
 
 }
 

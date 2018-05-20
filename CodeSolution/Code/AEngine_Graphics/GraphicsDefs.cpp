@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,7 +27,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -42,7 +46,7 @@
 *   Function Defs   *
 *********************/
 
-#if defined(_DEBUG) || defined(PROFILE)
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
 
 /*********************
 *   GraphicDebugDX   *
@@ -60,7 +64,7 @@ AEResult GraphicDebugDX::Initialize()
         return AEResult::Fail;
     }
 
-    m_HandleDXGIDebugDLL = LoadLibrary(L"dxgidebug.dll");
+    m_HandleDXGIDebugDLL = LoadLibrary("dxgidebug.dll");
     
     if(m_HandleDXGIDebugDLL == nullptr)
     {
@@ -108,16 +112,16 @@ void GraphicDebugDX::Report()
 {
     if(m_D3D11Debug != nullptr)
     {
-        OutputDebugString(L"\n\n--------AEngine Calling ReportLiveDeviceObjects--------\n\n\n");
+        OutputDebugString("\n\n--------AEngine Calling ReportLiveDeviceObjects--------\n\n\n");
         m_D3D11Debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-        OutputDebugString(L"\n\n--------AEngine End Call ReportLiveDeviceObjects--------\n\n\n");
+        OutputDebugString("\n\n--------AEngine End Call ReportLiveDeviceObjects--------\n\n\n");
     }
 
     if(m_DXGIDebug != nullptr)
     {        
-        OutputDebugString(L"\n\n--------AEngine Calling ReportLiveObjects--------\n\n\n");
+        OutputDebugString("\n\n--------AEngine Calling ReportLiveObjects--------\n\n\n");
         m_DXGIDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
-        OutputDebugString(L"\n\n--------AEngine End Call ReportLiveObjects--------\n\n\n");
+        OutputDebugString("\n\n--------AEngine End Call ReportLiveObjects--------\n\n\n");
     }
 }
 
@@ -350,7 +354,7 @@ namespace AEGraphicHelpers
                 dxUsage = D3D11_USAGE_STAGING;
                 break;
             default:
-                std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"Buffer Usage", static_cast<uint32_t>(bufferUsage), L"D3D11_USAGE_DEFAULT");
+                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "Buffer Usage", static_cast<uint32_t>(bufferUsage), "D3D11_USAGE_DEFAULT");
                 AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 
                 break;
@@ -378,7 +382,7 @@ namespace AEGraphicHelpers
                 dxAccess = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
                 break;
             default:
-                std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, L"Buffer Access", static_cast<uint32_t>(bufferAccess), L"0");
+                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "Buffer Access", static_cast<uint32_t>(bufferAccess), "0");
                 AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
 
                 break;
@@ -423,411 +427,411 @@ namespace AEGraphicHelpers
         return dxMap;
     }
 
-    DXGI_FORMAT GetPXFormatFromString(const std::wstring& pxFormat)
+    DXGI_FORMAT GetPXFormatFromString(const std::string& pxFormat)
     {
-        if(pxFormat.compare(L"DXGI_FORMAT_UNKNOWN") == 0)
+        if(pxFormat.compare("DXGI_FORMAT_UNKNOWN") == 0)
         {
             return DXGI_FORMAT_UNKNOWN;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32B32A32_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32B32A32_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R32G32B32A32_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32B32A32_FLOAT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32B32A32_FLOAT") == 0)
         {
             return DXGI_FORMAT_R32G32B32A32_FLOAT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32B32A32_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32B32A32_UINT") == 0)
         {
             return DXGI_FORMAT_R32G32B32A32_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32B32A32_SINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32B32A32_SINT") == 0)
         {
             return DXGI_FORMAT_R32G32B32A32_SINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32B32_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32B32_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R32G32B32_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32B32_FLOAT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32B32_FLOAT") == 0)
         {
             return DXGI_FORMAT_R32G32B32_FLOAT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32B32_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32B32_UINT") == 0)
         {
             return DXGI_FORMAT_R32G32B32_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32B32_SINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32B32_SINT") == 0)
         {
             return DXGI_FORMAT_R32G32B32_SINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16B16A16_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16B16A16_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R16G16B16A16_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16B16A16_FLOAT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16B16A16_FLOAT") == 0)
         {
             return DXGI_FORMAT_R16G16B16A16_FLOAT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16B16A16_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16B16A16_UNORM") == 0)
         {
             return DXGI_FORMAT_R16G16B16A16_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16B16A16_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16B16A16_UINT") == 0)
         {
             return DXGI_FORMAT_R16G16B16A16_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16B16A16_SNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16B16A16_SNORM") == 0)
         {
             return DXGI_FORMAT_R16G16B16A16_SNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16B16A16_SINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16B16A16_SINT") == 0)
         {
             return DXGI_FORMAT_R16G16B16A16_SINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R32G32_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32_FLOAT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32_FLOAT") == 0)
         {
             return DXGI_FORMAT_R32G32_FLOAT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32_UINT") == 0)
         {
             return DXGI_FORMAT_R32G32_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G32_SINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G32_SINT") == 0)
         {
             return DXGI_FORMAT_R32G32_SINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32G8X24_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32G8X24_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R32G8X24_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_D32_FLOAT_S8X24_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_D32_FLOAT_S8X24_UINT") == 0)
         {
             return DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_X32_TYPELESS_G8X24_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_X32_TYPELESS_G8X24_UINT") == 0)
         {
             return DXGI_FORMAT_X32_TYPELESS_G8X24_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R10G10B10A2_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R10G10B10A2_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R10G10B10A2_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R10G10B10A2_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R10G10B10A2_UNORM") == 0)
         {
             return DXGI_FORMAT_R10G10B10A2_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R10G10B10A2_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R10G10B10A2_UINT") == 0)
         {
             return DXGI_FORMAT_R10G10B10A2_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R11G11B10_FLOAT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R11G11B10_FLOAT") == 0)
         {
             return DXGI_FORMAT_R11G11B10_FLOAT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8B8A8_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8B8A8_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R8G8B8A8_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8B8A8_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8B8A8_UNORM") == 0)
         {
             return DXGI_FORMAT_R8G8B8A8_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8B8A8_UNORM_SRGB") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8B8A8_UNORM_SRGB") == 0)
         {
             return DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8B8A8_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8B8A8_UINT") == 0)
         {
             return DXGI_FORMAT_R8G8B8A8_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8B8A8_SNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8B8A8_SNORM") == 0)
         {
             return DXGI_FORMAT_R8G8B8A8_SNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8B8A8_SINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8B8A8_SINT") == 0)
         {
             return DXGI_FORMAT_R8G8B8A8_SINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R16G16_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16_FLOAT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16_FLOAT") == 0)
         {
             return DXGI_FORMAT_R16G16_FLOAT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16_UNORM") == 0)
         {
             return DXGI_FORMAT_R16G16_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16_UINT") == 0)
         {
             return DXGI_FORMAT_R16G16_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16_SNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16_SNORM") == 0)
         {
             return DXGI_FORMAT_R16G16_SNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16G16_SINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16G16_SINT") == 0)
         {
             return DXGI_FORMAT_R16G16_SINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R32_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_D32_FLOAT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_D32_FLOAT") == 0)
         {
             return DXGI_FORMAT_D32_FLOAT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32_FLOAT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32_FLOAT") == 0)
         {
             return DXGI_FORMAT_R32_FLOAT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32_UINT") == 0)
         {
             return DXGI_FORMAT_R32_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R32_SINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R32_SINT") == 0)
         {
             return DXGI_FORMAT_R32_SINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R24G8_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R24G8_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R24G8_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_D24_UNORM_S8_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_D24_UNORM_S8_UINT") == 0)
         {
             return DXGI_FORMAT_D24_UNORM_S8_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R24_UNORM_X8_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R24_UNORM_X8_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_X24_TYPELESS_G8_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_X24_TYPELESS_G8_UINT") == 0)
         {
             return DXGI_FORMAT_X24_TYPELESS_G8_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R8G8_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8_UNORM") == 0)
         {
             return DXGI_FORMAT_R8G8_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8_UINT") == 0)
         {
             return DXGI_FORMAT_R8G8_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8_SNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8_SNORM") == 0)
         {
             return DXGI_FORMAT_R8G8_SNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8_SINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8_SINT") == 0)
         {
             return DXGI_FORMAT_R8G8_SINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R16_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16_FLOAT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16_FLOAT") == 0)
         {
             return DXGI_FORMAT_R16_FLOAT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_D16_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_D16_UNORM") == 0)
         {
             return DXGI_FORMAT_D16_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16_UNORM") == 0)
         {
             return DXGI_FORMAT_R16_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16_UINT") == 0)
         {
             return DXGI_FORMAT_R16_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16_SNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16_SNORM") == 0)
         {
             return DXGI_FORMAT_R16_SNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R16_SINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R16_SINT") == 0)
         {
             return DXGI_FORMAT_R16_SINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8_TYPELESS") == 0)
         {
             return DXGI_FORMAT_R8_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8_UNORM") == 0)
         {
             return DXGI_FORMAT_R8_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8_UINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8_UINT") == 0)
         {
             return DXGI_FORMAT_R8_UINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8_SNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8_SNORM") == 0)
         {
             return DXGI_FORMAT_R8_SNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8_SINT") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8_SINT") == 0)
         {
             return DXGI_FORMAT_R8_SINT;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_A8_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_A8_UNORM") == 0)
         {
             return DXGI_FORMAT_A8_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R1_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R1_UNORM") == 0)
         {
             return DXGI_FORMAT_R1_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R9G9B9E5_SHAREDEXP") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R9G9B9E5_SHAREDEXP") == 0)
         {
             return DXGI_FORMAT_R9G9B9E5_SHAREDEXP;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R8G8_B8G8_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R8G8_B8G8_UNORM") == 0)
         {
             return DXGI_FORMAT_R8G8_B8G8_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_G8R8_G8B8_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_G8R8_G8B8_UNORM") == 0)
         {
             return DXGI_FORMAT_G8R8_G8B8_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC1_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC1_TYPELESS") == 0)
         {
             return DXGI_FORMAT_BC1_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC1_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC1_UNORM") == 0)
         {
             return DXGI_FORMAT_BC1_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC1_UNORM_SRGB") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC1_UNORM_SRGB") == 0)
         {
             return DXGI_FORMAT_BC1_UNORM_SRGB;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC2_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC2_TYPELESS") == 0)
         {
             return DXGI_FORMAT_BC2_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC2_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC2_UNORM") == 0)
         {
             return DXGI_FORMAT_BC2_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC2_UNORM_SRGB") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC2_UNORM_SRGB") == 0)
         {
             return DXGI_FORMAT_BC2_UNORM_SRGB;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC3_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC3_TYPELESS") == 0)
         {
             return DXGI_FORMAT_BC3_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC3_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC3_UNORM") == 0)
         {
             return DXGI_FORMAT_BC3_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC3_UNORM_SRGB") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC3_UNORM_SRGB") == 0)
         {
             return DXGI_FORMAT_BC3_UNORM_SRGB;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC4_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC4_TYPELESS") == 0)
         {
             return DXGI_FORMAT_BC4_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC4_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC4_UNORM") == 0)
         {
             return DXGI_FORMAT_BC4_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC4_SNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC4_SNORM") == 0)
         {
             return DXGI_FORMAT_BC4_SNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC5_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC5_TYPELESS") == 0)
         {
             return DXGI_FORMAT_BC5_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC5_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC5_UNORM") == 0)
         {
             return DXGI_FORMAT_BC5_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC5_SNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC5_SNORM") == 0)
         {
             return DXGI_FORMAT_BC5_SNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_B5G6R5_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_B5G6R5_UNORM") == 0)
         {
             return DXGI_FORMAT_B5G6R5_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_B5G5R5A1_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_B5G5R5A1_UNORM") == 0)
         {
             return DXGI_FORMAT_B5G5R5A1_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_B8G8R8A8_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_B8G8R8A8_UNORM") == 0)
         {
             return DXGI_FORMAT_B8G8R8A8_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_B8G8R8X8_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_B8G8R8X8_UNORM") == 0)
         {
             return DXGI_FORMAT_B8G8R8X8_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_R10G10B10_XR_BIAS_A2_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_R10G10B10_XR_BIAS_A2_UNORM") == 0)
         {
             return DXGI_FORMAT_R10G10B10_XR_BIAS_A2_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_B8G8R8A8_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_B8G8R8A8_TYPELESS") == 0)
         {
             return DXGI_FORMAT_B8G8R8A8_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_B8G8R8A8_UNORM_SRGB") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_B8G8R8A8_UNORM_SRGB") == 0)
         {
             return DXGI_FORMAT_B8G8R8A8_UNORM_SRGB;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_B8G8R8X8_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_B8G8R8X8_TYPELESS") == 0)
         {
             return DXGI_FORMAT_B8G8R8X8_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_B8G8R8X8_UNORM_SRGB") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_B8G8R8X8_UNORM_SRGB") == 0)
         {
             return DXGI_FORMAT_B8G8R8X8_UNORM_SRGB;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC6H_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC6H_TYPELESS") == 0)
         {
             return DXGI_FORMAT_BC6H_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC6H_UF16") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC6H_UF16") == 0)
         {
             return DXGI_FORMAT_BC6H_UF16;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC6H_SF16") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC6H_SF16") == 0)
         {
             return DXGI_FORMAT_BC6H_SF16;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC7_TYPELESS") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC7_TYPELESS") == 0)
         {
             return DXGI_FORMAT_BC7_TYPELESS;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC7_UNORM") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC7_UNORM") == 0)
         {
             return DXGI_FORMAT_BC7_UNORM;
         }
-        else if(pxFormat.compare(L"DXGI_FORMAT_BC7_UNORM_SRGB") == 0)
+        else if(pxFormat.compare("DXGI_FORMAT_BC7_UNORM_SRGB") == 0)
         {
             return DXGI_FORMAT_BC7_UNORM_SRGB;
         }
         else
         {
-            std::wstring msgerr = fmt::format(AELOCMAN->GetLiteral(L"ShaderType::AE_ST_PX_FMT_NOT_FOUND_ERR_MSG"), __FUNCTIONW__, pxFormat, L"DXGI_FORMAT_UNKNOWN");
+            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("ShaderType::AE_ST_PX_FMT_NOT_FOUND_ERR_MSG"), __FUNCTION__, pxFormat, "DXGI_FORMAT_UNKNOWN");
             AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
         
             return DXGI_FORMAT_UNKNOWN;
@@ -957,57 +961,57 @@ namespace AEGraphicHelpers
         }
     }
 
-    std::wstring GetShaderTypeString(ShaderType shaderType)
+    std::string GetShaderTypeString(ShaderType shaderType)
     {
         switch (shaderType)
         {
             case ShaderType::VertexShader:
-                return L"Vertex Shader";
+                return "Vertex Shader";
 
             case ShaderType::PixelShader:
-                return L"Pixel Shader";
+                return "Pixel Shader";
 
             case ShaderType::GeometryShader:
-                return L"Geometry Shader";
+                return "Geometry Shader";
 
             case ShaderType::HullShader:
-                return L"Hull Shader";
+                return "Hull Shader";
 
             case ShaderType::ComputeShader:
-                return L"Compute Shader";
+                return "Compute Shader";
 
             case ShaderType::DomainShader:
-                return L"Domain Shader";
+                return "Domain Shader";
 
             default:
                 AEAssert(false);
-                return L"";
+                return "";
         }
     }
 
-    ShaderType GetShaderTypeFromString(std::wstring shaderType)
+    ShaderType GetShaderTypeFromString(std::string shaderType)
     {
-        if(shaderType.compare(L"Vertex Shader") == 0 || shaderType.compare(L"VertexShader") == 0)
+        if(shaderType.compare("Vertex Shader") == 0 || shaderType.compare("VertexShader") == 0)
         {
             return ShaderType::VertexShader;
         }
-        else if(shaderType.compare(L"Pixel Shader") == 0 || shaderType.compare(L"PixelShader") == 0)
+        else if(shaderType.compare("Pixel Shader") == 0 || shaderType.compare("PixelShader") == 0)
         {
             return ShaderType::PixelShader;
         }
-        else if(shaderType.compare(L"Geometry Shader") == 0 || shaderType.compare(L"GeometryShader") == 0)
+        else if(shaderType.compare("Geometry Shader") == 0 || shaderType.compare("GeometryShader") == 0)
         {
             return ShaderType::GeometryShader;
         }
-        else if(shaderType.compare(L"Hull Shader") == 0 || shaderType.compare(L"HullShader") == 0)
+        else if(shaderType.compare("Hull Shader") == 0 || shaderType.compare("HullShader") == 0)
         {
             return ShaderType::HullShader;
         }
-        else if(shaderType.compare(L"Compute Shader") == 0 || shaderType.compare(L"ComputeShader") == 0)
+        else if(shaderType.compare("Compute Shader") == 0 || shaderType.compare("ComputeShader") == 0)
         {
             return ShaderType::ComputeShader;
         }
-        else if(shaderType.compare(L"Domain Shader") == 0 || shaderType.compare(L"DomainShader") == 0)
+        else if(shaderType.compare("Domain Shader") == 0 || shaderType.compare("DomainShader") == 0)
         {
             return ShaderType::DomainShader;
         }
@@ -1019,29 +1023,29 @@ namespace AEGraphicHelpers
         }
     }
 
-    std::wstring GetTextureTypeString(TextureType textureType)
+    std::string GetTextureTypeString(TextureType textureType)
     {
         switch (textureType)
         {
             case TextureType::Texture2D:
-                return L"Texture 2D";
+                return "Texture 2D";
 
             case TextureType::TextureCube:
-                return L"Texture Cube";
+                return "Texture Cube";
 
             default:
                 AEAssert(false);
-                return L"";
+                return "";
         }
     }
 
-    TextureType GetTextureTypeString(std::wstring textureType)
+    TextureType GetTextureTypeString(std::string textureType)
     {
-        if(textureType.compare(L"Texture2D") == 0 || textureType.compare(L"Texture 2D") == 0)
+        if(textureType.compare("Texture2D") == 0 || textureType.compare("Texture 2D") == 0)
         {
             return TextureType::Texture2D;
         }
-        else if(textureType.compare(L"TextureCube") == 0 || textureType.compare(L"Texture Cube") == 0)
+        else if(textureType.compare("TextureCube") == 0 || textureType.compare("Texture Cube") == 0)
         {
             return TextureType::TextureCube;
         }

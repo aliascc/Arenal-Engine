@@ -23,8 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -92,7 +90,7 @@ class TextureAsset sealed : public GameAsset
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
         /// <param name="textureType">Type of the Texture that this Asset will hold</param>
         /// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
-        TextureAsset(const std::wstring& filePath, GameResourceManager* gameResourceManager, TextureType textureType, GraphicDevice* graphicDevice);
+        TextureAsset(const std::string& filePath, GameResourceManager* gameResourceManager, TextureType textureType, GraphicDevice* graphicDevice);
 
         /// <summary>
         /// Default TextureAsset Destructor

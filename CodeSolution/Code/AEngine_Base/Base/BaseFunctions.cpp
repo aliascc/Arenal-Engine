@@ -19,12 +19,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_base.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <regex>
-#include <mutex>
-#include <iostream>
 
 /*************************
 *   3rd Party Includes   *
@@ -52,11 +54,11 @@
 *****************/
 namespace AE_Base 
 {    
-    const uint32_t        AE_VERSION_MAYOR        = __AE_VERSION_MAJOR;
-    const uint32_t        AE_VERSION_MINOR        = __AE_VERSION_MINOR;
-    const uint32_t        AE_VERSION_REVISION     = __AE_VERSION_REVISION;
-    const std::wstring    AE_VERSION              = AEWSTR(__AE_VERSION_MAJOR.__AE_VERSION_MINOR.__AE_VERSION_REVISION);
-    const std::wstring    AE_CODENAME             = L"Star Dust";
+    const uint32_t      AE_VERSION_MAYOR    = __AE_VERSION_MAJOR;
+    const uint32_t      AE_VERSION_MINOR    = __AE_VERSION_MINOR;
+    const uint32_t      AE_VERSION_REVISION = __AE_VERSION_REVISION;
+    const std::string   AE_VERSION          = AESTR(__AE_VERSION_MAJOR.__AE_VERSION_MINOR.__AE_VERSION_REVISION);
+    const std::string   AE_CODENAME         = "Star Dust";
 
 /****************************
 *    Static Variables init   *
@@ -77,43 +79,24 @@ namespace AE_Base
 *   Function Defs   *
 *********************/
 
-    std::wstring GetRelativePath(const std::wstring& filepath)
+    std::string GetRelativePath(const std::string& filepath)
     {
-        std::wstring relativePath = L"./";
+        std::string relativePath = "./";
 
         boost::filesystem::path boostFilepath(filepath);
 
-        relativePath += boost::filesystem::make_relative(boost::filesystem::current_path(), boostFilepath).wstring();
+        relativePath += boost::filesystem::make_relative(boost::filesystem::current_path(), boostFilepath).string();
 
         return relativePath;
     }
 
-    void SplitString(const std::string& str, std::vector<std::string>& tokens, const std::string& regex, bool trimEmpty)
-    {
-        tokens.clear();
-
-        std::regex regexVar(regex);
-
-        std::sregex_token_iterator it = std::sregex_token_iterator(str.begin(), str.end(), regexVar, -1);
-        std::sregex_token_iterator end = std::sregex_token_iterator();
-
-        for (; it != end; ++it)
-        {
-            if (trimEmpty && it->str().empty())
-            {
-                continue;
-            }
-            tokens.push_back(it->str());
-        }
-    };
-
-    void SplitString(const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& regex, bool trimEmpty)
+    void SplitWString(const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& regex, bool trimEmpty)
     {
         tokens.clear();
 
         std::wregex regexVar(regex);
 
-        std::wsregex_token_iterator it = std::wsregex_token_iterator(str.begin(), str.end(), regexVar, -1);
+        std::wsregex_token_iterator it  = std::wsregex_token_iterator(str.begin(), str.end(), regexVar, -1);
         std::wsregex_token_iterator end = std::wsregex_token_iterator();
 
         for (; it != end; ++it)
@@ -126,7 +109,26 @@ namespace AE_Base
         }
     };
 
-    AEResult GetFileModifiedTime(const std::wstring& fileName, TimeStamp& timeStamp)
+    void SplitString(const std::string& str, std::vector<std::string>& tokens, const std::string& regex, bool trimEmpty)
+    {
+        tokens.clear();
+
+        std::regex regexVar(regex);
+
+        std::sregex_token_iterator it   = std::sregex_token_iterator(str.begin(), str.end(), regexVar, -1);
+        std::sregex_token_iterator end  = std::sregex_token_iterator();
+
+        for (; it != end; ++it)
+        {
+            if (trimEmpty && it->str().empty())
+            {
+                continue;
+            }
+            tokens.push_back(it->str());
+        }
+    };
+
+    AEResult GetFileModifiedTime(const std::string& fileName, TimeStamp& timeStamp)
     {
         memset(&timeStamp, 0, sizeof(TimeStamp));
 
@@ -161,14 +163,14 @@ namespace AE_Base
         return AEResult::Ok;
     }
 
-    void ConsolePrintLine(const std::wstring& msg)
+    void ConsolePrintLine(const std::string& msg)
     {
-        std::wcout << msg << std::endl;
+        std::cout << msg << std::endl;
     }
 
-    void ConsolePrint(const std::wstring& msg)
+    void ConsolePrint(const std::string& msg)
     {
-        std::wcout << msg;
+        std::cout << msg;
     }
 
     uint64_t GetNextUniqueID()
@@ -178,403 +180,403 @@ namespace AE_Base
         return AE_UNIQUE_ID++;
     }
 
-    std::wstring GetAEResultString(AEResult result)
+    std::string GetAEResultString(AEResult result)
     {
         switch (result)
         {
             case AEResult::Fail:
-                return L"Fail";
+                return "Fail";
 
             case AEResult::NotReady:
-                return L"NotReady";
+                return "NotReady";
 
             case AEResult::GraphicDeviceNull:
-                return L"GraphicDeviceNull";
+                return "GraphicDeviceNull";
 
             case AEResult::NullParameter:
-                return L"NullParameter";
+                return "NullParameter";
 
             case AEResult::EmptyFilename:
-                return L"EmptyFilename";
+                return "EmptyFilename";
 
             case AEResult::CreateDXDeviceFail:
-                return L"CreateDXDeviceFail";
+                return "CreateDXDeviceFail";
 
             case AEResult::CreateDXConfFail:
-                return L"CreateDXConfFail";
+                return "CreateDXConfFail";
 
             case AEResult::FeatureLvlUnsupported:
-                return L"FeatureLvlUnsupported";
+                return "FeatureLvlUnsupported";
 
             case AEResult::CreateDXSwapChainFail:
-                return L"CreateDXSwapChainFail";
+                return "CreateDXSwapChainFail";
 
             case AEResult::CreateDXDefaultRTDSFail:
-                return L"CreateDXDefaultRTDSFail";
+                return "CreateDXDefaultRTDSFail";
 
             case AEResult::InitViewportFail:
-                return L"InitViewportFail";
+                return "InitViewportFail";
 
             case AEResult::RegGlobalPropFail:
-                return L"RegGlobalPropFail";
+                return "RegGlobalPropFail";
 
             case AEResult::RegGlobalFuncFail:
-                return L"RegGlobalFuncFail";
+                return "RegGlobalFuncFail";
 
             case AEResult::RegObjTypeFail:
-                return L"RegObjTypeFail";
+                return "RegObjTypeFail";
 
             case AEResult::RegEnumValFail:
-                return L"RegEnumValFail";
+                return "RegEnumValFail";
 
             case AEResult::RegEnumFail:
-                return L"RegEnumFail";
+                return "RegEnumFail";
 
             case AEResult::RegObjMethodFail:
-                return L"RegObjMethodFail";
+                return "RegObjMethodFail";
 
             case AEResult::RegObjPropFail:
-                return L"RegObjPropFail";
+                return "RegObjPropFail";
 
             case AEResult::RegObjBehaviorFail:
-                return L"RegObjBehaviorFail";
+                return "RegObjBehaviorFail";
 
             case AEResult::RegInterfaceFail:
-                return L"RegInterfaceFail";
+                return "RegInterfaceFail";
 
             case AEResult::OpenFileFail:
-                return L"OpenFileFail";
+                return "OpenFileFail";
 
             case AEResult::NotFound:
-                return L"NotFound";
+                return "NotFound";
 
             case AEResult::XMLReadError:
-                return L"XMLReadError";
+                return "XMLReadError";
 
             case AEResult::InitLoggerFail:
-                return L"InitLoggerFail";
+                return "InitLoggerFail";
 
             case AEResult::Log2FileActive:
-                return L"Log2FileActive";
+                return "Log2FileActive";
 
             case AEResult::ASModuleNotFound:
-                return L"ASModuleNotFound";
+                return "ASModuleNotFound";
 
             case AEResult::ASModuleAlreadyCreated:
-                return L"ASModuleAlreadyCreated";
+                return "ASModuleAlreadyCreated";
 
             case AEResult::ASModuleCreateFail:
-                return L"ASModuleCreateFail";
+                return "ASModuleCreateFail";
 
             case AEResult::ASAddSecModuleFail:
-                return L"ASAddSecModuleFail";
+                return "ASAddSecModuleFail";
 
             case AEResult::ASBuildModuleFail:
-                return L"ASBuildModuleFail";
+                return "ASBuildModuleFail";
 
             case AEResult::ASDiscardModuleFail:
-                return L"ASDiscardModuleFail";
+                return "ASDiscardModuleFail";
 
             case AEResult::ASPrepareContextFailed:
-                return L"ASPrepareContextFailed";
+                return "ASPrepareContextFailed";
 
             case AEResult::ASSetArgObjectFailed:
-                return L"ASSetArgObjectFailed";
+                return "ASSetArgObjectFailed";
 
             case AEResult::KeyboardLockFailed:
-                return L"KeyboardLockFailed";
+                return "KeyboardLockFailed";
 
             case AEResult::KeyboardUnLockFailed:
-                return L"KeyboardUnLockFailed";
+                return "KeyboardUnLockFailed";
 
             case AEResult::StructuredBufferInitFailed:
-                return L"StructuredBufferInitFailed";
+                return "StructuredBufferInitFailed";
 
             case AEResult::StructuredBufferSetDateFailed:
-                return L"StructuredBufferSetDateFailed";
+                return "StructuredBufferSetDateFailed";
 
             case AEResult::SimpleBufferInitFailed:
-                return L"SimpleBufferInitFailed";
+                return "SimpleBufferInitFailed";
 
             case AEResult::SimpleBufferSetDateFailed:
-                return L"SimpleBufferSetDateFailed";
+                return "SimpleBufferSetDateFailed";
 
             case AEResult::ConstantBufferInitFailed:
-                return L"ConstantBufferInitFailed";
+                return "ConstantBufferInitFailed";
 
             case AEResult::ConstantBufferSetDataFailed:
-                return L"ConstantBufferSetDataFailed";
+                return "ConstantBufferSetDataFailed";
 
             case AEResult::VertexShaderLoadFailed:
-                return L"VertexShaderLoadFailed";
+                return "VertexShaderLoadFailed";
 
             case AEResult::PixelShaderLoadFailed:
-                return L"PixelShaderLoadFailed";
+                return "PixelShaderLoadFailed";
 
             case AEResult::HullShaderLoadFailed:
-                return L"HullShaderLoadFailed";
+                return "HullShaderLoadFailed";
 
             case AEResult::DomainShaderLoadFailed:
-                return L"DomainShaderLoadFailed";
+                return "DomainShaderLoadFailed";
 
             case AEResult::GeometryShaderLoadFailed:
-                return L"GeometryShaderLoadFailed";
+                return "GeometryShaderLoadFailed";
 
             case AEResult::ComputeShaderLoadFailed:
-                return L"ComputeShaderLoadFailed";
+                return "ComputeShaderLoadFailed";
 
             case AEResult::EmptyString:
-                return L"EmptyString";
+                return "EmptyString";
 
             case AEResult::ObjExists:
-                return L"ObjExists";
+                return "ObjExists";
 
             case AEResult::InvalidPermutation:
-                return L"InvalidPermutation";
+                return "InvalidPermutation";
 
             case AEResult::SetTextureFailed:
-                return L"SetTextureFailed";
+                return "SetTextureFailed";
 
             case AEResult::NullObj:
-                return L"NullObj";
+                return "NullObj";
 
             case AEResult::OutsideRange:
-                return L"OutsideRange";
+                return "OutsideRange";
 
             case AEResult::LoadFileFailed:
-                return L"LoadFileFailed";
+                return "LoadFileFailed";
 
             case AEResult::AssimpProcessGraph:
-                return L"AssimpProcessGraph";
+                return "AssimpProcessGraph";
 
             case AEResult::AssimpProcessMaterials:
-                return L"AssimpProcessMaterials";
+                return "AssimpProcessMaterials";
 
             case AEResult::AssimpProcessEmbeddedTextures:
-                return L"AssimpProcessEmbeddedTextures";
+                return "AssimpProcessEmbeddedTextures";
 
             case AEResult::AssimpProcessMeshes:
-                return L"AssimpProcessMeshes";
+                return "AssimpProcessMeshes";
 
             case AEResult::AssimpProcessSkeleton:
-                return L"AssimpProcessSkeleton";
+                return "AssimpProcessSkeleton";
 
             case AEResult::AssimpProcessAnimation:
-                return L"AssimpProcessAnimation";
+                return "AssimpProcessAnimation";
 
             case AEResult::AssimpProcessConstructModel:
-                return L"AssimpProcessConstructModel";
+                return "AssimpProcessConstructModel";
 
             case AEResult::EmptySkeleton:
-                return L"EmptySkeleton";
+                return "EmptySkeleton";
 
             case AEResult::EmptyName:
-                return L"EmptyName";
+                return "EmptyName";
 
             case AEResult::GameResourceManagerNull:
-                return L"GameResourceManagerNull";
+                return "GameResourceManagerNull";
 
             case AEResult::ResourceIsManaged:
-                return L"ResourceIsManaged";
+                return "ResourceIsManaged";
 
             case AEResult::ResourceManagedFailed:
-                return L"ResourceManagedFailed";
+                return "ResourceManagedFailed";
 
             case AEResult::ResourceManagedTypeError:
-                return L"ResourceManagedTypeError";
+                return "ResourceManagedTypeError";
 
             case AEResult::CreateSRViewFailed:
-                return L"CreateSRViewFailed";
+                return "CreateSRViewFailed";
 
             case AEResult::CreateRTViewFailed:
-                return L"CreateRTViewFailed";
+                return "CreateRTViewFailed";
 
             case AEResult::CreateTextureFailed:
-                return L"CreateTextureFailed";
+                return "CreateTextureFailed";
 
             case AEResult::CreateDSViewFailed:
-                return L"CreateDSViewFailed";
+                return "CreateDSViewFailed";
 
             case AEResult::MaximunItemType:
-                return L"MaximunItemType";
+                return "MaximunItemType";
 
             case AEResult::InvalidObjType:
-                return L"InvalidObjType";
+                return "InvalidObjType";
 
             case AEResult::ZeroSize:
-                return L"ZeroSize";
+                return "ZeroSize";
 
             case AEResult::InvalidTextureType:
-                return L"InvalidTextureType";
+                return "InvalidTextureType";
 
             case AEResult::InvalidShaderType:
-                return L"InvalidShaderType";
+                return "InvalidShaderType";
 
             case AEResult::SetConstantBufferFailed:
-                return L"SetConstantBufferFailed";
+                return "SetConstantBufferFailed";
 
             case AEResult::SetSimpleBufferFailed:
-                return L"SetSimpleBufferFailed";
+                return "SetSimpleBufferFailed";
 
             case AEResult::SetStructuredBufferFailed:
-                return L"SetStructuredBufferFailed";
+                return "SetStructuredBufferFailed";
 
             case AEResult::SetVertexShaderFailed:
-                return L"SetVertexShaderFailed";
+                return "SetVertexShaderFailed";
 
             case AEResult::SetPixelShaderFailed:
-                return L"SetPixelShaderFailed";
+                return "SetPixelShaderFailed";
 
             case AEResult::SetGeometryShaderFailed:
-                return L"SetGeometryShaderFailed";
+                return "SetGeometryShaderFailed";
 
             case AEResult::SetDomainShaderFailed:
-                return L"SetDomainShaderFailed";
+                return "SetDomainShaderFailed";
 
             case AEResult::SetHullShaderFailed:
-                return L"SetHullShaderFailed";
+                return "SetHullShaderFailed";
 
             case AEResult::SetComputeShaderFailed:
-                return L"SetComputeShaderFailed";
+                return "SetComputeShaderFailed";
 
             case AEResult::SetVertexShaderPropsFailed:
-                return L"SetVertexShaderPropsFailed";
+                return "SetVertexShaderPropsFailed";
 
             case AEResult::SetPixelShaderPropsFailed:
-                return L"SetPixelShaderPropsFailed";
+                return "SetPixelShaderPropsFailed";
 
             case AEResult::SetGeometryShaderPropsFailed:
-                return L"SetGeometryShaderPropsFailed";
+                return "SetGeometryShaderPropsFailed";
 
             case AEResult::SetDomainShaderPropsFailed:
-                return L"SetDomainShaderPropsFailed";
+                return "SetDomainShaderPropsFailed";
 
             case AEResult::SetHullShaderPropsFailed:
-                return L"SetHullShaderPropsFailed";
+                return "SetHullShaderPropsFailed";
 
             case AEResult::SetComputeShaderPropsFailed:
-                return L"SetComputeShaderPropsFailed";
+                return "SetComputeShaderPropsFailed";
 
             case AEResult::ShaderTextureBindingInitFailed:
-                return L"ShaderTextureBindingInitFailed";
+                return "ShaderTextureBindingInitFailed";
 
             case AEResult::ShaderStructuredBufferInitFailed:
-                return L"ShaderStructuredBufferInitFailed";
+                return "ShaderStructuredBufferInitFailed";
 
             case AEResult::ShaderSimpleBufferInitFailed:
-                return L"ShaderSimpleBufferInitFailed";
+                return "ShaderSimpleBufferInitFailed";
 
             case AEResult::UnknownFileExtension:
-                return L"UnknownFileExtension";
+                return "UnknownFileExtension";
 
             case AEResult::EmptyFileExtension:
-                return L"EmptyFileExtension";
+                return "EmptyFileExtension";
 
             case AEResult::UnknownContentType:
-                return L"UnknownContentType";
+                return "UnknownContentType";
 
             case AEResult::GOCIsAssociated:
-                return L"GOCIsAssociated";
+                return "GOCIsAssociated";
 
             case AEResult::GOCIsNotAssociated:
-                return L"GOCIsNotAssociated";
+                return "GOCIsNotAssociated";
 
             case AEResult::GameObjectManagerNull:
-                return L"GameObjectManagerNull";
+                return "GameObjectManagerNull";
 
             case AEResult::LocalizationManagerNull:
-                return L"LocalizationManagerNull";
+                return "LocalizationManagerNull";
 
             case AEResult::LoggerNull:
-                return L"LoggerNull";
+                return "LoggerNull";
 
             case AEResult::ImportFail:
-                return L"ImportFail";
+                return "ImportFail";
 
             case AEResult::InvalidFileHeader:
-                return L"InvalidFileHeader";
+                return "InvalidFileHeader";
 
             case AEResult::InvalidShaderModel:
-                return L"InvalidShaderModel";
+                return "InvalidShaderModel";
 
             case AEResult::ShaderCompiledFail:
-                return L"ShaderCompiledFail";
+                return "ShaderCompiledFail";
 
             case AEResult::ShaderExtractSimpleBuffersFail:
-                return L"ShaderExtractSimpleBuffersFail";
+                return "ShaderExtractSimpleBuffersFail";
 
             case AEResult::ShaderExtractStructuredBuffersFail:
-                return L"ShaderExtractStructuredBuffersFail";
+                return "ShaderExtractStructuredBuffersFail";
 
             case AEResult::ShaderExtractConstantBuffersFail:
-                return L"ShaderExtractConstantBuffersFail";
+                return "ShaderExtractConstantBuffersFail";
 
             case AEResult::ShaderExtractTextureInputFail:
-                return L"ShaderExtractTextureInputFail";
+                return "ShaderExtractTextureInputFail";
 
             case AEResult::ShaderTypeMismatch:
-                return L"ShaderTypeMismatch";
+                return "ShaderTypeMismatch";
 
             case AEResult::FileNotPresent:
-                return L"FileNotPresent";
+                return "FileNotPresent";
 
             case AEResult::GameAssetManagerNull:
-                return L"GameAssetManagerNull"; 
+                return "GameAssetManagerNull"; 
 
             case AEResult::GameAssetNotLoaded:
-                return L"GameAssetNotLoaded";
+                return "GameAssetNotLoaded";
 
             case AEResult::GameAssetIDInUse:
-                return L"GameAssetIDInUse";
+                return "GameAssetIDInUse";
 
             case AEResult::GameAssetInvalidID:
-                return L"GameAssetInvalidID";
+                return "GameAssetInvalidID";
 
             case AEResult::RawGameAssetNotFound:
-                return L"RawGameAssetNotFound";
+                return "RawGameAssetNotFound";
 
             case AEResult::ShaderNull:
-                return L"ShaderNull";
+                return "ShaderNull";
 
             case AEResult::InvalidResourceMapType:
-                return L"InvalidResourceMapType";
+                return "InvalidResourceMapType";
 
             case AEResult::ResourceMapFailed:
-                return L"ResourceMapFailed";
+                return "ResourceMapFailed";
 
             case AEResult::InvalidIndexBufferType:
-                return L"InvalidIndexBufferType";
+                return "InvalidIndexBufferType";
 
             case AEResult::FailIndexBufferUpdate:
-                return L"FailIndexBufferUpdate";
+                return "FailIndexBufferUpdate";
 
             case AEResult::FailIndexBufferInit:
-                return L"FailIndexBufferInit";
+                return "FailIndexBufferInit";
 
             case AEResult::FullContainer:
-                return L"FullContainer"; 
+                return "FullContainer"; 
 
             case AEResult::LightManagerNull:
-                return L"LightManagerNull";
+                return "LightManagerNull";
 
             case AEResult::CameraNull:
-                return L"CameraNull";
+                return "CameraNull";
 
             case AEResult::WriteToFileFailed:
-                return L"WriteToFileFailed";
+                return "WriteToFileFailed";
 
             case AEResult::ConfigLoadError:
-                return L"ConfigLoadError";
+                return "ConfigLoadError";
 
             case AEResult::ExceptionHandledFailed:
-                return L"ExceptionHandledFailed";
+                return "ExceptionHandledFailed";
 
             case AEResult::Ok:
-                return L"Ok";
+                return "Ok";
 
             default:
                 AEAssert(false);
-                return L"N/A";
+                return "N/A";
         }
     }
 }

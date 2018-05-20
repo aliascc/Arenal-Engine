@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -72,7 +69,7 @@ class Texture abstract : public GameResource
         /// <summary>
         /// Filename of the Texture
         /// </summary>
-        std::wstring m_Filename = L"";
+        std::string m_Filename = "";
         
         /// <summary>
         /// True is the Texture was loaded from a file
@@ -134,7 +131,7 @@ class Texture abstract : public GameResource
         /// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
         /// <param name="textureType">Type of the Texture</param>
         /// <param name="textureName">Name of the Texture</param>
-        Texture(GraphicDevice* graphicDevice, TextureType textureType, const std::wstring& textureName);
+        Texture(GraphicDevice* graphicDevice, TextureType textureType, const std::string& textureName);
 
 #pragma endregion
 
@@ -183,7 +180,7 @@ class Texture abstract : public GameResource
         /// Returns the Filename of the Texture
         /// </summary>
         /// <returns>Filename of the Texture</returns>
-        inline const std::wstring& GetFilename() const
+        inline const std::string& GetFilename() const
         { 
             return m_Filename; 
         }

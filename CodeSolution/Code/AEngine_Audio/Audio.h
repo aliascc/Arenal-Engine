@@ -23,13 +23,10 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "glm\glm.hpp"
 
 /***************************
 *   Game Engine Includes   *
@@ -76,7 +73,7 @@ class Audio sealed : public GameResource
         /// Default Audio Constructor
         /// </summary>
         /// <param name="audioName">Audio Name</param>
-        Audio(const std::wstring& audioName);
+        Audio(const std::string& audioName);
 
         /// <summary>
         /// Default Audio Destructor
@@ -121,7 +118,7 @@ class Audio sealed : public GameResource
         *************************/
 #pragma region Framework Methods
 
-        AEResult LoadFile(const std::wstring& file);
+        AEResult LoadFile(const std::string& file);
 
         AEResult Load() override;
 

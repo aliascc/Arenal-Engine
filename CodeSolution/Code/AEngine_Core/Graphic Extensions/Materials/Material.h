@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <vector>
-#include <d3d11_1.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -117,7 +114,7 @@ class Material abstract : public Named
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
         /// <param name="name">Name of the Material</param>
-        Material(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::wstring& name = L"");
+        Material(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name = "");
 
         /// <summary>
         /// Default Material Destructor

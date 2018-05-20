@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <vector>
 
 /*************************
 *   3rd Party Includes   *
@@ -50,7 +49,7 @@
 *******************/
 struct AnimationContent sealed : public GameContent
 {
-    std::wstring m_Name = L"";
+    std::string m_Name = "";
 
     std::vector<KeyFrame> m_KeyFrames;
     

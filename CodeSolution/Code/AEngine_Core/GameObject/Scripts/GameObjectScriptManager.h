@@ -23,7 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <unordered_map>
 
 /*************************
 *   3rd Party Includes   *
@@ -44,7 +43,7 @@
 /***************
 *   Typedefs   *
 ****************/
-typedef std::unordered_map<std::wstring, GameObjectScriptInstance*> GameObjectScriptMap;
+typedef std::unordered_map<std::string, GameObjectScriptInstance*> GameObjectScriptMap;
 typedef GameObjectScriptMap::iterator GameObjectScriptMapIt;
 typedef GameObjectScriptMap::const_iterator GameObjectScriptMapItConst;
 
@@ -110,15 +109,15 @@ class GameObjectScriptManager sealed : public AEObject
         *************************/
 #pragma region Framework Methods
 
-        bool Exists(const std::wstring& name);
+        bool Exists(const std::string& name);
 
-        AEResult Add(const std::wstring& name, GameObjectScriptInstance* instance);
+        AEResult Add(const std::string& name, GameObjectScriptInstance* instance);
 
-        AEResult Remove(const std::wstring& name);
+        AEResult Remove(const std::string& name);
 
-        GameObjectScriptInstance* Get(const std::wstring& name);
+        GameObjectScriptInstance* Get(const std::string& name);
 
-        asIScriptObject* GetScript(const std::wstring& name);
+        asIScriptObject* GetScript(const std::string& name);
 
         GameObjectScriptMapIt begin();
 
@@ -132,7 +131,7 @@ class GameObjectScriptManager sealed : public AEObject
 
         GameObjectScriptMapItConst cend() const;
 
-        GameObjectScriptInstance* operator[](const std::wstring& name);
+        GameObjectScriptInstance* operator[](const std::string& name);
 
 #pragma endregion
 

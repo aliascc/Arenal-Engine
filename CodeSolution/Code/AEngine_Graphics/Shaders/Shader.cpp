@@ -15,10 +15,14 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_graphics.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-#include <iostream>
 
 /*************************
 *   3rd Party Includes   *
@@ -38,7 +42,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Shader::Shader(GraphicDevice* graphicDevice, ShaderType shaderType, const std::wstring& name)
+Shader::Shader(GraphicDevice* graphicDevice, ShaderType shaderType, const std::string& name)
     : GameResource(name, GameResourceType::Unknown)
     , m_GraphicDevice(graphicDevice)
     , m_ShaderType(shaderType)

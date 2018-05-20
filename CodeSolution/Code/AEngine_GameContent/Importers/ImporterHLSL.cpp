@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecontent.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -22,18 +27,12 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "cppformat\format.h"
-#include "boost\filesystem.hpp"
 
 /***************************
 *   Game Engine Includes   *
 ****************************/
 #include "ImporterHLSL.h"
-#include "Logger\Logger.h"
-#include "Base\BaseFunctions.h"
 #include "Content\ShaderContent.h"
-#include "Localization\LocalizationManager.h"
-#include "Localization\LocalizationManagerDefs.h"
 #include "Shaders\Variables\ShaderCustomVariable.h"
 
 //Always include last
@@ -48,7 +47,7 @@
 *********************/
 AETODO("Using D3DCompiler, add Editor Flag");
 ImporterHLSL::ImporterHLSL()
-    : m_IncludeInterfaceHLSL(boost::filesystem::current_path().c_str())
+    : m_IncludeInterfaceHLSL(boost::filesystem::current_path().string())
 {
 }
 
@@ -110,7 +109,7 @@ AEResult ImporterHLSL::BuildShaderTarget(ShaderType shaderType, ShaderModel shad
     return AEResult::Ok;
 }
 
-AEResult ImporterHLSL::ImportShader(const std::wstring& filename, ShaderType shaderType, ShaderModel shaderModel, ShaderContent** shaderContent)
+AEResult ImporterHLSL::ImportShader(const std::string& filename, ShaderType shaderType, ShaderModel shaderModel, ShaderContent** shaderContent)
 {
     AEAssert(shaderContent != nullptr);
     if(shaderContent == nullptr)
@@ -136,7 +135,7 @@ AEResult ImporterHLSL::ImportShader(const std::wstring& filename, ShaderType sha
     //Set Compiler Flags
     UINT compilerFlags = (D3DCOMPILE_WARNINGS_ARE_ERRORS | D3DCOMPILE_PACK_MATRIX_COLUMN_MAJOR);
     
-#if defined(DEBUG) | defined(_DEBUG)
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
     compilerFlags |= (D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION);
 #else
     compilerFlags |= (D3DCOMPILE_OPTIMIZATION_LEVEL3);
@@ -144,20 +143,19 @@ AEResult ImporterHLSL::ImportShader(const std::wstring& filename, ShaderType sha
     
     /////////////////////////////////////////////////////
     //Compile Shader
-    HRESULT hr = D3DCompileFromFile(filename.c_str(), nullptr, &m_IncludeInterfaceHLSL, "main", shaderTarget.c_str(), compilerFlags, 0, &shaderDX, &err);
+    std::wstring filenameW = AE_Base::String2WideStr(filename);
+    HRESULT hr = D3DCompileFromFile(filenameW.c_str(), nullptr, &m_IncludeInterfaceHLSL, "main", shaderTarget.c_str(), compilerFlags, 0, &shaderDX, &err);
     
     if(hr != S_OK)
     {
         DisplayError(hr);
 
-        char* errorDX = reinterpret_cast<char*>(err->GetBufferPointer());
-
-        std::wstring strErrorDX = AE_Base::String2WideStr(errorDX);
-        std::wstring name = AE_Base::GetFilenameOnly(filename);;
+        std::string strErrorDX  = reinterpret_cast<char*>(err->GetBufferPointer());
+        std::string name        = AE_Base::GetFilenameOnly(filename);;
 
         ReleaseCOM(err);
 
-        std::wstring msg_error = fmt::format(AELOCMAN->GetLiteral(L"SHADER_COMPILARION_FAILED_ERR_MSG"), name, strErrorDX);
+        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("SHADER_COMPILARION_FAILED_ERR_MSG"), name, strErrorDX);
         AELOGGER->AddNewLog(LogLevel::Error, msg_error);
 
         return AEResult::ShaderCompiledFail;
@@ -165,13 +163,13 @@ AEResult ImporterHLSL::ImportShader(const std::wstring& filename, ShaderType sha
     
     /////////////////////////////////////////////////////
     //Create Shader Content
-    ShaderContent* shaderContentTemp = new ShaderContent();
+    ShaderContent* shaderContentTemp    = new ShaderContent();
 
-    shaderContentTemp->m_Name            = AE_Base::GetFilenameOnly(filename);
+    shaderContentTemp->m_Name           = AE_Base::GetFilenameOnly(filename);
 
-    shaderContentTemp->m_ShaderType        = shaderType;
-    shaderContentTemp->m_ByteCodeSize    = (uint32_t)shaderDX->GetBufferSize();
-    shaderContentTemp->m_ShaderByteCode    = new char[shaderContentTemp->m_ByteCodeSize];
+    shaderContentTemp->m_ShaderType     = shaderType;
+    shaderContentTemp->m_ByteCodeSize   = (uint32_t)shaderDX->GetBufferSize();
+    shaderContentTemp->m_ShaderByteCode = new char[shaderContentTemp->m_ByteCodeSize];
 
     memset(shaderContentTemp->m_ShaderByteCode, 0, sizeof(char) * shaderContentTemp->m_ByteCodeSize);
 
@@ -285,7 +283,7 @@ AEResult ImporterHLSL::ExtractShaderConstantBuffers(ShaderContent* content, ID3D
         //////////////////////////////////////////////////
         //Set Constant Buffer Basic Info
         ConstantBufferShaderHolder cbHolder;
-        cbHolder.m_Name = AE_Base::String2WideStr(descCB.Name);
+        cbHolder.m_Name = descCB.Name;
 
         //////////////////////////////////////////////////
         //Extract Variable Information
@@ -312,14 +310,14 @@ AEResult ImporterHLSL::ExtractShaderConstantBuffers(ShaderContent* content, ID3D
             //Set Variable Info
             ShaderCustomVariable shaderVar;
 
-            shaderVar.m_Name                = AE_Base::String2WideStr(descVar.Name);
+            shaderVar.m_Name                = descVar.Name;
             shaderVar.m_StartOffset         = descVar.StartOffset;
             shaderVar.m_Offset              = variableOffset;
             shaderVar.m_Size                = (uint32_t)descVar.Size;
             shaderVar.m_Elements            = descVarType.Elements;
             shaderVar.m_IsArray             = (shaderVar.m_Elements != 0);
             shaderVar.m_ElementSize         = ( (shaderVar.m_Elements != 0) ? (shaderVar.m_Size / shaderVar.m_Elements) : shaderVar.m_Size );
-            shaderVar.m_UserVariable        = (shaderVar.m_Name.compare(0, 3, L"_AE") != 0); //If no _AE prefix then its a user variable
+            shaderVar.m_UserVariable        = (shaderVar.m_Name.compare(0, 3, "_AE") != 0); //If no _AE prefix then its a user variable
             shaderVar.m_Columns             = descVarType.Columns;
             shaderVar.m_Rows                = descVarType.Rows;
             shaderVar.m_ShaderVariableClass = GetShaderVariableClass(descVarType.Class);
@@ -341,11 +339,9 @@ AEResult ImporterHLSL::ExtractShaderConstantBuffers(ShaderContent* content, ID3D
         D3D11_SHADER_INPUT_BIND_DESC descBoundResources;
         shaderReflector->GetResourceBindingDesc(i, &descBoundResources);
 
-        std::wstring brName = AE_Base::String2WideStr(descBoundResources.Name);
-
         for(ConstantBufferShaderHolder& cbHolder : content->m_ConstantBufferShaderHolderList)
         {
-            if(cbHolder.m_Name.compare(brName) == 0)
+            if(cbHolder.m_Name.compare(descBoundResources.Name) == 0)
             {
                 cbHolder.m_BindIndex = descBoundResources.BindPoint;
                 break;
@@ -459,9 +455,9 @@ AEResult ImporterHLSL::ExtractShaderSimpleBuffers(ShaderContent* content, const 
 
     SimpleBufferShaderHolder simpleBufferShaderHolder;
 
-    simpleBufferShaderHolder.m_Name            = AE_Base::String2WideStr(descBoundResources.Name);
+    simpleBufferShaderHolder.m_Name         = descBoundResources.Name;
     simpleBufferShaderHolder.m_BindIndex    = descBoundResources.BindPoint;
-    simpleBufferShaderHolder.m_IsRW            =(descBoundResources.Type == D3D_SIT_UAV_RWTYPED);
+    simpleBufferShaderHolder.m_IsRW         = (descBoundResources.Type == D3D_SIT_UAV_RWTYPED);
 
     switch (descBoundResources.ReturnType)
     {
@@ -512,8 +508,8 @@ AEResult ImporterHLSL::ExtractShaderSimpleBuffers(ShaderContent* content, const 
     }
     else
     {
-        simpleBufferShaderHolder.m_VariableClass = ShaderVariableClass::Scalar;
-        simpleBufferShaderHolder.m_ElementCount = 1;
+        simpleBufferShaderHolder.m_VariableClass    = ShaderVariableClass::Scalar;
+        simpleBufferShaderHolder.m_ElementCount     = 1;
     }
 
     content->m_SimpleBufferShaderHolderList.push_back(simpleBufferShaderHolder);
@@ -540,7 +536,7 @@ AEResult ImporterHLSL::ExtractShaderStructuredBuffers(ShaderContent* content, co
 
     StructuredBufferShaderHolder structuredBufferHolder;
 
-    structuredBufferHolder.m_Name       = AE_Base::String2WideStr(descBoundResources.Name);
+    structuredBufferHolder.m_Name       = descBoundResources.Name;
     structuredBufferHolder.m_BindIndex  = descBoundResources.BindPoint;
     structuredBufferHolder.m_IsRW       =(descBoundResources.Type == D3D_SIT_UAV_RWSTRUCTURED);
 
@@ -600,15 +596,15 @@ AEResult ImporterHLSL::ExtractShaderTextureInputs(ShaderContent* content, const 
 
     if (isTextArray)
     {
-        tsArrayHolder.m_Name = AE_Base::String2WideStr(descBoundResources.Name);
-        tsArrayHolder.m_BindIndex = descBoundResources.BindPoint;
+        tsArrayHolder.m_Name        = descBoundResources.Name;
+        tsArrayHolder.m_BindIndex   = descBoundResources.BindPoint;
 
         content->m_TextureArrayShaderVariableHolderList.push_back(tsArrayHolder);
     }
     else
     {
-        tsHolder.m_Name = AE_Base::String2WideStr(descBoundResources.Name);
-        tsHolder.m_BindIndex = descBoundResources.BindPoint;
+        tsHolder.m_Name         = descBoundResources.Name;
+        tsHolder.m_BindIndex    = descBoundResources.BindPoint;
 
         content->m_TextureShaderVariableHolderList.push_back(tsHolder);
     }
@@ -634,7 +630,7 @@ AEResult ImporterHLSL::ExtractShaderSamplers(ShaderContent* content, const D3D11
 
     SamplerShaderHolder samplerShaderHolder;
 
-    samplerShaderHolder.m_Name            = AE_Base::String2WideStr(descBoundResources.Name);
+    samplerShaderHolder.m_Name            = descBoundResources.Name;
     samplerShaderHolder.m_BindIndex       = descBoundResources.BindPoint;
 
     content->m_SamplerShaderHolderList.push_back(samplerShaderHolder);

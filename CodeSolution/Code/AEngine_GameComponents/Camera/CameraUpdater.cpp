@@ -15,6 +15,11 @@
 * limitations under the License.
 */
 
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_gamecomponents.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -30,7 +35,6 @@
 #include "Camera\Camera.h"
 #include "GraphicDevice.h"
 #include "GameApp\GameApp.h"
-#include "Base\BaseFunctions.h"
 #include "Camera\CameraManager.h"
 
 //Always include last
@@ -40,7 +44,7 @@
 *   Function Defs   *
 *********************/
 
-CameraUpdater::CameraUpdater(GameApp* gameApp, const std::wstring& name, const std::wstring& serviceName, uint32_t callOrder)
+CameraUpdater::CameraUpdater(GameApp* gameApp, const std::string& name, const std::string& serviceName, uint32_t callOrder)
     : GameComponent(gameApp, name, callOrder)
     , m_ServiceName(serviceName)
 {

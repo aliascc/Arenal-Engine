@@ -23,9 +23,6 @@
 /**********************
 *   System Includes   *
 ***********************/
-#include <string>
-#include <vector>
-#include <stdint.h>
 
 /*************************
 *   3rd Party Includes   *
@@ -34,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "AEGameComponentsDefs.h"
 #include "GameUtils\GameComponent.h"
 
@@ -78,7 +74,7 @@ class GameObjectCameraUpdate sealed : public GameComponent
         /// <summary>
         /// GameObjectCameraUpdate Constructor
         /// </summary>
-        GameObjectCameraUpdate(GameApp* gameApp, const std::wstring& gameComponentName = AE_GAME_GAME_OBJECT_CAMERA_UPDATE_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectCameraUpdate);
+        GameObjectCameraUpdate(GameApp* gameApp, const std::string& gameComponentName = AE_GAME_GAME_OBJECT_CAMERA_UPDATE_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectCameraUpdate);
 
         /// <summary>
         /// Default GameObjectCameraUpdate Destructor

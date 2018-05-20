@@ -6,11 +6,13 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="AudioDefs.h" />
     <ClInclude Include="AudioPlayer.h" />
+    <ClInclude Include="precomp_audio.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AudioListener.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="AudioPlayer.cpp" />
+    <ClCompile Include="precomp_audio.cpp" />
   </ItemGroup>
 </Project>
