@@ -51,12 +51,14 @@
 #include "GameASAddOns\AudioAddOnAS.h"
 #include "GameASAddOns\InputAddOnAS.h"
 #include "GameASAddOns\ColorAddOnAS.h"
+#include "Game Command\ResizeCommand.h"
 #include "Crash Handling\CrashHandler.h"
 #include "GameAssets\GameAssetManager.h"
 #include "GameASAddOns\GameCoreAddOnAS.h"
 #include "GameObject\GameObjectManager.h"
 #include "Resource\GameResourceManager.h"
 #include "AngelScript\AngelScriptManager.h"
+#include "Game Command\GameCommandManager.h"
 #include "Crash Handling\CrashHandlerDefs.h"
 #include "GameUtils\GameServiceCollection.h"
 #include "GameASAddOns\LocalizationAddOnAS.h"
@@ -110,6 +112,7 @@ void GameApp::CleanUp()
     // - Localization Manager
     // - Input Manager
     // - Angel Script Manager
+    // - Game Command Manager
     //
 
     DeleteMem(m_GameObjectManager);
@@ -131,6 +134,8 @@ void GameApp::CleanUp()
     DeleteMem(m_LightManager);
 
     DeleteMem(m_CameraManager);
+
+    DeleteMem(m_GameCommandManager);
 
     //Delete Graphic Device Last after Components, Resources and Services
     DeleteMem(m_GraphicDevice);
@@ -679,6 +684,10 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
 
     ////////////////////////////////////////////////
     //Create Camera Manager
+    m_GameCommandManager = new GameCommandManager();
+
+    ////////////////////////////////////////////////
+    //Create Camera Manager
     m_CameraManager = new CameraManager();
 
     ////////////////////////////////////////////////
@@ -1034,11 +1043,11 @@ void GameApp::OnResize(uint32_t width, uint32_t heigth)
         return;
     }
 
-    AETODO("Add to GameCommandManager when it has been implemented")
-    m_ResizeRequested = true;
+    glm::ivec2 newSize = { width, heigth };
 
-    m_NewResize.x = width;
-    m_NewResize.y = heigth;
+    ResizeCommand* rc = new ResizeCommand(*this, newSize);
+
+    m_GameCommandManager->AddCommand(rc);
 }
 
 AEResult GameApp::SetFullScreen(bool fullScreenEnable)
@@ -1182,16 +1191,6 @@ GameService* GameApp::GetGameServiceBase(const std::string& serviceName) const
 
 void GameApp::PreRender()
 {
-    if(m_ResizeRequested == true)
-    {
-        m_ResizeRequested = false;
-
-        OnLostDevice();
-
-        m_GraphicDevice->Resize(m_NewResize.x, m_NewResize.y);
-
-        OnResetDevice();
-    }
 }
 
 void GameApp::PostRender()
@@ -1285,6 +1284,9 @@ int GameApp::Run()
 
             //Post Render Commands
             PostRender();
+
+            //Run Game Commands
+            m_GameCommandManager->ExecuteCommands();
         }
     }
 

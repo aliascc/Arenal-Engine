@@ -49,6 +49,9 @@
     <Filter Include="GameASAddOns">
       <UniqueIdentifier>{66f4ec78-7151-42cf-95f4-d59d78f2495c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Command">
+      <UniqueIdentifier>{94340e58-fb98-463c-97ec-0989aac8218f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameApp\GameApp.cpp">
@@ -229,6 +232,15 @@
       <Filter>GameObject\Components</Filter>
     </ClCompile>
     <ClCompile Include="precomp_core.cpp" />
+    <ClCompile Include="Game Command\GameCommand.cpp">
+      <Filter>Game Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Command\GameCommandManager.cpp">
+      <Filter>Game Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Command\ResizeCommand.cpp">
+      <Filter>Game Command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameApp\GameApp.h">
@@ -415,5 +427,14 @@
       <Filter>GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="precomp_core.h" />
+    <ClInclude Include="Game Command\GameCommand.h">
+      <Filter>Game Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Command\GameCommandManager.h">
+      <Filter>Game Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Command\ResizeCommand.h">
+      <Filter>Game Command</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -357,6 +357,7 @@ AEResult GraphicDevice::InitSwapChainDesc()
     m_SwapChainDescDX.SampleDesc            = m_gPP.m_MultiSample;
 
     AETODO("Check into Usage Render Target Output");
+    AETODO("Add option to Back Buffer");
     m_SwapChainDescDX.BufferCount           = m_gPP.m_BackBufferCount; // = 2;                               // Use double buffering to minimize latency.
     m_SwapChainDescDX.BufferUsage           = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     

@@ -54,6 +54,7 @@ class PhysicsManager;
 class ResourceManager;
 class GameAssetManager;
 class GameObjectManager;
+class GameCommandManager;
 class AngelScriptManager;
 class GameResourceManager;
 class GameServiceCollection;
@@ -80,10 +81,6 @@ class GameApp abstract : public AEObject
         GraphicDebugDX* m_GraphicDebugDX = nullptr;
 
 #endif //AE_GRAPHIC_DEBUG_DEVICE
-
-        AETODO("Remove this variable when GameCommandManager has been implemented");
-        bool m_ResizeRequested = false;
-        glm::ivec2 m_NewResize = AEMathHelpers::Vec2iZero;
 
         AETODO("To be change to conditional variables");
         bool m_IsEngineOff = true;
@@ -253,6 +250,11 @@ class GameApp abstract : public AEObject
         PhysicsManager* m_PhysicsManager = nullptr;
 
         /// <summary>
+        /// Class to Manage all the Game Commands
+        /// </summary>
+        GameCommandManager* m_GameCommandManager = nullptr;
+
+        /// <summary>
         /// Application Init options
         /// </summary>
         GameAppOpts m_GameAppOpts;
@@ -311,8 +313,6 @@ class GameApp abstract : public AEObject
 
         //Framework Methods
         virtual void OnResize(uint32_t width, uint32_t heigth);
-        virtual void OnLostDevice();
-        virtual void OnResetDevice();
 
 #pragma endregion
 
@@ -524,6 +524,10 @@ class GameApp abstract : public AEObject
         virtual void Update(const TimerParams& timerParams);
 
         virtual void PostUpdate(const TimerParams& timerParams);
+
+        virtual void OnLostDevice();
+
+        virtual void OnResetDevice();
 
         template<class T>
         T* GetGameService(const std::string& serviceName) const

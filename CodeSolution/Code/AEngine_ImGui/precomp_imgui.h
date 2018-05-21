@@ -111,4 +111,14 @@
 #include "Time\AETimer.h"
 #include "Time\AETimeDefs.h"
 
+/*********************************
+*   Additional System Includes   *
+**********************************/
+
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
+#include <Initguid.h> 
+#include <dxgidebug.h>
+#include <d3dcommon.h>
+#endif
+
 #endif
