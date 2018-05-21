@@ -33,8 +33,6 @@
 ****************************/
 #include "GameComponent.h"
 #include "GameApp\GameApp.h"
-#include "Time\AETimeDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Resource\GameResourceManager.h"
 
 //Always include last

@@ -33,7 +33,6 @@
 ****************************/
 #include "Material.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\HullShader.h"
 #include "Shaders\PixelShader.h"
 #include "Shaders\DomainShader.h"

@@ -34,7 +34,6 @@
 #include "GraphicDevice.h"
 #include "Texture2DArray.h"
 #include "Textures\Texture.h"
-#include "Base\BaseFunctions.h"
 #include "Textures\ITexture2D.h"
 
 //Always include last

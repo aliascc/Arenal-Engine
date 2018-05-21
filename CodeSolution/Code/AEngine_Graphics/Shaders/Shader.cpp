@@ -34,7 +34,6 @@
 #include "Shader.h"
 #include "GraphicDevice.h"
 #include "GameContentDefs.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

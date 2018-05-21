@@ -33,8 +33,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "SkinningMaterial.h"
-#include "Math\AEMathDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Textures\Texture2D.h"
 #include "Shaders\PixelShader.h"
 #include "Shaders\VertexShader.h"

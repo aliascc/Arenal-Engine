@@ -35,7 +35,6 @@
 #include "MeshPart.h"
 #include "GraphicDevice.h"
 #include "GameContentDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Vertex\IndexBuffer.h"
 #include "Vertex\VertexBuffer.h"
 #include "Content\ContentDefs.h"

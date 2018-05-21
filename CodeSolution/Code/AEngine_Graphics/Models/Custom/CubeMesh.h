@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Models\Mesh.h"
 #include "Resource\GameResource.h"
 #include "Vertex\Types\VertexPositionNormalTexture.h"

@@ -27,7 +27,6 @@
 #include "Utils\AETime.h"
 #include "Textures\RenderTarget.h"
 #include "GraphicDevice.h"
-#include "Math\AEMathDefs.h"
 #include "Materials\HDRPostProcessMaterial.h"
 #include "Deferred Rendering\DeferredRenderingEnd.h"
 

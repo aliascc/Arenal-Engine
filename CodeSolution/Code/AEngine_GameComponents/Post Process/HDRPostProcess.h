@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameUtils\DrawableGameComponent.h"
-#include "Base\Base.h"
 #include "HDRPostProcessDefs.h"
 
 /************

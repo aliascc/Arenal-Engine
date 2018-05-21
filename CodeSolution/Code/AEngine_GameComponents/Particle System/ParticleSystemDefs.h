@@ -30,8 +30,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\AEObject.h"
-#include "Math\AEMathDefs.h"
 #include "GraphicStates.h"
 
 /********************************

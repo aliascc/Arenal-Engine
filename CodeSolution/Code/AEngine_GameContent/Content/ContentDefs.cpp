@@ -33,7 +33,6 @@
 ****************************/
 #include "ContentDefs.h"
 #include "MeshPartContent.h"
-#include "Base\BaseFunctions.h"
 #include "Vertex\VertexBuffer.h"
 #include "VertexBufferContent.h"
 #include "Models\Skinning\Bone.h"

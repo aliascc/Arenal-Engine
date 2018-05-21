@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "DiffuseTextureVS.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\ShaderDefs.h"
 #include "Shaders\ShaderSignatures.h"
 

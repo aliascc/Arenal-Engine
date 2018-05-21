@@ -20,6 +20,8 @@
 **************************/
 #include "precomp_imgui.h"
 
+#ifdef AE_EDITOR_MODE
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -33,6 +35,7 @@
 ****************************/
 #include "ImGuiWindow.h"
 #include "ImGuiManager.h"
+#include "GraphicDevice.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -41,7 +44,8 @@
 *   Framework Defs   *
 **********************/
 
-ImGuiManager::ImGuiManager()
+ImGuiManager::ImGuiManager(GraphicDevice& graphicDevice)
+    : m_GraphicDevice(graphicDevice)
 {
 }
 
@@ -63,3 +67,21 @@ AEResult ImGuiManager::RemoveWindow(uint64_t windowID)
 {
     return AEResult::Fail;
 }
+
+AEResult ImGuiManager::Initialize()
+{
+    return AEResult::Fail;
+}
+
+void ImGuiManager::PreRender()
+{
+    ImGui_ImplDX11_NewFrame();
+}
+
+void ImGuiManager::Render()
+{
+    ImGui::Render();
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}
+
+#endif //AE_EDITOR_MODE

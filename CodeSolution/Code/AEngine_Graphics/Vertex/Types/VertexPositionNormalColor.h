@@ -31,11 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Color\Color.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\VertexDefs.h"
-#include "Color\AEColorDefs.h"
 #include "Vertex\VertexLayout.h"
 
 #if defined(DEBUG) | defined(_DEBUG)

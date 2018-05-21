@@ -36,9 +36,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\VertexDefs.h"
 #include "Content\ContentDefs.h"
 

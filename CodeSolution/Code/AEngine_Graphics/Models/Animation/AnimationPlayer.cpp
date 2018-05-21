@@ -34,8 +34,6 @@
 #include "KeyFrame.h"
 #include "Animation.h"
 #include "AnimationPlayer.h"
-#include "Time\AETimeDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Models\Skinning\Bone.h"
 #include "Models\Skinning\Skeleton.h"
 #include "Models\Skinning\SkinningDefs.h"

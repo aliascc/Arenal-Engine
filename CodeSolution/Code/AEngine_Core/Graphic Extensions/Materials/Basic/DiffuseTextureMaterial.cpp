@@ -32,8 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GraphicDevice.h"
-#include "Math\AEMathDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Textures\Texture2D.h"
 #include "Shaders\PixelShader.h"
 #include "Shaders\VertexShader.h"

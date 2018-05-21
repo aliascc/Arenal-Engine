@@ -27,7 +27,6 @@
 #include "Utils\AETimeDefs.h"
 #include "Particle System\Materials\ParticleSystemMaterial.h"
 #include "GameApp\GameApp.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\IndexBuffer.h"
 #include "Utils\AERandomHelpers.h"
 #include "Camera\Camera.h"

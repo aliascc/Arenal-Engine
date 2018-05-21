@@ -35,7 +35,6 @@
 #include "Lights\Light.h"
 #include "Lights\SpotLight.h"
 #include "Lights\OmniLight.h"
-#include "Base\BaseFunctions.h"
 #include "Lights\LightManager.h"
 #include "Lights\DirectionalLight.h"
 

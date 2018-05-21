@@ -33,7 +33,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "AnimationAsset.h"
-#include "Base\BaseFunctions.h"
 #include "Models\Animation\Animation.h"
 #include "Resource\GameResourceManager.h"
 

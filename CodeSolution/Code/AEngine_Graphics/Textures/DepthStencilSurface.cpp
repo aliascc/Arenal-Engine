@@ -31,11 +31,8 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Logger\Logger.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 #include "DepthStencilSurface.h"
-#include "Localization\LocalizationManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

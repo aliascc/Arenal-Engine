@@ -20,6 +20,8 @@
 **************************/
 #include "precomp_base.h"
 
+#ifdef AE_MEM_CHECK
+
 /***************************
 *   Game Engine Includes   *
 ****************************/
@@ -28,7 +30,6 @@
 /*********************
 *   Function Decls   *
 **********************/
-#if defined( AE_MEM_CHECK )
 
 bool MemLeaks::MemoryBegin()
 {
@@ -47,4 +48,4 @@ bool MemLeaks::MemoryEnd()
     return true;
 }
 
-#endif
+#endif //AE_MEM_CHECK

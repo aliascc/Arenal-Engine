@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\ComputeShader.h"
 #include "Shaders\Buffers\SimpleBuffer.h"
 #include "Resource\GameResourceManager.h"

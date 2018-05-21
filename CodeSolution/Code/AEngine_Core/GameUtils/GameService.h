@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameUtilsDefs.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 /********************
 *   Forward Decls   *

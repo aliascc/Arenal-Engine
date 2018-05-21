@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Lights\LightDefs.h"
 #include "GameObject\GameObjectComponent.h"
 

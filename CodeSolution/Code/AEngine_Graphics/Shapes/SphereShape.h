@@ -31,10 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Color\Color.h"
-#include "Base\AEObject.h"
-#include "Color\AEColorDefs.h"
 #include "Vertex\VertexBuffer.h"
 #include "Vertex\Types\VertexPositionColor.h"
 

@@ -29,7 +29,6 @@
 #include "Materials\BloomPostProcessMaterial.h"
 #include "Textures\RenderTarget.h"
 #include "GraphicDevice.h"
-#include "Math\AEMathDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

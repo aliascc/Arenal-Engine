@@ -32,11 +32,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameComponent.h"
-#include "Logger\Logger.h"
-#include "Base\BaseFunctions.h"
 #include "GameServiceCollection.h"
-#include "Localization\LocalizationManager.h"
-#include "Localization\LocalizationManagerDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

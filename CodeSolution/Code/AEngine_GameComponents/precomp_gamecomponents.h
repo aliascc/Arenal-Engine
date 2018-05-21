@@ -123,6 +123,10 @@
 #include "Time\AETimer.h"
 #include "Time\AETimeDefs.h"
 
+#include "XML\AEXMLDefs.h"
+#include "XML\AEXMLParser.h"
+#include "XML\AEXMLWriter.h"
+
 /*********************************
 *   Additional System Includes   *
 **********************************/

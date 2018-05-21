@@ -34,9 +34,6 @@
 #include "FrustumShape.h"
 #include "Utils\Frustum.h"
 #include "GraphicDevice.h"
-#include "Math\AEMathDefs.h"
-#include "Base\BaseFunctions.h"
-#include "Color\AEColorDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

@@ -33,7 +33,6 @@
 ****************************/
 #include "Camera.h"
 #include "CameraManager.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

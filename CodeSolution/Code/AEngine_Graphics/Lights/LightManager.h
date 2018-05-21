@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "LightDefs.h"
-#include "Base\AEObject.h"
 
 /************
 *   Using   *

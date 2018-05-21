@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\VertexShader.h"
 #include "ForwardPlusZPrePassMaterial.h"
 #include "Resource\GameResourceManager.h"

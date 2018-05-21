@@ -31,10 +31,8 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Utils\Object3D.h"
 #include "GameObjectDefs.h"
-#include "Math\AEMathDefs.h"
 
 /********************
 *   Forward Decls   *

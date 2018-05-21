@@ -33,7 +33,6 @@
 ****************************/
 #include "MeshAsset.h"
 #include "Models\Mesh.h"
-#include "Base\BaseFunctions.h"
 #include "Resource\GameResourceManager.h"
 
 //Always include last

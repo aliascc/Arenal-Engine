@@ -33,7 +33,6 @@
 ****************************/
 #include "GameContentDefs.h"
 #include "GameObjectScript.h"
-#include "Base\BaseFunctions.h"
 #include "AngelScript\AngelScriptDefs.h"
 #include "AngelScript\AngelScriptManager.h"
 

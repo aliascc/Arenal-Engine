@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\BaseFunctions.h"
 #include "GameObjectScriptGOC.h"
 #include "AngelScript\AngelScriptDefs.h"
 #include "AngelScript\AngelScriptManager.h"

@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "KeyFrame.h"
-#include "Base\Base.h"
 #include "AnimationDefs.h"
 #include "Resource\GameResource.h"
 

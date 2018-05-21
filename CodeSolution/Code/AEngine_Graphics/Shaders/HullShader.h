@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Shader.h"
-#include "Base\Base.h"
 
 /************
 *   Using   *

@@ -37,9 +37,6 @@
 ****************************/
 #include "InputDefs.h"
 #include "GraphicsDefs.h"
-#include "Base\AEObject.h"
-#include "Math\AEMathDefs.h"
-#include "Logger\LoggerDefs.h"
 
 /************
 *   Using   *

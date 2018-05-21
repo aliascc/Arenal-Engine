@@ -26,11 +26,9 @@
 ****************************/
 #include "DeferredRendering.h"
 #include "Textures\RenderTarget.h"
-#include "Utils\AETimeDefs.h"
 #include "GameApp\GameApp.h"
 #include "GraphicDevice.h"
 #include "Materials\DeferredRenderingMaterial.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

@@ -40,6 +40,7 @@
 *   Forward Decls   *
 *********************/
 class ImGuiWindow;
+class GraphicDevice;
 
 /*****************
 *   Class Decl   *
@@ -52,6 +53,11 @@ private:
     *   Private Variables   *
     *************************/
 #pragma region Private Variables
+
+    /// <summary>
+    /// Graphic Device of the Game App
+    /// </summary>
+    GraphicDevice& m_GraphicDevice;
 
 #pragma endregion
 
@@ -72,7 +78,8 @@ public:
     /// <summary>
     /// ImGuiManager Constructor
     /// </summary>
-    ImGuiManager();
+    /// <param name="graphicDevice">Graphic Device of the Game App</param>
+    ImGuiManager(GraphicDevice& graphicDevice);
 
     /// <summary>
     /// Default ImGuiManager Destructor
@@ -99,6 +106,22 @@ public:
     /// <param name="windowID">Unique ID of the WIndow to remove</param>
     /// <returns>OK if the window was removed from the manager, otherwise error code</returns>
     AEResult RemoveWindow(uint64_t windowID);
+
+    /// <summary>
+    /// Initializes Im Gui
+    /// </summary>
+    /// <returns>OK if Initializing of Im Gui was successful, otherwise error code</returns>
+    AEResult Initialize();
+
+    /// <summary>
+    /// Run Render Commands that Im Gui needs before the start of the rendering
+    /// </summary>
+    void PreRender();
+
+    /// <summary>
+    /// Render and Updates Im Gui
+    /// </summary>
+    void Render();
 
 #pragma endregion
 

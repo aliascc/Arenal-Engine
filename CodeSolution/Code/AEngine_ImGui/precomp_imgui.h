@@ -74,6 +74,7 @@
 #include "boost\algorithm\string.hpp"
 
 #include "imgui\imgui.h"
+#include "imgui\imgui_impl_dx11.h"
 
 /***************************
 *   Game Engine Includes   *

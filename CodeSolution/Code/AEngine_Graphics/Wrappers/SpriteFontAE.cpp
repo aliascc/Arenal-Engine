@@ -34,7 +34,6 @@
 #include "SpriteFontAE.h"
 #include "GraphicDevice.h"
 #include "SpriteBatchAE.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

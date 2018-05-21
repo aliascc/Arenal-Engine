@@ -31,9 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "angelscript.h"
-#include "Time\AETimeDefs.h"
 #include "GameObject\GameObjectComponent.h"
 
 /********************

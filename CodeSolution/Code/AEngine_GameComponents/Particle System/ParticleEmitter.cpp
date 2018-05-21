@@ -27,7 +27,6 @@
 #include "ParticleEmitter.h"
 #include "ParticleSystem.h"
 #include "Utils\AETimeDefs.h"
-#include "Math\AEMathDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

@@ -32,10 +32,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Light.h"
-#include "Color\Color.h"
 #include "Utils\Frustum.h"
-#include "Math\AEMathDefs.h"
-#include "Color\AEColorDefs.h"
 
 /************
 *   Using   *

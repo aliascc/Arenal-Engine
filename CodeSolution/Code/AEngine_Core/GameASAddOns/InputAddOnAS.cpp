@@ -32,7 +32,6 @@
 #include "InputAddOnAS.h"
 #include "InputManager.h"
 #include "GameASAddOnsDefs.h"
-#include "Base\BaseFunctions.h"
 #include "XBoxGamepadManager.h"
 
 //Always include last

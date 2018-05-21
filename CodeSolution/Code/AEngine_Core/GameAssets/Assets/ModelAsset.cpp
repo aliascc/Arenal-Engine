@@ -36,7 +36,6 @@
 #include "GraphicDevice.h"
 #include "SkeletonAsset.h"
 #include "AnimationAsset.h"
-#include "Base\BaseFunctions.h"
 #include "Resource\GameResourceManager.h"
 
 //Always include last

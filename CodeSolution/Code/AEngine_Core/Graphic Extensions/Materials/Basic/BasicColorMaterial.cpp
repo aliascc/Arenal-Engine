@@ -31,10 +31,8 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Color\Color.h"
 #include "GraphicDevice.h"
 #include "BasicColorMaterial.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\PixelShader.h"
 #include "Shaders\VertexShader.h"
 #include "Resource\GameResourceManager.h"

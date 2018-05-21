@@ -29,9 +29,7 @@
 ****************************/
 #include "LightShape.h"
 #include "GraphicDevice.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\IndexBuffer.h"
-#include "Base\BaseFunctions.h"
 #include "Vertex\IVertexBuffer.h"
 
 //Always include last

@@ -33,7 +33,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "BasicLineMaterial.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\PixelShader.h"
 #include "Shaders\VertexShader.h"
 #include "Resource\GameResourceManager.h"

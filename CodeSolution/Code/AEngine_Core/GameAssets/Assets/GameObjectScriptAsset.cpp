@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\BaseFunctions.h"
 #include "GameObjectScriptAsset.h"
 #include "Resource\GameResourceManager.h"
 #include "GameObject\Scripts\GameObjectScript.h"

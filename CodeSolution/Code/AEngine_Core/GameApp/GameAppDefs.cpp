@@ -32,12 +32,8 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameAppDefs.h"
-#include "XML\AEXMLDefs.h"
-#include "Base\BaseFunctions.h"
-#include "Base\BaseLocations.h"
 #include "GameAssets\GameAssetDefs.h"
 #include "GameObject\GameObjectDefs.h"
-#include "Localization\LocalizationManagerDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

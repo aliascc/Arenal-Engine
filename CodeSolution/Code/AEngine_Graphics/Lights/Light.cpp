@@ -30,7 +30,6 @@
 #include "Light.h"
 #include "Utils\Frustum.h"
 #include "GraphicDevice.h"
-#include "Time\AETimeDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

@@ -31,9 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "InputDefs.h"
-#include "Base\AEObject.h"
 
 /********************
 *   Forward Decls   *

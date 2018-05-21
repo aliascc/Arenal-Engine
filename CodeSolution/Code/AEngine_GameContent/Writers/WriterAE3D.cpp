@@ -34,7 +34,6 @@
 #include "WriterAE3D.h"
 #include "GameContentDefs.h"
 #include "Vertex\VertexDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Content\MeshContent.h"
 #include "Content\ModelContent.h"
 #include "Models\Skinning\Bone.h"

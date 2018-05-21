@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\AEObject.h"
 #include "Textures\TextureDefs.h"
 #include "Shaders\Variables\ShaderCustomVariable.h"
 

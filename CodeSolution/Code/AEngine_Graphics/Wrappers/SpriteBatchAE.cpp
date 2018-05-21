@@ -33,7 +33,6 @@
 ****************************/
 #include "SpriteBatchAE.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 #include "Textures\Texture2D.h"
 
 //Always include last

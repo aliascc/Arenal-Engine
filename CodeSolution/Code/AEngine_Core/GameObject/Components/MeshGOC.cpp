@@ -33,7 +33,6 @@
 ****************************/
 #include "MeshGOC.h"
 #include "Models\Mesh.h"
-#include "Base\BaseFunctions.h"
 #include "GameAssets\Assets\MeshAsset.h"
 
 //Always include last

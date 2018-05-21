@@ -29,7 +29,6 @@
 ****************************/
 #include "GameCoreAddOnAS.h"
 #include "GameASAddOnsDefs.h"
-#include "Base\BaseFunctions.h"
 #include "GameObject\GameObject.h"
 #include "GameUtils\GameUtilsDefs.h"
 #include "GameUtils\GameComponentCollection.h"

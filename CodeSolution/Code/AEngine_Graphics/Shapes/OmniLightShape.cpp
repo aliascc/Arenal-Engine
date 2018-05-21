@@ -29,8 +29,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "OmniLightShape.h"
-#include "Math\AEMathDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Vertex\VertexBuffer.h"
 #include "Vertex\Types\VertexPosition.h"
 

@@ -30,7 +30,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameUtils\DrawableGameComponent.h"
-#include "Base\Base.h"
 #include "ParticleSystemDefs.h"
 #include "Particle System\Vertex\VertexParticle.h"
 #include "Vertex\VertexBuffer.h"

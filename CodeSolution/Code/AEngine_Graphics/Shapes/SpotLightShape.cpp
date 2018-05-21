@@ -29,8 +29,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "SpotLightShape.h"
-#include "Math\AEMathDefs.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

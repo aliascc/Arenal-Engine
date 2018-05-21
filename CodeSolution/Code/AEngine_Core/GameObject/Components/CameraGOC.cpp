@@ -34,7 +34,6 @@
 #include "CameraGOC.h"
 #include "Camera\Camera.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 #include "Camera\CameraManager.h"
 #include "GameObject\GameObject.h"
 #include "Camera\GameObjectCamera.h"

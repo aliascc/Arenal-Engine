@@ -36,10 +36,6 @@
 #include "Textures\TextureCube.h"
 #include "fastformat\fastformat.hpp"
 #include "fastformat\sinks\ostream.hpp"
-#include "Localization\LocalizationManager.h"
-#include "Logger\Logger.h"
-#include "Math\AEMathDefs.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

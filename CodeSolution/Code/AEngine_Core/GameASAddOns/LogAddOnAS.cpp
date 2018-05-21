@@ -28,10 +28,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "LogAddOnAS.h"
-#include "Logger\Logger.h"
 #include "GameASAddOnsDefs.h"
-#include "Logger\LoggerDefs.h"
-#include "Base\BaseFunctions.h"
 
 AETODO("Fix this");
 /* Do not include it as we need to use the normal new

@@ -33,7 +33,6 @@
 ****************************/
 #include "ShaderBuffer.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 
 //Always include last

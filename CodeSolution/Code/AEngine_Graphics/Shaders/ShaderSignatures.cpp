@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "ShaderSignatures.h"
-#include "Base\BaseFunctions.h"
 #include "Models\Skinning\SkinningDefs.h"
 
 //Always include last

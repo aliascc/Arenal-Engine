@@ -32,12 +32,10 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GraphicDevice.h"
-#include "Logger\Logger.h"
 #include "Shaders\Shader.h"
 #include "ShaderProperties.h"
 #include "Textures\Texture.h"
 #include "Textures\Texture2D.h"
-#include "Base\BaseFunctions.h"
 #include "GameAssets\GameAsset.h"
 #include "Shaders\Variables\Sampler.h"
 #include "Shaders\Buffers\SimpleBuffer.h"
@@ -45,7 +43,6 @@
 #include "GameAssets\Assets\TextureAsset.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 #include "Shaders\Buffers\StructuredBuffer.h"
-#include "Localization\LocalizationManager.h"
 #include "Shaders\Variables\Texture2DArray.h"
 #include "Shaders\Bindings\ShaderTextureBinding.h"
 

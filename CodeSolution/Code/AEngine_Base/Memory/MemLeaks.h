@@ -20,7 +20,7 @@
 #ifndef _MEMLEAKS_H
 #define _MEMLEAKS_H
 
-#if defined( AE_MEM_CHECK )
+#ifdef AE_MEM_CHECK
 
 /**********************
 *   System Includes   *
@@ -44,4 +44,4 @@ namespace  MemLeaks
 
 #endif
 
-#endif
+#endif //AE_MEM_CHECK

@@ -28,8 +28,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GraphicDevice.h"
-#include "Math\AEMathDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Vertex\VertexBuffer.h"
 #include "DirectionalLightShape.h"
 #include "Vertex\Types\VertexPosition.h"

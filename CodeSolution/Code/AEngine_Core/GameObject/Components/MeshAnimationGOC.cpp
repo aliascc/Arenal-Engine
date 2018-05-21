@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "MeshAnimationGOC.h"
-#include "Base\BaseFunctions.h"
 #include "Models\Skinning\Skeleton.h"
 #include "Models\Animation\Animation.h"
 #include "GameAssets\Assets\SkeletonAsset.h"

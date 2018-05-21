@@ -34,7 +34,6 @@
 #include "GraphicDevice.h"
 #include "MeshMaterialGOC.h"
 #include "Textures\Texture.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\HullShader.h"
 #include "Shaders\PixelShader.h"
 #include "Shaders\DomainShader.h"

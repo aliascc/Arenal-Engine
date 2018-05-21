@@ -31,10 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Color\Color.h"
 #include "Shaders\ShaderDefs.h"
-#include "Color\AEColorDefs.h"
 #include "Shaders\Bindings\ShaderBinding.h"
 
 /********************

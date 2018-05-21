@@ -32,12 +32,8 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Texture2D.h"
-#include "Color\Color.h"
 #include "TextureDefs.h"
-#include "Logger\Logger.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
-#include "Localization\LocalizationManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

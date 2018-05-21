@@ -31,7 +31,6 @@
 #include "Vertex\IndexBuffer.h"
 #include "Vertex\IVertexBuffer.h"
 #include "Models\ModelDefs.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

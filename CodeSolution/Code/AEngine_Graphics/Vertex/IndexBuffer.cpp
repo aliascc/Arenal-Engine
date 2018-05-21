@@ -33,9 +33,6 @@
 ****************************/
 #include "IndexBuffer.h"
 #include "GraphicDevice.h"
-#include "Logger\Logger.h"
-#include "Base\BaseFunctions.h"
-#include "Localization\LocalizationManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

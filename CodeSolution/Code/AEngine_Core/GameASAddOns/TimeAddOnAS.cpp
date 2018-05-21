@@ -27,10 +27,8 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Time\AETime.h"
 #include "TimeAddOnAS.h"
 #include "GameASAddOnsDefs.h"
-#include "Base\BaseFunctions.h"
 
 AETODO("Fix this");
 /* Do not include it as we need to use the normal new

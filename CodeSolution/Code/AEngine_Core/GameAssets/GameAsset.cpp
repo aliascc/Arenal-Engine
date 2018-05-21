@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameAsset.h"
-#include "Base\BaseFunctions.h"
 #include "Resource\GameResourceManager.h"
 
 //Always include last

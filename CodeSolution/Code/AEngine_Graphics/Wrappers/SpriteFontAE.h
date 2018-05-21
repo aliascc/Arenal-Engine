@@ -31,12 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "SpriteDefs.h"
-#include "Color\Color.h"
-#include "Base\AEObject.h"
-#include "Math\AEMathDefs.h"
-#include "Color\AEColorDefs.h"
 
 /************
 *   Using   *

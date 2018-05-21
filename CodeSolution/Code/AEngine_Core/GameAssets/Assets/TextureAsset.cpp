@@ -34,7 +34,6 @@
 #include "TextureAsset.h"
 #include "GraphicDevice.h"
 #include "Textures\Texture.h"
-#include "Base\BaseFunctions.h"
 #include "Textures\Texture2D.h"
 #include "Textures\TextureDefs.h"
 #include "Textures\TextureCube.h"

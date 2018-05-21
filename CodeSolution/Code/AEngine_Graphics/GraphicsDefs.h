@@ -31,11 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
-#include "Math\AEMathDefs.h"
 #include "Shaders\ShaderDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Textures\TextureDefs.h"
 
 /************

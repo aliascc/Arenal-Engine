@@ -29,9 +29,7 @@
 ****************************/
 #include "QuadShape3D.h"
 #include "GraphicDevice.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\IndexBuffer.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

@@ -32,10 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "LightDefs.h"
-#include "Color\Color.h"
-#include "Math\AEMathDefs.h"
-#include "Color\AEColorDefs.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 /************
 *   Using   *

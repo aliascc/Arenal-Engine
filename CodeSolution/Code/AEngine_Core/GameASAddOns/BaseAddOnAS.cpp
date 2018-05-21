@@ -29,7 +29,6 @@
 ****************************/
 #include "BaseAddOnAS.h"
 #include "GameASAddOnsDefs.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

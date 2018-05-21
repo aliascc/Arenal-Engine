@@ -33,7 +33,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "Shaders\ShaderDefs.h"
-#include "Base\BaseFunctions.h"
 #include "BuiltInMaterialsDefs.h"
 #include "Shaders\Buffers\SimpleBuffer.h"
 #include "Models\Skinning\SkinningDefs.h"

@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameObjectCamera.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

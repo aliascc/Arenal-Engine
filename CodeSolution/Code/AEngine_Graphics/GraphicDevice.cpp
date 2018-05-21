@@ -31,13 +31,10 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Logger\Logger.h"
 #include "GraphicDevice.h"
 #include "Utils\Viewport.h"
 #include "Models\MeshPart.h"
-#include "XML\AEXMLParser.h"
 #include "Shaders\ShaderDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Shapes\QuadShape2D.h"
 #include "Vertex\IndexBuffer.h"
 #include "Textures\Texture2D.h"
@@ -56,7 +53,6 @@
 #include "Shaders\Variables\TextureArray.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 #include "Shaders\Buffers\StructuredBuffer.h"
-#include "Localization\LocalizationManager.h"
 #include "Shaders\Variables\Texture2DArray.h"
 
 //Always include last

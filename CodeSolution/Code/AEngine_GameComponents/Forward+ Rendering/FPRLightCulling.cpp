@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Time\AETime.h"
 #include "Camera\Camera.h"
 #include "GraphicDevice.h"
 #include "FPRLightCulling.h"

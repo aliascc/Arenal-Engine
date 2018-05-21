@@ -31,12 +31,9 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\Named.h"
 #include "VertexDefs.h"
 #include "GraphicsDefs.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 
 /********************
 *   Forward Decls   *

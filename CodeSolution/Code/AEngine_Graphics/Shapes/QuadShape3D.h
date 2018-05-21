@@ -32,8 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "QuadShape.h"
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 #include "Vertex\VertexBuffer.h"
 #include "Vertex\Types\VertexPositionTexture.h"
 

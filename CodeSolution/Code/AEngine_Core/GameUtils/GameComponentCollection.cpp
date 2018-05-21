@@ -32,15 +32,10 @@
 *   Game Engine Includes   *
 ****************************/
 #include "angelscript.h"
-#include "Logger\Logger.h"
 #include "GameComponent.h"
-#include "Time\AETimeDefs.h"
-#include "Base\BaseFunctions.h"
 #include "DrawableGameComponent.h"
 #include "GameComponentCollection.h"
 #include "AngelScript\AngelScriptManager.h"
-#include "Localization\LocalizationManager.h"
-#include "Localization\LocalizationManagerDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

@@ -31,9 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "LightShape.h"
-#include "Color\Color.h"
 #include "Vertex\VertexBuffer.h"
 #include "Vertex\Types\VertexPositionColor.h"
 

@@ -31,14 +31,11 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "VertexDefs.h"
 #include "GraphicsDefs.h"
 #include "VertexLayout.h"
 #include "IVertexBuffer.h"
 #include "cppformat\format.h"
-#include "Base\BaseFunctions.h"
-#include "Localization\LocalizationManager.h"
 
 /********************
 *   Forward Decls   *

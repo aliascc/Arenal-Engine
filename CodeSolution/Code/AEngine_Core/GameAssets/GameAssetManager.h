@@ -31,9 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "GameAssetDefs.h"
-#include "Base\AEObject.h"
 #include "GameContentDefs.h"
 
 /********************

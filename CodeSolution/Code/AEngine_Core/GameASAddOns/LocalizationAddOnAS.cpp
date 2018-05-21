@@ -28,10 +28,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameASAddOnsDefs.h"
-#include "Base\BaseFunctions.h"
 #include "LocalizationAddOnAS.h"
-#include "Localization\LocalizationManager.h"
-#include "Localization\LocalizationManagerDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

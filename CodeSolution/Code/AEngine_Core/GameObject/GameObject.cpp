@@ -32,8 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameObject.h"
-#include "Time\AETimeDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Components\MeshGOC.h"
 #include "Components\LightGOC.h"
 #include "Components\CameraGOC.h"

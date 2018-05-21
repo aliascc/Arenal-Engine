@@ -35,7 +35,6 @@
 #include "Models\MeshPart.h"
 #include "GameApp\GameApp.h"
 #include "GameLightsUpdate.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\IndexBuffer.h"
 #include "Lights\LightManager.h"
 #include "Camera\CameraUpdater.h"

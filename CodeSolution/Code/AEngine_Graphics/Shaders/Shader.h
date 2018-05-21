@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "ShaderDefs.h"
 #include "ShaderSignatures.h"
 #include "Resource\GameResource.h"

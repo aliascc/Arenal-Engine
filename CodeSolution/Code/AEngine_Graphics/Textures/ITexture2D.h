@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Texture.h"
-#include "Base\Base.h"
 #include "TextureDefs.h"
 
 /********************

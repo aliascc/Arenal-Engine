@@ -31,7 +31,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameUtils\DrawableGameComponent.h"
-#include "Base\Base.h"
 #include "Shapes\SphereShape.h"
 #include "Effects\Materials\BasicColorMaterial.h"
 #include "Effects\Materials\BasicDeferredRenderingDraw.h"

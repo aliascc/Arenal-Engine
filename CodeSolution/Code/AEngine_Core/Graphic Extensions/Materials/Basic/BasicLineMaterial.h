@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Graphic Extensions\Materials\Material.h"
 #include "Graphic Extensions\Materials\BuiltInMaterialsDefs.h"
 

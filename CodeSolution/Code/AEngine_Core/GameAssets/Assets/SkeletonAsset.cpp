@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "SkeletonAsset.h"
-#include "Base\BaseFunctions.h"
 #include "Models\Skinning\Skeleton.h"
 #include "Resource\GameResourceManager.h"
 
