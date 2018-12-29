@@ -161,7 +161,7 @@ class GameResource abstract : public Named
         /// Game Resource
         /// </summary>
         /// <returns>Reference Count</returns>
-        inline uint32_t GetRefCount() const
+        inline int64_t GetRefCount() const
         {
             return m_RefCount;
         }

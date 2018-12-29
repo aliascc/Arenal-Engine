@@ -34,6 +34,7 @@
 #include "GameApp.h"
 #include "Keyboard.h"
 #include "InputDefs.h"
+#include "ImGuiManager.h"
 #include "AudioManager.h"
 #include "InputManager.h"
 #include "GraphicsDefs.h"
@@ -99,6 +100,7 @@ void GameApp::CleanUp()
     //////////////////////////////////////////////////
     // Order of deletion must be maintain
     //
+    // - ImGui Manager
     // - Game Services
     // - Game Component Collection
     // - Game Asset Manager (Contains Resources that need to be release before Game Resource Manager is release and calls Game Object Manager to inform about asset releases)
@@ -114,6 +116,8 @@ void GameApp::CleanUp()
     // - Angel Script Manager
     // - Game Command Manager
     //
+
+    DeleteMem(m_ImGuiManager);
 
     DeleteMem(m_GameObjectManager);
 
@@ -162,92 +166,6 @@ void GameApp::CleanUp()
     AudioListener::DestroyInstance();
     LocalizationManager::DestroyInstance();
 }
-
-#ifdef AE_EDITOR_MODE
-
-AEResult GameApp::EditorPlay()
-{
-    if (!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
-
-    if (m_GameEditorPlayState == GameEditorPlayState::Playing)
-    {
-        return AEResult::Ok;
-    }
-
-    AEResult ret = AEResult::Ok;
-
-    ret = m_CameraManager->SetDefaultCameraAsMain();
-
-    m_GameEditorPlayState = GameEditorPlayState::Playing;
-
-    return ret;
-}
-
-AEResult GameApp::EditorPause()
-{
-    if (!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
-
-    if (m_GameEditorPlayState == GameEditorPlayState::Paused || m_GameEditorPlayState == GameEditorPlayState::Stop)
-    {
-        return AEResult::Ok;
-    }
-
-    AEResult ret = AEResult::Ok;
-
-    m_GameEditorPlayState = GameEditorPlayState::Paused;
-
-    return ret;
-}
-
-AEResult GameApp::EditorStop()
-{
-    if (!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
-
-    if (m_GameEditorPlayState == GameEditorPlayState::Stop)
-    {
-        return AEResult::Ok;
-    }
-
-    AEResult ret = AEResult::Ok;
-
-    ret = m_CameraManager->SetEditorCameraAsMain();
-
-    m_GameEditorPlayState = GameEditorPlayState::Stop;
-
-    return ret;
-}
-
-void GameApp::OpenConsole()
-{
-    if (AllocConsole() != TRUE)
-    {
-        AETODO("ADD LOG MESSAGE");
-        return;
-    }
-
-    HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
-    int hCrt = _open_osfhandle((intptr_t)handle_out, _O_TEXT);
-    FILE* hf_out = _fdopen(hCrt, "w");
-    setvbuf(hf_out, nullptr, _IONBF, 1);
-    *stdout = *hf_out;
-
-    HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
-    hCrt = _open_osfhandle((intptr_t)handle_in, _O_TEXT);
-    FILE* hf_in = _fdopen(hCrt, "r");
-    setvbuf(hf_in, nullptr, _IONBF, 128);
-    *stdin = *hf_in;
-}
-
-#endif //AE_EDITOR MODE
 
 void GameApp::ShutDownGameApp()
 {
@@ -735,6 +653,14 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
     ////////////////////////////////////////////////
     //Create Game Object Manager
     m_GameObjectManager = new GameObjectManager(m_GraphicDevice, m_GameAssetManager, m_GameObjectScriptManager, m_AngelScriptManager, m_LightManager, m_CameraManager, m_AudioManager, m_PhysicsManager);
+
+#ifdef AE_EDITOR_MODE
+
+    ////////////////////////////////////////////////
+    //Create ImGui Manager
+    m_ImGuiManager = new ImGuiManager(*m_GraphicDevice);
+
+#endif
 
     //////////////////////////////////
     //Game is ready to run
@@ -1634,6 +1560,92 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
     return DefWindowProc(m_MainWnd, msg, wParam, lParam);
 }
+
+#ifdef AE_EDITOR_MODE
+
+AEResult GameApp::EditorPlay()
+{
+    if (!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
+
+    if (m_GameEditorPlayState == GameEditorPlayState::Playing)
+    {
+        return AEResult::Ok;
+    }
+
+    AEResult ret = AEResult::Ok;
+
+    ret = m_CameraManager->SetDefaultCameraAsMain();
+
+    m_GameEditorPlayState = GameEditorPlayState::Playing;
+
+    return ret;
+}
+
+AEResult GameApp::EditorPause()
+{
+    if (!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
+
+    if (m_GameEditorPlayState == GameEditorPlayState::Paused || m_GameEditorPlayState == GameEditorPlayState::Stop)
+    {
+        return AEResult::Ok;
+    }
+
+    AEResult ret = AEResult::Ok;
+
+    m_GameEditorPlayState = GameEditorPlayState::Paused;
+
+    return ret;
+}
+
+AEResult GameApp::EditorStop()
+{
+    if (!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
+
+    if (m_GameEditorPlayState == GameEditorPlayState::Stop)
+    {
+        return AEResult::Ok;
+    }
+
+    AEResult ret = AEResult::Ok;
+
+    ret = m_CameraManager->SetEditorCameraAsMain();
+
+    m_GameEditorPlayState = GameEditorPlayState::Stop;
+
+    return ret;
+}
+
+void GameApp::OpenConsole()
+{
+    if (AllocConsole() != TRUE)
+    {
+        AETODO("ADD LOG MESSAGE");
+        return;
+    }
+
+    HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
+    int hCrt = _open_osfhandle((intptr_t)handle_out, _O_TEXT);
+    FILE* hf_out = _fdopen(hCrt, "w");
+    setvbuf(hf_out, nullptr, _IONBF, 1);
+    *stdout = *hf_out;
+
+    HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
+    hCrt = _open_osfhandle((intptr_t)handle_in, _O_TEXT);
+    FILE* hf_in = _fdopen(hCrt, "r");
+    setvbuf(hf_in, nullptr, _IONBF, 128);
+    *stdin = *hf_in;
+}
+
+#endif //AE_EDITOR MODE
 
 /////////////////////////////////
 //Static Variables and Methods//

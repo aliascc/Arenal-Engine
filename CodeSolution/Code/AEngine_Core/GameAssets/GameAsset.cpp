@@ -41,7 +41,8 @@
 *   Function Defs   *
 *********************/
 GameAsset::GameAsset(GameContentType gameContentType, const std::string& filePath, GameResourceManager* gameResourceManager)
-    : m_GameContentType(gameContentType)
+    : Named("")
+    , m_GameContentType(gameContentType)
     , m_FilePath(filePath)
     , m_GameResourceManager(gameResourceManager)
 {

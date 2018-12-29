@@ -40,6 +40,8 @@
 *   Framework Defs   *
 **********************/
 
+#ifdef AE_EDITOR_MODE
+
 ImGuiWindow::ImGuiWindow(const std::string& name, bool visible, ImGuiWindowFlags flags, bool showCloseIcon)
     : m_Name(name)
     , m_Visible(visible)
@@ -71,7 +73,7 @@ bool ImGuiWindow::PreUpdate()
     return true;
 }
 
-void ImGuiWindow::Update()
+void ImGuiWindow::Update(const TimerParams& timerParams)
 {
     if (!m_Visible)
     {
@@ -84,7 +86,9 @@ void ImGuiWindow::Update()
         return;
     }
 
-    UpdateWindow();
+    UpdateWindow(timerParams);
 
     ImGui::End();
 }
+
+#endif //AE_EDITOR_MODE

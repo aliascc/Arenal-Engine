@@ -43,6 +43,7 @@
 *********************/
 class GameService;
 class AEXMLParser;
+class ImGuiManager;
 class InputManager;
 struct TimerParams;
 class LightManager;
@@ -291,6 +292,11 @@ class GameApp abstract : public AEObject
         GameServiceCollection* m_GameServiceCollection = nullptr;
 
 #ifdef AE_EDITOR_MODE
+
+        /// <summary>
+        /// ImGui Manager
+        /// </summary>
+        ImGuiManager* m_ImGuiManager = nullptr;
 
         /// <summary>
         /// Game Project Configuration Options

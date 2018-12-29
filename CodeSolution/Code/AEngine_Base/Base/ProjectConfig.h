@@ -53,6 +53,7 @@
 #endif
 
 #if !defined(AE_FINAL)
+
     //Defines Editor Mode
     #define AE_EDITOR_MODE
 
