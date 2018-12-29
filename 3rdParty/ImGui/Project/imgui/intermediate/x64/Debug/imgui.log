@@ -1,6 +1,0 @@
-﻿  imgui_impl_dx11.cpp
-  imgui_draw.cpp
-  imgui_demo.cpp
-  imgui.cpp
-  Generating Code...
-  imgui.vcxproj -> D:\XEngine\Git\3rdParty\ImGui\Project\imgui\\bin\x64\Debug\imgui_x64_d.lib
