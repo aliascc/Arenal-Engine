@@ -88,8 +88,6 @@
 #include "Base\Named.h"
 #include "Base\AEObject.h"
 #include "Base\BaseLocations.h"
-#include "Base\UniqueAEObject.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 #include "Math\AEMathDefs.h"
 

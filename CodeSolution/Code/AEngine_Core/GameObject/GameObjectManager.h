@@ -66,7 +66,7 @@ typedef GameObjectMap::const_iterator GameObjectMapItConst;
 *   Class Decl   *
 ******************/
 
-class GameObjectManager sealed : public UniqueAEObject
+class GameObjectManager sealed : public AEObject
 {
     private:
 

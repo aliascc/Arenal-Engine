@@ -79,6 +79,11 @@ class DrawableGameComponent abstract : public GameComponent
         }
 
         //Framework Methods
+
+        /// <summary>
+        /// Render method for the Drawable Game Component called each frame if the GC is active
+        /// </summary>
+        /// <param name="timerParams">Game Timer Parameters</param>
         virtual void Render(const TimerParams& timerParams);
 };
 

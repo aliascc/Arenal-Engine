@@ -40,7 +40,7 @@
 /*****************
 *   Class Decl   *
 ******************/
-class GameService abstract : public UniqueAEObjectNamed
+class GameService abstract : public Named
 {
     private:
 

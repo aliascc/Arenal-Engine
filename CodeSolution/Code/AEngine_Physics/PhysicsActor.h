@@ -50,7 +50,7 @@ typedef std::map<uint64_t, PhysicCollider*> PhysicColliderMap;
 *   Class Decl   *
 ******************/
 
-class PhysicsActor sealed : public UniqueAEObject
+class PhysicsActor sealed : public AEObject
 {
     private:
 

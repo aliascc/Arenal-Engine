@@ -45,7 +45,7 @@
 *   Class Decl   *
 ******************/
 
-class Object3D : public UniqueAEObjectNamed
+class Object3D : public Named
 {
     typedef std::pair<uint64_t, Object3DChangedEvent> Object3DChangedEventPair;
     typedef std::list<Object3DChangedEventPair> Object3DChangedEventList;

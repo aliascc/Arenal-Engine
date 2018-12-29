@@ -49,58 +49,82 @@
 /// </summary>
 class AEObject abstract
 {
-    protected:
+private:
 
-        /**************************
-        *   Protected Variables   *
-        ***************************/
+    /************************
+    *   Private Variables   *
+    *************************/
+#pragma region Private Variables
+
+    /// <summary>
+    /// Unique ID of the Object
+    /// </summary>
+    uint64_t m_UniqueID = 0;
+
+#pragma endregion
+
+protected:
+
+    /**************************
+    *   Protected Variables   *
+    ***************************/
 #pragma region Protected Variables
 
 #pragma endregion
-        
-    public:
 
-        /***************************************
-        *   Constructor & Destructor Methods   *
-        ****************************************/
+
+public:
+
+    /***************************************
+    *   Constructor & Destructor Methods   *
+    ****************************************/
 #pragma region Constructor & Destructor Methods
 
-        /// <summary>
-        /// AEObject Constructor
-        /// </summary>
-        AEObject();
+    /// <summary>
+    /// AEObject Constructor
+    /// </summary>
+    AEObject();
         
-        /// <summary>
-        /// Default AEObject Destructor
-        /// </summary>
-        virtual ~AEObject();
+    /// <summary>
+    /// Default AEObject Destructor
+    /// </summary>
+    virtual ~AEObject();
 
 #pragma endregion
 
-        /******************
-        *   Get Methods   *
-        *******************/
+    /********************
+    *     Get Methods   *
+    *********************/
 #pragma region Get Methods
 
+    /// <summary>
+    /// Gets Unique ID
+    /// </summary>
+    /// <returns>Gets the Unique ID of the Object</returns>
+    inline uint64_t GetUniqueID() const
+    {
+        return m_UniqueID;
+    }
+
 #pragma endregion
 
-        /******************
-        *   Set Methods   *
-        *******************/
+    /******************
+    *   Set Methods   *
+    *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-        /************************
-        *   Framework Methods   *
-        *************************/
+    /************************
+    *   Framework Methods   *
+    *************************/
 #pragma region Framework Methods
 
-        /// <summary>
-        /// Converts the Objects to a String. 
-        /// </summary>
-        /// <returns>Object in String format</returns>
-        virtual std::string ToString() const;
+    /// <summary>
+    /// Converts the Objects to a String. 
+    /// </summary>
+    /// <returns>Object in String format</returns>
+    virtual std::string ToString() const;
 
 #pragma endregion
 

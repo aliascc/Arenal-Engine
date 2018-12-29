@@ -93,8 +93,7 @@ class GameResourceManager sealed : public AEObject
         /// Callback for Game Resource when release is called
         /// </summary>
         /// <param name="id">ID of Game Resource that is been released</param>
-        /// <param name="wasDeleted">If Game Resource was deleted, this flag is set to true</param>
-        void GameResourceReleaseCallback(uint64_t id, bool wasDeleted);
+        void GameResourceReleaseCallback(uint64_t id);
 
 #pragma endregion
 
@@ -157,9 +156,8 @@ class GameResourceManager sealed : public AEObject
         /// </summary>
         /// <param name='gameResource'>Game Resource to be manage</param>
         /// <param name='stringID'>String ID for this Game Resource</param>
-        /// <param name='keepAlive'>If true, Game Resource will not be deleted from memory even if reference count reaches 0</param>
         /// <returns>AEResult::Ok if successful</returns>
-        AEResult ManageGameResource(GameResource* gameResource, const std::string& stringID = "", bool keepAlive = false);
+        AEResult ManageGameResource(GameResource* gameResource, const std::string& stringID = "");
 
         /// <summary>
         /// Removes a Game Resource from Game Resource Manager

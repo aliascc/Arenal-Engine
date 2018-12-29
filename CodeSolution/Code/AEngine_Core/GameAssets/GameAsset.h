@@ -43,7 +43,7 @@ class GameResourceManager;
 /*****************
 *   Class Decl   *
 ******************/
-class GameAsset abstract : public UniqueAEObjectNamed
+class GameAsset abstract : public AEObjectNamed
 {
     friend class GameAssetManager;
 

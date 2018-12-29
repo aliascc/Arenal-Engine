@@ -114,12 +114,6 @@
     <ClInclude Include="Base\AEObject.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\UniqueAEObject.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\UniqueAEObjectNamed.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\GlobalConfig.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -196,12 +190,6 @@
       <Filter>Color</Filter>
     </ClCompile>
     <ClCompile Include="Base\AEObject.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\UniqueAEObjectNamed.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\UniqueAEObject.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="Utils\GlobalConfig.cpp">

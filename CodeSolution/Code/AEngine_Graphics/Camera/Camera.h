@@ -45,7 +45,7 @@ struct TimerParams;
 /*****************
 *   Class Decl   *
 ******************/
-class Camera abstract : public UniqueAEObjectNamed
+class Camera abstract : public Named
 {
     protected:
         //Variables

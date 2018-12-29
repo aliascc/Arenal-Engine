@@ -42,7 +42,7 @@ class GameObject;
 /*****************
 *   Class Decl   *
 ******************/
-class GameObjectComponent abstract : public UniqueAEObject
+class GameObjectComponent abstract : public AEObject
 {
     private:
 

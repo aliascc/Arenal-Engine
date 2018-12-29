@@ -42,11 +42,11 @@
 *********************/
 AETODO("Allow constructor to be public and destructor only private, that way GRs are only created by new and not static, when this add ref++ in constructor")
 GameResource::GameResource(const std::string& resourceName, GameResourceType resourceType)
-    : UniqueAEObjectNamed(resourceName)
+    : Named(resourceName)
     , m_ResourceType(resourceType)
 {
     //Increase reference count
-    m_RefCount++;
+    m_RefCount.fetch_add(1);
 }
 
 GameResource::~GameResource()
@@ -56,10 +56,8 @@ GameResource::~GameResource()
 
 GameResource* GameResource::AddRef()
 {
-    //This has to be an atomic operation
-    std::lock_guard<std::mutex> lock(m_GameResourceMutex);
-
-    m_RefCount++;
+    //Increase reference count
+    m_RefCount.fetch_add(1);
 
     return this;
 }
@@ -90,53 +88,30 @@ void GameResource::SetFileName(const std::string& fileName)
     SetFileNameWithoutLock(fileName);
 }
 
-uint32_t GameResource::Release()
+int64_t GameResource::Release()
 {
-    uint32_t refCount = 0;
-
-    //In Scope so the thread will lock with
-    //boost lock and it will be release before
-    //deleting
+    int64_t refCount = m_RefCount.fetch_sub(1);
+    if (!m_RefCount.fetch_and(0))
     {
-        //This has to be an atomic operation
+        if (refCount < 0)
+        {
+            return 0;
+        }
+
+        return (refCount - 1);
+    }
+
+    {
         std::lock_guard<std::mutex> lock(m_GameResourceMutex);
 
-        if(m_RefCount == 0 && m_KeepAlive)
+        if (m_ReleaseCallback != nullptr)
         {
-            return 0;
-        }
-
-        if(m_RefCount == 0 && m_Deleting)
-        {
-            return 0;
-        }
-
-        AEAssert(m_RefCount != 0);
-        if(m_RefCount == 0)
-        {
-            return -1;
-        }
-
-        //We assign this here because if we delete the
-        //Game Resource its member variables will be gone
-        //be the time we return the ref count
-        refCount = --m_RefCount;
-
-        if(m_RefCount == 0 && !m_KeepAlive)
-        {
-            m_Deleting = true;
-        }
-
-        if(m_ReleaseCallback != nullptr)
-        {
-            m_ReleaseCallback(this->GetUniqueID(), m_Deleting);
+            m_ReleaseCallback(this->GetUniqueID());
         }
     }
 
-    if(m_Deleting)
-    {
-        delete this;
-    }
+    //Delete the memory
+    delete this;
 
-    return refCount;
+    return 0;
 }

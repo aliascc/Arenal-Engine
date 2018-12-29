@@ -43,7 +43,7 @@ class PhysicsManager;
 *   Class Decl   *
 ******************/
 
-class PhysicCollider abstract : public UniqueAEObject
+class PhysicCollider abstract : public AEObject
 {
     private:
 

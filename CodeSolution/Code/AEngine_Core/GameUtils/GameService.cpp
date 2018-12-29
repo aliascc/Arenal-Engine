@@ -40,7 +40,7 @@
 *********************/
 AETODO("add mutex");
 GameService::GameService(const std::string& name)
-    : UniqueAEObjectNamed(name)
+    : Named(name)
 {
 }
 

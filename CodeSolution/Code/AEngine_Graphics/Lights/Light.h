@@ -47,7 +47,7 @@ struct TimerParams;
 /*****************
 *   Class Decl   *
 ******************/
-class Light abstract : public UniqueAEObjectNamed
+class Light abstract : public Named
 {
     friend class LightManager;
 

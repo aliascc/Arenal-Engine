@@ -31,6 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "Base\Named.h"
 #include "GameContentDefs.h"
 
 /********************
@@ -40,7 +41,7 @@
 /*****************
 *   Class Decl   *
 ******************/
-class RawGameAsset sealed : public UniqueAEObjectNamed
+class RawGameAsset sealed : public Named
 {
     friend class GameAssetManager;
     

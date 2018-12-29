@@ -99,8 +99,6 @@
 #include "Base\AEObject.h"
 #include "Base\BaseFunctions.h"
 #include "Base\BaseLocations.h"
-#include "Base\UniqueAEObject.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 #include "Math\AEMathDefs.h"
 

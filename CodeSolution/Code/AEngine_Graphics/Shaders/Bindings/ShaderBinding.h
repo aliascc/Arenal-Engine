@@ -43,7 +43,7 @@
 /*****************
 *   Class Decl   *
 ******************/
-class ShaderBinding abstract : public UniqueAEObjectNamed
+class ShaderBinding abstract : public Named
 {
     protected:
 

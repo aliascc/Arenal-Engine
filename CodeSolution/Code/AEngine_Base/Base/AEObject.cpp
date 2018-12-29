@@ -28,6 +28,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "AEObject.h"
+#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -37,6 +38,7 @@
 *********************/
 AEObject::AEObject()
 {
+    m_UniqueID = AE_Base::GetNextUniqueID();
 }
 
 AEObject::~AEObject()
