@@ -32,6 +32,9 @@
 *   Game Engine Includes   *
 ****************************/
 
+//Always include last
+#include "Memory\MemLeaks.h"
+
 /********************
 *   Function Defs   *
 *********************/
