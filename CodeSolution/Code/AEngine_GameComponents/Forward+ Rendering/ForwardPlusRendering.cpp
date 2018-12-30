@@ -53,31 +53,31 @@
 /********************
 *   Function Defs   *
 *********************/
-ForwardPlusRendering::ForwardPlusRendering(GameApp* gameApp, const std::string& gameComponentName, const std::string& serviceName, uint32_t callOrder)
-    : GameComponent(gameApp, gameComponentName, callOrder)
+ForwardPlusRendering::ForwardPlusRendering(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName, const std::string& serviceName, uint32_t callOrder)
+    : GameComponent(gameApp, gameResourceManager, gameComponentName, callOrder)
     , m_ServiceName(serviceName)
 {
     //Register Game Component as Service
     AETODO("Check ret better");
-    AEResult ret = m_GameApp->RegisterGameService(m_ServiceName, this);
+    AEResult ret = m_GameApp.RegisterGameService(m_ServiceName, this);
     AEAssert(ret == AEResult::Ok);
 
     //Create Forward+ Rendering Game Components
-    m_FPRPreZ = new FPRPreZ(gameApp);
-    m_FPRLightCulling = new FPRLightCulling(gameApp);
-    m_FPRObjectDraw = new FPRObjectDraw(gameApp);
+    m_FPRPreZ = new FPRPreZ(gameApp, gameResourceManager, *gameApp.GetGraphicsDevice());
+    m_FPRLightCulling = new FPRLightCulling(gameApp, gameResourceManager, *gameApp.GetGraphicsDevice());
+    m_FPRObjectDraw = new FPRObjectDraw(gameApp, gameResourceManager, *gameApp.GetGraphicsDevice());
 
     AETODO("add check");
-    m_GameApp->AddComponent(m_FPRPreZ);
-    m_GameApp->AddComponent(m_FPRLightCulling);
-    m_GameApp->AddComponent(m_FPRObjectDraw);
+    m_GameApp.AddComponent(m_FPRPreZ);
+    m_GameApp.AddComponent(m_FPRLightCulling);
+    m_GameApp.AddComponent(m_FPRObjectDraw);
 }
 
 ForwardPlusRendering::~ForwardPlusRendering()
 {
-    m_GameApp->RemoveComponent(m_FPRPreZ);
-    m_GameApp->RemoveComponent(m_FPRLightCulling);
-    m_GameApp->RemoveComponent(m_FPRObjectDraw);
+    m_GameApp.RemoveComponent(m_FPRPreZ);
+    m_GameApp.RemoveComponent(m_FPRLightCulling);
+    m_GameApp.RemoveComponent(m_FPRObjectDraw);
 
     DeleteMem(m_FPRPreZ);
     DeleteMem(m_FPRLightCulling);
@@ -93,8 +93,8 @@ ForwardPlusRendering::~ForwardPlusRendering()
 
 void ForwardPlusRendering::Initialize()
 {
-    AEResult ret = AEResult::Ok;
-    GraphicDevice* graphicDevice = m_GameApp->GetGraphicsDevice();
+    AEResult ret                    = AEResult::Ok;
+    GraphicDevice& graphicDevice    = *m_GameApp.GetGraphicsDevice();
 
     /////////////////////////////////////////////////////
     //Create Depth Stencil
@@ -132,9 +132,9 @@ void ForwardPlusRendering::Initialize()
 void ForwardPlusRendering::LoadContent()
 {
     AEResult ret = AEResult::Ok;
-    GraphicDevice* graphicDevice = m_GameApp->GetGraphicsDevice();
+    GraphicDevice* graphicDevice = m_GameApp.GetGraphicsDevice();
 
-    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice->GetGraphicPP().m_BackBufferWidth, m_GameApp->GetGraphicsDevice()->GetGraphicPP().m_BackBufferHeight);
+    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice->GetGraphicPP().m_BackBufferWidth, m_GameApp.GetGraphicsDevice()->GetGraphicPP().m_BackBufferHeight);
 
     AETODO("Set is ready when ds and buffers are created");
 
@@ -182,7 +182,7 @@ void ForwardPlusRendering::Update(const TimerParams& timerParams)
 
     ////////////////////////////////////////////////
     //Get Light Manager
-    LightManager* lightManager = m_GameApp->GetLightManager();
+    LightManager* lightManager = m_GameApp.GetLightManager();
 
     ////////////////////////////////////////////////
     //Update Light FX Vector if needed
@@ -285,9 +285,9 @@ void ForwardPlusRendering::Update(const TimerParams& timerParams)
 
 void ForwardPlusRendering::OnResetDevice()
 {
-    GraphicDevice* graphicDevice = m_GameApp->GetGraphicsDevice();
+    GraphicDevice* graphicDevice = m_GameApp.GetGraphicsDevice();
 
-    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice->GetGraphicPP().m_BackBufferWidth, m_GameApp->GetGraphicsDevice()->GetGraphicPP().m_BackBufferHeight);
+    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice->GetGraphicPP().m_BackBufferWidth, m_GameApp.GetGraphicsDevice()->GetGraphicPP().m_BackBufferHeight);
 
     AETODO("Check returns");
 
@@ -306,7 +306,7 @@ AEResult ForwardPlusRendering::InitForwardPlusDS()
         return AEResult::NullObj;
     }
 
-    GraphicDevice* graphicDevice = m_GameApp->GetGraphicsDevice();
+    GraphicDevice* graphicDevice = m_GameApp.GetGraphicsDevice();
 
     AEResult ret = AEResult::Ok;
 

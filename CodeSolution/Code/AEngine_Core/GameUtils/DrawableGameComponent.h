@@ -59,11 +59,11 @@ class DrawableGameComponent abstract : public GameComponent
     protected:
         //Variable to check if we can draw or not
         bool m_Visible = true;
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
     public:
         //Constructor Destructor
-        DrawableGameComponent(GameApp* gameApp, const std::string& name = "", uint32_t callOrder = 100);
+        DrawableGameComponent(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& name = "", uint32_t callOrder = 100);
         virtual ~DrawableGameComponent();
 
         //Gets

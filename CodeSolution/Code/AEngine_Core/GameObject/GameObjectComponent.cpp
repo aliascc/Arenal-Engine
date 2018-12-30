@@ -41,16 +41,10 @@
 *********************/
 
 AETODO("Add mutex");
-GameObjectComponent::GameObjectComponent(GameObject* gameObject, GameObjectComponentType gameObjectComponentType)
+GameObjectComponent::GameObjectComponent(GameObject& gameObject, GameObjectComponentType gameObjectComponentType)
     : m_GameObject(gameObject)
     , m_GameObjectComponentType(gameObjectComponentType)
 {
-    AEAssert(gameObject != nullptr);
-    if (gameObject == nullptr)
-    {
-        return;
-    }
-
     m_IsReady = true;
 }
 

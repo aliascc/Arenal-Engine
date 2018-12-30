@@ -41,7 +41,7 @@
 /********************
 *   Function Defs   *
 *********************/
-TextureCube::TextureCube(GraphicDevice* graphicDevice, const std::string& textureName)
+TextureCube::TextureCube(GraphicDevice& graphicDevice, const std::string& textureName)
     : ITexture2D(graphicDevice, textureName, true)
 {
 }
@@ -116,7 +116,7 @@ AEResult TextureCube::Load()
     /////////////////////////////////////////////////////////////
     //Get DirectX Texture2D Resource from DirectX Tex Objects
     ID3D11Resource* resource = nullptr;
-    hr = CreateTextureEx(m_GraphicDevice->GetDeviceDX(), scratchImage.GetImages(), scratchImage.GetImageCount(), texMetadata, D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0, false, &resource);
+    hr = CreateTextureEx(m_GraphicDevice.GetDeviceDX(), scratchImage.GetImages(), scratchImage.GetImageCount(), texMetadata, D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0, false, &resource);
 
     if (hr != S_OK)
     {
@@ -139,7 +139,7 @@ AEResult TextureCube::Load()
     srvDesc.ViewDimension = D3D_SRV_DIMENSION_TEXTURECUBE;
     srvDesc.TextureCube.MipLevels = static_cast<UINT>(texMetadata.mipLevels);
 
-    hr = m_GraphicDevice->GetDeviceDX()->CreateShaderResourceView(m_TextureDX, &srvDesc, &m_ShaderResourceView);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateShaderResourceView(m_TextureDX, &srvDesc, &m_ShaderResourceView);
 
     if (hr != S_OK)
     {

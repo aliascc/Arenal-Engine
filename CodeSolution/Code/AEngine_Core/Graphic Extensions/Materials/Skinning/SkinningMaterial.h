@@ -86,7 +86,7 @@ class SkinningMaterial sealed : public Material
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="graphicDevice">Game Resource Manager to get the manage resources</param>
         /// <param name="name">Name of the Effect</param>
-        SkinningMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name = AE_SKINNING_MAT_NAME);
+        SkinningMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name = AE_SKINNING_MAT_NAME);
 
         /// <summary>
         /// Default SkinningMaterial Destructor

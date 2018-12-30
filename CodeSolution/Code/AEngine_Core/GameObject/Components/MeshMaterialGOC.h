@@ -168,7 +168,7 @@ class MeshMaterialGOC sealed : public GameObjectComponent
         /// </summary>
         /// <param name="gameObject">Game Object that this Component is attached too</param>
         /// <param name="name">Name of the Mesh Material</param>
-        MeshMaterialGOC(GameObject* gameObject, const std::string& name = "");
+        MeshMaterialGOC(GameObject& gameObject, const std::string& name = "");
 
         /// <summary>
         /// Default MeshMaterialGOC Destructor
@@ -332,9 +332,9 @@ class MeshMaterialGOC sealed : public GameObjectComponent
 
         AEResult RemoveDomainShaderAsset();
 
-        AEResult ApplyShaders(GraphicDevice* graphicDevice);
+        AEResult ApplyShaders(GraphicDevice& graphicDevice);
 
-        AEResult UnApplyShaders(GraphicDevice* graphicDevice);
+        AEResult UnApplyShaders(GraphicDevice& graphicDevice);
 
 #pragma endregion
 

@@ -41,7 +41,7 @@
 /********************
 *   Function Defs   *
 *********************/
-PixelShader::PixelShader(GraphicDevice* graphicDevice, const std::string& name)
+PixelShader::PixelShader(GraphicDevice& graphicDevice, const std::string& name)
     : Shader(graphicDevice, ShaderType::PixelShader, name)
 {
 }
@@ -54,7 +54,6 @@ PixelShader::~PixelShader()
 AEResult PixelShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t length)
 {
     AEAssert(shaderByteCode != nullptr);
-
     if(shaderByteCode == nullptr)
     {
         return AEResult::NullParameter;
@@ -63,7 +62,7 @@ AEResult PixelShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t
     ID3D11PixelShader* tempDX = nullptr;
 
     AETODO("Check Dynamic Class Linckage");
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreatePixelShader((void*)shaderByteCode, length, nullptr, &tempDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreatePixelShader((void*)shaderByteCode, length, nullptr, &tempDX);
 
     if(hr != S_OK)
     {

@@ -73,7 +73,7 @@ class GameObjectComponent abstract : public AEObject
         /// <summary>
         /// Game Object that this Component is attached too.
         /// <summary>
-        GameObject* m_GameObject = nullptr;
+        GameObject& m_GameObject;
 
 #pragma endregion
 
@@ -96,7 +96,7 @@ class GameObjectComponent abstract : public AEObject
         /// </summary>
         /// <param name="gameObject">Game Object that this Component is attached too</param>
         /// <param name="gameObjectComponentType>Game Object Component Type</param>
-        GameObjectComponent(GameObject* gameObject, GameObjectComponentType gameObjectComponentType);
+        GameObjectComponent(GameObject& gameObject, GameObjectComponentType gameObjectComponentType);
 
         /// <summary>
         /// Default GameObjectComponent Destructor
@@ -121,7 +121,7 @@ class GameObjectComponent abstract : public AEObject
         /// <summary>
         /// Gets the Game Object that this Component is attached too.
         /// </summary>
-        inline GameObject* GetGameObject() const
+        inline GameObject& GetGameObject() const
         {
             return m_GameObject;
         }

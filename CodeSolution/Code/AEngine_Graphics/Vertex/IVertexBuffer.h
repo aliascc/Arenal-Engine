@@ -80,7 +80,7 @@ class IVertexBuffer abstract : public Named
         /// <summary>
         /// Graphic Device associated with the Vertex Buffer
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
 #pragma endregion
 
@@ -97,13 +97,12 @@ class IVertexBuffer abstract : public Named
         /// <param name="graphicDevice">Graphic Device to be associated with this Vertex Buffer</param>
         /// <param name="memPool">How will the buffer be use</param>
         /// <param name="memPool">How will the CPU Access the memory of the buffer</param>
-        IVertexBuffer(GraphicDevice* graphicDevice, GraphicBufferUsage bufferUsage = GraphicBufferUsage::Static, GraphicBufferAccess bufferAccess = GraphicBufferAccess::None)
+        IVertexBuffer(GraphicDevice& graphicDevice, GraphicBufferUsage bufferUsage = GraphicBufferUsage::Static, GraphicBufferAccess bufferAccess = GraphicBufferAccess::None)
             : Named("")
             , m_BufferAccess(bufferAccess)
             , m_BufferUsage(bufferUsage)
             , m_GraphicDevice(graphicDevice)
         {
-            AEAssert(graphicDevice != nullptr);
         }
         
         /// <summary>

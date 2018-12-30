@@ -53,7 +53,7 @@ class PhysicsGOC sealed : public GameObjectComponent
         *************************/
 #pragma region Private Variables
 
-        PhysicsManager* m_PhysicsManager = nullptr;
+        PhysicsManager& m_PhysicsManager;
 
         PhysicsActor* m_PhysicsActor = nullptr;
 
@@ -78,7 +78,7 @@ class PhysicsGOC sealed : public GameObjectComponent
         /// </summary>
         /// <param name="gameObject">Game Object that this Component is attached too</param>
         /// <param name="physcisManager">Physics Manager to add the actor</param>
-        PhysicsGOC(GameObject* gameObject, PhysicsManager* physcisManager);
+        PhysicsGOC(GameObject& gameObject, PhysicsManager& physcisManager);
 
         /// <summary>
         /// Default PhysicsGOC Destructor

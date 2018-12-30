@@ -96,7 +96,7 @@ class Texture2D sealed : public ITexture2D
         /// </summary>
         /// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
         /// <param name="textureName">Name of the Texture</param>
-        Texture2D(GraphicDevice* graphicDevice, const std::string& textureName);
+        Texture2D(GraphicDevice& graphicDevice, const std::string& textureName);
 
 #pragma endregion
 

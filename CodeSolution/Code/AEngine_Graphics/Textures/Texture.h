@@ -88,7 +88,7 @@ class Texture abstract : public GameResource
         /// <summary>
         /// Graphic Device associated with the Texture
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         /// <summary>
         /// DirectX Shader Resource use to bind the Texture to a Shader
@@ -130,7 +130,7 @@ class Texture abstract : public GameResource
         /// <param name="graphicDevice">Graphic Device to be associated with this Texture</param>
         /// <param name="textureType">Type of the Texture</param>
         /// <param name="textureName">Name of the Texture</param>
-        Texture(GraphicDevice* graphicDevice, TextureType textureType, const std::string& textureName);
+        Texture(GraphicDevice& graphicDevice, TextureType textureType, const std::string& textureName);
 
 #pragma endregion
 

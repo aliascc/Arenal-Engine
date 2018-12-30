@@ -54,7 +54,7 @@ class LightGOC sealed : public GameObjectComponent
         *************************/
 #pragma region Private Variables
 
-        LightManager* m_LightManager = nullptr;
+        LightManager& m_LightManager;
 
         bool m_DrawFrustumCascadesEnabled = false;
 
@@ -96,7 +96,7 @@ class LightGOC sealed : public GameObjectComponent
         /// </summary>
         /// <param name="gameObject">Game Object that this Component is attached too</param>
         /// <param name="lightManager">Light Manager to associate Light</param>
-        LightGOC(GameObject* gameObject, LightManager* lightManager);
+        LightGOC(GameObject& gameObject, LightManager& lightManager);
 
         /// <summary>
         /// Default LightGOC Destructor

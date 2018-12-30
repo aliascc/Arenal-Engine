@@ -63,12 +63,12 @@ class Material abstract : public Named
 
         bool m_IsReady = false;
 
-        GameResourceManager* m_GameResourceManager = nullptr;
+        GameResourceManager& m_GameResourceManager;
 
         /// <summary>
         /// Graphic Device associated with the object
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         VertexShader* m_VertexShader = nullptr;
         ShaderProperties* m_VSProps = nullptr;
@@ -112,7 +112,7 @@ class Material abstract : public Named
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
         /// <param name="name">Name of the Material</param>
-        Material(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name = "");
+        Material(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name = "");
 
         /// <summary>
         /// Default Material Destructor

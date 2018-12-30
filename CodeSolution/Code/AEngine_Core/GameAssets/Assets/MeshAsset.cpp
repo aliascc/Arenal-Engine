@@ -42,11 +42,10 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-MeshAsset::MeshAsset(const std::string& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice)
+MeshAsset::MeshAsset(const std::string& filePath, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice)
     : GameAsset(GameContentType::Mesh, filePath, gameResourceManager)
     , m_GraphicDevice(graphicDevice)
 {
-    AEAssert(m_GraphicDevice != nullptr);
 }
 
 MeshAsset::~MeshAsset()
@@ -66,18 +65,6 @@ Mesh* MeshAsset::GetMeshReference()
 
 AEResult MeshAsset::LoadAssetResource()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-    if (m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     AEAssert(!m_FilePath.empty());
     if(m_FilePath.empty())
     {
@@ -97,8 +84,7 @@ AEResult MeshAsset::LoadAssetResource()
     {
         /////////////////////////////////////////////
         //Check if Game Resources contains this Mesh
-        m_Mesh = (Mesh*)m_GameResourceManager->AcquireGameResourceByStringID(m_FilePath, GameResourceType::Mesh);
-
+        m_Mesh = (Mesh*)m_GameResourceManager.AcquireGameResourceByStringID(m_FilePath, GameResourceType::Mesh);
         if(m_Mesh != nullptr)
         {
             AETODO("Check if we always need to reload");
@@ -121,7 +107,7 @@ AEResult MeshAsset::LoadAssetResource()
 
         /////////////////////////////////////////////
         //Add to Resource Manager
-        ret = m_GameResourceManager->ManageGameResource(m_Mesh, m_FilePath);
+        ret = m_GameResourceManager.ManageGameResource(m_Mesh, m_FilePath);
         if(ret != AEResult::Ok)
         {
             AETODO("Add log");

@@ -84,7 +84,7 @@ class VarianceSkinningShadowMaterial sealed : public Material
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
         /// <param name="name">Name of the Effect</param>
-        VarianceSkinningShadowMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name = AE_VARIANCE_SKINNING_SHADOW_MAT_NAME);
+        VarianceSkinningShadowMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name = AE_VARIANCE_SKINNING_SHADOW_MAT_NAME);
 
         /// <summary>
         /// Default VarianceSkinningShadowMaterial Destructor

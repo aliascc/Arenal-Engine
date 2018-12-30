@@ -95,7 +95,7 @@ class GameComponent abstract : public GameService
         /// <summary>
         /// Parent GameApp pointer
         /// </summary>
-        GameApp* m_GameApp = nullptr;
+        GameApp& m_GameApp;
 
         /// <summary>
         /// Enable/Disable Updates for this Game Component
@@ -105,7 +105,7 @@ class GameComponent abstract : public GameService
         /// <summary>
         /// Game Resource Manager to handle resources
         /// </summary>
-        GameResourceManager* m_GameResourceManager = nullptr;
+        GameResourceManager& m_GameResourceManager;
 
 #pragma endregion
 
@@ -119,7 +119,7 @@ class GameComponent abstract : public GameService
         /// <summary>
         /// GameComponent Constructor
         /// </summary>
-        GameComponent(GameApp* gameApp, const std::string& name = "", uint32_t callOrder = AE_DEFAULT_GAME_COMPONENT_CALL_ORDER);
+        GameComponent(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& name = "", uint32_t callOrder = AE_DEFAULT_GAME_COMPONENT_CALL_ORDER);
 
         /// <summary>
         /// Default GameComponent Destructor
@@ -137,7 +137,7 @@ class GameComponent abstract : public GameService
         /// Gets the GameApp that associated with this component
         /// </summary>
         /// <returns>GameApp</returns>
-        inline const GameApp* GetGameApp() const
+        inline const GameApp& GetGameApp() const
         { 
             return m_GameApp; 
         }

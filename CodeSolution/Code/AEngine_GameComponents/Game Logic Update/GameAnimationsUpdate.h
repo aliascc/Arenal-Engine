@@ -52,7 +52,7 @@ class GameAnimationsUpdate sealed : public GameComponent
 
     public:
         //Constructor Destructor.
-        GameAnimationsUpdate(GameApp* gameApp, const std::string& gameComponentName = AE_GAME_ANIMATIONS_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_AnimationsUpdate);
+        GameAnimationsUpdate(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName = AE_GAME_ANIMATIONS_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_AnimationsUpdate);
 
         virtual ~GameAnimationsUpdate();
 

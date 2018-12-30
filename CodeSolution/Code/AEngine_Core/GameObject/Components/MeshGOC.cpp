@@ -42,7 +42,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-MeshGOC::MeshGOC(GameObject* gameObject)
+MeshGOC::MeshGOC(GameObject& gameObject)
     : GameObjectComponent(gameObject, GameObjectComponentType::Mesh)
 {
 }

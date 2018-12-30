@@ -610,7 +610,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
 
     ////////////////////////////////////////////////
     //Create Light Manager
-    m_LightManager = new LightManager(m_GraphicDevice);
+    m_LightManager = new LightManager(*m_GraphicDevice);
 
     ////////////////////////////////////////////////
     //Create Audio Manager
@@ -638,7 +638,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
 
     ////////////////////////////////////////////////
     // Create and Initialize Game Asset Manager
-    m_GameAssetManager = new GameAssetManager(m_GraphicDevice, m_GameResourceManager, m_AngelScriptManager, m_AudioManager, m_GameProject.m_ProjectLocation, m_GameProject.m_ProjectLocation + "/" + AE_PROJ_ASSETS_DIR_LOC);
+    m_GameAssetManager = new GameAssetManager(*m_GraphicDevice, *m_GameResourceManager, *m_AngelScriptManager, *m_AudioManager, m_GameProject.m_ProjectLocation, m_GameProject.m_ProjectLocation + "/" + AE_PROJ_ASSETS_DIR_LOC);
 
     if(m_GameAssetManager->Initialize() != AEResult::Ok)
     {
@@ -652,7 +652,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
 
     ////////////////////////////////////////////////
     //Create Game Object Manager
-    m_GameObjectManager = new GameObjectManager(m_GraphicDevice, m_GameAssetManager, m_GameObjectScriptManager, m_AngelScriptManager, m_LightManager, m_CameraManager, m_AudioManager, m_PhysicsManager);
+    m_GameObjectManager = new GameObjectManager(*m_GraphicDevice, *m_GameAssetManager, *m_GameObjectScriptManager, *m_AngelScriptManager, *m_LightManager, *m_CameraManager, *m_AudioManager, *m_PhysicsManager);
 
 #ifdef AE_EDITOR_MODE
 

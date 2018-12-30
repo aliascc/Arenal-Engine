@@ -41,7 +41,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DomainShader::DomainShader(GraphicDevice* graphicDevice, const std::string& name)
+DomainShader::DomainShader(GraphicDevice& graphicDevice, const std::string& name)
     : Shader(graphicDevice, ShaderType::DomainShader, name)
 {
 }
@@ -63,7 +63,7 @@ AEResult DomainShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_
     ID3D11DomainShader* tempDX = nullptr;
 
     AETODO("Check Dynamic Class Linckage");
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateDomainShader((void*)shaderByteCode, length, nullptr, &tempDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateDomainShader((void*)shaderByteCode, length, nullptr, &tempDX);
 
     if(hr != S_OK)
     {

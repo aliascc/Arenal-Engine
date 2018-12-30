@@ -94,7 +94,7 @@ class Shader abstract : public GameResource
         /// <summary>
         /// Graphic Device associated with the Texture
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         /// <summary>
         /// Lists Constant Buffer Signature, these are use to create 
@@ -168,7 +168,7 @@ class Shader abstract : public GameResource
         /// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
         /// <param name="name">Name of Shader</param>
         /// <param name="shaderType">Type of the Shader</param>
-        Shader(GraphicDevice* graphicDevice, ShaderType shaderType, const std::string& name = "");
+        Shader(GraphicDevice& graphicDevice, ShaderType shaderType, const std::string& name = "");
 
 #pragma endregion
 
@@ -216,7 +216,7 @@ class Shader abstract : public GameResource
             return m_TextureArrayInputSignatureList;
         }
 
-        inline GraphicDevice* GetGraphicDevice()
+        inline GraphicDevice& GetGraphicDevice()
         {
             return m_GraphicDevice;
         }

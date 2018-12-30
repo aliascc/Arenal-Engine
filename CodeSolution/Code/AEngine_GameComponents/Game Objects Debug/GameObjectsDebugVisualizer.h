@@ -120,7 +120,7 @@ class GameObjectsDebugVisualizer sealed : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        GameObjectsDebugVisualizer(GameApp* gameApp, const std::string& gameComponentName = AE_GAME_OBJECTS_DEBUG_VISUALIZER_DEF_COMPONENT_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectsDebugVisualizer);
+        GameObjectsDebugVisualizer(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName = AE_GAME_OBJECTS_DEBUG_VISUALIZER_DEF_COMPONENT_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectsDebugVisualizer);
         virtual ~GameObjectsDebugVisualizer();
 
         void Initialize() override;

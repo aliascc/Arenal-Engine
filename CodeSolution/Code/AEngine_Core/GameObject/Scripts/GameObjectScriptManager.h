@@ -100,6 +100,10 @@ class GameObjectScriptManager sealed : public AEObject
         /// </summary>
         virtual ~GameObjectScriptManager();
 
+        //Delete copy constructor/operator
+        GameObjectScriptManager(const GameObjectScriptManager&) = delete;
+        GameObjectScriptManager& operator=(const GameObjectScriptManager&) = delete;
+
 #pragma endregion
 
         /************************

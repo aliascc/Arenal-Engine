@@ -40,14 +40,13 @@
 /********************
 *   Function Defs   *
 *********************/
-GameAsset::GameAsset(GameContentType gameContentType, const std::string& filePath, GameResourceManager* gameResourceManager)
+GameAsset::GameAsset(GameContentType gameContentType, const std::string& filePath, GameResourceManager& gameResourceManager)
     : Named("")
     , m_GameContentType(gameContentType)
     , m_FilePath(filePath)
     , m_GameResourceManager(gameResourceManager)
 {
     AEAssert(!filePath.empty());
-    AEAssert(gameResourceManager != nullptr);
 
     m_OnListenerObjDeletionEventHandler = std::bind(&GameAsset::UnregisterEventHandlers, this, std::placeholders::_1);
 }
@@ -103,11 +102,6 @@ AEResult GameAsset::UnregisterEventHandlers(uint64_t id)
 
 AEResult GameAsset::LoadAsset()
 {
-    if (m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     std::lock_guard<std::mutex> lock(m_GameAssetMutex);
 
     if (m_IsLoaded)

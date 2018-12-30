@@ -60,7 +60,7 @@ class GameObjectScriptCaller sealed : public GameComponent
 
     public:
         //Constructor Destructor.
-        GameObjectScriptCaller(GameApp* gameApp, const std::string& gameComponentName = AE_GAME_GAME_OBJECT_SCRIPT_CALLER_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectScriptCaller);
+        GameObjectScriptCaller(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName = AE_GAME_GAME_OBJECT_SCRIPT_CALLER_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectScriptCaller);
 
         virtual ~GameObjectScriptCaller();
 

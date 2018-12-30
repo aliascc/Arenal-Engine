@@ -45,7 +45,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-MeshAnimationGOC::MeshAnimationGOC(GameObject* gameObject)
+MeshAnimationGOC::MeshAnimationGOC(GameObject& gameObject)
     : GameObjectComponent(gameObject, GameObjectComponentType::MeshAnimation)
 {
     m_AnimationPlayer = new AnimationPlayer();

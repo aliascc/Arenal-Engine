@@ -97,7 +97,7 @@ public:
     /// </summary>
     /// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
     /// <param name="name">Name of Shader</param>
-    DiffuseTextureVS(GraphicDevice* graphicDevice, const std::string& resourceName);
+    DiffuseTextureVS(GraphicDevice& graphicDevice, const std::string& resourceName);
 
 #pragma endregion
 

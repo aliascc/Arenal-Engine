@@ -44,14 +44,14 @@
 *   Function Defs   *
 *********************/
 
-CameraUpdater::CameraUpdater(GameApp* gameApp, const std::string& name, const std::string& serviceName, uint32_t callOrder)
-    : GameComponent(gameApp, name, callOrder)
+CameraUpdater::CameraUpdater(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& name, const std::string& serviceName, uint32_t callOrder)
+    : GameComponent(gameApp, gameResourceManager, name, callOrder)
     , m_ServiceName(serviceName)
 {
     AEAssert(!m_ServiceName.empty());
-    if (m_GameApp != nullptr && !m_ServiceName.empty())
+    if (!m_ServiceName.empty())
     {
-        if (m_GameApp->RegisterGameService(m_ServiceName, this) == AEResult::Ok)
+        if (m_GameApp.RegisterGameService(m_ServiceName, this) == AEResult::Ok)
         {
             m_IsReady = true;
         }
@@ -66,33 +66,33 @@ CameraUpdater::~CameraUpdater()
 {
     if (m_IsReady)
     {
-        m_GameApp->UnRegisterGameService(m_ServiceName);
+        m_GameApp.UnRegisterGameService(m_ServiceName);
     }
 }
 
 uint32_t CameraUpdater::GetNumberOfCameras() const
 {
-    return static_cast<uint32_t>(m_GameApp->GetCameraManager()->GetSize());
+    return static_cast<uint32_t>(m_GameApp.GetCameraManager()->GetSize());
 }
 
 Camera* CameraUpdater::GetMainCamera() const
 {
-    return m_GameApp->GetCameraManager()->GetMainCamera();
+    return m_GameApp.GetCameraManager()->GetMainCamera();
 }
 
 bool CameraUpdater::CameraExists(uint64_t cameraID)
 {
-    return m_GameApp->GetCameraManager()->CameraExists(cameraID);
+    return m_GameApp.GetCameraManager()->CameraExists(cameraID);
 }
 
 AEResult CameraUpdater::SetMainCamera(uint64_t cameraID)
 {
-    return m_GameApp->GetCameraManager()->SetMainCamera(cameraID);
+    return m_GameApp.GetCameraManager()->SetMainCamera(cameraID);
 }
 
 void CameraUpdater::Update(const TimerParams& timerParams)
 {
-    m_GameApp->GetCameraManager()->Update(timerParams);
+    m_GameApp.GetCameraManager()->Update(timerParams);
 
     GameComponent::Update(timerParams);
 }
@@ -101,8 +101,8 @@ void CameraUpdater::OnResetDevice()
 {
     //////////////////////////////////////////////////
     //Update all cameras
-    CameraManager* cameraManager = m_GameApp->GetCameraManager();
-    GraphicDevice* graphicDevice = m_GameApp->GetGraphicsDevice();
+    CameraManager* cameraManager = m_GameApp.GetCameraManager();
+    GraphicDevice* graphicDevice = m_GameApp.GetGraphicsDevice();
 
     for (auto cameraIt : *cameraManager)
     {

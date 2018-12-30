@@ -56,7 +56,7 @@ class GameObjectScriptAsset sealed : public GameAsset
         /// <summary>
         /// Angel Script Manager to handle the Scripts
         /// </summary>
-        AngelScriptManager* m_AngelScriptManager = nullptr;
+        AngelScriptManager& m_AngelScriptManager;
 
 #pragma endregion
 
@@ -87,7 +87,7 @@ class GameObjectScriptAsset sealed : public GameAsset
         /// <param name="textureType">Type of the Texture that this Asset will hold</param>
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
         /// <param name="angelScriptManager">Angel Script Manager to handle the Scripts</param>
-        GameObjectScriptAsset(const std::string& filepath, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager);
+        GameObjectScriptAsset(const std::string& filepath, GameResourceManager& gameResourceManager, AngelScriptManager& angelScriptManager);
 
         /// <summary>
         /// Default GameObjectScriptAsset Destructor

@@ -54,13 +54,13 @@ class LightShape abstract : public AEObject
 
         std::vector<IVertexBuffer*> m_VertexBufferVector;
 
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         void CleanUp();
 
     public:
         //Constructor Destructor.
-        LightShape(GraphicDevice* graphicDevice);
+        LightShape(GraphicDevice& graphicDevice);
         virtual ~LightShape();
 
         //Framework Methods

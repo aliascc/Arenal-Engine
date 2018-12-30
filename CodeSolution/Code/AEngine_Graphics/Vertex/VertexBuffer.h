@@ -102,7 +102,7 @@ class VertexBuffer sealed : public IVertexBuffer
 
             AETODO("Check Map flags");
             AETODO("Check Sub Resource");
-            HRESULT hr = m_GraphicDevice->GetDeviceContextDX()->Map(m_VertexBufferDX, 0, mapType, 0, &mappedData);
+            HRESULT hr = m_GraphicDevice.GetDeviceContextDX()->Map(m_VertexBufferDX, 0, mapType, 0, &mappedData);
 
             if(hr != S_OK)
             {
@@ -123,7 +123,7 @@ class VertexBuffer sealed : public IVertexBuffer
         AEResult UnMapBuffer()
         {
             AETODO("Check Subresource");
-            m_GraphicDevice->GetDeviceContextDX()->Unmap(m_VertexBufferDX, 0);
+            m_GraphicDevice.GetDeviceContextDX()->Unmap(m_VertexBufferDX, 0);
 
             m_VideoVB = nullptr;
 
@@ -145,7 +145,7 @@ class VertexBuffer sealed : public IVertexBuffer
         /// <param name="graphicDevice">Graphic Device to be associated with this Vertex Buffer</param>
         /// <param name="bufferUsage">How will the buffer be use</param>
         /// <param name="bufferAccess">How will the CPU Access the memory of the buffer</param>
-        VertexBuffer(GraphicDevice* graphicDevice, GraphicBufferUsage bufferUsage = GraphicBufferUsage::Static, GraphicBufferAccess bufferAccess = GraphicBufferAccess::None)
+        VertexBuffer(GraphicDevice& graphicDevice, GraphicBufferUsage bufferUsage = GraphicBufferUsage::Static, GraphicBufferAccess bufferAccess = GraphicBufferAccess::None)
             : IVertexBuffer(graphicDevice, bufferUsage, bufferAccess)
             , m_VertexBuffer(nullptr)
             , m_VideoVB(nullptr)
@@ -289,9 +289,7 @@ class VertexBuffer sealed : public IVertexBuffer
         /// <returns>AEResult::Ok if Build Vertex Buffer succeeded</returns>
         AEResult BuildVertexBuffer() override
         {
-            AEAssert(m_GraphicDevice != nullptr);
-
-            if(m_VertexBuffer == nullptr || m_IsReady || m_GraphicDevice == nullptr)
+            if(m_VertexBuffer == nullptr || m_IsReady)
             {
                 return AEResult::Fail;
             }
@@ -308,7 +306,7 @@ class VertexBuffer sealed : public IVertexBuffer
             D3D11_SUBRESOURCE_DATA vbInitData = { 0 };
             vbInitData.pSysMem = m_VertexBuffer;
             
-            HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateBuffer(&vbDesc, &vbInitData, &m_VertexBufferDX);
+            HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateBuffer(&vbDesc, &vbInitData, &m_VertexBufferDX);
 
             if(hr != S_OK)
             {

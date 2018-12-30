@@ -66,7 +66,7 @@ class Mesh : public GameResource
         /// </summary>
         MeshPartVector m_MeshPartVector;
 
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         BoundingBox m_BoundingBox;
 
@@ -99,7 +99,7 @@ class Mesh : public GameResource
         /// </summary>
         /// <param name="graphicDevice">Graphic Device use to create Mesh</param>
         /// <param name="resourceName">Resource Name</param>
-        Mesh(GraphicDevice* graphicDevice, const std::string& resourceName);
+        Mesh(GraphicDevice& graphicDevice, const std::string& resourceName);
 
 #pragma endregion
 

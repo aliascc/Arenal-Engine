@@ -55,7 +55,7 @@ void Object3D::CallObject3DChangedEvents(Object3DChangeEventType changeType, uin
         {
             Object3DChangedEvent changeEvent = callbackPair.second;
 
-            changeEvent(changeType, this);
+            changeEvent(changeType, *this);
         }
     }
 }

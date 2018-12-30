@@ -98,7 +98,7 @@ class LightManager sealed : public AEObject
 
         Texture2DArray* m_DirLightShadowTextureArray = nullptr;
 
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
 #pragma endregion
 
@@ -128,12 +128,16 @@ class LightManager sealed : public AEObject
         /// LightManager Constructor
         /// </summary>
         /// <param name="graphicDevice">Graphic Device to associate lights with</param>
-        LightManager(GraphicDevice* graphicDevice);
+        LightManager(GraphicDevice& graphicDevice);
 
         /// <summary>
         /// Default LightManager Destructor
         /// </summary>
         virtual ~LightManager();
+
+        //Delete copy constructor/operator
+        LightManager(const LightManager&) = delete;
+        LightManager& operator=(const LightManager&) = delete;
 
 #pragma endregion
 

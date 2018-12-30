@@ -38,8 +38,8 @@
 /********************
 *   Function Defs   *
 *********************/
-GameObjectScriptCaller::GameObjectScriptCaller(GameApp* gameApp, const std::string& gameComponentName, uint32_t callOrder)
-    : GameComponent(gameApp, gameComponentName, callOrder)
+GameObjectScriptCaller::GameObjectScriptCaller(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName, uint32_t callOrder)
+    : GameComponent(gameApp, gameResourceManager, gameComponentName, callOrder)
 {
 }
 
@@ -91,7 +91,7 @@ void GameObjectScriptCaller::Initialize()
 {
     ///////////////////////////////////////////
     //Get Game Object Manager
-    GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
+    GameObjectManager* gameObjectManager =m_GameApp.GetGameObjectManager();
 
     AEAssert(gameObjectManager != nullptr);
     if (gameObjectManager == nullptr)
@@ -113,7 +113,7 @@ void GameObjectScriptCaller::ConstantUpdate(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
     //Get Game Object Manager
-    GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
+    GameObjectManager* gameObjectManager =m_GameApp.GetGameObjectManager();
 
     AEAssert(gameObjectManager != nullptr);
     if (gameObjectManager == nullptr)
@@ -135,7 +135,7 @@ void GameObjectScriptCaller::Update(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
     //Get Game Object Manager
-    GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
+    GameObjectManager* gameObjectManager =m_GameApp.GetGameObjectManager();
 
     AEAssert(gameObjectManager != nullptr);
     if (gameObjectManager == nullptr)
@@ -157,7 +157,7 @@ void GameObjectScriptCaller::PostUpdate(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
     //Get Game Object Manager
-    GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
+    GameObjectManager* gameObjectManager =m_GameApp.GetGameObjectManager();
 
     AEAssert(gameObjectManager != nullptr);
     if (gameObjectManager == nullptr)

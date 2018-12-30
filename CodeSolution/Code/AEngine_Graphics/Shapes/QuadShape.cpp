@@ -37,11 +37,10 @@
 /********************
 *   Function Defs   *
 *********************/
-QuadShape::QuadShape(GraphicDevice* graphicDevice, bool clockWise)
+QuadShape::QuadShape(GraphicDevice& graphicDevice, bool clockWise)
     : m_ClockWise(clockWise)
     , m_GraphicDevice(graphicDevice)
 {
-    AEAssert(m_GraphicDevice != nullptr);
 }
 
 QuadShape::~QuadShape()
@@ -58,22 +57,22 @@ AEResult QuadShape::DrawQuad()
     }
 
     AETODO("add better return codes");
-    if(m_GraphicDevice->SetVertexBuffer(m_VB) != AEResult::Ok)
+    if(m_GraphicDevice.SetVertexBuffer(m_VB) != AEResult::Ok)
     {
         return AEResult::Fail;
     }
 
-    if(m_GraphicDevice->SetIndexBuffer(m_IB) != AEResult::Ok)
+    if(m_GraphicDevice.SetIndexBuffer(m_IB) != AEResult::Ok)
     {
         return AEResult::Fail;
     }
 
-    if(m_GraphicDevice->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST) != AEResult::Ok)
+    if(m_GraphicDevice.SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST) != AEResult::Ok)
     {
         return AEResult::Fail;
     }
 
-    if(m_GraphicDevice->DrawIndexed(0, 0, m_IB->GetSize()) != AEResult::Ok)
+    if(m_GraphicDevice.DrawIndexed(0, 0, m_IB->GetSize()) != AEResult::Ok)
     {
         return AEResult::Fail;
     }

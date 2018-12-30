@@ -40,7 +40,7 @@
 /********************
 *   Function Defs   *
 *********************/
-ITexture2D::ITexture2D(GraphicDevice* graphicDevice, const std::string& textureName, bool isCube)
+ITexture2D::ITexture2D(GraphicDevice& graphicDevice, const std::string& textureName, bool isCube)
     : Texture(graphicDevice, (isCube ? TextureType::TextureCube : TextureType::Texture2D), textureName)
 {
 }

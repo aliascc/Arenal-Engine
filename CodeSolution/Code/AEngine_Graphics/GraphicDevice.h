@@ -221,6 +221,10 @@ private:
         /// </summary>
         virtual ~GraphicDevice();
 
+        //Delete copy constructor/operator
+        GraphicDevice(const GraphicDevice&) = delete;
+        GraphicDevice& operator=(const GraphicDevice&) = delete;
+
 #pragma endregion
 
         /******************

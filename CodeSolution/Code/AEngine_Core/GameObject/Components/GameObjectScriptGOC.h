@@ -59,9 +59,9 @@ class GameObjectScriptGOC sealed : public GameObjectComponent
         *************************/
 #pragma region Private Variables
 
-        AngelScriptManager* m_AngelScriptManager = nullptr;
+        AngelScriptManager& m_AngelScriptManager;
 
-        GameObjectScriptManager* m_GameObjectScriptManager = nullptr;
+        GameObjectScriptManager& m_GameObjectScriptManager;
 
         GameObjectScriptInstance* m_GameObjectScriptInstance = nullptr;
 
@@ -119,7 +119,7 @@ class GameObjectScriptGOC sealed : public GameObjectComponent
         /// <param name="name">Name of the Script GOC.</param>
         /// <param name="angelScriptManager">Angel Script Manager to associate the Scripts with.</param>
         /// <param name="gameObjectScriptManager">Game Object Script Manager to associate the scripts with.</param>
-        GameObjectScriptGOC(GameObject* gameObject, const std::string& name, AngelScriptManager* angelScriptManager, GameObjectScriptManager* gameObjectScriptManager);
+        GameObjectScriptGOC(GameObject& gameObject, const std::string& name, AngelScriptManager& angelScriptManager, GameObjectScriptManager& gameObjectScriptManager);
 
         /// <summary>
         /// Default GameObjectScriptGOC Destructor

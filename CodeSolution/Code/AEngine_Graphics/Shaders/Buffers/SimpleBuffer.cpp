@@ -40,7 +40,7 @@
 /********************
 *   Function Defs   *
 *********************/
-SimpleBuffer::SimpleBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, ShaderVariableClass variableClass,  ShaderVariableType variableType, uint32_t elementCount, GraphicDevice* graphicDevice)
+SimpleBuffer::SimpleBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, ShaderVariableClass variableClass,  ShaderVariableType variableType, uint32_t elementCount, GraphicDevice& graphicDevice)
     : ShaderBuffer(name, bindIndex, createAsRW, graphicDevice)
     , m_VariableClass(variableClass)
     , m_VariableType(variableType)
@@ -230,12 +230,6 @@ AEResult SimpleBuffer::InitializeBuffer(uint32_t numElements, GraphicBufferUsage
         return AEResult::Fail;
     }
 
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEAssert(numElements != 0);
     if(numElements == 0)
     {
@@ -269,7 +263,7 @@ AEResult SimpleBuffer::InitializeBuffer(uint32_t numElements, GraphicBufferUsage
     cbDesc.StructureByteStride  = (ELEMENT_SIZE_SIMPLE_BUFFER * m_ElementCount);
     cbDesc.MiscFlags            = 0;
 
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateBuffer(&cbDesc, nullptr, &m_BufferDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateBuffer(&cbDesc, nullptr, &m_BufferDX);
 
     if(hr != S_OK)
     {
@@ -292,7 +286,7 @@ AEResult SimpleBuffer::InitializeBuffer(uint32_t numElements, GraphicBufferUsage
     srvDesc.Buffer.FirstElement      = 0;
     srvDesc.Buffer.NumElements       = numElements;
 
-    hr = m_GraphicDevice->GetDeviceDX()->CreateShaderResourceView(m_BufferDX, &srvDesc, &m_BufferSRVDX);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateShaderResourceView(m_BufferDX, &srvDesc, &m_BufferSRVDX);
 
     if(hr != S_OK)
     {
@@ -320,7 +314,7 @@ AEResult SimpleBuffer::InitializeBuffer(uint32_t numElements, GraphicBufferUsage
         uavDesc.Buffer.NumElements       = numElements;
         uavDesc.Buffer.Flags             = 0;
 
-        hr = m_GraphicDevice->GetDeviceDX()->CreateUnorderedAccessView(m_BufferDX, &uavDesc, &m_BufferUAVDX);
+        hr = m_GraphicDevice.GetDeviceDX()->CreateUnorderedAccessView(m_BufferDX, &uavDesc, &m_BufferUAVDX);
 
         if(hr != S_OK)
         {
@@ -383,7 +377,7 @@ AEResult SimpleBuffer::UpdateBuffer(void* data, uint32_t numElements, uint32_t s
 
     D3D11_MAP dxMapType = AEGraphicHelpers::GetDXResourceMap(resourceMap);
 
-    HRESULT hr = m_GraphicDevice->GetDeviceContextDX()->Map(m_BufferDX, 0, dxMapType, 0, &mappedData);
+    HRESULT hr = m_GraphicDevice.GetDeviceContextDX()->Map(m_BufferDX, 0, dxMapType, 0, &mappedData);
 
     if(hr != S_OK)
     {
@@ -405,7 +399,7 @@ AEResult SimpleBuffer::UpdateBuffer(void* data, uint32_t numElements, uint32_t s
     /******************************************
     *4. Unmap Resource
     /******************************************/
-    m_GraphicDevice->GetDeviceContextDX()->Unmap(m_BufferDX, 0);
+    m_GraphicDevice.GetDeviceContextDX()->Unmap(m_BufferDX, 0);
 
     return AEResult::Ok;
 }

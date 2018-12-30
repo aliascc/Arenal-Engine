@@ -42,11 +42,10 @@
 /********************
 *   Function Defs   *
 *********************/
-GameObjectScript::GameObjectScript(const std::string& resourceName, AngelScriptManager* angelScriptManager)
+GameObjectScript::GameObjectScript(const std::string& resourceName, AngelScriptManager& angelScriptManager)
     : GameResource(resourceName, GameResourceType::Animation)
     , m_AngelScriptManager(angelScriptManager)
 {
-    AEAssert(angelScriptManager);
 }
 
 GameObjectScript::~GameObjectScript()
@@ -60,20 +59,12 @@ void GameObjectScript::CleanUp()
     {
         DeleteMem(m_GameObjectScriptFunctions);
 
-        m_AngelScriptManager->RemoveModule(m_Name);
+        m_AngelScriptManager.RemoveModule(m_Name);
     }
 }
 
 AEResult GameObjectScript::Load()
 {
-    /////////////////////////////////////////
-    //Pre-checks
-    if (m_AngelScriptManager == nullptr)
-    {
-        AETODO("Add error for AS is null");
-        return AEResult::NullObj;
-    }
-
     std::lock_guard<std::mutex> lock(m_GameResourceMutex);
 
     AEAssert(!m_FileName.empty());
@@ -100,7 +91,7 @@ AEResult GameObjectScript::Load()
 
     /////////////////////////////////////////
     //Load scripts
-    ret = m_AngelScriptManager->LoadScript(m_FileName, m_Name, &asModule);
+    ret = m_AngelScriptManager.LoadScript(m_FileName, m_Name, &asModule);
     if (ret != AEResult::Ok)
     {
         return ret;
@@ -108,7 +99,7 @@ AEResult GameObjectScript::Load()
 
     if (asModule->GetObjectTypeCount() == 0)
     {
-        m_AngelScriptManager->RemoveModule(m_Name);
+        m_AngelScriptManager.RemoveModule(m_Name);
 
         AETODO("set correct error code");
         return AEResult::Fail;
@@ -131,7 +122,7 @@ AEResult GameObjectScript::Load()
 
     if (!interfaceFound)
     {
-        m_AngelScriptManager->RemoveModule(m_Name);
+        m_AngelScriptManager.RemoveModule(m_Name);
 
         AETODO("set correct error code");
         AETODO("log error");

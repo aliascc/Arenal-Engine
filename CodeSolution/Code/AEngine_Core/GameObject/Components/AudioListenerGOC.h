@@ -53,7 +53,7 @@ class AudioListenerGOC sealed : public GameObjectComponent
         *************************/
 #pragma region Private Variables
 
-        AudioManager* m_AudioManager = nullptr;
+        AudioManager& m_AudioManager;
 
 #pragma endregion
 
@@ -75,7 +75,7 @@ class AudioListenerGOC sealed : public GameObjectComponent
         /// AudioListenerGOC Constructor
         /// </summary>
         /// <param name="gameObject">Game Object that this Component is attached too</param>
-        AudioListenerGOC(GameObject* gameObject, AudioManager* audioManager);
+        AudioListenerGOC(GameObject& gameObject, AudioManager& audioManager);
 
         /// <summary>
         /// Default MeshGOC Destructor

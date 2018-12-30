@@ -62,11 +62,11 @@ class QuadShape abstract : public AEObject
 
         IndexBuffer* m_IB = nullptr;
 
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
     public:
         //Constructor Destructor.
-        QuadShape(GraphicDevice* graphicDevice, bool clockWise = true);
+        QuadShape(GraphicDevice& graphicDevice, bool clockWise = true);
         virtual ~QuadShape();
 
         //Get Methods

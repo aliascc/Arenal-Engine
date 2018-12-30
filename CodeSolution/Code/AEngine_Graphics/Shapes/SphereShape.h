@@ -64,7 +64,7 @@ class SphereShape sealed : public AEObject
 
         IndexBuffer* m_IB = nullptr;
 
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         //Temp Variables
         std::vector<VertexPositionColor> m_VtxBuff;
@@ -80,7 +80,7 @@ class SphereShape sealed : public AEObject
 
     public:
         //Constructor Destructor.
-        SphereShape(GraphicDevice* graphicDevice, uint32_t recursionLevels, const Color& color = AEColors::Red, bool clockWise = false);
+        SphereShape(GraphicDevice& graphicDevice, uint32_t recursionLevels, const Color& color = AEColors::Red, bool clockWise = false);
         virtual ~SphereShape();
 
         //Get Methods

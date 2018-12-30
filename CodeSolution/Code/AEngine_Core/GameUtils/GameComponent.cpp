@@ -41,14 +41,12 @@
 *   Function Defs   *
 *********************/
 AETODO("add mutex");
-GameComponent::GameComponent(GameApp* gameApp, const std::string& name, uint32_t callOrder)
+GameComponent::GameComponent(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& name, uint32_t callOrder)
     : GameService(name)
     , m_GameApp(gameApp)
+    , m_GameResourceManager(gameResourceManager)
     , m_CallOrder(callOrder)
 {
-    AEAssert(gameApp != nullptr);
-
-    m_GameResourceManager = gameApp->GetGameResourceManager();
 }
 
 GameComponent::~GameComponent()

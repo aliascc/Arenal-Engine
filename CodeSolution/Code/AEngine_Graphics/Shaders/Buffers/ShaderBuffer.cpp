@@ -41,12 +41,11 @@
 /********************
 *   Function Defs   *
 *********************/
-ShaderBuffer::ShaderBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, GraphicDevice* graphicDevice)
+ShaderBuffer::ShaderBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, GraphicDevice& graphicDevice)
     : ShaderBinding(name, bindIndex)
     , m_GraphicDevice(graphicDevice)
     , m_IsRWEnabled(createAsRW)
 {
-    AEAssert(m_GraphicDevice != nullptr);
     AEAssert(!name.empty());
 }
 

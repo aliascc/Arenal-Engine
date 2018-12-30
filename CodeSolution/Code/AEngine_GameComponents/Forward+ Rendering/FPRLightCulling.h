@@ -62,7 +62,7 @@ class FPRLightCulling sealed : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        FPRLightCulling(GameApp* gameApp, const std::string& gameComponentName = AE_FORWARD_PLUS_LIGHT_CULLING_DEF_COMPONENT_NAME, const std::string& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightCulling);
+        FPRLightCulling(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName = AE_FORWARD_PLUS_LIGHT_CULLING_DEF_COMPONENT_NAME, const std::string& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightCulling);
         virtual ~FPRLightCulling();
 
         //Gets

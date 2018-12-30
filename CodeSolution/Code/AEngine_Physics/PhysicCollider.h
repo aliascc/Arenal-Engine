@@ -144,7 +144,7 @@ class PhysicCollider abstract : public AEObject
         *************************/
 #pragma region Framework Methods
 
-        AEResult Initialize(PhysicsManager* physicsManager);
+        AEResult Initialize(PhysicsManager& physicsManager);
 
 #pragma endregion
 

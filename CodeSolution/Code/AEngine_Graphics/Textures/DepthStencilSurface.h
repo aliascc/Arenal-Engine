@@ -93,7 +93,7 @@ class DepthStencilSurface sealed : public ITexture2D
         /// </summary>
         /// <param name="graphicDevice">Graphic Device to be associated with this Depth Stencil</param>
         /// <param name="depthStencilName">Name of Depth Stencil</param>
-        DepthStencilSurface(GraphicDevice* graphicDevice, const std::string& depthStencilName);
+        DepthStencilSurface(GraphicDevice& graphicDevice, const std::string& depthStencilName);
 
 #pragma endregion
 

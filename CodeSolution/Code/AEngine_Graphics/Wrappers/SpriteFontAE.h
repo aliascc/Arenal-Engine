@@ -68,7 +68,7 @@ class SpriteFontAE sealed : public AEObject
         /// <summary>
         /// Graphic Device associated with the object
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         /// <summary>
         /// Sprite Font File to get font from 
@@ -89,7 +89,7 @@ class SpriteFontAE sealed : public AEObject
         /// </summary>
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="spriteFontFile">Sprite Font file to open</param>
-        SpriteFontAE(GraphicDevice* graphicDevice, const std::string spriteFontFile);
+        SpriteFontAE(GraphicDevice& graphicDevice, const std::string spriteFontFile);
 
         /// <summary>
         /// Default SpriteFontAE Destructor
@@ -138,7 +138,7 @@ class SpriteFontAE sealed : public AEObject
         /// <param name="SpriteEffects">Effects to be applied on the texture</param>
         /// <param name="layerDepth">Layer Depth for Sorting</param>
         /// <returns>AEResult::Ok if Begin was successful</returns>
-        AEResult DrawString(const SpriteBatchAE* spriteBatch, const std::string& text, const glm::vec2& position, const Color& color = AEColors::White, float rotation = 0.0f, const glm::vec2& origin = AEMathHelpers::Vec2fZero, float scale = 1.0f, DirectX::SpriteEffects effects = DirectX::SpriteEffects_None, float layerDepth = 0.0f);
+        AEResult DrawString(const SpriteBatchAE& spriteBatch, const std::string& text, const glm::vec2& position, const Color& color = AEColors::White, float rotation = 0.0f, const glm::vec2& origin = AEMathHelpers::Vec2fZero, float scale = 1.0f, DirectX::SpriteEffects effects = DirectX::SpriteEffects_None, float layerDepth = 0.0f);
 
         /// <summary>
         /// Lets the Sprite Batch know it is time to start processing textures & font
@@ -153,7 +153,7 @@ class SpriteFontAE sealed : public AEObject
         /// <param name="SpriteEffects">Effects to be applied on the texture</param>
         /// <param name="layerDepth">Layer Depth for Sorting</param>
         /// <returns>AEResult::Ok if Begin was successful</returns>
-        AEResult DrawString(const SpriteBatchAE* spriteBatch, const std::string& text, const glm::vec2& position, const Color& color, float rotation, const glm::vec2& origin, const glm::vec2& scale, DirectX::SpriteEffects effects = DirectX::SpriteEffects_None, float layerDepth = 0.0f);
+        AEResult DrawString(const SpriteBatchAE& spriteBatch, const std::string& text, const glm::vec2& position, const Color& color, float rotation, const glm::vec2& origin, const glm::vec2& scale, DirectX::SpriteEffects effects = DirectX::SpriteEffects_None, float layerDepth = 0.0f);
 
         /// <summary>
         /// Measures a string

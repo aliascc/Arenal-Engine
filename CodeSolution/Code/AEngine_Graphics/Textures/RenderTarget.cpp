@@ -40,7 +40,7 @@
 /********************
 *   Function Defs   *
 *********************/
-RenderTarget::RenderTarget(GraphicDevice* graphicDevice, const std::string& renderTargetName)
+RenderTarget::RenderTarget(GraphicDevice& graphicDevice, const std::string& renderTargetName)
     : ITexture2D(graphicDevice, renderTargetName)
 {
 }
@@ -64,13 +64,6 @@ AEResult RenderTarget::Load()
 
 AEResult RenderTarget::InitializeRenderTarget(uint32_t width, uint32_t height, DXGI_FORMAT format, GraphicBufferUsage graphicBufferUsage, GraphicBufferAccess graphicBufferAccess)
 {
-    AEAssert(m_GraphicDevice != nullptr)
-
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     CleanUp();
 
     D3D11_TEXTURE2D_DESC dxDesc = { 0 };
@@ -104,7 +97,7 @@ AEResult RenderTarget::InitializeRenderTarget(uint32_t width, uint32_t height, D
     dxData.SysMemPitch = pixelSize * width;*/
     //dxData.SysMemSlicePitch = 0;
 
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateTexture2D(&dxDesc, nullptr/*&dxData*/, &m_TextureDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateTexture2D(&dxDesc, nullptr/*&dxData*/, &m_TextureDX);
 
     //DeleteMemArr(pixelData);
 
@@ -118,7 +111,7 @@ AEResult RenderTarget::InitializeRenderTarget(uint32_t width, uint32_t height, D
     AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_RT_T_NAME_PREFIX + m_Name);
 
     AETODO("Check Shader Resource Desc");
-    hr = m_GraphicDevice->GetDeviceDX()->CreateShaderResourceView(m_TextureDX, nullptr, &m_ShaderResourceView);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateShaderResourceView(m_TextureDX, nullptr, &m_ShaderResourceView);
 
     if(hr != S_OK)
     {
@@ -133,7 +126,7 @@ AEResult RenderTarget::InitializeRenderTarget(uint32_t width, uint32_t height, D
     AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_RT_SRV_NAME_PREFIX + m_Name);
 
     AETODO("Check Render Target Desc");
-    hr = m_GraphicDevice->GetDeviceDX()->CreateRenderTargetView(m_TextureDX, nullptr, &m_RenderTargetDX);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateRenderTargetView(m_TextureDX, nullptr, &m_RenderTargetDX);
 
     if(hr != S_OK)
     {

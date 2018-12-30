@@ -45,7 +45,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-AudioSourceGOC::AudioSourceGOC(GameObject* gameObject, const std::string& name)
+AudioSourceGOC::AudioSourceGOC(GameObject& gameObject, const std::string& name)
     : GameObjectComponent(gameObject, GameObjectComponentType::AudioSource)
     , m_Name(name)
 {

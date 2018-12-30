@@ -54,7 +54,7 @@
 /********************
 *   Function Defs   *
 *********************/
-ForwardPlusLightCullingMaterial::ForwardPlusLightCullingMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
+ForwardPlusLightCullingMaterial::ForwardPlusLightCullingMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name)
     : Material(graphicDevice, gameResourceManager, name)
 {
 }
@@ -69,7 +69,7 @@ AEResult ForwardPlusLightCullingMaterial::CreateComputeShader()
 
     /////////////////////////////////////////////////////
     //Get Compute Shader from Game Resources
-    m_ComputeShader = (ComputeShader*)m_GameResourceManager->AcquireGameResourceByStringID(AE_FORWARD_PLUS_LIGHT_CULLING_MAT_CS_NAME, GameResourceType::ComputeShader);
+    m_ComputeShader = (ComputeShader*)m_GameResourceManager.AcquireGameResourceByStringID(AE_FORWARD_PLUS_LIGHT_CULLING_MAT_CS_NAME, GameResourceType::ComputeShader);
 
     if(m_ComputeShader == nullptr)
     {
@@ -80,7 +80,7 @@ AEResult ForwardPlusLightCullingMaterial::CreateComputeShader()
             return AEResult::ComputeShaderLoadFailed;
         }
 
-        ret = m_GameResourceManager->ManageGameResource(m_ComputeShader, AE_FORWARD_PLUS_LIGHT_CULLING_MAT_CS_NAME);
+        ret = m_GameResourceManager.ManageGameResource(m_ComputeShader, AE_FORWARD_PLUS_LIGHT_CULLING_MAT_CS_NAME);
         if(ret != AEResult::Ok)
         {
             return AEResult::ResourceManagedFailed;
@@ -231,20 +231,6 @@ AEResult ForwardPlusLightCullingMaterial::CreateComputeShaderSimpleBuffers()
 
 AEResult ForwardPlusLightCullingMaterial::LoadContent()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-
-    if(m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     if(m_IsReady)
     {
         return AEResult::Ok;

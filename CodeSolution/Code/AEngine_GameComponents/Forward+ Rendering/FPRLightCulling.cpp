@@ -55,13 +55,13 @@
 *   Function Defs   *
 *********************/
 AETODO("Check object instances and calls to where it is init");
-FPRLightCulling::FPRLightCulling(GameApp* gameApp, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
-    : DrawableGameComponent(gameApp, gameComponentName, callOrder)
+FPRLightCulling::FPRLightCulling(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
 {
-    m_ForwardPlusRendering = m_GameApp->GetGameService<ForwardPlusRendering>(fprServiceName);
+    m_ForwardPlusRendering = m_GameApp.GetGameService<ForwardPlusRendering>(fprServiceName);
     AEAssert(m_ForwardPlusRendering != nullptr);
 
-    m_CameraUpdater = m_GameApp->GetGameService<CameraUpdater>(cameraServiceName);
+    m_CameraUpdater = m_GameApp.GetGameService<CameraUpdater>(cameraServiceName);
     AEAssert(m_CameraUpdater != nullptr);
 }
 
@@ -100,7 +100,7 @@ void FPRLightCulling::Render(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
     //Begin Event for Diagnostic View
-    m_GraphicDevice->BeginEvent("Forward+ Rendering Light Culling");
+    m_GraphicDevice.BeginEvent("Forward+ Rendering Light Culling");
 
     ///////////////////////////////////////////////////
     //Get Current Main Camera
@@ -155,13 +155,13 @@ void FPRLightCulling::Render(const TimerParams& timerParams)
     if(cb != nullptr)
     {
         glm::mat4 invProj   = glm::inverse(currentCamera->GetProjectionMatrix());
-        uint32_t numLights  = m_GameApp->GetLightManager()->GetNumberOfLights();
+        uint32_t numLights  = m_GameApp.GetLightManager()->GetNumberOfLights();
 
         cb->SetValueT<glm::mat4>(AE_CB_VIEW_VAR_NAME, currentCamera->GetViewMatrix());
         cb->SetValueT<glm::mat4>(AE_CB_INV_PROJECTION_VAR_NAME, invProj);
 
-        cb->SetValueT<uint32_t>(AE_CB_WINDOW_HEIGHT_VAR_NAME, m_GraphicDevice->GetGraphicPP().m_BackBufferHeight);
-        cb->SetValueT<uint32_t>(AE_CB_WINDOW_WIDTH_VAR_NAME, m_GraphicDevice->GetGraphicPP().m_BackBufferWidth);
+        cb->SetValueT<uint32_t>(AE_CB_WINDOW_HEIGHT_VAR_NAME, m_GraphicDevice.GetGraphicPP().m_BackBufferHeight);
+        cb->SetValueT<uint32_t>(AE_CB_WINDOW_WIDTH_VAR_NAME, m_GraphicDevice.GetGraphicPP().m_BackBufferWidth);
         cb->SetValueT<uint32_t>(AE_CB_NUM_LIGHTS_VAR_NAME, numLights);
     }
 
@@ -175,7 +175,7 @@ void FPRLightCulling::Render(const TimerParams& timerParams)
     const glm::uvec2& numTiles = m_ForwardPlusRendering->GetNumTiles();
 
     AETODO("Check Return");
-    m_GraphicDevice->DispatchComputeShader(numTiles.x, numTiles.y, 1);
+    m_GraphicDevice.DispatchComputeShader(numTiles.x, numTiles.y, 1);
 
     ///////////////////////////////////////////
     //Un-apply Shader Settings
@@ -184,7 +184,7 @@ void FPRLightCulling::Render(const TimerParams& timerParams)
 
     ///////////////////////////////////////////
     //End Event for Diagnostic View
-    m_GraphicDevice->EndEvent();
+    m_GraphicDevice.EndEvent();
 
     ///////////////////////////////////////////
     //End

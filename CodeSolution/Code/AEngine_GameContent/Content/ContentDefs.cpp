@@ -234,7 +234,7 @@ namespace AEImporterHelpers
         return mat;
     }
 
-    AEResult BuildVertexBuffer(GraphicDevice* graphicDevice, IVertexBuffer** vertexBuffer, VertexType vtxType, void* buffer, uint32_t size)    
+    AEResult BuildVertexBuffer(GraphicDevice& graphicDevice, IVertexBuffer** vertexBuffer, VertexType vtxType, void* buffer, uint32_t size)    
     {
         AEResult ret = AEResult::Ok;
 

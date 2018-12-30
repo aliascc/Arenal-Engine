@@ -51,8 +51,8 @@
 /********************
 *   Function Defs   *
 *********************/
-GameObjectRenderTest::GameObjectRenderTest(GameApp* gameApp, const std::string& gameComponentName)
-    : DrawableGameComponent(gameApp, gameComponentName)
+GameObjectRenderTest::GameObjectRenderTest(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName)
+    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName)
 {
 }
 
@@ -62,9 +62,9 @@ GameObjectRenderTest::~GameObjectRenderTest()
 
 void GameObjectRenderTest::Initialize()
 {
-    m_GameObjectManager = m_GameApp->GetGameObjectManager();
+    m_GameObjectManager = m_GameApp.GetGameObjectManager();
 
-    m_Camera = m_GameApp->GetGameService<Camera>("Camera");
+    m_Camera = m_GameApp.GetGameService<Camera>("Camera");
 
     DrawableGameComponent::Initialize();
 }
@@ -125,12 +125,12 @@ void GameObjectRenderTest::DrawGameObject(GameObject* gameObject)
 
                 meshMat->ApplyShaders(m_GraphicDevice);
 
-                m_GraphicDevice->SetVertexBuffer(meshPart->GetVertexBuffer());
-                m_GraphicDevice->SetIndexBuffer(meshPart->GetIndexBuffer());
+                m_GraphicDevice.SetVertexBuffer(meshPart->GetVertexBuffer());
+                m_GraphicDevice.SetIndexBuffer(meshPart->GetIndexBuffer());
 
-                m_GraphicDevice->SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+                m_GraphicDevice.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-                m_GraphicDevice->DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
+                m_GraphicDevice.DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
             }
         }
 

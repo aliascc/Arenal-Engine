@@ -69,11 +69,11 @@ class PhysicsActor sealed : public AEObject
 
         float m_AngularDamping = AE_PHYSIC_ANGULAR_DAMPING_DEFAULT;
 
-        Object3D* m_Object3D = nullptr;
+        Object3D& m_Object3D;
 
         physx::PxRigidActor* m_PxRigidActor = nullptr;
 
-        PhysicsManager* m_PhysicsManager = nullptr;
+        PhysicsManager& m_PhysicsManager;
 
         PhysicsActorType m_PhysicsActorType = PhysicsActorType::Static;
 
@@ -94,7 +94,7 @@ class PhysicsActor sealed : public AEObject
 
         void CleanUp();
 
-        void Object3DChanged(Object3DChangeEventType changeType, Object3D* object3D);
+        void Object3DChanged(Object3DChangeEventType changeType, Object3D& object3d);
 
         AEResult InitDynamicObject(physx::PxRigidDynamic* rigidDynamic);
 
@@ -111,7 +111,7 @@ class PhysicsActor sealed : public AEObject
         /// Default PhysicsActor Constructor
         /// </summary>
         /// <param name="object3D">Object 3D to associate to the Physics Actor</param>
-        PhysicsActor(Object3D* object3D);
+        PhysicsActor(PhysicsManager& physicsManager, Object3D& object3D);
 
         /// <summary>
         /// Default PhysicsActor Destructor
@@ -199,7 +199,7 @@ class PhysicsActor sealed : public AEObject
         *************************/
 #pragma region Framework Methods
 
-        AEResult Initialize(PhysicsManager* physicsManager, PhysicsActorType PhysicsActorType);
+        AEResult Initialize(PhysicsActorType PhysicsActorType);
 
         AEResult ChangePhysicsActorType(PhysicsActorType physicsActorType);
 

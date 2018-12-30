@@ -45,7 +45,7 @@
 /********************
 *   Function Defs   *
 *********************/
-CubeMesh::CubeMesh(GraphicDevice* graphicDevice, const std::string& resourceName)
+CubeMesh::CubeMesh(GraphicDevice& graphicDevice, const std::string& resourceName)
     : Mesh(graphicDevice, resourceName)
 {
 }
@@ -56,12 +56,6 @@ CubeMesh::~CubeMesh()
 
 AEResult CubeMesh::Load()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     std::lock_guard<std::mutex> lock(m_GameResourceMutex);
 
     if (m_IsLoaded)

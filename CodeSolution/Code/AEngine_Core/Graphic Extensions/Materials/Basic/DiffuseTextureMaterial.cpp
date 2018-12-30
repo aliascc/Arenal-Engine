@@ -56,7 +56,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DiffuseTextureMaterial::DiffuseTextureMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
+DiffuseTextureMaterial::DiffuseTextureMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name)
     : Material(graphicDevice, gameResourceManager, name)
 {
 }
@@ -71,7 +71,7 @@ AEResult DiffuseTextureMaterial::CreateVertexShader()
 
     /////////////////////////////////////////////////////
     //Get Vertex Shader from Game Resources
-    m_VertexShader = (VertexShader*)m_GameResourceManager->AcquireGameResourceByStringID(AE_DIFFUSE_TEXTURE_MAT_VS_NAME, GameResourceType::VertexShader);
+    m_VertexShader = (VertexShader*)m_GameResourceManager.AcquireGameResourceByStringID(AE_DIFFUSE_TEXTURE_MAT_VS_NAME, GameResourceType::VertexShader);
 
     if(m_VertexShader == nullptr)
     {
@@ -82,7 +82,7 @@ AEResult DiffuseTextureMaterial::CreateVertexShader()
             return AEResult::VertexShaderLoadFailed;
         }
 
-        ret = m_GameResourceManager->ManageGameResource(m_VertexShader, AE_DIFFUSE_TEXTURE_MAT_VS_NAME);
+        ret = m_GameResourceManager.ManageGameResource(m_VertexShader, AE_DIFFUSE_TEXTURE_MAT_VS_NAME);
         if(ret != AEResult::Ok)
         {
             return AEResult::ResourceManagedFailed;
@@ -145,7 +145,7 @@ AEResult DiffuseTextureMaterial::CreatePixelShader()
     
     /////////////////////////////////////////////////////
     //Get Pixel Shader from Game Resources
-    m_PixelShader = (PixelShader*)m_GameResourceManager->AcquireGameResourceByStringID(AE_DIFFUSE_TEXTURE_MAT_PS_NAME, GameResourceType::PixelShader);
+    m_PixelShader = (PixelShader*)m_GameResourceManager.AcquireGameResourceByStringID(AE_DIFFUSE_TEXTURE_MAT_PS_NAME, GameResourceType::PixelShader);
     
     if(m_PixelShader == nullptr)
     {
@@ -156,7 +156,7 @@ AEResult DiffuseTextureMaterial::CreatePixelShader()
             return AEResult::PixelShaderLoadFailed;
         }
 
-        ret = m_GameResourceManager->ManageGameResource(m_PixelShader, AE_DIFFUSE_TEXTURE_MAT_PS_NAME);
+        ret = m_GameResourceManager.ManageGameResource(m_PixelShader, AE_DIFFUSE_TEXTURE_MAT_PS_NAME);
         if(ret != AEResult::Ok)
         {
             return AEResult::ResourceManagedFailed;
@@ -203,20 +203,6 @@ AEResult DiffuseTextureMaterial::CreatePixelShaderTextureBinding()
 
 AEResult DiffuseTextureMaterial::LoadContent()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-
-    if(m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     if(m_IsReady)
     {
         return AEResult::Ok;

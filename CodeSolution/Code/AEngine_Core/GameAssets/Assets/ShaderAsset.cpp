@@ -50,12 +50,11 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-ShaderAsset::ShaderAsset(const std::string& filePath, GameResourceManager* gameResourceManager, ShaderType shaderType, GraphicDevice* graphicDevice)
+ShaderAsset::ShaderAsset(const std::string& filePath, GameResourceManager& gameResourceManager, ShaderType shaderType, GraphicDevice& graphicDevice)
     : GameAsset(GameContentType::Shader, filePath, gameResourceManager)
     , m_ShaderType(shaderType)
     , m_GraphicDevice(graphicDevice)
 {
-    AEAssert(m_GraphicDevice != nullptr);
 }
 
 ShaderAsset::~ShaderAsset()
@@ -75,18 +74,6 @@ Shader* ShaderAsset::GetShaderReference()
 
 AEResult ShaderAsset::LoadAssetResource()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-    if (m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     AEAssert(!m_FilePath.empty());
     if(m_FilePath.empty())
     {
@@ -112,21 +99,27 @@ AEResult ShaderAsset::LoadAssetResource()
             case ShaderType::VertexShader:
                 gameResourceType = GameResourceType::VertexShader;
                 break;
+
             case ShaderType::PixelShader:
                 gameResourceType = GameResourceType::PixelShader;
                 break;
+
             case ShaderType::GeometryShader:
                 gameResourceType = GameResourceType::GeometryShader;
                 break;
+
             case ShaderType::HullShader:
                 gameResourceType = GameResourceType::HullShader;
                 break;
+
             case ShaderType::ComputeShader:
                 gameResourceType = GameResourceType::ComputeShader;
                 break;
+
             case ShaderType::DomainShader:
                 gameResourceType = GameResourceType::DomainShader;
                 break;
+
             default:
                 AEAssert(false);
                 return AEResult::InvalidShaderType;
@@ -135,7 +128,7 @@ AEResult ShaderAsset::LoadAssetResource()
 
         /////////////////////////////////////////////
         //Check if Game Resources contains this Mesh
-        m_Shader = (Shader*)m_GameResourceManager->AcquireGameResourceByStringID(m_FilePath, gameResourceType);
+        m_Shader = (Shader*)m_GameResourceManager.AcquireGameResourceByStringID(m_FilePath, gameResourceType);
 
         if(m_Shader != nullptr)
         {
@@ -153,21 +146,27 @@ AEResult ShaderAsset::LoadAssetResource()
             case ShaderType::VertexShader:
                 m_Shader = new VertexShader(m_GraphicDevice, m_Name);
                 break;
+
             case ShaderType::PixelShader:
                 m_Shader = new PixelShader(m_GraphicDevice, m_Name);
                 break;
+
             case ShaderType::GeometryShader:
                 m_Shader = new GeometryShader(m_GraphicDevice, m_Name);
                 break;
+
             case ShaderType::HullShader:
                 m_Shader = new HullShader(m_GraphicDevice, m_Name);
                 break;
+
             case ShaderType::ComputeShader:
                 m_Shader = new ComputeShader(m_GraphicDevice, m_Name);
                 break;
+
             case ShaderType::DomainShader:
                 m_Shader = new DomainShader(m_GraphicDevice, m_Name);
                 break;
+
             default:
                 AEAssert(false);
                 return AEResult::InvalidShaderType;
@@ -196,7 +195,7 @@ AEResult ShaderAsset::LoadAssetResource()
 
         /////////////////////////////////////////////
         //Add to Resource Manager
-        ret = m_GameResourceManager->ManageGameResource(m_Shader, m_FilePath);
+        ret = m_GameResourceManager.ManageGameResource(m_Shader, m_FilePath);
         if(ret != AEResult::Ok)
         {
             AETODO("Add log");

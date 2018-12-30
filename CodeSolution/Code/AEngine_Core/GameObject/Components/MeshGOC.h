@@ -89,7 +89,7 @@ class MeshGOC sealed : public GameObjectComponent
         /// MeshGOC Constructor
         /// </summary>
         /// <param name="gameObject">Game Object that this Component is attached too</param>
-        MeshGOC(GameObject* gameObject);
+        MeshGOC(GameObject& gameObject);
 
         /// <summary>
         /// Default MeshGOC Destructor

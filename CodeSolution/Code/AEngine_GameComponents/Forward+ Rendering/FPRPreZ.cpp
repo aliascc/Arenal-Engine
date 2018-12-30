@@ -59,13 +59,13 @@
 *   Function Defs   *
 *********************/
 AETODO("Check object instances and calls to where it is init");
-FPRPreZ::FPRPreZ(GameApp* gameApp, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
-    : DrawableGameComponent(gameApp, gameComponentName, callOrder)
+FPRPreZ::FPRPreZ(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
 {
-    m_ForwardPlusRendering = m_GameApp->GetGameService<ForwardPlusRendering>(fprServiceName);
+    m_ForwardPlusRendering = m_GameApp.GetGameService<ForwardPlusRendering>(fprServiceName);
     AEAssert(m_ForwardPlusRendering != nullptr);
 
-    m_CameraUpdater = m_GameApp->GetGameService<CameraUpdater>(cameraServiceName);
+    m_CameraUpdater = m_GameApp.GetGameService<CameraUpdater>(cameraServiceName);
     AEAssert(m_CameraUpdater != nullptr);
 }
 
@@ -77,7 +77,7 @@ FPRPreZ::~FPRPreZ()
 
 void FPRPreZ::Initialize()
 {
-    m_GameObjectManager = m_GameApp->GetGameObjectManager();
+    m_GameObjectManager = m_GameApp.GetGameObjectManager();
 
     m_ForwardPlusZPrePassMaterial = new ForwardPlusZPrePassMaterial(m_GraphicDevice, m_GameResourceManager);
 
@@ -109,7 +109,7 @@ void FPRPreZ::LoadContent()
 
 void FPRPreZ::Render(const TimerParams& timerParams)
 {
-    m_GraphicDevice->BeginEvent("Forward+ Rendering Z Pre Pass");
+    m_GraphicDevice.BeginEvent("Forward+ Rendering Z Pre Pass");
 
     AEResult ret = RenderPreZ();
 
@@ -118,7 +118,7 @@ void FPRPreZ::Render(const TimerParams& timerParams)
         AETODO("Log error");
     }
 
-    m_GraphicDevice->EndEvent();
+    m_GraphicDevice.EndEvent();
 
     DrawableGameComponent::Render(timerParams);
 }
@@ -129,7 +129,7 @@ AEResult FPRPreZ::RenderPreZ()
 
     RenderTarget* rts[1] = { nullptr };
 
-    ret = m_GraphicDevice->SetRenderTargetsAndDepthStencil(1, rts, m_ForwardPlusRendering->GetForwardPlusDS());
+    ret = m_GraphicDevice.SetRenderTargetsAndDepthStencil(1, rts, m_ForwardPlusRendering->GetForwardPlusDS());
 
     if(ret != AEResult::Ok)
     {
@@ -139,14 +139,14 @@ AEResult FPRPreZ::RenderPreZ()
     }
 
     AETODO("check return");
-    ret = m_GraphicDevice->Clear(false);
+    ret = m_GraphicDevice.Clear(false);
 
     ret = m_ForwardPlusZPrePassMaterial->Apply();
 
     if(ret != AEResult::Ok)
     {
         AETODO("check return");
-        m_GraphicDevice->ResetRenderTargetAndSetDepthStencil();
+        m_GraphicDevice.ResetRenderTargetAndSetDepthStencil();
 
         AETODO("Add log");
 
@@ -155,7 +155,7 @@ AEResult FPRPreZ::RenderPreZ()
 
     DrawGameObjects();
 
-    ret = m_GraphicDevice->ResetRenderTargetAndSetDepthStencil();
+    ret = m_GraphicDevice.ResetRenderTargetAndSetDepthStencil();
 
     if(ret != AEResult::Ok)
     {
@@ -220,12 +220,12 @@ void FPRPreZ::DrawGameObject(GameObject* gameObject, const Camera* camera)
             {
                 MeshPart* meshPart = mesh->GetMeshPart(i);
 
-                m_GraphicDevice->SetVertexBuffer(meshPart->GetVertexBuffer());
-                m_GraphicDevice->SetIndexBuffer(meshPart->GetIndexBuffer());
+                m_GraphicDevice.SetVertexBuffer(meshPart->GetVertexBuffer());
+                m_GraphicDevice.SetIndexBuffer(meshPart->GetIndexBuffer());
 
-                m_GraphicDevice->SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+                m_GraphicDevice.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-                m_GraphicDevice->DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
+                m_GraphicDevice.DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
             }
         }
     }

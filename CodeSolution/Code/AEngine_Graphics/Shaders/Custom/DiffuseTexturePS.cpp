@@ -47,7 +47,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DiffuseTexturePS::DiffuseTexturePS(GraphicDevice* graphicDevice, const std::string& name)
+DiffuseTexturePS::DiffuseTexturePS(GraphicDevice& graphicDevice, const std::string& name)
     : PixelShader(graphicDevice, name)
 {
 }
@@ -58,14 +58,6 @@ DiffuseTexturePS::~DiffuseTexturePS()
 
 AEResult DiffuseTexturePS::Load()
 {
-    /////////////////////////////////////////////
-    //Pre-check
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     std::lock_guard<std::mutex> lock(m_GameResourceMutex);
 
     /////////////////////////////////////////////

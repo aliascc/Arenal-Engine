@@ -86,7 +86,7 @@ class QuadTextureMaterial sealed : public Material
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="graphicDevice">Game Resource Manager to get the manage resources</param>
         /// <param name="name">Name of the Effect</param>
-        QuadTextureMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name = AE_QUAD_TEXTURE_MAT_NAME);
+        QuadTextureMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name = AE_QUAD_TEXTURE_MAT_NAME);
 
         /// <summary>
         /// Default QuadTextureMaterial Destructor

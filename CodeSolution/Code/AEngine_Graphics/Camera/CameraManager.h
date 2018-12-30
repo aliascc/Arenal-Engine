@@ -101,6 +101,10 @@ class CameraManager sealed : public AEObject
         /// </summary>
         virtual ~CameraManager();
 
+        //Delete copy constructor/operator
+        CameraManager(const CameraManager&) = delete;
+        CameraManager& operator=(const CameraManager&) = delete;
+
 #pragma endregion
 
         /******************

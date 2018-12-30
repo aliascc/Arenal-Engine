@@ -41,11 +41,9 @@
 /********************
 *   Function Defs   *
 *********************/
-FrustumShape::FrustumShape(GraphicDevice* graphicDevice)
+FrustumShape::FrustumShape(GraphicDevice& graphicDevice)
     : m_GraphicDevice(graphicDevice)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-
     memset(m_Vtx, 0, sizeof(VertexPositionColor) * 24);
 }
 
@@ -291,12 +289,12 @@ AEResult FrustumShape::DrawFrustumShape(bool simple)
     }
 
     AETODO("add better return codes");
-    if (m_GraphicDevice->SetVertexBuffer(m_VB) != AEResult::Ok)
+    if (m_GraphicDevice.SetVertexBuffer(m_VB) != AEResult::Ok)
     {
         return AEResult::Fail;
     }
 
-    if (m_GraphicDevice->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST) != AEResult::Ok)
+    if (m_GraphicDevice.SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST) != AEResult::Ok)
     {
         return AEResult::Fail;
     }
@@ -308,7 +306,7 @@ AEResult FrustumShape::DrawFrustumShape(bool simple)
         vtxSize = AE_FRUSTUM_SIMPLE_SHAPE_SIZE;
     }
 
-    if (m_GraphicDevice->Draw(vtxSize, 0) != AEResult::Ok)
+    if (m_GraphicDevice.Draw(vtxSize, 0) != AEResult::Ok)
     {
         return AEResult::Fail;
     }

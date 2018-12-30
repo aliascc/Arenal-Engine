@@ -45,12 +45,10 @@
 /********************
 *   Function Defs   *
 *********************/
-SpriteFontAE::SpriteFontAE(GraphicDevice* graphicDevice, const std::string spriteFontFile)
+SpriteFontAE::SpriteFontAE(GraphicDevice& graphicDevice, const std::string spriteFontFile)
     : m_GraphicDevice(graphicDevice)
     , m_SpriteFontFile(spriteFontFile)
 {
-    AEAssert(graphicDevice != nullptr);
-
     AEAssert(!spriteFontFile.empty());
 }
 
@@ -66,11 +64,6 @@ AEResult SpriteFontAE::Initialize()
         return AEResult::Ok;
     }
 
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     if(m_SpriteFontFile.empty())
     {
         return AEResult::EmptyFilename;
@@ -79,7 +72,7 @@ AEResult SpriteFontAE::Initialize()
     try
     {
         std::wstring spriteFontFileW = AE_Base::String2WideStr(m_SpriteFontFile);
-        m_SpriteFont = new DirectX::SpriteFont(m_GraphicDevice->GetDeviceDX(), spriteFontFileW.c_str());
+        m_SpriteFont = new DirectX::SpriteFont(m_GraphicDevice.GetDeviceDX(), spriteFontFileW.c_str());
     }
     catch(...)
     {
@@ -92,21 +85,14 @@ AEResult SpriteFontAE::Initialize()
     return AEResult::Ok;
 }
 
-AEResult SpriteFontAE::DrawString(const SpriteBatchAE* spriteBatch, const std::string& text, const glm::vec2& position, const Color& color, float rotation, const glm::vec2& origin, float scale, DirectX::SpriteEffects effects, float layerDepth)
+AEResult SpriteFontAE::DrawString(const SpriteBatchAE& spriteBatch, const std::string& text, const glm::vec2& position, const Color& color, float rotation, const glm::vec2& origin, float scale, DirectX::SpriteEffects effects, float layerDepth)
 {
     if(!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    AEAssert(spriteBatch != nullptr);
-
-    if(spriteBatch == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if(!spriteBatch->HasBegun())
+    if(!spriteBatch.HasBegun())
     {
         return AEResult::Fail;
     }
@@ -117,26 +103,19 @@ AEResult SpriteFontAE::DrawString(const SpriteBatchAE* spriteBatch, const std::s
 
     std::wstring textW = AE_Base::String2WideStr(text);
 
-    m_SpriteFont->DrawString(spriteBatch->m_SpriteBatch, textW.c_str(), xmPosition, xmColor, rotation, xmOrigin, scale, effects, layerDepth);
+    m_SpriteFont->DrawString(spriteBatch.m_SpriteBatch, textW.c_str(), xmPosition, xmColor, rotation, xmOrigin, scale, effects, layerDepth);
 
     return AEResult::Ok;
 }
 
-AEResult SpriteFontAE::DrawString(const SpriteBatchAE* spriteBatch, const std::string& text, const glm::vec2& position, const Color& color, float rotation, const glm::vec2& origin, const glm::vec2& scale, DirectX::SpriteEffects effects, float layerDepth)
+AEResult SpriteFontAE::DrawString(const SpriteBatchAE& spriteBatch, const std::string& text, const glm::vec2& position, const Color& color, float rotation, const glm::vec2& origin, const glm::vec2& scale, DirectX::SpriteEffects effects, float layerDepth)
 {
     if(!m_IsReady)
     {
         return AEResult::NotReady;
     }
 
-    AEAssert(spriteBatch != nullptr);
-
-    if(spriteBatch == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if(!spriteBatch->HasBegun())
+    if(!spriteBatch.HasBegun())
     {
         return AEResult::Fail;
     }
@@ -148,7 +127,7 @@ AEResult SpriteFontAE::DrawString(const SpriteBatchAE* spriteBatch, const std::s
 
     std::wstring textW = AE_Base::String2WideStr(text);
 
-    m_SpriteFont->DrawString(spriteBatch->m_SpriteBatch, textW.c_str(), xmPosition, xmColor, rotation, xmOrigin, xmScale, effects, layerDepth);
+    m_SpriteFont->DrawString(spriteBatch.m_SpriteBatch, textW.c_str(), xmPosition, xmColor, rotation, xmOrigin, xmScale, effects, layerDepth);
 
     return AEResult::Ok;
 }

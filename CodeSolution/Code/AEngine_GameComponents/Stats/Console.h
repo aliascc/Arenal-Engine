@@ -115,7 +115,7 @@ class Console sealed : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        Console(GameApp* gameApp, const std::string& gameComponentName = AE_CONSOLE_DEF_COMPONENT_NAME, const std::string& inputHandlerServiceName = AE_INPUT_HANDLER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_Console);
+        Console(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName = AE_CONSOLE_DEF_COMPONENT_NAME, const std::string& inputHandlerServiceName = AE_INPUT_HANDLER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_Console);
         virtual ~Console();
 
         //Gets

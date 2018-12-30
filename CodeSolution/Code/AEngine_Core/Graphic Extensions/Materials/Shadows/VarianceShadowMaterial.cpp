@@ -54,7 +54,7 @@
 /********************
 *   Function Defs   *
 *********************/
-VarianceShadowMaterial::VarianceShadowMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
+VarianceShadowMaterial::VarianceShadowMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name)
     : Material(graphicDevice, gameResourceManager, name)
 {
 }
@@ -69,7 +69,7 @@ AEResult VarianceShadowMaterial::CreateVertexShader()
 
     /////////////////////////////////////////////////////
     //Get Vertex Shader from Game Resources
-    m_VertexShader = (VertexShader*)m_GameResourceManager->AcquireGameResourceByStringID(AE_VARIANCE_SHADOW_MAT_VS_NAME, GameResourceType::VertexShader);
+    m_VertexShader = (VertexShader*)m_GameResourceManager.AcquireGameResourceByStringID(AE_VARIANCE_SHADOW_MAT_VS_NAME, GameResourceType::VertexShader);
 
     if(m_VertexShader == nullptr)
     {
@@ -80,7 +80,7 @@ AEResult VarianceShadowMaterial::CreateVertexShader()
             return AEResult::VertexShaderLoadFailed;
         }
 
-        ret = m_GameResourceManager->ManageGameResource(m_VertexShader, AE_VARIANCE_SHADOW_MAT_VS_NAME);
+        ret = m_GameResourceManager.ManageGameResource(m_VertexShader, AE_VARIANCE_SHADOW_MAT_VS_NAME);
         if(ret != AEResult::Ok)
         {
             return AEResult::ResourceManagedFailed;
@@ -143,7 +143,7 @@ AEResult VarianceShadowMaterial::CreatePixelShader()
 
     /////////////////////////////////////////////////////
     //Get Pixel Shader from Game Resources
-    m_PixelShader = (PixelShader*)m_GameResourceManager->AcquireGameResourceByStringID(AE_VARIANCE_SHADOW_MAT_PS_NAME, GameResourceType::PixelShader);
+    m_PixelShader = (PixelShader*)m_GameResourceManager.AcquireGameResourceByStringID(AE_VARIANCE_SHADOW_MAT_PS_NAME, GameResourceType::PixelShader);
 
     if (m_PixelShader == nullptr)
     {
@@ -154,7 +154,7 @@ AEResult VarianceShadowMaterial::CreatePixelShader()
             return AEResult::VertexShaderLoadFailed;
         }
 
-        ret = m_GameResourceManager->ManageGameResource(m_PixelShader, AE_VARIANCE_SHADOW_MAT_PS_NAME);
+        ret = m_GameResourceManager.ManageGameResource(m_PixelShader, AE_VARIANCE_SHADOW_MAT_PS_NAME);
         if (ret != AEResult::Ok)
         {
             return AEResult::ResourceManagedFailed;
@@ -170,20 +170,6 @@ AEResult VarianceShadowMaterial::CreatePixelShader()
 
 AEResult VarianceShadowMaterial::LoadContent()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-
-    if(m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     if(m_IsReady)
     {
         return AEResult::Ok;

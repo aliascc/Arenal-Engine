@@ -58,7 +58,7 @@ void PhysicCollider::CleanUp()
     ReleasePhysX(m_PxMaterial);
 }
 
-AEResult PhysicCollider::Initialize(PhysicsManager* physicsManager)
+AEResult PhysicCollider::Initialize(PhysicsManager& physicsManager)
 {
     ////////////////////////////
     //Pre-checks
@@ -67,13 +67,7 @@ AEResult PhysicCollider::Initialize(PhysicsManager* physicsManager)
         return AEResult::Ok;
     }
 
-    AEAssert(physicsManager != nullptr);
-    if (physicsManager == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if (!physicsManager->IsReady())
+    if (!physicsManager.IsReady())
     {
         AETODO("Better return code");
         return AEResult::Fail;
@@ -81,8 +75,8 @@ AEResult PhysicCollider::Initialize(PhysicsManager* physicsManager)
 
     ////////////////////////////
     //Get PhysX Managers
-    physx::PxPhysics* pxPhysics = physicsManager->GetPhysX();
-    physx::PxScene* pxScene = physicsManager->GetPxScene();
+    physx::PxPhysics* pxPhysics = physicsManager.GetPhysX();
+    physx::PxScene* pxScene     = physicsManager.GetPxScene();
 
     ////////////////////////////
     //Clean Memory

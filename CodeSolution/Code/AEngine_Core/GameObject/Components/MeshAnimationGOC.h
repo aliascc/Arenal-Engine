@@ -100,7 +100,7 @@ class MeshAnimationGOC sealed : public GameObjectComponent
         /// MeshAnimationGOC Constructor
         /// </summary>
         /// <param name="gameObject">Game Object that this Component is attached too</param>
-        MeshAnimationGOC(GameObject* gameObject);
+        MeshAnimationGOC(GameObject& gameObject);
 
         /// <summary>
         /// Default ScriptGOC Destructor

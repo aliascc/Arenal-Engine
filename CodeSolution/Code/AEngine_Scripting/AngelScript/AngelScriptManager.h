@@ -100,6 +100,10 @@ class AngelScriptManager sealed : public AEObject
         /// </summary>
         virtual ~AngelScriptManager();
 
+        //Delete copy constructor/operator
+        AngelScriptManager(const AngelScriptManager&) = delete;
+        AngelScriptManager& operator=(const AngelScriptManager&) = delete;
+
 #pragma endregion
 
         /******************

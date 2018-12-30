@@ -48,13 +48,11 @@
 /********************
 *   Function Defs   *
 *********************/
-Material::Material(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
+Material::Material(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name)
     : Named(name)
     , m_GraphicDevice(graphicDevice)
     , m_GameResourceManager(gameResourceManager)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    AEAssert(m_GameResourceManager != nullptr);
 }
 
 Material::~Material()
@@ -150,18 +148,12 @@ AEResult Material::Apply()
         return AEResult::NotReady;
     }
 
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEResult ret = AEResult::Ok;
     
     /***********************
     *Vertex Shader
     ***********************/
-    ret = m_GraphicDevice->SetVertexShader(m_VertexShader);
+    ret = m_GraphicDevice.SetVertexShader(m_VertexShader);
 
     if(ret != AEResult::Ok)
     {
@@ -181,7 +173,7 @@ AEResult Material::Apply()
     /***********************
     *Pixel Shader
     ***********************/
-    ret = m_GraphicDevice->SetPixelShader(m_PixelShader);
+    ret = m_GraphicDevice.SetPixelShader(m_PixelShader);
 
     if(ret != AEResult::Ok)
     {
@@ -201,7 +193,7 @@ AEResult Material::Apply()
     /***********************
     *Geometry Shader
     ***********************/
-    ret = m_GraphicDevice->SetGeometryShader(m_GeometryShader);
+    ret = m_GraphicDevice.SetGeometryShader(m_GeometryShader);
 
     if(ret != AEResult::Ok)
     {
@@ -221,7 +213,7 @@ AEResult Material::Apply()
     /***********************
     *Domain Shader
     ***********************/
-    ret = m_GraphicDevice->SetDomainShader(m_DomainShader);
+    ret = m_GraphicDevice.SetDomainShader(m_DomainShader);
 
     if(ret != AEResult::Ok)
     {
@@ -241,7 +233,7 @@ AEResult Material::Apply()
     /***********************
     *Hull Shader
     ***********************/
-    ret = m_GraphicDevice->SetHullShader(m_HullShader);
+    ret = m_GraphicDevice.SetHullShader(m_HullShader);
 
     if(ret != AEResult::Ok)
     {
@@ -261,7 +253,7 @@ AEResult Material::Apply()
     /***********************
     *Compute Shader
     ***********************/
-    ret = m_GraphicDevice->SetComputeShader(m_ComputeShader);
+    ret = m_GraphicDevice.SetComputeShader(m_ComputeShader);
 
     if(ret != AEResult::Ok)
     {
@@ -291,12 +283,6 @@ AEResult Material::UnApply()
         return AEResult::NotReady;
     }
 
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEResult ret = AEResult::Ok;
     
     /***********************
@@ -304,7 +290,7 @@ AEResult Material::UnApply()
     ***********************/
     if(m_VertexShader != nullptr)
     {
-        ret = m_GraphicDevice->SetVertexShader(nullptr);
+        ret = m_GraphicDevice.SetVertexShader(nullptr);
 
         if(ret != AEResult::Ok)
         {
@@ -327,7 +313,7 @@ AEResult Material::UnApply()
     ***********************/
     if(m_PixelShader != nullptr)
     {
-        ret = m_GraphicDevice->SetPixelShader(nullptr);
+        ret = m_GraphicDevice.SetPixelShader(nullptr);
 
         if(ret != AEResult::Ok)
         {
@@ -350,7 +336,7 @@ AEResult Material::UnApply()
     ***********************/
     if(m_GeometryShader != nullptr)
     {
-        ret = m_GraphicDevice->SetGeometryShader(nullptr);
+        ret = m_GraphicDevice.SetGeometryShader(nullptr);
 
         if(ret != AEResult::Ok)
         {
@@ -373,7 +359,7 @@ AEResult Material::UnApply()
     ***********************/
     if(m_DomainShader != nullptr)
     {
-        ret = m_GraphicDevice->SetDomainShader(nullptr);
+        ret = m_GraphicDevice.SetDomainShader(nullptr);
 
         if(ret != AEResult::Ok)
         {
@@ -396,7 +382,7 @@ AEResult Material::UnApply()
     ***********************/
     if(m_HullShader != nullptr)
     {
-        ret = m_GraphicDevice->SetHullShader(nullptr);
+        ret = m_GraphicDevice.SetHullShader(nullptr);
 
         if(ret != AEResult::Ok)
         {
@@ -419,7 +405,7 @@ AEResult Material::UnApply()
     ***********************/
     if(m_ComputeShader != nullptr)
     {
-        ret = m_GraphicDevice->SetComputeShader(nullptr);
+        ret = m_GraphicDevice.SetComputeShader(nullptr);
 
         if(ret != AEResult::Ok)
         {

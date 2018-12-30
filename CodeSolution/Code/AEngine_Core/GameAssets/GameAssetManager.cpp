@@ -68,7 +68,7 @@
 AETODO("Check for Mutex");
 AETODO("When importing need to handle change of directory");
 AETODO("When importing need to handle change of sub content type");
-GameAssetManager::GameAssetManager(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager, AudioManager* audioManager, const std::string& projectDir, const std::string& outputDirAssets)
+GameAssetManager::GameAssetManager(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, AngelScriptManager& angelScriptManager, AudioManager& audioManager, const std::string& projectDir, const std::string& outputDirAssets)
     : m_GraphicDevice(graphicDevice)
     , m_GameResourceManager(gameResourceManager)
     , m_AngelScriptManager(angelScriptManager)
@@ -79,13 +79,6 @@ GameAssetManager::GameAssetManager(GraphicDevice* graphicDevice, GameResourceMan
     /////////////////////////////
     //Verify we have not reach the max IDs
     static_assert((uint32_t)GameAssetDefaultIDs::__Max_GameAssetDefaultIDs < AE_GAME_ASSET_UNIQUE_ID_USER_START, "Game Asset Default IDs overpass custom start ID");
-
-    /////////////////////////////
-    //Verify objects are not null
-    AEAssert(m_GraphicDevice != nullptr);
-    AEAssert(m_GameResourceManager != nullptr);
-    AEAssert(m_AngelScriptManager != nullptr);
-    AEAssert(m_AudioManager != nullptr);
 }
 
 GameAssetManager::~GameAssetManager()
@@ -206,25 +199,6 @@ AEResult GameAssetManager::Initialize()
 
     std::lock_guard<std::mutex> lock(m_GameAssetManagerMutex);
 
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-    if(m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
-    AEAssert(m_AngelScriptManager != nullptr);
-    if (m_AngelScriptManager == nullptr)
-    {
-        AETODO("Add error for AS null");
-        return AEResult::NullObj;
-    }
-
     AETODO("Check return");
     ImportBuiltInMeshes();
 
@@ -249,7 +223,7 @@ AEResult GameAssetManager::ImportBuiltInMeshes()
     {
         m_GameAssetBuiltIns.m_CubeMesh = new CubeMesh(m_GraphicDevice, AE_CUBE_MESH_RESOURCE_NAME);
 
-        ret = m_GameResourceManager->ManageGameResource(m_GameAssetBuiltIns.m_CubeMesh, AE_CUBE_MESH_FAKE_FILE_PATH);
+        ret = m_GameResourceManager.ManageGameResource(m_GameAssetBuiltIns.m_CubeMesh, AE_CUBE_MESH_FAKE_FILE_PATH);
         if (ret != AEResult::Ok)
         {
             AETODO("Add log");
@@ -282,7 +256,7 @@ AEResult GameAssetManager::ImportBuiltInMeshes()
     {
         m_GameAssetBuiltIns.m_IcoSphereMesh = new IcoSphereMesh(m_GraphicDevice, AE_ICO_SPHERE_MESH_RESOURCE_NAME);
 
-        ret = m_GameResourceManager->ManageGameResource(m_GameAssetBuiltIns.m_IcoSphereMesh, AE_ICO_SPHERE_MESH_FAKE_FILE_PATH);
+        ret = m_GameResourceManager.ManageGameResource(m_GameAssetBuiltIns.m_IcoSphereMesh, AE_ICO_SPHERE_MESH_FAKE_FILE_PATH);
         if (ret != AEResult::Ok)
         {
             AETODO("Add log");
@@ -334,7 +308,7 @@ AEResult GameAssetManager::ImportBuiltInDiffuseTextureShader()
     {
         m_GameAssetBuiltIns.m_DiffuseTextureVS = new DiffuseTextureVS(m_GraphicDevice, AE_DIFFUSE_TEXTURE_VS_NAME);
 
-        ret = m_GameResourceManager->ManageGameResource(m_GameAssetBuiltIns.m_DiffuseTextureVS, AE_DIFFUSE_TEXTURE_VS_FAKE_FILE_PATH);
+        ret = m_GameResourceManager.ManageGameResource(m_GameAssetBuiltIns.m_DiffuseTextureVS, AE_DIFFUSE_TEXTURE_VS_FAKE_FILE_PATH);
         if (ret != AEResult::Ok)
         {
             AETODO("Add log");
@@ -367,7 +341,7 @@ AEResult GameAssetManager::ImportBuiltInDiffuseTextureShader()
     {
         m_GameAssetBuiltIns.m_DiffuseTexturePS = new DiffuseTexturePS(m_GraphicDevice, AE_DIFFUSE_TEXTURE_PS_NAME);
 
-        ret = m_GameResourceManager->ManageGameResource(m_GameAssetBuiltIns.m_DiffuseTexturePS, AE_DIFFUSE_TEXTURE_PS_FAKE_FILE_PATH);
+        ret = m_GameResourceManager.ManageGameResource(m_GameAssetBuiltIns.m_DiffuseTexturePS, AE_DIFFUSE_TEXTURE_PS_FAKE_FILE_PATH);
         if (ret != AEResult::Ok)
         {
             AETODO("Add log");
@@ -1674,14 +1648,14 @@ AEResult GameAssetManager::LoadRawAssets(AEXMLParser& rawAssetXML)
         if (l_Type.compare("RawFile") == 0)
         {
             TimeStamp modTimeStamp(child.GetString(AE_RAW_FILE_LASTMODIFIEDTIMESTAMP_PROP));
-            std::string name               = child.GetString(AE_RAW_FILE_NAME_PROP);
-            std::string customName         = child.GetString(AE_RAW_FILE_CUSTOM_NAME_PROP);
-            std::string filepath           = child.GetString(AE_RAW_FILE_FILEPATH_PROP);
+            std::string name                = child.GetString(AE_RAW_FILE_NAME_PROP);
+            std::string customName          = child.GetString(AE_RAW_FILE_CUSTOM_NAME_PROP);
+            std::string filepath            = child.GetString(AE_RAW_FILE_FILEPATH_PROP);
             GameContentSubtype subType      = (GameContentSubtype)child.GetUInt(AE_RAW_FILE_CONTENTSUBTYPE_PROP);
             uint64_t uniqueAssociatedID     = child.GetUInt64(AE_RAW_FILE_ASSOCIATED_ASSET_ID_PROP);
             GameContentType contentType     = (GameContentType)child.GetUInt(AE_RAW_FILE_CONTENTTYPE_PROP);
             GameContextFileExt fileExt      = (GameContextFileExt)child.GetUInt(AE_RAW_FILE_GAMECONTEXTFILEEXT_PROP);
-            std::string outputFilename     = child.GetString(AE_RAW_FILE_OUTPUTFILENAME_PROP);
+            std::string outputFilename      = child.GetString(AE_RAW_FILE_OUTPUTFILENAME_PROP);
             bool reloadNeeded               = child.GetBool(AE_RAW_FILE_RELOADNEEDED_PROP);
             bool contentSubtypeChanged      = child.GetBool(AE_RAW_FILE_CONTENTSUBTYPECHANGED_PROP);
 

@@ -86,7 +86,7 @@ class BasicLineMaterial sealed : public Material
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
         /// <param name="name">Name of the Effect</param>
-        BasicLineMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name = AE_BASIC_LINE_MAT_NAME);
+        BasicLineMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name = AE_BASIC_LINE_MAT_NAME);
 
         /// <summary>
         /// Default BasicLineMaterial Destructor

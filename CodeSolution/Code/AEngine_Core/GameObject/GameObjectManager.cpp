@@ -73,7 +73,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check for Mutex");
-GameObjectManager::GameObjectManager(GraphicDevice* graphicDevice, GameAssetManager* gameAssetManager, GameObjectScriptManager* gameObjectScriptManager, AngelScriptManager* angelScriptManager, LightManager* lightManager, CameraManager* cameraManager, AudioManager* audioManager, PhysicsManager* physicsManager)
+GameObjectManager::GameObjectManager(GraphicDevice& graphicDevice, GameAssetManager& gameAssetManager, GameObjectScriptManager& gameObjectScriptManager, AngelScriptManager& angelScriptManager, LightManager& lightManager, CameraManager& cameraManager, AudioManager& audioManager, PhysicsManager& physicsManager)
     : m_GraphicDevice(graphicDevice)
     , m_GameAssetManager(gameAssetManager)
     , m_GameObjectScriptManager(gameObjectScriptManager)
@@ -83,14 +83,6 @@ GameObjectManager::GameObjectManager(GraphicDevice* graphicDevice, GameAssetMana
     , m_AudioManager(audioManager)
     , m_PhysicsManager(physicsManager)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    AEAssert(m_GameAssetManager != nullptr);
-    AEAssert(m_GameObjectScriptManager != nullptr);
-    AEAssert(m_AngelScriptManager != nullptr);
-    AEAssert(m_LightManager != nullptr);
-    AEAssert(m_CameraManager != nullptr);
-    AEAssert(m_AudioManager != nullptr);
-    AEAssert(m_PhysicsManager != nullptr);
 }
 
 GameObjectManager::~GameObjectManager()
@@ -252,7 +244,7 @@ AEResult GameObjectManager::SaveToXML(const std::string& file) const
 
     for (auto gameObjectPair : m_GameObjectMap)
     {
-        ret = SaveToXMLGameObject(xmlWriter, gameObjectPair.second);
+        ret = SaveToXMLGameObject(xmlWriter, *gameObjectPair.second);
         if (ret != AEResult::Ok)
         {
             AETODO("Better return code");
@@ -277,13 +269,8 @@ AEResult GameObjectManager::SaveToXML(const std::string& file) const
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLGameObject(AEXMLWriter& xmlWriter, GameObject* gameObject) const
+AEResult GameObjectManager::SaveToXMLGameObject(AEXMLWriter& xmlWriter, GameObject& gameObject) const
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullObj;
-    }
-
     AEResult ret = AEResult::Ok;
 
     ////////////////////////////
@@ -297,10 +284,10 @@ AEResult GameObjectManager::SaveToXMLGameObject(AEXMLWriter& xmlWriter, GameObje
 
     ////////////////////////////
     //Set Game Object Props
-    xmlWriter.WriteString(AE_GAME_OBJ_NAME_PROP, gameObject->GetName());
-    xmlWriter.WriteVect3f(AE_GAME_OBJ_POSITION_PROP, gameObject->GetPosition());
-    xmlWriter.WriteVect3f(AE_GAME_OBJ_ROTATION_PROP, gameObject->GetRotation());
-    xmlWriter.WriteVect3f(AE_GAME_OBJ_SCALE_PROP, gameObject->GetScale());
+    xmlWriter.WriteString(AE_GAME_OBJ_NAME_PROP, gameObject.GetName());
+    xmlWriter.WriteVect3f(AE_GAME_OBJ_POSITION_PROP, gameObject.GetPosition());
+    xmlWriter.WriteVect3f(AE_GAME_OBJ_ROTATION_PROP, gameObject.GetRotation());
+    xmlWriter.WriteVect3f(AE_GAME_OBJ_SCALE_PROP, gameObject.GetScale());
 
     ////////////////////////////
     //Write Game Object Components
@@ -320,9 +307,9 @@ AEResult GameObjectManager::SaveToXMLGameObject(AEXMLWriter& xmlWriter, GameObje
         return AEResult::Fail;
     }
 
-    for (auto childGameObjectPair : *gameObject)
+    for (auto childGameObjectPair : gameObject)
     {
-        ret = SaveToXMLGameObject(xmlWriter, childGameObjectPair.second);
+        ret = SaveToXMLGameObject(xmlWriter, *childGameObjectPair.second);
         if (ret != AEResult::Ok)
         {
             AETODO("Better return code");
@@ -353,13 +340,8 @@ AEResult GameObjectManager::SaveToXMLGameObject(AEXMLWriter& xmlWriter, GameObje
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLGameObjectComponents(AEXMLWriter& xmlWriter, GameObject* gameObject) const
+AEResult GameObjectManager::SaveToXMLGameObjectComponents(AEXMLWriter& xmlWriter, GameObject& gameObject) const
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     AEResult ret = AEResult::Ok;
 
     ////////////////////////////
@@ -448,14 +430,9 @@ AEResult GameObjectManager::SaveToXMLGameObjectComponents(AEXMLWriter& xmlWriter
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLMeshComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const
+AEResult GameObjectManager::SaveToXMLMeshComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if (!gameObject->HasMeshGOC())
+    if (!gameObject.HasMeshGOC())
     {
         return AEResult::Ok;
     }
@@ -471,7 +448,7 @@ AEResult GameObjectManager::SaveToXMLMeshComponent(AEXMLWriter& xmlWriter, GameO
         return AEResult::Fail;
     }
 
-    MeshGOC* goc = gameObject->GetMeshGOC();
+    MeshGOC* goc = gameObject.GetMeshGOC();
 
     ////////////////////////////
     //Set Components Props
@@ -489,14 +466,9 @@ AEResult GameObjectManager::SaveToXMLMeshComponent(AEXMLWriter& xmlWriter, GameO
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLMeshMaterialsComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const
+AEResult GameObjectManager::SaveToXMLMeshMaterialsComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if (!gameObject->HasMaterialGOCs())
+    if (!gameObject.HasMaterialGOCs())
     {
         return AEResult::Ok;
     }
@@ -512,7 +484,7 @@ AEResult GameObjectManager::SaveToXMLMeshMaterialsComponent(AEXMLWriter& xmlWrit
         return AEResult::Fail;
     }
 
-    const MeshMaterialsGOCList& materialList = gameObject->GetMeshMaterialsGOCList();
+    const MeshMaterialsGOCList& materialList = gameObject.GetMeshMaterialsGOCList();
     for (auto material : materialList)
     {
         ////////////////////////////
@@ -1077,14 +1049,9 @@ AEResult GameObjectManager::SaveToXMLCBMatrix(AEXMLWriter& xmlWriter, ConstantBu
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLGameObjectScriptsComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const
+AEResult GameObjectManager::SaveToXMLGameObjectScriptsComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if (!gameObject->HasGameObjectScriptGOCs())
+    if (!gameObject.HasGameObjectScriptGOCs())
     {
         return AEResult::Ok;
     }
@@ -1100,7 +1067,7 @@ AEResult GameObjectManager::SaveToXMLGameObjectScriptsComponent(AEXMLWriter& xml
         return AEResult::Fail;
     }
 
-    const GameObjectScriptGOCList& gosList = gameObject->GetGameObjectScriptGOCList();
+    const GameObjectScriptGOCList& gosList = gameObject.GetGameObjectScriptGOCList();
     for (auto gosComponent : gosList)
     {
         xmlWriter.WriteString(AE_GAME_OBJ_GOC_SCRIPT_NAME_PROP, gosComponent->GetName());
@@ -1275,14 +1242,9 @@ AEResult GameObjectManager::SaveToXMLGameObjectScriptsProperties(AEXMLWriter& xm
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLLightComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const
+AEResult GameObjectManager::SaveToXMLLightComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if (!gameObject->HasLightGOC())
+    if (!gameObject.HasLightGOC())
     {
         return AEResult::Ok;
     }
@@ -1298,7 +1260,7 @@ AEResult GameObjectManager::SaveToXMLLightComponent(AEXMLWriter& xmlWriter, Game
         return AEResult::Fail;
     }
 
-    LightGOC* lightGOC = gameObject->GetLightGOC();
+    LightGOC* lightGOC = gameObject.GetLightGOC();
 
     Light* light = lightGOC->GetLight();
 
@@ -1347,14 +1309,9 @@ AEResult GameObjectManager::SaveToXMLLightComponent(AEXMLWriter& xmlWriter, Game
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLMeshAnimationComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const
+AEResult GameObjectManager::SaveToXMLMeshAnimationComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if (!gameObject->HasMeshAnimationGOC())
+    if (!gameObject.HasMeshAnimationGOC())
     {
         return AEResult::Ok;
     }
@@ -1370,7 +1327,7 @@ AEResult GameObjectManager::SaveToXMLMeshAnimationComponent(AEXMLWriter& xmlWrit
         return AEResult::Fail;
     }
 
-    MeshAnimationGOC* animGOC = gameObject->GetMeshAnimationGOC();
+    MeshAnimationGOC* animGOC = gameObject.GetMeshAnimationGOC();
 
     xmlWriter.WriteBool(AE_GAME_OBJ_GOC_ANIM_BLEND_ANIM_PROP, animGOC->GetBlendAnimation());
     xmlWriter.WriteFloat(AE_GAME_OBJ_GOC_ANIM_BLEND_TIME_PROP, animGOC->GetBlendTime());
@@ -1411,14 +1368,9 @@ AEResult GameObjectManager::SaveToXMLMeshAnimationComponent(AEXMLWriter& xmlWrit
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLCameraComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const
+AEResult GameObjectManager::SaveToXMLCameraComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if (!gameObject->HasCameraGOC())
+    if (!gameObject.HasCameraGOC())
     {
         return AEResult::Ok;
     }
@@ -1434,7 +1386,7 @@ AEResult GameObjectManager::SaveToXMLCameraComponent(AEXMLWriter& xmlWriter, Gam
         return AEResult::Fail;
     }
 
-    CameraGOC* cameraGOC = gameObject->GetCameraGOC();
+    CameraGOC* cameraGOC = gameObject.GetCameraGOC();
 
     xmlWriter.WriteBool(AE_GAME_OBJ_GOC_CAM_DEBUG_DRAW_ENABLED_PROP, cameraGOC->IsDebugDrawEnabled());
     xmlWriter.WriteBool(AE_GAME_OBJ_GOC_CAM_IS_DEFAULT_CAM_PROP, cameraGOC->IsDefaultCamera());
@@ -1453,14 +1405,9 @@ AEResult GameObjectManager::SaveToXMLCameraComponent(AEXMLWriter& xmlWriter, Gam
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLAudioListenerComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const
+AEResult GameObjectManager::SaveToXMLAudioListenerComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if (!gameObject->HasAudioListenerGOC())
+    if (!gameObject.HasAudioListenerGOC())
     {
         return AEResult::Ok;
     }
@@ -1488,21 +1435,16 @@ AEResult GameObjectManager::SaveToXMLAudioListenerComponent(AEXMLWriter& xmlWrit
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLAudioSourceComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const
+AEResult GameObjectManager::SaveToXMLAudioSourceComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if (!gameObject->HasAudioSourceGOCs())
+    if (!gameObject.HasAudioSourceGOCs())
     {
         return AEResult::Ok;
     }
 
     AEResult ret = AEResult::Ok;
 
-    const AudioSourceGOCList& audioSourceList = gameObject->GetAudioSourceGOCList();
+    const AudioSourceGOCList& audioSourceList = gameObject.GetAudioSourceGOCList();
     for (auto audioSource : audioSourceList)
     {
         ////////////////////////////
@@ -1530,14 +1472,9 @@ AEResult GameObjectManager::SaveToXMLAudioSourceComponent(AEXMLWriter& xmlWriter
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::SaveToXMLPhysicsComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const
+AEResult GameObjectManager::SaveToXMLPhysicsComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if (!gameObject->HasPhysicsGOC())
+    if (!gameObject.HasPhysicsGOC())
     {
         return AEResult::Ok;
     }
@@ -1553,7 +1490,7 @@ AEResult GameObjectManager::SaveToXMLPhysicsComponent(AEXMLWriter& xmlWriter, Ga
         return AEResult::Fail;
     }
 
-    PhysicsGOC* physicsGOC = gameObject->GetPhysicsGOC();
+    PhysicsGOC* physicsGOC = gameObject.GetPhysicsGOC();
 
     xmlWriter.WriteBool(AE_GAME_OBJ_GOC_PHYSICS_IS_RIGID_BODY_PROP, physicsGOC->IsRigidBody());
 
@@ -1623,51 +1560,6 @@ AEResult GameObjectManager::SaveToXMLPhysicsComponent(AEXMLWriter& xmlWriter, Ga
 
 AEResult GameObjectManager::LoadGameObjectManagerFile(const std::string& file)
 {
-    if (m_GameAssetManager == nullptr)
-    {
-        return AEResult::GameAssetManagerNull;
-    }
-
-    if (m_AngelScriptManager == nullptr)
-    {
-        AETODO("Better return type");
-        return AEResult::NullObj;
-    }
-
-    if (m_GameObjectScriptManager == nullptr)
-    {
-        AETODO("Better return type");
-        return AEResult::NullObj;
-    }
-
-    if (m_LightManager == nullptr)
-    {
-        return AEResult::LightManagerNull;
-    }
-
-    if (m_CameraManager == nullptr)
-    {
-        AETODO("Better return type");
-        return AEResult::NullObj;
-    }
-
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    if (m_AudioManager == nullptr)
-    {
-        AETODO("Better return type");
-        return AEResult::NullObj;
-    }
-
-    if (m_PhysicsManager == nullptr)
-    {
-        AETODO("Better return type");
-        return AEResult::NullObj;
-    }
-
     if (file.empty())
     {
         return AEResult::EmptyFilename;
@@ -1725,9 +1617,9 @@ AEResult GameObjectManager::LoadXMLGameObject(AEXMLParser& xmlParser, GameObject
     ////////////////////////////
     //Get Game Object Props
     std::string name    = xmlParser.GetString(AE_GAME_OBJ_NAME_PROP);
-    glm::vec3 pos        = xmlParser.GetVect3f(AE_GAME_OBJ_POSITION_PROP);
-    glm::vec3 rot        = xmlParser.GetVect3f(AE_GAME_OBJ_ROTATION_PROP);
-    glm::vec3 scale        = xmlParser.GetVect3f(AE_GAME_OBJ_SCALE_PROP);
+    glm::vec3 pos       = xmlParser.GetVect3f(AE_GAME_OBJ_POSITION_PROP);
+    glm::vec3 rot       = xmlParser.GetVect3f(AE_GAME_OBJ_ROTATION_PROP);
+    glm::vec3 scale     = xmlParser.GetVect3f(AE_GAME_OBJ_SCALE_PROP);
 
     ////////////////////////////
     //Set Props
@@ -1747,7 +1639,7 @@ AEResult GameObjectManager::LoadXMLGameObject(AEXMLParser& xmlParser, GameObject
 
         if (l_Type.compare(AE_GAME_OBJ_COMPONENTS_NODE_NAME) == 0)
         {
-            if (LoadXMLGameObjectComponents(child, gameObject) != AEResult::Ok)
+            if (LoadXMLGameObjectComponents(child, *gameObject) != AEResult::Ok)
             {
                 return AEResult::Fail;
             }
@@ -1777,13 +1669,8 @@ AEResult GameObjectManager::LoadXMLGameObject(AEXMLParser& xmlParser, GameObject
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLGameObjectComponents(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLGameObjectComponents(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     ////////////////////////////
     //Load Game Object Components
 
@@ -1864,18 +1751,13 @@ AEResult GameObjectManager::LoadXMLGameObjectComponents(AEXMLParser& xmlParser, 
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLMeshComponent(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLMeshComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     ////////////////////////////
     //Get Mesh Asset
     uint64_t assetID = xmlParser.GetUInt64(AE_GAME_OBJ_COMPONENT_ASSETID_PROP);
 
-    GameAsset* gameAsset = m_GameAssetManager->GetGameAsset(assetID);
+    GameAsset* gameAsset = m_GameAssetManager.GetGameAsset(assetID);
     if (gameAsset == nullptr)
     {
         return AEResult::NullObj;
@@ -1899,7 +1781,7 @@ AEResult GameObjectManager::LoadXMLMeshComponent(AEXMLParser& xmlParser, GameObj
         return AEResult::Fail;
     }
 
-    if (gameObject->SetMeshGOC(meshGOC) != AEResult::Ok)
+    if (gameObject.SetMeshGOC(meshGOC) != AEResult::Ok)
     {
         DeleteMem(meshGOC);
 
@@ -1909,13 +1791,8 @@ AEResult GameObjectManager::LoadXMLMeshComponent(AEXMLParser& xmlParser, GameObj
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLMeshMaterialsComponent(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLMeshMaterialsComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     uint32_t childCount = xmlParser.GetNumChildren();
     for (uint32_t i = 0; i < childCount; ++i)
     {
@@ -1935,13 +1812,8 @@ AEResult GameObjectManager::LoadXMLMeshMaterialsComponent(AEXMLParser& xmlParser
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLMeshMaterialComponent(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLMeshMaterialComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     MeshMaterialGOC* material = new MeshMaterialGOC(gameObject);
 
     std::string name = xmlParser.GetString(AE_GAME_OBJ_GOC_MAT_NAME_PROP);
@@ -1964,7 +1836,7 @@ AEResult GameObjectManager::LoadXMLMeshMaterialComponent(AEXMLParser& xmlParser,
         }
     }
 
-    if (gameObject->AddMeshMaterialGOC(material) != AEResult::Ok)
+    if (gameObject.AddMeshMaterialGOC(material) != AEResult::Ok)
     {
         DeleteMem(material);
 
@@ -1986,7 +1858,7 @@ AEResult GameObjectManager::LoadXMLShader(AEXMLParser& xmlParser, MeshMaterialGO
     uint64_t assetID = xmlParser.GetUInt64(AE_GAME_OBJ_COMPONENT_ASSETID_PROP);
     ShaderType type = (ShaderType)xmlParser.GetUInt(AE_GAME_OBJ_GOC_MAT_SHADER_TYPE_PROP);
 
-    GameAsset* gameAsset = m_GameAssetManager->GetGameAsset(assetID);
+    GameAsset* gameAsset = m_GameAssetManager.GetGameAsset(assetID);
     if (gameAsset == nullptr)
     {
         return AEResult::Fail;
@@ -2126,7 +1998,7 @@ AEResult GameObjectManager::LoadXMLShaderProperties(AEXMLParser& xmlParser, Shad
             std::string name = childObject.GetString(AE_GAME_OBJ_GOC_MAT_TEXTURE_NAME_PROP);
             uint64_t assetID = childObject.GetUInt64(AE_GAME_OBJ_COMPONENT_ASSETID_PROP);
 
-            GameAsset* gameAsset = m_GameAssetManager->GetGameAsset(assetID);
+            GameAsset* gameAsset = m_GameAssetManager.GetGameAsset(assetID);
             if (gameAsset == nullptr || gameAsset->GetGameContentType() != GameContentType::Texture)
             {
                 return AEResult::InvalidObjType;
@@ -2161,11 +2033,11 @@ AEResult GameObjectManager::LoadXMLCBShaderVariable(AEXMLParser& xmlParser, Cons
         {
             AEResult ret = AEResult::Ok;
 
-            std::string varName        = xmlParser.GetString(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_NAME_PROP);
-            ShaderVariableClass svc        = (ShaderVariableClass)xmlParser.GetUInt(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_CLASS_PROP);
-            ShaderVariableType svt        = (ShaderVariableType)xmlParser.GetUInt(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_TYPE_PROP);
+            std::string varName         = xmlParser.GetString(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_NAME_PROP);
+            ShaderVariableClass svc     = (ShaderVariableClass)xmlParser.GetUInt(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_CLASS_PROP);
+            ShaderVariableType svt      = (ShaderVariableType)xmlParser.GetUInt(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_TYPE_PROP);
             uint32_t columns            = xmlParser.GetUInt(AE_GAME_OBJ_GOC_MAT_SHADER_COLUMNS_PROP);
-            uint32_t rows                = xmlParser.GetUInt(AE_GAME_OBJ_GOC_MAT_SHADER_ROWS_PROP);
+            uint32_t rows               = xmlParser.GetUInt(AE_GAME_OBJ_GOC_MAT_SHADER_ROWS_PROP);
 
             switch (svc)
             {
@@ -2445,13 +2317,8 @@ AEResult GameObjectManager::LoadXMLCBMatrix(AEXMLParser& xmlParser, ConstantBuff
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLGameObjectScriptsComponents(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLGameObjectScriptsComponents(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     uint32_t childCount = xmlParser.GetNumChildren();
     for (uint32_t i = 0; i < childCount; ++i)
     {
@@ -2471,13 +2338,8 @@ AEResult GameObjectManager::LoadXMLGameObjectScriptsComponents(AEXMLParser& xmlP
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLGameObjectScriptsComponent(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLGameObjectScriptsComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     std::string name    = xmlParser.GetString(AE_GAME_OBJ_GOC_SCRIPT_NAME_PROP);
     uint64_t assetID    = xmlParser.GetUInt64(AE_GAME_OBJ_COMPONENT_ASSETID_PROP);
     bool hasInstance    = xmlParser.GetBool(AE_GAME_OBJ_GOC_SCRIPT_HAS_INSTANCE_PROP);
@@ -2503,7 +2365,7 @@ AEResult GameObjectManager::LoadXMLGameObjectScriptsComponent(AEXMLParser& xmlPa
         }
     }
 
-    gameObject->AddGameObjectScriptGOC(gameObjectScriptGOC);
+    gameObject.AddGameObjectScriptGOC(gameObjectScriptGOC);
 
     return AEResult::Ok;
 }
@@ -2633,13 +2495,8 @@ AEResult GameObjectManager::LoadXMLGameObjectScriptsProperties(AEXMLParser& xmlP
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLLightComponent(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLLightComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     LightGOC* lightGOC = new LightGOC(gameObject, m_LightManager);
 
     bool isDrawFurstumCascadeEnable     = xmlParser.GetBool(AE_GAME_OBJ_GOC_LIGHT_FRUSTUM_CASCADE_PROP);
@@ -2699,21 +2556,16 @@ AEResult GameObjectManager::LoadXMLLightComponent(AEXMLParser& xmlParser, GameOb
             return AEResult::InvalidObjType;
     }
 
-    gameObject->SetLightGOC(lightGOC);
+    gameObject.SetLightGOC(lightGOC);
 
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLMeshAnimationComponent(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLMeshAnimationComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    bool blendAnim = xmlParser.GetBool(AE_GAME_OBJ_GOC_ANIM_BLEND_ANIM_PROP);
-    float blendTime = xmlParser.GetFloat(AE_GAME_OBJ_GOC_ANIM_BLEND_TIME_PROP);
-    bool onLoop = xmlParser.GetBool(AE_GAME_OBJ_GOC_ANIM_ON_LOOP_ANIM_PROP);
+    bool blendAnim      = xmlParser.GetBool(AE_GAME_OBJ_GOC_ANIM_BLEND_ANIM_PROP);
+    float blendTime     = xmlParser.GetFloat(AE_GAME_OBJ_GOC_ANIM_BLEND_TIME_PROP);
+    bool onLoop         = xmlParser.GetBool(AE_GAME_OBJ_GOC_ANIM_ON_LOOP_ANIM_PROP);
     uint64_t skeletonID = xmlParser.GetUInt64(AE_GAME_OBJ_GOC_ANIM_SKELETON_ASSET_ID_PROP);
 
     MeshAnimationGOC* animGOC = new MeshAnimationGOC(gameObject);
@@ -2724,7 +2576,7 @@ AEResult GameObjectManager::LoadXMLMeshAnimationComponent(AEXMLParser& xmlParser
 
     if (skeletonID != 0)
     {
-        GameAsset* gameAsset = m_GameAssetManager->GetGameAsset(skeletonID);
+        GameAsset* gameAsset = m_GameAssetManager.GetGameAsset(skeletonID);
         if (gameAsset == nullptr || gameAsset->GetGameContentType() != GameContentType::Skeleton)
         {
             DeleteMem(animGOC);
@@ -2752,7 +2604,7 @@ AEResult GameObjectManager::LoadXMLMeshAnimationComponent(AEXMLParser& xmlParser
         {
             uint64_t animAssetID = xmlParser.GetUInt64(AE_GAME_OBJ_COMPONENT_ASSETID_PROP);
 
-            GameAsset* gameAsset = m_GameAssetManager->GetGameAsset(animAssetID);
+            GameAsset* gameAsset = m_GameAssetManager.GetGameAsset(animAssetID);
             if (gameAsset == nullptr || gameAsset->GetGameContentType() != GameContentType::Animation)
             {
                 DeleteMem(animGOC);
@@ -2773,13 +2625,8 @@ AEResult GameObjectManager::LoadXMLMeshAnimationComponent(AEXMLParser& xmlParser
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLCameraComponent(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLCameraComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     bool isDebugDrawEnable      = xmlParser.GetBool(AE_GAME_OBJ_GOC_CAM_DEBUG_DRAW_ENABLED_PROP);
     bool isDefaultCamera        = xmlParser.GetBool(AE_GAME_OBJ_GOC_CAM_IS_DEFAULT_CAM_PROP);
     bool isDrawFrustumEnabled   = xmlParser.GetBool(AE_GAME_OBJ_GOC_CAM_DRAW_FRUSTUM_ENABLED_PROP);
@@ -2801,7 +2648,7 @@ AEResult GameObjectManager::LoadXMLCameraComponent(AEXMLParser& xmlParser, GameO
         }
     }
 
-    if (gameObject->SetCameraGOC(cameraGOC) != AEResult::Ok)
+    if (gameObject.SetCameraGOC(cameraGOC) != AEResult::Ok)
     {
         DeleteMem(cameraGOC);
 
@@ -2811,16 +2658,11 @@ AEResult GameObjectManager::LoadXMLCameraComponent(AEXMLParser& xmlParser, GameO
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLAudioListenerComponent(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLAudioListenerComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     AudioListenerGOC* audioListener = new AudioListenerGOC(gameObject, m_AudioManager);
 
-    if (gameObject->SetAudioListenerGOC(audioListener) != AEResult::Ok)
+    if (gameObject.SetAudioListenerGOC(audioListener) != AEResult::Ok)
     {
         DeleteMem(audioListener);
 
@@ -2830,13 +2672,8 @@ AEResult GameObjectManager::LoadXMLAudioListenerComponent(AEXMLParser& xmlParser
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLAudioSourceComponent(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLAudioSourceComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     uint32_t childCount = xmlParser.GetNumChildren();
     for (uint32_t i = 0; i < childCount; ++i)
     {
@@ -2851,7 +2688,7 @@ AEResult GameObjectManager::LoadXMLAudioSourceComponent(AEXMLParser& xmlParser, 
 
             AudioSourceGOC* audioSourceGOC = new AudioSourceGOC(gameObject, name);
 
-            GameAsset* gameAsset = m_GameAssetManager->GetGameAsset(audioAssetID);
+            GameAsset* gameAsset = m_GameAssetManager.GetGameAsset(audioAssetID);
             if (gameAsset == nullptr || gameAsset->GetGameContentType() != GameContentType::Audio)
             {
                 DeleteMem(audioSourceGOC);
@@ -2867,7 +2704,7 @@ AEResult GameObjectManager::LoadXMLAudioSourceComponent(AEXMLParser& xmlParser, 
                 return AEResult::Fail;
             }
 
-            if (gameObject->AddAudioSourceGOC(audioSourceGOC) != AEResult::Ok)
+            if (gameObject.AddAudioSourceGOC(audioSourceGOC) != AEResult::Ok)
             {
                 DeleteMem(audioSourceGOC);
 
@@ -2879,13 +2716,8 @@ AEResult GameObjectManager::LoadXMLAudioSourceComponent(AEXMLParser& xmlParser, 
     return AEResult::Ok;
 }
 
-AEResult GameObjectManager::LoadXMLPhysicsComponent(AEXMLParser& xmlParser, GameObject* gameObject)
+AEResult GameObjectManager::LoadXMLPhysicsComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    if (gameObject == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     PhysicsGOC* physicsGOC = new PhysicsGOC(gameObject, m_PhysicsManager);
 
     bool isRigidBody = xmlParser.GetBool(AE_GAME_OBJ_GOC_PHYSICS_IS_RIGID_BODY_PROP);
@@ -2954,7 +2786,7 @@ AEResult GameObjectManager::LoadXMLPhysicsComponent(AEXMLParser& xmlParser, Game
         }
     }
 
-    if (gameObject->SetPhysicsGOC(physicsGOC) != AEResult::Ok)
+    if (gameObject.SetPhysicsGOC(physicsGOC) != AEResult::Ok)
     {
         DeleteMem(physicsGOC);
 

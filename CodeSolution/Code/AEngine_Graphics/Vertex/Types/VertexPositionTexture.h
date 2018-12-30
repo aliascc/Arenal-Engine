@@ -64,7 +64,7 @@ struct VertexPositionTexture
     static VertexLayout* m_VertexLayout;
 
     //Get Vertex Declaration
-    static const VertexLayout* GetVertexLayout(GraphicDevice* graphicDevice)
+    static const VertexLayout* GetVertexLayout(GraphicDevice& graphicDevice)
     {
         if(m_VertexLayout != nullptr)
         {

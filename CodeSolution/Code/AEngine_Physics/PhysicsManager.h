@@ -146,6 +146,10 @@ class PhysicsManager sealed : public AEObject
         /// </summary>
         virtual ~PhysicsManager();
 
+        //Delete copy constructor/operator
+        PhysicsManager(const PhysicsManager&) = delete;
+        PhysicsManager& operator=(const PhysicsManager&) = delete;
+
 #pragma endregion
 
     /******************

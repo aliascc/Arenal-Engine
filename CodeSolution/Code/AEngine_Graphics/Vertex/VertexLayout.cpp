@@ -50,15 +50,15 @@ VertexLayout::~VertexLayout()
     ReleaseCOM(m_VertexLayoutDX);
 }
 
-AEResult VertexLayout::BuildVertexLayout(GraphicDevice* graphicDevice, const BYTE shaderByteCode[], uint32_t shadeByteCodeSize, const D3D11_INPUT_ELEMENT_DESC vertexDesc[], uint32_t elementCount, const std::string& name)
+AEResult VertexLayout::BuildVertexLayout(GraphicDevice& graphicDevice, const BYTE shaderByteCode[], uint32_t shadeByteCodeSize, const D3D11_INPUT_ELEMENT_DESC vertexDesc[], uint32_t elementCount, const std::string& name)
 {
-    if(graphicDevice == nullptr || vertexDesc == nullptr || shaderByteCode == nullptr || elementCount == 0)
+    if(vertexDesc == nullptr || shaderByteCode == nullptr || elementCount == 0)
     {
         return AEResult::Fail;
     }
 
     // Create the input layout    
-    HRESULT hr = graphicDevice->GetDeviceDX()->CreateInputLayout(vertexDesc, elementCount, (void*)shaderByteCode, shadeByteCodeSize, &m_VertexLayoutDX);
+    HRESULT hr = graphicDevice.GetDeviceDX()->CreateInputLayout(vertexDesc, elementCount, (void*)shaderByteCode, shadeByteCodeSize, &m_VertexLayoutDX);
 
     if(hr != S_OK)
     {

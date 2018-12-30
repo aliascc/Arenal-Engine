@@ -65,13 +65,13 @@ class FrustumShape sealed : public AEObject
 
         VertexBuffer<VertexPositionColor>* m_VB = nullptr;
 
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         AEResult UpdateFrustumShapeVtx(const Frustum* frustum);
 
     public:
         //Constructor Destructor.
-        FrustumShape(GraphicDevice* graphicDevice);
+        FrustumShape(GraphicDevice& graphicDevice);
         virtual ~FrustumShape();
 
         //Get Methods

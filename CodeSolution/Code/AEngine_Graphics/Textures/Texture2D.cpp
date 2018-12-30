@@ -41,7 +41,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Texture2D::Texture2D(GraphicDevice* graphicDevice, const std::string& textureName)
+Texture2D::Texture2D(GraphicDevice& graphicDevice, const std::string& textureName)
     : ITexture2D(graphicDevice, textureName)
 {
 }
@@ -59,14 +59,6 @@ void Texture2D::CleanUp()
 AEResult Texture2D::CreateTexture(uint32_t width, uint32_t height, DXGI_FORMAT format, GraphicBufferUsage usage, GraphicBufferAccess cpuAccess)
 {
     std::lock_guard<std::mutex> lock(m_GameResourceMutex);
-
-    /////////////////////////////////////////////////////////////
-    //Pre-check
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
 
     if (width == 0 || height == 0)
     {
@@ -106,7 +98,7 @@ AEResult Texture2D::CreateTexture(uint32_t width, uint32_t height, DXGI_FORMAT f
     textDesc.SampleDesc.Count     = 1;
     textDesc.SampleDesc.Quality   = 0;
 
-    hr = m_GraphicDevice->GetDeviceDX()->CreateTexture2D(&textDesc, nullptr, &m_TextureDX);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateTexture2D(&textDesc, nullptr, &m_TextureDX);
     if (hr != S_OK)
     {
         DisplayError(hr);
@@ -127,7 +119,7 @@ AEResult Texture2D::CreateTexture(uint32_t width, uint32_t height, DXGI_FORMAT f
 
     srvDesc.Texture2D.MipLevels          = 1;
 
-    hr = m_GraphicDevice->GetDeviceDX()->CreateShaderResourceView(m_TextureDX, &srvDesc, &m_ShaderResourceView);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateShaderResourceView(m_TextureDX, &srvDesc, &m_ShaderResourceView);
     if (hr != S_OK)
     {
         ReleaseCOM(m_TextureDX);
@@ -154,12 +146,6 @@ AEResult Texture2D::CreateColorTexture(uint32_t width, uint32_t height, const Co
 
     /////////////////////////////////////////////////////////////
     //Pre-check
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     if (width == 0 || height == 0)
     {
         return AEResult::ZeroSize;
@@ -211,7 +197,7 @@ AEResult Texture2D::CreateColorTexture(uint32_t width, uint32_t height, const Co
     subResourceData.SysMemSlicePitch    = sizeof(uint32_t) * width * height;
     subResourceData.SysMemPitch         = sizeof(uint32_t) * width;
 
-    hr = m_GraphicDevice->GetDeviceDX()->CreateTexture2D(&textDesc, &subResourceData, &m_TextureDX);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateTexture2D(&textDesc, &subResourceData, &m_TextureDX);
 
     DeleteMemArr(pixelData);
 
@@ -235,7 +221,7 @@ AEResult Texture2D::CreateColorTexture(uint32_t width, uint32_t height, const Co
 
     srvDesc.Texture2D.MipLevels = 1;
 
-    hr = m_GraphicDevice->GetDeviceDX()->CreateShaderResourceView(m_TextureDX, &srvDesc, &m_ShaderResourceView);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateShaderResourceView(m_TextureDX, &srvDesc, &m_ShaderResourceView);
     if (hr != S_OK)
     {
         ReleaseCOM(m_TextureDX);
@@ -268,14 +254,6 @@ AEResult Texture2D::Load()
 {
     //This has to be an atomic operation
     std::lock_guard<std::mutex> lock(m_GameResourceMutex);
-
-    /////////////////////////////////////////////////////////////
-    //Pre-check
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
 
     AEAssert(!m_Filename.empty());
     if (m_Filename.empty())
@@ -337,7 +315,7 @@ AEResult Texture2D::Load()
     /////////////////////////////////////////////////////////////
     //Get DirectX Texture2D Resource from DirectX Tex Objects
     ID3D11Resource* resource = nullptr;
-    hr = CreateTextureEx(m_GraphicDevice->GetDeviceDX(), scratchImage.GetImages(), scratchImage.GetImageCount(), texMetadata, D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0, false, &resource);
+    hr = CreateTextureEx(m_GraphicDevice.GetDeviceDX(), scratchImage.GetImages(), scratchImage.GetImageCount(), texMetadata, D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0, false, &resource);
     
     if(hr != S_OK)
     {
@@ -360,7 +338,7 @@ AEResult Texture2D::Load()
     srvDesc.ViewDimension            = D3D_SRV_DIMENSION_TEXTURE2D;
     srvDesc.Texture2D.MipLevels        = static_cast<UINT>(texMetadata.mipLevels);
 
-    hr = m_GraphicDevice->GetDeviceDX()->CreateShaderResourceView(m_TextureDX, &srvDesc, &m_ShaderResourceView);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateShaderResourceView(m_TextureDX, &srvDesc, &m_ShaderResourceView);
 
     if (hr != S_OK)
     {

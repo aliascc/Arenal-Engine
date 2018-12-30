@@ -94,7 +94,7 @@ class RenderTarget sealed : public ITexture2D
         /// </summary>
         /// <param name="graphicDevice">Graphic Device to be associated with this Render Target</param>
         /// <param name="renderTargetName">Name of the Render Target</param>
-        RenderTarget(GraphicDevice* graphicDevice, const std::string& renderTargetName);
+        RenderTarget(GraphicDevice& graphicDevice, const std::string& renderTargetName);
 
 #pragma endregion
 

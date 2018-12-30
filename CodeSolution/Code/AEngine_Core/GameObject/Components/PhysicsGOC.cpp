@@ -45,27 +45,17 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-PhysicsGOC::PhysicsGOC(GameObject* gameObject, PhysicsManager* physicsManager)
+PhysicsGOC::PhysicsGOC(GameObject& gameObject, PhysicsManager& physicsManager)
     : GameObjectComponent(gameObject, GameObjectComponentType::Physics)
     , m_PhysicsManager(physicsManager)
 {
-    AEAssert(m_PhysicsManager != nullptr);
-    if (m_PhysicsManager == nullptr)
-    {
-        m_IsReady = false;
-
-        return;
-    }
 
 }
 
 PhysicsGOC::~PhysicsGOC()
 {
-    if (m_PhysicsActor != nullptr)
-    {
-        AETODO("Check return");
-        m_PhysicsManager->RemovePhysicsActor(m_PhysicsActor->GetUniqueID(), false);
-    }
+    m_PhysicsManager.RemovePhysicsActor(m_PhysicsActor->GetUniqueID(), false);
+
     DeleteMem(m_PhysicsActor);
 }
 
@@ -80,9 +70,9 @@ AEResult PhysicsGOC::AddRigidBody()
 
     if (m_PhysicsActor == nullptr)
     {
-        m_PhysicsActor = new PhysicsActor(m_GameObject);
+        m_PhysicsActor = new PhysicsActor(m_PhysicsManager, m_GameObject);
 
-        ret = m_PhysicsActor->Initialize(m_PhysicsManager, PhysicsActorType::Dynamic);
+        ret = m_PhysicsActor->Initialize(PhysicsActorType::Dynamic);
         if (ret != AEResult::Ok)
         {
             DeleteMem(m_PhysicsActor);
@@ -92,7 +82,7 @@ AEResult PhysicsGOC::AddRigidBody()
 
         //////////////////////////////
         //Add to Physics Manager
-        ret = m_PhysicsManager->AddPhysicsActor(m_PhysicsActor);
+        ret = m_PhysicsManager.AddPhysicsActor(m_PhysicsActor);
         if (ret != AEResult::Ok)
         {
             DeleteMem(m_PhysicsActor);
@@ -105,7 +95,7 @@ AEResult PhysicsGOC::AddRigidBody()
         ret = m_PhysicsActor->ChangePhysicsActorType(PhysicsActorType::Dynamic);
         if (ret != AEResult::Ok)
         {
-            m_PhysicsManager->RemovePhysicsActor(m_PhysicsActor->GetUniqueID(), false);
+            m_PhysicsManager.RemovePhysicsActor(m_PhysicsActor->GetUniqueID(), false);
 
             DeleteMem(m_PhysicsActor);
 
@@ -191,9 +181,9 @@ AEResult PhysicsGOC::AddCollider(CollisionShape collisionShape, uint64_t& collid
     //Initialize Physics Actor
     if (m_PhysicsActor == nullptr)
     {
-        m_PhysicsActor = new PhysicsActor(m_GameObject);
+        m_PhysicsActor = new PhysicsActor(m_PhysicsManager, m_GameObject);
 
-        ret = m_PhysicsActor->Initialize(m_PhysicsManager, PhysicsActorType::Static);
+        ret = m_PhysicsActor->Initialize(PhysicsActorType::Static);
         if (ret != AEResult::Ok)
         {
             DeleteMem(physicCollider);
@@ -205,7 +195,7 @@ AEResult PhysicsGOC::AddCollider(CollisionShape collisionShape, uint64_t& collid
 
         //////////////////////////////
         //Add to Physics Manager
-        ret = m_PhysicsManager->AddPhysicsActor(m_PhysicsActor);
+        ret = m_PhysicsManager.AddPhysicsActor(m_PhysicsActor);
         if (ret != AEResult::Ok)
         {
             DeleteMem(physicCollider);

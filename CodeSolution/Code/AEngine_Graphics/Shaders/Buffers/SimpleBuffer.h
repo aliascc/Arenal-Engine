@@ -92,7 +92,7 @@ class SimpleBuffer sealed : public ShaderBuffer
         /// <param name="variableType">Variable Type for the Simple Buffer</param>
         /// <param name="elementCount">Number of elements per variable (That is a vector2 will be 2, vector3 will be 3, a normal scalar would be 1).</param>
         /// <param name="graphicDevice">Graphic Device to create buffer</param>
-        SimpleBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, ShaderVariableClass variableClass,  ShaderVariableType variableType, uint32_t elementCount, GraphicDevice* graphicDevice);
+        SimpleBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, ShaderVariableClass variableClass,  ShaderVariableType variableType, uint32_t elementCount, GraphicDevice& graphicDevice);
 
         /// <summary>
         /// Default SimpleBuffer Destructor

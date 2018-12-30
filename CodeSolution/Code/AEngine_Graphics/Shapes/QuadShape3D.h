@@ -53,7 +53,7 @@ class QuadShape3D sealed : public QuadShape
 {
     public:
         //Constructor Destructor.
-        QuadShape3D(GraphicDevice* graphicDevice, bool clockWise = true);
+        QuadShape3D(GraphicDevice& graphicDevice, bool clockWise = true);
         virtual ~QuadShape3D();
 
         //Framework Methods

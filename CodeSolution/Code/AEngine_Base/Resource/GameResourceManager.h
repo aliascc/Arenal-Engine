@@ -114,6 +114,10 @@ class GameResourceManager sealed : public AEObject
         /// </summary>
         virtual ~GameResourceManager();
 
+        //Delete copy constructor/operator
+        GameResourceManager(const GameResourceManager&) = delete;
+        GameResourceManager& operator=(const GameResourceManager&) = delete;
+
 #pragma endregion
         
         /******************

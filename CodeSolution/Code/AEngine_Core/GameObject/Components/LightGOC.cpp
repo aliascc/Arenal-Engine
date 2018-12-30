@@ -45,21 +45,19 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-LightGOC::LightGOC(GameObject* gameObject, LightManager* lightManager)
+LightGOC::LightGOC(GameObject& gameObject, LightManager& lightManager)
     : GameObjectComponent(gameObject, GameObjectComponentType::Light)
     , m_LightManager(lightManager)
 {
-    AEAssert(lightManager != nullptr);
-
     ChangeLightType(LightType::Spot);
 }
 
 LightGOC::~LightGOC()
 {
-    if(m_LightManager != nullptr && m_Light != nullptr)
+    if(m_Light != nullptr)
     {
         AETODO("Check return");
-        m_LightManager->RemoveLight(m_Light);
+        m_LightManager.RemoveLight(m_Light);
     }
 
     DeleteMem(m_Light);
@@ -67,12 +65,6 @@ LightGOC::~LightGOC()
 
 AEResult LightGOC::ChangeLightType(LightType lightType)
 {
-    AEAssert(m_LightManager != nullptr);
-    if(m_LightManager == nullptr)
-    {
-        return AEResult::LightManagerNull;
-    }
-
     Light* newLight = nullptr;
 
     switch (lightType)
@@ -102,14 +94,14 @@ AEResult LightGOC::ChangeLightType(LightType lightType)
         *newLight = *m_Light;
 
         AETODO("Check return");
-        m_LightManager->RemoveLight(m_Light);
+        m_LightManager.RemoveLight(m_Light);
 
         DeleteMem(m_Light);
     }
 
     m_Light = newLight;
 
-    AEResult ret = m_LightManager->AddLight(m_Light);
+    AEResult ret = m_LightManager.AddLight(m_Light);
     if(ret != AEResult::Ok)
     {
         DeleteMem(m_Light);

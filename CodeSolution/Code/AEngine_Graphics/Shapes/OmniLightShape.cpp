@@ -38,7 +38,7 @@
 /********************
 *   Function Defs   *
 *********************/
-OmniLightShape::OmniLightShape(GraphicDevice* graphicDevice, uint32_t numEdges)
+OmniLightShape::OmniLightShape(GraphicDevice& graphicDevice, uint32_t numEdges)
     : LightShape(graphicDevice)
     , m_NumEdges(numEdges)
 {
@@ -52,12 +52,6 @@ AEResult OmniLightShape::BuildLightShape()
 {
     ///////////////////////////////////////////////////
     //Pre-checks
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEAssert(m_NumEdges != 0);
     if (m_NumEdges == 0)
     {

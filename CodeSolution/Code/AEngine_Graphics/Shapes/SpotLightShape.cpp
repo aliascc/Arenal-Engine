@@ -36,7 +36,7 @@
 /********************
 *   Function Defs   *
 *********************/
-SpotLightShape::SpotLightShape(GraphicDevice* graphicDevice, uint32_t numEdges)
+SpotLightShape::SpotLightShape(GraphicDevice& graphicDevice, uint32_t numEdges)
     : LightShape(graphicDevice)
     , m_NumEdges(numEdges)
 {
@@ -55,12 +55,6 @@ AEResult SpotLightShape::BuildLightShape()
 {
     ///////////////////////////////////////////////////
     //Pre-checks
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEAssert(m_NumEdges != 0);
     if (m_NumEdges == 0)
     {

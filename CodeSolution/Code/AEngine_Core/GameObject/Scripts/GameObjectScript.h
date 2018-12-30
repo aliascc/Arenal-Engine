@@ -52,7 +52,7 @@ class GameObjectScript sealed : public GameResource
         *************************/
 #pragma region Private Variables
 
-        AngelScriptManager* m_AngelScriptManager = nullptr;
+        AngelScriptManager& m_AngelScriptManager;
 
         GameObjectScriptFunctions* m_GameObjectScriptFunctions = nullptr;
 
@@ -79,12 +79,16 @@ class GameObjectScript sealed : public GameResource
         /// </summary>
         /// <param name="resourceName">Resource Name</param>
         /// <param name="angelScriptManager">Angel Script Manager</param>
-        GameObjectScript(const std::string& resourceName, AngelScriptManager* angelScriptManager);
+        GameObjectScript(const std::string& resourceName, AngelScriptManager& angelScriptManager);
 
         /// <summary>
         /// Default GameObjectScript Destructor
         /// </summary>
         virtual ~GameObjectScript();
+
+        // Prevent copying.
+        GameObjectScript(GameObjectScript const&) = delete;
+        GameObjectScript& operator= (GameObjectScript const&) = delete;
 
 #pragma endregion
 
@@ -115,10 +119,6 @@ class GameObjectScript sealed : public GameResource
         AEResult Load() override;
 
 #pragma endregion
-
-        // Prevent copying.
-        GameObjectScript(GameObjectScript const&) = delete;
-        GameObjectScript& operator= (GameObjectScript const&) = delete;
 
 };
 

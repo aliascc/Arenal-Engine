@@ -72,7 +72,7 @@ class InputHandler sealed : public GameComponent
         /// <summary>
         /// Default InputManager Constructor
         /// </summary>
-        InputHandler(GameApp* gameApp, const std::string& gameComponentName = AE_INPUT_HANDLER_DEF_COMPONENT_NAME, const std::string& serviceName = AE_INPUT_HANDLER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_InputHandler);
+        InputHandler(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName = AE_INPUT_HANDLER_DEF_COMPONENT_NAME, const std::string& serviceName = AE_INPUT_HANDLER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_InputHandler);
 
         /// <summary>
         /// Default InputHandler Destructor

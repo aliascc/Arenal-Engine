@@ -134,7 +134,7 @@ class GameAsset abstract : public Named
         /// <summary>
         /// Resource Manager to handle the Asset Resource
         /// </summary>
-        GameResourceManager* m_GameResourceManager = nullptr;
+        GameResourceManager& m_GameResourceManager;
 
         /// <summary>
         /// Custom name of the Game Asset
@@ -174,7 +174,7 @@ class GameAsset abstract : public Named
         /// <param name="gameContentType">Asset Content Type</param>
         /// <param name="filePath">File Path of Game Asset to Load</param>
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
-        GameAsset(GameContentType gameContentType, const std::string& filePath, GameResourceManager* gameResourceManager);
+        GameAsset(GameContentType gameContentType, const std::string& filePath, GameResourceManager& gameResourceManager);
 
         /// <summary>
         /// Default GameAsset Destructor

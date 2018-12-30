@@ -51,9 +51,9 @@
 *   Function Defs   *
 *********************/
 AETODO("Make H & W params")
-Console::Console(GameApp* gameApp, const std::string& gameComponentName, const std::string& inputHandlerServiceName, uint32_t callOrder)
-    : DrawableGameComponent(gameApp, gameComponentName, callOrder)
-    , m_ConsoleWidth(m_GraphicDevice->GetGraphicPP().m_BackBufferWidth)
+Console::Console(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName, const std::string& inputHandlerServiceName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
+    , m_ConsoleWidth(m_GraphicDevice.GetGraphicPP().m_BackBufferWidth)
     , m_InputHandlerServiceName(inputHandlerServiceName)
 {
     ZeroMemory(m_ConsoleLine, AE_CONSOLE_LINE_MEM_SIZE);
@@ -80,7 +80,7 @@ void Console::Initialize()
     AETODO("Set font to parameter");
     m_SpriteFontAE = new SpriteFontAE(m_GraphicDevice, AE_Base_FS_PATH "Data\\Fonts\\arial.spritefont");
 
-    m_Input = m_GameApp->GetGameService<InputHandler>(m_InputHandlerServiceName);
+    m_Input = m_GameApp.GetGameService<InputHandler>(m_InputHandlerServiceName);
     AEAssert(m_Input != nullptr);
 
     if (!(m_Input && m_Input->IsKeyboardActive()))
@@ -500,24 +500,24 @@ void Console::Render(const TimerParams& timerParams)
         return;
     }
 
-    m_GraphicDevice->BeginEvent("Console");
+    m_GraphicDevice.BeginEvent("Console");
 
     //Set Alpha Blend State
-    m_GraphicDevice->SetBlendState(GraphicBlendStates::m_AlphaBlendState);
+    m_GraphicDevice.SetBlendState(GraphicBlendStates::m_AlphaBlendState);
 
     //Draw Console Background
     m_QuadColorMaterial->Apply();
 
     RECT size = {0, 0, (LONG)m_ConsoleWidth, (LONG)m_CurrentConsoleHeight };
-    m_GraphicDevice->DrawQuad2D(size);
+    m_GraphicDevice.DrawQuad2D(size);
 
     //Set Blend State to Default
-    m_GraphicDevice->SetBlendState(nullptr);
+    m_GraphicDevice.SetBlendState(nullptr);
     
     //Draw Console Lines if Console is Present (i.e. not entering or exiting)
     if(m_ConsoleState != ConsoleStates::Present)
     {
-        m_GraphicDevice->EndEvent();
+        m_GraphicDevice.EndEvent();
 
         return;
     }
@@ -541,7 +541,7 @@ void Console::Render(const TimerParams& timerParams)
             uint32_t size = (uint32_t)it->m_ShowCols.size();
             for(uint32_t i = 0; i < size; ++i)
             {
-                m_SpriteFontAE->DrawString(m_SpriteBatchAE, it->m_ShowCols[i], glm::vec2(posX, posY), it->m_Colors[i]);
+                m_SpriteFontAE->DrawString(*m_SpriteBatchAE, it->m_ShowCols[i], glm::vec2(posX, posY), it->m_Colors[i]);
                 stride = m_SpriteFontAE->MeasureString(it->m_ShowCols[i]);
                 posX += stride.x + m_CharDim.x;
             }
@@ -553,25 +553,25 @@ void Console::Render(const TimerParams& timerParams)
     }
 
     posX = 0;
-    m_SpriteFontAE->DrawString(m_SpriteBatchAE, ">", glm::vec2(0, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
+    m_SpriteFontAE->DrawString(*m_SpriteBatchAE, ">", glm::vec2(0, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
     stride = m_SpriteFontAE->MeasureString(">");
     posX += stride.x;
 
     if(m_ConsoleLinePos != 0)
     {
-        m_SpriteFontAE->DrawString(m_SpriteBatchAE, m_ConsoleLine, glm::vec2(posX, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
+        m_SpriteFontAE->DrawString(*m_SpriteBatchAE, m_ConsoleLine, glm::vec2(posX, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
         stride = m_SpriteFontAE->MeasureString(m_ConsoleLine);
         posX += stride.x;
     }
 
     if(m_ShowNewCharUnderscore)
     {
-        m_SpriteFontAE->DrawString(m_SpriteBatchAE, "_", glm::vec2(posX, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
+        m_SpriteFontAE->DrawString(*m_SpriteBatchAE, "_", glm::vec2(posX, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
     }
 
     m_SpriteBatchAE->End();
 
-    m_GraphicDevice->EndEvent();
+    m_GraphicDevice.EndEvent();
 
     DrawableGameComponent::Render(timerParams);
 }
@@ -584,7 +584,7 @@ void Console::OnLostDevice()
 void Console::OnResetDevice()
 {
     //Set New m_ConsoleWidth
-    m_ConsoleWidth = m_GraphicDevice->GetGraphicPP().m_BackBufferWidth;
+    m_ConsoleWidth = m_GraphicDevice.GetGraphicPP().m_BackBufferWidth;
 
     DrawableGameComponent::OnResetDevice();
 }
@@ -593,7 +593,7 @@ AEResult Console::RegisterConsoleScriptInfo()
 {
     int ret = 0;
 
-    AngelScriptManager* asManager = m_GameApp->GetAngelScriptManager();
+    AngelScriptManager* asManager = m_GameApp.GetAngelScriptManager();
 
     ret = asManager->GetASEngine()->RegisterObjectType("ScriptConsoleLine", sizeof(ScriptConsoleLine), asOBJ_VALUE | asOBJ_APP_CLASS);
     if(ret < 0)
