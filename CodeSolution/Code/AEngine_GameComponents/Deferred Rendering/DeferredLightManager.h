@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameUtils\GameComponent.h"
 #include "DeferredRenderingDefs.h"
 #include "Lights\LightCollection.h"
 

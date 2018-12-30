@@ -73,10 +73,6 @@ void GameComponent::ConstantUpdate(const TimerParams& timerParams)
 {
 }
 
-void GameComponent::Update(const TimerParams& timerParams)
-{
-}
-
 void GameComponent::PostUpdate(const TimerParams& timerParams)
 {
 }

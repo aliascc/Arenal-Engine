@@ -27,10 +27,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameApp\GameApp.h"
 #include "GameAnimationsUpdate.h"
-#include "GameObject\GameObject.h"
-#include "GameObject\GameObjectManager.h"
 #include "Models\Animation\AnimationPlayer.h"
 #include "GameObject\Components\MeshAnimationGOC.h"
 
@@ -67,8 +64,6 @@ void GameAnimationsUpdate::Update(const TimerParams& timerParams)
     {
         UpdateGameAnimationObjects(goIt.second, timerParams);
     }
-
-    GameComponent::Update(timerParams);
 }
 
 void GameAnimationsUpdate::UpdateGameAnimationObjects(GameObject* gameObject, const TimerParams& timerParams)

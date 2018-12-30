@@ -34,16 +34,12 @@
 #include "FPRPreZ.h"
 #include "Models\Mesh.h"
 #include "Camera\Camera.h"
-#include "GraphicDevice.h"
-#include "GameApp\GameApp.h"
 #include "Models\MeshPart.h"
 #include "Vertex\IndexBuffer.h"
 #include "Camera\CameraUpdater.h"
 #include "ForwardPlusRendering.h"
-#include "GameObject\GameObject.h"
 #include "Textures\RenderTarget.h"
 #include "Textures\DepthStencilSurface.h"
-#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\MeshGOC.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 #include "Models\Animation\AnimationPlayer.h"
@@ -82,8 +78,6 @@ void FPRPreZ::Initialize()
     m_ForwardPlusZPrePassMaterial = new ForwardPlusZPrePassMaterial(m_GraphicDevice, m_GameResourceManager);
 
     m_ForwardPlusZPrePassSkinningMaterial = new ForwardPlusZPrePassSkinningMaterial(m_GraphicDevice, m_GameResourceManager);
-
-    DrawableGameComponent::Initialize();
 }
 
 void FPRPreZ::LoadContent()
@@ -103,8 +97,10 @@ void FPRPreZ::LoadContent()
     {
         AETODO("Add log");
     }
+}
 
-    DrawableGameComponent::LoadContent();
+void FPRPreZ::Update(const TimerParams& timerParams)
+{
 }
 
 void FPRPreZ::Render(const TimerParams& timerParams)
@@ -119,8 +115,6 @@ void FPRPreZ::Render(const TimerParams& timerParams)
     }
 
     m_GraphicDevice.EndEvent();
-
-    DrawableGameComponent::Render(timerParams);
 }
 
 AEResult FPRPreZ::RenderPreZ()
@@ -171,7 +165,7 @@ void FPRPreZ::DrawGameObjects()
 {
     Camera* currentCamera = m_CameraUpdater->GetMainCamera();
 
-    for(auto goIt : *m_GameObjectManager)
+    for(auto& goIt : *m_GameObjectManager)
     {
         DrawGameObject(goIt.second, currentCamera);
     }
@@ -230,7 +224,7 @@ void FPRPreZ::DrawGameObject(GameObject* gameObject, const Camera* camera)
         }
     }
 
-    for(auto goIt : *gameObject)
+    for(auto& goIt : *gameObject)
     {
         DrawGameObject(goIt.second, camera);
     }

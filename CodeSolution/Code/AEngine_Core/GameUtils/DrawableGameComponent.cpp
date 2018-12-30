@@ -51,7 +51,3 @@ DrawableGameComponent::DrawableGameComponent(GameApp& gameApp, GameResourceManag
 DrawableGameComponent::~DrawableGameComponent()
 {
 }
-
-void DrawableGameComponent::Render(const TimerParams& timerParams)
-{
-}

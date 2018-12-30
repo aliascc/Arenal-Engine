@@ -30,7 +30,6 @@
 #include "Keyboard.h"
 #include "InputHandler.h"
 #include "InputManager.h"
-#include "GameApp\GameApp.h"
 #include "XBoxGamepadManager.h"
 
 //Always include last
@@ -81,8 +80,6 @@ void InputHandler::Update(const TimerParams& timerParams)
 
         xboxGamepadManager->Update(timerParams);
     }
-
-    GameComponent::Update(timerParams);
 }
 
 Keyboard* InputHandler::GetKeyboard() const

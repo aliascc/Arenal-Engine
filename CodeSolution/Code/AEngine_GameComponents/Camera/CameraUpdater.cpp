@@ -33,8 +33,6 @@
 ****************************/
 #include "CameraUpdater.h"
 #include "Camera\Camera.h"
-#include "GraphicDevice.h"
-#include "GameApp\GameApp.h"
 #include "Camera\CameraManager.h"
 
 //Always include last
@@ -93,8 +91,6 @@ AEResult CameraUpdater::SetMainCamera(uint64_t cameraID)
 void CameraUpdater::Update(const TimerParams& timerParams)
 {
     m_GameApp.GetCameraManager()->Update(timerParams);
-
-    GameComponent::Update(timerParams);
 }
 
 void CameraUpdater::OnResetDevice()
@@ -108,6 +104,4 @@ void CameraUpdater::OnResetDevice()
     {
         cameraIt.second->ScreenDimensionsChanged(graphicDevice->GetGraphicPP().m_BackBufferWidth, graphicDevice->GetGraphicPP().m_BackBufferHeight);
     }
-
-    GameComponent::OnResetDevice();
 }

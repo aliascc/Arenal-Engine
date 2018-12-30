@@ -33,8 +33,6 @@
 ****************************/
 #include "Console.h"
 #include "Keyboard.h"
-#include "GraphicDevice.h"
-#include "GameApp\GameApp.h"
 #include "ScriptConsoleLine.h"
 #include "Input\InputHandler.h"
 #include "Wrappers\SpriteFontAE.h"
@@ -88,8 +86,6 @@ void Console::Initialize()
         AETODO("Add log message");
         m_IsReady = false;
     }
-
-    DrawableGameComponent::Initialize();
 }
 
 void Console::LoadContent()
@@ -134,8 +130,6 @@ void Console::LoadContent()
     }
 
     m_CharDim = m_SpriteFontAE->MeasureString("|");
-
-    DrawableGameComponent::LoadContent();
 }
 
 void Console::Update(const TimerParams& timerParams)
@@ -181,8 +175,6 @@ void Console::Update(const TimerParams& timerParams)
             UpdateConsoleLine(timerParams);
         }
     }
-
-    DrawableGameComponent::Update(timerParams);
 }
 
 void Console::UpdateConsolePosition(const TimerParams& timerParams)
@@ -572,21 +564,16 @@ void Console::Render(const TimerParams& timerParams)
     m_SpriteBatchAE->End();
 
     m_GraphicDevice.EndEvent();
-
-    DrawableGameComponent::Render(timerParams);
 }
 
 void Console::OnLostDevice()
 {
-    DrawableGameComponent::OnLostDevice();
 }
 
 void Console::OnResetDevice()
 {
     //Set New m_ConsoleWidth
     m_ConsoleWidth = m_GraphicDevice.GetGraphicPP().m_BackBufferWidth;
-
-    DrawableGameComponent::OnResetDevice();
 }
 
 AEResult Console::RegisterConsoleScriptInfo()

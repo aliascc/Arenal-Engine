@@ -32,9 +32,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Camera\Camera.h"
-#include "GraphicDevice.h"
 #include "FPRLightCulling.h"
-#include "GameApp\GameApp.h"
 #include "Textures\Texture.h"
 #include "Lights\LightManager.h"
 #include "ForwardPlusRendering.h"
@@ -73,8 +71,6 @@ FPRLightCulling::~FPRLightCulling()
 void FPRLightCulling::Initialize()
 {
     m_ForwardPlusLightCullingMaterial = new ForwardPlusLightCullingMaterial(m_GraphicDevice, m_GameResourceManager);
-
-    DrawableGameComponent::Initialize();
 }
 
 void FPRLightCulling::LoadContent()
@@ -87,13 +83,10 @@ void FPRLightCulling::LoadContent()
     {
         AETODO("Add log");
     }
-
-    DrawableGameComponent::LoadContent();
 }
 
 void FPRLightCulling::Update(const TimerParams& timerParams)
 {
-    DrawableGameComponent::Update(timerParams);
 }
 
 void FPRLightCulling::Render(const TimerParams& timerParams)
@@ -185,18 +178,12 @@ void FPRLightCulling::Render(const TimerParams& timerParams)
     ///////////////////////////////////////////
     //End Event for Diagnostic View
     m_GraphicDevice.EndEvent();
-
-    ///////////////////////////////////////////
-    //End
-    DrawableGameComponent::Render(timerParams);
 }
 
 void FPRLightCulling::OnLostDevice()
-{    
-    DrawableGameComponent::OnLostDevice();
+{
 }
 
 void FPRLightCulling::OnResetDevice()
 {
-    DrawableGameComponent::OnResetDevice();
 }

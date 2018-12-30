@@ -33,13 +33,9 @@
 ****************************/
 #include "Models\Mesh.h"
 #include "Camera\Camera.h"
-#include "GraphicDevice.h"
 #include "Models\MeshPart.h"
-#include "GameApp\GameApp.h"
 #include "Vertex\IndexBuffer.h"
 #include "GameObjectRenderTest.h"
-#include "GameObject\GameObject.h"
-#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\MeshGOC.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 #include "GameObject\Components\MeshMaterialGOC.h"
@@ -65,18 +61,14 @@ void GameObjectRenderTest::Initialize()
     m_GameObjectManager = m_GameApp.GetGameObjectManager();
 
     m_Camera = m_GameApp.GetGameService<Camera>("Camera");
-
-    DrawableGameComponent::Initialize();
 }
 
 void GameObjectRenderTest::LoadContent()
-{    
-    DrawableGameComponent::LoadContent();
+{
 }
 
 void GameObjectRenderTest::Update(const TimerParams& timerParams)
 {
-    DrawableGameComponent::Update(timerParams);
 }
 
 void GameObjectRenderTest::Render(const TimerParams& timerParams)
@@ -85,8 +77,6 @@ void GameObjectRenderTest::Render(const TimerParams& timerParams)
     {
         DrawGameObject(goIt.second);
     }
-
-    DrawableGameComponent::Render(timerParams);
 }
 
 void GameObjectRenderTest::DrawGameObject(GameObject* gameObject)
@@ -144,10 +134,8 @@ void GameObjectRenderTest::DrawGameObject(GameObject* gameObject)
 
 void GameObjectRenderTest::OnLostDevice()
 {
-    DrawableGameComponent::OnLostDevice();
 }
 
 void GameObjectRenderTest::OnResetDevice()
 {
-    DrawableGameComponent::OnResetDevice();
 }

@@ -30,19 +30,15 @@
 #include "Models\Mesh.h"
 #include "Lights\Light.h"
 #include "Camera\Camera.h"
-#include "GraphicDevice.h"
 #include "Utils\Viewport.h"
 #include "Models\MeshPart.h"
-#include "GameApp\GameApp.h"
 #include "GameLightsUpdate.h"
 #include "Vertex\IndexBuffer.h"
 #include "Lights\LightManager.h"
 #include "Camera\CameraUpdater.h"
-#include "GameObject\GameObject.h"
 #include "Textures\RenderTarget.h"
 #include "Lights\DirectionalLight.h"
 #include "Textures\DepthStencilSurface.h"
-#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\MeshGOC.h"
 #include "GameObject\Components\LightGOC.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
@@ -99,8 +95,6 @@ void GameLightsUpdate::Initialize()
 
         m_DirLightShadowViewports.push_back(cascadeViewPort);
     }
-
-    DrawableGameComponent::Initialize();
 }
 
 void GameLightsUpdate::LoadContent()
@@ -125,8 +119,6 @@ void GameLightsUpdate::LoadContent()
         AETODO("Check return");
         m_DirLightShadowViewports[i]->Initialize((float)(i * AE_LIGHT_DIR_SHADOW_TEXTURE_WIDTH), 0.0f, (float)AE_LIGHT_DIR_SHADOW_TEXTURE_WIDTH, (float)AE_LIGHT_DIR_SHADOW_TEXTURE_HEIGHT, 0.0f, 1.0f);
     }
-
-    DrawableGameComponent::LoadContent();
 }
 
 void GameLightsUpdate::Update(const TimerParams& timerParams)
@@ -164,8 +156,6 @@ void GameLightsUpdate::Update(const TimerParams& timerParams)
     {
         AETODO("Log info");
     }
-
-    DrawableGameComponent::Update(timerParams);
 }
 
 void GameLightsUpdate::UpdateGameObjectLight(GameObject* gameObject)
@@ -218,8 +208,6 @@ void GameLightsUpdate::Render(const TimerParams& timerParams)
     m_GraphicDevice.EndEvent(); //Spot Light Shadow Render
 
     m_GraphicDevice.EndEvent(); //Game Lights Update
-
-    DrawableGameComponent::Render(timerParams);
 }
 
 AEResult GameLightsUpdate::ShadowDirLightRenderGameObject()

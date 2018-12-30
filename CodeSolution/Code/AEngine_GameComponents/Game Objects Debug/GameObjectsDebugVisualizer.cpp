@@ -34,7 +34,6 @@
 #include "Lights\Light.h"
 #include "Utils\Frustum.h"
 #include "Camera\Camera.h"
-#include "GameApp\GameApp.h"
 #include "Lights\SpotLight.h"
 #include "Lights\SpotLight.h"
 #include "Lights\OmniLight.h"
@@ -45,13 +44,11 @@
 #include "Shapes\FrustumShape.h"
 #include "Camera\CameraUpdater.h"
 #include "Camera\CameraManager.h"
-#include "GameObject\GameObject.h"
 #include "Shapes\OmniLightShape.h"
 #include "Shapes\SpotLightShape.h"
 #include "Lights\DirectionalLight.h"
 #include "GameObjectsDebugVisualizer.h"
 #include "Shapes\DirectionalLightShape.h"
-#include "GameObject\GameObjectManager.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 #include "GameObject\Components\LightGOC.h"
 #include "GameObject\Components\CameraGOC.h"
@@ -125,8 +122,6 @@ void GameObjectsDebugVisualizer::Initialize()
     m_CameraIconTex = new Texture2D(m_GraphicDevice, AE_GOD_CAMERA_ICON_TEXTURE_NAME);
 
     m_FrustumShape = new FrustumShape(m_GraphicDevice);
-
-    DrawableGameComponent::Initialize();
 }
 
 void GameObjectsDebugVisualizer::LoadContent()
@@ -160,8 +155,6 @@ void GameObjectsDebugVisualizer::LoadContent()
 
     AETODO("Check returns");
     m_FrustumShape->BuildFrustumShape();
-
-    DrawableGameComponent::LoadContent();
 }
 
 void GameObjectsDebugVisualizer::Render(const TimerParams& timerParams)
@@ -187,8 +180,6 @@ void GameObjectsDebugVisualizer::Render(const TimerParams& timerParams)
     }
 
     m_GraphicDevice.EndEvent();
-
-    DrawableGameComponent::Render(timerParams);
 }
 
 AEResult GameObjectsDebugVisualizer::LightIconDraw()

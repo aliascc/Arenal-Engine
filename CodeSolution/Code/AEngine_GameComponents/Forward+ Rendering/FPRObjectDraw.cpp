@@ -34,17 +34,13 @@
 #include "Models\Mesh.h"
 #include "FPRObjectDraw.h"
 #include "Camera\Camera.h"
-#include "GraphicDevice.h"
-#include "GameApp\GameApp.h"
 #include "Models\MeshPart.h"
 #include "Vertex\IndexBuffer.h"
 #include "Lights\LightManager.h"
 #include "ForwardPlusRendering.h"
 #include "Camera\CameraUpdater.h"
-#include "GameObject\GameObject.h"
 #include "Shaders\Variables\Sampler.h"
 #include "Shaders\Buffers\SimpleBuffer.h"
-#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\MeshGOC.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 #include "Shaders\Buffers\StructuredBuffer.h"
@@ -79,18 +75,14 @@ FPRObjectDraw::~FPRObjectDraw()
 void FPRObjectDraw::Initialize()
 {
     m_GameObjectManager = m_GameApp.GetGameObjectManager();
-
-    DrawableGameComponent::Initialize();
 }
 
 void FPRObjectDraw::LoadContent()
 {
-    DrawableGameComponent::LoadContent();
 }
 
 void FPRObjectDraw::Update(const TimerParams& timerParams)
 {
-    DrawableGameComponent::Update(timerParams);
 }
 
 void FPRObjectDraw::Render(const TimerParams& timerParams)
@@ -105,8 +97,6 @@ void FPRObjectDraw::Render(const TimerParams& timerParams)
     }
 
     m_GraphicDevice.EndEvent();
-
-    DrawableGameComponent::Render(timerParams);
 }
 
 AEResult FPRObjectDraw::RenderWithFPR()
@@ -286,10 +276,8 @@ void FPRObjectDraw::DrawGameObject(GameObject* gameObject)
 
 void FPRObjectDraw::OnLostDevice()
 {
-    DrawableGameComponent::OnLostDevice();
 }
 
 void FPRObjectDraw::OnResetDevice()
 {
-    DrawableGameComponent::OnResetDevice();
 }

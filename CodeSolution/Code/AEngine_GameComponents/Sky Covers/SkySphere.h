@@ -29,7 +29,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameUtils\DrawableGameComponent.h"
 
 /********************************
 *		Using					*

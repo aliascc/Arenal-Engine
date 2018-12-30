@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "AEGameComponentsDefs.h"
-#include "GameUtils\DrawableGameComponent.h"
 #include "Vertex\Types\VertexPositionColor.h"
 
 /************

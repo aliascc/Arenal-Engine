@@ -24,11 +24,9 @@
 *   Game Engine Includes   *
 ****************************/
 #include "BloomPostProcess.h"
-#include "GameApp\GameApp.h"
 #include "Utils\AETime.h"
 #include "Materials\BloomPostProcessMaterial.h"
 #include "Textures\RenderTarget.h"
-#include "GraphicDevice.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -65,8 +63,6 @@ void BloomPostProcess::Initialize()
 	m_SceneRT = RenderTarget::CreateRenderTargetInst();
 	m_RT1 = RenderTarget::CreateRenderTargetInst();
 	m_RT2 = RenderTarget::CreateRenderTargetInst();
-
-	DrawableGameComponent::Initialize();
 }
 
 void BloomPostProcess::LoadContent()
@@ -84,13 +80,10 @@ void BloomPostProcess::LoadContent()
     // to be blurring the bloom images in any case.	
 	m_RT1->CreateRenderTargetTexture(m_GraphicDevice, "Temp Bloom RT 1", width / 2, height / 2, AE_POOL_DEFAULT, AE_PX_FMT_A8R8G8B8);
 	m_RT2->CreateRenderTargetTexture(m_GraphicDevice, "Temp Bloom RT 2", width / 2, height / 2,	AE_POOL_DEFAULT, AE_PX_FMT_A8R8G8B8);
-
-	DrawableGameComponent::LoadContent();
 }
 
 void BloomPostProcess::Update(const TimerParams& timerParams)
 {
-	DrawableGameComponent::Update(timerParams);
 }
 
 void BloomPostProcess::Render(const TimerParams& timerParams)
@@ -109,8 +102,6 @@ void BloomPostProcess::Render(const TimerParams& timerParams)
 
 	// Pass 3: Combine Bloom textures into 1 to produce the final bloomed result.
 	RenderBloomCombine();
-
-	DrawableGameComponent::Render(timerParams);
 }
 
 AEResult BloomPostProcess::RenderBloomExtract()
@@ -261,8 +252,6 @@ void BloomPostProcess::OnLostDevice()
 	m_RT1->OnLostDevice();
 	m_RT2->OnLostDevice();
 	m_SceneRT->OnLostDevice();
-
-	DrawableGameComponent::OnLostDevice();
 }
 
 void BloomPostProcess::OnResetDevice()
@@ -280,6 +269,4 @@ void BloomPostProcess::OnResetDevice()
 
 	m_RT1->OnResetDevice(width, height);
 	m_RT2->OnResetDevice(width, height);
-
-	DrawableGameComponent::OnResetDevice();
 }

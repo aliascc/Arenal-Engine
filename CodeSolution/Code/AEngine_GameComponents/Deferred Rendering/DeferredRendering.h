@@ -28,7 +28,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameUtils\DrawableGameComponent.h"
 #include "DeferredRenderingDefs.h"
 
 /********************************

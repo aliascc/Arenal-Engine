@@ -214,7 +214,7 @@ class GameComponent abstract : public GameService
         /// Update method for the Game Component called each frame if the GC is active
         /// </summary>
         /// <param name="timerParams">Game Timer Parameters</param>
-        virtual void Update(const TimerParams& timerParams);
+        virtual void Update(const TimerParams& timerParams) = 0;
 
         /// <summary>
         /// Post Update method for the Game Component called each frame after the Update Method if the GC is active

@@ -33,7 +33,6 @@
 ****************************/
 #include "DebugStats.h"
 #include "Camera\Camera.h"
-#include "GameApp\GameApp.h"
 #include "Vertex\VertexBuffer.h"
 #include "Camera\CameraUpdater.h"
 #include "Wrappers\SpriteFontAE.h"
@@ -78,8 +77,6 @@ void DebugStats::Initialize()
     m_SpriteBatchAE = new SpriteBatchAE(m_GraphicDevice);
 
     m_SpriteFontAE = new SpriteFontAE(m_GraphicDevice, m_DebugStatsConfig.m_SpriteFontFile);
-
-    DrawableGameComponent::Initialize();
 }
 
 void DebugStats::LoadContent()
@@ -94,8 +91,6 @@ void DebugStats::LoadContent()
     m_BasicColorMaterial->LoadContent();    
     AETODO("Check to see if we can implement easy access to variables in BasicColorMaterial class, if so remove all includes for CB, shader props");
     m_BasicColorMaterial->GetVSProps()->GetConstantBuffer(AE_CB_WORLD_VIEW_PROJ_NAME)->SetValueT<glm::mat4>(AE_CB_WORLD_VAR_NAME, AEMathHelpers::Mat4Identity);
-
-    DrawableGameComponent::LoadContent();
 }
 
 void DebugStats::InitializeAxisAndGrid()
@@ -191,8 +186,6 @@ void DebugStats::Update(const TimerParams& timerParams)
     AETODO("Check to see if we can implement easy access to variables in BasicLineMaterial & BasicColorMaterial class, if so remove all includes for CB, shader props");
     m_BasicColorMaterial->GetVSProps()->GetConstantBuffer(AE_CB_WORLD_VIEW_PROJ_NAME)->SetValueT<glm::mat4>(AE_CB_VIEW_VAR_NAME, currentCamera->GetViewMatrix());
     m_BasicColorMaterial->GetVSProps()->GetConstantBuffer(AE_CB_WORLD_VIEW_PROJ_NAME)->SetValueT<glm::mat4>(AE_CB_PROJECTION_VAR_NAME, currentCamera->GetProjectionMatrix());
-
-    DrawableGameComponent::Update(timerParams);
 }
 
 void DebugStats::Render(const TimerParams& timerParams)
@@ -256,16 +249,12 @@ void DebugStats::Render(const TimerParams& timerParams)
     }
     
     m_GraphicDevice.EndEvent();
-    
-    DrawableGameComponent::Render(timerParams);
 }
 
 void DebugStats::OnLostDevice()
-{    
-    DrawableGameComponent::OnLostDevice();
+{
 }
 
 void DebugStats::OnResetDevice()
 {
-    DrawableGameComponent::OnResetDevice();
 }

@@ -25,11 +25,9 @@
 *   Game Engine Includes   *
 ****************************/
 #include "SkySphere.h"
-#include "GameApp\GameApp.h"
 #include "Materials\SkySphereMaterial.h"
 #include "Shapes\SphereShape.h"
 #include "Models\MeshPart.h"
-#include "GraphicDevice.h"
 #include "Vertex\IndexBuffer.h"
 #include "Vertex\IVertexBuffer.h"
 #include "Camera\Camera.h"
@@ -75,8 +73,6 @@ void SkySphere::Initialize()
 
 	//Create Texture Cube Instance
 	m_SkyTexture = TextureCube::CreateTextureCubeInst();
-
-	DrawableGameComponent::Initialize();
 }
 
 void SkySphere::LoadContent()
@@ -103,8 +99,6 @@ void SkySphere::LoadContent()
 
 	//Initialize Constant EFfect Parameters
 	InitEffectParams();
-
-	DrawableGameComponent::LoadContent();
 }
 
 void SkySphere::InitEffectParams()
@@ -121,8 +115,6 @@ void SkySphere::Update(const TimerParams& timerParams)
 	XEMathHelperMatrix::Multiply2(scale, pos, world);
 
 	XEMathHelperMatrix::Multiply3(world, m_Camera->GetViewMatrix(), m_Camera->GetProjectionMatrix(), m_WVPMatrix);
-
-	DrawableGameComponent::Update(timerParams);
 }
 
 void SkySphere::Render(const TimerParams& timerParams)
@@ -142,22 +134,16 @@ void SkySphere::Render(const TimerParams& timerParams)
 	m_SkyEffect->End();
 
 	AE_Base::EndUserEventPerf();
-
-	DrawableGameComponent::Render(timerParams);
 }
 
 void SkySphere::OnLostDevice()
 {
 	m_SkyEffect->OnLostDevice();
 	m_SphereShape->OnLostDevice();
-	
-	DrawableGameComponent::OnLostDevice();
 }
 
 void SkySphere::OnResetDevice()
 {
 	m_SkyEffect->OnResetDevice();
 	m_SphereShape->OnResetDevice();
-
-	DrawableGameComponent::OnResetDevice();
 }

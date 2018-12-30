@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "AEGameComponentsDefs.h"
-#include "GameUtils\DrawableGameComponent.h"
 
 /************
 *   Using   *
@@ -88,6 +87,8 @@ class FPRPreZ sealed : public DrawableGameComponent
         //Drawable Game Component Override methods
         void Initialize() override;
         void LoadContent() override;
+
+        void Update(const TimerParams& timerParams) override;
         void Render(const TimerParams& timerParams) override;
 };
 

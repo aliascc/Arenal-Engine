@@ -28,10 +28,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Camera\Camera.h"
-#include "GameApp\GameApp.h"
-#include "GameObject\GameObject.h"
 #include "GameObjectCameraUpdate.h"
-#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\CameraGOC.h"
 
 //Always include last
@@ -92,6 +89,4 @@ void GameObjectCameraUpdate::Update(const TimerParams& timerParams)
     {
         UpdateCamera(goIt.second);
     }
-
-    GameComponent::Update(timerParams);
 }

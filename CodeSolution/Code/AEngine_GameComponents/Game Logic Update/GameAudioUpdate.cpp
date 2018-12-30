@@ -30,9 +30,6 @@
 #include "AudioPlayer.h"
 #include "AudioListener.h"
 #include "GameAudioUpdate.h"
-#include "GameApp\GameApp.h"
-#include "GameObject\GameObject.h"
-#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\AudioSourceGOC.h"
 #include "GameObject\Components\AudioListenerGOC.h"
 
@@ -63,9 +60,6 @@ void GameAudioUpdate::Update(const TimerParams& timerParams)
     {
         UpdateGameAudio(goIt.second, timerParams);
     }
-    
-
-    GameComponent::Update(timerParams);
 }
 
 void GameAudioUpdate::UpdateGameAudio(GameObject* gameObject, const TimerParams& timerParams)

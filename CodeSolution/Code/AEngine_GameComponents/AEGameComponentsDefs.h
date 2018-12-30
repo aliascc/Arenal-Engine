@@ -135,6 +135,11 @@
 #define AE_CONSOLE_DEF_COMPONENT_NAME                       "AE Console Component"
 
 /// <summary>
+/// Default Game Component Name for Debug Stats
+/// </summary>
+#define AE_IMGUI_DEF_COMPONENT_NAME                         "AE ImGui Component"
+
+/// <summary>
 /// Default Name for Engine Editor Viewer Camera
 /// </summary>
 #define AE_CAMERA_EDITOR_ENG_DEFAULT_NAME                   "AE Editor Main Camera"
@@ -163,7 +168,9 @@ enum AEGameComponentCallOrder : uint32_t
 
     _AE_GCCO_GameObjectsDebugVisualizer     = 10000,
     _AE_GCCO_DebugStats                     = 10100,
-    _AE_GCCO_Console                        = 10200
+    _AE_GCCO_Console                        = 10200,
+
+    _AE_GCCO_ImGui                          = 10300
 };
 
 /******************

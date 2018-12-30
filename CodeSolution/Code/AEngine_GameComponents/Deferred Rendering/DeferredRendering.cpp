@@ -26,8 +26,6 @@
 ****************************/
 #include "DeferredRendering.h"
 #include "Textures\RenderTarget.h"
-#include "GameApp\GameApp.h"
-#include "GraphicDevice.h"
 #include "Materials\DeferredRenderingMaterial.h"
 
 //Always include last
@@ -74,8 +72,6 @@ void DeferredRendering::Initialize()
 
 	//Create Effect
 	m_DREffect = new DeferredRenderingMaterial();
-
-	DrawableGameComponent::Initialize();
 }
 
 void DeferredRendering::LoadContent()
@@ -83,13 +79,10 @@ void DeferredRendering::LoadContent()
 	//Load Effect
 	m_DREffect->LoadMaterial(m_GraphicDevice);
 	InitEffectParams();
-
-	DrawableGameComponent::LoadContent();
 }
 
 void DeferredRendering::Update(const TimerParams& timerParams)
 {
-	DrawableGameComponent::Update(timerParams);
 }
 
 void DeferredRendering::Render(const TimerParams& timerParams)
@@ -107,8 +100,6 @@ void DeferredRendering::Render(const TimerParams& timerParams)
 	m_GraphicDevice->SetRenderTarget(2, m_DepthRT);
 	
 	AE_Base::EndUserEventPerf();
-
-	DrawableGameComponent::Render(timerParams);
 }
 
 AEResult DeferredRendering::InitEffectParams()
@@ -127,8 +118,6 @@ void DeferredRendering::OnLostDevice()
 	m_NormalRT->OnLostDevice();
 	m_DepthRT->OnLostDevice();
 	m_DREffect->OnLostDevice();
-
-	DrawableGameComponent::OnLostDevice();
 }
 
 void DeferredRendering::OnResetDevice()
@@ -139,6 +128,4 @@ void DeferredRendering::OnResetDevice()
 
 	m_DREffect->OnResetDevice();
 	m_DREffect->SetHalfPixel(m_GraphicDevice->GetHalfPixel());
-
-	DrawableGameComponent::OnResetDevice();
 }

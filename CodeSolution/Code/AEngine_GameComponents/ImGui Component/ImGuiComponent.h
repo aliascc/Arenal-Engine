@@ -17,8 +17,8 @@
 
 #pragma once
 
-#ifndef _GAME_PHYSICS_UPDATE_H
-#define _GAME_PHYSICS_UPDATE_H
+#ifndef _IMGUI_COMPONENT_H
+#define _IMGUI_COMPONENT_H
 
 /**********************
 *   System Includes   *
@@ -36,8 +36,6 @@
 /********************
 *   Forward Decls   *
 *********************/
-class GameApp;
-class GameObject;
 struct TimerParams;
 class AudioListener;
 
@@ -45,18 +43,21 @@ class AudioListener;
 *   Class Decl   *
 ******************/
 
-class GamePhysicsUpdate sealed : public GameComponent
+class ImGuiComponent sealed : public DrawableGameComponent
 {
-    private:
+private:
 
-    public:
-        //Constructor Destructor.
-        GamePhysicsUpdate(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName = AE_GAME_PHYSICS_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GamePhysicsUpdate);
+public:
 
-        virtual ~GamePhysicsUpdate();
+    //Constructor Destructor.
+    ImGuiComponent(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName = AE_IMGUI_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ImGui);
 
-        //Game Component Override methods
-        void Update(const TimerParams& timerParams) override;
+    virtual ~ImGuiComponent();
+
+    //Game Component Override methods
+    void Update(const TimerParams& timerParams) override;
+
+    void Render(const TimerParams& timerParams) override;
 };
 
 #endif

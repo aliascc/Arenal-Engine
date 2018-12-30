@@ -27,12 +27,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "AudioListener.h"
-#include "PhysicsManager.h"
-#include "GamePhysicsUpdate.h"
-#include "GamePhysicsUpdate.h"
-#include "GameObject\Components\AudioSourceGOC.h"
-#include "GameObject\Components\AudioListenerGOC.h"
+#include "ImGuiComponent.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -40,25 +35,19 @@
 /********************
 *   Function Defs   *
 *********************/
-GamePhysicsUpdate::GamePhysicsUpdate(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName, uint32_t callOrder)
-    : GameComponent(gameApp, gameResourceManager, gameComponentName, callOrder)
+ImGuiComponent::ImGuiComponent(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
 {
 }
 
-GamePhysicsUpdate::~GamePhysicsUpdate()
+ImGuiComponent::~ImGuiComponent()
 {
 }
 
-void GamePhysicsUpdate::Update(const TimerParams& timerParams)
+void ImGuiComponent::Update(const TimerParams& timerParams)
 {
-    if (m_GameApp.GetGameEditorPlayState() == GameEditorPlayState::Playing)
-    {
-        ///////////////////////////////////////////
-        //Get Physics Manager
-        PhysicsManager* physicsManager = m_GameApp.GetPhysicsManager();
+}
 
-        ///////////////////////////////////////////
-        //Update Physics Manager
-        physicsManager->Update(timerParams);
-    }
+void ImGuiComponent::Render(const TimerParams& timerParams)
+{
 }

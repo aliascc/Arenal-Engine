@@ -34,9 +34,7 @@
 #include "FPRPreZ.h"
 #include "FPRDefs.h"
 #include "FPRObjectDraw.h"
-#include "GraphicDevice.h"
 #include "FPRLightCulling.h"
-#include "GameApp\GameApp.h"
 #include "Lights\LightDefs.h"
 #include "Lights\LightManager.h"
 #include "ForwardPlusRendering.h"
@@ -125,8 +123,6 @@ void ForwardPlusRendering::Initialize()
     m_ShadowSpotLightInfoStructuredBuffer = new StructuredBuffer(AE_BF_SHADOW_SPOT_LIGHT_INFO_BUFFER_NAME, AE_BI_SHADOW_SPOT_LIGHT_INFO_BUFFER_BIND_IDX, false, graphicDevice);
 
     m_ShadowDirLightInfoStructuredBuffer = new StructuredBuffer(AE_BF_SHADOW_DIR_LIGHT_INFO_BUFFER_NAME, AE_BI_SHADOW_DIR_LIGHT_INFO_BUFFER_BIND_IDX, false, graphicDevice);
-
-    GameComponent::Initialize();
 }
 
 void ForwardPlusRendering::LoadContent()
@@ -172,8 +168,6 @@ void ForwardPlusRendering::LoadContent()
     {
         AETODO("log error");
     }
-
-    GameComponent::LoadContent();
 }
 
 void ForwardPlusRendering::Update(const TimerParams& timerParams)
@@ -277,10 +271,6 @@ void ForwardPlusRendering::Update(const TimerParams& timerParams)
 
         lightManager->ClearFXDirShadowVectorChangedFlag();
     }
-
-    ////////////////////////////////////////////////
-    //Finish
-    GameComponent::Update(timerParams);
 }
 
 void ForwardPlusRendering::OnResetDevice()
@@ -294,8 +284,6 @@ void ForwardPlusRendering::OnResetDevice()
     InitForwardPlusDS();
 
     InitPerTileLightIndexBuffer();
-
-    GameComponent::OnResetDevice();
 }
 
 AEResult ForwardPlusRendering::InitForwardPlusDS()

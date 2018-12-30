@@ -659,6 +659,10 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
     ////////////////////////////////////////////////
     //Create ImGui Manager
     m_ImGuiManager = new ImGuiManager(*m_GraphicDevice);
+    if (m_ImGuiManager->Initialize() == AEResult::Ok)
+    {
+        AELOGGER->AddNewLog(LogLevel::Info, AELOCMAN->GetLiteral("AE_GAME_APP_LOAD_PROJ_INFO_MSG"));
+    }
 
 #endif
 

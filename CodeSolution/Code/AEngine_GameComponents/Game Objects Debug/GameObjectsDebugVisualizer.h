@@ -33,7 +33,6 @@
 ****************************/
 #include "AEGameComponentsDefs.h"
 #include "GameObjectsDebugDefs.h"
-#include "GameUtils\DrawableGameComponent.h"
 
 /************
 *   Using   *

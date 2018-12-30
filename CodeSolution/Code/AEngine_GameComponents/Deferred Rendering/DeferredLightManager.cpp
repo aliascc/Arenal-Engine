@@ -25,8 +25,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "DeferredLightManager.h"
-#include "GameApp\GameApp.h"
-#include "Utils\AETimeDefs.h"
 #include "Lights\Light.h"
 
 //Always include last
@@ -51,30 +49,24 @@ DeferredLightManager::~DeferredLightManager()
 
 void DeferredLightManager::Update(const TimerParams& timerParams)
 {
-	GameComponent::Update(timerParams);
 }
 
 void DeferredLightManager::Initialize()
 {
-	GameComponent::Initialize();
 }
 
 void DeferredLightManager::LoadContent()
 {
-	GameComponent::LoadContent();
 }
 
 void DeferredLightManager::UnLoadContent()
 {
-	GameComponent::UnLoadContent();
 }
 
 void DeferredLightManager::OnLostDevice()
 {
-	GameComponent::OnLostDevice();
 }
 
 void DeferredLightManager::OnResetDevice()
 {
-	GameComponent::OnResetDevice();
 }

@@ -26,8 +26,6 @@
 ****************************/
 #include "DeferredRenderingEnd.h"
 #include "Textures\RenderTarget.h"
-#include "GameApp\GameApp.h"
-#include "GraphicDevice.h"
 #include "DeferredRendering.h"
 #include "Materials\DeferredRenderingMaterial.h"
 
@@ -83,8 +81,6 @@ void DeferredRenderingEnd::Initialize()
 	}
 
 	m_DREffect = new DeferredRenderingMaterial();
-	
-	DrawableGameComponent::Initialize();
 }
 
 void DeferredRenderingEnd::LoadContent()
@@ -92,13 +88,10 @@ void DeferredRenderingEnd::LoadContent()
 	//Load Effect
 	m_DREffect->LoadMaterial(m_GraphicDevice);
 	InitEffectParams();
-
-	DrawableGameComponent::LoadContent();
 }
 
 void DeferredRenderingEnd::Update(const TimerParams& timerParams)
 {
-	DrawableGameComponent::Update(timerParams);
 }
 
 AEResult DeferredRenderingEnd::SetFrameEffectParams()
@@ -152,8 +145,6 @@ void DeferredRenderingEnd::Render(const TimerParams& timerParams)
 	}
 
 	AE_Base::EndUserEventPerf();
-
-	DrawableGameComponent::Render(timerParams);
 }
 
 AEResult DeferredRenderingEnd::DrawSkyCover()
@@ -182,8 +173,6 @@ AEResult DeferredRenderingEnd::DrawSkyCover()
 AEResult DeferredRenderingEnd::DrawLights()
 {
 	AE_Base::BeginUserEventPerf("Deferred Rendering End (Lights)");
-
-	
 
 	AE_Base::EndUserEventPerf();
 
@@ -242,8 +231,6 @@ void DeferredRenderingEnd::OnLostDevice()
 	m_LightRT->OnLostDevice();
 
 	m_DREffect->OnLostDevice();
-
-	DrawableGameComponent::OnLostDevice();
 }
 
 void DeferredRenderingEnd::OnResetDevice()
@@ -257,6 +244,4 @@ void DeferredRenderingEnd::OnResetDevice()
 
 	m_DREffect->OnResetDevice();
 	m_DREffect->SetHalfPixel(m_GraphicDevice->GetHalfPixel());
-
-	DrawableGameComponent::OnResetDevice();
 }

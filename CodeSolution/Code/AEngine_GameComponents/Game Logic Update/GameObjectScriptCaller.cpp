@@ -27,10 +27,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameApp\GameApp.h"
-#include "GameObject\GameObject.h"
 #include "GameObjectScriptCaller.h"
-#include "GameObject\GameObjectManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -105,8 +102,6 @@ void GameObjectScriptCaller::Initialize()
     {
         ScriptCaller(goIt.second, CallMethod::Initialize);
     }
-
-    GameComponent::Initialize();
 }
 
 void GameObjectScriptCaller::ConstantUpdate(const TimerParams& timerParams)
@@ -127,8 +122,6 @@ void GameObjectScriptCaller::ConstantUpdate(const TimerParams& timerParams)
     {
         ScriptCaller(goIt.second, CallMethod::ConstantUpdate, timerParams);
     }
-
-    GameComponent::ConstantUpdate(timerParams);
 }
 
 void GameObjectScriptCaller::Update(const TimerParams& timerParams)
@@ -149,8 +142,6 @@ void GameObjectScriptCaller::Update(const TimerParams& timerParams)
     {
         ScriptCaller(goIt.second, CallMethod::Update, timerParams);
     }
-
-    GameComponent::Update(timerParams);
 }
 
 void GameObjectScriptCaller::PostUpdate(const TimerParams& timerParams)
@@ -171,6 +162,4 @@ void GameObjectScriptCaller::PostUpdate(const TimerParams& timerParams)
     {
         ScriptCaller(goIt.second, CallMethod::PostUpdate, timerParams);
     }
-
-    GameComponent::PostUpdate(timerParams);
 }
