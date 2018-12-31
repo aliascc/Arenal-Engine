@@ -40,7 +40,6 @@
 #include "Shapes\LightShape.h"
 #include "Textures\Texture2D.h"
 #include "Shapes\QuadShape3D.h"
-#include "Lights\LightManager.h"
 #include "Shapes\FrustumShape.h"
 #include "Camera\CameraUpdater.h"
 #include "Camera\CameraManager.h"
@@ -67,8 +66,8 @@
 *********************/
 AETODO("Check Order of GC Call");
 AETODO("Set is ready variable");
-GameObjectsDebugVisualizer::GameObjectsDebugVisualizer(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
-    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
+GameObjectsDebugVisualizer::GameObjectsDebugVisualizer(GameApp& gameApp, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameComponentName, callOrder)
 {
     AETODO("Check var and set variable if it is ready");
     m_CameraUpdater = m_GameApp.GetGameService<CameraUpdater>(cameraServiceName);
@@ -188,9 +187,9 @@ AEResult GameObjectsDebugVisualizer::LightIconDraw()
 
     ///////////////////////////////////////////////////
     //Get Light Manager
-    LightManager* lightManager = m_GameApp.GetLightManager();
+    LightManager& lightManager = m_GameApp.GetLightManager();
 
-    if (lightManager->GetNumberOfLights() == 0)
+    if (lightManager.GetNumberOfLights() == 0)
     {
         //No need for work as no lights have been created
         return AEResult::Ok;
@@ -228,7 +227,7 @@ AEResult GameObjectsDebugVisualizer::LightIconDraw()
     //Set Blend States to Additive
     m_GraphicDevice.SetBlendState(GraphicBlendStates::m_AdditiveState);
 
-    for (auto lightIt : *lightManager)
+    for (auto lightIt : lightManager)
     {
         Light* light = lightIt.second;
 
@@ -293,9 +292,9 @@ AEResult GameObjectsDebugVisualizer::CameraIconDraw()
 
     ///////////////////////////////////////////////////
     //Get Camera Manager
-    CameraManager* cameraManager = m_GameApp.GetCameraManager();
+    CameraManager& cameraManager = m_GameApp.GetCameraManager();
 
-    if (cameraManager->GetSize() == 0)
+    if (cameraManager.GetSize() == 0)
     {
         //No need for work as no camera have been created
         return AEResult::Ok;
@@ -333,7 +332,7 @@ AEResult GameObjectsDebugVisualizer::CameraIconDraw()
     //Set Blend States to Additive
     m_GraphicDevice.SetBlendState(GraphicBlendStates::m_AdditiveState);
 
-    for (auto cameraIt : *cameraManager)
+    for (auto cameraIt : cameraManager)
     {
         Camera* goCamera = cameraIt.second;
 
@@ -377,7 +376,7 @@ AEResult GameObjectsDebugVisualizer::SelectedGameObjectDebugRender()
 {
     ///////////////////////////////////////////////////
     //Get Current selected Game Object
-    GameObject* gameObject = m_GameApp.GetGameObjectManager()->GetSelectedGameObject();
+    GameObject* gameObject = m_GameApp.GetGameObjectManager().GetSelectedGameObject();
     if (gameObject == nullptr)
     {
         return AEResult::Ok;

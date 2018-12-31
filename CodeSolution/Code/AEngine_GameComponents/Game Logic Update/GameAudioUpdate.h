@@ -49,6 +49,8 @@ class GameAudioUpdate sealed : public GameComponent
 {
     private:
 
+        GameObjectManager& m_GameObjectManager;
+
         void UpdateGameAudio(GameObject* gameObject, const TimerParams& timerParams);
 
         void UpdateAudioListener(GameObject* gameObject, AudioListener* audioListener);
@@ -57,7 +59,7 @@ class GameAudioUpdate sealed : public GameComponent
 
     public:
         //Constructor Destructor.
-        GameAudioUpdate(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName = AE_GAME_AUDIO_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameAudioUpdate);
+        GameAudioUpdate(GameApp& gameApp, const std::string& gameComponentName = AE_GAME_AUDIO_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameAudioUpdate);
 
         virtual ~GameAudioUpdate();
 

@@ -218,6 +218,10 @@ class GameObjectManager sealed : public AEObject
         /// </summary>
         virtual ~GameObjectManager();
 
+        //Delete copy constructor/operator
+        GameObjectManager(const GameObjectManager&) = delete;
+        GameObjectManager& operator=(const GameObjectManager&) = delete;
+
 #pragma endregion
 
         /******************

@@ -98,6 +98,10 @@ class InputManager sealed : public AEObject
         /// </summary>
         virtual ~InputManager();
 
+        //Delete copy constructor/operator
+        InputManager(const InputManager&) = delete;
+        InputManager& operator=(const InputManager&) = delete;
+
 #pragma endregion
 
     /******************

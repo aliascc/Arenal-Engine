@@ -47,8 +47,8 @@
 /********************
 *   Function Defs   *
 *********************/
-DebugStats::DebugStats(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const DebugStatsConfig& debugStatsConfig, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
-    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
+DebugStats::DebugStats(GameApp& gameApp, const DebugStatsConfig& debugStatsConfig, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameComponentName, callOrder)
     , m_DebugStatsConfig(debugStatsConfig)
 {
     AETODO("Add ready flag to check this");

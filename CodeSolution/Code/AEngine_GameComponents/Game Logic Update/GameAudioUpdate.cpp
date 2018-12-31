@@ -39,8 +39,9 @@
 /********************
 *   Function Defs   *
 *********************/
-GameAudioUpdate::GameAudioUpdate(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName, uint32_t callOrder)
-    : GameComponent(gameApp, gameResourceManager, gameComponentName, callOrder)
+GameAudioUpdate::GameAudioUpdate(GameApp& gameApp, const std::string& gameComponentName, uint32_t callOrder)
+    : GameComponent(gameApp, gameComponentName, callOrder)
+    , m_GameObjectManager(gameApp.GetGameObjectManager())
 {
 }
 
@@ -51,12 +52,8 @@ GameAudioUpdate::~GameAudioUpdate()
 void GameAudioUpdate::Update(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
-    //Get Game Object Manager
-    GameObjectManager* gameObjectManager = m_GameApp.GetGameObjectManager();
-
-    ///////////////////////////////////////////
     //Update Audio Listener
-    for (auto goIt : *gameObjectManager)
+    for (auto goIt : m_GameObjectManager)
     {
         UpdateGameAudio(goIt.second, timerParams);
     }

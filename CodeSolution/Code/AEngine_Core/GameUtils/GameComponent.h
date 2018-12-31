@@ -119,7 +119,7 @@ class GameComponent abstract : public GameService
         /// <summary>
         /// GameComponent Constructor
         /// </summary>
-        GameComponent(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& name = "", uint32_t callOrder = AE_DEFAULT_GAME_COMPONENT_CALL_ORDER);
+        GameComponent(GameApp& gameApp, const std::string& name = "", uint32_t callOrder = AE_DEFAULT_GAME_COMPONENT_CALL_ORDER);
 
         /// <summary>
         /// Default GameComponent Destructor

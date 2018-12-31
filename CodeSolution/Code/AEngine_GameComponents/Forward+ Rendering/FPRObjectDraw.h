@@ -42,6 +42,7 @@
 *********************/
 class GameApp;
 class GameObject;
+class LightManager;
 struct TimerParams;
 class CameraUpdater;
 class GameObjectManager;
@@ -57,7 +58,9 @@ class FPRObjectDraw sealed : public DrawableGameComponent
         //Variables
         ForwardPlusRendering* m_ForwardPlusRendering = nullptr;
 
-        GameObjectManager* m_GameObjectManager = nullptr;
+        GameObjectManager& m_GameObjectManager;
+
+        LightManager& m_LightManager;
 
         CameraUpdater* m_CameraUpdater = nullptr;
 
@@ -69,7 +72,7 @@ class FPRObjectDraw sealed : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        FPRObjectDraw(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName = AE_FORWARD_PLUS_OBJECT_DRAW_DEF_COMPONENT_NAME, const std::string& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightObjectDraw);
+        FPRObjectDraw(GameApp& gameApp, const std::string& gameComponentName = AE_FORWARD_PLUS_OBJECT_DRAW_DEF_COMPONENT_NAME, const std::string& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightObjectDraw);
         virtual ~FPRObjectDraw();
 
         //Gets

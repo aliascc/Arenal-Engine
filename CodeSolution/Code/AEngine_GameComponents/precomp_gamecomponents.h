@@ -137,6 +137,7 @@
 
 #include "GraphicDevice.h"
 #include "GameApp\GameApp.h"
+#include "Lights\LightManager.h"
 #include "GameObject\GameObject.h"
 #include "GameObject\GameObjectManager.h"
 

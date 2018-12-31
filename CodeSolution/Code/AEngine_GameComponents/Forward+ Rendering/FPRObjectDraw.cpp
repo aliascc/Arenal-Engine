@@ -36,7 +36,6 @@
 #include "Camera\Camera.h"
 #include "Models\MeshPart.h"
 #include "Vertex\IndexBuffer.h"
-#include "Lights\LightManager.h"
 #include "ForwardPlusRendering.h"
 #include "Camera\CameraUpdater.h"
 #include "Shaders\Variables\Sampler.h"
@@ -58,8 +57,10 @@
 *   Function Defs   *
 *********************/
 AETODO("Check object instances and calls to where it is init");
-FPRObjectDraw::FPRObjectDraw(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
-    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
+FPRObjectDraw::FPRObjectDraw(GameApp& gameApp, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameComponentName, callOrder)
+    , m_GameObjectManager(gameApp.GetGameObjectManager())
+    , m_LightManager(gameApp.GetLightManager())
 {
     m_ForwardPlusRendering = m_GameApp.GetGameService<ForwardPlusRendering>(fprServiceName);
     AEAssert(m_ForwardPlusRendering != nullptr);
@@ -74,7 +75,6 @@ FPRObjectDraw::~FPRObjectDraw()
 
 void FPRObjectDraw::Initialize()
 {
-    m_GameObjectManager = m_GameApp.GetGameObjectManager();
 }
 
 void FPRObjectDraw::LoadContent()
@@ -110,7 +110,7 @@ AEResult FPRObjectDraw::RenderWithFPR()
 
 void FPRObjectDraw::DrawGameObjects()
 {
-    for(auto goIt : *m_GameObjectManager)
+    for(auto goIt : m_GameObjectManager)
     {
         DrawGameObject(goIt.second);
     }
@@ -219,7 +219,7 @@ void FPRObjectDraw::DrawGameObject(GameObject* gameObject)
 
                     /////////////////////////////////////////////////////////
                     //Override Shadow Spot Light Texture Array to use a single one
-                    Texture2DArray* forwardSpotLightShadowTextureArray = m_GameApp.GetLightManager()->GetSpotLightShadowTextureArray();
+                    Texture2DArray* forwardSpotLightShadowTextureArray = m_LightManager.GetSpotLightShadowTextureArray();
                     if (currentSpotLightShadowTextureArray != nullptr && currentSpotLightShadowTextureArray->GetUniqueID() != forwardSpotLightShadowTextureArray->GetUniqueID())
                     {
                         AETODO("Check Return");
@@ -237,7 +237,7 @@ void FPRObjectDraw::DrawGameObject(GameObject* gameObject)
 
                     /////////////////////////////////////////////////////////
                     //Override Shadow Directional Light Texture Array to use a single one
-                    Texture2DArray* forwardDirLightShadowTextureArray = m_GameApp.GetLightManager()->GetDirLightShadowTextureArray();
+                    Texture2DArray* forwardDirLightShadowTextureArray = m_LightManager.GetDirLightShadowTextureArray();
                     if (currentDirLightShadowTextureArray != nullptr && currentDirLightShadowTextureArray->GetUniqueID() != forwardDirLightShadowTextureArray->GetUniqueID())
                     {
                         AETODO("Check Return");

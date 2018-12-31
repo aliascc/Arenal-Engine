@@ -37,8 +37,9 @@
 /********************
 *   Function Defs   *
 *********************/
-GameAnimationsUpdate::GameAnimationsUpdate(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName, uint32_t callOrder)
-    : GameComponent(gameApp, gameResourceManager, gameComponentName, callOrder)
+GameAnimationsUpdate::GameAnimationsUpdate(GameApp& gameApp, const std::string& gameComponentName, uint32_t callOrder)
+    : GameComponent(gameApp, gameComponentName, callOrder)
+    , m_GameObjectManager(gameApp.GetGameObjectManager())
 {
 }
 
@@ -49,18 +50,8 @@ GameAnimationsUpdate::~GameAnimationsUpdate()
 void GameAnimationsUpdate::Update(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
-    //Get Game Object Manager
-    GameObjectManager* gameObjectManager = m_GameApp.GetGameObjectManager();
-
-    AEAssert(gameObjectManager != nullptr);
-    if (gameObjectManager == nullptr)
-    {
-        return;
-    }
-
-    ///////////////////////////////////////////
     //Update all Animation Objects information
-    for (auto goIt : *gameObjectManager)
+    for (auto goIt : m_GameObjectManager)
     {
         UpdateGameAnimationObjects(goIt.second, timerParams);
     }

@@ -36,7 +36,6 @@
 #include "FPRObjectDraw.h"
 #include "FPRLightCulling.h"
 #include "Lights\LightDefs.h"
-#include "Lights\LightManager.h"
 #include "ForwardPlusRendering.h"
 #include "Shaders\Variables\Sampler.h"
 #include "Shaders\Buffers\SimpleBuffer.h"
@@ -51,8 +50,9 @@
 /********************
 *   Function Defs   *
 *********************/
-ForwardPlusRendering::ForwardPlusRendering(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName, const std::string& serviceName, uint32_t callOrder)
-    : GameComponent(gameApp, gameResourceManager, gameComponentName, callOrder)
+ForwardPlusRendering::ForwardPlusRendering(GameApp& gameApp, const std::string& gameComponentName, const std::string& serviceName, uint32_t callOrder)
+    : GameComponent(gameApp, gameComponentName, callOrder)
+    , m_LightManager(gameApp.GetLightManager())
     , m_ServiceName(serviceName)
 {
     //Register Game Component as Service
@@ -61,9 +61,9 @@ ForwardPlusRendering::ForwardPlusRendering(GameApp& gameApp, GameResourceManager
     AEAssert(ret == AEResult::Ok);
 
     //Create Forward+ Rendering Game Components
-    m_FPRPreZ = new FPRPreZ(gameApp, gameResourceManager, *gameApp.GetGraphicsDevice());
-    m_FPRLightCulling = new FPRLightCulling(gameApp, gameResourceManager, *gameApp.GetGraphicsDevice());
-    m_FPRObjectDraw = new FPRObjectDraw(gameApp, gameResourceManager, *gameApp.GetGraphicsDevice());
+    m_FPRPreZ = new FPRPreZ(gameApp);
+    m_FPRLightCulling = new FPRLightCulling(gameApp);
+    m_FPRObjectDraw = new FPRObjectDraw(gameApp);
 
     AETODO("add check");
     m_GameApp.AddComponent(m_FPRPreZ);
@@ -92,7 +92,7 @@ ForwardPlusRendering::~ForwardPlusRendering()
 void ForwardPlusRendering::Initialize()
 {
     AEResult ret                    = AEResult::Ok;
-    GraphicDevice& graphicDevice    = *m_GameApp.GetGraphicsDevice();
+    GraphicDevice& graphicDevice    = m_GameApp.GetGraphicsDevice();
 
     /////////////////////////////////////////////////////
     //Create Depth Stencil
@@ -128,9 +128,9 @@ void ForwardPlusRendering::Initialize()
 void ForwardPlusRendering::LoadContent()
 {
     AEResult ret = AEResult::Ok;
-    GraphicDevice* graphicDevice = m_GameApp.GetGraphicsDevice();
+    GraphicDevice& graphicDevice = m_GameApp.GetGraphicsDevice();
 
-    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice->GetGraphicPP().m_BackBufferWidth, m_GameApp.GetGraphicsDevice()->GetGraphicPP().m_BackBufferHeight);
+    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice.GetGraphicPP().m_BackBufferWidth, graphicDevice.GetGraphicPP().m_BackBufferHeight);
 
     AETODO("Set is ready when ds and buffers are created");
 
@@ -175,26 +175,22 @@ void ForwardPlusRendering::Update(const TimerParams& timerParams)
     AEResult ret = AEResult::Ok;
 
     ////////////////////////////////////////////////
-    //Get Light Manager
-    LightManager* lightManager = m_GameApp.GetLightManager();
-
-    ////////////////////////////////////////////////
     //Update Light FX Vector if needed
-    if(lightManager->HasFXVectorChanged())
+    if(m_LightManager.HasFXVectorChanged())
     {
-        const LightFX* lighFXVector = lightManager->GetLightFXVector();
+        const LightFX* lighFXVector = m_LightManager.GetLightFXVector();
 
         AETODO("Check return");
         m_LightStructuredBuffer->UpdateBuffer(lighFXVector, AE_MAX_LIGHTS, 0, 0, GraphicResourceMap::WriteDiscard);
 
-        lightManager->ClearFXVectorChangeFlag();
+        m_LightManager.ClearFXVectorChangeFlag();
     }
 
     ////////////////////////////////////////////////
     //Update Shadow Spot Light Info FX Vector if needed
-    if (lightManager->HasFXSpotShadowVectorChanged())
+    if (m_LightManager.HasFXSpotShadowVectorChanged())
     {
-        uint32_t numSpotInfoShadows = lightManager->GetNumSpotLightsWithShadows();
+        uint32_t numSpotInfoShadows = m_LightManager.GetNumSpotLightsWithShadows();
 
         if (m_ShadowSpotLightInfoStructuredBuffer->GetNumElements() != numSpotInfoShadows)
         {
@@ -222,20 +218,20 @@ void ForwardPlusRendering::Update(const TimerParams& timerParams)
 
         if (numSpotInfoShadows != 0)
         {
-            const SpotLightShadowInfoFX* shadowLightInfoFXVec = lightManager->GetSpotLightShadowInfoFXVector();
+            const SpotLightShadowInfoFX* shadowLightInfoFXVec = m_LightManager.GetSpotLightShadowInfoFXVector();
 
             AETODO("Check return");
             m_ShadowSpotLightInfoStructuredBuffer->UpdateBuffer(shadowLightInfoFXVec, numSpotInfoShadows, 0, 0, GraphicResourceMap::WriteDiscard);
         }
 
-        lightManager->ClearFXSpotShadowVectorChangedFlag();
+        m_LightManager.ClearFXSpotShadowVectorChangedFlag();
     }
 
     ////////////////////////////////////////////////
     //Update Shadow Directional Light Info FX Vector if needed
-    if (lightManager->HasFXDirShadowVectorChanged())
+    if (m_LightManager.HasFXDirShadowVectorChanged())
     {
-        uint32_t numDirInfoShadows = lightManager->GetNumDirLightsWithShadows();
+        uint32_t numDirInfoShadows = m_LightManager.GetNumDirLightsWithShadows();
 
         if (m_ShadowDirLightInfoStructuredBuffer->GetNumElements() != numDirInfoShadows)
         {
@@ -263,21 +259,21 @@ void ForwardPlusRendering::Update(const TimerParams& timerParams)
 
         if (numDirInfoShadows != 0)
         {
-            const LightCascadeInfoFX* shadowLightInfoFXVec = lightManager->GetDirLightShadowInfoFXVector();
+            const LightCascadeInfoFX* shadowLightInfoFXVec = m_LightManager.GetDirLightShadowInfoFXVector();
 
             AETODO("Check return");
             m_ShadowDirLightInfoStructuredBuffer->UpdateBuffer(shadowLightInfoFXVec, numDirInfoShadows, 0, 0, GraphicResourceMap::WriteDiscard);
         }
 
-        lightManager->ClearFXDirShadowVectorChangedFlag();
+        m_LightManager.ClearFXDirShadowVectorChangedFlag();
     }
 }
 
 void ForwardPlusRendering::OnResetDevice()
 {
-    GraphicDevice* graphicDevice = m_GameApp.GetGraphicsDevice();
+    GraphicDevice& graphicDevice = m_GameApp.GetGraphicsDevice();
 
-    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice->GetGraphicPP().m_BackBufferWidth, m_GameApp.GetGraphicsDevice()->GetGraphicPP().m_BackBufferHeight);
+    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice.GetGraphicPP().m_BackBufferWidth, graphicDevice.GetGraphicPP().m_BackBufferHeight);
 
     AETODO("Check returns");
 
@@ -294,12 +290,12 @@ AEResult ForwardPlusRendering::InitForwardPlusDS()
         return AEResult::NullObj;
     }
 
-    GraphicDevice* graphicDevice = m_GameApp.GetGraphicsDevice();
+    GraphicDevice& graphicDevice = m_GameApp.GetGraphicsDevice();
 
     AEResult ret = AEResult::Ok;
 
-    uint32_t screenWidth = graphicDevice->GetGraphicPP().m_BackBufferWidth;
-    uint32_t screenHeight = graphicDevice->GetGraphicPP().m_BackBufferHeight;
+    uint32_t screenWidth = graphicDevice.GetGraphicPP().m_BackBufferWidth;
+    uint32_t screenHeight = graphicDevice.GetGraphicPP().m_BackBufferHeight;
 
     ret = m_ForwardPlusDS->InitializeDepthStencilSurface(screenWidth, screenHeight, DXGI_FORMAT_R24G8_TYPELESS, DXGI_FORMAT_D24_UNORM_S8_UINT, DXGI_FORMAT_R24_UNORM_X8_TYPELESS);
     if(ret != AEResult::Ok)

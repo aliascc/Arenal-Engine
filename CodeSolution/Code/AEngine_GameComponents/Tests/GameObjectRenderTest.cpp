@@ -47,8 +47,9 @@
 /********************
 *   Function Defs   *
 *********************/
-GameObjectRenderTest::GameObjectRenderTest(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName)
-    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName)
+GameObjectRenderTest::GameObjectRenderTest(GameApp& gameApp, const std::string& gameComponentName)
+    : DrawableGameComponent(gameApp, gameComponentName)
+    , m_GameObjectManager(m_GameApp.GetGameObjectManager())
 {
 }
 
@@ -58,8 +59,6 @@ GameObjectRenderTest::~GameObjectRenderTest()
 
 void GameObjectRenderTest::Initialize()
 {
-    m_GameObjectManager = m_GameApp.GetGameObjectManager();
-
     m_Camera = m_GameApp.GetGameService<Camera>("Camera");
 }
 
@@ -73,7 +72,7 @@ void GameObjectRenderTest::Update(const TimerParams& timerParams)
 
 void GameObjectRenderTest::Render(const TimerParams& timerParams)
 {
-    for(auto goIt : *m_GameObjectManager)
+    for(auto goIt : m_GameObjectManager)
     {
         DrawGameObject(goIt.second);
     }

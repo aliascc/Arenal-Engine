@@ -40,8 +40,9 @@
 /********************
 *   Function Defs   *
 *********************/
-GamePhysicsUpdate::GamePhysicsUpdate(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName, uint32_t callOrder)
-    : GameComponent(gameApp, gameResourceManager, gameComponentName, callOrder)
+GamePhysicsUpdate::GamePhysicsUpdate(GameApp& gameApp, const std::string& gameComponentName, uint32_t callOrder)
+    : GameComponent(gameApp, gameComponentName, callOrder)
+    , m_PhysicsManager(gameApp.GetPhysicsManager())
 {
 }
 
@@ -51,14 +52,12 @@ GamePhysicsUpdate::~GamePhysicsUpdate()
 
 void GamePhysicsUpdate::Update(const TimerParams& timerParams)
 {
-    if (m_GameApp.GetGameEditorPlayState() == GameEditorPlayState::Playing)
+    if (m_GameApp.GetGameEditorPlayState() != GameEditorPlayState::Playing)
     {
-        ///////////////////////////////////////////
-        //Get Physics Manager
-        PhysicsManager* physicsManager = m_GameApp.GetPhysicsManager();
-
-        ///////////////////////////////////////////
-        //Update Physics Manager
-        physicsManager->Update(timerParams);
+        return;
     }
+
+    ///////////////////////////////////////////
+    //Update Physics Manager
+    m_PhysicsManager.Update(timerParams);
 }

@@ -40,9 +40,11 @@ class Light;
 class GameApp;
 class Viewport;
 class GameObject;
+class LightManager;
 struct TimerParams;
 class CameraUpdater;
 class ConstantBuffer;
+class GameObjectManager;
 class DepthStencilSurface;
 class VarianceShadowMaterial;
 class VarianceSkinningShadowMaterial;
@@ -68,6 +70,10 @@ class GameLightsUpdate sealed : public DrawableGameComponent
 
         std::vector<Viewport*> m_DirLightShadowViewports;
 
+        LightManager& m_LightManager;
+
+        GameObjectManager& m_GameObjectManager;
+
         void UpdateGameObjectLight(GameObject* gameObject);
 
         AEResult ShadowSpotLightRenderGameObject();
@@ -78,7 +84,7 @@ class GameLightsUpdate sealed : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        GameLightsUpdate(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName = AE_GAME_LIGHTS_UPDATE_DEF_COMPONENT_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameLightsUpdate);
+        GameLightsUpdate(GameApp& gameApp, const std::string& gameComponentName = AE_GAME_LIGHTS_UPDATE_DEF_COMPONENT_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameLightsUpdate);
         virtual ~GameLightsUpdate();
 
         //Game Component Override methods

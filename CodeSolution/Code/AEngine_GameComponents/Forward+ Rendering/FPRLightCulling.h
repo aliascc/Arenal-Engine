@@ -41,6 +41,7 @@
 *   Forward Decls   *
 *********************/
 class GameApp;
+class LightManager;
 struct TimerParams;
 class CameraUpdater;
 class ForwardPlusRendering;
@@ -52,7 +53,9 @@ class ForwardPlusLightCullingMaterial;
 class FPRLightCulling sealed : public DrawableGameComponent
 {
     private:
-        //Variables
+
+        LightManager& m_LightManager;
+
         ForwardPlusRendering* m_ForwardPlusRendering = nullptr;
 
         CameraUpdater* m_CameraUpdater = nullptr;
@@ -61,7 +64,7 @@ class FPRLightCulling sealed : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        FPRLightCulling(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName = AE_FORWARD_PLUS_LIGHT_CULLING_DEF_COMPONENT_NAME, const std::string& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightCulling);
+        FPRLightCulling(GameApp& gameApp, const std::string& gameComponentName = AE_FORWARD_PLUS_LIGHT_CULLING_DEF_COMPONENT_NAME, const std::string& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusLightCulling);
         virtual ~FPRLightCulling();
 
         //Gets

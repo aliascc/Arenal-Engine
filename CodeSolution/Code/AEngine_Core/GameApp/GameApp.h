@@ -362,9 +362,10 @@ class GameApp abstract : public AEObject
             return m_GameAppOpts;
         }
 
-        inline GraphicDevice* GetGraphicsDevice() const
+        inline GraphicDevice& GetGraphicsDevice()
         {
-            return m_GraphicDevice;
+            AEAssert(m_GraphicDevice != nullptr);
+            return *m_GraphicDevice;
         }
 
         inline const AETime& GetTimer() const
@@ -381,90 +382,100 @@ class GameApp abstract : public AEObject
         /// Gets Physics Manager Instance for the Game Application
         /// </summary>
         /// <returns>Physics Manager Instance</returns>
-        inline PhysicsManager* GetPhysicsManager() const
+        inline PhysicsManager& GetPhysicsManager()
         {
-            return m_PhysicsManager;
+            AEAssert(m_PhysicsManager != nullptr);
+            return *m_PhysicsManager;
         }
 
         /// <summary>
         /// Gets Light Manager Instance for the Game Application
         /// </summary>
         /// <returns>Light Manager Instance</returns>
-        inline LightManager* GetLightManager() const
+        inline LightManager& GetLightManager()
         {
-            return m_LightManager;
+            AEAssert(m_LightManager != nullptr);
+            return *m_LightManager;
         }
 
         /// <summary>
         /// Gets Game Resource Manager Instance for the Game Application
         /// </summary>
         /// <returns>Game Resource Manager Instance</returns>
-        inline GameResourceManager* GetGameResourceManager() const
+        inline GameResourceManager& GetGameResourceManager()
         {
-            return m_GameResourceManager;
+            AEAssert(m_GameResourceManager != nullptr);
+            return *m_GameResourceManager;
         }
 
         /// <summary>
         /// Gets Game Object Manager Instance for the Game Application
         /// </summary>
         /// <returns>Game Object Manager Instance</returns>
-        inline GameObjectManager* GetGameObjectManager() const
+        inline GameObjectManager& GetGameObjectManager()
         {
-            return m_GameObjectManager;
+            AEAssert(m_GameObjectManager != nullptr);
+            return *m_GameObjectManager;
         }
 
         /// <summary>
         /// Gets Game Asset Manager Instance for the Game Application
         /// </summary>
         /// <returns>Game Asset Manager Instance</returns>
-        inline GameAssetManager* GetGameAssetManager() const
+        inline GameAssetManager& GetGameAssetManager()
         {
-            return m_GameAssetManager;
+            AEAssert(m_GameAssetManager != nullptr);
+            return *m_GameAssetManager;
         }
 
         /// <summary>
         /// Gets Angel Script Manager Instance for the Game Application
         /// </summary>
         /// <returns>Angel Script Manager Instance</returns>
-        inline AngelScriptManager* GetAngelScriptManager() const
+        inline AngelScriptManager& GetAngelScriptManager()
         {
-            return m_AngelScriptManager;
+            AEAssert(m_AngelScriptManager != nullptr);
+            return *m_AngelScriptManager;
         }
 
         /// <summary>
         /// Gets Input Manager Instance for the Game Application
         /// </summary>
         /// <returns>Input Manager Instance</returns>
-        inline InputManager* GetInputManager() const
+        inline InputManager& GetInputManager()
         {
-            return m_InputManager;
+            AEAssert(m_InputManager != nullptr);
+            return *m_InputManager;
         }
 
         /// <summary>
         /// Gets Game Object Script Manager Instance for the Game Application
         /// </summary>
         /// <returns>Game Object Script Manager Instance</returns>
-        inline GameObjectScriptManager* GetGameObjectScriptManager() const
+        inline GameObjectScriptManager& GetGameObjectScriptManager()
         {
-            return m_GameObjectScriptManager;
+            AEAssert(m_GameObjectScriptManager != nullptr);
+            return *m_GameObjectScriptManager;
         }
 
         /// <summary>
         /// Gets Camera Manager Instance for the Game Application
         /// </summary>
         /// <returns>Game Object Script Manager Instance</returns>
-        inline CameraManager* GetCameraManager() const
+        inline CameraManager& GetCameraManager()
         {
-            return m_CameraManager;
+            AEAssert(m_CameraManager != nullptr);
+            return *m_CameraManager;
         }
 
         /// <summary>
         /// Gets Audio Manager Instance for the Game Application
         /// </summary>
         /// <returns>Audio Manager Instance</returns>
-        inline AudioManager* GetAudioManager() const
+        inline AudioManager& GetAudioManager()
         {
-            return m_AudioManager;
+            AEAssert(m_AudioManager != nullptr);
+            return *m_AudioManager;
         }
 
         inline bool IsNewProject() const

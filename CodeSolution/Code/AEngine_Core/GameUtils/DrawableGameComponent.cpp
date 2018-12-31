@@ -42,9 +42,9 @@
 *   Function Defs   *
 *********************/
 AETODO("add mutex");
-DrawableGameComponent::DrawableGameComponent(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& name, uint32_t callOrder)
-    : GameComponent(gameApp, gameResourceManager, name, callOrder)
-    , m_GraphicDevice(graphicDevice)
+DrawableGameComponent::DrawableGameComponent(GameApp& gameApp, const std::string& name, uint32_t callOrder)
+    : GameComponent(gameApp, name, callOrder)
+    , m_GraphicDevice(gameApp.GetGraphicsDevice())
 {
 }
 

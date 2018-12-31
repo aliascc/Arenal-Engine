@@ -38,6 +38,7 @@
 *********************/
 struct TimerParams;
 class AudioListener;
+class ImGuiManager;
 
 /*****************
 *   Class Decl   *
@@ -47,10 +48,12 @@ class ImGuiComponent sealed : public DrawableGameComponent
 {
 private:
 
+    ImGuiManager* m_ImGuiManager = nullptr;
+
 public:
 
     //Constructor Destructor.
-    ImGuiComponent(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName = AE_IMGUI_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ImGui);
+    ImGuiComponent(GameApp& gameApp, const std::string& gameComponentName = AE_IMGUI_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ImGui);
 
     virtual ~ImGuiComponent();
 

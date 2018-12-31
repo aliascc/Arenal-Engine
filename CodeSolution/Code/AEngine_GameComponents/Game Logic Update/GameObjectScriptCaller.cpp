@@ -35,8 +35,9 @@
 /********************
 *   Function Defs   *
 *********************/
-GameObjectScriptCaller::GameObjectScriptCaller(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName, uint32_t callOrder)
-    : GameComponent(gameApp, gameResourceManager, gameComponentName, callOrder)
+GameObjectScriptCaller::GameObjectScriptCaller(GameApp& gameApp, const std::string& gameComponentName, uint32_t callOrder)
+    : GameComponent(gameApp, gameComponentName, callOrder)
+    , m_GameObjectManager(gameApp.GetGameObjectManager())
 {
 }
 
@@ -87,18 +88,8 @@ void GameObjectScriptCaller::ScriptCaller(GameObject* gameObject, CallMethod cal
 void GameObjectScriptCaller::Initialize()
 {
     ///////////////////////////////////////////
-    //Get Game Object Manager
-    GameObjectManager* gameObjectManager =m_GameApp.GetGameObjectManager();
-
-    AEAssert(gameObjectManager != nullptr);
-    if (gameObjectManager == nullptr)
-    {
-        return;
-    }
-
-    ///////////////////////////////////////////
     //Call Methods for the Script
-    for (auto goIt : *gameObjectManager)
+    for (auto goIt : m_GameObjectManager)
     {
         ScriptCaller(goIt.second, CallMethod::Initialize);
     }
@@ -107,18 +98,8 @@ void GameObjectScriptCaller::Initialize()
 void GameObjectScriptCaller::ConstantUpdate(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
-    //Get Game Object Manager
-    GameObjectManager* gameObjectManager =m_GameApp.GetGameObjectManager();
-
-    AEAssert(gameObjectManager != nullptr);
-    if (gameObjectManager == nullptr)
-    {
-        return;
-    }
-
-    ///////////////////////////////////////////
     //Call Methods for the Script
-    for (auto goIt : *gameObjectManager)
+    for (auto goIt : m_GameObjectManager)
     {
         ScriptCaller(goIt.second, CallMethod::ConstantUpdate, timerParams);
     }
@@ -127,18 +108,8 @@ void GameObjectScriptCaller::ConstantUpdate(const TimerParams& timerParams)
 void GameObjectScriptCaller::Update(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
-    //Get Game Object Manager
-    GameObjectManager* gameObjectManager =m_GameApp.GetGameObjectManager();
-
-    AEAssert(gameObjectManager != nullptr);
-    if (gameObjectManager == nullptr)
-    {
-        return;
-    }
-
-    ///////////////////////////////////////////
     //Call Methods for the Script
-    for (auto goIt : *gameObjectManager)
+    for (auto goIt : m_GameObjectManager)
     {
         ScriptCaller(goIt.second, CallMethod::Update, timerParams);
     }
@@ -147,18 +118,8 @@ void GameObjectScriptCaller::Update(const TimerParams& timerParams)
 void GameObjectScriptCaller::PostUpdate(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
-    //Get Game Object Manager
-    GameObjectManager* gameObjectManager =m_GameApp.GetGameObjectManager();
-
-    AEAssert(gameObjectManager != nullptr);
-    if (gameObjectManager == nullptr)
-    {
-        return;
-    }
-
-    ///////////////////////////////////////////
     //Call Methods for the Script
-    for (auto goIt : *gameObjectManager)
+    for (auto goIt : m_GameObjectManager)
     {
         ScriptCaller(goIt.second, CallMethod::PostUpdate, timerParams);
     }

@@ -56,7 +56,7 @@ void ResizeCommand::Execute()
 {
     m_GameApp.OnLostDevice();
 
-    m_GameApp.GetGraphicsDevice()->Resize(m_NewSize.x, m_NewSize.y);
+    m_GameApp.GetGraphicsDevice().Resize(m_NewSize.x, m_NewSize.y);
 
     m_GameApp.OnResetDevice();
 }

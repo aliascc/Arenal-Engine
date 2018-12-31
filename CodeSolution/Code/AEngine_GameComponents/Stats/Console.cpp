@@ -49,8 +49,8 @@
 *   Function Defs   *
 *********************/
 AETODO("Make H & W params")
-Console::Console(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName, const std::string& inputHandlerServiceName, uint32_t callOrder)
-    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
+Console::Console(GameApp& gameApp, const std::string& gameComponentName, const std::string& inputHandlerServiceName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameComponentName, callOrder)
     , m_ConsoleWidth(m_GraphicDevice.GetGraphicPP().m_BackBufferWidth)
     , m_InputHandlerServiceName(inputHandlerServiceName)
 {
@@ -580,70 +580,70 @@ AEResult Console::RegisterConsoleScriptInfo()
 {
     int ret = 0;
 
-    AngelScriptManager* asManager = m_GameApp.GetAngelScriptManager();
+    AngelScriptManager& asManager = m_GameApp.GetAngelScriptManager();
 
-    ret = asManager->GetASEngine()->RegisterObjectType("ScriptConsoleLine", sizeof(ScriptConsoleLine), asOBJ_VALUE | asOBJ_APP_CLASS);
+    ret = asManager.GetASEngine()->RegisterObjectType("ScriptConsoleLine", sizeof(ScriptConsoleLine), asOBJ_VALUE | asOBJ_APP_CLASS);
     if(ret < 0)
     {
         return AEResult::RegObjTypeFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterObjectProperty("ScriptConsoleLine", "array<string>@ m_SA_Strings",  asOFFSET(ScriptConsoleLine, m_SA_Strings));
+    ret = asManager.GetASEngine()->RegisterObjectProperty("ScriptConsoleLine", "array<string>@ m_SA_Strings",  asOFFSET(ScriptConsoleLine, m_SA_Strings));
     if(ret < 0)
     {
         return AEResult::RegObjPropFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterObjectProperty("ScriptConsoleLine", "array<Color>@ m_SA_Colors", asOFFSET(ScriptConsoleLine, m_SA_Colors));
+    ret = asManager.GetASEngine()->RegisterObjectProperty("ScriptConsoleLine", "array<Color>@ m_SA_Colors", asOFFSET(ScriptConsoleLine, m_SA_Colors));
     if (ret < 0)
     {
         return AEResult::RegObjPropFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterObjectMethod("ScriptConsoleLine", "ScriptConsoleLine &opAssign(const ScriptConsoleLine& in)", asMETHOD(ScriptConsoleLine, operator=), asCALL_THISCALL);
+    ret = asManager.GetASEngine()->RegisterObjectMethod("ScriptConsoleLine", "ScriptConsoleLine &opAssign(const ScriptConsoleLine& in)", asMETHOD(ScriptConsoleLine, operator=), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterObjectBehaviour("ScriptConsoleLine", asBEHAVE_CONSTRUCT, "void AEAS_ScriptConsoleLineConstructor()", asFUNCTION(ScriptConsoleLine::Constructor), asCALL_CDECL_OBJLAST);
+    ret = asManager.GetASEngine()->RegisterObjectBehaviour("ScriptConsoleLine", asBEHAVE_CONSTRUCT, "void AEAS_ScriptConsoleLineConstructor()", asFUNCTION(ScriptConsoleLine::Constructor), asCALL_CDECL_OBJLAST);
     if(ret < 0)
     {
         return AEResult::RegObjBehaviorFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterObjectBehaviour("ScriptConsoleLine", asBEHAVE_DESTRUCT, "void AEAS_ScriptConsoleLineDestructor()", asFUNCTION(ScriptConsoleLine::Destructor), asCALL_CDECL_OBJLAST);
+    ret = asManager.GetASEngine()->RegisterObjectBehaviour("ScriptConsoleLine", asBEHAVE_DESTRUCT, "void AEAS_ScriptConsoleLineDestructor()", asFUNCTION(ScriptConsoleLine::Destructor), asCALL_CDECL_OBJLAST);
     if(ret < 0)
     {
         return AEResult::RegObjBehaviorFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterGlobalProperty("array<ScriptConsoleLine> @m_ScriptConsoleLineArray", &m_ScriptConsoleLineArray);
+    ret = asManager.GetASEngine()->RegisterGlobalProperty("array<ScriptConsoleLine> @m_ScriptConsoleLineArray", &m_ScriptConsoleLineArray);
     if(ret < 0)
     {
         return AEResult::RegGlobalPropFail;
     }
 
     AETODO("Add this somewhere not here");
-    if(asManager->LoadScript("..\\Data\\Scripts\\Console.as", m_ConsoleModuleName) != AEResult::Ok)
+    if(asManager.LoadScript("..\\Data\\Scripts\\Console.as", m_ConsoleModuleName) != AEResult::Ok)
     {
         return AEResult::Fail;
     }
 
-    m_ConsoleContext = asManager->GetASEngine()->CreateContext();
+    m_ConsoleContext = asManager.GetASEngine()->CreateContext();
     if(m_ConsoleContext == nullptr)
     {
         return AEResult::Fail;
     }
 
-    m_ConsoleExecFunc = asManager->GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void ConsoleExec(string)");
+    m_ConsoleExecFunc = asManager.GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void ConsoleExec(string)");
     if(m_ConsoleExecFunc == nullptr)
     {
         return AEResult::Fail;
     }
     m_ConsoleExecFunc->AddRef();
 
-    asIScriptFunction* func = asManager->GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void InitializeConsoleScript()");
+    asIScriptFunction* func = asManager.GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void InitializeConsoleScript()");
     if(func == nullptr)
     {
         return AEResult::Fail;

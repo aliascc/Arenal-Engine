@@ -34,7 +34,6 @@
 #include "Models\MeshPart.h"
 #include "GameLightsUpdate.h"
 #include "Vertex\IndexBuffer.h"
-#include "Lights\LightManager.h"
 #include "Camera\CameraUpdater.h"
 #include "Textures\RenderTarget.h"
 #include "Lights\DirectionalLight.h"
@@ -54,8 +53,10 @@
 /********************
 *   Function Defs   *
 *********************/
-GameLightsUpdate::GameLightsUpdate(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
-    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
+GameLightsUpdate::GameLightsUpdate(GameApp& gameApp, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameComponentName, callOrder)
+    , m_LightManager(gameApp.GetLightManager())
+    , m_GameObjectManager(gameApp.GetGameObjectManager())
 {
     m_CameraUpdater = m_GameApp.GetGameService<CameraUpdater>(cameraServiceName);
     AEAssert(m_CameraUpdater != nullptr);
@@ -124,21 +125,8 @@ void GameLightsUpdate::LoadContent()
 void GameLightsUpdate::Update(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
-    //Get Game Object Manager & Light Manager
-    GameObjectManager* gameObjectManager = m_GameApp.GetGameObjectManager();
-
-    LightManager* lightManager = m_GameApp.GetLightManager();
-
-    AEAssert(gameObjectManager != nullptr);
-    AEAssert(lightManager != nullptr);
-    if(gameObjectManager == nullptr || lightManager == nullptr)
-    {
-        return;
-    }
-
-    ///////////////////////////////////////////
     //Update all Light Object information
-    for(auto goIt : *gameObjectManager)
+    for(auto goIt : m_GameObjectManager)
     {
         UpdateGameObjectLight(goIt.second);
     }
@@ -151,7 +139,7 @@ void GameLightsUpdate::Update(const TimerParams& timerParams)
     //glm::ivec2 dimension(m_GraphicDevice.GetGraphicPP().m_BackBufferWidth, m_GraphicDevice.GetGraphicPP().m_BackBufferHeight);
     //Camera camera("Dummy Test", glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), AEMathHelpers::Vec3fUp, dimension, 45.0f, 1.0f, 1000.0f);
     //camera.Initialize();
-    AEResult ret = lightManager->Update(camera);
+    AEResult ret = m_LightManager.Update(camera);
     if(ret != AEResult::Ok)
     {
         AETODO("Log info");
@@ -212,21 +200,18 @@ void GameLightsUpdate::Render(const TimerParams& timerParams)
 
 AEResult GameLightsUpdate::ShadowDirLightRenderGameObject()
 {
-    LightManager* lightManager = m_GameApp.GetLightManager();
-    GameObjectManager* gameObjectManager = m_GameApp.GetGameObjectManager();
-
-    if (lightManager->GetNumDirLightsWithShadows() == 0)
+    if (m_LightManager.GetNumDirLightsWithShadows() == 0)
     {
         return AEResult::Ok;
     }
 
-    Texture2DArray* shadowTextureArray = lightManager->GetDirLightShadowTextureArray();
+    Texture2DArray* shadowTextureArray = m_LightManager.GetDirLightShadowTextureArray();
 
     AETODO("Check return");
     RenderTarget* rtsDS[1] = { nullptr };
     m_GraphicDevice.SetRenderTargetsAndDepthStencil(1, rtsDS, m_DirLightShadowTexturesDS);
 
-    for (auto lightIt : *lightManager)
+    for (auto lightIt : m_LightManager)
     {
         Light* light = lightIt.second;
 
@@ -246,7 +231,7 @@ AEResult GameLightsUpdate::ShadowDirLightRenderGameObject()
 
                 const LightCascadeInfo& lightCascadeInfo = dirLight->GetLightCascadeInfo();
 
-                for (auto goIt : *gameObjectManager)
+                for (auto goIt : m_GameObjectManager)
                 {
                     AETODO("Check return");
                     ShadowLightRenderGameObject(goIt.second, lightCascadeInfo.m_CascadeViewMatrix[i], lightCascadeInfo.m_CascadeProjectionMatrix[i]);
@@ -266,15 +251,12 @@ AEResult GameLightsUpdate::ShadowDirLightRenderGameObject()
 
 AEResult GameLightsUpdate::ShadowSpotLightRenderGameObject()
 {
-    LightManager* lightManager = m_GameApp.GetLightManager();
-    GameObjectManager* gameObjectManager = m_GameApp.GetGameObjectManager();
-
-    if (lightManager->GetNumSpotLightsWithShadows() == 0)
+    if (m_LightManager.GetNumSpotLightsWithShadows() == 0)
     {
         return AEResult::Ok;
     }
 
-    Texture2DArray* shadowTextureArray = lightManager->GetSpotLightShadowTextureArray();
+    Texture2DArray* shadowTextureArray = m_LightManager.GetSpotLightShadowTextureArray();
     
     AETODO("Check return");
     RenderTarget* rtsDS[1] = { nullptr };
@@ -283,7 +265,7 @@ AEResult GameLightsUpdate::ShadowSpotLightRenderGameObject()
     AETODO("Check return");
     m_GraphicDevice.SetViewport(m_SpotLightShadowViewport);
 
-    for (auto lightIt : *lightManager)
+    for (auto lightIt : m_LightManager)
     {
         Light* light = lightIt.second;
 
@@ -294,7 +276,7 @@ AEResult GameLightsUpdate::ShadowSpotLightRenderGameObject()
             m_GraphicDevice.SetRenderTargets(1, idxs, shadowTextureArray);
             m_GraphicDevice.Clear(true, 0, true, true, AEColors::Transparent);
 
-            for (auto goIt : *gameObjectManager)
+            for (auto goIt : m_GameObjectManager)
             {
                 AETODO("Check return");
                 ShadowLightRenderGameObject(goIt.second, light->GetViewMatrix(), light->GetProjectionMatrix());

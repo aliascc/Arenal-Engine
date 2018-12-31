@@ -34,7 +34,6 @@
 #include "Camera\Camera.h"
 #include "FPRLightCulling.h"
 #include "Textures\Texture.h"
-#include "Lights\LightManager.h"
 #include "ForwardPlusRendering.h"
 #include "Camera\CameraUpdater.h"
 #include "Textures\DepthStencilSurface.h"
@@ -53,8 +52,9 @@
 *   Function Defs   *
 *********************/
 AETODO("Check object instances and calls to where it is init");
-FPRLightCulling::FPRLightCulling(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
-    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
+FPRLightCulling::FPRLightCulling(GameApp& gameApp, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameComponentName, callOrder)
+    , m_LightManager(gameApp.GetLightManager())
 {
     m_ForwardPlusRendering = m_GameApp.GetGameService<ForwardPlusRendering>(fprServiceName);
     AEAssert(m_ForwardPlusRendering != nullptr);
@@ -148,7 +148,7 @@ void FPRLightCulling::Render(const TimerParams& timerParams)
     if(cb != nullptr)
     {
         glm::mat4 invProj   = glm::inverse(currentCamera->GetProjectionMatrix());
-        uint32_t numLights  = m_GameApp.GetLightManager()->GetNumberOfLights();
+        uint32_t numLights  = m_LightManager.GetNumberOfLights();
 
         cb->SetValueT<glm::mat4>(AE_CB_VIEW_VAR_NAME, currentCamera->GetViewMatrix());
         cb->SetValueT<glm::mat4>(AE_CB_INV_PROJECTION_VAR_NAME, invProj);

@@ -55,8 +55,9 @@
 *   Function Defs   *
 *********************/
 AETODO("Check object instances and calls to where it is init");
-FPRPreZ::FPRPreZ(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
-    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
+FPRPreZ::FPRPreZ(GameApp& gameApp, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameComponentName, callOrder)
+    , m_GameObjectManager(gameApp.GetGameObjectManager())
 {
     m_ForwardPlusRendering = m_GameApp.GetGameService<ForwardPlusRendering>(fprServiceName);
     AEAssert(m_ForwardPlusRendering != nullptr);
@@ -73,8 +74,6 @@ FPRPreZ::~FPRPreZ()
 
 void FPRPreZ::Initialize()
 {
-    m_GameObjectManager = m_GameApp.GetGameObjectManager();
-
     m_ForwardPlusZPrePassMaterial = new ForwardPlusZPrePassMaterial(m_GraphicDevice, m_GameResourceManager);
 
     m_ForwardPlusZPrePassSkinningMaterial = new ForwardPlusZPrePassSkinningMaterial(m_GraphicDevice, m_GameResourceManager);
@@ -165,7 +164,7 @@ void FPRPreZ::DrawGameObjects()
 {
     Camera* currentCamera = m_CameraUpdater->GetMainCamera();
 
-    for(auto& goIt : *m_GameObjectManager)
+    for(auto& goIt : m_GameObjectManager)
     {
         DrawGameObject(goIt.second, currentCamera);
     }

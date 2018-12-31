@@ -38,8 +38,9 @@
 /********************
 *   Function Defs   *
 *********************/
-InputHandler::InputHandler(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& gameComponentName, const std::string& serviceName, uint32_t callOrder)
-    : GameComponent(gameApp, gameResourceManager, gameComponentName, callOrder)
+InputHandler::InputHandler(GameApp& gameApp, const std::string& gameComponentName, const std::string& serviceName, uint32_t callOrder)
+    : GameComponent(gameApp, gameComponentName, callOrder)
+    , m_InputManager(gameApp.GetInputManager())
     , m_ServiceName(serviceName)
 {
     //Register this Game Component as a service so others can use it
@@ -54,9 +55,9 @@ InputHandler::~InputHandler()
 
 void InputHandler::Update(const TimerParams& timerParams)
 {
-    if (m_GameApp.GetInputManager()->IsKeyboardActive())
+    if (m_InputManager.IsKeyboardActive())
     {
-        Keyboard* keyboard = m_GameApp.GetInputManager()->GetKeyboard();
+        Keyboard* keyboard = m_InputManager.GetKeyboard();
 
         keyboard->Update();
 
@@ -74,9 +75,9 @@ void InputHandler::Update(const TimerParams& timerParams)
         }
     }
 
-    if (m_GameApp.GetInputManager()->IsXBoxGamepadManagerActive())
+    if (m_InputManager.IsXBoxGamepadManagerActive())
     {
-        XBoxGamepadManager* xboxGamepadManager = m_GameApp.GetInputManager()->GetXBoxGamepadManager();
+        XBoxGamepadManager* xboxGamepadManager = m_InputManager.GetXBoxGamepadManager();
 
         xboxGamepadManager->Update(timerParams);
     }
@@ -84,21 +85,21 @@ void InputHandler::Update(const TimerParams& timerParams)
 
 Keyboard* InputHandler::GetKeyboard() const
 {
-    return m_GameApp.GetInputManager()->GetKeyboard();
+    return m_InputManager.GetKeyboard();
 }
 
 XBoxGamepadManager* InputHandler::GetXBoxGamepadManager() const
 {
-    return m_GameApp.GetInputManager()->GetXBoxGamepadManager();
+    return m_InputManager.GetXBoxGamepadManager();
 }
 
 bool InputHandler::IsKeyboardActive() const
 {
-    return m_GameApp.GetInputManager()->IsKeyboardActive();
+    return m_InputManager.IsKeyboardActive();
 }
 
 bool InputHandler::IsXBoxGamepadManagerActive() const
 {
     AETODO("Check How to do this better, maybe pass the reference to input manager or use service locator at the start...");
-    return m_GameApp.GetInputManager()->IsXBoxGamepadManagerActive();
+    return m_InputManager.IsXBoxGamepadManagerActive();
 }

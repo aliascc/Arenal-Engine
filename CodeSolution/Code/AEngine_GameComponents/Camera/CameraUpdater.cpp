@@ -42,8 +42,9 @@
 *   Function Defs   *
 *********************/
 
-CameraUpdater::CameraUpdater(GameApp& gameApp, GameResourceManager& gameResourceManager, const std::string& name, const std::string& serviceName, uint32_t callOrder)
-    : GameComponent(gameApp, gameResourceManager, name, callOrder)
+CameraUpdater::CameraUpdater(GameApp& gameApp, const std::string& name, const std::string& serviceName, uint32_t callOrder)
+    : GameComponent(gameApp, name, callOrder)
+    , m_CameraManager(gameApp.GetCameraManager())
     , m_ServiceName(serviceName)
 {
     AEAssert(!m_ServiceName.empty());
@@ -70,38 +71,37 @@ CameraUpdater::~CameraUpdater()
 
 uint32_t CameraUpdater::GetNumberOfCameras() const
 {
-    return static_cast<uint32_t>(m_GameApp.GetCameraManager()->GetSize());
+    return static_cast<uint32_t>(m_CameraManager.GetSize());
 }
 
 Camera* CameraUpdater::GetMainCamera() const
 {
-    return m_GameApp.GetCameraManager()->GetMainCamera();
+    return m_CameraManager.GetMainCamera();
 }
 
 bool CameraUpdater::CameraExists(uint64_t cameraID)
 {
-    return m_GameApp.GetCameraManager()->CameraExists(cameraID);
+    return m_CameraManager.CameraExists(cameraID);
 }
 
 AEResult CameraUpdater::SetMainCamera(uint64_t cameraID)
 {
-    return m_GameApp.GetCameraManager()->SetMainCamera(cameraID);
+    return m_CameraManager.SetMainCamera(cameraID);
 }
 
 void CameraUpdater::Update(const TimerParams& timerParams)
 {
-    m_GameApp.GetCameraManager()->Update(timerParams);
+    m_CameraManager.Update(timerParams);
 }
 
 void CameraUpdater::OnResetDevice()
 {
     //////////////////////////////////////////////////
     //Update all cameras
-    CameraManager* cameraManager = m_GameApp.GetCameraManager();
-    GraphicDevice* graphicDevice = m_GameApp.GetGraphicsDevice();
+    GraphicDevice& graphicDevice = m_GameApp.GetGraphicsDevice();
 
-    for (auto cameraIt : *cameraManager)
+    for (auto cameraIt : m_CameraManager)
     {
-        cameraIt.second->ScreenDimensionsChanged(graphicDevice->GetGraphicPP().m_BackBufferWidth, graphicDevice->GetGraphicPP().m_BackBufferHeight);
+        cameraIt.second->ScreenDimensionsChanged(graphicDevice.GetGraphicPP().m_BackBufferWidth, graphicDevice.GetGraphicPP().m_BackBufferHeight);
     }
 }

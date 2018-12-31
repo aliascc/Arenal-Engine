@@ -35,8 +35,8 @@
 /********************
 *   Function Defs   *
 *********************/
-ImGuiComponent::ImGuiComponent(GameApp& gameApp, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice, const std::string& gameComponentName, uint32_t callOrder)
-    : DrawableGameComponent(gameApp, gameResourceManager, graphicDevice, gameComponentName, callOrder)
+ImGuiComponent::ImGuiComponent(GameApp& gameApp, const std::string& gameComponentName, uint32_t callOrder)
+    : DrawableGameComponent(gameApp, gameComponentName, callOrder)
 {
 }
 
