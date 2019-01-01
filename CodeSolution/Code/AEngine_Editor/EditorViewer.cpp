@@ -104,13 +104,10 @@ void EditorViewer::Initialize()
 
     m_ImGuiComponent = new ImGuiComponent(*this);
     this->AddComponent(m_ImGuiComponent);
-
-    GameApp::Initialize();
 }
 
 void EditorViewer::LoadContent()
-{    
-    GameApp::LoadContent();
+{
 }
 
 void EditorViewer::UnLoadContent()
@@ -142,23 +139,18 @@ void EditorViewer::UnLoadContent()
     DeleteMem(m_GameObjectCameraUpdate);
     DeleteMem(m_GameAudioUpdate);
     DeleteMem(m_ImGuiComponent);
-
-    GameApp::UnLoadContent();
 }
 
 void EditorViewer::OnLostDevice()
 {
-    GameApp::OnLostDevice();
 }
 
 void EditorViewer::OnResetDevice()
 {
-    GameApp::OnResetDevice();
 }
 
 void EditorViewer::ConstantUpdate(const TimerParams& timerParams)
 {
-    GameApp::ConstantUpdate(timerParams);
 }
 
 void EditorViewer::Update(const TimerParams& timerParams)
@@ -177,18 +169,12 @@ void EditorViewer::Update(const TimerParams& timerParams)
     {
         m_DebugStats->SetFPSEnabled(!m_DebugStats->GetFPSEnabled());
     }
-
-    GameApp::Update(timerParams);
 }
 
 void EditorViewer::PostUpdate(const TimerParams& timerParams)
 {
-    GameApp::PostUpdate(timerParams);
 }
 
 void EditorViewer::Render(const TimerParams& timerParams)
 {
-    m_GraphicDevice->Clear();
-
-    GameApp::Render(timerParams);
 }

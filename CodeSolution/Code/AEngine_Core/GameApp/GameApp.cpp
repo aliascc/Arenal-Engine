@@ -973,21 +973,6 @@ AEResult GameApp::RegisterScriptData()
     return AEResult::Ok;
 }
 
-void GameApp::Initialize()
-{
-    m_GameComponentCollection->InitializeCollection();
-}
-
-void GameApp::LoadContent()
-{
-    m_GameComponentCollection->LoadContentCollection();
-}
-
-void GameApp::UnLoadContent()
-{
-    m_GameComponentCollection->UnLoadContentCollection();
-}
-
 void GameApp::OnResize(uint32_t width, uint32_t heigth)
 {
     if(!m_IsReady)
@@ -1148,31 +1133,12 @@ GameService* GameApp::GetGameServiceBase(const std::string& serviceName) const
 
 void GameApp::PreRender()
 {
+    m_GraphicDevice->Clear();
 }
 
 void GameApp::PostRender()
 {
     m_GraphicDevice->Present();
-}
-
-void GameApp::Render(const TimerParams& timerParams)
-{
-    m_GameComponentCollection->RenderCollection(timerParams);
-}
-
-void GameApp::ConstantUpdate(const TimerParams& timerParams)
-{
-    m_GameComponentCollection->ConstantUpdateCollection(timerParams);
-}
-
-void GameApp::Update(const TimerParams& timerParams)
-{
-    m_GameComponentCollection->UpdateCollection(timerParams);
-}
-
-void GameApp::PostUpdate(const TimerParams& timerParams)
-{
-    m_GameComponentCollection->PostUpdateCollection(timerParams);
 }
 
 int GameApp::Run()
@@ -1190,8 +1156,8 @@ int GameApp::Run()
     m_Timer.Update();
 
     //Initialize Game and Load Content
-    Initialize();
-    LoadContent();
+    InternalInitialize();
+    InternalLoadContent();
 
     while(msg.message != WM_QUIT && !m_StartShutdown)
     {
@@ -1216,29 +1182,19 @@ int GameApp::Run()
             m_Timer.Update();
 
             //Constant Update
-            const TimerParams& constUpdateTimerParams = m_Timer.GetConstantUpdateTimerParams();
-            while (m_Timer.NeedToRunConstantUpdate())
-            {
-                ConstantUpdate(constUpdateTimerParams);
-            }
+            InternalConstantUpdate();
 
             //Frame Timer
             const TimerParams& frameTimerParams = m_Timer.GetFrameTimerParams();
 
             //Update Game
-            Update(frameTimerParams);
+            InternalUpdate(frameTimerParams);
 
             //A Post Update, so stuff like cameras can be updated after all the scene has
-            PostUpdate(frameTimerParams);
-
-            //Pre Render Commands
-            PreRender();
+            InternalPostUpdate(frameTimerParams);
 
             //Render Game
-            Render(frameTimerParams);
-
-            //Post Render Commands
-            PostRender();
+            InternalRender(frameTimerParams);
 
             //Run Game Commands
             m_GameCommandManager->ExecuteCommands();
@@ -1252,6 +1208,97 @@ int GameApp::Run()
     m_IsEngineOff = true;
 
     return (int)msg.wParam;
+}
+
+void GameApp::InternalInitialize()
+{
+    //Game App Initialize
+    Initialize();
+
+    //Game Component Initialize
+    m_GameComponentCollection->InitializeCollection();
+}
+
+void GameApp::InternalLoadContent()
+{
+    //Game App LoadContent
+    LoadContent();
+
+    //Game Component LoadContent
+    m_GameComponentCollection->LoadContentCollection();
+}
+
+void GameApp::InternalUnLoadContent()
+{
+    //Game App UnLoadContent
+    UnLoadContent();
+
+    //Game Component UnLoadContent
+    m_GameComponentCollection->UnLoadContentCollection();
+}
+
+void GameApp::InternalRender(const TimerParams& timerParams)
+{
+    //Pre Render Commands
+    PreRender();
+
+    //Game App Render
+    Render(timerParams);
+
+    //Game Component Render
+    m_GameComponentCollection->RenderCollection(timerParams);
+
+    //Post Render Commands
+    PostRender();
+}
+
+void GameApp::InternalConstantUpdate()
+{
+    const TimerParams& constUpdateTimerParams = m_Timer.GetConstantUpdateTimerParams();
+    while (m_Timer.NeedToRunConstantUpdate())
+    {
+        //Game App Constant Update
+        ConstantUpdate(constUpdateTimerParams);
+
+        //Game Component Constant Update
+        m_GameComponentCollection->ConstantUpdateCollection(constUpdateTimerParams);
+    }
+}
+
+void GameApp::InternalUpdate(const TimerParams& timerParams)
+{
+    //Game App Update
+    Update(timerParams);
+
+    //Game Component Update
+    m_GameComponentCollection->UpdateCollection(timerParams);
+}
+
+void GameApp::InternalPostUpdate(const TimerParams& timerParams)
+{
+    //Game App Update
+    PostUpdate(timerParams);
+
+    //Game Component Update
+    m_GameComponentCollection->PostUpdateCollection(timerParams);
+}
+
+void GameApp::InternalOnLostDevice()
+{
+    //Game App Update
+    OnLostDevice();
+
+    //Game Component Update
+    m_GameComponentCollection->OnLostDeviceCollection();
+}
+
+void GameApp::InternalOnResetDevice()
+{
+    //Game App Update
+    OnResetDevice();
+
+    //Game Component Update
+    m_GameComponentCollection->OnResetDeviceCollection();
 }
 
 AEResult GameApp::SaveGameInfo()

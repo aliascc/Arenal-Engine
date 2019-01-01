@@ -135,8 +135,6 @@ void ViewerApp::Initialize()
     //m_GameAssetManager->CreateNewRawGameAsset(AE_Base_FS_PATH L".\\Data\\Raw Files\\Lobo.dae", AE_Base_FS_PATH L".\\Data\\Assets\\", GameContentSubtype::None);
 
     //m_LoboTexture = new Texture2D(m_GraphicDevice, L"LoboTexture");
-
-    GameApp::Initialize();
 }
 
 void ViewerApp::LoadContent()
@@ -164,8 +162,6 @@ void ViewerApp::LoadContent()
     //m_GameObjectManager->AddGameObject(m_GameObjectLobo);
 
     //m_LoboTexture->CreateFromFile(L".\\Data\\Textures\\LoboTexture.dds");
-
-    GameApp::LoadContent();
 }
 
 void ViewerApp::CallBackAnim1()
@@ -175,17 +171,18 @@ void ViewerApp::CallBackAnim1()
 
 void ViewerApp::UnLoadContent()
 {
-    GameApp::UnLoadContent();
 }
 
 void ViewerApp::OnLostDevice()
 {
-    GameApp::OnLostDevice();
 }
 
 void ViewerApp::OnResetDevice()
 {
-    GameApp::OnResetDevice();
+}
+
+void ViewerApp::ConstantUpdate(const TimerParams& timerParams)
+{
 }
 
 void ViewerApp::Update(const TimerParams& timerParams)
@@ -219,8 +216,10 @@ void ViewerApp::Update(const TimerParams& timerParams)
     m_SkinningMaterial->GetVSProps()->GetConstantBuffer(L"_AE_CB_World_View_Proj")->SetValueT<glm::mat4>(L"_AE_PROJection", m_ViewerCamera->GetProjectionMatrix());
 
     m_SkinningMaterial->GetVSProps()->GetConstantBuffer(L"_AE_CB_Bones")->SetValue(L"_AE_BoneTransforms", m_AnimationPlayer->GetBoneTransforms(), AE_MAX_BONES * sizeof(glm::mat4));*/
+}
 
-    GameApp::Update(timerParams);
+void ViewerApp::PostUpdate(const TimerParams& timerParams)
+{
 }
 
 void ViewerApp::Render(const TimerParams& timerParams)
@@ -253,8 +252,6 @@ void ViewerApp::Render(const TimerParams& timerParams)
     //
     //m_GraphicDevice->GetDeviceContextDX()->RSSetState(defaultRSState);
     //ReleaseCOM(rsState);
-
-    GameApp::Render(timerParams);
 }
 
 //void ViewerApp::DrawSkinModels(Model* model)

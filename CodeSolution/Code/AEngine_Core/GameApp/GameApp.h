@@ -91,7 +91,25 @@ class GameApp abstract : public AEObject
         /**********************
         *   Private Methods   *
         ***********************/
-#pragma region Private Methods 
+#pragma region Private Methods
+
+        void InternalInitialize();
+
+        void InternalLoadContent();
+
+        void InternalUnLoadContent();
+
+        void InternalRender(const TimerParams& timerParams);
+
+        void InternalConstantUpdate();
+
+        void InternalUpdate(const TimerParams& timerParams);
+
+        void InternalPostUpdate(const TimerParams& timerParams);
+
+        void InternalOnLostDevice();
+
+        void InternalOnResetDevice();
 
         //Static Callback function for Windows Message Loop
         static LRESULT CALLBACK MainWndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -530,23 +548,23 @@ class GameApp abstract : public AEObject
 
         AEResult CreateProjectFolder(const std::string& projectFolder, const std::string& projectName, bool createFolder);
 
-        virtual void Initialize();
+        virtual void Initialize() = 0;
 
-        virtual void LoadContent();
+        virtual void LoadContent() = 0;
 
-        virtual void UnLoadContent();
+        virtual void UnLoadContent() = 0;
 
-        virtual void Render(const TimerParams& timerParams);
+        virtual void Render(const TimerParams& timerParams) = 0;
 
-        virtual void ConstantUpdate(const TimerParams& timerParams);
+        virtual void ConstantUpdate(const TimerParams& timerParams) = 0;
 
-        virtual void Update(const TimerParams& timerParams);
+        virtual void Update(const TimerParams& timerParams) = 0;
 
-        virtual void PostUpdate(const TimerParams& timerParams);
+        virtual void PostUpdate(const TimerParams& timerParams) = 0;
 
-        virtual void OnLostDevice();
+        virtual void OnLostDevice() = 0;
 
-        virtual void OnResetDevice();
+        virtual void OnResetDevice() = 0;
 
         template<class T>
         T* GetGameService(const std::string& serviceName) const
