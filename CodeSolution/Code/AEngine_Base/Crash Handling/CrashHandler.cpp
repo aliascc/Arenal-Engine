@@ -57,7 +57,7 @@ CrashHandler::~CrashHandler()
 LONG CrashHandler::ExceptionVectorHandler(_In_ PEXCEPTION_POINTERS exceptionInfo)
 {
     //Check to see if the exception was handled in the code
-    if (exceptionInfo->ExceptionRecord->ExceptionFlags == EXCEPTION_NONCONTINUABLE)
+    if (exceptionInfo->ExceptionRecord->ExceptionCode < CRASH_HANDLER_MAX_INFORMATION_EXCEPTION_CODE)
     {
         return EXCEPTION_CONTINUE_EXECUTION;
     }

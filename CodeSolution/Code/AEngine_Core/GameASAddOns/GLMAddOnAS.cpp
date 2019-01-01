@@ -533,11 +533,12 @@ AEResult GLMAddOnAS::RegisterGLM_Vec4_Functions_Native(asIScriptEngine* engine)
         return AEResult::RegObjBehaviorFail;
     }
 
-    ret = engine->RegisterObjectMethod("vec4", "vec4 opMul(const float&in)", asFUNCTIONPR(glm::operator*, (const glm::vec4&, const float), glm::vec4), asCALL_CDECL_OBJFIRST);
+    AETODO("Fix this");
+    /*ret = engine->RegisterObjectMethod("vec4", "vec4 opMul(const float&in)", asFUNCTIONPR(glm::operator*, (const glm::vec4&, const float), glm::vec4), asCALL_CDECL_OBJFIRST);
     if (ret < 0)
     {
         return AEResult::RegObjBehaviorFail;
-    }
+    }*/
 
     ret = engine->RegisterObjectMethod("vec4", "vec4 opDiv(const vec4&in)", asFUNCTIONPR(glm::operator/, (const glm::vec4&, const glm::vec4&), glm::vec4), asCALL_CDECL_OBJFIRST);
     if (ret < 0)

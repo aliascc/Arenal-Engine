@@ -40,6 +40,7 @@
 
 //GLM configuration
 #define GLM_FORCE_RADIANS
+#define GLM_ENABLE_EXPERIMENTAL
 
 /*********************
 *   Project Config   *

@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _PRECOMP_GAMECOMPONENTS_H
-#define _PRECOMP_GAMECOMPONENTS_H
-
 /*************************
 *   Game Engine Config   *
 **************************/
@@ -144,5 +141,3 @@
 
 #include "GameUtils\GameComponent.h"
 #include "GameUtils\DrawableGameComponent.h"
-
-#endif

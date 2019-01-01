@@ -34,6 +34,7 @@
 *.user
 
 # AEngine Ignores
+*.dmp
 *.ini
 *.opensdf
 *.sdf
