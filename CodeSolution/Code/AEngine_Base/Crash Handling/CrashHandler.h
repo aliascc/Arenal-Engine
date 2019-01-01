@@ -17,8 +17,7 @@
 
 #pragma once
 
-#ifndef _CRASH_HANDLER_H
-#define _CRASH_HANDLER_H
+#ifdef AE_CRASH_HANDILING
 
 /**********************
 *   System Includes   *
@@ -70,7 +69,7 @@ class CrashHandler : public Singleton<CrashHandler>
 
         static LONG CALLBACK ExceptionVectorHandler(_In_ PEXCEPTION_POINTERS exceptionInfo);
 
-        void CreateCoreDump(PEXCEPTION_POINTERS exceptionInfo);
+        bool CreateCoreDump(PEXCEPTION_POINTERS exceptionInfo, std::string& coreDumpFileName);
 
 #pragma endregion
 
@@ -106,4 +105,4 @@ class CrashHandler : public Singleton<CrashHandler>
 
 };
 
-#endif
+#endif //AE_CRASH_HANDILING

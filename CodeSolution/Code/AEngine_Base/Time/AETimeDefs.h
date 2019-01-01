@@ -95,7 +95,7 @@ struct TimeStamp sealed : public AEObject
     /***********************
     *   Public Variables   *
     ************************/
-#pragma region Private Variables
+#pragma region Public Variables
 
     /// <summary>
     /// Record the day number of the time stamp
@@ -195,6 +195,13 @@ struct TimeStamp sealed : public AEObject
     /// Greater than or equal operator overload
     /// </summary>
     bool operator>=(const TimeStamp& other);
+
+    /// <summary>
+    /// Gets the Time in string form
+    /// </summary>
+    /// <param name="timeStr">String where the time will be saved</param>
+    /// <param name="useColonForTime">Default use of colon for minute and second separation, false if time is needed as a file name</param>
+    void GetTimeString(std::string& timeStr, bool useColonForTime = true) const;
 
     /// <summary>
     /// To String method override, Gets Time Stamp as a string

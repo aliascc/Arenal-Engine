@@ -77,24 +77,28 @@ GameApp::GameApp(HINSTANCE hInstance)
 {
 #if defined(AE_MEM_CHECK)
     MemLeaks::MemoryBegin();
-#endif
+#endif //AE_MEM_CHECK
 
+#ifdef AE_CRASH_HANDILING
     if (CrashHandlerInst->InitCrashHandling() != AEResult::Ok)
     {
         AETODO("Add error window");
     }
+#endif //AE_CRASH_HANDILING
 }
 
 GameApp::~GameApp()
 {
     CleanUp();
 
+#ifdef AE_CRASH_HANDILING
     CrashHandlerInst->DeinitCrashHandling();
     CrashHandlerInst->DestroyInstance();
+#endif //AE_CRASH_HANDILING
 
 #if defined(AE_MEM_CHECK)
     MemLeaks::MemoryEnd();
-#endif
+#endif //AE_MEM_CHECK
 }
 
 void GameApp::CleanUp()
@@ -545,29 +549,21 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
 
     if (ExtractGameEngineConfig() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GAME_CONFIG_ERR_MSG");
-        
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-        
+        AETODO("Add basic localization strings to code.")
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("EXTRACT_GAME_CONFIG_ERR_MSG"));
         return AEResult::Fail;
     }
 
     if (InitLocalizationManager() != AEResult::Ok)
     {
-        /*Hard coded strings here because Localization Manager failed to start*/
-        errorMsg = "Localization Parameters could not be initialize";
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        // Hard coded strings here because Localization Manager failed to start
+        AELOGGER->AddNewLog(LogLevel::Error, "Localization Parameters could not be initialize");
         return AEResult::Fail;
     }
 
     if (ExtractGameAppOpts() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GAME_OPTS_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("EXTRACT_GAME_OPTS_ERR_MSG"));
         return AEResult::Fail;
     }
 
@@ -591,55 +587,37 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
 
     if (ExtractGraphicOpts() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GRAPHIC_OPTS_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("EXTRACT_GRAPHIC_OPTS_ERR_MSG"));
         return AEResult::Fail;
     }
 
     if (InitMainWindow() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("INIT_MAIN_WINDOW_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("INIT_MAIN_WINDOW_ERR_MSG"));
         return AEResult::Fail;
     }
-    
+
     if (Init3D_Device() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("INIT_3D_DEVICE_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("INIT_3D_DEVICE_ERR_MSG"));
         return AEResult::Fail;
     }
 
     if (InitInputManager() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("INIT_INPUT_DEVICES_FAIL_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("INIT_INPUT_DEVICES_FAIL_ERR_MSG"));
         return AEResult::Fail;
     }
 
     if (InitPhysicsManager() != AEResult::Ok)
     {
-        AETODO("Add correct log msg")
-        //errorMsg = AELOCMAN->GetLiteral("SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
-        //AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("PHYSICS_ENGINE_INIT_ERR_MSG"));
         return AEResult::Fail;
     }
 
     if (InitScriptingEngine() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-        
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("SCRIPT_ENGINE_INIT_FAIL_ERR_MSG"));
         return AEResult::Fail;
     }
 
@@ -674,8 +652,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
     //Register Data that the Angel Script will have available
     if (RegisterScriptData() != AEResult::Ok)
     {
-        AETODO("Add error box message here");
-
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("SCRIPT_ENGINE_REGISTER_DATA_ERR_MSG"));
         return AEResult::Fail;
     }
 
@@ -685,11 +662,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
 
     if(m_GameAssetManager->Initialize() != AEResult::Ok)
     {
-        AETODO("Better init of asset game manager");
-        /*errorMsg = m_LocalizationManager->GetLiteral("SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
-
-        m_Logger->AddNewLog(LogLevel::Error, errorMsg);*/
-
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("ASSET_MANAGER_INIT_ERR_MSG"));
         return AEResult::Fail;
     }
 
@@ -704,7 +677,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
     m_ImGuiManager = new ImGuiManager(*m_GraphicDevice);
     if (m_ImGuiManager->Initialize() != AEResult::Ok)
     {
-        AETODO("Add Log");
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("IMGUI_INIT_ERR_MSG"));
         return AEResult::Fail;
     }
 

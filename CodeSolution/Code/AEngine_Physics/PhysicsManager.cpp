@@ -112,7 +112,7 @@ AEResult PhysicsManager::Initialize()
     physx::PxSceneDesc sceneDesc(m_PxPhysics->getTolerancesScale());
     sceneDesc.gravity = physx::PxVec3(0.0f, -m_DefaultGravity, 0.0f);
 
-    if (!sceneDesc.cpuDispatcher)
+    if (sceneDesc.cpuDispatcher == nullptr)
     {
         m_CpuDispatcher = physx::PxDefaultCpuDispatcherCreate(1);
 
