@@ -32,10 +32,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Sampler.h"
-#include "Logger\Logger.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
-#include "Localization\LocalizationManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -43,11 +40,10 @@
 /********************
 *   Function Defs   *
 *********************/
-Sampler::Sampler(GraphicDevice* graphicDevice, const std::string& name, uint32_t bindIndex)
+Sampler::Sampler(GraphicDevice& graphicDevice, const std::string& name, uint32_t bindIndex)
     : ShaderBinding(name, bindIndex)
     , m_GraphicDevice(graphicDevice)
 {
-    AEAssert(m_GraphicDevice != nullptr);
 }
 
 Sampler::~Sampler()
@@ -57,14 +53,6 @@ Sampler::~Sampler()
 
 AEResult Sampler::Initialize(ShaderFilter shaderFilter, ShaderTextureAddressMode textureAddressModeU, ShaderTextureAddressMode textureAddressModeV, ShaderTextureAddressMode textureAddressModeW, float minLOD, float maxLOD, float mipLODBias, uint32_t maxAnisotropy, ShaderCompFunct compFunction, const Color& borderColor)
 {
-    ///////////////////////////////////////////////
-    //Pre-checks
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     ///////////////////////////////////////////////
     //Clean Memory
     ReleaseCOM(m_SamplerDX);
@@ -90,7 +78,7 @@ AEResult Sampler::Initialize(ShaderFilter shaderFilter, ShaderTextureAddressMode
 
     ///////////////////////////////////////////////
     //Create DX Sampler
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateSamplerState(&dxSamplerDesc, &m_SamplerDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateSamplerState(&dxSamplerDesc, &m_SamplerDX);
 
     if (hr != S_OK)
     {

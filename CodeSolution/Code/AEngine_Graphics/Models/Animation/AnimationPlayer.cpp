@@ -34,8 +34,6 @@
 #include "KeyFrame.h"
 #include "Animation.h"
 #include "AnimationPlayer.h"
-#include "Time\AETimeDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Models\Skinning\Bone.h"
 #include "Models\Skinning\Skeleton.h"
 #include "Models\Skinning\SkinningDefs.h"
@@ -441,7 +439,7 @@ AEResult AnimationPlayer::Update(const TimerParams& timerParams, const glm::mat4
 
     AEResult ret = AEResult::Ok;
 
-    float elapsedTime = (float)timerParams.m_ElapsedTime;
+    float elapsedTime = timerParams.m_ElapsedTime;
 
     m_CurrentAnimation->Update(timerParams);
 

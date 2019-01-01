@@ -33,7 +33,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "Shaders\ShaderDefs.h"
-#include "Base\BaseFunctions.h"
 #include "BuiltInMaterialsDefs.h"
 #include "Shaders\Buffers\SimpleBuffer.h"
 #include "Models\Skinning\SkinningDefs.h"
@@ -54,14 +53,8 @@
 namespace AEBuiltInMaterialsHelpers
 {
 
-    AEResult BuildCBWVP(GraphicDevice* graphicDevice, ConstantBuffer** cb)
+    AEResult BuildCBWVP(GraphicDevice& graphicDevice, ConstantBuffer** cb)
     {
-        AEAssert(graphicDevice != nullptr);
-        if (graphicDevice == nullptr)
-        {
-            return AEResult::GraphicDeviceNull;
-        }
-
         AEAssert(cb != nullptr);
         if (cb == nullptr)
         {
@@ -76,9 +69,9 @@ namespace AEBuiltInMaterialsHelpers
         //
         //    cbuffer _AE_CB_World_View_Proj : register(b0)
         //    {
-        //        matrix _AE_World        : packoffset(c0);
-        //        matrix _AE_View            : packoffset(c4);
-        //        matrix _AE_PROJection    : packoffset(c8);
+        //        matrix _AE_World      : packoffset(c0);
+        //        matrix _AE_View       : packoffset(c4);
+        //        matrix _AE_PROJection : packoffset(c8);
         //    };
         //
 
@@ -198,14 +191,8 @@ namespace AEBuiltInMaterialsHelpers
         return AEResult::Ok;
     }
 
-    AEResult BuildCBVP(GraphicDevice* graphicDevice, ConstantBuffer** cb)
+    AEResult BuildCBVP(GraphicDevice& graphicDevice, ConstantBuffer** cb)
     {
-        AEAssert(graphicDevice != nullptr);
-        if (graphicDevice == nullptr)
-        {
-            return AEResult::GraphicDeviceNull;
-        }
-
         AEAssert(cb != nullptr);
         if (cb == nullptr)
         {
@@ -220,8 +207,8 @@ namespace AEBuiltInMaterialsHelpers
         //
         //    cbuffer _AE_CB_View_Proj : register(b0)
         //    {
-        //        matrix _AE_View            : packoffset(c0);
-        //        matrix _AE_PROJection    : packoffset(c4);
+        //        matrix _AE_View           : packoffset(c0);
+        //        matrix _AE_PROJection     : packoffset(c4);
         //    };
         //
 
@@ -310,14 +297,8 @@ namespace AEBuiltInMaterialsHelpers
         return AEResult::Ok;
     }
 
-    AEResult BuildCBBones(GraphicDevice* graphicDevice, ConstantBuffer** cb)
+    AEResult BuildCBBones(GraphicDevice& graphicDevice, ConstantBuffer** cb)
     {
-        AEAssert(graphicDevice != nullptr);
-        if (graphicDevice == nullptr)
-        {
-            return AEResult::GraphicDeviceNull;
-        }
-
         AEAssert(cb != nullptr);
         if (cb == nullptr)
         {
@@ -392,14 +373,8 @@ namespace AEBuiltInMaterialsHelpers
         return AEResult::Ok;
     }
 
-    AEResult BuildCBColor(GraphicDevice* graphicDevice, ConstantBuffer** cb)
+    AEResult BuildCBColor(GraphicDevice& graphicDevice, ConstantBuffer** cb)
     {
-        AEAssert(graphicDevice != nullptr);
-        if (graphicDevice == nullptr)
-        {
-            return AEResult::GraphicDeviceNull;
-        }
-
         AEAssert(cb != nullptr);
         if (cb == nullptr)
         {
@@ -473,14 +448,8 @@ namespace AEBuiltInMaterialsHelpers
         return AEResult::Ok;
     }
 
-    AEResult BuildCBHalfPixel(GraphicDevice* graphicDevice, ConstantBuffer** cb)
+    AEResult BuildCBHalfPixel(GraphicDevice& graphicDevice, ConstantBuffer** cb)
     {
-        AEAssert(graphicDevice != nullptr);
-        if (graphicDevice == nullptr)
-        {
-            return AEResult::GraphicDeviceNull;
-        }
-
         AEAssert(cb != nullptr);
         if (cb == nullptr)
         {
@@ -555,14 +524,8 @@ namespace AEBuiltInMaterialsHelpers
         return AEResult::Ok;
     }
 
-    AEResult BuildCBFPRLightCulling(GraphicDevice* graphicDevice, ConstantBuffer** cb)
+    AEResult BuildCBFPRLightCulling(GraphicDevice& graphicDevice, ConstantBuffer** cb)
     {
-        AEAssert(graphicDevice != nullptr);
-        if (graphicDevice == nullptr)
-        {
-            return AEResult::GraphicDeviceNull;
-        }
-
         AEAssert(cb != nullptr);
         if (cb == nullptr)
         {
@@ -762,14 +725,8 @@ namespace AEBuiltInMaterialsHelpers
         return AEResult::Ok;
     }
 
-    AEResult BuildCBFPRLights(GraphicDevice* graphicDevice, ConstantBuffer** cb)
+    AEResult BuildCBFPRLights(GraphicDevice& graphicDevice, ConstantBuffer** cb)
     {
-        AEAssert(graphicDevice != nullptr);
-        if (graphicDevice == nullptr)
-        {
-            return AEResult::GraphicDeviceNull;
-        }
-
         AEAssert(cb != nullptr);
         if (cb == nullptr)
         {
@@ -875,14 +832,8 @@ namespace AEBuiltInMaterialsHelpers
         return AEResult::Ok;
     }
 
-    AEResult BuildBufferLightBuffer(GraphicDevice* graphicDevice, StructuredBuffer** sb)
+    AEResult BuildBufferLightBuffer(GraphicDevice& graphicDevice, StructuredBuffer** sb)
     {
-        AEAssert(graphicDevice != nullptr);
-        if (graphicDevice == nullptr)
-        {
-            return AEResult::GraphicDeviceNull;
-        }
-
         AEAssert(sb != nullptr);
         if (sb == nullptr)
         {
@@ -917,14 +868,8 @@ namespace AEBuiltInMaterialsHelpers
         return AEResult::Ok;
     }
 
-    AEResult BuildBufferPerTileLightIndexBuffer(GraphicDevice* graphicDevice, SimpleBuffer** sb)
+    AEResult BuildBufferPerTileLightIndexBuffer(GraphicDevice& graphicDevice, SimpleBuffer** sb)
     {
-        AEAssert(graphicDevice != nullptr);
-        if (graphicDevice == nullptr)
-        {
-            return AEResult::GraphicDeviceNull;
-        }
-
         AEAssert(sb != nullptr);
         if (sb == nullptr)
         {

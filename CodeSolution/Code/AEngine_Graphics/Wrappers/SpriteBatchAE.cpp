@@ -33,7 +33,6 @@
 ****************************/
 #include "SpriteBatchAE.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 #include "Textures\Texture2D.h"
 
 //Always include last
@@ -42,10 +41,9 @@
 /********************
 *   Function Defs   *
 *********************/
-SpriteBatchAE::SpriteBatchAE(GraphicDevice* graphicDevice)
+SpriteBatchAE::SpriteBatchAE(GraphicDevice& graphicDevice)
     : m_GraphicDevice(graphicDevice)
 {
-    AEAssert(graphicDevice != nullptr);
 }
 
 SpriteBatchAE::~SpriteBatchAE()
@@ -60,14 +58,9 @@ AEResult SpriteBatchAE::Initialize()
         return AEResult::Ok;
     }
 
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     try
     {
-        m_SpriteBatch = new DirectX::SpriteBatch(m_GraphicDevice->GetDeviceContextDX());
+        m_SpriteBatch = new DirectX::SpriteBatch(m_GraphicDevice.GetDeviceContextDX());
     }
     AETODO("Get correct Exception")
     catch(...)
@@ -96,7 +89,7 @@ AEResult SpriteBatchAE::Begin(DirectX::SpriteSortMode sortMode, SpriteStateChang
 
     if(m_StateChange == SpriteStateChange::Discard)
     {
-        ID3D11DeviceContext* dxContext = m_GraphicDevice->GetDeviceContextDX();
+        ID3D11DeviceContext* dxContext = m_GraphicDevice.GetDeviceContextDX();
         
         dxContext->OMGetBlendState(&m_SpriteStates.m_BlendState, (float*)&m_SpriteStates.m_BlendFactor, &m_SpriteStates.m_SampleMask);
         dxContext->OMGetDepthStencilState(&m_SpriteStates.m_DepthStencilState, &m_SpriteStates.m_StencilRef);
@@ -131,7 +124,7 @@ AEResult SpriteBatchAE::End()
 
     if(m_StateChange == SpriteStateChange::Discard)
     {
-        ID3D11DeviceContext* dxContext = m_GraphicDevice->GetDeviceContextDX();
+        ID3D11DeviceContext* dxContext = m_GraphicDevice.GetDeviceContextDX();
         
         dxContext->OMSetBlendState(m_SpriteStates.m_BlendState, (float*)&m_SpriteStates.m_BlendFactor, m_SpriteStates.m_SampleMask);
         dxContext->OMSetDepthStencilState(m_SpriteStates.m_DepthStencilState, m_SpriteStates.m_StencilRef);

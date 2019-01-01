@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameService.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -41,7 +40,7 @@
 *********************/
 AETODO("add mutex");
 GameService::GameService(const std::string& name)
-    : UniqueAEObjectNamed(name)
+    : Named(name)
 {
 }
 

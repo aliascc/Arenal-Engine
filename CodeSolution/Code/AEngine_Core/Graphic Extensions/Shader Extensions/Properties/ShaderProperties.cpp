@@ -32,12 +32,10 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GraphicDevice.h"
-#include "Logger\Logger.h"
 #include "Shaders\Shader.h"
 #include "ShaderProperties.h"
 #include "Textures\Texture.h"
 #include "Textures\Texture2D.h"
-#include "Base\BaseFunctions.h"
 #include "GameAssets\GameAsset.h"
 #include "Shaders\Variables\Sampler.h"
 #include "Shaders\Buffers\SimpleBuffer.h"
@@ -45,7 +43,6 @@
 #include "GameAssets\Assets\TextureAsset.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 #include "Shaders\Buffers\StructuredBuffer.h"
-#include "Localization\LocalizationManager.h"
 #include "Shaders\Variables\Texture2DArray.h"
 #include "Shaders\Bindings\ShaderTextureBinding.h"
 
@@ -55,11 +52,10 @@
 /********************
 *   Function Defs   *
 *********************/
-ShaderProperties::ShaderProperties(ShaderType shaderType, GraphicDevice* graphicDevice)
+ShaderProperties::ShaderProperties(ShaderType shaderType, GraphicDevice& graphicDevice)
     : m_ShaderType(shaderType)
     , m_GraphicDevice(graphicDevice)
 {
-    AEAssert(graphicDevice != nullptr);
 }
 
 ShaderProperties::~ShaderProperties()
@@ -361,12 +357,6 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
 {
     /////////////////////////////////////////////////////
     //Pre-check variables
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEAssert(shader != nullptr);
     if(shader == nullptr)
     {
@@ -470,12 +460,6 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
 
 AEResult ShaderProperties::AddConstantBuffersFromSigList(const ConstantBufferSignatureList& constBufferSigList)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEResult ret = AEResult::Ok;
 
     for(const ConstantBufferSignature& constBufferSig : constBufferSigList)
@@ -531,12 +515,6 @@ AEResult ShaderProperties::AddConstantBuffersFromSigList(const ConstantBufferSig
 
 AEResult ShaderProperties::AddSamplersFromSigList(const SamplerSignatureList& samplerSigList)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEResult ret = AEResult::Ok;
 
     for (const SamplerSignature& samplerSig : samplerSigList)
@@ -569,12 +547,6 @@ AEResult ShaderProperties::AddSamplersFromSigList(const SamplerSignatureList& sa
 
 AEResult ShaderProperties::AddSimpleBuffersFromSigList(const SimpleBufferSignatureList& simpleBufferSignatureList)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEResult ret = AEResult::Ok;
 
     for(const SimpleBufferSignature& simpleBufferSig : simpleBufferSignatureList)
@@ -599,12 +571,6 @@ AEResult ShaderProperties::AddSimpleBuffersFromSigList(const SimpleBufferSignatu
 
 AEResult ShaderProperties::AddStructuredBuffersFromSigList(const StructuredBufferSignatureList& structuredBufferSigList)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEResult ret = AEResult::Ok;
 
     for(const StructuredBufferSignature& structuredBufferSig : structuredBufferSigList)
@@ -629,12 +595,6 @@ AEResult ShaderProperties::AddStructuredBuffersFromSigList(const StructuredBuffe
 
 AEResult ShaderProperties::AddTextureBindingsFromSigList(const TextureInputSignatureList& textBindingSigList)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEResult ret = AEResult::Ok;
 
     for(const TextureInputSignature& textBindingSig : textBindingSigList)
@@ -659,12 +619,6 @@ AEResult ShaderProperties::AddTextureBindingsFromSigList(const TextureInputSigna
 
 AEResult ShaderProperties::AddTextureArraysFromSigList(const TextureArrayInputSignatureList& textArrayInputSigList)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEResult ret = AEResult::Ok;
 
     for (const TextureArrayInputSignature& textArrayInput : textArrayInputSigList)
@@ -704,12 +658,6 @@ AEResult ShaderProperties::AddTextureArraysFromSigList(const TextureArrayInputSi
 
 AEResult ShaderProperties::AddConstantBuffer(ConstantBuffer* cb)
 {
-    AEAssert(cb != nullptr);
-    if(cb == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
     AEAssert(!cb->GetName().empty());
     if(cb->GetName().empty())
     {
@@ -1474,12 +1422,6 @@ AEResult ShaderProperties::CopyTexturePairData(const std::string& textureName, c
 
 AEResult ShaderProperties::ApplyAll()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     if(ApplyConstantBuffers() != AEResult::Ok)
     {
         return AEResult::SetConstantBufferFailed;
@@ -1517,12 +1459,6 @@ AEResult ShaderProperties::ApplyAll()
 
 AEResult ShaderProperties::ApplyConstantBuffers()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     for(auto cbIt : m_ConstantBufferMap)
     {
         ConstantBuffer* cb = cbIt.second;
@@ -1537,7 +1473,7 @@ AEResult ShaderProperties::ApplyConstantBuffers()
             return ret;
         }
 
-        ret = m_GraphicDevice->SetConstantBuffer(m_ShaderType, cb);
+        ret = m_GraphicDevice.SetConstantBuffer(m_ShaderType, cb);
 
         if(ret != AEResult::Ok)
         {
@@ -1551,12 +1487,6 @@ AEResult ShaderProperties::ApplyConstantBuffers()
 
 AEResult ShaderProperties::ApplySamplers()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     for (auto samplerIt : m_SamplerMap)
     {
         AEResult ret = AEResult::Ok;
@@ -1585,7 +1515,7 @@ AEResult ShaderProperties::ApplySamplers()
                 bindIndex = samplerIt.second->m_BindIndex;
             }
 
-            ret = m_GraphicDevice->SetSampler(m_ShaderType, sampler, overrideBindIndex, bindIndex);
+            ret = m_GraphicDevice.SetSampler(m_ShaderType, sampler, overrideBindIndex, bindIndex);
 
             if (ret != AEResult::Ok)
             {
@@ -1600,12 +1530,6 @@ AEResult ShaderProperties::ApplySamplers()
 
 AEResult ShaderProperties::ApplySimpleBuffers()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     for(auto simpleBufferIt : m_SimpleBufferMap)
     {
         SimpleBuffer* simpleBuffer = simpleBufferIt.second->m_Object;
@@ -1640,7 +1564,7 @@ AEResult ShaderProperties::ApplySimpleBuffers()
             {
                 if(m_ShaderType == ShaderType::ComputeShader)
                 {
-                    ret = m_GraphicDevice->SetShaderRWBufferToCS(simpleBuffer, overrideBindIndex, bindIndex);
+                    ret = m_GraphicDevice.SetShaderRWBufferToCS(simpleBuffer, overrideBindIndex, bindIndex);
                 }
                 else
                 {
@@ -1650,7 +1574,7 @@ AEResult ShaderProperties::ApplySimpleBuffers()
             }
             else
             {
-                ret = m_GraphicDevice->SetShaderBuffer(m_ShaderType, simpleBuffer, overrideBindIndex, bindIndex);
+                ret = m_GraphicDevice.SetShaderBuffer(m_ShaderType, simpleBuffer, overrideBindIndex, bindIndex);
             }
 
             if(ret != AEResult::Ok)
@@ -1666,12 +1590,6 @@ AEResult ShaderProperties::ApplySimpleBuffers()
 
 AEResult ShaderProperties::ApplyStructuredBuffers()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     for(auto structuredBufferIt : m_StructuredBufferMap)
     {
         StructuredBuffer* structuredBuffer = structuredBufferIt.second->m_Object;
@@ -1706,7 +1624,7 @@ AEResult ShaderProperties::ApplyStructuredBuffers()
             {
                 if(m_ShaderType == ShaderType::ComputeShader)
                 {
-                    ret = m_GraphicDevice->SetShaderRWBufferToCS(structuredBuffer, overrideBindIndex, bindIndex);
+                    ret = m_GraphicDevice.SetShaderRWBufferToCS(structuredBuffer, overrideBindIndex, bindIndex);
                 }
                 else
                 {
@@ -1716,7 +1634,7 @@ AEResult ShaderProperties::ApplyStructuredBuffers()
             }
             else
             {
-                ret = m_GraphicDevice->SetShaderBuffer(m_ShaderType, structuredBuffer, overrideBindIndex, bindIndex);
+                ret = m_GraphicDevice.SetShaderBuffer(m_ShaderType, structuredBuffer, overrideBindIndex, bindIndex);
             }
 
             if(ret != AEResult::Ok)
@@ -1732,12 +1650,6 @@ AEResult ShaderProperties::ApplyStructuredBuffers()
 
 AEResult ShaderProperties::ApplyTextureBindings()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     for(auto stbIt : m_TextureBindingMap)
     {
         ShaderTextureBinding* stb = stbIt.second;
@@ -1745,10 +1657,10 @@ AEResult ShaderProperties::ApplyTextureBindings()
         Texture* textureBinding = stb->GetTexture();
         if (textureBinding == nullptr)
         {
-            textureBinding = m_GraphicDevice->GetDefaultTexture2D();
+            textureBinding = m_GraphicDevice.GetDefaultTexture2D();
         }
 
-        AEResult ret = m_GraphicDevice->SetTexture(m_ShaderType, stb->GetBindIndex(), textureBinding);
+        AEResult ret = m_GraphicDevice.SetTexture(m_ShaderType, stb->GetBindIndex(), textureBinding);
         if (ret != AEResult::Ok)
         {
             AETODO("Set debug message");
@@ -1761,12 +1673,6 @@ AEResult ShaderProperties::ApplyTextureBindings()
 
 AEResult ShaderProperties::ApplyTextureArrays()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     for (auto textureArrayIt : m_TextureArrayMap)
     {
         TextureArray* textureArray = textureArrayIt.second->m_Object;
@@ -1785,7 +1691,7 @@ AEResult ShaderProperties::ApplyTextureArrays()
                 bindIndex = textureArrayIt.second->m_BindIndex;
             }
 
-            ret = m_GraphicDevice->SetTextureArray(m_ShaderType, bindIndex, textureArray);
+            ret = m_GraphicDevice.SetTextureArray(m_ShaderType, bindIndex, textureArray);
 
             if (ret != AEResult::Ok)
             {
@@ -1800,12 +1706,6 @@ AEResult ShaderProperties::ApplyTextureArrays()
 
 AEResult ShaderProperties::UnApplyAll()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     if(UnApplyConstantBuffers() != AEResult::Ok)
     {
         return AEResult::SetConstantBufferFailed;
@@ -1843,19 +1743,13 @@ AEResult ShaderProperties::UnApplyAll()
 
 AEResult ShaderProperties::UnApplyConstantBuffers()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEResult ret = AEResult::Ok;
 
     for(auto cbIt : m_ConstantBufferMap)
     {
         ConstantBuffer* cb = cbIt.second;
 
-        ret = m_GraphicDevice->SetConstantBuffer(m_ShaderType, nullptr, true, cb->GetBindIndex());
+        ret = m_GraphicDevice.SetConstantBuffer(m_ShaderType, nullptr, true, cb->GetBindIndex());
 
         if(ret != AEResult::Ok)
         {
@@ -1869,12 +1763,6 @@ AEResult ShaderProperties::UnApplyConstantBuffers()
 
 AEResult ShaderProperties::UnApplySamplers()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     for (auto samplerIt : m_SamplerMap)
     {
         AEResult ret = AEResult::Ok;
@@ -1893,7 +1781,7 @@ AEResult ShaderProperties::UnApplySamplers()
                 bindIndex = samplerIt.second->m_BindIndex;
             }
 
-            ret = m_GraphicDevice->SetSampler(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
+            ret = m_GraphicDevice.SetSampler(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
 
             if (ret != AEResult::Ok)
             {
@@ -1908,12 +1796,6 @@ AEResult ShaderProperties::UnApplySamplers()
 
 AEResult ShaderProperties::UnApplySimpleBuffers()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     for(auto simpleBufferIt : m_SimpleBufferMap)
     {
         SimpleBuffer* simpleBuffer = simpleBufferIt.second->m_Object;
@@ -1948,7 +1830,7 @@ AEResult ShaderProperties::UnApplySimpleBuffers()
             {
                 if(m_ShaderType == ShaderType::ComputeShader)
                 {
-                    ret = m_GraphicDevice->SetShaderRWBufferToCS(nullptr, overrideBindIndex, bindIndex);
+                    ret = m_GraphicDevice.SetShaderRWBufferToCS(nullptr, overrideBindIndex, bindIndex);
                 }
                 else
                 {
@@ -1958,7 +1840,7 @@ AEResult ShaderProperties::UnApplySimpleBuffers()
             }
             else
             {
-                ret = m_GraphicDevice->SetShaderBuffer(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
+                ret = m_GraphicDevice.SetShaderBuffer(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
             }
 
             if(ret != AEResult::Ok)
@@ -1974,12 +1856,6 @@ AEResult ShaderProperties::UnApplySimpleBuffers()
 
 AEResult ShaderProperties::UnApplyStructuredBuffers()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     for(auto structuredBufferIt : m_StructuredBufferMap)
     {
         StructuredBuffer* structuredBuffer = structuredBufferIt.second->m_Object;
@@ -2014,7 +1890,7 @@ AEResult ShaderProperties::UnApplyStructuredBuffers()
             {
                 if(m_ShaderType == ShaderType::ComputeShader)
                 {
-                    ret = m_GraphicDevice->SetShaderRWBufferToCS(nullptr, overrideBindIndex, bindIndex);
+                    ret = m_GraphicDevice.SetShaderRWBufferToCS(nullptr, overrideBindIndex, bindIndex);
                 }
                 else
                 {
@@ -2024,7 +1900,7 @@ AEResult ShaderProperties::UnApplyStructuredBuffers()
             }
             else
             {
-                ret = m_GraphicDevice->SetShaderBuffer(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
+                ret = m_GraphicDevice.SetShaderBuffer(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
             }
 
             if(ret != AEResult::Ok)
@@ -2040,19 +1916,13 @@ AEResult ShaderProperties::UnApplyStructuredBuffers()
 
 AEResult ShaderProperties::UnApplyTextureBindings()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     for(auto stbIt : m_TextureBindingMap)
     {
         ShaderTextureBinding* stb = stbIt.second;
 
         if(stb->GetTexture() != nullptr)
         {
-            AEResult ret = m_GraphicDevice->SetTexture(m_ShaderType, stb->GetBindIndex(), nullptr);
+            AEResult ret = m_GraphicDevice.SetTexture(m_ShaderType, stb->GetBindIndex(), nullptr);
 
             if(ret != AEResult::Ok)
             {
@@ -2067,12 +1937,6 @@ AEResult ShaderProperties::UnApplyTextureBindings()
 
 AEResult ShaderProperties::UnApplyTextureArrays()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     for (auto textureArrayIt : m_TextureArrayMap)
     {
         TextureArray* textureArray = textureArrayIt.second->m_Object;
@@ -2091,7 +1955,7 @@ AEResult ShaderProperties::UnApplyTextureArrays()
                 bindIndex = textureArrayIt.second->m_BindIndex;
             }
 
-            ret = m_GraphicDevice->SetTextureArray(m_ShaderType, bindIndex, nullptr);
+            ret = m_GraphicDevice.SetTextureArray(m_ShaderType, bindIndex, nullptr);
 
             if (ret != AEResult::Ok)
             {

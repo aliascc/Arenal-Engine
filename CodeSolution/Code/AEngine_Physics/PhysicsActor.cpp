@@ -43,25 +43,19 @@
 *   Function Defs   *
 *********************/
 
-PhysicsActor::PhysicsActor(Object3D* object3D)
+PhysicsActor::PhysicsActor(PhysicsManager& physicsManager, Object3D& object3D)
     : m_Object3D(object3D)
+    , m_PhysicsManager(physicsManager)
 {
-    AEAssert(m_Object3D != nullptr);
-    if (m_Object3D != nullptr)
-    {
-        m_Object3DChangedEvent = std::bind(&PhysicsActor::Object3DChanged, this, std::placeholders::_1, std::placeholders::_2);
+    m_Object3DChangedEvent = std::bind(&PhysicsActor::Object3DChanged, this, std::placeholders::_1, std::placeholders::_2);
 
-        AEResult ret = m_Object3D->AddObject3DChangeEventCallback(this->GetUniqueID(), m_Object3DChangedEvent);
-        AEAssert(ret == AEResult::Ok);
-    }
+    AEResult ret = m_Object3D.AddObject3DChangeEventCallback(this->GetUniqueID(), m_Object3DChangedEvent);
+    AEAssert(ret == AEResult::Ok);
 }
 
 PhysicsActor::~PhysicsActor()
 {
-    if (m_Object3D != nullptr)
-    {
-        m_Object3D->RemoveObject3DChangeEventCallback(this->GetUniqueID());
-    }
+    m_Object3D.RemoveObject3DChangeEventCallback(this->GetUniqueID());
 
     CleanUp();
 }
@@ -81,9 +75,9 @@ void PhysicsActor::CleanUp()
     ReleasePhysX(m_PxRigidActor);
 }
 
-void PhysicsActor::Object3DChanged(Object3DChangeEventType changeType, Object3D* object3D)
+void PhysicsActor::Object3DChanged(Object3DChangeEventType changeType, Object3D& object3d)
 {
-    if (m_Object3D == nullptr || m_PxRigidActor == nullptr)
+    if (m_PxRigidActor == nullptr)
     {
         return;
     }
@@ -112,13 +106,8 @@ void PhysicsActor::Object3DChanged(Object3DChangeEventType changeType, Object3D*
 
 void PhysicsActor::GetPXTransformFromObject3D(physx::PxTransform& pxTransform)
 {
-    if (m_Object3D == nullptr)
-    {
-        return;
-    }
-
-    glm::quat glmRotQuat = m_Object3D->GetWorldRotationQuat();
-    glm::vec3 glmPos = m_Object3D->GetWorldPosition();
+    glm::quat glmRotQuat = m_Object3D.GetWorldRotationQuat();
+    glm::vec3 glmPos = m_Object3D.GetWorldPosition();
 
     physx::PxQuat pxRotQuat(glmRotQuat.x, glmRotQuat.y, glmRotQuat.z, glmRotQuat.w);
     physx::PxVec3 pxPos(glmPos.x, glmPos.y, glmPos.z);
@@ -126,7 +115,7 @@ void PhysicsActor::GetPXTransformFromObject3D(physx::PxTransform& pxTransform)
     pxTransform = physx::PxTransform(pxPos, pxRotQuat);
 }
 
-AEResult PhysicsActor::Initialize(PhysicsManager* physicsManager, PhysicsActorType physicsActorType)
+AEResult PhysicsActor::Initialize(PhysicsActorType physicsActorType)
 {
     ////////////////////////////
     //Pre-checks
@@ -141,27 +130,10 @@ AEResult PhysicsActor::Initialize(PhysicsManager* physicsManager, PhysicsActorTy
         return AEResult::Fail;
     }
 
-    AEAssert(physicsManager != nullptr);
-    if (physicsManager == nullptr)
-    {
-        return AEResult::NullParameter;
-    }
-
-    if (m_Object3D == nullptr)
-    {
-        return AEResult::NullObj;
-    }
-
-    if (!physicsManager->IsReady())
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
-
     ////////////////////////////
     //Get PhysX Managers
-    physx::PxPhysics* pxPhysics = physicsManager->GetPhysX();
-    physx::PxScene* pxScene = physicsManager->GetPxScene();
+    physx::PxPhysics* pxPhysics = m_PhysicsManager.GetPhysX();
+    physx::PxScene* pxScene     = m_PhysicsManager.GetPxScene();
 
     ////////////////////////////
     //Get Objs Position and Rotation
@@ -202,7 +174,6 @@ AEResult PhysicsActor::Initialize(PhysicsManager* physicsManager, PhysicsActorTy
     ////////////////////////////////
     //Finish
     m_PhysicsActorType = physicsActorType;
-    m_PhysicsManager = physicsManager;
 
     m_IsReady = true;
 
@@ -242,8 +213,8 @@ AEResult PhysicsActor::ChangePhysicsActorType(PhysicsActorType physicsActorType)
 
     ////////////////////////////
     //Get PhysX Managers
-    physx::PxPhysics* pxPhysics = m_PhysicsManager->GetPhysX();
-    physx::PxScene* pxScene = m_PhysicsManager->GetPxScene();
+    physx::PxPhysics* pxPhysics = m_PhysicsManager.GetPhysX();
+    physx::PxScene* pxScene     = m_PhysicsManager.GetPxScene();
 
     ////////////////////////////
     //Get Transform
@@ -252,7 +223,7 @@ AEResult PhysicsActor::ChangePhysicsActorType(PhysicsActorType physicsActorType)
     ////////////////////////////////
     //Remove Actor
     bool actorIsInManager = false;
-    if (m_PhysicsManager->ExistsPhysicsActor(this->GetUniqueID()))
+    if (m_PhysicsManager.ExistsPhysicsActor(this->GetUniqueID()))
     {
         actorIsInManager = true;
         pxScene->removeActor(*m_PxRigidActor);
@@ -400,9 +371,9 @@ AEResult PhysicsActor::UpdateObject3D()
     glm::mat4 parentWorldTransform  = AEMathHelpers::Mat4Identity;
     glm::quat parentRotQuat         = AEMathHelpers::QuaternionIdentity;
 
-    if (m_Object3D->GetParentObject3D() != nullptr)
+    if (m_Object3D.GetParentObject3D() != nullptr)
     {
-        Object3D* parent3D = m_Object3D->GetParentObject3D();
+        Object3D* parent3D = m_Object3D.GetParentObject3D();
 
         parentWorldTransform    = parent3D->GetWorldTransform();
         parentRotQuat           = parent3D->GetWorldRotationQuat();
@@ -429,8 +400,8 @@ AEResult PhysicsActor::UpdateObject3D()
 
     /////////////////////////////////////////////
     //Set to Object 3D
-    m_Object3D->SetPosition(newPosition, this->GetUniqueID());
-    m_Object3D->SetRotation(newRotation, this->GetUniqueID());
+    m_Object3D.SetPosition(newPosition, this->GetUniqueID());
+    m_Object3D.SetRotation(newRotation, this->GetUniqueID());
 
     /////////////////////////////////////////////
     //Finish

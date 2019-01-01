@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Graphic Extensions\Materials\Material.h"
 #include "Graphic Extensions\Materials\BuiltInMaterialsDefs.h"
 
@@ -50,68 +49,68 @@ class GameResourceManager;
 ******************/
 class ForwardPlusZPrePassMaterial sealed : public Material
 {
-	private:
+    private:
 
-		/************************
-		*   Private Variables   *
-		*************************/
+        /************************
+        *   Private Variables   *
+        *************************/
 #pragma region Private Variables
 
 #pragma endregion
 
-		/**********************
-		*   Private Methods   *
-		***********************/
+        /**********************
+        *   Private Methods   *
+        ***********************/
 #pragma region Private Methods
 
-		AEResult CreateVertexShader();
+        AEResult CreateVertexShader();
 
-		AEResult CreateVertexShaderConstantBuffer();
+        AEResult CreateVertexShaderConstantBuffer();
 
 #pragma endregion
 
-	public:
+    public:
 
-		/*****************************************
-		 *   Constructor & Destructor Methods   *
-		 *****************************************/
+        /*****************************************
+         *   Constructor & Destructor Methods   *
+         *****************************************/
 #pragma region Constructor & Destructor Methods
 
-		/// <summary>
-		/// ForwardPlusZPrePassMaterial Constructor
-		/// </summary>
-		/// <param name="graphicDevice">Graphic Device to be associated with</param>
-		/// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
-		/// <param name="name">Name of the Effect</param>
-		ForwardPlusZPrePassMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name = AE_FORWARD_PLUS_Z_PRE_PASS_MAT_NAME);
+        /// <summary>
+        /// ForwardPlusZPrePassMaterial Constructor
+        /// </summary>
+        /// <param name="graphicDevice">Graphic Device to be associated with</param>
+        /// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
+        /// <param name="name">Name of the Effect</param>
+        ForwardPlusZPrePassMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name = AE_FORWARD_PLUS_Z_PRE_PASS_MAT_NAME);
 
-		/// <summary>
-		/// Default ForwardPlusZPrePassMaterial Destructor
-		/// </summary>
-		virtual ~ForwardPlusZPrePassMaterial();
+        /// <summary>
+        /// Default ForwardPlusZPrePassMaterial Destructor
+        /// </summary>
+        virtual ~ForwardPlusZPrePassMaterial();
 
 #pragma endregion
 
-		/*******************
-		 *   Get Methods   *
-		 *******************/
+        /*******************
+         *   Get Methods   *
+         *******************/
 #pragma region Get Methods
 
 #pragma endregion
-		
-		/*******************
-		 *   Set Methods   *
-		 *******************/
+        
+        /*******************
+         *   Set Methods   *
+         *******************/
 #pragma region Set Methods
 
 #pragma endregion
 
-		/*************************
-		 *   Framework Methods   *
-		 *************************/
+        /*************************
+         *   Framework Methods   *
+         *************************/
 #pragma region Framework Methods
 
-		AEResult LoadContent() override;
+        AEResult LoadContent() override;
 
 #pragma endregion
 

@@ -36,7 +36,7 @@
 *   Function Defs   *
 *********************/
 Object3D::Object3D(const std::string& name, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
-    : UniqueAEObjectNamed(name)
+    : Named(name)
     , m_Position(position)
     , m_Rotation(rotation)
     , m_Scale(scale)
@@ -55,7 +55,7 @@ void Object3D::CallObject3DChangedEvents(Object3DChangeEventType changeType, uin
         {
             Object3DChangedEvent changeEvent = callbackPair.second;
 
-            changeEvent(changeType, this);
+            changeEvent(changeType, *this);
         }
     }
 }

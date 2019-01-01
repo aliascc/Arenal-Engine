@@ -28,8 +28,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GraphicDevice.h"
-#include "Math\AEMathDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Vertex\VertexBuffer.h"
 #include "DirectionalLightShape.h"
 #include "Vertex\Types\VertexPosition.h"
@@ -40,7 +38,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DirectionalLightShape::DirectionalLightShape(GraphicDevice* graphicDevice)
+DirectionalLightShape::DirectionalLightShape(GraphicDevice& graphicDevice)
     : LightShape(graphicDevice)
 {
 }
@@ -51,14 +49,6 @@ DirectionalLightShape::~DirectionalLightShape()
 
 AEResult DirectionalLightShape::BuildLightShape()
 {
-    ///////////////////////////////////////////////////
-    //Pre-checks
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     ///////////////////////////////////////////////////
     //Delete Current and set ready to false
     m_IsReady = false;

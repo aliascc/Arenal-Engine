@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "AEGameComponentsDefs.h"
-#include "GameUtils\DrawableGameComponent.h"
 
 /************
 *   Using   *
@@ -66,7 +65,7 @@ class FPRPreZ sealed : public DrawableGameComponent
 
         bool m_SkinningMatSet = false;
 
-        GameObjectManager* m_GameObjectManager = nullptr;
+        GameObjectManager& m_GameObjectManager;
 
         CameraUpdater* m_CameraUpdater = nullptr;
 
@@ -78,7 +77,7 @@ class FPRPreZ sealed : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        FPRPreZ(GameApp* gameApp, const std::string& gameComponentName = AE_FORWARD_PLUS_Z_PRE_PASS_DEF_COMPONENT_NAME, const std::string& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusPreZ);
+        FPRPreZ(GameApp& gameApp, const std::string& gameComponentName = AE_FORWARD_PLUS_Z_PRE_PASS_DEF_COMPONENT_NAME, const std::string& fprServiceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, const std::string& cameraServiceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusPreZ);
         virtual ~FPRPreZ();
 
         //Gets
@@ -88,6 +87,8 @@ class FPRPreZ sealed : public DrawableGameComponent
         //Drawable Game Component Override methods
         void Initialize() override;
         void LoadContent() override;
+
+        void Update(const TimerParams& timerParams) override;
         void Render(const TimerParams& timerParams) override;
 };
 

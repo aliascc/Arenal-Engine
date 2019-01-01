@@ -31,10 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Time\AETime.h"
 #include "GraphicsDefs.h"
-#include "Base\AEObject.h"
 #include "GameApp\GameAppDefs.h"
 
 /************
@@ -46,6 +43,7 @@
 *********************/
 class GameService;
 class AEXMLParser;
+class ImGuiManager;
 class InputManager;
 struct TimerParams;
 class LightManager;
@@ -57,6 +55,7 @@ class PhysicsManager;
 class ResourceManager;
 class GameAssetManager;
 class GameObjectManager;
+class GameCommandManager;
 class AngelScriptManager;
 class GameResourceManager;
 class GameServiceCollection;
@@ -76,21 +75,15 @@ class GameApp abstract : public AEObject
 #pragma region Private Variables 
 
 #if defined(AE_GRAPHIC_DEBUG_DEVICE)
+
+        /// <summary>
+        /// Graphic Debug Helpers
+        /// </summary>
         GraphicDebugDX* m_GraphicDebugDX = nullptr;
-#endif
 
-        //Main Mutex for Game App
-        std::mutex m_GameAppMutex;
+#endif //AE_GRAPHIC_DEBUG_DEVICE
 
-        //Thread for Constant Update
-        std::thread m_ConstantUpdateThread;
-        std::mutex m_ConstantUpdateMutex;
-
-        bool m_ResizeRequested = false;
-        glm::ivec2 m_NewResize = AEMathHelpers::Vec2iZero;
-
-        GameAppRunOpt m_GameAppRunOpt = GameAppRunOpt::GameMode;
-
+        AETODO("To be change to conditional variables");
         bool m_IsEngineOff = true;
 
 #pragma endregion
@@ -118,19 +111,37 @@ class GameApp abstract : public AEObject
         AEResult InitPhysicsManager();
         AEResult Init3D_Device();
 
-        void StartConstantUpdateThread();
-        void RunConstantUpdate();
-        void RunUpdate();
-        void RunPostUpdate();
-        void RunRender();
+        /// <summary>
+        /// Commands that needs to run before the call to the Game Loop Render
+        /// </summary>
         void PreRender();
+
+        /// <summary>
+        /// Commands that need to be run after rendering the Game Loop
+        /// </summary>
         void PostRender();
 
-        void OpenConsole();
-
+        /// <summary>
+        /// Registers all of the information needed of the Game
+        /// to the scripting engine
+        /// </summary>
+        /// <returns>OK when successful, otherwise an error code</returns>
         AEResult RegisterScriptData();
 
+        /// <summary>
+        /// Cleans up the memory use by the application and
+        /// frees resources. This is called on shutdown
+        /// </summary>
         void CleanUp();
+
+#ifdef AE_EDITOR_MODE
+
+        /// <summary>
+        /// Opens a Console
+        /// </summary>
+        void OpenConsole();
+
+#endif //AE_EDITOR_MODE
 
 #pragma endregion
 
@@ -141,16 +152,51 @@ class GameApp abstract : public AEObject
         ***************************/
 #pragma region Protected Variables
 
-        // Application, Windows
+        /// <summary>
+        /// Windows Application Instance Handle
+        /// </summary>
         HINSTANCE m_AppInst = nullptr;
+
+        /// <summary>
+        /// Main Window Handle of the Game App
+        /// </summary>
         HWND m_MainWnd = nullptr;
-        bool m_AppPaused = false;
+
+        /// <summary>
+        /// Determines if the Application is inactive
+        /// (When it does not have focus)
+        /// </summary>
+        bool m_AppInactive = false;
+
+        /// <summary>
+        /// The Game App is exiting
+        /// </summary>
         bool m_Quiting = false;
+
+        /// <summary>
+        /// If True the Game App has been requested to start shuting down
+        /// </summary>
         bool m_StartShutdown = false;
+
+        /// <summary>
+        /// Determines if the Game App has been initialize
+        /// and it is ready to start running
+        /// </summary>
         bool m_IsReady = false;
-        bool m_ForeignMainWindow = false;
+
+        /// <summary>
+        /// Determines if the Game Window is Minimize
+        /// </summary>
         bool m_Minimized = false;
+
+        /// <summary>
+        /// Determines if the Game Window is Maximize
+        /// </summary>
         bool m_Maximized = false;
+
+        /// <summary>
+        /// The Game Window is currently resizing.
+        /// </summary>
         bool m_Resizing = false;
 
         /// <summary>
@@ -204,32 +250,65 @@ class GameApp abstract : public AEObject
         /// </summary>
         PhysicsManager* m_PhysicsManager = nullptr;
 
-        //Application Init options
+        /// <summary>
+        /// Class to Manage all the Game Commands
+        /// </summary>
+        GameCommandManager* m_GameCommandManager = nullptr;
+
+        /// <summary>
+        /// Application Init options
+        /// </summary>
         GameAppOpts m_GameAppOpts;
 
-        //3D App variables
+        /// <summary>
+        /// Graphic Options
+        /// </summary>
         GraphicOptsPreferred m_GraphicOptsPreferred;
+
+        /// <summary>
+        /// Game APp Graphic Device
+        /// </summary>
         GraphicDevice* m_GraphicDevice = nullptr;
 
-        //Input Init Options
+        /// <summary>
+        /// Input Init Options
+        /// </summary>
         GameConfigInput m_GameConfigInput;
 
-        //Timer
+        /// <summary>
+        /// Game App Timer
+        /// </summary>
         AETime m_Timer;
 
-        //Component & Service Collection
+        /// <summary>
+        /// Game Component Collection of the Game App
+        /// Here the Game App will have all the active game components
+        /// </summary>
         GameComponentCollection* m_GameComponentCollection = nullptr;
+
+        /// <summary>
+        /// Game Services Available to the Game App
+        /// </summary>
         GameServiceCollection* m_GameServiceCollection = nullptr;
 
-        //Game Editor Playing
-        GameEditorPlayState m_GameEditorPlayState = GameEditorPlayState::Stop;
+#ifdef AE_EDITOR_MODE
 
+        /// <summary>
+        /// ImGui Manager
+        /// </summary>
+        ImGuiManager* m_ImGuiManager = nullptr;
+
+        /// <summary>
+        /// Game Project Configuration Options
+        /// </summary>
         GameProject m_GameProject;
 
         /// <summary>
-        /// Determine if the Engine is running under an editor or full game
+        /// Determines if the Game Simulation is running or not
         /// </summary>
-        bool m_IsEditorActive = false;
+        GameEditorPlayState m_GameEditorPlayState = GameEditorPlayState::Stop;
+
+#endif //AE_EDITOR_MODE
 
 #pragma endregion
 
@@ -240,8 +319,6 @@ class GameApp abstract : public AEObject
 
         //Framework Methods
         virtual void OnResize(uint32_t width, uint32_t heigth);
-        virtual void OnLostDevice();
-        virtual void OnResetDevice();
 
 #pragma endregion
 
@@ -256,8 +333,7 @@ class GameApp abstract : public AEObject
         /// GameApp Constructor
         /// </summary>
         /// <param name="hInstance">Handle to Instance for the Game App window</param>
-        /// <param name="gameAppRunOpt">Game App Run Option</param>
-        GameApp(HINSTANCE hInstance, GameAppRunOpt gameAppRunOpt);
+        GameApp(HINSTANCE hInstance);
 
         /// <summary>
         /// Default GameApp Destructor
@@ -286,9 +362,10 @@ class GameApp abstract : public AEObject
             return m_GameAppOpts;
         }
 
-        inline GraphicDevice* GetGraphicsDevice() const
+        inline GraphicDevice& GetGraphicsDevice()
         {
-            return m_GraphicDevice;
+            AEAssert(m_GraphicDevice != nullptr);
+            return *m_GraphicDevice;
         }
 
         inline const AETime& GetTimer() const
@@ -305,104 +382,105 @@ class GameApp abstract : public AEObject
         /// Gets Physics Manager Instance for the Game Application
         /// </summary>
         /// <returns>Physics Manager Instance</returns>
-        inline PhysicsManager* GetPhysicsManager() const
+        inline PhysicsManager& GetPhysicsManager()
         {
-            return m_PhysicsManager;
+            AEAssert(m_PhysicsManager != nullptr);
+            return *m_PhysicsManager;
         }
 
         /// <summary>
         /// Gets Light Manager Instance for the Game Application
         /// </summary>
         /// <returns>Light Manager Instance</returns>
-        inline LightManager* GetLightManager() const
+        inline LightManager& GetLightManager()
         {
-            return m_LightManager;
+            AEAssert(m_LightManager != nullptr);
+            return *m_LightManager;
         }
 
         /// <summary>
         /// Gets Game Resource Manager Instance for the Game Application
         /// </summary>
         /// <returns>Game Resource Manager Instance</returns>
-        inline GameResourceManager* GetGameResourceManager() const
+        inline GameResourceManager& GetGameResourceManager()
         {
-            return m_GameResourceManager;
+            AEAssert(m_GameResourceManager != nullptr);
+            return *m_GameResourceManager;
         }
 
         /// <summary>
         /// Gets Game Object Manager Instance for the Game Application
         /// </summary>
         /// <returns>Game Object Manager Instance</returns>
-        inline GameObjectManager* GetGameObjectManager() const
+        inline GameObjectManager& GetGameObjectManager()
         {
-            return m_GameObjectManager;
+            AEAssert(m_GameObjectManager != nullptr);
+            return *m_GameObjectManager;
         }
 
         /// <summary>
         /// Gets Game Asset Manager Instance for the Game Application
         /// </summary>
         /// <returns>Game Asset Manager Instance</returns>
-        inline GameAssetManager* GetGameAssetManager() const
+        inline GameAssetManager& GetGameAssetManager()
         {
-            return m_GameAssetManager;
+            AEAssert(m_GameAssetManager != nullptr);
+            return *m_GameAssetManager;
         }
 
         /// <summary>
         /// Gets Angel Script Manager Instance for the Game Application
         /// </summary>
         /// <returns>Angel Script Manager Instance</returns>
-        inline AngelScriptManager* GetAngelScriptManager() const
+        inline AngelScriptManager& GetAngelScriptManager()
         {
-            return m_AngelScriptManager;
+            AEAssert(m_AngelScriptManager != nullptr);
+            return *m_AngelScriptManager;
         }
 
         /// <summary>
         /// Gets Input Manager Instance for the Game Application
         /// </summary>
         /// <returns>Input Manager Instance</returns>
-        inline InputManager* GetInputManager() const
+        inline InputManager& GetInputManager()
         {
-            return m_InputManager;
+            AEAssert(m_InputManager != nullptr);
+            return *m_InputManager;
         }
 
         /// <summary>
         /// Gets Game Object Script Manager Instance for the Game Application
         /// </summary>
         /// <returns>Game Object Script Manager Instance</returns>
-        inline GameObjectScriptManager* GetGameObjectScriptManager() const
+        inline GameObjectScriptManager& GetGameObjectScriptManager()
         {
-            return m_GameObjectScriptManager;
+            AEAssert(m_GameObjectScriptManager != nullptr);
+            return *m_GameObjectScriptManager;
         }
 
         /// <summary>
         /// Gets Camera Manager Instance for the Game Application
         /// </summary>
         /// <returns>Game Object Script Manager Instance</returns>
-        inline CameraManager* GetCameraManager() const
+        inline CameraManager& GetCameraManager()
         {
-            return m_CameraManager;
+            AEAssert(m_CameraManager != nullptr);
+            return *m_CameraManager;
         }
 
         /// <summary>
         /// Gets Audio Manager Instance for the Game Application
         /// </summary>
         /// <returns>Audio Manager Instance</returns>
-        inline AudioManager* GetAudioManager() const
+        inline AudioManager& GetAudioManager()
         {
-            return m_AudioManager;
+            AEAssert(m_AudioManager != nullptr);
+            return *m_AudioManager;
         }
 
         inline bool IsNewProject() const
         {
-            return (m_GameProject.m_ProjectName.compare("") == 0);
-        }
-
-        /// <summary>
-        /// Gets Game Application Running Mode (Game/Editor)
-        /// </summary>
-        /// <returns>Game App running mode</returns>
-        inline GameAppRunOpt GetGameAppRunOpt() const
-        {
-            return m_GameAppRunOpt;
+            return (m_GameProject.m_ProjectName.empty());
         }
 
         inline bool IsReady() const
@@ -417,39 +495,12 @@ class GameApp abstract : public AEObject
         *******************/
 #pragma region Set Methods
 
-        AEResult SetMainWindow(HWND mainWindow);
-
 #pragma endregion
 
         /************************
         *   Framework Methods   *
         *************************/
 #pragma region Framework Methods
-
-        /// <summary>
-        /// Starts the game simulation
-        /// </summary>
-        /// <returns>AEResult::Ok on successful, otherwise error code.</returns>
-        AEResult EditorPlay();
-
-        /// <summary>
-        /// Pause the game simulation
-        /// </summary>
-        /// <returns>AEResult::Ok on successful, otherwise error code.</returns>
-        AEResult EditorPause();
-
-        /// <summary>
-        /// Stop the game simulation
-        /// </summary>
-        /// <returns>AEResult::Ok on successful, otherwise error code.</returns>
-        AEResult EditorStop();
-
-        /// <summary>
-        /// Gets a Game App Scope Mutex to lock Game App while another thread needs
-        /// to work without the Game Loop running
-        /// </summary>
-        /// <returns>Returns GameAppScopedLock to Lock Game App Loop</returns>
-        GameAppScopedLock GetGameAppScopedLock();
 
         int Run();
 
@@ -465,7 +516,9 @@ class GameApp abstract : public AEObject
 
         AEResult UnRegisterGameService(const std::string& serviceName);
 
-        AEResult InitGameApp(const std::string& configEngineFile, const std::string& configProjFile, std::string& errorMsg);
+        AEResult InitGameApp(const std::string& configEngineFile, std::string& errorMsg);
+
+        AEResult InitProject(const std::string& configProjFile, std::string& errorMsg);
 
         GameService* GetGameServiceBase(const std::string& serviceName) const;
 
@@ -491,11 +544,35 @@ class GameApp abstract : public AEObject
 
         virtual void PostUpdate(const TimerParams& timerParams);
 
+        virtual void OnLostDevice();
+
+        virtual void OnResetDevice();
+
         template<class T>
         T* GetGameService(const std::string& serviceName) const
         {
             return reinterpret_cast<T*>(GetGameServiceBase(serviceName));
         }
+
+#ifdef AE_EDITOR_MODE
+        /// <summary>
+        /// Starts the game simulation
+        /// </summary>
+        /// <returns>AEResult::Ok on successful, otherwise error code.</returns>
+        AEResult EditorPlay();
+
+        /// <summary>
+        /// Pause the game simulation
+        /// </summary>
+        /// <returns>AEResult::Ok on successful, otherwise error code.</returns>
+        AEResult EditorPause();
+
+        /// <summary>
+        /// Stop the game simulation
+        /// </summary>
+        /// <returns>AEResult::Ok on successful, otherwise error code.</returns>
+        AEResult EditorStop();
+#endif //AE_EDITOR_MODE
 
 #pragma endregion
 

@@ -47,7 +47,7 @@
 ***************/
 #define __AE_VERSION_MAJOR       0
 #define __AE_VERSION_MINOR       5
-#define __AE_VERSION_REVISION    1
+#define __AE_VERSION_REVISION    2
 
 /****************
 *   Constants   *
@@ -58,7 +58,7 @@ namespace AE_Base
     const uint32_t      AE_VERSION_MINOR    = __AE_VERSION_MINOR;
     const uint32_t      AE_VERSION_REVISION = __AE_VERSION_REVISION;
     const std::string   AE_VERSION          = AESTR(__AE_VERSION_MAJOR.__AE_VERSION_MINOR.__AE_VERSION_REVISION);
-    const std::string   AE_CODENAME         = "Star Dust";
+    const std::string   AE_CODENAME         = "St. Helens";
 
 /****************************
 *    Static Variables init   *

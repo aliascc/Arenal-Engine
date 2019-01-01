@@ -31,8 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\Named.h"
 #include "VertexDefs.h"
 #include "GraphicsDefs.h"
 
@@ -96,7 +94,7 @@ class IndexBuffer sealed : public Named
         /// <summary>
         /// Graphic Device associated with the Index Buffer
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         /// <summary>
         /// When Map, this is the Index Buffer(VRAM) for 32bit
@@ -168,7 +166,7 @@ class IndexBuffer sealed : public Named
         /// <param name="graphicDevice">Graphic Device to be associated with this Index Buffer</param>
         /// <param name="bufferUsage">How will the buffer be use</param>
         /// <param name="bufferAccess">How will the CPU Access the memory of the buffer</param>
-        IndexBuffer(GraphicDevice* graphicDevice, GraphicBufferUsage bufferUsage = GraphicBufferUsage::Static, GraphicBufferAccess bufferAccess = GraphicBufferAccess::None);
+        IndexBuffer(GraphicDevice& graphicDevice, GraphicBufferUsage bufferUsage = GraphicBufferUsage::Static, GraphicBufferAccess bufferAccess = GraphicBufferAccess::None);
 
         /// <summary>
         /// Default IndexBuffer Destructor

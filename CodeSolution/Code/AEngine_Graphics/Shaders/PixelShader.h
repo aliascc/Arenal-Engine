@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Shader.h"
-#include "Base\Base.h"
 
 /************
 *   Using   *
@@ -99,7 +98,7 @@ class PixelShader : public Shader
         /// </summary>
         /// <param name="graphicDevice">Graphic Device to be associated with this Shader</param>
         /// <param name="name">Name of Shader</param>
-        PixelShader(GraphicDevice* graphicDevice, const std::string& name = "");
+        PixelShader(GraphicDevice& graphicDevice, const std::string& name = "");
 
 #pragma endregion
         

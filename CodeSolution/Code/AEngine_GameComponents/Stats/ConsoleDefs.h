@@ -62,11 +62,6 @@
 #define AE_CONSOLE_MAX_LINE_CHARS           128
 
 /// <summary>
-/// Console Max Console Line
-/// </summary>
-#define AE_CONSOLE_LINE_MEM_SIZE            sizeof(wchar_t) * AE_CONSOLE_MAX_LINE_CHARS
-
-/// <summary>
 /// Default Console Present Time
 /// </summary>
 #define AE_CONSOLE_DEFAULT_PRESENT_TIME     0.5f
@@ -108,6 +103,7 @@ struct ConsoleShowLine sealed : public AEObject
     std::vector<Color> m_Colors;
 
     ConsoleShowLine();
+    virtual ~ConsoleShowLine();
 };
 
 #endif

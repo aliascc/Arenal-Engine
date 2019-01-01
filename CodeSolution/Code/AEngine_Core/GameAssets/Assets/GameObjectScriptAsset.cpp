@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\BaseFunctions.h"
 #include "GameObjectScriptAsset.h"
 #include "Resource\GameResourceManager.h"
 #include "GameObject\Scripts\GameObjectScript.h"
@@ -43,11 +42,10 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-GameObjectScriptAsset::GameObjectScriptAsset(const std::string& filePath, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager)
+GameObjectScriptAsset::GameObjectScriptAsset(const std::string& filePath, GameResourceManager& gameResourceManager, AngelScriptManager& angelScriptManager)
     : GameAsset(GameContentType::GameObjectScript, filePath, gameResourceManager)
     , m_AngelScriptManager(angelScriptManager)
 {
-    AEAssert(m_AngelScriptManager != nullptr);
 }
 
 GameObjectScriptAsset::~GameObjectScriptAsset()
@@ -67,19 +65,6 @@ GameObjectScript* GameObjectScriptAsset::GetGameObjectScriptReference()
 
 AEResult GameObjectScriptAsset::LoadAssetResource()
 {
-    AEAssert(m_AngelScriptManager != nullptr);
-    if (m_AngelScriptManager == nullptr)
-    {
-        AETODO("add error for AS NULL");
-        return AEResult::NullObj;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-    if (m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     AEAssert(!m_FilePath.empty());
     if(m_FilePath.empty())
     {
@@ -101,7 +86,7 @@ AEResult GameObjectScriptAsset::LoadAssetResource()
     {
         /////////////////////////////////////////////
         //Check if Game Resources contains this Asset
-        m_GameObjectScript = (GameObjectScript*)m_GameResourceManager->AcquireGameResourceByStringID(m_FilePath, GameResourceType::GameObjectScript);
+        m_GameObjectScript = (GameObjectScript*)m_GameResourceManager.AcquireGameResourceByStringID(m_FilePath, GameResourceType::GameObjectScript);
 
         if (m_GameObjectScript != nullptr)
         {
@@ -125,7 +110,7 @@ AEResult GameObjectScriptAsset::LoadAssetResource()
 
         /////////////////////////////////////////////
         //Add to Resource Manager
-        ret = m_GameResourceManager->ManageGameResource(m_GameObjectScript, m_FilePath);
+        ret = m_GameResourceManager.ManageGameResource(m_GameObjectScript, m_FilePath);
         if(ret != AEResult::Ok)
         {
             AETODO("Add log");

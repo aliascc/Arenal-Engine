@@ -33,8 +33,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "SkinningMaterial.h"
-#include "Math\AEMathDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Textures\Texture2D.h"
 #include "Shaders\PixelShader.h"
 #include "Shaders\VertexShader.h"
@@ -59,7 +57,7 @@
 /********************
 *   Function Defs   *
 *********************/
-SkinningMaterial::SkinningMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
+SkinningMaterial::SkinningMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name)
     : Material(graphicDevice, gameResourceManager, name)
 {
 }
@@ -74,7 +72,7 @@ AEResult SkinningMaterial::CreateVertexShader()
 
     /////////////////////////////////////////////////////
     //Get Vertex Shader from Game Resources
-    m_VertexShader = (VertexShader*)m_GameResourceManager->AcquireGameResourceByStringID(AE_SKINNING_MAT_VS_NAME, GameResourceType::VertexShader);
+    m_VertexShader = (VertexShader*)m_GameResourceManager.AcquireGameResourceByStringID(AE_SKINNING_MAT_VS_NAME, GameResourceType::VertexShader);
 
     if(m_VertexShader == nullptr)
     {
@@ -85,7 +83,7 @@ AEResult SkinningMaterial::CreateVertexShader()
             return AEResult::VertexShaderLoadFailed;
         }
 
-        ret = m_GameResourceManager->ManageGameResource(m_VertexShader, AE_SKINNING_MAT_VS_NAME);
+        ret = m_GameResourceManager.ManageGameResource(m_VertexShader, AE_SKINNING_MAT_VS_NAME);
         if(ret != AEResult::Ok)
         {
             return AEResult::ResourceManagedFailed;
@@ -165,7 +163,7 @@ AEResult SkinningMaterial::CreatePixelShader()
     
     /////////////////////////////////////////////////////
     //Get Pixel Shader from Game Resources
-    m_PixelShader = (PixelShader*)m_GameResourceManager->AcquireGameResourceByStringID(AE_SKINNING_MAT_PS_NAME, GameResourceType::PixelShader);
+    m_PixelShader = (PixelShader*)m_GameResourceManager.AcquireGameResourceByStringID(AE_SKINNING_MAT_PS_NAME, GameResourceType::PixelShader);
     
     if(m_PixelShader == nullptr)
     {
@@ -176,7 +174,7 @@ AEResult SkinningMaterial::CreatePixelShader()
             return AEResult::PixelShaderLoadFailed;
         }
 
-        ret = m_GameResourceManager->ManageGameResource(m_PixelShader, AE_SKINNING_MAT_PS_NAME);
+        ret = m_GameResourceManager.ManageGameResource(m_PixelShader, AE_SKINNING_MAT_PS_NAME);
         if(ret != AEResult::Ok)
         {
             return AEResult::ResourceManagedFailed;
@@ -223,20 +221,6 @@ AEResult SkinningMaterial::CreatePixelShaderTextureBinding()
 
 AEResult SkinningMaterial::LoadContent()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-
-    if(m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     if(m_IsReady)
     {
         return AEResult::Ok;

@@ -31,8 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\Named.h"
 
 /************
 *   Using   *
@@ -74,7 +72,7 @@ class ConstantBuffer sealed : public Named
         /// <summary>
         /// Graphic Device associated with the Texture
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         /// <summary>
         /// Index to bind the Constant Buffer to the Shader Register
@@ -143,7 +141,7 @@ class ConstantBuffer sealed : public Named
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="bindIndex">Bind Index of the Constant Buffer</param>
         /// <param name="name">Name of the Constant Buffer</param>
-        ConstantBuffer(GraphicDevice* graphicDevice, uint32_t bindIndex, const std::string& name = "");
+        ConstantBuffer(GraphicDevice& graphicDevice, uint32_t bindIndex, const std::string& name = "");
 
         /// <summary>
         /// Default ConstantBuffer Destructor

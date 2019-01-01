@@ -33,7 +33,6 @@
 ****************************/
 #include "Audio.h"
 #include "AudioSourceGOC.h"
-#include "Base\BaseFunctions.h"
 #include "GameAssets\GameAsset.h"
 #include "GameObject\GameObject.h"
 #include "GameAssets\GameAssetDefs.h"
@@ -46,7 +45,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-AudioSourceGOC::AudioSourceGOC(GameObject* gameObject, const std::string& name)
+AudioSourceGOC::AudioSourceGOC(GameObject& gameObject, const std::string& name)
     : GameObjectComponent(gameObject, GameObjectComponentType::AudioSource)
     , m_Name(name)
 {

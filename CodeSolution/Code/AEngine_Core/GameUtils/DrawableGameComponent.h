@@ -59,11 +59,11 @@ class DrawableGameComponent abstract : public GameComponent
     protected:
         //Variable to check if we can draw or not
         bool m_Visible = true;
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
     public:
         //Constructor Destructor
-        DrawableGameComponent(GameApp* gameApp, const std::string& name = "", uint32_t callOrder = 100);
+        DrawableGameComponent(GameApp& gameApp, const std::string& name = "", uint32_t callOrder = 100);
         virtual ~DrawableGameComponent();
 
         //Gets
@@ -79,7 +79,12 @@ class DrawableGameComponent abstract : public GameComponent
         }
 
         //Framework Methods
-        virtual void Render(const TimerParams& timerParams);
+
+        /// <summary>
+        /// Render method for the Drawable Game Component called each frame if the GC is active
+        /// </summary>
+        /// <param name="timerParams">Game Timer Parameters</param>
+        virtual void Render(const TimerParams& timerParams) = 0;
 };
 
 #endif

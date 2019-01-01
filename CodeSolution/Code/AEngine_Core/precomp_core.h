@@ -40,9 +40,11 @@
 #include <unordered_set>
 #include <unordered_map>
 
+#include <atomic>
 #include <mutex>
 #include <thread>
 #include <functional>
+#include <condition_variable>
 
 #include <regex>
 #include <random>
@@ -95,8 +97,6 @@
 #include "Base\AEObject.h"
 #include "Base\BaseFunctions.h"
 #include "Base\BaseLocations.h"
-#include "Base\UniqueAEObject.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 #include "Math\AEMathDefs.h"
 
@@ -119,6 +119,10 @@
 #include "Time\AETime.h"
 #include "Time\AETimer.h"
 #include "Time\AETimeDefs.h"
+
+#include "XML\AEXMLDefs.h"
+#include "XML\AEXMLParser.h"
+#include "XML\AEXMLWriter.h"
 
 /*********************************
 *   Additional System Includes   *

@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Shader.h"
-#include "Base\Base.h"
 
 /************
 *   Using   *
@@ -98,7 +97,7 @@ class VertexShader : public Shader
         ///</summary>
         ///<param name="graphicDevice">Graphic Device to be associated with this Shader</param>
         ///<param name="name">Name of Shader</param>
-        VertexShader(GraphicDevice* graphicDevice, const std::string& name = "");
+        VertexShader(GraphicDevice& graphicDevice, const std::string& name = "");
 
 #pragma endregion
         

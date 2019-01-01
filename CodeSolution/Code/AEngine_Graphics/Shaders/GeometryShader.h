@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Shader.h"
-#include "Base\Base.h"
 
 /************
 *   Using   *
@@ -96,7 +95,7 @@ class GeometryShader sealed : public Shader
         ///</summary>
         ///<param name="graphicDevice">Graphic Device to be associated with this Shader</param>
         ///<param name="name">Name of Shader</param>
-        GeometryShader(GraphicDevice* graphicDevice, const std::string& name = "");
+        GeometryShader(GraphicDevice& graphicDevice, const std::string& name = "");
 
 #pragma endregion
         

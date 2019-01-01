@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "LightShape.h"
 
 /************
@@ -55,7 +54,7 @@ class OmniLightShape sealed : public LightShape
 
     public:
         //Constructor Destructor.
-        OmniLightShape(GraphicDevice* graphicDevice, uint32_t numEdges = AE_LIGHT_SHAPE_DEFAULT_NUM_EDGES);
+        OmniLightShape(GraphicDevice& graphicDevice, uint32_t numEdges = AE_LIGHT_SHAPE_DEFAULT_NUM_EDGES);
         virtual ~OmniLightShape();
 
         AEResult BuildLightShape() override;

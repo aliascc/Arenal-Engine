@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "AudioPlayer.h"
 #include "GameObject\GameObjectDefs.h"
 #include "GameObject\GameObjectComponent.h"
@@ -103,7 +102,7 @@ class AudioSourceGOC sealed : public GameObjectComponent
         /// </summary>
         /// <param name="gameObject">Game Object that this Component is attached too</param>
         /// <param name="name">Name of the Audio.</param>
-        AudioSourceGOC(GameObject* gameObject, const std::string& name);
+        AudioSourceGOC(GameObject& gameObject, const std::string& name);
 
         /// <summary>
         /// Default AudioSourceGOC Destructor

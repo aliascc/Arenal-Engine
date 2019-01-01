@@ -34,7 +34,6 @@
 #include "MeshPart.h"
 #include "GraphicDevice.h"
 #include "Vertex\VertexDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Vertex\IndexBuffer.h"
 #include "Vertex\VertexBuffer.h"
 #include "Vertex\IVertexBuffer.h"

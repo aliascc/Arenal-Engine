@@ -19,7 +19,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccProvider>SAK</SccProvider>
     <ProjectName>AEngine_Base</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -115,8 +115,6 @@
     <ClInclude Include="Base\BaseLocations.h" />
     <ClInclude Include="Base\Named.h" />
     <ClInclude Include="Base\ProjectConfig.h" />
-    <ClInclude Include="Base\UniqueAEObject.h" />
-    <ClInclude Include="Base\UniqueAEObjectNamed.h" />
     <ClInclude Include="Color\AEColorDefs.h" />
     <ClInclude Include="Color\Color.h" />
     <ClInclude Include="Crash Handling\CrashHandler.h" />
@@ -148,8 +146,6 @@
     <ClCompile Include="Base\AEObject.cpp" />
     <ClCompile Include="Base\BaseFunctions.cpp" />
     <ClCompile Include="Base\Named.cpp" />
-    <ClCompile Include="Base\UniqueAEObject.cpp" />
-    <ClCompile Include="Base\UniqueAEObjectNamed.cpp" />
     <ClCompile Include="Color\AEColorDefs.cpp" />
     <ClCompile Include="Color\Color.cpp" />
     <ClCompile Include="Crash Handling\CrashHandler.cpp" />

@@ -33,7 +33,6 @@
 ****************************/
 #include "DebugStats.h"
 #include "Camera\Camera.h"
-#include "GameApp\GameApp.h"
 #include "Vertex\VertexBuffer.h"
 #include "Camera\CameraUpdater.h"
 #include "Wrappers\SpriteFontAE.h"
@@ -48,12 +47,12 @@
 /********************
 *   Function Defs   *
 *********************/
-DebugStats::DebugStats(GameApp* gameApp, const DebugStatsConfig& debugStatsConfig, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
+DebugStats::DebugStats(GameApp& gameApp, const DebugStatsConfig& debugStatsConfig, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
     , m_DebugStatsConfig(debugStatsConfig)
 {
     AETODO("Add ready flag to check this");
-    m_CameraUpdater = m_GameApp->GetGameService<CameraUpdater>(cameraServiceName);
+    m_CameraUpdater = m_GameApp.GetGameService<CameraUpdater>(cameraServiceName);
     AEAssert(m_CameraUpdater != nullptr);
 }
 
@@ -78,8 +77,6 @@ void DebugStats::Initialize()
     m_SpriteBatchAE = new SpriteBatchAE(m_GraphicDevice);
 
     m_SpriteFontAE = new SpriteFontAE(m_GraphicDevice, m_DebugStatsConfig.m_SpriteFontFile);
-
-    DrawableGameComponent::Initialize();
 }
 
 void DebugStats::LoadContent()
@@ -94,8 +91,6 @@ void DebugStats::LoadContent()
     m_BasicColorMaterial->LoadContent();    
     AETODO("Check to see if we can implement easy access to variables in BasicColorMaterial class, if so remove all includes for CB, shader props");
     m_BasicColorMaterial->GetVSProps()->GetConstantBuffer(AE_CB_WORLD_VIEW_PROJ_NAME)->SetValueT<glm::mat4>(AE_CB_WORLD_VAR_NAME, AEMathHelpers::Mat4Identity);
-
-    DrawableGameComponent::LoadContent();
 }
 
 void DebugStats::InitializeAxisAndGrid()
@@ -191,8 +186,6 @@ void DebugStats::Update(const TimerParams& timerParams)
     AETODO("Check to see if we can implement easy access to variables in BasicLineMaterial & BasicColorMaterial class, if so remove all includes for CB, shader props");
     m_BasicColorMaterial->GetVSProps()->GetConstantBuffer(AE_CB_WORLD_VIEW_PROJ_NAME)->SetValueT<glm::mat4>(AE_CB_VIEW_VAR_NAME, currentCamera->GetViewMatrix());
     m_BasicColorMaterial->GetVSProps()->GetConstantBuffer(AE_CB_WORLD_VIEW_PROJ_NAME)->SetValueT<glm::mat4>(AE_CB_PROJECTION_VAR_NAME, currentCamera->GetProjectionMatrix());
-
-    DrawableGameComponent::Update(timerParams);
 }
 
 void DebugStats::Render(const TimerParams& timerParams)
@@ -201,71 +194,67 @@ void DebugStats::Render(const TimerParams& timerParams)
     glm::vec2 pos(10.0f, 10.0f);
     std::string msg = "";
 
-    m_GraphicDevice->BeginEvent("Debug Stats");
+    m_GraphicDevice.BeginEvent("Debug Stats");
 
     if(m_DebugStatsConfig.m_GridEnabled || m_DebugStatsConfig.m_AxisEnabled)
     {
-        m_GraphicDevice->BeginEvent("Debug Grid Axis");
+        m_GraphicDevice.BeginEvent("Debug Grid Axis");
 
         //Set Topology to LineList for Both Axis and Grid
-        m_GraphicDevice->SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
+        m_GraphicDevice.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 
         //Draw Grid
         if(m_DebugStatsConfig.m_GridEnabled)
         {
-            m_GraphicDevice->SetVertexBuffer(m_GridVertexBuffer);
+            m_GraphicDevice.SetVertexBuffer(m_GridVertexBuffer);
 
             m_BasicColorMaterial->Apply();
 
-            m_GraphicDevice->Draw(m_GridVertexBuffer->GetSize(), 0);
+            m_GraphicDevice.Draw(m_GridVertexBuffer->GetSize(), 0);
         }
 
         //Draw Axis
         if(m_DebugStatsConfig.m_AxisEnabled)
         {
-            m_GraphicDevice->SetVertexBuffer(m_AxisVertexBuffer);
+            m_GraphicDevice.SetVertexBuffer(m_AxisVertexBuffer);
 
             m_BasicColorMaterial->Apply();
 
-            m_GraphicDevice->Draw(m_AxisVertexBuffer->GetSize(), 0);
+            m_GraphicDevice.Draw(m_AxisVertexBuffer->GetSize(), 0);
         }
 
-        m_GraphicDevice->EndEvent();
+        m_GraphicDevice.EndEvent();
     }
 
     if(m_DebugStatsConfig.m_FPSEnabled)
     {
-        m_GraphicDevice->BeginEvent("Debug Text");
+        m_GraphicDevice.BeginEvent("Debug Text");
 
         m_SpriteBatchAE->Begin();
 
         AETODO("Change to Localization Literals");
-        msg = fmt::format("FPS: {0}", m_GameApp->GetTimer().GetFPS());
-        m_SpriteFontAE->DrawString(m_SpriteBatchAE, msg, pos, m_DebugStatsConfig.m_TextColor);
+        msg = fmt::format("FPS: {0}", m_GameApp.GetTimer().GetFPS());
+        m_SpriteFontAE->DrawString(*m_SpriteBatchAE, msg, pos, m_DebugStatsConfig.m_TextColor);
         stride = m_SpriteFontAE->MeasureString(msg);
         pos.y += stride.y;
 
-        msg = fmt::format("Milliseconds/Frame: {0}", m_GameApp->GetTimer().GetMilliPerFrame());
-        m_SpriteFontAE->DrawString(m_SpriteBatchAE, msg, pos, m_DebugStatsConfig.m_TextColor);
+        msg = fmt::format("Milliseconds/Frame: {0}", m_GameApp.GetTimer().GetMilliPerFrame());
+        m_SpriteFontAE->DrawString(*m_SpriteBatchAE, msg, pos, m_DebugStatsConfig.m_TextColor);
         stride = m_SpriteFontAE->MeasureString(msg);
         pos.y += stride.y;
 
         m_SpriteBatchAE->End();
     
-        m_GraphicDevice->EndEvent();
+        m_GraphicDevice.EndEvent();
     }
     
-    m_GraphicDevice->EndEvent();
-    
-    DrawableGameComponent::Render(timerParams);
+    m_GraphicDevice.EndEvent();
 }
 
 void DebugStats::OnLostDevice()
-{    
-    DrawableGameComponent::OnLostDevice();
+{
 }
 
 void DebugStats::OnResetDevice()
 {
-    DrawableGameComponent::OnResetDevice();
 }

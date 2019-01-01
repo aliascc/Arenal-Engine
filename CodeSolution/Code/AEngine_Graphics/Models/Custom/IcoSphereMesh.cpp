@@ -35,7 +35,6 @@
 #include "GraphicDevice.h"
 #include "GameContentDefs.h"
 #include "Models\MeshPart.h"
-#include "Base\BaseFunctions.h"
 #include "Vertex\IndexBuffer.h"
 #include "Vertex\VertexBuffer.h"
 #include "Content\ContentDefs.h"
@@ -46,7 +45,7 @@
 /********************
 *   Function Defs   *
 *********************/
-IcoSphereMesh::IcoSphereMesh(GraphicDevice* graphicDevice, const std::string& resourceName)
+IcoSphereMesh::IcoSphereMesh(GraphicDevice& graphicDevice, const std::string& resourceName)
     : Mesh(graphicDevice, resourceName)
 {
 }
@@ -57,12 +56,6 @@ IcoSphereMesh::~IcoSphereMesh()
 
 AEResult IcoSphereMesh::Load()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     std::lock_guard<std::mutex> lock(m_GameResourceMutex);
 
     if (m_IsLoaded)

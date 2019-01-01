@@ -33,13 +33,9 @@
 ****************************/
 #include "Models\Mesh.h"
 #include "Camera\Camera.h"
-#include "GraphicDevice.h"
 #include "Models\MeshPart.h"
-#include "GameApp\GameApp.h"
 #include "Vertex\IndexBuffer.h"
 #include "GameObjectRenderTest.h"
-#include "GameObject\GameObject.h"
-#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\MeshGOC.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 #include "GameObject\Components\MeshMaterialGOC.h"
@@ -51,8 +47,9 @@
 /********************
 *   Function Defs   *
 *********************/
-GameObjectRenderTest::GameObjectRenderTest(GameApp* gameApp, const std::string& gameComponentName)
+GameObjectRenderTest::GameObjectRenderTest(GameApp& gameApp, const std::string& gameComponentName)
     : DrawableGameComponent(gameApp, gameComponentName)
+    , m_GameObjectManager(m_GameApp.GetGameObjectManager())
 {
 }
 
@@ -62,31 +59,23 @@ GameObjectRenderTest::~GameObjectRenderTest()
 
 void GameObjectRenderTest::Initialize()
 {
-    m_GameObjectManager = m_GameApp->GetGameObjectManager();
-
-    m_Camera = m_GameApp->GetGameService<Camera>("Camera");
-
-    DrawableGameComponent::Initialize();
+    m_Camera = m_GameApp.GetGameService<Camera>("Camera");
 }
 
 void GameObjectRenderTest::LoadContent()
-{    
-    DrawableGameComponent::LoadContent();
+{
 }
 
 void GameObjectRenderTest::Update(const TimerParams& timerParams)
 {
-    DrawableGameComponent::Update(timerParams);
 }
 
 void GameObjectRenderTest::Render(const TimerParams& timerParams)
 {
-    for(auto goIt : *m_GameObjectManager)
+    for(auto goIt : m_GameObjectManager)
     {
         DrawGameObject(goIt.second);
     }
-
-    DrawableGameComponent::Render(timerParams);
 }
 
 void GameObjectRenderTest::DrawGameObject(GameObject* gameObject)
@@ -125,12 +114,12 @@ void GameObjectRenderTest::DrawGameObject(GameObject* gameObject)
 
                 meshMat->ApplyShaders(m_GraphicDevice);
 
-                m_GraphicDevice->SetVertexBuffer(meshPart->GetVertexBuffer());
-                m_GraphicDevice->SetIndexBuffer(meshPart->GetIndexBuffer());
+                m_GraphicDevice.SetVertexBuffer(meshPart->GetVertexBuffer());
+                m_GraphicDevice.SetIndexBuffer(meshPart->GetIndexBuffer());
 
-                m_GraphicDevice->SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+                m_GraphicDevice.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-                m_GraphicDevice->DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
+                m_GraphicDevice.DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
             }
         }
 
@@ -144,10 +133,8 @@ void GameObjectRenderTest::DrawGameObject(GameObject* gameObject)
 
 void GameObjectRenderTest::OnLostDevice()
 {
-    DrawableGameComponent::OnLostDevice();
 }
 
 void GameObjectRenderTest::OnResetDevice()
 {
-    DrawableGameComponent::OnResetDevice();
 }

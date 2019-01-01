@@ -35,7 +35,6 @@
 #include "MeshPart.h"
 #include "GraphicDevice.h"
 #include "GameContentDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Vertex\IndexBuffer.h"
 #include "Vertex\VertexBuffer.h"
 #include "Content\ContentDefs.h"
@@ -46,11 +45,10 @@
 /********************
 *   Function Defs   *
 *********************/
-Mesh::Mesh(GraphicDevice* graphicDevice, const std::string& resourceName)
+Mesh::Mesh(GraphicDevice& graphicDevice, const std::string& resourceName)
     : GameResource(resourceName, GameResourceType::Mesh)
     , m_GraphicDevice(graphicDevice)
 {
-    AEAssert(m_GraphicDevice != nullptr);
 }
 
 Mesh::~Mesh()
@@ -70,13 +68,6 @@ void Mesh::CleanUp()
 
 AEResult Mesh::Load()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     std::lock_guard<std::mutex> lock(m_GameResourceMutex);
 
     AEAssert(!m_FileName.empty());

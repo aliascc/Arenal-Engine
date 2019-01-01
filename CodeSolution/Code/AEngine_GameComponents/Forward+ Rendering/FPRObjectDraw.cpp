@@ -34,17 +34,12 @@
 #include "Models\Mesh.h"
 #include "FPRObjectDraw.h"
 #include "Camera\Camera.h"
-#include "GraphicDevice.h"
-#include "GameApp\GameApp.h"
 #include "Models\MeshPart.h"
 #include "Vertex\IndexBuffer.h"
-#include "Lights\LightManager.h"
 #include "ForwardPlusRendering.h"
 #include "Camera\CameraUpdater.h"
-#include "GameObject\GameObject.h"
 #include "Shaders\Variables\Sampler.h"
 #include "Shaders\Buffers\SimpleBuffer.h"
-#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\MeshGOC.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 #include "Shaders\Buffers\StructuredBuffer.h"
@@ -62,13 +57,15 @@
 *   Function Defs   *
 *********************/
 AETODO("Check object instances and calls to where it is init");
-FPRObjectDraw::FPRObjectDraw(GameApp* gameApp, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
+FPRObjectDraw::FPRObjectDraw(GameApp& gameApp, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
+    , m_GameObjectManager(gameApp.GetGameObjectManager())
+    , m_LightManager(gameApp.GetLightManager())
 {
-    m_ForwardPlusRendering = m_GameApp->GetGameService<ForwardPlusRendering>(fprServiceName);
+    m_ForwardPlusRendering = m_GameApp.GetGameService<ForwardPlusRendering>(fprServiceName);
     AEAssert(m_ForwardPlusRendering != nullptr);
 
-    m_CameraUpdater = m_GameApp->GetGameService<CameraUpdater>(cameraServiceName);
+    m_CameraUpdater = m_GameApp.GetGameService<CameraUpdater>(cameraServiceName);
     AEAssert(m_CameraUpdater != nullptr);
 }
 
@@ -78,24 +75,19 @@ FPRObjectDraw::~FPRObjectDraw()
 
 void FPRObjectDraw::Initialize()
 {
-    m_GameObjectManager = m_GameApp->GetGameObjectManager();
-
-    DrawableGameComponent::Initialize();
 }
 
 void FPRObjectDraw::LoadContent()
 {
-    DrawableGameComponent::LoadContent();
 }
 
 void FPRObjectDraw::Update(const TimerParams& timerParams)
 {
-    DrawableGameComponent::Update(timerParams);
 }
 
 void FPRObjectDraw::Render(const TimerParams& timerParams)
 {
-    m_GraphicDevice->BeginEvent("Forward+ Rendering Object Draw");
+    m_GraphicDevice.BeginEvent("Forward+ Rendering Object Draw");
 
     AEResult ret = RenderWithFPR();
 
@@ -104,9 +96,7 @@ void FPRObjectDraw::Render(const TimerParams& timerParams)
         AETODO("Log error");
     }
 
-    m_GraphicDevice->EndEvent();
-
-    DrawableGameComponent::Render(timerParams);
+    m_GraphicDevice.EndEvent();
 }
 
 AEResult FPRObjectDraw::RenderWithFPR()
@@ -120,7 +110,7 @@ AEResult FPRObjectDraw::RenderWithFPR()
 
 void FPRObjectDraw::DrawGameObjects()
 {
-    for(auto goIt : *m_GameObjectManager)
+    for(auto goIt : m_GameObjectManager)
     {
         DrawGameObject(goIt.second);
     }
@@ -187,7 +177,7 @@ void FPRObjectDraw::DrawGameObject(GameObject* gameObject)
                     if (cbPS != nullptr)
                     {
                         cbPS->SetValueT<glm::vec3>(AE_CB_CAMERA_POS_VAR_NAME, currentCamera->GetPosition());
-                        cbPS->SetValueT<uint32_t>(AE_CB_WINDOW_WIDTH_VAR_NAME, m_GraphicDevice->GetGraphicPP().m_BackBufferWidth);
+                        cbPS->SetValueT<uint32_t>(AE_CB_WINDOW_WIDTH_VAR_NAME, m_GraphicDevice.GetGraphicPP().m_BackBufferWidth);
                     }
 
                     /////////////////////////////////////////////////////////
@@ -229,7 +219,7 @@ void FPRObjectDraw::DrawGameObject(GameObject* gameObject)
 
                     /////////////////////////////////////////////////////////
                     //Override Shadow Spot Light Texture Array to use a single one
-                    Texture2DArray* forwardSpotLightShadowTextureArray = m_GameApp->GetLightManager()->GetSpotLightShadowTextureArray();
+                    Texture2DArray* forwardSpotLightShadowTextureArray = m_LightManager.GetSpotLightShadowTextureArray();
                     if (currentSpotLightShadowTextureArray != nullptr && currentSpotLightShadowTextureArray->GetUniqueID() != forwardSpotLightShadowTextureArray->GetUniqueID())
                     {
                         AETODO("Check Return");
@@ -247,7 +237,7 @@ void FPRObjectDraw::DrawGameObject(GameObject* gameObject)
 
                     /////////////////////////////////////////////////////////
                     //Override Shadow Directional Light Texture Array to use a single one
-                    Texture2DArray* forwardDirLightShadowTextureArray = m_GameApp->GetLightManager()->GetDirLightShadowTextureArray();
+                    Texture2DArray* forwardDirLightShadowTextureArray = m_LightManager.GetDirLightShadowTextureArray();
                     if (currentDirLightShadowTextureArray != nullptr && currentDirLightShadowTextureArray->GetUniqueID() != forwardDirLightShadowTextureArray->GetUniqueID())
                     {
                         AETODO("Check Return");
@@ -265,12 +255,12 @@ void FPRObjectDraw::DrawGameObject(GameObject* gameObject)
 
                     meshMat->ApplyShaders(m_GraphicDevice);
 
-                    m_GraphicDevice->SetVertexBuffer(meshPart->GetVertexBuffer());
-                    m_GraphicDevice->SetIndexBuffer(meshPart->GetIndexBuffer());
+                    m_GraphicDevice.SetVertexBuffer(meshPart->GetVertexBuffer());
+                    m_GraphicDevice.SetIndexBuffer(meshPart->GetIndexBuffer());
 
-                    m_GraphicDevice->SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+                    m_GraphicDevice.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-                    m_GraphicDevice->DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
+                    m_GraphicDevice.DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
 
                     meshMat->UnApplyShaders(m_GraphicDevice);
                 }
@@ -286,10 +276,8 @@ void FPRObjectDraw::DrawGameObject(GameObject* gameObject)
 
 void FPRObjectDraw::OnLostDevice()
 {
-    DrawableGameComponent::OnLostDevice();
 }
 
 void FPRObjectDraw::OnResetDevice()
 {
-    DrawableGameComponent::OnResetDevice();
 }

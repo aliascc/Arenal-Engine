@@ -34,7 +34,6 @@
 #include "ShaderDefs.h"
 #include "GeometryShader.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -42,7 +41,7 @@
 /********************
 *   Function Defs   *
 *********************/
-GeometryShader::GeometryShader(GraphicDevice* graphicDevice, const std::string& name)
+GeometryShader::GeometryShader(GraphicDevice& graphicDevice, const std::string& name)
     : Shader(graphicDevice, ShaderType::GeometryShader, name)
 {
 }
@@ -64,7 +63,7 @@ AEResult GeometryShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint3
     ID3D11GeometryShader* tempDX = nullptr;
 
     AETODO("Check Dynamic Class Linckage");
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateGeometryShader((void*)shaderByteCode, length, nullptr, &tempDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateGeometryShader((void*)shaderByteCode, length, nullptr, &tempDX);
 
     if(hr != S_OK)
     {

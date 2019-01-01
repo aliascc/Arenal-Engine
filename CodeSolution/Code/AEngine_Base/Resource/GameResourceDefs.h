@@ -75,7 +75,7 @@ enum class GameResourceType : uint32_t
 /**************
 *   Typedef   *
 ***************/
-typedef std::function<void (uint64_t, bool)> GameResourceReleaseCallback;
+typedef std::function<void (uint64_t)> GameResourceReleaseCallback;
 typedef std::function<void (uint64_t, const std::string&, const std::string&)> GameResourceChangeNameCallback;
 typedef std::function<void (uint64_t, const std::string&, const std::string&)> GameResourceChangeFileNameCallback;
 

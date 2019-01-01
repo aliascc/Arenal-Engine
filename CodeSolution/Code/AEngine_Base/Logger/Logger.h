@@ -131,6 +131,8 @@ class Logger : public Singleton<Logger>
         /// </summary>
         std::mutex m_LogMutex;
 
+        std::condition_variable m_LogConditionalVar;
+
         /// <summary>
         /// Script "AELog Array" Object Type
         /// </summary>

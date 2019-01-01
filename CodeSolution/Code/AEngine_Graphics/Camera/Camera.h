@@ -31,10 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Utils\Frustum.h"
-#include "Math\AEMathDefs.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 /************
 *   Using   *
@@ -48,7 +45,7 @@ struct TimerParams;
 /*****************
 *   Class Decl   *
 ******************/
-class Camera abstract : public UniqueAEObjectNamed
+class Camera abstract : public Named
 {
     protected:
         //Variables

@@ -33,7 +33,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "BasicLineMaterial.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\PixelShader.h"
 #include "Shaders\VertexShader.h"
 #include "Resource\GameResourceManager.h"
@@ -55,7 +54,7 @@
 /********************
 *   Function Defs   *
 *********************/
-BasicLineMaterial::BasicLineMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
+BasicLineMaterial::BasicLineMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name)
     : Material(graphicDevice, gameResourceManager, name)
 {
 }
@@ -70,7 +69,7 @@ AEResult BasicLineMaterial::CreateVertexShader()
 
     /////////////////////////////////////////////////////
     //Get Vertex Shader from Game Resources
-    m_VertexShader = (VertexShader*)m_GameResourceManager->AcquireGameResourceByStringID(AE_BASIC_LINE_MAT_VS_NAME, GameResourceType::VertexShader);
+    m_VertexShader = (VertexShader*)m_GameResourceManager.AcquireGameResourceByStringID(AE_BASIC_LINE_MAT_VS_NAME, GameResourceType::VertexShader);
 
     if(m_VertexShader == nullptr)
     {
@@ -81,7 +80,7 @@ AEResult BasicLineMaterial::CreateVertexShader()
             return AEResult::VertexShaderLoadFailed;
         }
 
-        ret = m_GameResourceManager->ManageGameResource(m_VertexShader, AE_BASIC_LINE_MAT_VS_NAME);
+        ret = m_GameResourceManager.ManageGameResource(m_VertexShader, AE_BASIC_LINE_MAT_VS_NAME);
         if(ret != AEResult::Ok)
         {
             return AEResult::ResourceManagedFailed;
@@ -144,7 +143,7 @@ AEResult BasicLineMaterial::CreatePixelShader()
     
     /////////////////////////////////////////////////////
     //Get Pixel Shader from Game Resources
-    m_PixelShader = (PixelShader*)m_GameResourceManager->AcquireGameResourceByStringID(AE_BASIC_LINE_MAT_PS_NAME, GameResourceType::PixelShader);
+    m_PixelShader = (PixelShader*)m_GameResourceManager.AcquireGameResourceByStringID(AE_BASIC_LINE_MAT_PS_NAME, GameResourceType::PixelShader);
     
     if(m_PixelShader == nullptr)
     {
@@ -155,7 +154,7 @@ AEResult BasicLineMaterial::CreatePixelShader()
             return AEResult::PixelShaderLoadFailed;
         }
 
-        ret = m_GameResourceManager->ManageGameResource(m_PixelShader, AE_BASIC_LINE_MAT_PS_NAME);
+        ret = m_GameResourceManager.ManageGameResource(m_PixelShader, AE_BASIC_LINE_MAT_PS_NAME);
         if(ret != AEResult::Ok)
         {
             return AEResult::ResourceManagedFailed;
@@ -214,20 +213,6 @@ AEResult BasicLineMaterial::CreatePixelShaderConstantBuffer()
 
 AEResult BasicLineMaterial::LoadContent()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-
-    if(m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     if(m_IsReady)
     {
         return AEResult::Ok;

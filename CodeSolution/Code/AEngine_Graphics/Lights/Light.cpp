@@ -30,7 +30,6 @@
 #include "Light.h"
 #include "Utils\Frustum.h"
 #include "GraphicDevice.h"
-#include "Time\AETimeDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -39,7 +38,7 @@
 *   Function Defs   *
 *********************/
 Light::Light(LightType lightType, const std::string& name, const glm::vec3& position, const glm::vec3& direction, const Color& color, float nearAtteniation, float farAttenuation, float intensity, bool enable)
-    : UniqueAEObjectNamed(name)
+    : Named(name)
     , m_Position(position)
     , m_Direction(direction)
     , m_Color(color)

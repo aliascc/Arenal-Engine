@@ -1,3 +1,6 @@
+# Linux
+*.swp
+
 # Compiled Object files
 *.slo
 *.lo
@@ -31,6 +34,7 @@
 *.user
 
 # AEngine Ignores
+*.ini
 *.opensdf
 *.sdf
 *.suo
@@ -65,5 +69,8 @@ CodeSolution/Code/AEngine_Shaders/Compiled Materials/
 3rdParty/DirectXTK/Tools/
 3rdParty/LibIconv/How to Compile Demo Bin.zip
 3rdParty/LibIconv/How to Compile Demo Src.zip
+3rdParty/ImGui/Project/imgui/Debug
+3rdParty/ImGui/Project/imgui/Release
+3rdParty/ImGui/Project/imgui/intermediate
 CodeSolution/Run/AEngine_TestBed/Data/Editor UI Layouts/default.qtl
 CodeSolution/Run/AEngine_TestBed/Data/Logs/Logs.txt

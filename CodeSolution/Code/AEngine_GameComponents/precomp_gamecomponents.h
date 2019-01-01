@@ -20,10 +20,14 @@
 #ifndef _PRECOMP_GAMECOMPONENTS_H
 #define _PRECOMP_GAMECOMPONENTS_H
 
+/*************************
+*   Game Engine Config   *
+**************************/
+#include "Base\ProjectConfig.h"
+
 /**********************
 *   System Includes   *
 ***********************/
-
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,9 +44,11 @@
 #include <unordered_set>
 #include <unordered_map>
 
+#include <atomic>
 #include <mutex>
 #include <thread>
 #include <functional>
+#include <condition_variable>
 
 #include <regex>
 #include <random>
@@ -60,6 +66,12 @@
 
 #include <d3d11_1.h>
 #include <D3D11Shader.h>
+
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
+#include <Initguid.h> 
+#include <dxgidebug.h>
+#include <d3dcommon.h>
+#endif
 
 /*************************
 *   3rd Party Includes   *
@@ -91,15 +103,12 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\ProjectConfig.h"
 
 #include "Base\Base.h"
 #include "Base\Named.h"
 #include "Base\AEObject.h"
 #include "Base\BaseFunctions.h"
 #include "Base\BaseLocations.h"
-#include "Base\UniqueAEObject.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 #include "Math\AEMathDefs.h"
 
@@ -123,14 +132,17 @@
 #include "Time\AETimer.h"
 #include "Time\AETimeDefs.h"
 
-/*********************************
-*   Additional System Includes   *
-**********************************/
+#include "XML\AEXMLDefs.h"
+#include "XML\AEXMLParser.h"
+#include "XML\AEXMLWriter.h"
 
-#if defined(AE_GRAPHIC_DEBUG_DEVICE)
-#include <Initguid.h> 
-#include <dxgidebug.h>
-#include <d3dcommon.h>
-#endif
+#include "GraphicDevice.h"
+#include "GameApp\GameApp.h"
+#include "Lights\LightManager.h"
+#include "GameObject\GameObject.h"
+#include "GameObject\GameObjectManager.h"
+
+#include "GameUtils\GameComponent.h"
+#include "GameUtils\DrawableGameComponent.h"
 
 #endif

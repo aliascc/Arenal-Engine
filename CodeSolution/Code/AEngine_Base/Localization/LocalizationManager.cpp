@@ -78,9 +78,9 @@ void LocalizationManager::ClearAllMaps()
 
 void LocalizationManager::CleanProjectInfo()
 {
-    for (auto literalSetIt : m_ExtendedLiteralsMap)
+    for (const auto& literalSetIt : m_ExtendedLiteralsMap)
     {
-        LiteralsSet& literalSet = literalSetIt.second;
+        const LiteralsSet& literalSet = literalSetIt.second;
 
         auto languageMapIt = m_LanguagesMap.find(literalSetIt.first);
         if (languageMapIt != m_LanguagesMap.end())

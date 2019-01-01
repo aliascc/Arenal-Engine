@@ -57,9 +57,19 @@ class AETime sealed : public AEObject
         bool m_IsSamplingFPS = false;
 
         /// <summary>
-        /// Number of Frames to be sampled
+        /// Number of Sample to calculate FPS
         /// </summary>
-        uint32_t m_FrameCount = 0;
+        uint32_t m_NumOfSamples = 100;
+
+        /// <summary>
+        /// Position in the buffer of last frame sample added
+        /// </summary>
+        uint32_t m_SampleFramePos = 0;
+
+        /// <summary>
+        /// Ring Buffer of Frame Samples
+        /// </summary>
+        std::vector<double> m_FrameSamples;
 
         /// <summary>
         /// Current FPS
@@ -72,34 +82,19 @@ class AETime sealed : public AEObject
         float m_MilliPerFrame = 0.0f;
 
         /// <summary>
-        /// Last time FPS was sampled
+        /// Constant Update Step Size
         /// </summary>
-        double m_LastFPSTime = 0.0;
-
-        /// <summary>
-        /// Timer for 'Constant Update'
-        /// </summary>
-        AETimer m_ConstantUpdateTimer;
-
-        /// <summary>
-        /// Timer for 'Update'
-        /// </summary>
-        AETimer m_UpdateTimer;
-
-        /// <summary>
-        /// Timer for 'Post Update'
-        /// </summary>
-        AETimer m_PostUpdateTimer;
-
-        /// <summary>
-        /// Timer for 'Frame'
-        /// </summary>
-        AETimer m_RenderTimer;
+        const double m_ConstantUpdateStep = 0.02;
 
         /// <summary>
         /// Timer for 'Frame'
         /// </summary>
         AETimer m_FrameTimer;
+
+        /// <summary>
+        /// Time Parameters for 'Constant Update'
+        /// </summary>
+        TimerParams m_ConstantUpdateTimerParams;
 
 #pragma endregion
 
@@ -126,7 +121,8 @@ class AETime sealed : public AEObject
         /// GameResource Constructor
         /// </summary>
         /// <param name="sample">If true, samples for FPS</param>
-        AETime(bool sample = false);
+        /// <param name="numSamples">Number of Samples of Frame Time to calculate FPS</param>
+        AETime(bool sample = false, uint32_t numSamples = 100);
 
         /// <summary>
         /// Default GameResource Destructor
@@ -168,45 +164,21 @@ class AETime sealed : public AEObject
         }
 
         /// <summary>
-        /// Gets Timer Parameters for 'Constant Update'
-        /// </summary>
-        /// <returns>Constant Update Timer Params</returns>
-        inline const TimerParams& GetConstantUpdateTimerParams() const
-        {
-            return m_ConstantUpdateTimer.GetTimerParams();
-        }
-
-        /// <summary>
-        /// Gets Timer Parameters for 'Update'
-        /// </summary>
-        /// <returns>Update Timer Params</returns>
-        inline const TimerParams& GetUpdateTimerParams() const{
-            return m_UpdateTimer.GetTimerParams();
-        }
-
-        /// <summary>
-        /// Gets Timer Parameters for 'Post Update'
-        /// </summary>
-        /// <returns>Post Update Timer Params</returns>
-        inline const TimerParams& GetPostUpdateTimerParams() const{
-            return m_PostUpdateTimer.GetTimerParams();
-        }
-
-        /// <summary>
-        /// Gets Timer Parameters for 'Render Update'
-        /// </summary>
-        /// <returns>Constant Render Timer Params</returns>
-        inline const TimerParams& GetRenderTimerParams() const{
-            return m_RenderTimer.GetTimerParams();
-        }
-
-        /// <summary>
         /// Gets Timer Parameters for 'Frame'
         /// </summary>
         /// <returns>Frame Timer Params</returns>
         inline const TimerParams& GetFrameTimerParams() const
         {
             return m_FrameTimer.GetTimerParams();
+        }
+
+        /// <summary>
+        /// Gets Timer Parameters for 'Constant Update'
+        /// </summary>
+        /// <returns>Frame Timer Params</returns>
+        inline const TimerParams& GetConstantUpdateTimerParams() const
+        {
+            return m_ConstantUpdateTimerParams;
         }
 
 #pragma endregion
@@ -233,59 +205,16 @@ class AETime sealed : public AEObject
 #pragma region Framework Methods
 
         /// <summary>
-        /// Updates All Timers
+        /// Updates Timers
         /// </summary>
-        void UpdateAllTimers();
+        void Update();
 
         /// <summary>
-        /// Updates 'Constant Update' Timers
+        /// Updates Constant Update Time Parameters and
+        /// checks if Constant Update needs to run
         /// </summary>
-        void UpdateConstantUpdateTimer();
-
-        /// <summary>
-        /// Updates 'Update' Timers
-        /// </summary>
-        void UpdateUpdateTimer();
-
-        /// <summary>
-        /// Updates 'Post Update' Timers
-        /// </summary>
-        void UpdatePostUpdateTimer();
-
-        /// <summary>
-        /// Updates 'Render' Timers
-        /// </summary>
-        void UpdateRenderTimer();
-
-        /// <summary>
-        /// Updates 'Frame' Timers
-        /// </summary>
-        void UpdateFrameTimer();
-
-        /// <summary>
-        /// Does a Post Update on 'Constant Update' Timers
-        /// </summary>
-        void PostUpdateConstantUpdateTimer();
-
-        /// <summary>
-        /// Does a Post Update on 'Update' Timers
-        /// </summary>
-        void PostUpdateUpdateTimer();
-
-        /// <summary>
-        /// Does a Post Update on 'Post Update' Timers
-        /// </summary>
-        void PostUpdatePostUpdateTimer();
-
-        /// <summary>
-        /// Does a Post Update on 'Render' Timers
-        /// </summary>
-        void PostUpdateRenderTimer();
-
-        /// <summary>
-        /// Does a Post Update on 'Frame' Timers
-        /// </summary>
-        void PostUpdateFrameTimer();
+        /// <returns>True if constant update needs to run, false if not</returns>
+        bool NeedToRunConstantUpdate();
 
 #pragma endregion
 };

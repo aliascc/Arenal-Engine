@@ -41,6 +41,7 @@ class DebugStats;
 class InputHandler;
 struct TimerParams;
 class CameraUpdater;
+class ImGuiComponent;
 class GameAudioUpdate;
 class GameLightsUpdate;
 class GamePhysicsUpdate;
@@ -72,11 +73,7 @@ class EditorViewer sealed : public GameApp
         GameObjectCameraUpdate* m_GameObjectCameraUpdate = nullptr;
         GameAudioUpdate* m_GameAudioUpdate = nullptr;
         GamePhysicsUpdate* m_GamePhysicsUpdate = nullptr;
-
-        //To be removed
-        bool m_AutoTestLoaded = false;
-        void AutoLoadTest();
-        void AutoLoadTestAddGO(const glm::vec3& pos, MeshAsset* model, ShaderAsset* vs, ShaderAsset* ps, TextureAsset* text, CollisionShape collisionShape);
+        ImGuiComponent* m_ImGuiComponent = nullptr;
 
     public:
         //Constructor and Destroyer

@@ -33,7 +33,6 @@
 ****************************/
 #include "AudioManager.h"
 #include "AudioListenerGOC.h"
-#include "Base\BaseFunctions.h"
 #include "GameObject\GameObject.h"
 
 //Always include last
@@ -43,17 +42,13 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-AudioListenerGOC::AudioListenerGOC(GameObject* gameObject, AudioManager* audioManager)
+AudioListenerGOC::AudioListenerGOC(GameObject& gameObject, AudioManager& audioManager)
     : GameObjectComponent(gameObject, GameObjectComponentType::AudioListener)
     , m_AudioManager(audioManager)
 {
-    AEAssert(m_AudioManager != nullptr);
 }
 
 AudioListenerGOC::~AudioListenerGOC()
 {
-    if (m_AudioManager != nullptr)
-    {
-        m_AudioManager->SetIsListenerSet(false);
-    }
+    m_AudioManager.SetIsListenerSet(false);
 }

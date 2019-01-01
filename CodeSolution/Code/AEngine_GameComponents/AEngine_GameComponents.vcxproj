@@ -44,6 +44,7 @@
     <ClCompile Include="Game Logic Update\GameObjectScriptCaller.cpp" />
     <ClCompile Include="Game Logic Update\GamePhysicsUpdate.cpp" />
     <ClCompile Include="Game Objects Debug\GameObjectsDebugVisualizer.cpp" />
+    <ClCompile Include="ImGui Component\ImGuiComponent.cpp" />
     <ClCompile Include="Input\InputHandler.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -156,6 +157,7 @@
     <ClInclude Include="Game Logic Update\GamePhysicsUpdate.h" />
     <ClInclude Include="Game Objects Debug\GameObjectsDebugDefs.h" />
     <ClInclude Include="Game Objects Debug\GameObjectsDebugVisualizer.h" />
+    <ClInclude Include="ImGui Component\ImGuiComponent.h" />
     <ClInclude Include="Input\InputHandler.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -308,7 +310,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
     <SccProvider>SAK</SccProvider>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

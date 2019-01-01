@@ -1,7 +1,7 @@
-﻿#include "ConsoleCmdFuncs.as"
+#include "ConsoleCmdFuncs.as"
 
 //Console Available Commands
-array<wstring> ConsoleCmds;
+array<string> ConsoleCmds;
 
 //Dictionary to Functions;
 wdictionary Cmd2Func;
@@ -41,10 +41,10 @@ void InitializeConsoleScript()
 	ConsoleInitializeHelpDictionary();
 }
 
-void ConsoleExec(wstring command)
+void ConsoleExec(string command)
 {
 	uint i = 0;
-	array<wstring>@ subCommands = command.split(" ");
+	array<string>@ subCommands = command.split(" ");
 
 	//Clean empty spaces
 	array<uint> emptySpaces;
@@ -83,10 +83,10 @@ void ConsoleExec(wstring command)
 	{
 		array<ScriptConsoleLine> crlArr;
 
-		array<wstring> line;
+		array<string> line;
 		array<Color> color;
 
-		wstring ukcmmd = m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_UNK_CMD") + ":";
+		string ukcmmd = m_LocalizationManager.GetLiteral("AE_CONSOLE_MSG_UNK_CMD") + ":";
 		line.insertLast(ukcmmd);
 
 		Color colorCode(GetColorByEnum(AEColorType::Red));

@@ -34,7 +34,6 @@
 #include "ShaderDefs.h"
 #include "HullShader.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -42,7 +41,7 @@
 /********************
 *   Function Defs   *
 *********************/
-HullShader::HullShader(GraphicDevice* graphicDevice, const std::string& name)
+HullShader::HullShader(GraphicDevice& graphicDevice, const std::string& name)
     : Shader(graphicDevice, ShaderType::HullShader, name)
 {
 }
@@ -64,7 +63,7 @@ AEResult HullShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t 
     ID3D11HullShader* tempDX = nullptr;
 
     AETODO("Check Dynamic Class Linckage");
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateHullShader((void*)shaderByteCode, length, nullptr, &tempDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateHullShader((void*)shaderByteCode, length, nullptr, &tempDX);
 
     if(hr != S_OK)
     {

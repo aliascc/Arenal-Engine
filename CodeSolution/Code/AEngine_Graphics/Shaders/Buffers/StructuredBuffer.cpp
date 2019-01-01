@@ -31,11 +31,8 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Logger\Logger.h"
 #include "GraphicDevice.h"
 #include "StructuredBuffer.h"
-#include "Base\BaseFunctions.h"
-#include "Localization\LocalizationManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -43,7 +40,7 @@
 /********************
 *   Function Defs   *
 *********************/
-StructuredBuffer::StructuredBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, GraphicDevice* graphicDevice)
+StructuredBuffer::StructuredBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, GraphicDevice& graphicDevice)
     : ShaderBuffer(name, bindIndex, createAsRW, graphicDevice)
 {
 }
@@ -67,12 +64,6 @@ AEResult StructuredBuffer::Deinitialize()
 
 AEResult StructuredBuffer::InitializeBuffer(uint32_t structSize, uint32_t numElements, GraphicBufferUsage bufferUsage, GraphicBufferAccess bufferAccess)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEAssert(structSize != 0);
     AEAssert(numElements != 0);
     if(structSize == 0 || numElements == 0)
@@ -105,7 +96,7 @@ AEResult StructuredBuffer::InitializeBuffer(uint32_t structSize, uint32_t numEle
     cbDesc.StructureByteStride  = structSize;
     cbDesc.MiscFlags            = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateBuffer(&cbDesc, nullptr, &m_BufferDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateBuffer(&cbDesc, nullptr, &m_BufferDX);
 
     if(hr != S_OK)
     {
@@ -128,7 +119,7 @@ AEResult StructuredBuffer::InitializeBuffer(uint32_t structSize, uint32_t numEle
     srvDesc.BufferEx.Flags           = 0;
     srvDesc.BufferEx.NumElements     = numElements;
 
-    hr = m_GraphicDevice->GetDeviceDX()->CreateShaderResourceView(m_BufferDX, &srvDesc, &m_BufferSRVDX);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateShaderResourceView(m_BufferDX, &srvDesc, &m_BufferSRVDX);
 
     if(hr != S_OK)
     {
@@ -156,7 +147,7 @@ AEResult StructuredBuffer::InitializeBuffer(uint32_t structSize, uint32_t numEle
         uavDesc.Format                  = DXGI_FORMAT_UNKNOWN;
         uavDesc.ViewDimension           = D3D11_UAV_DIMENSION_BUFFER;
 
-        hr = m_GraphicDevice->GetDeviceDX()->CreateUnorderedAccessView(m_BufferDX, &uavDesc, &m_BufferUAVDX);
+        hr = m_GraphicDevice.GetDeviceDX()->CreateUnorderedAccessView(m_BufferDX, &uavDesc, &m_BufferUAVDX);
 
         if(hr != S_OK)
         {
@@ -220,7 +211,7 @@ AEResult StructuredBuffer::UpdateBuffer(const void* data, uint32_t elementCount,
 
     D3D11_MAP dxMapType = AEGraphicHelpers::GetDXResourceMap(resourceMap);
 
-    HRESULT hr = m_GraphicDevice->GetDeviceContextDX()->Map(m_BufferDX, 0, dxMapType, 0, &mappedData);
+    HRESULT hr = m_GraphicDevice.GetDeviceContextDX()->Map(m_BufferDX, 0, dxMapType, 0, &mappedData);
 
     if(hr != S_OK)
     {
@@ -242,7 +233,7 @@ AEResult StructuredBuffer::UpdateBuffer(const void* data, uint32_t elementCount,
     /******************************************
     *4. Unmap Resource
     /******************************************/
-    m_GraphicDevice->GetDeviceContextDX()->Unmap(m_BufferDX, 0);
+    m_GraphicDevice.GetDeviceContextDX()->Unmap(m_BufferDX, 0);
 
     return AEResult::Ok;
 }

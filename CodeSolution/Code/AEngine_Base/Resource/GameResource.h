@@ -32,8 +32,8 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Base\Base.h"
+#include "Base\Named.h"
 #include "GameResourceDefs.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 /********************
 *   Forward Decls   *
@@ -42,7 +42,7 @@
 /*****************
 *   Class Decl   *
 ******************/
-class GameResource abstract : public UniqueAEObjectNamed
+class GameResource abstract : public Named
 {
     friend class GameResourceManager;
 
@@ -56,19 +56,7 @@ class GameResource abstract : public UniqueAEObjectNamed
         /// <summary>
         /// Reference count to the Game Resource
         /// </summary>
-        uint32_t m_RefCount = 0;
-
-        /// <summary>
-        /// If resource is to be keep alive
-        /// even when ref count reaches 0
-        /// </summary>
-        bool m_KeepAlive = false;
-
-        /// <summary>
-        /// Lets know the rest of the threads
-        /// deleting this object
-        /// </summary>
-        bool m_Deleting = false;
+        std::atomic<int64_t> m_RefCount = 0;
 
         /// <summary>
         /// If Game Resource is assigned to a 
@@ -173,20 +161,9 @@ class GameResource abstract : public UniqueAEObjectNamed
         /// Game Resource
         /// </summary>
         /// <returns>Reference Count</returns>
-        inline uint32_t GetRefCount() const
+        inline int64_t GetRefCount() const
         {
             return m_RefCount;
-        }
-
-        /// <summary>
-        /// Returns if Game Resource is to
-        /// keep alive when Reference Count
-        /// reaches 0
-        /// </summary>
-        /// <returns>Keep Alive Resource</returns>
-        inline bool GetKeepAlive() const
-        {
-            return m_KeepAlive;
         }
 
         /// <summary>
@@ -258,16 +235,16 @@ class GameResource abstract : public UniqueAEObjectNamed
 #pragma region Framework Methods
 
         /// <summary>
+        /// Decreases the reference count to this resource, if it reaches 0 and Keep Alive is false, it will delete it self
+        /// </summary>
+        /// <returns>Number of references remaining</returns>
+        int64_t Release();
+
+        /// <summary>
         /// Increases the reference count and returns a pointer to itself
         /// </summary>
         /// <returns>An exact reference to this Game Resource</returns>
         virtual GameResource* AddRef();
-
-        /// <summary>
-        /// Decreases the reference count to this resource, if it reaches 0 and Keep Alive is false, it will delete it self
-        /// </summary>
-        /// <returns>Number of references remaining</returns>
-        virtual uint32_t Release();
 
         /// <summary>
         /// Load the Game Resource

@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "GameAssets\GameAsset.h"
 #include "Textures\TextureDefs.h"
 
@@ -55,7 +54,7 @@ class TextureAsset sealed : public GameAsset
         /// <summary>
         /// Graphic Device to create Asset Resources in video memory
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         Texture* m_Texture = nullptr;
 
@@ -90,7 +89,7 @@ class TextureAsset sealed : public GameAsset
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
         /// <param name="textureType">Type of the Texture that this Asset will hold</param>
         /// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
-        TextureAsset(const std::string& filePath, GameResourceManager* gameResourceManager, TextureType textureType, GraphicDevice* graphicDevice);
+        TextureAsset(const std::string& filePath, GameResourceManager& gameResourceManager, TextureType textureType, GraphicDevice& graphicDevice);
 
         /// <summary>
         /// Default TextureAsset Destructor

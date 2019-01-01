@@ -33,7 +33,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "ConstantBuffer.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\Variables\ShaderCustomVariable.h"
 
 //Always include last
@@ -42,12 +41,11 @@
 /********************
 *   Function Defs   *
 *********************/
-ConstantBuffer::ConstantBuffer(GraphicDevice* graphicDevice, uint32_t bindIndex, const std::string& name)
+ConstantBuffer::ConstantBuffer(GraphicDevice& graphicDevice, uint32_t bindIndex, const std::string& name)
     : Named(name)
     , m_GraphicDevice(graphicDevice)
     , m_BindIndex(bindIndex)
 {
-    AEAssert(m_GraphicDevice != nullptr);
 }
 
 ConstantBuffer::~ConstantBuffer()
@@ -139,7 +137,7 @@ AEResult ConstantBuffer::Initialize()
     cbDesc.BindFlags        = D3D11_BIND_CONSTANT_BUFFER;
     cbDesc.CPUAccessFlags    = D3D11_CPU_ACCESS_WRITE;
 
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateBuffer(&cbDesc, nullptr, &m_ConstantBufferDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateBuffer(&cbDesc, nullptr, &m_ConstantBufferDX);
 
     if(hr != S_OK)
     {
@@ -178,7 +176,7 @@ AEResult ConstantBuffer::Apply()
 
     D3D11_MAPPED_SUBRESOURCE mappedResource = { 0 };
 
-    HRESULT hr = m_GraphicDevice->GetDeviceContextDX()->Map(m_ConstantBufferDX, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+    HRESULT hr = m_GraphicDevice.GetDeviceContextDX()->Map(m_ConstantBufferDX, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
     if(hr != S_OK)
     {
@@ -189,7 +187,7 @@ AEResult ConstantBuffer::Apply()
 
     memcpy(mappedResource.pData, m_ConstantBuffer, m_ConstantBufferDataSize);
 
-    m_GraphicDevice->GetDeviceContextDX()->Unmap(m_ConstantBufferDX, 0);
+    m_GraphicDevice.GetDeviceContextDX()->Unmap(m_ConstantBufferDX, 0);
 
     m_NeedUpdate = false;
 

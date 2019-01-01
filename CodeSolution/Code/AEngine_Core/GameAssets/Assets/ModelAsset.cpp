@@ -36,7 +36,6 @@
 #include "GraphicDevice.h"
 #include "SkeletonAsset.h"
 #include "AnimationAsset.h"
-#include "Base\BaseFunctions.h"
 #include "Resource\GameResourceManager.h"
 
 //Always include last
@@ -46,11 +45,10 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-ModelAsset::ModelAsset(const std::string& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice)
+ModelAsset::ModelAsset(const std::string& filePath, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice)
     : GameAsset(GameContentType::Model, filePath, gameResourceManager)
     , m_GraphicDevice(graphicDevice)
 {
-    AEAssert(m_GraphicDevice != nullptr);
 }
 
 ModelAsset::~ModelAsset()
@@ -81,12 +79,6 @@ void ModelAsset::CleanUp()
 
 AEResult ModelAsset::LoadAssetResource()
 {
-    AEAssert(m_GameResourceManager != nullptr);
-    if(m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     AEAssert(!m_FilePath.empty());
     if(m_FilePath.empty())
     {
@@ -149,18 +141,6 @@ AEResult ModelAsset::LoadAssetResource()
 
 AEResult ModelAsset::LoadFile()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-    if (m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     AEAssert(!m_FilePath.empty());
     if(m_FilePath.empty())
     {

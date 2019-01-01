@@ -33,7 +33,6 @@
 ****************************/
 #include "Texture.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -41,21 +40,21 @@
 /********************
 *   Function Defs   *
 *********************/
-Texture::Texture(GraphicDevice* graphicDevice, TextureType textureType, const std::string& textureName)
+Texture::Texture(GraphicDevice& graphicDevice, TextureType textureType, const std::string& textureName)
     : GameResource(textureName, GameResourceType::Unknown)
     , m_GraphicDevice(graphicDevice)
     , m_TextureType(textureType)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-
     switch (m_TextureType)
     {
         case TextureType::Texture2D:
             m_ResourceType = GameResourceType::Texture2D;
             break;
+
         case TextureType::TextureCube:
             m_ResourceType = GameResourceType::TextureCube;
             break;
+
         default:
             AEAssert(false);
             break;

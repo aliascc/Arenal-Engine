@@ -28,10 +28,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameASAddOnsDefs.h"
-#include "Base\BaseFunctions.h"
 #include "LocalizationAddOnAS.h"
-#include "Localization\LocalizationManager.h"
-#include "Localization\LocalizationManagerDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -89,7 +86,7 @@ AEResult LocalizationAddOnAS::RegisterLocalizationObject(asIScriptEngine* engine
         return AEResult::RegObjTypeFail;
     }
 
-    ret = engine->RegisterObjectMethod("LocalizationManager", "const wstring& GetLiteral(const wstring& in) const", asMETHOD(LocalizationManager, GetLiteral), asCALL_THISCALL);
+    ret = engine->RegisterObjectMethod("LocalizationManager", "const string& GetLiteral(const string& in) const", asMETHOD(LocalizationManager, GetLiteral), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;
@@ -101,13 +98,13 @@ AEResult LocalizationAddOnAS::RegisterLocalizationObject(asIScriptEngine* engine
         return AEResult::RegObjMethodFail;
     }
 
-    ret = engine->RegisterObjectMethod("LocalizationManager", "AEResult SetDefaultLanguage(const wstring& in)", asMETHOD(LocalizationManager, SetDefaultLanguage), asCALL_THISCALL);
+    ret = engine->RegisterObjectMethod("LocalizationManager", "AEResult SetDefaultLanguage(const string& in)", asMETHOD(LocalizationManager, SetDefaultLanguage), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;
     }
 
-    ret = engine->RegisterObjectMethod("LocalizationManager", "const wstring& GetDefaultLanguage() const", asMETHOD(LocalizationManager, GetDefaultLanguage), asCALL_THISCALL);
+    ret = engine->RegisterObjectMethod("LocalizationManager", "const string& GetDefaultLanguage() const", asMETHOD(LocalizationManager, GetDefaultLanguage), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;

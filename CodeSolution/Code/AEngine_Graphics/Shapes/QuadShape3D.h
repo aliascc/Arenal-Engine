@@ -32,8 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "QuadShape.h"
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 #include "Vertex\VertexBuffer.h"
 #include "Vertex\Types\VertexPositionTexture.h"
 
@@ -55,7 +53,7 @@ class QuadShape3D sealed : public QuadShape
 {
     public:
         //Constructor Destructor.
-        QuadShape3D(GraphicDevice* graphicDevice, bool clockWise = true);
+        QuadShape3D(GraphicDevice& graphicDevice, bool clockWise = true);
         virtual ~QuadShape3D();
 
         //Framework Methods

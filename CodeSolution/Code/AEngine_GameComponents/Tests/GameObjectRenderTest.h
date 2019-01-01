@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameUtils\DrawableGameComponent.h"
 
 /************
 *   Using   *
@@ -53,7 +52,7 @@ class GameObjectRenderTest sealed : public DrawableGameComponent
 {
     private:
         //Variables
-        GameObjectManager* m_GameObjectManager = nullptr;
+        GameObjectManager& m_GameObjectManager;
 
         Camera* m_Camera = nullptr;
 
@@ -61,7 +60,7 @@ class GameObjectRenderTest sealed : public DrawableGameComponent
 
     public:
         //Constructor Destructor.
-        GameObjectRenderTest(GameApp* gameApp, const std::string& gameComponentName = "Game Object Render Test");
+        GameObjectRenderTest(GameApp& gameApp, const std::string& gameComponentName = "Game Object Render Test");
         virtual ~GameObjectRenderTest();
 
         //Gets

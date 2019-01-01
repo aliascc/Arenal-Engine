@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "GameObject\GameObjectComponent.h"
 
 /********************
@@ -57,7 +56,7 @@ class CameraGOC sealed : public GameObjectComponent
         /// <summary>
         /// Camera Manager that manages the games camera.
         /// </summary>
-        CameraManager* m_CameraManager = nullptr;
+        CameraManager& m_CameraManager;
 
         /// <summary>
         /// Defines if the object is ready to run.
@@ -87,7 +86,7 @@ class CameraGOC sealed : public GameObjectComponent
         /// <summary>
         /// Graphic Device that are use with the Game App.
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
 #pragma endregion
 
@@ -104,7 +103,7 @@ class CameraGOC sealed : public GameObjectComponent
         /// <param name="gameObject">Game Object that this Component is attached too</param>
         /// <param name="cameraManager">Camera Manager to associate Camera.</param>
         /// <param name="graphicDevice">Graphic Device that are use with the Game App.</param>
-        CameraGOC(GameObject* gameObject, CameraManager* cameraManager, GraphicDevice* graphicDevice);
+        CameraGOC(GameObject& gameObject, CameraManager& cameraManager, GraphicDevice& graphicDevice);
 
         /// <summary>
         /// Default CameraGOC Destructor

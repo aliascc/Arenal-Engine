@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\VertexShader.h"
 #include "Resource\GameResourceManager.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
@@ -52,7 +51,7 @@
 /********************
 *   Function Defs   *
 *********************/
-ForwardPlusZPrePassSkinningMaterial::ForwardPlusZPrePassSkinningMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name)
+ForwardPlusZPrePassSkinningMaterial::ForwardPlusZPrePassSkinningMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name)
     : Material(graphicDevice, gameResourceManager, name)
 {
 }
@@ -67,7 +66,7 @@ AEResult ForwardPlusZPrePassSkinningMaterial::CreateVertexShader()
 
     /////////////////////////////////////////////////////
     //Get Vertex Shader from Game Resources
-    m_VertexShader = (VertexShader*)m_GameResourceManager->AcquireGameResourceByStringID(AE_FORWARD_PLUS_Z_PRE_PASS_SKINNING_MAT_VS_NAME, GameResourceType::VertexShader);
+    m_VertexShader = (VertexShader*)m_GameResourceManager.AcquireGameResourceByStringID(AE_FORWARD_PLUS_Z_PRE_PASS_SKINNING_MAT_VS_NAME, GameResourceType::VertexShader);
 
     if(m_VertexShader == nullptr)
     {
@@ -78,7 +77,7 @@ AEResult ForwardPlusZPrePassSkinningMaterial::CreateVertexShader()
             return AEResult::VertexShaderLoadFailed;
         }
 
-        ret = m_GameResourceManager->ManageGameResource(m_VertexShader, AE_FORWARD_PLUS_Z_PRE_PASS_SKINNING_MAT_VS_NAME);
+        ret = m_GameResourceManager.ManageGameResource(m_VertexShader, AE_FORWARD_PLUS_Z_PRE_PASS_SKINNING_MAT_VS_NAME);
         if(ret != AEResult::Ok)
         {
             return AEResult::ResourceManagedFailed;
@@ -158,20 +157,6 @@ AEResult ForwardPlusZPrePassSkinningMaterial::CreateVertexShaderConstantBuffer()
 
 AEResult ForwardPlusZPrePassSkinningMaterial::LoadContent()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-
-    if(m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     if(m_IsReady)
     {
         return AEResult::Ok;

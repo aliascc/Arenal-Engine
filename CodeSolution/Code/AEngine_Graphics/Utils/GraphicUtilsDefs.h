@@ -67,7 +67,7 @@ enum class Object3DChangeEventType : uint32_t
 /**************
 *   Typedef   *
 ***************/
-typedef std::function<void(Object3DChangeEventType, Object3D*)> Object3DChangedEvent;
+typedef std::function<void(Object3DChangeEventType, Object3D&)> Object3DChangedEvent;
 
 
 #endif

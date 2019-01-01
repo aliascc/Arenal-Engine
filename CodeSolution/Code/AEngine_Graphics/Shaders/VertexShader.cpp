@@ -34,7 +34,6 @@
 #include "ShaderDefs.h"
 #include "VertexShader.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -42,7 +41,7 @@
 /********************
 *   Function Defs   *
 *********************/
-VertexShader::VertexShader(GraphicDevice* graphicDevice, const std::string& name)
+VertexShader::VertexShader(GraphicDevice& graphicDevice, const std::string& name)
     : Shader(graphicDevice, ShaderType::VertexShader, name)
 {
 }
@@ -55,7 +54,6 @@ VertexShader::~VertexShader()
 AEResult VertexShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t length)
 {
     AEAssert(shaderByteCode != nullptr);
-
     if(shaderByteCode == nullptr)
     {
         return AEResult::NullParameter;
@@ -64,7 +62,7 @@ AEResult VertexShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_
     ID3D11VertexShader* tempDX = nullptr;
 
     AETODO("Check Dynamic Class Linkage");
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateVertexShader((void*)shaderByteCode, length, nullptr, &tempDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateVertexShader((void*)shaderByteCode, length, nullptr, &tempDX);
     if(hr != S_OK)
     {
         AETODO("Add log message here");

@@ -28,10 +28,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Camera\Camera.h"
-#include "GameApp\GameApp.h"
-#include "GameObject\GameObject.h"
 #include "GameObjectCameraUpdate.h"
-#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\CameraGOC.h"
 
 //Always include last
@@ -40,8 +37,9 @@
 /********************
 *   Function Defs   *
 *********************/
-GameObjectCameraUpdate::GameObjectCameraUpdate(GameApp* gameApp, const std::string& gameComponentName, uint32_t callOrder)
+GameObjectCameraUpdate::GameObjectCameraUpdate(GameApp& gameApp, const std::string& gameComponentName, uint32_t callOrder)
     : GameComponent(gameApp, gameComponentName, callOrder)
+    , m_GameObjectManager(gameApp.GetGameObjectManager())
 {
 }
 
@@ -77,21 +75,9 @@ void GameObjectCameraUpdate::UpdateCamera(GameObject* gameObject)
 void GameObjectCameraUpdate::Update(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
-    //Get Game Object Manager
-    GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
-
-    AEAssert(gameObjectManager != nullptr);
-    if (gameObjectManager == nullptr)
-    {
-        return;
-    }
-
-    ///////////////////////////////////////////
     //Call Methods for the Script
-    for (auto goIt : *gameObjectManager)
+    for (auto goIt : m_GameObjectManager)
     {
         UpdateCamera(goIt.second);
     }
-
-    GameComponent::Update(timerParams);
 }

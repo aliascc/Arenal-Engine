@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Models\Mesh.h"
 #include "Resource\GameResource.h"
 #include "Vertex\Types\VertexPositionNormalTexture.h"
@@ -117,7 +116,7 @@ class IcoSphereMesh sealed : public Mesh
         /// </summary>
         /// <param name="graphicDevice">Graphic Device use to create Mesh</param>
         /// <param name="resourceName">Resource Name</param>
-        IcoSphereMesh(GraphicDevice* graphicDevice, const std::string& resourceName);
+        IcoSphereMesh(GraphicDevice& graphicDevice, const std::string& resourceName);
 
 #pragma endregion
 

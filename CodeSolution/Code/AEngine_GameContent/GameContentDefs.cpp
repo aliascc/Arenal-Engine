@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameContentDefs.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -368,7 +367,7 @@ namespace AEGameContentHelpers
 
         //size of name
         size        = (uint32_t)str.size();
-        tempPtr        = reinterpret_cast<const char*>(&size);
+        tempPtr     = reinterpret_cast<const char*>(&size);
         sizeToWrite = sizeof(uint32_t);
         fileStream.write(tempPtr, sizeToWrite);
 
@@ -376,8 +375,7 @@ namespace AEGameContentHelpers
         {
             //Name
             tempPtr        = reinterpret_cast<const char*>(str.c_str());
-            sizeToWrite    = sizeof(wchar_t) * size;
-            fileStream.write(tempPtr, sizeToWrite);
+            fileStream.write(tempPtr, size);
         }
     }
 

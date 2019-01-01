@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Graphic Extensions\Materials\Material.h"
 #include "Graphic Extensions\Materials\BuiltInMaterialsDefs.h"
 
@@ -85,7 +84,7 @@ class BasicColorMaterial sealed : public Material
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
         /// <param name="gameResourceManager">Game Resource Manager to get the manage resources</param>
         /// <param name="name">Name of the Effect</param>
-        BasicColorMaterial(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, const std::string& name = AE_BASIC_COLOR_MAT_NAME);
+        BasicColorMaterial(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, const std::string& name = AE_BASIC_COLOR_MAT_NAME);
 
         /// <summary>
         /// Default BasicColorMaterial Destructor

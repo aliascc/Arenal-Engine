@@ -31,8 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 #include "Vertex\VertexBuffer.h"
 #include "Vertex\Types\VertexPositionColor.h"
 
@@ -67,13 +65,13 @@ class FrustumShape sealed : public AEObject
 
         VertexBuffer<VertexPositionColor>* m_VB = nullptr;
 
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         AEResult UpdateFrustumShapeVtx(const Frustum* frustum);
 
     public:
         //Constructor Destructor.
-        FrustumShape(GraphicDevice* graphicDevice);
+        FrustumShape(GraphicDevice& graphicDevice);
         virtual ~FrustumShape();
 
         //Get Methods

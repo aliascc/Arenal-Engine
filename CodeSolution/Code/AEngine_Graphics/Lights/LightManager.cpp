@@ -47,11 +47,9 @@
 *   Function Defs   *
 *********************/
 AETODO("May need thread lock");
-LightManager::LightManager(GraphicDevice* graphicDevice)
+LightManager::LightManager(GraphicDevice& graphicDevice)
     : m_GraphicDevice(graphicDevice)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-
     memset(m_LightFXVec, 0, sizeof(LightFX) * AE_MAX_LIGHTS);
 
     memset(m_SpotLightShadowInfoFX, 0, sizeof(SpotLightShadowInfoFX)* AE_MAX_LIGHTS);
@@ -252,12 +250,6 @@ AEResult LightManager::UpdateDirLightShadowInformation(DirectionalLight* light, 
 
 AEResult LightManager::Update(Camera* camera)
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEAssert(camera != nullptr);
     if (camera == nullptr)
     {
@@ -314,14 +306,6 @@ AEResult LightManager::Update(Camera* camera)
 
 AEResult LightManager::UpdateSpotLightShadowTextureArray(uint32_t size)
 {
-    /////////////////////////////////////////////////////
-    //Pre-checks
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     if (size == 0)
     {
         return m_SpotLightShadowTextureArray->Deinitialize();
@@ -336,14 +320,6 @@ AEResult LightManager::UpdateSpotLightShadowTextureArray(uint32_t size)
 
 AEResult LightManager::UpdateDirLightShadowTextureArray(uint32_t size)
 {
-    /////////////////////////////////////////////////////
-    //Pre-checks
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     if (size == 0)
     {
         return m_DirLightShadowTextureArray->Deinitialize();

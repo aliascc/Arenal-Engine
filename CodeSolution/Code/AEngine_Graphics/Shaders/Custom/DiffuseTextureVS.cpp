@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "DiffuseTextureVS.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\ShaderDefs.h"
 #include "Shaders\ShaderSignatures.h"
 
@@ -48,7 +47,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DiffuseTextureVS::DiffuseTextureVS(GraphicDevice* graphicDevice, const std::string& name)
+DiffuseTextureVS::DiffuseTextureVS(GraphicDevice& graphicDevice, const std::string& name)
     : VertexShader(graphicDevice, name)
 {
 }
@@ -59,14 +58,6 @@ DiffuseTextureVS::~DiffuseTextureVS()
 
 AEResult DiffuseTextureVS::Load()
 {
-    /////////////////////////////////////////////
-    //Pre-check
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     std::lock_guard<std::mutex> lock(m_GameResourceMutex);
 
     /////////////////////////////////////////////

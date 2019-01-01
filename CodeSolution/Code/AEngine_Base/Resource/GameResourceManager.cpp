@@ -113,7 +113,7 @@ GameResource* GameResourceManager::AcquireGameResourceByID(uint64_t id, GameReso
     return resource->AddRef();    
 }
 
-AEResult GameResourceManager::ManageGameResource(GameResource* gameResource, const std::string& stringID, bool keepAlive)
+AEResult GameResourceManager::ManageGameResource(GameResource* gameResource, const std::string& stringID)
 {
     AEAssert(gameResource != nullptr);
     if(gameResource == nullptr)
@@ -150,9 +150,8 @@ AEResult GameResourceManager::ManageGameResource(GameResource* gameResource, con
         }
     }
 
-    gameResource->m_ReleaseCallback     = std::bind(&GameResourceManager::GameResourceReleaseCallback, this, std::placeholders::_1, std::placeholders::_2);
+    gameResource->m_ReleaseCallback     = std::bind(&GameResourceManager::GameResourceReleaseCallback, this, std::placeholders::_1);
     gameResource->m_Managed             = true;
-    gameResource->m_KeepAlive           = keepAlive;
     gameResource->m_StringIdentifier    = stringID;
 
     m_GameResourceMap[gameResource->GetUniqueID()] = gameResource;
@@ -178,23 +177,17 @@ AEResult GameResourceManager::UnManageGameResource(uint64_t id)
     
     std::lock_guard<std::mutex> lockResource(gameResource->m_GameResourceMutex);
 
-    gameResource->m_Managed = false;
-    gameResource->m_ReleaseCallback = nullptr;
-    gameResource->m_KeepAlive = false;
-    gameResource->m_StringIdentifier = "";
+    gameResource->m_Managed             = false;
+    gameResource->m_ReleaseCallback     = nullptr;
+    gameResource->m_StringIdentifier    = "";
 
     m_GameResourceMap.erase(m_GameResourceMap.find(id));
 
     return AEResult::Ok;
 }
 
-void GameResourceManager::GameResourceReleaseCallback(uint64_t id, bool wasDeleted)
-{
-    if(!wasDeleted)
-    {
-        return;
-    }
-    
+void GameResourceManager::GameResourceReleaseCallback(uint64_t id)
+{   
     std::lock_guard<std::mutex> lock(m_GameResourceManagerMutex);
     
     if(!GameResourceExists(id))

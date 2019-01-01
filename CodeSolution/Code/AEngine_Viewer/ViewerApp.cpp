@@ -74,7 +74,7 @@
 *   Function Defs   *
 *********************/
 ViewerApp::ViewerApp(HINSTANCE hInstance)
-    : GameApp(hInstance, GameAppRunOpt::GameMode)
+    : GameApp(hInstance)
     , m_InputHandler(nullptr)
     , m_SpriteBatchAE(nullptr)
     , m_SpriteFontAE(nullptr)

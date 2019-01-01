@@ -76,6 +76,10 @@ class AudioManager sealed : public AEObject
         /// </summary>
         virtual ~AudioManager();
 
+        //Delete copy constructor/operator
+        AudioManager(const AudioManager&) = delete;
+        AudioManager& operator=(const AudioManager&) = delete;
+
 #pragma endregion
 
         /******************

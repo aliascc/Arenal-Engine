@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "GameObject\GameObjectDefs.h"
 #include "GameObject\GameObjectComponent.h"
 
@@ -90,7 +89,7 @@ class MeshGOC sealed : public GameObjectComponent
         /// MeshGOC Constructor
         /// </summary>
         /// <param name="gameObject">Game Object that this Component is attached too</param>
-        MeshGOC(GameObject* gameObject);
+        MeshGOC(GameObject& gameObject);
 
         /// <summary>
         /// Default MeshGOC Destructor

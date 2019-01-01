@@ -53,6 +53,8 @@ Logger::~Logger()
 {
     m_IsRunning = false;
 
+    m_LogConditionalVar.notify_all();
+
     m_RepeatLogLvlThread.join();
 
     std::lock_guard<std::mutex> lock(m_LogMutex);
@@ -184,7 +186,7 @@ void Logger::AddNewLog(LogLevel logLevel, const std::string& msg)
 
         if(msg.compare(m_LastLog.m_Log) == 0)
         {
-            double tempElapsedTime = m_Timer.GetTimerParams().m_ElapsedTime;
+            double tempElapsedTime = m_Timer.GetTimerParams().m_ElapsedTimePression;
 
             isTheSame = true;
 
@@ -353,36 +355,42 @@ void Logger::MonitorRepeatedLogTimeOut()
 {
     while(m_IsRunning)
     {
-        std::this_thread::sleep_for(std::chrono::seconds(AE_LOG_TIMEOUT_THREAD_SLEEP));
+        {
+            std::unique_lock<std::mutex> cvLock(m_LogMutex);
+            m_LogConditionalVar.wait_for(cvLock,
+                                         std::chrono::seconds(AE_LOG_TIMEOUT_THREAD_SLEEP),
+                                        [this](){return m_LastLog.m_NumSameLogs >= 2 || !m_IsRunning;});
+        }
 
         std::lock_guard<std::mutex> lock(m_LogMutex);
-
-        if(m_LastLog.m_NumSameLogs >= 2)
+        if (m_LastLog.m_NumSameLogs < 2)
         {
-            m_Timer.Update();
+            continue;
+        }
 
-            m_LastLog.m_ElapsedTimeSameLogPrint += m_Timer.GetTimerParams().m_ElapsedTime;
+        m_Timer.Update();
 
-            if(m_LastLog.m_ElapsedTimeSameLogPrint >= AE_LOG_DUPLICATE_TIMEOUT)
+        m_LastLog.m_ElapsedTimeSameLogPrint += m_Timer.GetTimerParams().m_ElapsedTimePression;
+
+        if(m_LastLog.m_ElapsedTimeSameLogPrint >= AE_LOG_DUPLICATE_TIMEOUT)
+        {
+            std::string sameLogMsg = "";
+
+            if(!AELOCMAN->GetCallByLocManager())
             {
-                std::string sameLogMsg = "";
-
-                if(!AELOCMAN->GetCallByLocManager())
-                {
-                    sameLogMsg = fmt::format(sameLogMsg, AELOCMAN->GetLiteral("LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
-                }
-                else
-                {
-                    //This should never happen
-                    AEAssert(false);
-                    sameLogMsg = fmt::format("Localization Manager null or is calling Logger. Number of Messages repeated: {0}", m_LastLog.m_NumSameLogs);
-                }
-
-                InsertLogNoLock(m_LastLog.m_Level, sameLogMsg, false);
-
-                //Set Last Log to empty again
-                m_LastLog = AELastLog();
+                sameLogMsg = fmt::format(sameLogMsg, AELOCMAN->GetLiteral("LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
             }
+            else
+            {
+                //This should never happen
+                AEAssert(false);
+                sameLogMsg = fmt::format("Localization Manager null or is calling Logger. Number of Messages repeated: {0}", m_LastLog.m_NumSameLogs);
+            }
+
+            InsertLogNoLock(m_LastLog.m_Level, sameLogMsg, false);
+
+            //Set Last Log to empty again
+            m_LastLog = AELastLog();
         }
     }
 }

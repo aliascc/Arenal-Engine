@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "GameAssets\GameAsset.h"
 
 /********************
@@ -58,7 +57,7 @@ class ShaderAsset sealed : public GameAsset
         /// <summary>
         /// Graphic Device to create Asset Resources in video memory
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
 #pragma endregion
 
@@ -89,7 +88,7 @@ class ShaderAsset sealed : public GameAsset
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
         /// <param name="shaderType">Type of the Shader that this Asset will hold</param>
         /// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
-        ShaderAsset(const std::string& filePath, GameResourceManager* gameResourceManager, ShaderType shaderType, GraphicDevice* graphicDevice);
+        ShaderAsset(const std::string& filePath, GameResourceManager& gameResourceManager, ShaderType shaderType, GraphicDevice& graphicDevice);
 
         /// <summary>
         /// Default MaterialAsset Destructor

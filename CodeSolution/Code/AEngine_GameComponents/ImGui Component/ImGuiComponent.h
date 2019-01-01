@@ -15,10 +15,10 @@
 * limitations under the License.
 */
 
-/*************************
-*   Precompiled Header   *
-**************************/
-#include "precomp_base.h"
+#pragma once
+
+#ifndef _IMGUI_COMPONENT_H
+#define _IMGUI_COMPONENT_H
 
 /**********************
 *   System Includes   *
@@ -31,20 +31,36 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "UniqueAEObject.h"
-#include "Base\BaseFunctions.h"
-
-//Always include last
-#include "Memory\MemLeaks.h"
+#include "AEGameComponentsDefs.h"
 
 /********************
-*   Function Defs   *
+*   Forward Decls   *
 *********************/
-UniqueAEObject::UniqueAEObject()
-{
-    m_UniqueID = AE_Base::GetNextUniqueID();
-}
+struct TimerParams;
+class AudioListener;
+class ImGuiManager;
 
-UniqueAEObject::~UniqueAEObject()
+/*****************
+*   Class Decl   *
+******************/
+
+class ImGuiComponent sealed : public DrawableGameComponent
 {
-}
+private:
+
+    ImGuiManager* m_ImGuiManager = nullptr;
+
+public:
+
+    //Constructor Destructor.
+    ImGuiComponent(GameApp& gameApp, const std::string& gameComponentName = AE_IMGUI_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ImGui);
+
+    virtual ~ImGuiComponent();
+
+    //Game Component Override methods
+    void Update(const TimerParams& timerParams) override;
+
+    void Render(const TimerParams& timerParams) override;
+};
+
+#endif

@@ -43,7 +43,7 @@ class PhysicsManager;
 *   Class Decl   *
 ******************/
 
-class PhysicCollider abstract : public UniqueAEObject
+class PhysicCollider abstract : public AEObject
 {
     private:
 
@@ -144,7 +144,7 @@ class PhysicCollider abstract : public UniqueAEObject
         *************************/
 #pragma region Framework Methods
 
-        AEResult Initialize(PhysicsManager* physicsManager);
+        AEResult Initialize(PhysicsManager& physicsManager);
 
 #pragma endregion
 

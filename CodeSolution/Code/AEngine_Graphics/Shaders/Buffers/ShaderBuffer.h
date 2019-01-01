@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "GraphicsDefs.h"
 #include "Textures\TextureDefs.h"
 #include "Shaders\Bindings\ShaderBinding.h"
@@ -105,7 +104,7 @@ class ShaderBuffer abstract : public ShaderBinding
         /// <summary>
         /// Graphic Device to create and work Buffer
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
 #pragma endregion
 
@@ -132,7 +131,7 @@ class ShaderBuffer abstract : public ShaderBinding
         /// <param name="bindIndex">Index where the Texture is going to be bound to the shader</param>
         /// <param name="createAsRW">If true, enables Read and Write usage in the shader for the Buffer</param>
         /// <param name="graphicDevice">Graphic Device to create buffer</param>
-        ShaderBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, GraphicDevice* graphicDevice);
+        ShaderBuffer(const std::string& name, uint32_t bindIndex, bool createAsRW, GraphicDevice& graphicDevice);
 
         /// <summary>
         /// Default ShaderBuffer Destructor

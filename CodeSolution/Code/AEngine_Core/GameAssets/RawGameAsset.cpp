@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "RawGameAsset.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -42,7 +41,7 @@
 *********************/
 AETODO("Check if this class needs a mutex");
 RawGameAsset::RawGameAsset(const std::string& filePath, const std::string& projectDirectory, const std::string& name)
-    : UniqueAEObjectNamed(name)
+    : Named(name)
     , m_CustomName(name)
     , m_FilePath(filePath)
 {

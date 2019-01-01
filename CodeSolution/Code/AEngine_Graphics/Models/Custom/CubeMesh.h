@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Models\Mesh.h"
 #include "Resource\GameResource.h"
 #include "Vertex\Types\VertexPositionNormalTexture.h"
@@ -109,7 +108,11 @@ class CubeMesh sealed : public Mesh
         /// </summary>
         /// <param name="graphicDevice">Graphic Device use to create Mesh</param>
         /// <param name="resourceName">Resource Name</param>
-        CubeMesh(GraphicDevice* graphicDevice, const std::string& resourceName);
+        CubeMesh(GraphicDevice& graphicDevice, const std::string& resourceName);
+
+        // Prevent copying.
+        CubeMesh(CubeMesh const&) = delete;
+        CubeMesh& operator= (CubeMesh const&) = delete;
 
 #pragma endregion
 
@@ -122,9 +125,6 @@ class CubeMesh sealed : public Mesh
 
 #pragma endregion
 
-        // Prevent copying.
-        CubeMesh(CubeMesh const&) = delete;
-        CubeMesh& operator= (CubeMesh const&) = delete;
 };
 
 #endif

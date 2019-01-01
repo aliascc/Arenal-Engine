@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "LightShape.h"
 
 /************
@@ -49,7 +48,7 @@ class DirectionalLightShape sealed : public LightShape
 {
     public:
         //Constructor Destructor.
-        DirectionalLightShape(GraphicDevice* graphicDevice);
+        DirectionalLightShape(GraphicDevice& graphicDevice);
         virtual ~DirectionalLightShape();
 
         AEResult BuildLightShape() override;

@@ -34,16 +34,12 @@
 #include "FPRPreZ.h"
 #include "Models\Mesh.h"
 #include "Camera\Camera.h"
-#include "GraphicDevice.h"
-#include "GameApp\GameApp.h"
 #include "Models\MeshPart.h"
 #include "Vertex\IndexBuffer.h"
 #include "Camera\CameraUpdater.h"
 #include "ForwardPlusRendering.h"
-#include "GameObject\GameObject.h"
 #include "Textures\RenderTarget.h"
 #include "Textures\DepthStencilSurface.h"
-#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\MeshGOC.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 #include "Models\Animation\AnimationPlayer.h"
@@ -59,13 +55,14 @@
 *   Function Defs   *
 *********************/
 AETODO("Check object instances and calls to where it is init");
-FPRPreZ::FPRPreZ(GameApp* gameApp, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
+FPRPreZ::FPRPreZ(GameApp& gameApp, const std::string& gameComponentName, const std::string& fprServiceName, const std::string& cameraServiceName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
+    , m_GameObjectManager(gameApp.GetGameObjectManager())
 {
-    m_ForwardPlusRendering = m_GameApp->GetGameService<ForwardPlusRendering>(fprServiceName);
+    m_ForwardPlusRendering = m_GameApp.GetGameService<ForwardPlusRendering>(fprServiceName);
     AEAssert(m_ForwardPlusRendering != nullptr);
 
-    m_CameraUpdater = m_GameApp->GetGameService<CameraUpdater>(cameraServiceName);
+    m_CameraUpdater = m_GameApp.GetGameService<CameraUpdater>(cameraServiceName);
     AEAssert(m_CameraUpdater != nullptr);
 }
 
@@ -77,13 +74,9 @@ FPRPreZ::~FPRPreZ()
 
 void FPRPreZ::Initialize()
 {
-    m_GameObjectManager = m_GameApp->GetGameObjectManager();
-
     m_ForwardPlusZPrePassMaterial = new ForwardPlusZPrePassMaterial(m_GraphicDevice, m_GameResourceManager);
 
     m_ForwardPlusZPrePassSkinningMaterial = new ForwardPlusZPrePassSkinningMaterial(m_GraphicDevice, m_GameResourceManager);
-
-    DrawableGameComponent::Initialize();
 }
 
 void FPRPreZ::LoadContent()
@@ -103,13 +96,15 @@ void FPRPreZ::LoadContent()
     {
         AETODO("Add log");
     }
+}
 
-    DrawableGameComponent::LoadContent();
+void FPRPreZ::Update(const TimerParams& timerParams)
+{
 }
 
 void FPRPreZ::Render(const TimerParams& timerParams)
 {
-    m_GraphicDevice->BeginEvent("Forward+ Rendering Z Pre Pass");
+    m_GraphicDevice.BeginEvent("Forward+ Rendering Z Pre Pass");
 
     AEResult ret = RenderPreZ();
 
@@ -118,9 +113,7 @@ void FPRPreZ::Render(const TimerParams& timerParams)
         AETODO("Log error");
     }
 
-    m_GraphicDevice->EndEvent();
-
-    DrawableGameComponent::Render(timerParams);
+    m_GraphicDevice.EndEvent();
 }
 
 AEResult FPRPreZ::RenderPreZ()
@@ -129,7 +122,7 @@ AEResult FPRPreZ::RenderPreZ()
 
     RenderTarget* rts[1] = { nullptr };
 
-    ret = m_GraphicDevice->SetRenderTargetsAndDepthStencil(1, rts, m_ForwardPlusRendering->GetForwardPlusDS());
+    ret = m_GraphicDevice.SetRenderTargetsAndDepthStencil(1, rts, m_ForwardPlusRendering->GetForwardPlusDS());
 
     if(ret != AEResult::Ok)
     {
@@ -139,14 +132,14 @@ AEResult FPRPreZ::RenderPreZ()
     }
 
     AETODO("check return");
-    ret = m_GraphicDevice->Clear(false);
+    ret = m_GraphicDevice.Clear(false);
 
     ret = m_ForwardPlusZPrePassMaterial->Apply();
 
     if(ret != AEResult::Ok)
     {
         AETODO("check return");
-        m_GraphicDevice->ResetRenderTargetAndSetDepthStencil();
+        m_GraphicDevice.ResetRenderTargetAndSetDepthStencil();
 
         AETODO("Add log");
 
@@ -155,7 +148,7 @@ AEResult FPRPreZ::RenderPreZ()
 
     DrawGameObjects();
 
-    ret = m_GraphicDevice->ResetRenderTargetAndSetDepthStencil();
+    ret = m_GraphicDevice.ResetRenderTargetAndSetDepthStencil();
 
     if(ret != AEResult::Ok)
     {
@@ -171,7 +164,7 @@ void FPRPreZ::DrawGameObjects()
 {
     Camera* currentCamera = m_CameraUpdater->GetMainCamera();
 
-    for(auto goIt : *m_GameObjectManager)
+    for(auto& goIt : m_GameObjectManager)
     {
         DrawGameObject(goIt.second, currentCamera);
     }
@@ -220,17 +213,17 @@ void FPRPreZ::DrawGameObject(GameObject* gameObject, const Camera* camera)
             {
                 MeshPart* meshPart = mesh->GetMeshPart(i);
 
-                m_GraphicDevice->SetVertexBuffer(meshPart->GetVertexBuffer());
-                m_GraphicDevice->SetIndexBuffer(meshPart->GetIndexBuffer());
+                m_GraphicDevice.SetVertexBuffer(meshPart->GetVertexBuffer());
+                m_GraphicDevice.SetIndexBuffer(meshPart->GetIndexBuffer());
 
-                m_GraphicDevice->SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+                m_GraphicDevice.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-                m_GraphicDevice->DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
+                m_GraphicDevice.DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
             }
         }
     }
 
-    for(auto goIt : *gameObject)
+    for(auto& goIt : *gameObject)
     {
         DrawGameObject(goIt.second, camera);
     }

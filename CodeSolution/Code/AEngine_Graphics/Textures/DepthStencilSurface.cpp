@@ -31,11 +31,8 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Logger\Logger.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 #include "DepthStencilSurface.h"
-#include "Localization\LocalizationManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -43,7 +40,7 @@
 /********************
 *   Function Defs   *
 *********************/
-DepthStencilSurface::DepthStencilSurface(GraphicDevice* graphicDevice, const std::string& name)
+DepthStencilSurface::DepthStencilSurface(GraphicDevice& graphicDevice, const std::string& name)
     : ITexture2D(graphicDevice, name)
 {
 }
@@ -67,13 +64,6 @@ AEResult DepthStencilSurface::Load()
 
 AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint32_t height, DXGI_FORMAT formatDST, DXGI_FORMAT formatDSV, DXGI_FORMAT formatDSSRV)
 {
-    AEAssert(m_GraphicDevice != nullptr)
-
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     //Clean if we had previously allocated resources
     CleanUp();
 
@@ -99,7 +89,7 @@ AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint
     HRESULT hr = S_OK;
 
     AETODO("Check if we need Depth Stencil Init Data");
-    hr = m_GraphicDevice->GetDeviceDX()->CreateTexture2D(&dxDesc, nullptr, &m_TextureDX);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateTexture2D(&dxDesc, nullptr, &m_TextureDX);
 
     if(hr != S_OK)
     {
@@ -121,7 +111,7 @@ AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint
     srvDesc.Texture2D.MostDetailedMip    = 0;
 
     AETODO("Check Shader Resource Desc");
-    hr = m_GraphicDevice->GetDeviceDX()->CreateShaderResourceView(m_TextureDX, &srvDesc, &m_ShaderResourceView);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateShaderResourceView(m_TextureDX, &srvDesc, &m_ShaderResourceView);
 
     if(hr != S_OK)
     {
@@ -147,7 +137,7 @@ AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint
     dsDesc.Texture2D.MipSlice   = 0;
 
     AETODO("Check Depth Stencil View Desc");
-    hr = m_GraphicDevice->GetDeviceDX()->CreateDepthStencilView(m_TextureDX, &dsDesc, &m_DepthStencilDX);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateDepthStencilView(m_TextureDX, &dsDesc, &m_DepthStencilDX);
 
     if(hr != S_OK)
     {

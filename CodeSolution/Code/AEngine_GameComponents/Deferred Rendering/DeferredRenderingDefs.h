@@ -27,7 +27,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\AEObject.h"
 #include "GraphicsDefs.h"
 
 /********************************

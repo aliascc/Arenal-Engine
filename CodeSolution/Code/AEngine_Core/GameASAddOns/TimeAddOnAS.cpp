@@ -27,10 +27,8 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Time\AETime.h"
 #include "TimeAddOnAS.h"
 #include "GameASAddOnsDefs.h"
-#include "Base\BaseFunctions.h"
 
 AETODO("Fix this");
 /* Do not include it as we need to use the normal new
@@ -161,7 +159,7 @@ AEResult TimeAddOnAS::RegisterTimeStampObject(asIScriptEngine* engine)
         return AEResult::RegObjPropFail;
     }
 
-    ret = engine->RegisterObjectMethod("TimeStamp", "wstring ToString() const", asMETHOD(TimeStamp, ToString), asCALL_THISCALL);
+    ret = engine->RegisterObjectMethod("TimeStamp", "string ToString() const", asMETHOD(TimeStamp, ToString), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;
@@ -195,19 +193,37 @@ AEResult TimeAddOnAS::RegisterTimerParamsObject(asIScriptEngine* engine)
         return AEResult::RegObjTypeFail;
     }
 
-    ret = engine->RegisterObjectProperty("TimerParams", "double m_ElapsedTime", asOFFSET(TimerParams, m_ElapsedTime));
+    ret = engine->RegisterObjectProperty("TimerParams", "double m_ElapsedTimePression", asOFFSET(TimerParams, m_ElapsedTimePression));
     if (ret < 0)
     {
         return AEResult::RegObjPropFail;
     }
 
-    ret = engine->RegisterObjectProperty("TimerParams", "double m_PreviousCallTime", asOFFSET(TimerParams, m_PreviousCallTime));
+    ret = engine->RegisterObjectProperty("TimerParams", "double m_PreviousCallTimePression", asOFFSET(TimerParams, m_PreviousCallTimePression));
     if (ret < 0)
     {
         return AEResult::RegObjPropFail;
     }
 
-    ret = engine->RegisterObjectProperty("TimerParams", "double m_TotalElapsedTime", asOFFSET(TimerParams, m_TotalElapsedTime));
+    ret = engine->RegisterObjectProperty("TimerParams", "double m_TotalElapsedTimePression", asOFFSET(TimerParams, m_TotalElapsedTimePression));
+    if (ret < 0)
+    {
+        return AEResult::RegObjPropFail;
+    }
+
+    ret = engine->RegisterObjectProperty("TimerParams", "float m_ElapsedTime", asOFFSET(TimerParams, m_ElapsedTime));
+    if (ret < 0)
+    {
+        return AEResult::RegObjPropFail;
+    }
+
+    ret = engine->RegisterObjectProperty("TimerParams", "float m_PreviousCallTime", asOFFSET(TimerParams, m_PreviousCallTime));
+    if (ret < 0)
+    {
+        return AEResult::RegObjPropFail;
+    }
+
+    ret = engine->RegisterObjectProperty("TimerParams", "float m_TotalElapsedTime", asOFFSET(TimerParams, m_TotalElapsedTime));
     if (ret < 0)
     {
         return AEResult::RegObjPropFail;

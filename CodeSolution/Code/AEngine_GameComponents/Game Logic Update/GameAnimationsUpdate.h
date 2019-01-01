@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "AEGameComponentsDefs.h"
-#include "GameUtils\GameComponent.h"
 
 /********************
 *   Forward Decls   *
@@ -48,11 +47,13 @@ class GameAnimationsUpdate sealed : public GameComponent
 {
     private:
 
+        GameObjectManager& m_GameObjectManager;
+
         void UpdateGameAnimationObjects(GameObject* gameObject, const TimerParams& timerParams);
 
     public:
         //Constructor Destructor.
-        GameAnimationsUpdate(GameApp* gameApp, const std::string& gameComponentName = AE_GAME_ANIMATIONS_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_AnimationsUpdate);
+        GameAnimationsUpdate(GameApp& gameApp, const std::string& gameComponentName = AE_GAME_ANIMATIONS_UPDATE_DEF_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_AnimationsUpdate);
 
         virtual ~GameAnimationsUpdate();
 

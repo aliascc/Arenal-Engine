@@ -31,12 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "SpriteDefs.h"
-#include "Color\Color.h"
-#include "Base\AEObject.h"
-#include "Math\AEMathDefs.h"
-#include "Color\AEColorDefs.h"
 
 /************
 *   Using   *
@@ -148,7 +143,7 @@ class SpriteBatchAE sealed : public AEObject
         /// <summary>
         /// Graphic Device associated with the object
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         /// <summary>
         /// States if the Sprite Batch has the Begin method called
@@ -168,7 +163,7 @@ class SpriteBatchAE sealed : public AEObject
         /// Default SpriteBatchAE Constructor
         /// </summary>
         /// <param name="graphicDevice">Graphic Device to be associated with</param>
-        SpriteBatchAE(GraphicDevice* graphicDevice);
+        SpriteBatchAE(GraphicDevice& graphicDevice);
 
         /// <summary>
         /// Default SpriteBatchAE Destructor

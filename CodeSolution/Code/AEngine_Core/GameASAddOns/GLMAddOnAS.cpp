@@ -33,9 +33,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GLMAddOnAS.h"
-#include "Math\AEMathDefs.h"
 #include "GameASAddOnsDefs.h"
-#include "Base\BaseFunctions.h"
 
 /********************
 *   Function Defs   *

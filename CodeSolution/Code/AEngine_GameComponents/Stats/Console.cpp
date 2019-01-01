@@ -33,8 +33,6 @@
 ****************************/
 #include "Console.h"
 #include "Keyboard.h"
-#include "GraphicDevice.h"
-#include "GameApp\GameApp.h"
 #include "ScriptConsoleLine.h"
 #include "Input\InputHandler.h"
 #include "Wrappers\SpriteFontAE.h"
@@ -51,12 +49,12 @@
 *   Function Defs   *
 *********************/
 AETODO("Make H & W params")
-Console::Console(GameApp* gameApp, const std::string& gameComponentName, const std::string& inputHandlerServiceName, uint32_t callOrder)
+Console::Console(GameApp& gameApp, const std::string& gameComponentName, const std::string& inputHandlerServiceName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
-    , m_ConsoleWidth(m_GraphicDevice->GetGraphicPP().m_BackBufferWidth)
+    , m_ConsoleWidth(m_GraphicDevice.GetGraphicPP().m_BackBufferWidth)
     , m_InputHandlerServiceName(inputHandlerServiceName)
 {
-    ZeroMemory(m_ConsoleLine, AE_CONSOLE_LINE_MEM_SIZE);
+    ZeroMemory(m_ConsoleLine, AE_CONSOLE_MAX_LINE_CHARS);
 }
 
 Console::~Console()
@@ -80,16 +78,16 @@ void Console::Initialize()
     AETODO("Set font to parameter");
     m_SpriteFontAE = new SpriteFontAE(m_GraphicDevice, AE_Base_FS_PATH "Data\\Fonts\\arial.spritefont");
 
-    m_Input = m_GameApp->GetGameService<InputHandler>(m_InputHandlerServiceName);
+    m_Input = m_GameApp.GetGameService<InputHandler>(m_InputHandlerServiceName);
     AEAssert(m_Input != nullptr);
 
     if (!(m_Input && m_Input->IsKeyboardActive()))
     {
+        AEAssert(false);
+
         AETODO("Add log message");
         m_IsReady = false;
     }
-
-    DrawableGameComponent::Initialize();
 }
 
 void Console::LoadContent()
@@ -99,22 +97,34 @@ void Console::LoadContent()
     ret = m_SpriteBatchAE->Initialize();
     if (ret != AEResult::Ok)
     {
+        AEAssert(false);
+
         AETODO("Log message");
         m_IsReady = false;
+
+        return;
     }
 
     ret = m_SpriteFontAE->Initialize();
     if (ret != AEResult::Ok)
     {
+        AEAssert(false);
+
         AETODO("Log message");
         m_IsReady = false;
+
+        return;
     }
 
     ret = m_QuadColorMaterial->LoadContent();
     if(ret != AEResult::Ok)
     {
+        AEAssert(false);
+
         AETODO("Log message");
         m_IsReady = false;
+
+        return;
     }
 
     AETODO("Add background color as parameter at constructor");
@@ -122,74 +132,80 @@ void Console::LoadContent()
     ret = m_QuadColorMaterial->GetPSProps()->GetConstantBuffer("_AE_CB_Color")->SetValueT<glm::vec4>("u_Color", m_BackgroundColor);
     if (ret != AEResult::Ok)
     {
+        AEAssert(false);
+
         AETODO("Log message");
         m_IsReady = false;
+
+        return;
     }
 
     ret = RegisterConsoleScriptInfo();
     if (ret != AEResult::Ok)
     {
+        //AEAssert(false);
+
         AETODO("Log message");
         m_IsReady = false;
+
+        return;
     }
 
     m_CharDim = m_SpriteFontAE->MeasureString("|");
-
-    DrawableGameComponent::LoadContent();
 }
 
 void Console::Update(const TimerParams& timerParams)
 {
-    if (m_IsReady)
+    if (!m_IsReady)
     {
-        Keyboard* keyboard = m_Input->GetKeyboard();
-        if (keyboard->IsHoldingKey(AEKeys::LCTRL, m_ConsoleLockKeyboard) && keyboard->WasKeyPressed(AEKeys::F12, m_ConsoleLockKeyboard))
+        return;
+    }
+
+    Keyboard* keyboard = m_Input->GetKeyboard();
+    if (keyboard->IsHoldingKey(AEKeys::LCTRL, m_ConsoleLockKeyboard) && keyboard->WasKeyPressed(AEKeys::F12, m_ConsoleLockKeyboard))
+    {
+        switch (m_ConsoleState)
         {
-            switch (m_ConsoleState)
-            {
-                case ConsoleStates::Hide:
-                    m_TimePass = 0.0f;
-                    m_ConsoleState = ConsoleStates::Entering;
-                    break;
+            case ConsoleStates::Hide:
+                m_TimePass = 0.0f;
+                m_ConsoleState = ConsoleStates::Entering;
+                break;
 
-                case ConsoleStates::Entering:
-                    m_TimePass = m_ConsolePresentTime - m_TimePass;
-                    m_ConsoleState = ConsoleStates::Exiting;
-                    break;
+            case ConsoleStates::Entering:
+                m_TimePass = m_ConsolePresentTime - m_TimePass;
+                m_ConsoleState = ConsoleStates::Exiting;
+                break;
 
-                case ConsoleStates::Exiting:
-                    m_TimePass = m_ConsolePresentTime - m_TimePass;
-                    m_ConsoleState = ConsoleStates::Entering;
-                    break;
+            case ConsoleStates::Exiting:
+                m_TimePass = m_ConsolePresentTime - m_TimePass;
+                m_ConsoleState = ConsoleStates::Entering;
+                break;
 
-                case ConsoleStates::Present:
-                    keyboard->UnlockKeyboard(m_ConsoleLockKeyboard);
-                    m_ConsoleLockKeyboard = 0;
-                    m_TimePass = 0.0f;
-                    m_ConsoleState = ConsoleStates::Exiting;
-                    break;
-            }
-        }
-
-        if (m_ConsoleState != ConsoleStates::Hide && m_ConsoleState != ConsoleStates::Present)
-        {
-            UpdateConsolePosition(timerParams);
-        }
-
-        if (m_ConsoleState == ConsoleStates::Present)
-        {
-            UpdateConsoleLine(timerParams);
+            case ConsoleStates::Present:
+                keyboard->UnlockKeyboard(m_ConsoleLockKeyboard);
+                m_ConsoleLockKeyboard = 0;
+                m_TimePass = 0.0f;
+                m_ConsoleState = ConsoleStates::Exiting;
+                break;
         }
     }
 
-    DrawableGameComponent::Update(timerParams);
+    if (m_ConsoleState != ConsoleStates::Hide && m_ConsoleState != ConsoleStates::Present)
+    {
+        UpdateConsolePosition(timerParams);
+    }
+
+    if (m_ConsoleState == ConsoleStates::Present)
+    {
+        UpdateConsoleLine(timerParams);
+    }
 }
 
 void Console::UpdateConsolePosition(const TimerParams& timerParams)
 {
     Keyboard* keyboard = m_Input->GetKeyboard();
 
-    float elapsedTime = (float)timerParams.m_ElapsedTime;
+    float elapsedTime = timerParams.m_ElapsedTime;
     
     m_TimePass += elapsedTime;
 
@@ -232,7 +248,7 @@ void Console::UpdateConsolePosition(const TimerParams& timerParams)
 
 void Console::UpdateConsoleLine(const TimerParams& timerParams)
 {
-    m_TimeBetweenUnderscore += (float)timerParams.m_ElapsedTime;
+    m_TimeBetweenUnderscore += timerParams.m_ElapsedTime;
 
     if(m_TimeBetweenUnderscore >= m_TimeUnderscore)
     {
@@ -250,7 +266,7 @@ void Console::UpdateConsoleLine(const TimerParams& timerParams)
 
     if (keyboard->IsHoldingKey(AEKeys::LCTRL, m_ConsoleLockKeyboard) && keyboard->WasKeyPressed(AEKeys::C, m_ConsoleLockKeyboard))
     {
-        memset(m_ConsoleLine, 0, AE_CONSOLE_LINE_MEM_SIZE);
+        memset(m_ConsoleLine, 0, AE_CONSOLE_MAX_LINE_CHARS);
         m_ConsoleLinePos = 0;
 
         return;
@@ -290,7 +306,7 @@ void Console::UpdateConsoleLine(const TimerParams& timerParams)
             m_FirstBackspace = false;
         }
 
-        m_TimeSinceLastBackSpace += (float)timerParams.m_ElapsedTime;
+        m_TimeSinceLastBackSpace += timerParams.m_ElapsedTime;
 
         if(m_TimeSinceLastBackSpace >= AE_CONSOLE_BACKSPACE_TIME)
         {
@@ -355,7 +371,7 @@ bool Console::LookInCmdHistory()
 
         if(m_CurrentCMDHistory == -1)
         {
-            ZeroMemory(m_ConsoleLine, AE_CONSOLE_LINE_MEM_SIZE);
+            ZeroMemory(m_ConsoleLine, AE_CONSOLE_MAX_LINE_CHARS);
             m_ConsoleLinePos = 0;
 
             return true;
@@ -370,8 +386,8 @@ bool Console::LookInCmdHistory()
 
         for(int i = 0; i < m_CurrentCMDHistory; ++i, ++it);
 
-        ZeroMemory(m_ConsoleLine, AE_CONSOLE_LINE_MEM_SIZE);
-        memcpy(m_ConsoleLine, it->c_str(), it->size() * sizeof(wchar_t));
+        ZeroMemory(m_ConsoleLine, AE_CONSOLE_MAX_LINE_CHARS);
+        memcpy(m_ConsoleLine, it->c_str(), it->size());
         m_ConsoleLinePos = (uint32_t)it->size();
 
         return true;
@@ -388,7 +404,7 @@ AEResult Console::ConsoleExecScript()
 
     m_ConsolePrintHistoryPos = 0;
 
-    ZeroMemory(m_ConsoleLine, AE_CONSOLE_LINE_MEM_SIZE);
+    ZeroMemory(m_ConsoleLine, AE_CONSOLE_MAX_LINE_CHARS);
     m_ConsoleLinePos = 0;
 
     bool addHis = true;
@@ -500,24 +516,24 @@ void Console::Render(const TimerParams& timerParams)
         return;
     }
 
-    m_GraphicDevice->BeginEvent("Console");
+    m_GraphicDevice.BeginEvent("Console");
 
     //Set Alpha Blend State
-    m_GraphicDevice->SetBlendState(GraphicBlendStates::m_AlphaBlendState);
+    m_GraphicDevice.SetBlendState(GraphicBlendStates::m_AlphaBlendState);
 
     //Draw Console Background
     m_QuadColorMaterial->Apply();
 
     RECT size = {0, 0, (LONG)m_ConsoleWidth, (LONG)m_CurrentConsoleHeight };
-    m_GraphicDevice->DrawQuad2D(size);
+    m_GraphicDevice.DrawQuad2D(size);
 
     //Set Blend State to Default
-    m_GraphicDevice->SetBlendState(nullptr);
+    m_GraphicDevice.SetBlendState(nullptr);
     
     //Draw Console Lines if Console is Present (i.e. not entering or exiting)
     if(m_ConsoleState != ConsoleStates::Present)
     {
-        m_GraphicDevice->EndEvent();
+        m_GraphicDevice.EndEvent();
 
         return;
     }
@@ -541,7 +557,7 @@ void Console::Render(const TimerParams& timerParams)
             uint32_t size = (uint32_t)it->m_ShowCols.size();
             for(uint32_t i = 0; i < size; ++i)
             {
-                m_SpriteFontAE->DrawString(m_SpriteBatchAE, it->m_ShowCols[i], glm::vec2(posX, posY), it->m_Colors[i]);
+                m_SpriteFontAE->DrawString(*m_SpriteBatchAE, it->m_ShowCols[i], glm::vec2(posX, posY), it->m_Colors[i]);
                 stride = m_SpriteFontAE->MeasureString(it->m_ShowCols[i]);
                 posX += stride.x + m_CharDim.x;
             }
@@ -553,110 +569,105 @@ void Console::Render(const TimerParams& timerParams)
     }
 
     posX = 0;
-    m_SpriteFontAE->DrawString(m_SpriteBatchAE, ">", glm::vec2(0, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
+    m_SpriteFontAE->DrawString(*m_SpriteBatchAE, ">", glm::vec2(0, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
     stride = m_SpriteFontAE->MeasureString(">");
     posX += stride.x;
 
     if(m_ConsoleLinePos != 0)
     {
-        m_SpriteFontAE->DrawString(m_SpriteBatchAE, m_ConsoleLine, glm::vec2(posX, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
+        m_SpriteFontAE->DrawString(*m_SpriteBatchAE, m_ConsoleLine, glm::vec2(posX, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
         stride = m_SpriteFontAE->MeasureString(m_ConsoleLine);
         posX += stride.x;
     }
 
     if(m_ShowNewCharUnderscore)
     {
-        m_SpriteFontAE->DrawString(m_SpriteBatchAE, "_", glm::vec2(posX, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
+        m_SpriteFontAE->DrawString(*m_SpriteBatchAE, "_", glm::vec2(posX, (float)(m_ConsoleHeight - m_CharDim.y)), m_FontColor);
     }
 
     m_SpriteBatchAE->End();
 
-    m_GraphicDevice->EndEvent();
-
-    DrawableGameComponent::Render(timerParams);
+    m_GraphicDevice.EndEvent();
 }
 
 void Console::OnLostDevice()
 {
-    DrawableGameComponent::OnLostDevice();
 }
 
 void Console::OnResetDevice()
 {
     //Set New m_ConsoleWidth
-    m_ConsoleWidth = m_GraphicDevice->GetGraphicPP().m_BackBufferWidth;
-
-    DrawableGameComponent::OnResetDevice();
+    m_ConsoleWidth = m_GraphicDevice.GetGraphicPP().m_BackBufferWidth;
 }
 
 AEResult Console::RegisterConsoleScriptInfo()
 {
     int ret = 0;
 
-    AngelScriptManager* asManager = m_GameApp->GetAngelScriptManager();
+    AngelScriptManager& asManager = m_GameApp.GetAngelScriptManager();
 
-    ret = asManager->GetASEngine()->RegisterObjectType("ScriptConsoleLine", sizeof(ScriptConsoleLine), asOBJ_VALUE | asOBJ_APP_CLASS);
+    ret = asManager.GetASEngine()->RegisterObjectType("ScriptConsoleLine", sizeof(ScriptConsoleLine), asOBJ_VALUE | asOBJ_APP_CLASS);
     if(ret < 0)
     {
         return AEResult::RegObjTypeFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterObjectProperty("ScriptConsoleLine", "array<wstring>@ m_SA_Strings",  asOFFSET(ScriptConsoleLine, m_SA_Strings));
+    ret = asManager.GetASEngine()->RegisterObjectProperty("ScriptConsoleLine", "array<string>@ m_SA_Strings",  asOFFSET(ScriptConsoleLine, m_SA_Strings));
     if(ret < 0)
     {
         return AEResult::RegObjPropFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterObjectProperty("ScriptConsoleLine", "array<Color>@ m_SA_Colors", asOFFSET(ScriptConsoleLine, m_SA_Colors));
+    ret = asManager.GetASEngine()->RegisterObjectProperty("ScriptConsoleLine", "array<Color>@ m_SA_Colors", asOFFSET(ScriptConsoleLine, m_SA_Colors));
     if (ret < 0)
     {
         return AEResult::RegObjPropFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterObjectMethod("ScriptConsoleLine", "ScriptConsoleLine &opAssign(const ScriptConsoleLine& in)", asMETHOD(ScriptConsoleLine, operator=), asCALL_THISCALL);
+    ret = asManager.GetASEngine()->RegisterObjectMethod("ScriptConsoleLine", "ScriptConsoleLine &opAssign(const ScriptConsoleLine& in)", asMETHOD(ScriptConsoleLine, operator=), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterObjectBehaviour("ScriptConsoleLine", asBEHAVE_CONSTRUCT, "void AEAS_ScriptConsoleLineConstructor()", asFUNCTION(ScriptConsoleLine::Constructor), asCALL_CDECL_OBJLAST);
+    ret = asManager.GetASEngine()->RegisterObjectBehaviour("ScriptConsoleLine", asBEHAVE_CONSTRUCT, "void AEAS_ScriptConsoleLineConstructor()", asFUNCTION(ScriptConsoleLine::Constructor), asCALL_CDECL_OBJLAST);
     if(ret < 0)
     {
         return AEResult::RegObjBehaviorFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterObjectBehaviour("ScriptConsoleLine", asBEHAVE_DESTRUCT, "void AEAS_ScriptConsoleLineDestructor()", asFUNCTION(ScriptConsoleLine::Destructor), asCALL_CDECL_OBJLAST);
+    ret = asManager.GetASEngine()->RegisterObjectBehaviour("ScriptConsoleLine", asBEHAVE_DESTRUCT, "void AEAS_ScriptConsoleLineDestructor()", asFUNCTION(ScriptConsoleLine::Destructor), asCALL_CDECL_OBJLAST);
     if(ret < 0)
     {
         return AEResult::RegObjBehaviorFail;
     }
 
-    ret = asManager->GetASEngine()->RegisterGlobalProperty("array<ScriptConsoleLine> @m_ScriptConsoleLineArray", &m_ScriptConsoleLineArray);
+    ret = asManager.GetASEngine()->RegisterGlobalProperty("array<ScriptConsoleLine> @m_ScriptConsoleLineArray", &m_ScriptConsoleLineArray);
     if(ret < 0)
     {
         return AEResult::RegGlobalPropFail;
     }
 
     AETODO("Add this somewhere not here");
-    if(asManager->LoadScript("..\\Data\\Scripts\\Console.as", m_ConsoleModuleName) != AEResult::Ok)
+    if(asManager.LoadScript("..\\Data\\Scripts\\Console.as", m_ConsoleModuleName) != AEResult::Ok)
     {
         return AEResult::Fail;
     }
 
-    m_ConsoleContext = asManager->GetASEngine()->CreateContext();
+    m_ConsoleContext = asManager.GetASEngine()->CreateContext();
     if(m_ConsoleContext == nullptr)
     {
         return AEResult::Fail;
     }
 
-    m_ConsoleExecFunc = asManager->GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void ConsoleExec(wstring)");
+    m_ConsoleExecFunc = asManager.GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void ConsoleExec(string)");
     if(m_ConsoleExecFunc == nullptr)
     {
         return AEResult::Fail;
     }
     m_ConsoleExecFunc->AddRef();
 
-    asIScriptFunction* func = asManager->GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void InitializeConsoleScript()");
+    asIScriptFunction* func = asManager.GetASEngine()->GetModule(m_ConsoleModuleName.c_str())->GetFunctionByDecl("void InitializeConsoleScript()");
     if(func == nullptr)
     {
         return AEResult::Fail;

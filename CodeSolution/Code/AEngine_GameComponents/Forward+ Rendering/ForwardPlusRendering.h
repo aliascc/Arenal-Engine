@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "AEGameComponentsDefs.h"
-#include "GameUtils\DrawableGameComponent.h"
 
 /************
 *   Using   *
@@ -62,6 +61,8 @@ class ForwardPlusRendering sealed : public GameComponent
         *   Private Variables   *
         *************************/
 #pragma region Private Variables
+
+        LightManager& m_LightManager;
 
         glm::uvec2 m_NumTiles = AEMathHelpers::Vec2uZero;
 
@@ -112,7 +113,7 @@ class ForwardPlusRendering sealed : public GameComponent
         /// <param name="gameComponentName">Game Component Name to be set</param>
         /// <param name="serviceName">Service Name to be Set for this Game Component</param>
         /// <param name="callOder">Call order of Game Component</param>
-        ForwardPlusRendering(GameApp* gameApp, const std::string& gameComponentName = AE_FORWARD_PLUS_MAIN_DEF_COMPONENT_NAME, const std::string& serviceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusMain);
+        ForwardPlusRendering(GameApp& gameApp, const std::string& gameComponentName = AE_FORWARD_PLUS_MAIN_DEF_COMPONENT_NAME, const std::string& serviceName = AE_FORWARD_PLUS_MAIN_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_ForwardPlusMain);
 
         /// <summary>
         /// Default ForwardPlusRendering Destructor

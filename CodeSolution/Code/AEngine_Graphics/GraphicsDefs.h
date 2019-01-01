@@ -31,11 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
-#include "Math\AEMathDefs.h"
 #include "Shaders\ShaderDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Textures\TextureDefs.h"
 
 /************
@@ -291,18 +287,22 @@ enum class GraphicResourceMap : uint32_t
 /*************
 *   Struct   *
 **************/
+
 #if defined(AE_GRAPHIC_DEBUG_DEVICE)
 
+/// <summary>
+/// Graphic Device Helpers to debug the game app
+/// </summary>
 struct GraphicDebugDX sealed : public AEObject
 {
-    ///<summary>
-    ///DirectX Debugger, Helper to debug
-    ///</summary>
+    /// <summary>
+    /// DirectX Debugger, Helper to debug
+    /// </summary>
     ID3D11Debug* m_D3D11Debug = nullptr;
 
-    ///<summary>
-    ///DirectX DXGI Debugger, Helper to debug
-    ///</summary>
+    /// <summary>
+    /// DirectX DXGI Debugger, Helper to debug
+    /// </summary>
     IDXGIDebug* m_DXGIDebug = nullptr;
 
     HMODULE m_HandleDXGIDebugDLL = nullptr;
@@ -318,7 +318,7 @@ struct GraphicDebugDX sealed : public AEObject
     void Report();
 };
 
-#endif
+#endif //AE_GRAPHIC_DEBUG_DEVICE
 
 struct GraphicOptsPreferred sealed : public AEObject
 {

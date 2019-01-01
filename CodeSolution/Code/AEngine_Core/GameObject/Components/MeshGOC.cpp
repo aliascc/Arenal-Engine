@@ -33,7 +33,6 @@
 ****************************/
 #include "MeshGOC.h"
 #include "Models\Mesh.h"
-#include "Base\BaseFunctions.h"
 #include "GameAssets\Assets\MeshAsset.h"
 
 //Always include last
@@ -43,7 +42,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-MeshGOC::MeshGOC(GameObject* gameObject)
+MeshGOC::MeshGOC(GameObject& gameObject)
     : GameObjectComponent(gameObject, GameObjectComponentType::Mesh)
 {
 }

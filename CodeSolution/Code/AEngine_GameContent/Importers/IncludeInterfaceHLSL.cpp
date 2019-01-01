@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameContentDefs.h"
-#include "Base\BaseFunctions.h"
 #include "IncludeInterfaceHLSL.h"
 
 //Always include last

@@ -29,7 +29,6 @@
 ****************************/
 #include "BaseAddOnAS.h"
 #include "GameASAddOnsDefs.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -91,13 +90,13 @@ AEResult BaseAddOnAS::RegisterBasicEngineConst(asIScriptEngine* engine)
 {
     int ret = 0;
 
-    ret = engine->RegisterGlobalProperty("const wstring AE_VERSION", (void*)&AE_Base::AE_VERSION);
+    ret = engine->RegisterGlobalProperty("const string AE_VERSION", (void*)&AE_Base::AE_VERSION);
     if (ret < 0)
     {
         return AEResult::RegGlobalPropFail;
     }
 
-    ret = engine->RegisterGlobalProperty("const wstring AE_CODENAME", (void*)&AE_Base::AE_CODENAME);
+    ret = engine->RegisterGlobalProperty("const string AE_CODENAME", (void*)&AE_Base::AE_CODENAME);
     if (ret < 0)
     {
         return AEResult::RegGlobalPropFail;
@@ -899,13 +898,13 @@ AEResult BaseAddOnAS::RegisterBasicEngineFuncs(asIScriptEngine* engine)
 {
     int ret = 0;
 
-    ret = engine->RegisterGlobalFunction("void ConsolePrintLine(const wstring&in)", asFUNCTION(AE_Base::ConsolePrintLine), asCALL_CDECL);
+    ret = engine->RegisterGlobalFunction("void ConsolePrintLine(const string&in)", asFUNCTION(AE_Base::ConsolePrintLine), asCALL_CDECL);
     if (ret < 0)
     {
         return AEResult::RegGlobalFuncFail;
     }
 
-    ret = engine->RegisterGlobalFunction("void ConsolePrint(const wstring&in)", asFUNCTION(AE_Base::ConsolePrint), asCALL_CDECL);
+    ret = engine->RegisterGlobalFunction("void ConsolePrint(const string&in)", asFUNCTION(AE_Base::ConsolePrint), asCALL_CDECL);
     if (ret < 0)
     {
         return AEResult::RegGlobalFuncFail;

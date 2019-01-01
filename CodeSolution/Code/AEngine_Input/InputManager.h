@@ -31,9 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "InputDefs.h"
-#include "Base\AEObject.h"
 
 /********************
 *   Forward Decls   *
@@ -99,6 +97,10 @@ class InputManager sealed : public AEObject
         /// Default InputManager Destructor
         /// </summary>
         virtual ~InputManager();
+
+        //Delete copy constructor/operator
+        InputManager(const InputManager&) = delete;
+        InputManager& operator=(const InputManager&) = delete;
 
 #pragma endregion
 

@@ -18,7 +18,7 @@
 /*************************
 *   Precompiled Header   *
 **************************/
-#include "precomp_base.h"
+#include "precomp_core.h"
 
 /**********************
 *   System Includes   *
@@ -31,8 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\BaseFunctions.h"
-#include "UniqueAEObjectNamed.h"
+#include "GameCommand.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -40,12 +39,11 @@
 /********************
 *   Function Defs   *
 *********************/
-UniqueAEObjectNamed::UniqueAEObjectNamed(const std::string& name)
-    : Named(name)
+
+GameCommand::GameCommand()
 {
-    m_UniqueID = AE_Base::GetNextUniqueID();
 }
 
-UniqueAEObjectNamed::~UniqueAEObjectNamed()
+GameCommand::~GameCommand()
 {
 }

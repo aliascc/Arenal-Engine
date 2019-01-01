@@ -31,9 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "angelscript.h"
-#include "Base\AEObject.h"
 #include "GameObjectScriptDefs.h"
 
 /********************
@@ -101,6 +99,10 @@ class GameObjectScriptManager sealed : public AEObject
         /// Default GameObjectScriptManager Destructor
         /// </summary>
         virtual ~GameObjectScriptManager();
+
+        //Delete copy constructor/operator
+        GameObjectScriptManager(const GameObjectScriptManager&) = delete;
+        GameObjectScriptManager& operator=(const GameObjectScriptManager&) = delete;
 
 #pragma endregion
 

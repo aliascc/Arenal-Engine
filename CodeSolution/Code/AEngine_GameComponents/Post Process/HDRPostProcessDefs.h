@@ -31,8 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\AEObject.h"
-#include "Base\Base.h"
 
 /********************************
 *		Using					*

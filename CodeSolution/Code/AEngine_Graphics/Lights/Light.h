@@ -32,10 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "LightDefs.h"
-#include "Color\Color.h"
-#include "Math\AEMathDefs.h"
-#include "Color\AEColorDefs.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 /************
 *   Using   *
@@ -51,7 +47,7 @@ struct TimerParams;
 /*****************
 *   Class Decl   *
 ******************/
-class Light abstract : public UniqueAEObjectNamed
+class Light abstract : public Named
 {
     friend class LightManager;
 

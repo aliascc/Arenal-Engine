@@ -37,9 +37,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "ImporterFBX.h"
-#include "Logger\Logger.h"
-#include "Color\AEColorDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Content\MeshContent.h"
 #include "Models\Skinning\Bone.h"
 #include "Content\ModelContent.h"
@@ -47,7 +44,6 @@
 #include "Content\SkeletonContent.h"
 #include "Content\AnimationContent.h"
 #include "Vertex\Types\VertexTypes.h"
-#include "Localization\LocalizationManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

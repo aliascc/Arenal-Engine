@@ -31,10 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "FrustumDefs.h"
-#include "Base\AEObject.h"
-#include "Math\AEMathDefs.h"
 
 /************
 *   Using   *

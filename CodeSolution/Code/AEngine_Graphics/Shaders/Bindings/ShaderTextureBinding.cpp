@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Textures\Texture.h"
-#include "Base\BaseFunctions.h"
 #include "ShaderTextureBinding.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 

@@ -33,7 +33,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "AnimationAsset.h"
-#include "Base\BaseFunctions.h"
 #include "Models\Animation\Animation.h"
 #include "Resource\GameResourceManager.h"
 
@@ -44,7 +43,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-AnimationAsset::AnimationAsset(const std::string& filePath, GameResourceManager* gameResourceManager)
+AnimationAsset::AnimationAsset(const std::string& filePath, GameResourceManager& gameResourceManager)
     : GameAsset(GameContentType::Animation, filePath, gameResourceManager)
 {
 }
@@ -66,12 +65,6 @@ Animation* AnimationAsset::GetAnimationReference()
 
 AEResult AnimationAsset::LoadAssetResource()
 {
-    AEAssert(m_GameResourceManager != nullptr);
-    if (m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     AEAssert(!m_FilePath.empty());
     if(m_FilePath.empty())
     {
@@ -91,7 +84,7 @@ AEResult AnimationAsset::LoadAssetResource()
     {
         /////////////////////////////////////////////
         //Check if Game Resources contains this Mesh
-        m_Animation = (Animation*)m_GameResourceManager->AcquireGameResourceByStringID(m_FilePath, GameResourceType::Animation);
+        m_Animation = (Animation*)m_GameResourceManager.AcquireGameResourceByStringID(m_FilePath, GameResourceType::Animation);
 
         if(m_Animation != nullptr)
         {
@@ -115,7 +108,7 @@ AEResult AnimationAsset::LoadAssetResource()
 
         /////////////////////////////////////////////
         //Add to Resource Manager
-        ret = m_GameResourceManager->ManageGameResource(m_Animation, m_FilePath);
+        ret = m_GameResourceManager.ManageGameResource(m_Animation, m_FilePath);
         if(ret != AEResult::Ok)
         {
             AETODO("Add log");

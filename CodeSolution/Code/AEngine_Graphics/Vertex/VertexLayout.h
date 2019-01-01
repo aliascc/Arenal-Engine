@@ -31,8 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\Named.h"
 
 /********************
 *   Forward Decls   *
@@ -54,7 +52,7 @@ class VertexLayout sealed : public Named
         virtual ~VertexLayout();
 
         //Framework Methods
-        AEResult BuildVertexLayout(GraphicDevice* graphicDevice, const BYTE shaderByteCode[], uint32_t shadeByteCodeSize, const D3D11_INPUT_ELEMENT_DESC vertexDesc[], uint32_t elementCount, const std::string& name = "");
+        AEResult BuildVertexLayout(GraphicDevice& graphicDevice, const BYTE shaderByteCode[], uint32_t shadeByteCodeSize, const D3D11_INPUT_ELEMENT_DESC vertexDesc[], uint32_t elementCount, const std::string& name = "");
 
         //Get Methods
         inline ID3D11InputLayout* GetDXLayout() const 

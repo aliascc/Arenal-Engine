@@ -31,11 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Color\Color.h"
-#include "Base\AEObject.h"
-#include "Math\AEMathDefs.h"
-#include "Color\AEColorDefs.h"
 #include "Vertex\VertexDefs.h"
 #include "Shaders\ShaderDefs.h"
 #include "Textures\TextureDefs.h"
@@ -347,7 +342,7 @@ namespace AEImporterHelpers
 {
     extern glm::mat4 ConvertAssimpMatrix(const aiMatrix4x4& assimpMatrix);
 
-    extern AEResult BuildVertexBuffer(GraphicDevice* graphicDevice, IVertexBuffer** vertexBuffer, VertexType vtxType, void* buffer, uint32_t size);
+    extern AEResult BuildVertexBuffer(GraphicDevice& graphicDevice, IVertexBuffer** vertexBuffer, VertexType vtxType, void* buffer, uint32_t size);
 
     extern AEResult ConvertToMeshContent(const MeshPartHolder& meshPartHolder, MeshPartContent** meshPartContent, bool generateTangentBinormal = false);
 
@@ -369,13 +364,12 @@ namespace AEImporterHelpers
     extern AEResult GetVertexArrayPNTBTIW(const VertexHolderVector& vxtHolderVector, VertexPositionNormalTangentBinormalTextureIndicesWeight vtxArr[], uint32_t size);
 
     template<class T>
-    AEResult CreateVertexBuffer(GraphicDevice* graphicDevice, IVertexBuffer** vertexBuffer, void* buffer, uint32_t size)
+    AEResult CreateVertexBuffer(GraphicDevice& graphicDevice, IVertexBuffer** vertexBuffer, void* buffer, uint32_t size)
     {
-        AEAssert(graphicDevice != nullptr);
         AEAssert(vertexBuffer != nullptr);
         AEAssert(buffer != nullptr);
 
-        if (graphicDevice == nullptr || vertexBuffer == nullptr || buffer == nullptr)
+        if (vertexBuffer == nullptr || buffer == nullptr)
         {
             return AEResult::NullParameter;
         }

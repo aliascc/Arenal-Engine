@@ -34,7 +34,6 @@
 #include "GraphicDevice.h"
 #include "MeshMaterialGOC.h"
 #include "Textures\Texture.h"
-#include "Base\BaseFunctions.h"
 #include "Shaders\HullShader.h"
 #include "Shaders\PixelShader.h"
 #include "Shaders\DomainShader.h"
@@ -54,7 +53,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-MeshMaterialGOC::MeshMaterialGOC(GameObject* gameObject, const std::string& name)
+MeshMaterialGOC::MeshMaterialGOC(GameObject& gameObject, const std::string& name)
     : GameObjectComponent(gameObject, GameObjectComponentType::MeshMaterial)
     , m_Name(name)
 {
@@ -594,100 +593,88 @@ AEResult MeshMaterialGOC::RemoveDomainShaderAsset()
  *   All Shaders   *
  *******************/
 
-AEResult MeshMaterialGOC::ApplyShaders(GraphicDevice* graphicDevice)
+AEResult MeshMaterialGOC::ApplyShaders(GraphicDevice& graphicDevice)
 {
-    AEAssert(graphicDevice != nullptr);
-    if(graphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AETODO("Check returns for all");
     AETODO("mutex in adding creating MeshGOC");
 
     if(m_VertexShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetVertexShader(m_VertexShader.m_ResourceAsset);
+        graphicDevice.SetVertexShader(m_VertexShader.m_ResourceAsset);
         m_VertexShaderProps->ApplyAll();
     }
 
     if(m_PixelShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetPixelShader(m_PixelShader.m_ResourceAsset);
+        graphicDevice.SetPixelShader(m_PixelShader.m_ResourceAsset);
         m_PixelShaderProps->ApplyAll();
     }
 
     if(m_GeometryShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetGeometryShader(m_GeometryShader.m_ResourceAsset);
+        graphicDevice.SetGeometryShader(m_GeometryShader.m_ResourceAsset);
         m_GeometryShaderProps->ApplyAll();
     }
 
     if(m_ComputeShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetComputeShader(m_ComputeShader.m_ResourceAsset);
+        graphicDevice.SetComputeShader(m_ComputeShader.m_ResourceAsset);
         m_ComputeShaderProps->ApplyAll();
     }
 
     if(m_DomainShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetDomainShader(m_DomainShader.m_ResourceAsset);
+        graphicDevice.SetDomainShader(m_DomainShader.m_ResourceAsset);
         m_DomainShaderProps->ApplyAll();
     }
 
     if(m_HullShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetHullShader(m_HullShader.m_ResourceAsset);
+        graphicDevice.SetHullShader(m_HullShader.m_ResourceAsset);
         m_HullShaderProps->ApplyAll();
     }
 
     return AEResult::Ok;
 }
 
-AEResult MeshMaterialGOC::UnApplyShaders(GraphicDevice* graphicDevice)
+AEResult MeshMaterialGOC::UnApplyShaders(GraphicDevice& graphicDevice)
 {
-    AEAssert(graphicDevice != nullptr);
-    if(graphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AETODO("Check returns for all");
     AETODO("mutex in adding creating MeshGOC");
 
     if(m_VertexShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetVertexShader(nullptr);
+        graphicDevice.SetVertexShader(nullptr);
         m_VertexShaderProps->UnApplyAll();
     }
 
     if(m_PixelShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetPixelShader(nullptr);
+        graphicDevice.SetPixelShader(nullptr);
         m_PixelShaderProps->UnApplyAll();
     }
 
     if(m_GeometryShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetGeometryShader(nullptr);
+        graphicDevice.SetGeometryShader(nullptr);
         m_GeometryShaderProps->UnApplyAll();
     }
 
     if(m_ComputeShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetComputeShader(nullptr);
+        graphicDevice.SetComputeShader(nullptr);
         m_ComputeShaderProps->UnApplyAll();
     }
 
     if(m_DomainShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetDomainShader(nullptr);
+        graphicDevice.SetDomainShader(nullptr);
         m_DomainShaderProps->UnApplyAll();
     }
 
     if(m_HullShader.m_ResourceAsset != nullptr)
     {
-        graphicDevice->SetHullShader(nullptr);
+        graphicDevice.SetHullShader(nullptr);
         m_HullShaderProps->UnApplyAll();
     }
 

@@ -31,8 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 #include "Vertex\VertexBuffer.h"
 #include "Vertex\Types\VertexPositionTexture.h"
 
@@ -64,11 +62,11 @@ class QuadShape abstract : public AEObject
 
         IndexBuffer* m_IB = nullptr;
 
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
     public:
         //Constructor Destructor.
-        QuadShape(GraphicDevice* graphicDevice, bool clockWise = true);
+        QuadShape(GraphicDevice& graphicDevice, bool clockWise = true);
         virtual ~QuadShape();
 
         //Get Methods

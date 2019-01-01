@@ -214,7 +214,7 @@ AEResult PhysicsManager::Update(const TimerParams& timerParams)
         return AEResult::NotReady;
     }
 
-    float elapsedTime = (float)timerParams.m_ElapsedTime;
+    float elapsedTime = timerParams.m_ElapsedTime;
 
     m_PxScene->simulate(elapsedTime);
 

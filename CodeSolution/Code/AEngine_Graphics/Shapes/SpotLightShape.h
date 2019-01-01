@@ -31,9 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "LightShape.h"
-#include "Color\Color.h"
 #include "Vertex\VertexBuffer.h"
 #include "Vertex\Types\VertexPositionColor.h"
 
@@ -100,7 +98,7 @@ class SpotLightShape sealed : public LightShape
 
     public:
         //Constructor Destructor.
-        SpotLightShape(GraphicDevice* graphicDevice, uint32_t numEdges = AE_LIGHT_SHAPE_DEFAULT_NUM_EDGES);
+        SpotLightShape(GraphicDevice& graphicDevice, uint32_t numEdges = AE_LIGHT_SHAPE_DEFAULT_NUM_EDGES);
         virtual ~SpotLightShape();
 
         AEResult UpdateLightInfo(float nearAttenuation, float farAttenuation, float angle, float fallOfAngle);

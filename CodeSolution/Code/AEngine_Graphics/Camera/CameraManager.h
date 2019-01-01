@@ -31,8 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 
 /************
 *   Using   *
@@ -102,6 +100,10 @@ class CameraManager sealed : public AEObject
         /// Default CameraManager Destructor
         /// </summary>
         virtual ~CameraManager();
+
+        //Delete copy constructor/operator
+        CameraManager(const CameraManager&) = delete;
+        CameraManager& operator=(const CameraManager&) = delete;
 
 #pragma endregion
 

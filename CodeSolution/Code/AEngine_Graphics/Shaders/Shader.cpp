@@ -34,7 +34,6 @@
 #include "Shader.h"
 #include "GraphicDevice.h"
 #include "GameContentDefs.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -42,33 +41,37 @@
 /********************
 *   Function Defs   *
 *********************/
-Shader::Shader(GraphicDevice* graphicDevice, ShaderType shaderType, const std::string& name)
+Shader::Shader(GraphicDevice& graphicDevice, ShaderType shaderType, const std::string& name)
     : GameResource(name, GameResourceType::Unknown)
     , m_GraphicDevice(graphicDevice)
     , m_ShaderType(shaderType)
 {
-    AEAssert(graphicDevice != nullptr);
-
     switch (shaderType)
     {
         case ShaderType::VertexShader:
             m_ResourceType = GameResourceType::VertexShader;
             break;
+
         case ShaderType::PixelShader:
             m_ResourceType = GameResourceType::PixelShader;
             break;
+
         case ShaderType::GeometryShader:
             m_ResourceType = GameResourceType::GeometryShader;
             break;
+
         case ShaderType::HullShader:
             m_ResourceType = GameResourceType::HullShader;
             break;
+
         case ShaderType::ComputeShader:
             m_ResourceType = GameResourceType::ComputeShader;
             break;
+
         case ShaderType::DomainShader:
             m_ResourceType = GameResourceType::DomainShader;
             break;
+
         default:
             AEAssert(false);
             break;
@@ -94,12 +97,6 @@ AEResult Shader::LoadShader(const BYTE* shaderByteCode, uint32_t length)
 
 AEResult Shader::Load()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     std::lock_guard<std::mutex> lock(m_GameResourceMutex);
 
     AEAssert(!m_FileName.empty());

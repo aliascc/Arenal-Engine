@@ -28,10 +28,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "LogAddOnAS.h"
-#include "Logger\Logger.h"
 #include "GameASAddOnsDefs.h"
-#include "Logger\LoggerDefs.h"
-#include "Base\BaseFunctions.h"
 
 AETODO("Fix this");
 /* Do not include it as we need to use the normal new
@@ -177,7 +174,7 @@ AEResult LogAddOnAS::RegisterAELogObject(asIScriptEngine* engine)
         return AEResult::RegObjTypeFail;
     }
 
-    ret = engine->RegisterObjectProperty("AELog", "wstring m_Log", asOFFSET(AELog, m_Log));
+    ret = engine->RegisterObjectProperty("AELog", "string m_Log", asOFFSET(AELog, m_Log));
     if (ret < 0)
     {
         return AEResult::RegObjPropFail;
@@ -201,7 +198,7 @@ AEResult LogAddOnAS::RegisterAELogObject(asIScriptEngine* engine)
         return AEResult::RegObjPropFail;
     }
 
-    ret = engine->RegisterObjectMethod("AELog", "wstring ToString() const", asMETHOD(AELog, ToString), asCALL_THISCALL);
+    ret = engine->RegisterObjectMethod("AELog", "string ToString() const", asMETHOD(AELog, ToString), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;
@@ -241,7 +238,7 @@ AEResult LogAddOnAS::RegisterLoggerObject(asIScriptEngine* engine)
         return AEResult::RegObjTypeFail;
     }
 
-    ret = engine->RegisterObjectMethod("Logger", "void AddNewLog(LogLevel, const wstring& in)", asMETHOD(Logger, AddNewLog), asCALL_THISCALL);
+    ret = engine->RegisterObjectMethod("Logger", "void AddNewLog(LogLevel, const string& in)", asMETHOD(Logger, AddNewLog), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;
@@ -289,7 +286,7 @@ AEResult LogAddOnAS::RegisterLoggerObject(asIScriptEngine* engine)
         return AEResult::RegObjMethodFail;
     }
 
-    ret = engine->RegisterObjectMethod("Logger", "AEResult SetLogFilename(const wstring& in)", asMETHOD(Logger, SetLogFilename), asCALL_THISCALL);
+    ret = engine->RegisterObjectMethod("Logger", "AEResult SetLogFilename(const string& in)", asMETHOD(Logger, SetLogFilename), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;
@@ -307,7 +304,7 @@ AEResult LogAddOnAS::RegisterLoggerObject(asIScriptEngine* engine)
         return AEResult::RegObjMethodFail;
     }
 
-    ret = engine->RegisterObjectMethod("Logger", "const wstring& GetLogFilename() const", asMETHOD(Logger, GetLogFilename), asCALL_THISCALL);
+    ret = engine->RegisterObjectMethod("Logger", "const string& GetLogFilename() const", asMETHOD(Logger, GetLogFilename), asCALL_THISCALL);
     if (ret < 0)
     {
         return AEResult::RegObjMethodFail;
@@ -334,7 +331,7 @@ AEResult LogAddOnAS::RegisterLoggerObject(asIScriptEngine* engine)
     ///////////////////////////////////
     //Register AELOGGERHelper Methods
     ///////////////////////////////////
-    ret = engine->RegisterGlobalFunction("wstring LogLevelStr(LogLevel)", asFUNCTION(AELogHelpers::LogLevelStr), asCALL_CDECL);
+    ret = engine->RegisterGlobalFunction("string LogLevelStr(LogLevel)", asFUNCTION(AELogHelpers::LogLevelStr), asCALL_CDECL);
     if (ret < 0)
     {
         return AEResult::RegGlobalFuncFail;

@@ -26,8 +26,6 @@
 #include "ParticleSystem.h"
 #include "Utils\AETimeDefs.h"
 #include "Particle System\Materials\ParticleSystemMaterial.h"
-#include "GameApp\GameApp.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\IndexBuffer.h"
 #include "Utils\AERandomHelpers.h"
 #include "Camera\Camera.h"
@@ -106,8 +104,6 @@ void ParticleSystem::Initialize()
 	}
 
 	m_Camera = static_cast<Camera*>(m_GameApp->GetGameService(m_CameraSeviceName));
-
-	DrawableGameComponent::Initialize();
 }
 
 void ParticleSystem::InitParamsParticleEffect()
@@ -157,13 +153,11 @@ void ParticleSystem::LoadContent()
 	m_IndexBuffer->CopyToIndexBuffer(indices, m_Settings.m_MaxParticles * 6);
 
 	DeleteMemArr(indices);
-	
-	DrawableGameComponent::LoadContent();
 }
 
 void ParticleSystem::Update(const TimerParams& timerParams)
 {
-	m_CurrentTime += (float)timerParams.m_ElapsedTime;
+	m_CurrentTime += timerParams.m_ElapsedTime;
 
 	RetireActiveParticles();
 	FreeRetiredParticles();
@@ -182,8 +176,6 @@ void ParticleSystem::Update(const TimerParams& timerParams)
 	{
 		m_DrawCounter = 0;
 	}
-
-	DrawableGameComponent::Update(timerParams);
 }
 
 void ParticleSystem::Render(const TimerParams& timerParams)
@@ -270,8 +262,6 @@ void ParticleSystem::Render(const TimerParams& timerParams)
 	}
 
 	m_DrawCounter++;
-
-	DrawableGameComponent::Render(timerParams);
 }
 
 void ParticleSystem::OnLostDevice()
@@ -279,8 +269,6 @@ void ParticleSystem::OnLostDevice()
 	m_ParticleMaterial->OnLostDevice();
 	m_IndexBuffer->OnLostDevice();
 	m_VertexBuffer->OnLostDevice();
-
-	DrawableGameComponent::OnLostDevice();
 }
 
 void ParticleSystem::OnResetDevice()
@@ -288,8 +276,6 @@ void ParticleSystem::OnResetDevice()
 	m_ParticleMaterial->OnResetDevice();
 	m_IndexBuffer->OnResetDevice();
 	m_VertexBuffer->OnResetDevice();
-
-	DrawableGameComponent::OnResetDevice();
 }
 
 void ParticleSystem::RetireActiveParticles()

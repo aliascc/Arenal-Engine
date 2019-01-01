@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "AEGameComponentsDefs.h"
-#include "GameUtils\GameComponent.h"
 
 /************
 *   Using   *
@@ -43,6 +42,7 @@
 *********************/
 class Camera;
 class GameApp;
+class CameraManager;
 
 /*****************
 *   Class Decl   *
@@ -55,6 +55,8 @@ class CameraUpdater sealed : public GameComponent
         *   Private Variables   *
         *************************/
 #pragma region Private Variables
+
+        CameraManager& m_CameraManager;
 
         std::string m_ServiceName = "";
 
@@ -83,7 +85,7 @@ class CameraUpdater sealed : public GameComponent
         /// <param name="name">Component Name of the Camera Manager</param>
         /// <param name="serviceName">Service Name of the Camera Manager</param>
         /// <param name="callOrder">Call order of the Camera Manager</param>
-        CameraUpdater(GameApp* gameApp, const std::string& name = AE_CAMERA_UPDATER_DEF_COMPONENT_NAME, const std::string& serviceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_CameraUpdater);
+        CameraUpdater(GameApp& gameApp, const std::string& name = AE_CAMERA_UPDATER_DEF_COMPONENT_NAME, const std::string& serviceName = AE_CAMERA_UPDATER_DEF_SERVICE_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_CameraUpdater);
 
         /// <summary>
         /// Default CameraManager Destructor

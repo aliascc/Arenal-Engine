@@ -31,8 +31,6 @@
 /*************************
 *   3rd Party Includes   *
 **************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 #include "AngelScript\AngelScriptManager.h"
 
 /***************************

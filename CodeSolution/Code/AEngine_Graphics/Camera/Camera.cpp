@@ -40,7 +40,7 @@
 *   Function Defs   *
 *********************/
 Camera::Camera(const std::string& name, const glm::vec3& position, const glm::vec3& target, const glm::vec3& UP, const glm::ivec2& dimensions, float fov, float znear, float zfar)
-    : UniqueAEObjectNamed(name)
+    : Named(name)
     , m_Position(position)
     , m_Target(target)
     , m_UPVector(UP)

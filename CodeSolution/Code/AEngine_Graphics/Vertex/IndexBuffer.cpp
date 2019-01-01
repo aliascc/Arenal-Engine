@@ -33,9 +33,6 @@
 ****************************/
 #include "IndexBuffer.h"
 #include "GraphicDevice.h"
-#include "Logger\Logger.h"
-#include "Base\BaseFunctions.h"
-#include "Localization\LocalizationManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -43,13 +40,12 @@
 /********************
 *   Function Defs   *
 *********************/
-IndexBuffer::IndexBuffer(GraphicDevice* graphicDevice, GraphicBufferUsage bufferUsage, GraphicBufferAccess bufferAccess)
+IndexBuffer::IndexBuffer(GraphicDevice& graphicDevice, GraphicBufferUsage bufferUsage, GraphicBufferAccess bufferAccess)
     : Named("")
     , m_BufferAccess(bufferAccess)
     , m_BufferUsage(bufferUsage)
     , m_GraphicDevice(graphicDevice)
 {
-    AEAssert(m_GraphicDevice != nullptr);
 }
 
 IndexBuffer::~IndexBuffer()
@@ -198,7 +194,7 @@ AEResult IndexBuffer::BuildIndexBuffer()
             break;
     }
 
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateBuffer(&ibDesc, &ibInitData, &m_IndexBufferDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateBuffer(&ibDesc, &ibInitData, &m_IndexBufferDX);
 
     if(hr != S_OK)
     {
@@ -315,7 +311,7 @@ AEResult IndexBuffer::MapBuffer(GraphicResourceMap resourceMap)
 
     AETODO("Check Map flags");
     AETODO("Check Sub Resource");
-    HRESULT hr = m_GraphicDevice->GetDeviceContextDX()->Map(m_IndexBufferDX, 0, dxMapType, 0, &mappedData);
+    HRESULT hr = m_GraphicDevice.GetDeviceContextDX()->Map(m_IndexBufferDX, 0, dxMapType, 0, &mappedData);
 
     if(hr != S_OK)
     {
@@ -346,7 +342,7 @@ AEResult IndexBuffer::MapBuffer(GraphicResourceMap resourceMap)
 AEResult IndexBuffer::UnMapBuffer()
 {
     AETODO("Check subresource")
-    m_GraphicDevice->GetDeviceContextDX()->Unmap(m_IndexBufferDX, 0);
+    m_GraphicDevice.GetDeviceContextDX()->Unmap(m_IndexBufferDX, 0);
 
     //Set VideoIB to nullptr
     m_VideoIB_32 = nullptr;

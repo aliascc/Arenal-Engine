@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "GameUtilsDefs.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 /********************
 *   Forward Decls   *
@@ -41,7 +40,7 @@
 /*****************
 *   Class Decl   *
 ******************/
-class GameService abstract : public UniqueAEObjectNamed
+class GameService abstract : public Named
 {
     private:
 

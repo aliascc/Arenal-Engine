@@ -31,13 +31,10 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Logger\Logger.h"
 #include "GraphicDevice.h"
 #include "Utils\Viewport.h"
 #include "Models\MeshPart.h"
-#include "XML\AEXMLParser.h"
 #include "Shaders\ShaderDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Shapes\QuadShape2D.h"
 #include "Vertex\IndexBuffer.h"
 #include "Textures\Texture2D.h"
@@ -56,7 +53,6 @@
 #include "Shaders\Variables\TextureArray.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
 #include "Shaders\Buffers\StructuredBuffer.h"
-#include "Localization\LocalizationManager.h"
 #include "Shaders\Variables\Texture2DArray.h"
 
 //Always include last
@@ -96,7 +92,7 @@ GraphicDevice::GraphicDevice(HWND hMainWnd, const GraphicOptsPreferred& graphicO
         m_gPP.m_Windowed = true;
     }
 
-    m_QuadShape2D = new QuadShape2D(this, true);
+    m_QuadShape2D = new QuadShape2D(*this, true);
 }
 
 GraphicDevice::~GraphicDevice()
@@ -133,17 +129,17 @@ GraphicDevice::~GraphicDevice()
 
 void GraphicDevice::InitBasicVertexTypes()
 {
-    VertexPosition::GetVertexLayout(this);
-    VertexPositionColor::GetVertexLayout(this);
-    VertexPositionNormal::GetVertexLayout(this);
-    VertexPositionTexture::GetVertexLayout(this);
-    VertexPositionNormalColor::GetVertexLayout(this);
-    VertexPositionNormalTexture::GetVertexLayout(this);
-    VertexPositionNormalTextureTexture2::GetVertexLayout(this);
-    VertexPositionNormalTextureIndicesWeight::GetVertexLayout(this);
-    VertexPositionNormalTangentBinormalTexture::GetVertexLayout(this);
-    VertexPositionNormalTangentBinormalTextureTexture2::GetVertexLayout(this);
-    VertexPositionNormalTangentBinormalTextureIndicesWeight::GetVertexLayout(this);
+    VertexPosition::GetVertexLayout(*this);
+    VertexPositionColor::GetVertexLayout(*this);
+    VertexPositionNormal::GetVertexLayout(*this);
+    VertexPositionTexture::GetVertexLayout(*this);
+    VertexPositionNormalColor::GetVertexLayout(*this);
+    VertexPositionNormalTexture::GetVertexLayout(*this);
+    VertexPositionNormalTextureTexture2::GetVertexLayout(*this);
+    VertexPositionNormalTextureIndicesWeight::GetVertexLayout(*this);
+    VertexPositionNormalTangentBinormalTexture::GetVertexLayout(*this);
+    VertexPositionNormalTangentBinormalTextureTexture2::GetVertexLayout(*this);
+    VertexPositionNormalTangentBinormalTextureIndicesWeight::GetVertexLayout(*this);
 }
 
 void GraphicDevice::CleanUpBasicVertexTypes()
@@ -170,7 +166,7 @@ AEResult GraphicDevice::CreateDefaultTextures()
 
     AEResult ret = AEResult::Ok;
 
-    m_DefaultTexture2D = new Texture2D(this, AE_DEFAULT_TEX_2D_NAME);
+    m_DefaultTexture2D = new Texture2D(*this, AE_DEFAULT_TEX_2D_NAME);
 
     ret = m_DefaultTexture2D->CreateColorTexture(128, 128, AEColors::Fuchsia);
     if (ret != AEResult::Ok)
@@ -361,6 +357,7 @@ AEResult GraphicDevice::InitSwapChainDesc()
     m_SwapChainDescDX.SampleDesc            = m_gPP.m_MultiSample;
 
     AETODO("Check into Usage Render Target Output");
+    AETODO("Add option to Back Buffer");
     m_SwapChainDescDX.BufferCount           = m_gPP.m_BackBufferCount; // = 2;                               // Use double buffering to minimize latency.
     m_SwapChainDescDX.BufferUsage           = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     

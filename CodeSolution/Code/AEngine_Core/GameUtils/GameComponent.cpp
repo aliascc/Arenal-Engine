@@ -33,8 +33,6 @@
 ****************************/
 #include "GameComponent.h"
 #include "GameApp\GameApp.h"
-#include "Time\AETimeDefs.h"
-#include "Base\BaseFunctions.h"
 #include "Resource\GameResourceManager.h"
 
 //Always include last
@@ -43,14 +41,12 @@
 *   Function Defs   *
 *********************/
 AETODO("add mutex");
-GameComponent::GameComponent(GameApp* gameApp, const std::string& name, uint32_t callOrder)
+GameComponent::GameComponent(GameApp& gameApp, const std::string& name, uint32_t callOrder)
     : GameService(name)
     , m_GameApp(gameApp)
+    , m_GameResourceManager(m_GameApp.GetGameResourceManager())
     , m_CallOrder(callOrder)
 {
-    AEAssert(gameApp != nullptr);
-
-    m_GameResourceManager = gameApp->GetGameResourceManager();
 }
 
 GameComponent::~GameComponent()
@@ -74,10 +70,6 @@ void GameComponent::SetCallOrder(uint32_t callOrder)
 }
 
 void GameComponent::ConstantUpdate(const TimerParams& timerParams)
-{
-}
-
-void GameComponent::Update(const TimerParams& timerParams)
 {
 }
 

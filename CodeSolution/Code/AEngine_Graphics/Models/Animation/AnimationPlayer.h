@@ -32,10 +32,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "KeyFrame.h"
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 #include "AnimationDefs.h"
-#include "Math\AEMathDefs.h"
 
 /************
 *   Using   *

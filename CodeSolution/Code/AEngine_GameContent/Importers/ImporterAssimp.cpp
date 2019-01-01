@@ -32,11 +32,9 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Models\Mesh.h"
-#include "Logger\Logger.h"
 #include "ImportersDefs.h"
 #include "ImporterAssimp.h"
 #include "Utils\BoundingBox.h"
-#include "Base\BaseFunctions.h"
 #include "Content\MeshContent.h"
 #include "Models\Skinning\Bone.h"
 #include "Content\ModelContent.h"
@@ -45,8 +43,6 @@
 #include "Content\SkeletonContent.h"
 #include "Content\AnimationContent.h"
 #include "Models\Skinning\SkinningDefs.h"
-#include "Localization\LocalizationManager.h"
-#include "Localization\LocalizationManagerDefs.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

@@ -34,7 +34,6 @@
 #include "GraphicDevice.h"
 #include "Texture2DArray.h"
 #include "Textures\Texture.h"
-#include "Base\BaseFunctions.h"
 #include "Textures\ITexture2D.h"
 
 //Always include last
@@ -43,7 +42,7 @@
 /********************
 *   Function Defs   *
 *********************/
-Texture2DArray::Texture2DArray(GraphicDevice* graphicDevice, const std::string& name, uint32_t bindIndex)
+Texture2DArray::Texture2DArray(GraphicDevice& graphicDevice, const std::string& name, uint32_t bindIndex)
     : TextureArray(graphicDevice, name, TextureType::Texture2D, bindIndex)
 {
 }
@@ -86,14 +85,6 @@ AEResult Texture2DArray::Deinitialize()
 
 AEResult Texture2DArray::Initialize(uint32_t arraySize, uint32_t width, uint32_t height, uint32_t mipLevels, DXGI_FORMAT format, TextureBindOption bindOption)
 {
-    /////////////////////////////////////////////////////////////
-    //Pre-check
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     AEAssert(arraySize != 0);
     if (arraySize == 0)
     {
@@ -140,7 +131,7 @@ AEResult Texture2DArray::Initialize(uint32_t arraySize, uint32_t width, uint32_t
     textDesc.SampleDesc.Count    = 1;
     textDesc.SampleDesc.Quality  = 0;
 
-    hr = m_GraphicDevice->GetDeviceDX()->CreateTexture2D(&textDesc, nullptr, &m_TextureArrayDX);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateTexture2D(&textDesc, nullptr, &m_TextureArrayDX);
 
     if (hr != S_OK)
     {
@@ -165,7 +156,7 @@ AEResult Texture2DArray::Initialize(uint32_t arraySize, uint32_t width, uint32_t
     srvDesc.Texture2DArray.ArraySize    = arraySize;
     srvDesc.Texture2DArray.MipLevels    = mipLevels;
 
-    hr = m_GraphicDevice->GetDeviceDX()->CreateShaderResourceView(m_TextureArrayDX, &srvDesc, &m_TextureArraySRV);
+    hr = m_GraphicDevice.GetDeviceDX()->CreateShaderResourceView(m_TextureArrayDX, &srvDesc, &m_TextureArraySRV);
 
     if (hr != S_OK)
     {
@@ -197,7 +188,7 @@ AEResult Texture2DArray::Initialize(uint32_t arraySize, uint32_t width, uint32_t
             rtDesc.Texture2DArray.FirstArraySlice   = i;
             rtDesc.Texture2DArray.MipSlice          = 0;
 
-            hr = m_GraphicDevice->GetDeviceDX()->CreateRenderTargetView(m_TextureArrayDX, &rtDesc, &rtv);
+            hr = m_GraphicDevice.GetDeviceDX()->CreateRenderTargetView(m_TextureArrayDX, &rtDesc, &rtv);
 
             if (hr != S_OK)
             {
@@ -267,7 +258,7 @@ AEResult Texture2DArray::SetTexture(uint32_t index, Texture* texture)
     bool errorFound = false;
     AEResult ret = AEResult::Ok;
     HRESULT hr = S_OK;
-    ID3D11DeviceContext* dxContext = m_GraphicDevice->GetDeviceContextDX();
+    ID3D11DeviceContext* dxContext = m_GraphicDevice.GetDeviceContextDX();
 
     D3D11_TEXTURE2D_DESC textDesc;
     memset(&textDesc, 0, sizeof(D3D11_TEXTURE2D_DESC));

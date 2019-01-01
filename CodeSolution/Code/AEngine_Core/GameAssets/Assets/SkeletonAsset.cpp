@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "SkeletonAsset.h"
-#include "Base\BaseFunctions.h"
 #include "Models\Skinning\Skeleton.h"
 #include "Resource\GameResourceManager.h"
 
@@ -43,7 +42,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-SkeletonAsset::SkeletonAsset(const std::string& filePath, GameResourceManager* gameResourceManager)
+SkeletonAsset::SkeletonAsset(const std::string& filePath, GameResourceManager& gameResourceManager)
     : GameAsset(GameContentType::Skeleton, filePath, gameResourceManager)
 {
 }
@@ -65,12 +64,6 @@ Skeleton* SkeletonAsset::GetSkeletonReference()
 
 AEResult SkeletonAsset::LoadAssetResource()
 {
-    AEAssert(m_GameResourceManager != nullptr);
-    if (m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     AEAssert(!m_FilePath.empty());
     if(m_FilePath.empty())
     {
@@ -90,7 +83,7 @@ AEResult SkeletonAsset::LoadAssetResource()
     {
         /////////////////////////////////////////////
         //Check if Game Resources contains this Mesh
-        m_Skeleton = (Skeleton*)m_GameResourceManager->AcquireGameResourceByStringID(m_FilePath, GameResourceType::Skeleton);
+        m_Skeleton = (Skeleton*)m_GameResourceManager.AcquireGameResourceByStringID(m_FilePath, GameResourceType::Skeleton);
 
         if(m_Skeleton != nullptr)
         {
@@ -114,7 +107,7 @@ AEResult SkeletonAsset::LoadAssetResource()
 
         /////////////////////////////////////////////
         //Add to Resource Manager
-        ret = m_GameResourceManager->ManageGameResource(m_Skeleton, m_FilePath);
+        ret = m_GameResourceManager.ManageGameResource(m_Skeleton, m_FilePath);
         if(ret != AEResult::Ok)
         {
             AETODO("Add log");

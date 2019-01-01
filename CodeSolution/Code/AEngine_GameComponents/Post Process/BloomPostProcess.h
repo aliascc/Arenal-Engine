@@ -29,9 +29,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameUtils\DrawableGameComponent.h"
 #include "BloomPostProcessDefs.h"
-#include "Base\Base.h"
 
 /************
 *   Using   *

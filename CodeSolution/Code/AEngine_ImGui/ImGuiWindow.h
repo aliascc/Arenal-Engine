@@ -20,6 +20,8 @@
 #ifndef _IM_GUI_WINDOW_H
 #define _IM_GUI_WINDOW_H
 
+#ifdef AE_EDITOR_MODE
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -92,7 +94,8 @@ protected:
     /// Updates the window with the new information for the
     /// Im GUI render to display
     /// </summary>
-    virtual void UpdateWindow() = 0;
+    /// <param name="timerParams">Game Timer Parameters</param>
+    virtual void UpdateWindow(const TimerParams& timerParams) = 0;
 
 #pragma endregion
 
@@ -195,10 +198,13 @@ public:
     /// <summary>
     /// Call to Update the Im Gui Window
     /// </summary>
-    void Update();
+    /// <param name="timerParams">Game Timer Parameters</param>
+    void Update(const TimerParams& timerParams);
 
 #pragma endregion
 
 };
+
+#endif //AE_EDITOR_MODE
 
 #endif

@@ -33,7 +33,6 @@
 ****************************/
 #include "WriterHLSL.h"
 #include "GameContentDefs.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

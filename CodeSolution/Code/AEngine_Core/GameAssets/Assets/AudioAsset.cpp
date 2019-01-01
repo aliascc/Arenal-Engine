@@ -34,7 +34,6 @@
 #include "Audio.h"
 #include "AudioAsset.h"
 #include "AudioManager.h"
-#include "Base\BaseFunctions.h"
 #include "Resource\GameResourceManager.h"
 
 //Always include last
@@ -45,11 +44,10 @@
 *********************/
 
 AETODO("Check if this class needs a mutex");
-AudioAsset::AudioAsset(const std::string& filePath, GameResourceManager* gameResourceManager, AudioManager* audioManager)
+AudioAsset::AudioAsset(const std::string& filePath, GameResourceManager& gameResourceManager, AudioManager& audioManager)
     : GameAsset(GameContentType::Audio, filePath, gameResourceManager)
     , m_AudioManager(audioManager)
 {
-    AEAssert(m_AudioManager != nullptr);
 }
 
 AudioAsset::~AudioAsset()
@@ -69,19 +67,6 @@ Audio* AudioAsset::GetAudioReference()
 
 AEResult AudioAsset::LoadAssetResource()
 {
-    AEAssert(m_AudioManager != nullptr);
-    if (m_AudioManager == nullptr)
-    {
-        AETODO("add error for Audio Manager NULL");
-        return AEResult::NullObj;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-    if (m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     AEAssert(!m_FilePath.empty());
     if(m_FilePath.empty())
     {
@@ -103,7 +88,7 @@ AEResult AudioAsset::LoadAssetResource()
     {
         /////////////////////////////////////////////
         //Check if Game Resource Manager contains this Audio
-        m_Audio = (Audio*)m_GameResourceManager->AcquireGameResourceByStringID(m_FilePath, GameResourceType::Audio);
+        m_Audio = (Audio*)m_GameResourceManager.AcquireGameResourceByStringID(m_FilePath, GameResourceType::Audio);
 
         if (m_Audio != nullptr)
         {
@@ -132,7 +117,7 @@ AEResult AudioAsset::LoadAssetResource()
 
         /////////////////////////////////////////////
         //Add to Resource Manager
-        ret = m_GameResourceManager->ManageGameResource(m_Audio, m_FilePath);
+        ret = m_GameResourceManager.ManageGameResource(m_Audio, m_FilePath);
         if (ret != AEResult::Ok)
         {
             AETODO("Add log");

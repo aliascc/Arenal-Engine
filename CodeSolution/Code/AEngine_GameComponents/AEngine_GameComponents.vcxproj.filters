@@ -61,6 +61,9 @@
     <Filter Include="Game Objects Debug">
       <UniqueIdentifier>{24ac933c-a6d7-4283-8025-3f8e47b8517f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui Component">
+      <UniqueIdentifier>{5016c8c5-54aa-40f8-a386-aa36f8c34282}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input\InputHandler.cpp">
@@ -175,6 +178,9 @@
       <Filter>Game Logic Update</Filter>
     </ClCompile>
     <ClCompile Include="precomp_gamecomponents.cpp" />
+    <ClCompile Include="ImGui Component\ImGuiComponent.cpp">
+      <Filter>ImGui Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input\InputHandler.h">
@@ -293,6 +299,9 @@
     </ClInclude>
     <ClInclude Include="AEGameComponentsDefs.h" />
     <ClInclude Include="precomp_gamecomponents.h" />
+    <ClInclude Include="ImGui Component\ImGuiComponent.h">
+      <Filter>ImGui Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Sky Covers\Materials\HLSL\SkySphereEffect.fx">

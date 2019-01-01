@@ -31,9 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Shaders\ShaderDefs.h"
-#include "Base\UniqueAEObject.h"
 
 /********************
 *   Forward Decls   *
@@ -68,7 +66,7 @@ typedef GameObjectMap::const_iterator GameObjectMapItConst;
 *   Class Decl   *
 ******************/
 
-class GameObjectManager sealed : public UniqueAEObject
+class GameObjectManager sealed : public AEObject
 {
     private:
 
@@ -86,21 +84,21 @@ class GameObjectManager sealed : public UniqueAEObject
         /// </remarks>
         GameObject* m_SelectedGameObject = nullptr;
 
-        GameAssetManager* m_GameAssetManager = nullptr;
+        GameAssetManager& m_GameAssetManager;
 
-        GameObjectScriptManager* m_GameObjectScriptManager = nullptr;
+        GameObjectScriptManager& m_GameObjectScriptManager;
 
-        AngelScriptManager* m_AngelScriptManager = nullptr;
+        AngelScriptManager& m_AngelScriptManager;
 
-        LightManager* m_LightManager = nullptr;
+        LightManager& m_LightManager;
 
-        CameraManager* m_CameraManager = nullptr;
+        CameraManager& m_CameraManager;
 
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
-        AudioManager* m_AudioManager = nullptr;
+        AudioManager& m_AudioManager;
 
-        PhysicsManager* m_PhysicsManager = nullptr;
+        PhysicsManager& m_PhysicsManager;
 
         GameObjectMap m_GameObjectMap;
 
@@ -117,13 +115,13 @@ class GameObjectManager sealed : public UniqueAEObject
 
         void CleanUp();
 
-        AEResult SaveToXMLGameObject(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
+        AEResult SaveToXMLGameObject(AEXMLWriter& xmlWriter, GameObject& gameObject) const;
 
-        AEResult SaveToXMLGameObjectComponents(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
+        AEResult SaveToXMLGameObjectComponents(AEXMLWriter& xmlWriter, GameObject& gameObject) const;
 
-        AEResult SaveToXMLMeshComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
+        AEResult SaveToXMLMeshComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const;
 
-        AEResult SaveToXMLMeshMaterialsComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
+        AEResult SaveToXMLMeshMaterialsComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const;
 
         AEResult SaveToXMLShader(AEXMLWriter& xmlWriter, ShaderType shaderType, uint64_t assetID, ShaderProperties* properties) const;
 
@@ -137,31 +135,31 @@ class GameObjectManager sealed : public UniqueAEObject
 
         AEResult SaveToXMLCBMatrix(AEXMLWriter& xmlWriter, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows) const;
 
-        AEResult SaveToXMLGameObjectScriptsComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
+        AEResult SaveToXMLGameObjectScriptsComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const;
 
         AEResult SaveToXMLGameObjectScriptsProperties(AEXMLWriter& xmlWriter, const GameObjectScriptProperties* properties) const;
 
-        AEResult SaveToXMLLightComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
+        AEResult SaveToXMLLightComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const;
 
-        AEResult SaveToXMLMeshAnimationComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
+        AEResult SaveToXMLMeshAnimationComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const;
 
-        AEResult SaveToXMLCameraComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
+        AEResult SaveToXMLCameraComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const;
 
-        AEResult SaveToXMLAudioListenerComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
+        AEResult SaveToXMLAudioListenerComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const;
 
-        AEResult SaveToXMLAudioSourceComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
+        AEResult SaveToXMLAudioSourceComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const;
 
-        AEResult SaveToXMLPhysicsComponent(AEXMLWriter& xmlWriter, GameObject* gameObject) const;
+        AEResult SaveToXMLPhysicsComponent(AEXMLWriter& xmlWriter, GameObject& gameObject) const;
 
         AEResult LoadXMLGameObject(AEXMLParser& xmlParser, GameObject* parent);
 
-        AEResult LoadXMLGameObjectComponents(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLGameObjectComponents(AEXMLParser& xmlParser, GameObject& gameObject);
 
-        AEResult LoadXMLMeshComponent(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLMeshComponent(AEXMLParser& xmlParser, GameObject& gameObject);
 
-        AEResult LoadXMLMeshMaterialsComponent(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLMeshMaterialsComponent(AEXMLParser& xmlParser, GameObject& gameObject);
 
-        AEResult LoadXMLMeshMaterialComponent(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLMeshMaterialComponent(AEXMLParser& xmlParser, GameObject& gameObject);
 
         AEResult LoadXMLShader(AEXMLParser& xmlParser, MeshMaterialGOC* material);
 
@@ -175,23 +173,23 @@ class GameObjectManager sealed : public UniqueAEObject
 
         AEResult LoadXMLCBMatrix(AEXMLParser& xmlParser, ConstantBuffer* cb, const std::string& varName, ShaderVariableType varType, uint32_t columns, uint32_t rows);
 
-        AEResult LoadXMLGameObjectScriptsComponents(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLGameObjectScriptsComponents(AEXMLParser& xmlParser, GameObject& gameObject);
 
-        AEResult LoadXMLGameObjectScriptsComponent(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLGameObjectScriptsComponent(AEXMLParser& xmlParser, GameObject& gameObject);
 
         AEResult LoadXMLGameObjectScriptsProperties(AEXMLParser& xmlParser, GameObjectScriptProperties* properties);
 
-        AEResult LoadXMLLightComponent(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLLightComponent(AEXMLParser& xmlParser, GameObject& gameObject);
 
-        AEResult LoadXMLMeshAnimationComponent(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLMeshAnimationComponent(AEXMLParser& xmlParser, GameObject& gameObject);
 
-        AEResult LoadXMLCameraComponent(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLCameraComponent(AEXMLParser& xmlParser, GameObject& gameObject);
 
-        AEResult LoadXMLAudioListenerComponent(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLAudioListenerComponent(AEXMLParser& xmlParser, GameObject& gameObject);
 
-        AEResult LoadXMLAudioSourceComponent(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLAudioSourceComponent(AEXMLParser& xmlParser, GameObject& gameObject);
 
-        AEResult LoadXMLPhysicsComponent(AEXMLParser& xmlParser, GameObject* gameObject);
+        AEResult LoadXMLPhysicsComponent(AEXMLParser& xmlParser, GameObject& gameObject);
 
 #pragma endregion
 
@@ -213,12 +211,16 @@ class GameObjectManager sealed : public UniqueAEObject
         /// <param name="cameraManager">Camera Manager</param>
         /// <param name="audioManager">Audio Manager</param>
         /// <param name="physicsManager">Physics Manager</param>
-        GameObjectManager(GraphicDevice* graphicDevice, GameAssetManager* gameAssetManager, GameObjectScriptManager* gameObjectScriptManager, AngelScriptManager* angelScriptManager, LightManager* lightManager, CameraManager* cameraManager, AudioManager* audioManager, PhysicsManager* physicsManager);
+        GameObjectManager(GraphicDevice& graphicDevice, GameAssetManager& gameAssetManager, GameObjectScriptManager& gameObjectScriptManager, AngelScriptManager& angelScriptManager, LightManager& lightManager, CameraManager& cameraManager, AudioManager& audioManager, PhysicsManager& physicsManager);
 
         /// <summary>
         /// Default GameObjectManager Destructor
         /// </summary>
         virtual ~GameObjectManager();
+
+        //Delete copy constructor/operator
+        GameObjectManager(const GameObjectManager&) = delete;
+        GameObjectManager& operator=(const GameObjectManager&) = delete;
 
 #pragma endregion
 

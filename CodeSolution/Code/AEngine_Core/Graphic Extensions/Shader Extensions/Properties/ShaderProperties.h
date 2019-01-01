@@ -32,8 +32,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 #include "Shaders\ShaderSignatures.h"
 #include "GameObject\GameObjectDefs.h"
 
@@ -185,7 +183,7 @@ class ShaderProperties sealed : public AEObject
         /// <summary>
         /// Graphic Device that is associated with this Object
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
 #pragma endregion
 
@@ -238,7 +236,7 @@ class ShaderProperties sealed : public AEObject
         /// </summary>
         /// <param name="shaderType">Shader Stage where this Properties can be applied</param>
         /// <param name="graphicDevice">Graphic Device to Associate to this Graphics</param>
-        ShaderProperties(ShaderType shaderType, GraphicDevice* graphicDevice);
+        ShaderProperties(ShaderType shaderType, GraphicDevice& graphicDevice);
 
         /// <summary>
         /// Default Shader Destructor

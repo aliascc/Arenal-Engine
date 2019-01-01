@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\BaseFunctions.h"
 #include "GameObjectScriptGOC.h"
 #include "AngelScript\AngelScriptDefs.h"
 #include "AngelScript\AngelScriptManager.h"
@@ -47,21 +46,15 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-GameObjectScriptGOC::GameObjectScriptGOC(GameObject* gameObject, const std::string& name, AngelScriptManager* angelScriptManager, GameObjectScriptManager* gameObjectScriptManager)
+GameObjectScriptGOC::GameObjectScriptGOC(GameObject& gameObject, const std::string& name, AngelScriptManager& angelScriptManager, GameObjectScriptManager& gameObjectScriptManager)
     : GameObjectComponent(gameObject, GameObjectComponentType::GameObjectScript)
     , m_Name(name)
     , m_AngelScriptManager(angelScriptManager)
     , m_GameObjectScriptManager(gameObjectScriptManager)
 {
-    AEAssert(m_AngelScriptManager != nullptr);
-    AEAssert(m_GameObjectScriptManager != nullptr);
+    m_ASContext = m_AngelScriptManager.GetASEngine()->CreateContext();
 
-    if (m_AngelScriptManager != nullptr && m_GameObjectScriptManager != nullptr)
-    {
-        m_ASContext = m_AngelScriptManager->GetASEngine()->CreateContext();
-
-        m_IsReady = true;
-    }
+    m_IsReady = true;
 }
 
 GameObjectScriptGOC::~GameObjectScriptGOC()
@@ -330,7 +323,7 @@ AEResult GameObjectScriptGOC::CreateGameObjectScriptInstance(const std::string& 
 
     /////////////////////////////////////////
     //Verify that the instances does not exist
-    if (m_GameObjectScriptManager->Exists(instanceName))
+    if (m_GameObjectScriptManager.Exists(instanceName))
     {
         AETODO("Add log error");
         return AEResult::ObjExists;
@@ -344,7 +337,8 @@ AEResult GameObjectScriptGOC::CreateGameObjectScriptInstance(const std::string& 
         return AEResult::ASPrepareContextFailed;
     }
 
-    retInt = m_ASContext->SetArgObject(0, m_GameObject);
+    AETODO("Verify change to reference pointer does not affect this");
+    retInt = m_ASContext->SetArgObject(0, &m_GameObject);
     if (retInt < 0)
     {
         return AEResult::ASPrepareContextFailed;
@@ -380,7 +374,7 @@ AEResult GameObjectScriptGOC::CreateGameObjectScriptInstance(const std::string& 
     m_ASContext->Unprepare();
 
     AETODO("Check Return");
-    m_GameObjectScriptManager->Add(instanceName, m_GameObjectScriptInstance);
+    m_GameObjectScriptManager.Add(instanceName, m_GameObjectScriptInstance);
 
     m_GameObjectScriptProperties = new GameObjectScriptProperties();
 
@@ -423,7 +417,7 @@ AEResult GameObjectScriptGOC::RemoveGameObjectScriptInstance()
 
     /////////////////////////////////////////
     //Remove Instance
-    m_GameObjectScriptManager->Remove(m_GameObjectScriptInstance->m_Name);
+    m_GameObjectScriptManager.Remove(m_GameObjectScriptInstance->m_Name);
 
     DeleteMem(m_GameObjectScriptProperties);
 

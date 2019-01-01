@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "MeshAnimationGOC.h"
-#include "Base\BaseFunctions.h"
 #include "Models\Skinning\Skeleton.h"
 #include "Models\Animation\Animation.h"
 #include "GameAssets\Assets\SkeletonAsset.h"
@@ -46,7 +45,7 @@
 *   Function Defs   *
 *********************/
 AETODO("Add mutex");
-MeshAnimationGOC::MeshAnimationGOC(GameObject* gameObject)
+MeshAnimationGOC::MeshAnimationGOC(GameObject& gameObject)
     : GameObjectComponent(gameObject, GameObjectComponentType::MeshAnimation)
 {
     m_AnimationPlayer = new AnimationPlayer();

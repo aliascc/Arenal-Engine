@@ -83,12 +83,15 @@ double AETimer::GetLapTime(bool updatePrevTime)
 
 void AETimer::Update()
 {
-    m_TimerParams.m_ElapsedTime = GetLapTime(true);
+    m_TimerParams.m_ElapsedTimePression         = GetLapTime(true);
+    m_TimerParams.m_ElapsedTime                 = (float)m_TimerParams.m_ElapsedTimePression;
 
-    m_TimerParams.m_TotalElapsedTime += m_TimerParams.m_ElapsedTime;
+    m_TimerParams.m_TotalElapsedTimePression    += m_TimerParams.m_ElapsedTimePression;
+    m_TimerParams.m_TotalElapsedTime            = (float)m_TimerParams.m_TotalElapsedTimePression;
 }
 
 void AETimer::PostUpdate()
 {
-    m_TimerParams.m_PreviousCallTime = GetLapTime(false);
+    m_TimerParams.m_PreviousCallTimePression    = GetLapTime(false);
+    m_TimerParams.m_PreviousCallTime            = (float)m_TimerParams.m_PreviousCallTimePression;
 }

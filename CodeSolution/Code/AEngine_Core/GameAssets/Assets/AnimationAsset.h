@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "GameAssets\GameAsset.h"
 
 /********************
@@ -82,7 +81,7 @@ class AnimationAsset sealed : public GameAsset
         /// </summary>
         /// <param name="filePath">File Path of Game Asset to Load</param>
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
-        AnimationAsset(const std::string& filePath, GameResourceManager* gameResourceManager);
+        AnimationAsset(const std::string& filePath, GameResourceManager& gameResourceManager);
 
         /// <summary>
         /// Default AnimationAsset Destructor

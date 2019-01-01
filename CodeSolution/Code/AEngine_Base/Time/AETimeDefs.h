@@ -47,17 +47,32 @@ struct TimerParams sealed : public AEObject
     /// <summary>
     /// Elapsed Time since Last Frame
     /// </summary>
-    double m_ElapsedTime = 0.0;
+    float m_ElapsedTime = 0.0;
 
     /// <summary>
     /// Elapsed Time since the beginning of the frame
     /// </summary>
-    double m_PreviousCallTime = 0.0;
+    float m_PreviousCallTime = 0.0;
 
     /// <summary>
     /// Total running time since the start of the Game App
     /// </summary>
-    double m_TotalElapsedTime = 0.0;
+    float m_TotalElapsedTime = 0.0;
+
+    /// <summary>
+    /// Elapsed Time since Last Frame (Higher Precision)
+    /// </summary>
+    double m_ElapsedTimePression = 0.0;
+
+    /// <summary>
+    /// Elapsed Time since the beginning of the frame (Higher Precision)
+    /// </summary>
+    double m_PreviousCallTimePression = 0.0;
+
+    /// <summary>
+    /// Total running time since the start of the Game App (Higher Precision)
+    /// </summary>
+    double m_TotalElapsedTimePression = 0.0;
 
 #pragma endregion
 
@@ -146,18 +161,11 @@ struct TimeStamp sealed : public AEObject
     /// <returns>AEResult::Ok if parse was successful</returns>
     AEResult GetFromString(const std::string& str);
 
-#pragma endregion
-
-    /********************************
-    *   Virtual Framework Methods   *
-    *********************************/
-#pragma region Virtual Framework Methods
-
     /// <summary>
     /// Overload operator to convert from String to TimeStamp
     /// </summary>
     /// <remarks>
-    ///    Uses GetFromString function for the conversion. If parse is unsuccessful it will not change the value of the TimeStampt
+    /// Uses GetFromString function for the conversion. If parse is unsuccessful it will not change the value of the TimeStampt
     /// </remarks>
     /// <param name="str">String to parse and convert to TimeStamp</param>
     /// <returns>Returns Time Stamp</returns>

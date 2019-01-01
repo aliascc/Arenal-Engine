@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "AudioDefs.h"
 #include "GameAssets\GameAsset.h"
 
@@ -58,7 +57,7 @@ class AudioAsset sealed : public GameAsset
         /// <summary>
         /// Audio Manager to handle the Sounds
         /// </summary>
-        AudioManager* m_AudioManager = nullptr;
+        AudioManager& m_AudioManager;
 
 #pragma endregion
 
@@ -88,7 +87,7 @@ class AudioAsset sealed : public GameAsset
         /// <param name="filePath">File Path of Game Asset to Load</param>
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
         /// <param name="audioManager">Audio Manager to handle the Sounds</param>
-        AudioAsset(const std::string& filepath, GameResourceManager* gameResourceManager, AudioManager* audioManager);
+        AudioAsset(const std::string& filepath, GameResourceManager& gameResourceManager, AudioManager& audioManager);
 
         /// <summary>
         /// Default AudioAsset Destructor

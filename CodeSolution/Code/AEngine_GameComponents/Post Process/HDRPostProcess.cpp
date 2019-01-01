@@ -23,11 +23,8 @@
 *   Game Engine Includes   *
 ****************************/
 #include "HDRPostProcess.h"
-#include "GameApp\GameApp.h"
 #include "Utils\AETime.h"
 #include "Textures\RenderTarget.h"
-#include "GraphicDevice.h"
-#include "Math\AEMathDefs.h"
 #include "Materials\HDRPostProcessMaterial.h"
 #include "Deferred Rendering\DeferredRenderingEnd.h"
 
@@ -127,8 +124,6 @@ void HDRPostProcess::Initialize()
 		m_DREnd = static_cast<DeferredRenderingEnd*>(m_GameApp->GetGameService(m_DeferredEndServiceName));
 		assert(m_DREnd);
 	}
-
-	DrawableGameComponent::Initialize();
 }
 
 void HDRPostProcess::LoadContent()
@@ -208,8 +203,6 @@ void HDRPostProcess::LoadContent()
 	//Textures with borders must be cleared since scissor rect testing will
 	//be used to avoid rendering on top of the border
 	ClearTextures();
-
-	DrawableGameComponent::LoadContent();
 }
 
 void HDRPostProcess::InitEffectParams()
@@ -242,8 +235,6 @@ void HDRPostProcess::Update(const TimerParams& timerParams)
 	// If the scene is paused, the user's adaptation level needs to remain
 	// unchanged.
 	m_AdaptationInvalid = true;
-
-	DrawableGameComponent::Update(timerParams);
 }
 
 void HDRPostProcess::Render(const TimerParams& timerParams)
@@ -294,8 +285,6 @@ void HDRPostProcess::Render(const TimerParams& timerParams)
 
 	//Step 9: Render Final Pass
 	RenderFinalPass();
-
-	DrawableGameComponent::Render(timerParams);
 }
 
 void HDRPostProcess::RenderFinalPass()
@@ -1193,8 +1182,6 @@ void HDRPostProcess::OnLostDevice()
 	{
 		m_StartTexs[i]->OnLostDevice();
 	}
-
-	DrawableGameComponent::OnLostDevice();
 }
 
 void HDRPostProcess::OnResetDevice()
@@ -1236,6 +1223,4 @@ void HDRPostProcess::OnResetDevice()
 	}
 
 	ClearTextures();
-
-	DrawableGameComponent::OnResetDevice();
 }

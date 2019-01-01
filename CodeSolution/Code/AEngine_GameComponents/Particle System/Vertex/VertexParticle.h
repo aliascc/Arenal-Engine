@@ -28,7 +28,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Vertex\VertexDeclaration.h"
 
 /********************

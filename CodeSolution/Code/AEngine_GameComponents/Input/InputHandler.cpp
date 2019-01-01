@@ -30,7 +30,6 @@
 #include "Keyboard.h"
 #include "InputHandler.h"
 #include "InputManager.h"
-#include "GameApp\GameApp.h"
 #include "XBoxGamepadManager.h"
 
 //Always include last
@@ -39,25 +38,26 @@
 /********************
 *   Function Defs   *
 *********************/
-InputHandler::InputHandler(GameApp* gameApp, const std::string& gameComponentName, const std::string& serviceName, uint32_t callOrder)
+InputHandler::InputHandler(GameApp& gameApp, const std::string& gameComponentName, const std::string& serviceName, uint32_t callOrder)
     : GameComponent(gameApp, gameComponentName, callOrder)
+    , m_InputManager(gameApp.GetInputManager())
     , m_ServiceName(serviceName)
 {
     //Register this Game Component as a service so others can use it
-    m_GameApp->RegisterGameService(m_ServiceName, this);
+    m_GameApp.RegisterGameService(m_ServiceName, this);
 }
 
 InputHandler::~InputHandler()
 {
     //Un-register this component as a service because this class is been destroyed
-    m_GameApp->UnRegisterGameService(m_ServiceName);
+    m_GameApp.UnRegisterGameService(m_ServiceName);
 }
 
 void InputHandler::Update(const TimerParams& timerParams)
 {
-    if (m_GameApp->GetInputManager()->IsKeyboardActive())
+    if (m_InputManager.IsKeyboardActive())
     {
-        Keyboard* keyboard = m_GameApp->GetInputManager()->GetKeyboard();
+        Keyboard* keyboard = m_InputManager.GetKeyboard();
 
         keyboard->Update();
 
@@ -66,42 +66,40 @@ void InputHandler::Update(const TimerParams& timerParams)
         {
             if (keyboard->WasKeyPressed(AEKeys::NUMPADENTER))
             {
-                m_GameApp->SetFullScreen(true);
+                m_GameApp.SetFullScreen(true);
             }
             if (keyboard->WasKeyPressed(AEKeys::ENTER))
             {
-                m_GameApp->SetFullScreen(false);
+                m_GameApp.SetFullScreen(false);
             }
         }
     }
 
-    if (m_GameApp->GetInputManager()->IsXBoxGamepadManagerActive())
+    if (m_InputManager.IsXBoxGamepadManagerActive())
     {
-        XBoxGamepadManager* xboxGamepadManager = m_GameApp->GetInputManager()->GetXBoxGamepadManager();
+        XBoxGamepadManager* xboxGamepadManager = m_InputManager.GetXBoxGamepadManager();
 
         xboxGamepadManager->Update(timerParams);
     }
-
-    GameComponent::Update(timerParams);
 }
 
 Keyboard* InputHandler::GetKeyboard() const
 {
-    return m_GameApp->GetInputManager()->GetKeyboard();
+    return m_InputManager.GetKeyboard();
 }
 
 XBoxGamepadManager* InputHandler::GetXBoxGamepadManager() const
 {
-    return m_GameApp->GetInputManager()->GetXBoxGamepadManager();
+    return m_InputManager.GetXBoxGamepadManager();
 }
 
 bool InputHandler::IsKeyboardActive() const
 {
-    return m_GameApp->GetInputManager()->IsKeyboardActive();
+    return m_InputManager.IsKeyboardActive();
 }
 
 bool InputHandler::IsXBoxGamepadManagerActive() const
 {
     AETODO("Check How to do this better, maybe pass the reference to input manager or use service locator at the start...");
-    return m_GameApp->GetInputManager()->IsXBoxGamepadManagerActive();
+    return m_InputManager.IsXBoxGamepadManagerActive();
 }

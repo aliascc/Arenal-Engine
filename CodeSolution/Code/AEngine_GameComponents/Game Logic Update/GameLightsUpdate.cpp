@@ -30,20 +30,14 @@
 #include "Models\Mesh.h"
 #include "Lights\Light.h"
 #include "Camera\Camera.h"
-#include "GraphicDevice.h"
 #include "Utils\Viewport.h"
 #include "Models\MeshPart.h"
-#include "GameApp\GameApp.h"
 #include "GameLightsUpdate.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\IndexBuffer.h"
-#include "Lights\LightManager.h"
 #include "Camera\CameraUpdater.h"
-#include "GameObject\GameObject.h"
 #include "Textures\RenderTarget.h"
 #include "Lights\DirectionalLight.h"
 #include "Textures\DepthStencilSurface.h"
-#include "GameObject\GameObjectManager.h"
 #include "GameObject\Components\MeshGOC.h"
 #include "GameObject\Components\LightGOC.h"
 #include "Shaders\Buffers\ConstantBuffer.h"
@@ -59,10 +53,12 @@
 /********************
 *   Function Defs   *
 *********************/
-GameLightsUpdate::GameLightsUpdate(GameApp* gameApp, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
+GameLightsUpdate::GameLightsUpdate(GameApp& gameApp, const std::string& gameComponentName, const std::string& cameraServiceName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
+    , m_LightManager(gameApp.GetLightManager())
+    , m_GameObjectManager(gameApp.GetGameObjectManager())
 {
-    m_CameraUpdater = m_GameApp->GetGameService<CameraUpdater>(cameraServiceName);
+    m_CameraUpdater = m_GameApp.GetGameService<CameraUpdater>(cameraServiceName);
     AEAssert(m_CameraUpdater != nullptr);
 }
 
@@ -100,8 +96,6 @@ void GameLightsUpdate::Initialize()
 
         m_DirLightShadowViewports.push_back(cascadeViewPort);
     }
-
-    DrawableGameComponent::Initialize();
 }
 
 void GameLightsUpdate::LoadContent()
@@ -126,28 +120,13 @@ void GameLightsUpdate::LoadContent()
         AETODO("Check return");
         m_DirLightShadowViewports[i]->Initialize((float)(i * AE_LIGHT_DIR_SHADOW_TEXTURE_WIDTH), 0.0f, (float)AE_LIGHT_DIR_SHADOW_TEXTURE_WIDTH, (float)AE_LIGHT_DIR_SHADOW_TEXTURE_HEIGHT, 0.0f, 1.0f);
     }
-
-    DrawableGameComponent::LoadContent();
 }
 
 void GameLightsUpdate::Update(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
-    //Get Game Object Manager & Light Manager
-    GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
-
-    LightManager* lightManager = m_GameApp->GetLightManager();
-
-    AEAssert(gameObjectManager != nullptr);
-    AEAssert(lightManager != nullptr);
-    if(gameObjectManager == nullptr || lightManager == nullptr)
-    {
-        return;
-    }
-
-    ///////////////////////////////////////////
     //Update all Light Object information
-    for(auto goIt : *gameObjectManager)
+    for(auto goIt : m_GameObjectManager)
     {
         UpdateGameObjectLight(goIt.second);
     }
@@ -157,16 +136,14 @@ void GameLightsUpdate::Update(const TimerParams& timerParams)
     Camera* camera = m_CameraUpdater->GetMainCamera();
 
     AETODO("Check to remove?");
-    //glm::ivec2 dimension(m_GraphicDevice->GetGraphicPP().m_BackBufferWidth, m_GraphicDevice->GetGraphicPP().m_BackBufferHeight);
+    //glm::ivec2 dimension(m_GraphicDevice.GetGraphicPP().m_BackBufferWidth, m_GraphicDevice.GetGraphicPP().m_BackBufferHeight);
     //Camera camera("Dummy Test", glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), AEMathHelpers::Vec3fUp, dimension, 45.0f, 1.0f, 1000.0f);
     //camera.Initialize();
-    AEResult ret = lightManager->Update(camera);
+    AEResult ret = m_LightManager.Update(camera);
     if(ret != AEResult::Ok)
     {
         AETODO("Log info");
     }
-
-    DrawableGameComponent::Update(timerParams);
 }
 
 void GameLightsUpdate::UpdateGameObjectLight(GameObject* gameObject)
@@ -202,44 +179,39 @@ void GameLightsUpdate::UpdateGameObjectLight(GameObject* gameObject)
 
 void GameLightsUpdate::Render(const TimerParams& timerParams)
 {
-    m_GraphicDevice->BeginEvent("Game Lights Update");
+    m_GraphicDevice.BeginEvent("Game Lights Update");
 
-    m_GraphicDevice->BeginEvent("Spot Light Shadow Render");
+    m_GraphicDevice.BeginEvent("Spot Light Shadow Render");
 
     AETODO("Check return");
     ShadowSpotLightRenderGameObject();
 
-    m_GraphicDevice->EndEvent(); //Spot Light Shadow Render
+    m_GraphicDevice.EndEvent(); //Spot Light Shadow Render
 
-    m_GraphicDevice->BeginEvent("Directional Light Shadow Render");
+    m_GraphicDevice.BeginEvent("Directional Light Shadow Render");
 
     AETODO("Check return");
     ShadowDirLightRenderGameObject();
 
-    m_GraphicDevice->EndEvent(); //Spot Light Shadow Render
+    m_GraphicDevice.EndEvent(); //Spot Light Shadow Render
 
-    m_GraphicDevice->EndEvent(); //Game Lights Update
-
-    DrawableGameComponent::Render(timerParams);
+    m_GraphicDevice.EndEvent(); //Game Lights Update
 }
 
 AEResult GameLightsUpdate::ShadowDirLightRenderGameObject()
 {
-    LightManager* lightManager = m_GameApp->GetLightManager();
-    GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
-
-    if (lightManager->GetNumDirLightsWithShadows() == 0)
+    if (m_LightManager.GetNumDirLightsWithShadows() == 0)
     {
         return AEResult::Ok;
     }
 
-    Texture2DArray* shadowTextureArray = lightManager->GetDirLightShadowTextureArray();
+    Texture2DArray* shadowTextureArray = m_LightManager.GetDirLightShadowTextureArray();
 
     AETODO("Check return");
     RenderTarget* rtsDS[1] = { nullptr };
-    m_GraphicDevice->SetRenderTargetsAndDepthStencil(1, rtsDS, m_DirLightShadowTexturesDS);
+    m_GraphicDevice.SetRenderTargetsAndDepthStencil(1, rtsDS, m_DirLightShadowTexturesDS);
 
-    for (auto lightIt : *lightManager)
+    for (auto lightIt : m_LightManager)
     {
         Light* light = lightIt.second;
 
@@ -249,17 +221,17 @@ AEResult GameLightsUpdate::ShadowDirLightRenderGameObject()
 
             uint32_t idxs[1] = { light->GetShadowTextureIndex() };
             AETODO("Check return");
-            m_GraphicDevice->SetRenderTargets(1, idxs, shadowTextureArray);
-            m_GraphicDevice->Clear(true, 0, true, true, AEColors::Transparent);
+            m_GraphicDevice.SetRenderTargets(1, idxs, shadowTextureArray);
+            m_GraphicDevice.Clear(true, 0, true, true, AEColors::Transparent);
 
             for (uint32_t i = 0; i < AE_LIGHT_NUM_CASCADE_MAPS; i++)
             {
                 AETODO("Check return");
-                m_GraphicDevice->SetViewport(m_DirLightShadowViewports[i]);
+                m_GraphicDevice.SetViewport(m_DirLightShadowViewports[i]);
 
                 const LightCascadeInfo& lightCascadeInfo = dirLight->GetLightCascadeInfo();
 
-                for (auto goIt : *gameObjectManager)
+                for (auto goIt : m_GameObjectManager)
                 {
                     AETODO("Check return");
                     ShadowLightRenderGameObject(goIt.second, lightCascadeInfo.m_CascadeViewMatrix[i], lightCascadeInfo.m_CascadeProjectionMatrix[i]);
@@ -269,34 +241,31 @@ AEResult GameLightsUpdate::ShadowDirLightRenderGameObject()
     }
 
     AETODO("Check return");
-    m_GraphicDevice->ResetViewport();
+    m_GraphicDevice.ResetViewport();
 
     AETODO("Check return");
-    m_GraphicDevice->ResetRenderTargetAndSetDepthStencil();
+    m_GraphicDevice.ResetRenderTargetAndSetDepthStencil();
 
     return AEResult::Ok;
 }
 
 AEResult GameLightsUpdate::ShadowSpotLightRenderGameObject()
 {
-    LightManager* lightManager = m_GameApp->GetLightManager();
-    GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
-
-    if (lightManager->GetNumSpotLightsWithShadows() == 0)
+    if (m_LightManager.GetNumSpotLightsWithShadows() == 0)
     {
         return AEResult::Ok;
     }
 
-    Texture2DArray* shadowTextureArray = lightManager->GetSpotLightShadowTextureArray();
+    Texture2DArray* shadowTextureArray = m_LightManager.GetSpotLightShadowTextureArray();
     
     AETODO("Check return");
     RenderTarget* rtsDS[1] = { nullptr };
-    m_GraphicDevice->SetRenderTargetsAndDepthStencil(1, rtsDS, m_SpotLightShadowTexturesDS);
+    m_GraphicDevice.SetRenderTargetsAndDepthStencil(1, rtsDS, m_SpotLightShadowTexturesDS);
 
     AETODO("Check return");
-    m_GraphicDevice->SetViewport(m_SpotLightShadowViewport);
+    m_GraphicDevice.SetViewport(m_SpotLightShadowViewport);
 
-    for (auto lightIt : *lightManager)
+    for (auto lightIt : m_LightManager)
     {
         Light* light = lightIt.second;
 
@@ -304,10 +273,10 @@ AEResult GameLightsUpdate::ShadowSpotLightRenderGameObject()
         {
             uint32_t idxs[1] = { light->GetShadowTextureIndex() };
             AETODO("Check return");
-            m_GraphicDevice->SetRenderTargets(1, idxs, shadowTextureArray);
-            m_GraphicDevice->Clear(true, 0, true, true, AEColors::Transparent);
+            m_GraphicDevice.SetRenderTargets(1, idxs, shadowTextureArray);
+            m_GraphicDevice.Clear(true, 0, true, true, AEColors::Transparent);
 
-            for (auto goIt : *gameObjectManager)
+            for (auto goIt : m_GameObjectManager)
             {
                 AETODO("Check return");
                 ShadowLightRenderGameObject(goIt.second, light->GetViewMatrix(), light->GetProjectionMatrix());
@@ -316,10 +285,10 @@ AEResult GameLightsUpdate::ShadowSpotLightRenderGameObject()
     }
 
     AETODO("Check return");
-    m_GraphicDevice->ResetViewport();
+    m_GraphicDevice.ResetViewport();
 
     AETODO("Check return");
-    m_GraphicDevice->ResetRenderTargetAndSetDepthStencil();
+    m_GraphicDevice.ResetRenderTargetAndSetDepthStencil();
 
     return AEResult::Ok;
 }
@@ -373,12 +342,12 @@ AEResult GameLightsUpdate::ShadowLightRenderGameObject(GameObject* gameObject, c
             {
                 MeshPart* meshPart = mesh->GetMeshPart(i);
 
-                m_GraphicDevice->SetVertexBuffer(meshPart->GetVertexBuffer());
-                m_GraphicDevice->SetIndexBuffer(meshPart->GetIndexBuffer());
+                m_GraphicDevice.SetVertexBuffer(meshPart->GetVertexBuffer());
+                m_GraphicDevice.SetIndexBuffer(meshPart->GetIndexBuffer());
 
-                m_GraphicDevice->SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+                m_GraphicDevice.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-                m_GraphicDevice->DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
+                m_GraphicDevice.DrawIndexed(0, 0, meshPart->GetIndexBuffer()->GetSize());
             }
 
             AETODO("check return");

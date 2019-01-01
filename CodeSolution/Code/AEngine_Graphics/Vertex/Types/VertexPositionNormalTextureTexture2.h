@@ -31,8 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\VertexDefs.h"
 #include "Vertex\VertexLayout.h"
 
@@ -72,7 +70,7 @@ struct VertexPositionNormalTextureTexture2
     static VertexLayout* m_VertexLayout;
 
     //Get Vertex Declaration
-    static const VertexLayout* GetVertexLayout(GraphicDevice* graphicDevice)
+    static const VertexLayout* GetVertexLayout(GraphicDevice& graphicDevice)
     {
         if(m_VertexLayout != nullptr)
         {

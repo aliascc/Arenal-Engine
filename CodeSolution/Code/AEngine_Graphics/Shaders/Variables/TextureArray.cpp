@@ -33,7 +33,6 @@
 ****************************/
 #include "TextureArray.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -41,12 +40,11 @@
 /********************
 *   Function Defs   *
 *********************/
-TextureArray::TextureArray(GraphicDevice* graphicDevice, const std::string& name, TextureType textureType, uint32_t bindIndex)
+TextureArray::TextureArray(GraphicDevice& graphicDevice, const std::string& name, TextureType textureType, uint32_t bindIndex)
     : ShaderBinding(name, bindIndex)
     , m_GraphicDevice(graphicDevice)
     , m_TextureType(textureType)
 {
-    AEAssert(m_GraphicDevice != nullptr);
 }
 
 TextureArray::~TextureArray()

@@ -29,9 +29,7 @@
 ****************************/
 #include "QuadShape3D.h"
 #include "GraphicDevice.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\IndexBuffer.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -39,7 +37,7 @@
 /********************
 *   Function Defs   *
 *********************/
-QuadShape3D::QuadShape3D(GraphicDevice* graphicDevice, bool clockWise)
+QuadShape3D::QuadShape3D(GraphicDevice& graphicDevice, bool clockWise)
     : QuadShape(graphicDevice, clockWise)
 {
 }
@@ -50,12 +48,6 @@ QuadShape3D::~QuadShape3D()
 
 AEResult QuadShape3D::BuildQuad()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     m_IsReady = false;
     DeleteMem(m_IB);
     DeleteMem(m_VB);

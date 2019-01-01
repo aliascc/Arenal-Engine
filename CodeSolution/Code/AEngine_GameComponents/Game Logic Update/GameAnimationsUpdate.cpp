@@ -27,10 +27,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameApp\GameApp.h"
 #include "GameAnimationsUpdate.h"
-#include "GameObject\GameObject.h"
-#include "GameObject\GameObjectManager.h"
 #include "Models\Animation\AnimationPlayer.h"
 #include "GameObject\Components\MeshAnimationGOC.h"
 
@@ -40,8 +37,9 @@
 /********************
 *   Function Defs   *
 *********************/
-GameAnimationsUpdate::GameAnimationsUpdate(GameApp* gameApp, const std::string& gameComponentName, uint32_t callOrder)
+GameAnimationsUpdate::GameAnimationsUpdate(GameApp& gameApp, const std::string& gameComponentName, uint32_t callOrder)
     : GameComponent(gameApp, gameComponentName, callOrder)
+    , m_GameObjectManager(gameApp.GetGameObjectManager())
 {
 }
 
@@ -52,23 +50,11 @@ GameAnimationsUpdate::~GameAnimationsUpdate()
 void GameAnimationsUpdate::Update(const TimerParams& timerParams)
 {
     ///////////////////////////////////////////
-    //Get Game Object Manager
-    GameObjectManager* gameObjectManager = m_GameApp->GetGameObjectManager();
-
-    AEAssert(gameObjectManager != nullptr);
-    if (gameObjectManager == nullptr)
-    {
-        return;
-    }
-
-    ///////////////////////////////////////////
     //Update all Animation Objects information
-    for (auto goIt : *gameObjectManager)
+    for (auto goIt : m_GameObjectManager)
     {
         UpdateGameAnimationObjects(goIt.second, timerParams);
     }
-
-    GameComponent::Update(timerParams);
 }
 
 void GameAnimationsUpdate::UpdateGameAnimationObjects(GameObject* gameObject, const TimerParams& timerParams)

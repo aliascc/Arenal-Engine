@@ -29,9 +29,7 @@
 ****************************/
 #include "QuadShape2D.h"
 #include "GraphicDevice.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\IndexBuffer.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -39,7 +37,7 @@
 /********************
 *   Function Defs   *
 *********************/
-QuadShape2D::QuadShape2D(GraphicDevice* graphicDevice, bool dynamic, bool clockWise)
+QuadShape2D::QuadShape2D(GraphicDevice& graphicDevice, bool dynamic, bool clockWise)
     : QuadShape(graphicDevice, clockWise)
     , m_Dynamic(dynamic)
 {
@@ -52,12 +50,6 @@ QuadShape2D::~QuadShape2D()
 
 AEResult QuadShape2D::BuildQuad()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
     m_IsReady = false;
     DeleteMem(m_IB);
     DeleteMem(m_VB);
@@ -155,8 +147,8 @@ AEResult QuadShape2D::Resize(const RECT& size, const glm::vec4& textCoords)
         return AEResult::Ok;
     }
 
-    uint32_t width = m_GraphicDevice->GetGraphicPP().m_BackBufferWidth;
-    uint32_t height = m_GraphicDevice->GetGraphicPP().m_BackBufferHeight;
+    uint32_t width = m_GraphicDevice.GetGraphicPP().m_BackBufferWidth;
+    uint32_t height = m_GraphicDevice.GetGraphicPP().m_BackBufferHeight;
 
     //Top Left
     m_Vtx[0].m_Position.x = ( ((float)size.left / (float)width) * 2) - 1;

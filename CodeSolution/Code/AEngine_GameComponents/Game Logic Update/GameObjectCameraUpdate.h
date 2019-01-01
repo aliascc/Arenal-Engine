@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "AEGameComponentsDefs.h"
-#include "GameUtils\GameComponent.h"
 
 /********************
 *   Forward Decls   *
@@ -52,6 +51,8 @@ class GameObjectCameraUpdate sealed : public GameComponent
         *   Private Variables   *
         *************************/
 #pragma region Private Variables
+
+        GameObjectManager& m_GameObjectManager;
 
 #pragma endregion
 
@@ -74,7 +75,7 @@ class GameObjectCameraUpdate sealed : public GameComponent
         /// <summary>
         /// GameObjectCameraUpdate Constructor
         /// </summary>
-        GameObjectCameraUpdate(GameApp* gameApp, const std::string& gameComponentName = AE_GAME_GAME_OBJECT_CAMERA_UPDATE_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectCameraUpdate);
+        GameObjectCameraUpdate(GameApp& gameApp, const std::string& gameComponentName = AE_GAME_GAME_OBJECT_CAMERA_UPDATE_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectCameraUpdate);
 
         /// <summary>
         /// Default GameObjectCameraUpdate Destructor

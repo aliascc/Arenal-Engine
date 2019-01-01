@@ -34,7 +34,6 @@
 #include "Keyboard.h"
 #include "InputManager.h"
 #include "XBoxGamepadManager.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"

@@ -31,8 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\AEObject.h"
 
 /********************
 *   Forward Decls   *
@@ -84,7 +82,7 @@ namespace AEBuiltInMaterialsHelpers
     /// <param name="graphicDevice">Graphic Device constant buffer will be associated with</param>
     /// <param name="cb">If successful new constant buffer will be assigned to this parameter</param>
     /// <returns>AEResult::OK if successful</returns>
-    extern AEResult BuildCBWVP(GraphicDevice* graphicDevice, ConstantBuffer** cb);
+    extern AEResult BuildCBWVP(GraphicDevice& graphicDevice, ConstantBuffer** cb);
 
     /// <summary>
     /// Helper Function that Creates a Constant Buffer as based in the shader CB: '_AE_CB_View_Proj'
@@ -102,7 +100,7 @@ namespace AEBuiltInMaterialsHelpers
     /// <param name="graphicDevice">Graphic Device constant buffer will be associated with</param>
     /// <param name="cb">If successful new constant buffer will be assigned to this parameter</param>
     /// <returns>AEResult::OK if successful</returns>
-    extern AEResult BuildCBVP(GraphicDevice* graphicDevice, ConstantBuffer** cb);
+    extern AEResult BuildCBVP(GraphicDevice& graphicDevice, ConstantBuffer** cb);
 
     /// <summary>
     /// Helper Function that Creates a Constant Buffer as based in the shader CB: '_AE_CB_Bones'
@@ -119,7 +117,7 @@ namespace AEBuiltInMaterialsHelpers
     /// <param name="graphicDevice">Graphic Device constant buffer will be associated with</param>
     /// <param name="cb">If successful new constant buffer will be assigned to this parameter</param>
     /// <returns>AEResult::OK if successful</returns>
-    extern AEResult BuildCBBones(GraphicDevice* graphicDevice, ConstantBuffer** cb);
+    extern AEResult BuildCBBones(GraphicDevice& graphicDevice, ConstantBuffer** cb);
 
     /// <summary>
     /// Helper Function that Creates a Constant Buffer as based in the shader CB: '_AE_CB_Color'
@@ -136,7 +134,7 @@ namespace AEBuiltInMaterialsHelpers
     /// <param name="graphicDevice">Graphic Device constant buffer will be associated with</param>
     /// <param name="cb">If successful new constant buffer will be assigned to this parameter</param>
     /// <returns>AEResult::OK if successful</returns>
-    extern AEResult BuildCBColor(GraphicDevice* graphicDevice, ConstantBuffer** cb);
+    extern AEResult BuildCBColor(GraphicDevice& graphicDevice, ConstantBuffer** cb);
 
     /// <summary>
     /// Helper Function that Creates a Constant Buffer as based in the shader CB: '_AE_CB_HalfPixel'
@@ -153,7 +151,7 @@ namespace AEBuiltInMaterialsHelpers
     /// <param name="graphicDevice">Graphic Device constant buffer will be associated with</param>
     /// <param name="cb">If successful new constant buffer will be assigned to this parameter</param>
     /// <returns>AEResult::OK if successful</returns>
-    extern AEResult BuildCBHalfPixel(GraphicDevice* graphicDevice, ConstantBuffer** cb);
+    extern AEResult BuildCBHalfPixel(GraphicDevice& graphicDevice, ConstantBuffer** cb);
 
     /// <summary>
     /// Helper Function that Creates a Constant Buffer as based in the shader CB: '_AE_CB_FPR_LightCulling'
@@ -175,7 +173,7 @@ namespace AEBuiltInMaterialsHelpers
     /// <param name="graphicDevice">Graphic Device constant buffer will be associated with</param>
     /// <param name="cb">If successful new constant buffer will be assigned to this parameter</param>
     /// <returns>AEResult::OK if successful</returns>
-    extern AEResult BuildCBFPRLightCulling(GraphicDevice* graphicDevice, ConstantBuffer** cb);
+    extern AEResult BuildCBFPRLightCulling(GraphicDevice& graphicDevice, ConstantBuffer** cb);
 
     /// <summary>
     /// Helper Function that Creates a Constant Buffer as based in the shader CB: '_AE_CB_FPR_Lights'
@@ -193,7 +191,7 @@ namespace AEBuiltInMaterialsHelpers
     /// <param name="graphicDevice">Graphic Device constant buffer will be associated with</param>
     /// <param name="cb">If successful new constant buffer will be assigned to this parameter</param>
     /// <returns>AEResult::OK if successful</returns>
-    extern AEResult BuildCBFPRLights(GraphicDevice* graphicDevice, ConstantBuffer** cb);
+    extern AEResult BuildCBFPRLights(GraphicDevice& graphicDevice, ConstantBuffer** cb);
 
     /// <summary>
     /// Helper Function that Creates a Structured Buffer as based in the shader CB: '_AE_LightBuffer'
@@ -207,7 +205,7 @@ namespace AEBuiltInMaterialsHelpers
     /// <param name="graphicDevice">Graphic Device constant buffer will be associated with</param>
     /// <param name="sb">If successful new structured buffer will be assigned to this parameter</param>
     /// <returns>AEResult::OK if successful</returns>
-    extern AEResult BuildBufferLightBuffer(GraphicDevice* graphicDevice, StructuredBuffer** sb);
+    extern AEResult BuildBufferLightBuffer(GraphicDevice& graphicDevice, StructuredBuffer** sb);
 
     /// <summary>
     /// Helper Function that Creates a Simple Buffer as based in the shader CB: '_AE_PerTileLightIndexBuffer'
@@ -221,7 +219,7 @@ namespace AEBuiltInMaterialsHelpers
     /// <param name="graphicDevice">Graphic Device constant buffer will be associated with</param>
     /// <param name="sb">If successful new Simple buffer will be assigned to this parameter</param>
     /// <returns>AEResult::OK if successful</returns>
-    extern AEResult BuildBufferPerTileLightIndexBuffer(GraphicDevice* graphicDevice, SimpleBuffer** sb);
+    extern AEResult BuildBufferPerTileLightIndexBuffer(GraphicDevice& graphicDevice, SimpleBuffer** sb);
 };
 
 #endif

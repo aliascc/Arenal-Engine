@@ -31,10 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Color\Color.h"
-#include "Color\AEColorDefs.h"
-#include "Math\AEMathDefs.h"
 #include "Vertex\VertexDefs.h"
 #include "Vertex\VertexLayout.h"
 
@@ -68,7 +64,7 @@ struct VertexPositionColor
     static VertexLayout* m_VertexLayout;
 
     //Get Vertex Declaration
-    static const VertexLayout* GetVertexLayout(GraphicDevice* graphicDevice)
+    static const VertexLayout* GetVertexLayout(GraphicDevice& graphicDevice)
     {
         if(m_VertexLayout != nullptr)
         {

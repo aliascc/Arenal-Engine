@@ -34,7 +34,6 @@
 #include "ShaderDefs.h"
 #include "ComputeShader.h"
 #include "GraphicDevice.h"
-#include "Base\BaseFunctions.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -42,7 +41,7 @@
 /********************
 *   Function Defs   *
 *********************/
-ComputeShader::ComputeShader(GraphicDevice* graphicDevice, const std::string& name)
+ComputeShader::ComputeShader(GraphicDevice& graphicDevice, const std::string& name)
     : Shader(graphicDevice, ShaderType::ComputeShader, name)
 {
 }
@@ -64,7 +63,7 @@ AEResult ComputeShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32
     ID3D11ComputeShader* tempDX = nullptr;
 
     AETODO("Check Dynamic Class Linkage");
-    HRESULT hr = m_GraphicDevice->GetDeviceDX()->CreateComputeShader((void*)shaderByteCode, length, nullptr, &tempDX);
+    HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateComputeShader((void*)shaderByteCode, length, nullptr, &tempDX);
 
     if(hr != S_OK)
     {

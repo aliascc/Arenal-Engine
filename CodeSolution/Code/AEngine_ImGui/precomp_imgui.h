@@ -40,9 +40,11 @@
 #include <unordered_set>
 #include <unordered_map>
 
+#include <atomic>
 #include <mutex>
 #include <thread>
 #include <functional>
+#include <condition_variable>
 
 #include <regex>
 #include <random>
@@ -74,6 +76,7 @@
 #include "boost\algorithm\string.hpp"
 
 #include "imgui\imgui.h"
+#include "imgui\imgui_impl_dx11.h"
 
 /***************************
 *   Game Engine Includes   *
@@ -85,8 +88,6 @@
 #include "Base\AEObject.h"
 #include "Base\BaseFunctions.h"
 #include "Base\BaseLocations.h"
-#include "Base\UniqueAEObject.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 #include "Math\AEMathDefs.h"
 
@@ -109,5 +110,15 @@
 #include "Time\AETime.h"
 #include "Time\AETimer.h"
 #include "Time\AETimeDefs.h"
+
+/*********************************
+*   Additional System Includes   *
+**********************************/
+
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
+#include <Initguid.h> 
+#include <dxgidebug.h>
+#include <d3dcommon.h>
+#endif
 
 #endif

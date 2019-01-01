@@ -31,9 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "GameContent.h"
-#include "Base\AEObject.h"
 #include "Utils\BoundingBox.h"
 #include "Utils\BoundingSphere.h"
 

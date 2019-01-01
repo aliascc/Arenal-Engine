@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "GameAssets\GameAsset.h"
 
 /********************
@@ -56,7 +55,7 @@ class MeshAsset sealed : public GameAsset
         /// <summary>
         /// Graphic Device to create Asset Resources in video memory
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
 #pragma endregion
 
@@ -86,7 +85,7 @@ class MeshAsset sealed : public GameAsset
         /// <param name="filePath">File Path of Game Asset to Load</param>
         /// <param name="gameResourceManager">Resource Manager to handle the Asset Resource</param>
         /// <param name="graphicDevice">Graphic Device to create Asset Resources in video memory</param>
-        MeshAsset(const std::string& filePath, GameResourceManager* gameResourceManager, GraphicDevice* graphicDevice);
+        MeshAsset(const std::string& filePath, GameResourceManager& gameResourceManager, GraphicDevice& graphicDevice);
 
         /// <summary>
         /// Default SkeletonAsset Destructor

@@ -31,7 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "Textures\TextureDefs.h"
 #include "Shaders\Bindings\ShaderBinding.h"
 
@@ -100,7 +99,7 @@ class TextureArray abstract : public ShaderBinding
         /// <summary>
         /// Graphic Device associated with the Texture Array
         /// </summary>
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
         /// <summary>
         /// DirectX Shader Resource View use to bind the Texture Array to a Shader
@@ -135,7 +134,7 @@ class TextureArray abstract : public ShaderBinding
         /// <param name="name">Name of the Texture Array</param>
         /// <param name="textureType">Type of the Texture of the Array</param>
         /// <param name="bindIndex">Index where to bind</param>
-        TextureArray(GraphicDevice* graphicDevice, const std::string& name, TextureType textureType, uint32_t bindIndex);
+        TextureArray(GraphicDevice& graphicDevice, const std::string& name, TextureType textureType, uint32_t bindIndex);
 
         /// <summary>
         /// Default TextureArray Destructor

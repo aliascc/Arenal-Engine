@@ -27,11 +27,8 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Color\Color.h"
 #include "ColorAddOnAS.h"
 #include "GameASAddOnsDefs.h"
-#include "Color\AEColorDefs.h"
-#include "Base\BaseFunctions.h"
 
 AETODO("Fix this");
 /* Do not include it as we need to use the normal new

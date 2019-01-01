@@ -34,7 +34,6 @@
 #include "TextureAsset.h"
 #include "GraphicDevice.h"
 #include "Textures\Texture.h"
-#include "Base\BaseFunctions.h"
 #include "Textures\Texture2D.h"
 #include "Textures\TextureDefs.h"
 #include "Textures\TextureCube.h"
@@ -47,12 +46,11 @@
 *   Function Defs   *
 *********************/
 AETODO("Check if this class needs a mutex");
-TextureAsset::TextureAsset(const std::string& filePath, GameResourceManager* gameResourceManager, TextureType textureType, GraphicDevice* graphicDevice)
+TextureAsset::TextureAsset(const std::string& filePath, GameResourceManager& gameResourceManager, TextureType textureType, GraphicDevice& graphicDevice)
     : GameAsset(GameContentType::Texture, filePath, gameResourceManager)
     , m_TextureType(textureType)
     , m_GraphicDevice(graphicDevice)
 {
-    AEAssert(m_GraphicDevice != nullptr);
 }
 
 TextureAsset::~TextureAsset()
@@ -72,18 +70,6 @@ Texture* TextureAsset::GetTextureReference()
 
 AEResult TextureAsset::LoadAssetResource()
 {
-    AEAssert(m_GraphicDevice != nullptr);
-    if (m_GraphicDevice == nullptr)
-    {
-        return AEResult::GraphicDeviceNull;
-    }
-
-    AEAssert(m_GameResourceManager != nullptr);
-    if (m_GameResourceManager == nullptr)
-    {
-        return AEResult::GameResourceManagerNull;
-    }
-
     AEAssert(!m_FilePath.empty());
     if(m_FilePath.empty())
     {
@@ -108,9 +94,11 @@ AEResult TextureAsset::LoadAssetResource()
             case TextureType::Texture2D:
                 gameResourceType = GameResourceType::Texture2D;
                 break;
+
             case TextureType::TextureCube:
                 gameResourceType = GameResourceType::TextureCube;
                 break;
+
             default:
                 AEAssert(false);
                 return AEResult::InvalidTextureType;
@@ -119,7 +107,7 @@ AEResult TextureAsset::LoadAssetResource()
 
         /////////////////////////////////////////////
         //Check if Game Resources contains this Mesh
-        m_Texture = (Texture*)m_GameResourceManager->AcquireGameResourceByStringID(m_FilePath, gameResourceType);
+        m_Texture = (Texture*)m_GameResourceManager.AcquireGameResourceByStringID(m_FilePath, gameResourceType);
 
         if(m_Texture != nullptr)
         {
@@ -178,7 +166,7 @@ AEResult TextureAsset::LoadAssetResource()
 
         /////////////////////////////////////////////
         //Add to Resource Manager
-        ret = m_GameResourceManager->ManageGameResource(m_Texture, m_FilePath);
+        ret = m_GameResourceManager.ManageGameResource(m_Texture, m_FilePath);
         if(ret != AEResult::Ok)
         {
             AETODO("Add log");

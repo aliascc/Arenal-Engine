@@ -32,7 +32,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "AEGameComponentsDefs.h"
-#include "GameUtils\GameComponent.h"
 
 /********************
 *   Forward Decls   *
@@ -56,11 +55,13 @@ class GameObjectScriptCaller sealed : public GameComponent
 
     private:
 
+        GameObjectManager& m_GameObjectManager;
+
         void ScriptCaller(GameObject* gameObject, CallMethod callMethod, const TimerParams& timerParams = TimerParams());
 
     public:
         //Constructor Destructor.
-        GameObjectScriptCaller(GameApp* gameApp, const std::string& gameComponentName = AE_GAME_GAME_OBJECT_SCRIPT_CALLER_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectScriptCaller);
+        GameObjectScriptCaller(GameApp& gameApp, const std::string& gameComponentName = AE_GAME_GAME_OBJECT_SCRIPT_CALLER_COMPONENT_NAME, uint32_t callOrder = AEGameComponentCallOrder::_AE_GCCO_GameObjectScriptCaller);
 
         virtual ~GameObjectScriptCaller();
 

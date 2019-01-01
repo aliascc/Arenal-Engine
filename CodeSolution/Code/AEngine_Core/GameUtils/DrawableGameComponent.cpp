@@ -33,8 +33,6 @@
 ****************************/
 #include "GraphicDevice.h"
 #include "GameApp\GameApp.h"
-#include "Time\AETimeDefs.h"
-#include "Base\BaseFunctions.h"
 #include "DrawableGameComponent.h"
 
 //Always include last
@@ -44,20 +42,12 @@
 *   Function Defs   *
 *********************/
 AETODO("add mutex");
-DrawableGameComponent::DrawableGameComponent(GameApp* gameApp, const std::string& name, uint32_t callOrder)
+DrawableGameComponent::DrawableGameComponent(GameApp& gameApp, const std::string& name, uint32_t callOrder)
     : GameComponent(gameApp, name, callOrder)
+    , m_GraphicDevice(gameApp.GetGraphicsDevice())
 {
-    AEAssert(gameApp != nullptr);
-    AEAssert(gameApp->GetGraphicsDevice() != nullptr);
-
-    m_GraphicDevice = gameApp->GetGraphicsDevice();
 }
 
 DrawableGameComponent::~DrawableGameComponent()
-{
-    m_GraphicDevice = nullptr;
-}
-
-void DrawableGameComponent::Render(const TimerParams& timerParams)
 {
 }

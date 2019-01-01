@@ -31,12 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Color\Color.h"
 #include "GraphicsDefs.h"
-#include "Base\AEObject.h"
-#include "Math\AEMathDefs.h"
-#include "Color\AEColorDefs.h"
 #include "Shaders\ShaderDefs.h"
 
 /************
@@ -225,6 +220,10 @@ private:
         /// Default GraphicDevice Destructor
         /// </summary>
         virtual ~GraphicDevice();
+
+        //Delete copy constructor/operator
+        GraphicDevice(const GraphicDevice&) = delete;
+        GraphicDevice& operator=(const GraphicDevice&) = delete;
 
 #pragma endregion
 

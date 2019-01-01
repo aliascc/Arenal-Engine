@@ -31,9 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
 #include "GameAssetDefs.h"
-#include "Base\AEObject.h"
 #include "GameContentDefs.h"
 
 /********************
@@ -72,16 +70,16 @@ class GameAssetManager sealed : public AEObject
 
         GameAssetMap m_GameAssetMap;
 
-        GraphicDevice* m_GraphicDevice = nullptr;
+        GraphicDevice& m_GraphicDevice;
 
-        GameResourceManager* m_GameResourceManager = nullptr;
+        GameResourceManager& m_GameResourceManager;
 
         /// <summary>
         /// Angel Script Manager to handle the Scripts
         /// </summary>
-        AngelScriptManager* m_AngelScriptManager = nullptr;
+        AngelScriptManager& m_AngelScriptManager;
 
-        AudioManager* m_AudioManager = nullptr;
+        AudioManager& m_AudioManager;
 
         bool m_IsReady = false;
 
@@ -174,12 +172,16 @@ class GameAssetManager sealed : public AEObject
         /// <param name="audioManager">Audio Manager to handle the Audio</param>
         /// <param name="outputDirAssets">Output Directory for Assets</param>
         /// <param name="projectDir">Project Directory</param>
-        GameAssetManager(GraphicDevice* graphicDevice, GameResourceManager* gameResourceManager, AngelScriptManager* angelScriptManager, AudioManager* audioManager, const std::string& projectDir, const std::string& outputDirAssets);
+        GameAssetManager(GraphicDevice& graphicDevice, GameResourceManager& gameResourceManager, AngelScriptManager& angelScriptManager, AudioManager& audioManager, const std::string& projectDir, const std::string& outputDirAssets);
 
         /// <summary>
         /// Default GameAssetManager Destructor
         /// </summary>
         virtual ~GameAssetManager();
+
+        //Delete copy constructor/operator
+        GameAssetManager(const GameAssetManager&) = delete;
+        GameAssetManager& operator=(const GameAssetManager&) = delete;
 
 #pragma endregion
 

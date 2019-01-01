@@ -40,6 +40,8 @@
 *   Framework Defs   *
 **********************/
 
+#ifdef AE_EDITOR_MODE
+
 ImGuiWindow::ImGuiWindow(const std::string& name, bool visible, ImGuiWindowFlags flags, bool showCloseIcon)
     : m_Name(name)
     , m_Visible(visible)
@@ -54,8 +56,16 @@ ImGuiWindow::~ImGuiWindow()
 
 bool ImGuiWindow::PreUpdate()
 {
-    if (!ImGui::Begin("Benchmark", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav))
+    bool* closeIconBool = nullptr;
+    if (m_ShowCloseIcon)
     {
+        closeIconBool = &m_Visible;
+    }
+
+    if (!ImGui::Begin(m_Name.c_str(), closeIconBool, m_Flags))
+    {
+        AETODO("Add log message");
+
         ImGui::End();
         return false;
     }
@@ -63,7 +73,7 @@ bool ImGuiWindow::PreUpdate()
     return true;
 }
 
-void ImGuiWindow::Update()
+void ImGuiWindow::Update(const TimerParams& timerParams)
 {
     if (!m_Visible)
     {
@@ -76,7 +86,9 @@ void ImGuiWindow::Update()
         return;
     }
 
-    UpdateWindow();
+    UpdateWindow(timerParams);
 
     ImGui::End();
 }
+
+#endif //AE_EDITOR_MODE

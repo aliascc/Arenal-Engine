@@ -31,8 +31,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\Base.h"
-#include "Base\UniqueAEObjectNamed.h"
 
 /************
 *   Using   *
@@ -45,7 +43,7 @@
 /*****************
 *   Class Decl   *
 ******************/
-class ShaderBinding abstract : public UniqueAEObjectNamed
+class ShaderBinding abstract : public Named
 {
     protected:
 

@@ -23,8 +23,6 @@
 *   Game Engine Includes   *
 ****************************/
 #include "ParticleSystemDefs.h"
-#include "Color\AEColorDefs.h"
-#include "Base\Base.h"
 
 /********************
 *   Function Defs   *
