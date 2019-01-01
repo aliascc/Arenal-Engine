@@ -57,6 +57,7 @@ ImGuiManager::~ImGuiManager()
 void ImGuiManager::CleanUp()
 {
     ImGui_ImplDX11_Shutdown();
+    ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
 }
 
@@ -115,7 +116,12 @@ AEResult ImGuiManager::Initialize()
     ID3D11Device* d3dDevice                 = m_GraphicDevice.GetDeviceDX();
     ID3D11DeviceContext* d3dDeviceContext   = m_GraphicDevice.GetDeviceContextDX();
 
-    if (!ImGui_ImplDX11_Init(windowHandle, d3dDevice, d3dDeviceContext))
+    if (!ImGui_ImplWin32_Init(windowHandle))
+    {
+        return AEResult::Fail;
+    }
+
+    if (!ImGui_ImplDX11_Init(d3dDevice, d3dDeviceContext))
     {
         return AEResult::Fail;
     }
@@ -126,6 +132,8 @@ AEResult ImGuiManager::Initialize()
 void ImGuiManager::Update(const TimerParams& timerParams)
 {
     ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
 
     size_t size = m_Windows.size();
     for (size_t i = 0; i < size; i++)
