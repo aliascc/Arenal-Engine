@@ -156,6 +156,10 @@ void GameObjectsDebugVisualizer::LoadContent()
     m_FrustumShape->BuildFrustumShape();
 }
 
+void GameObjectsDebugVisualizer::Update(const TimerParams& timerParams)
+{
+}
+
 void GameObjectsDebugVisualizer::Render(const TimerParams& timerParams)
 {
     m_GraphicDevice.BeginEvent("Game Objects Debug Visualizer");

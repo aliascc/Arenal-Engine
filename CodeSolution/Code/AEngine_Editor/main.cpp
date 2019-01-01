@@ -31,6 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "EditorViewer.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -38,27 +39,18 @@
 /********************
 *   Function Defs   *
 *********************/
-int main(int argc, char *argv[])
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
+    PSTR cmdLine, int showCmd)
 {
-    #if defined(_DEBUG)
-        MemLeaks::MemoryBegin();
-    #endif
+    std::string errorMsg = "";
+    EditorViewer editorViewer(hInstance);
 
-    QApplication a(argc, argv);
-    AEngine_Editor w;
-    
-    w.show();
-
-    int retCode = 0;
-
-    if (w.IsInitialized())
+    if(editorViewer.InitGameApp("../ConfigEngine.xml", errorMsg) != AEResult::Ok)
     {
-        retCode = a.exec();
-    }
-    else
-    {
-        a.exit();
+        MessageBox(0, errorMsg.c_str(), 0, 0);
+
+        return EXIT_FAILURE;
     }
 
-    return EXIT_SUCCESS;
+    return editorViewer.Run();
 }

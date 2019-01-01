@@ -87,7 +87,10 @@ GameApp::GameApp(HINSTANCE hInstance)
 
 GameApp::~GameApp()
 {
+    CleanUp();
+
     CrashHandlerInst->DeinitCrashHandling();
+    CrashHandlerInst->DestroyInstance();
 
 #if defined(AE_MEM_CHECK)
     MemLeaks::MemoryEnd();
@@ -287,11 +290,13 @@ AEResult GameApp::ExtractGameProjectConfig()
 AEResult GameApp::ExtractGameConfigInput()
 {
 #ifdef AE_EDITOR_MODE
+
     //In Editor enable all modes
     m_GameConfigInput.m_KeyboardEnabled     = true;
     m_GameConfigInput.m_XBoxGamepadEnabled  = true;
 
     return AEResult::Ok;
+
 #else //AE_EDITOR_MODE
 
     AEAssert(!m_GameProject.m_GameProjectConfig.m_InputFile.empty());
@@ -389,14 +394,16 @@ AEResult GameApp::ExtractGameAppOpts()
             m_GameAppOpts.m_LogToFile       = child.GetBool("LogToFile", false, false);
 
             m_GameAppOpts.m_LogFilePath = child.GetString("LogFile", "", m_GameAppOpts.m_LogToFile);
-            if (m_GameAppOpts.m_LogFilePath.compare("") == 0)
-            {
+
+            AETODO("Fix this for Project");
+            //if (m_GameAppOpts.m_LogFilePath.empty())
+            //{
                 m_GameAppOpts.m_LogFilePath = m_GameProject.m_EngineLocation + AE_ENGINE_BIN_TO_DATA_PATH_ADD + AE_PROJ_LOG_FILE_LOC;
-            }
-            else
-            {
-                m_GameAppOpts.m_LogFilePath = m_GameProject.m_ProjectLocation + "/" + m_GameAppOpts.m_LogFilePath;
-            }
+            //}
+            //else
+            //{
+            //    m_GameAppOpts.m_LogFilePath = m_GameProject.m_ProjectLocation + "/" + m_GameAppOpts.m_LogFilePath;
+            //}
         }
     }
 
@@ -464,7 +471,55 @@ AEResult GameApp::ExtractGraphicOpts()
 #endif //!AE_EDITOR_MODE
 }
 
-AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::string& configProjFile, std::string& errorMsg)
+AEResult GameApp::InitProject(const std::string& configProjFile, std::string& errorMsg)
+{
+    errorMsg = "";
+
+    if (!m_IsReady)
+    {
+        return AEResult::NotReady;
+    }
+
+    AEAssert(!configProjFile.empty());
+    if (configProjFile.empty())
+    {
+        return AEResult::EmptyFilename;
+    }
+
+    m_GameProject.m_ProjectConfigFile = configProjFile;
+
+    if (ExtractGameProjectConfig() != AEResult::Ok)
+    {
+        AETODO("Add literal for project config");
+        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GAME_CONFIG_ERR_MSG");
+
+        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
+
+        return AEResult::Fail;
+    }
+
+    AEAssert(!m_GameProject.m_GameProjectConfig.m_LocalizationFile.empty());
+    if (AELOCMAN->LoadProjectFile(m_GameProject.m_GameProjectConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation) != AEResult::Ok)
+    {
+        return AEResult::Fail;
+    }
+
+    //////////////////////////////////
+    //Load Project
+    if (LoadGameProjectInfo() != AEResult::Ok)
+    {
+        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("AE_GAME_APP_LOAD_PROJ_FAIL_ERR_MSG"));
+
+        return AEResult::Fail;
+    }
+
+    //////////////////////////////////
+    //Finish
+    AELOGGER->AddNewLog(LogLevel::Info, AELOCMAN->GetLiteral("AE_GAME_APP_LOAD_PROJ_INFO_MSG"));
+    return AEResult::Ok;
+}
+
+AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& errorMsg)
 {
     errorMsg = "";
 
@@ -474,8 +529,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
     }
 
     AEAssert(!configEngineFile.empty());
-    AEAssert(!configProjFile.empty());
-    if (configEngineFile.empty() || configProjFile.empty())
+    if (configEngineFile.empty())
     {
         return AEResult::EmptyFilename;
     }
@@ -488,7 +542,6 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
     AELOCMAN;
 
     m_GameProject.m_EngineConfigFile = configEngineFile;
-    m_GameProject.m_ProjectConfigFile = configProjFile;
 
     if (ExtractGameEngineConfig() != AEResult::Ok)
     {
@@ -496,16 +549,6 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
         
         AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
         
-        return AEResult::Fail;
-    }
-
-    if (ExtractGameProjectConfig() != AEResult::Ok)
-    {
-        AETODO("Add literal for project config");
-        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GAME_CONFIG_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
         return AEResult::Fail;
     }
 
@@ -659,9 +702,10 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
     ////////////////////////////////////////////////
     //Create ImGui Manager
     m_ImGuiManager = new ImGuiManager(*m_GraphicDevice);
-    if (m_ImGuiManager->Initialize() == AEResult::Ok)
+    if (m_ImGuiManager->Initialize() != AEResult::Ok)
     {
-        AELOGGER->AddNewLog(LogLevel::Info, AELOCMAN->GetLiteral("AE_GAME_APP_LOAD_PROJ_INFO_MSG"));
+        AETODO("Add Log");
+        return AEResult::Fail;
     }
 
 #endif
@@ -673,17 +717,6 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, const std::st
     //////////////////////////////////
     //Log that Engine is ready to run
     AELOGGER->AddNewLog(LogLevel::Info, AELOCMAN->GetLiteral("AE_GAME_APP_READY_INFO_MSG"));
-
-    //////////////////////////////////
-    //Load Project
-    if (LoadGameProjectInfo() == AEResult::Ok)
-    {
-        AELOGGER->AddNewLog(LogLevel::Info, AELOCMAN->GetLiteral("AE_GAME_APP_LOAD_PROJ_INFO_MSG"));
-    }
-    else
-    {
-        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("AE_GAME_APP_LOAD_PROJ_FAIL_ERR_MSG"));
-    }
 
     //////////////////////////////////
     //Finish
@@ -799,12 +832,6 @@ AEResult GameApp::InitLocalizationManager()
 {
     AEAssert(!m_GameProject.m_GameEngineConfig.m_LocalizationFile.empty());
     if (AELOCMAN->Initialize(m_GameProject.m_GameEngineConfig.m_LocalizationFile, m_GameProject.m_EngineLocation + AE_ENGINE_BIN_TO_DATA_PATH_ADD) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
-
-    AEAssert(!m_GameProject.m_GameProjectConfig.m_LocalizationFile.empty());
-    if (AELOCMAN->LoadProjectFile(m_GameProject.m_GameProjectConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation) != AEResult::Ok)
     {
         return AEResult::Fail;
     }
@@ -1183,8 +1210,6 @@ int GameApp::Run()
             {
                 AETODO("If application is inactive, update needs to run but we can skip render");
                 AETODO("REMOVE THIS!!!")
-                std::this_thread::sleep_for(std::chrono::seconds(20));
-                continue;
             }
 
             //Update Timer

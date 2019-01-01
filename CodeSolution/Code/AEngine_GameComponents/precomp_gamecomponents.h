@@ -25,7 +25,6 @@
 **************************/
 #include "Base\ProjectConfig.h"
 
-
 /**********************
 *   System Includes   *
 ***********************/
@@ -45,9 +44,11 @@
 #include <unordered_set>
 #include <unordered_map>
 
+#include <atomic>
 #include <mutex>
 #include <thread>
 #include <functional>
+#include <condition_variable>
 
 #include <regex>
 #include <random>

@@ -54,7 +54,7 @@ Console::Console(GameApp& gameApp, const std::string& gameComponentName, const s
     , m_ConsoleWidth(m_GraphicDevice.GetGraphicPP().m_BackBufferWidth)
     , m_InputHandlerServiceName(inputHandlerServiceName)
 {
-    ZeroMemory(m_ConsoleLine, AE_CONSOLE_LINE_MEM_SIZE);
+    ZeroMemory(m_ConsoleLine, AE_CONSOLE_MAX_LINE_CHARS);
 }
 
 Console::~Console()
@@ -83,6 +83,8 @@ void Console::Initialize()
 
     if (!(m_Input && m_Input->IsKeyboardActive()))
     {
+        AEAssert(false);
+
         AETODO("Add log message");
         m_IsReady = false;
     }
@@ -95,22 +97,34 @@ void Console::LoadContent()
     ret = m_SpriteBatchAE->Initialize();
     if (ret != AEResult::Ok)
     {
+        AEAssert(false);
+
         AETODO("Log message");
         m_IsReady = false;
+
+        return;
     }
 
     ret = m_SpriteFontAE->Initialize();
     if (ret != AEResult::Ok)
     {
+        AEAssert(false);
+
         AETODO("Log message");
         m_IsReady = false;
+
+        return;
     }
 
     ret = m_QuadColorMaterial->LoadContent();
     if(ret != AEResult::Ok)
     {
+        AEAssert(false);
+
         AETODO("Log message");
         m_IsReady = false;
+
+        return;
     }
 
     AETODO("Add background color as parameter at constructor");
@@ -118,15 +132,23 @@ void Console::LoadContent()
     ret = m_QuadColorMaterial->GetPSProps()->GetConstantBuffer("_AE_CB_Color")->SetValueT<glm::vec4>("u_Color", m_BackgroundColor);
     if (ret != AEResult::Ok)
     {
+        AEAssert(false);
+
         AETODO("Log message");
         m_IsReady = false;
+
+        return;
     }
 
     ret = RegisterConsoleScriptInfo();
     if (ret != AEResult::Ok)
     {
+        //AEAssert(false);
+
         AETODO("Log message");
         m_IsReady = false;
+
+        return;
     }
 
     m_CharDim = m_SpriteFontAE->MeasureString("|");
@@ -134,46 +156,48 @@ void Console::LoadContent()
 
 void Console::Update(const TimerParams& timerParams)
 {
-    if (m_IsReady)
+    if (!m_IsReady)
     {
-        Keyboard* keyboard = m_Input->GetKeyboard();
-        if (keyboard->IsHoldingKey(AEKeys::LCTRL, m_ConsoleLockKeyboard) && keyboard->WasKeyPressed(AEKeys::F12, m_ConsoleLockKeyboard))
+        return;
+    }
+
+    Keyboard* keyboard = m_Input->GetKeyboard();
+    if (keyboard->IsHoldingKey(AEKeys::LCTRL, m_ConsoleLockKeyboard) && keyboard->WasKeyPressed(AEKeys::F12, m_ConsoleLockKeyboard))
+    {
+        switch (m_ConsoleState)
         {
-            switch (m_ConsoleState)
-            {
-                case ConsoleStates::Hide:
-                    m_TimePass = 0.0f;
-                    m_ConsoleState = ConsoleStates::Entering;
-                    break;
+            case ConsoleStates::Hide:
+                m_TimePass = 0.0f;
+                m_ConsoleState = ConsoleStates::Entering;
+                break;
 
-                case ConsoleStates::Entering:
-                    m_TimePass = m_ConsolePresentTime - m_TimePass;
-                    m_ConsoleState = ConsoleStates::Exiting;
-                    break;
+            case ConsoleStates::Entering:
+                m_TimePass = m_ConsolePresentTime - m_TimePass;
+                m_ConsoleState = ConsoleStates::Exiting;
+                break;
 
-                case ConsoleStates::Exiting:
-                    m_TimePass = m_ConsolePresentTime - m_TimePass;
-                    m_ConsoleState = ConsoleStates::Entering;
-                    break;
+            case ConsoleStates::Exiting:
+                m_TimePass = m_ConsolePresentTime - m_TimePass;
+                m_ConsoleState = ConsoleStates::Entering;
+                break;
 
-                case ConsoleStates::Present:
-                    keyboard->UnlockKeyboard(m_ConsoleLockKeyboard);
-                    m_ConsoleLockKeyboard = 0;
-                    m_TimePass = 0.0f;
-                    m_ConsoleState = ConsoleStates::Exiting;
-                    break;
-            }
+            case ConsoleStates::Present:
+                keyboard->UnlockKeyboard(m_ConsoleLockKeyboard);
+                m_ConsoleLockKeyboard = 0;
+                m_TimePass = 0.0f;
+                m_ConsoleState = ConsoleStates::Exiting;
+                break;
         }
+    }
 
-        if (m_ConsoleState != ConsoleStates::Hide && m_ConsoleState != ConsoleStates::Present)
-        {
-            UpdateConsolePosition(timerParams);
-        }
+    if (m_ConsoleState != ConsoleStates::Hide && m_ConsoleState != ConsoleStates::Present)
+    {
+        UpdateConsolePosition(timerParams);
+    }
 
-        if (m_ConsoleState == ConsoleStates::Present)
-        {
-            UpdateConsoleLine(timerParams);
-        }
+    if (m_ConsoleState == ConsoleStates::Present)
+    {
+        UpdateConsoleLine(timerParams);
     }
 }
 
@@ -242,7 +266,7 @@ void Console::UpdateConsoleLine(const TimerParams& timerParams)
 
     if (keyboard->IsHoldingKey(AEKeys::LCTRL, m_ConsoleLockKeyboard) && keyboard->WasKeyPressed(AEKeys::C, m_ConsoleLockKeyboard))
     {
-        memset(m_ConsoleLine, 0, AE_CONSOLE_LINE_MEM_SIZE);
+        memset(m_ConsoleLine, 0, AE_CONSOLE_MAX_LINE_CHARS);
         m_ConsoleLinePos = 0;
 
         return;
@@ -347,7 +371,7 @@ bool Console::LookInCmdHistory()
 
         if(m_CurrentCMDHistory == -1)
         {
-            ZeroMemory(m_ConsoleLine, AE_CONSOLE_LINE_MEM_SIZE);
+            ZeroMemory(m_ConsoleLine, AE_CONSOLE_MAX_LINE_CHARS);
             m_ConsoleLinePos = 0;
 
             return true;
@@ -362,8 +386,8 @@ bool Console::LookInCmdHistory()
 
         for(int i = 0; i < m_CurrentCMDHistory; ++i, ++it);
 
-        ZeroMemory(m_ConsoleLine, AE_CONSOLE_LINE_MEM_SIZE);
-        memcpy(m_ConsoleLine, it->c_str(), it->size() * sizeof(wchar_t));
+        ZeroMemory(m_ConsoleLine, AE_CONSOLE_MAX_LINE_CHARS);
+        memcpy(m_ConsoleLine, it->c_str(), it->size());
         m_ConsoleLinePos = (uint32_t)it->size();
 
         return true;
@@ -380,7 +404,7 @@ AEResult Console::ConsoleExecScript()
 
     m_ConsolePrintHistoryPos = 0;
 
-    ZeroMemory(m_ConsoleLine, AE_CONSOLE_LINE_MEM_SIZE);
+    ZeroMemory(m_ConsoleLine, AE_CONSOLE_MAX_LINE_CHARS);
     m_ConsoleLinePos = 0;
 
     bool addHis = true;

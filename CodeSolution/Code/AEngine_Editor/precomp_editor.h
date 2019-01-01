@@ -20,6 +20,11 @@
 #ifndef _PRECOMP_EDITOR_H
 #define _PRECOMP_EDITOR_H
 
+/*************************
+*   Game Engine Config   *
+**************************/
+#include "Base\ProjectConfig.h"
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -40,9 +45,11 @@
 #include <unordered_set>
 #include <unordered_map>
 
+#include <atomic>
 #include <mutex>
 #include <thread>
 #include <functional>
+#include <condition_variable>
 
 #include <regex>
 #include <random>
@@ -61,6 +68,12 @@
 
 #include <d3d11_1.h>
 #include <D3D11Shader.h>
+
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
+#include <Initguid.h> 
+#include <dxgidebug.h>
+#include <d3dcommon.h>
+#endif
 
 /*************************
 *   3rd Party Includes   *
@@ -92,8 +105,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\ProjectConfig.h"
-
 #include "Base\Base.h"
 #include "Base\Named.h"
 #include "Base\AEObject.h"
@@ -126,14 +137,31 @@
 #include "XML\AEXMLParser.h"
 #include "XML\AEXMLWriter.h"
 
-/*********************************
-*   Additional System Includes   *
-**********************************/
+#include "GraphicDevice.h"
 
-#if defined(AE_GRAPHIC_DEBUG_DEVICE)
-#include <Initguid.h> 
-#include <dxgidebug.h>
-#include <d3dcommon.h>
-#endif
+#include "Keyboard.h"
+
+#include "AEGameComponentsDefs.h"
+
+#include "Input\InputHandler.h"
+
+#include "Camera\CameraManager.h"
+#include "Camera\CameraUpdater.h"
+
+#include "Game Logic Update\GameAudioUpdate.h"
+#include "Game Logic Update\GameLightsUpdate.h"
+#include "Game Logic Update\GamePhysicsUpdate.h"
+#include "Game Logic Update\GameAnimationsUpdate.h"
+#include "Game Logic Update\GameObjectScriptCaller.h"
+#include "Game Logic Update\GameObjectCameraUpdate.h"
+
+#include "Game Objects Debug\GameObjectsDebugVisualizer.h"
+
+#include "Stats\Console.h"
+#include "Stats\DebugStats.h"
+
+#include "Forward+ Rendering\ForwardPlusRendering.h"
+
+#include "ImGui Component\ImGuiComponent.h"
 
 #endif

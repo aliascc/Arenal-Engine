@@ -90,8 +90,11 @@ void GameResource::SetFileName(const std::string& fileName)
 
 int64_t GameResource::Release()
 {
+    int64_t refZero = 0;
+
     int64_t refCount = m_RefCount.fetch_sub(1);
-    if (!m_RefCount.fetch_and(0))
+
+    if (!m_RefCount.compare_exchange_strong(refZero, 0))
     {
         if (refCount < 0)
         {

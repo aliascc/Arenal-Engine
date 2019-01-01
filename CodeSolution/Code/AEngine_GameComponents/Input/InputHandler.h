@@ -33,6 +33,7 @@
 ****************************/
 #include "InputDefs.h"
 #include "AEGameComponentsDefs.h"
+#include "GameUtils\GameComponent.h"
 
 /********************
 *   Forward Decls   *

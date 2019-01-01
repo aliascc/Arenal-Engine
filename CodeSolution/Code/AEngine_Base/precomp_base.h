@@ -43,6 +43,7 @@
 #include <mutex>
 #include <thread>
 #include <functional>
+#include <condition_variable>
 
 #include <regex>
 #include <random>

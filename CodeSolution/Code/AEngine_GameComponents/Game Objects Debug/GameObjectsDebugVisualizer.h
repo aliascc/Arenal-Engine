@@ -124,6 +124,8 @@ class GameObjectsDebugVisualizer sealed : public DrawableGameComponent
 
         void Initialize() override;
         void LoadContent() override;
+
+        void Update(const TimerParams& timerParams) override;
         void Render(const TimerParams& timerParams) override;
 };
 

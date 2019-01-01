@@ -32,6 +32,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "AEGameComponentsDefs.h"
+#include "GameUtils\GameComponent.h"
 
 /********************
 *   Forward Decls   *
@@ -40,6 +41,7 @@ class GameApp;
 class GameObject;
 struct TimerParams;
 class AudioListener;
+class GameObjectManager;
 
 /*****************
 *   Class Decl   *

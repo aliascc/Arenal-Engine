@@ -227,7 +227,6 @@ AEResult GameComponentCollection::Add(GameComponent* gc)
 
 AEResult GameComponentCollection::Remove(GameComponent* gc)
 {
-    AEAssert(gc != nullptr);
     if(gc == nullptr)
     {
         return AEResult::NullParameter;

@@ -51,6 +51,7 @@ ImGuiManager::ImGuiManager(GraphicDevice& graphicDevice)
 
 ImGuiManager::~ImGuiManager()
 {
+    CleanUp();
 }
 
 void ImGuiManager::CleanUp()

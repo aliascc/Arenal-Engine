@@ -480,7 +480,7 @@ class GameApp abstract : public AEObject
 
         inline bool IsNewProject() const
         {
-            return (m_GameProject.m_ProjectName.compare("") == 0);
+            return (m_GameProject.m_ProjectName.empty());
         }
 
         inline bool IsReady() const
@@ -516,7 +516,9 @@ class GameApp abstract : public AEObject
 
         AEResult UnRegisterGameService(const std::string& serviceName);
 
-        AEResult InitGameApp(const std::string& configEngineFile, const std::string& configProjFile, std::string& errorMsg);
+        AEResult InitGameApp(const std::string& configEngineFile, std::string& errorMsg);
+
+        AEResult InitProject(const std::string& configProjFile, std::string& errorMsg);
 
         GameService* GetGameServiceBase(const std::string& serviceName) const;
 
