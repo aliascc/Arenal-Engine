@@ -99,6 +99,5 @@ void ErrorCallbackPhysX::reportError(physx::PxErrorCode::Enum code, const char* 
             break;
     }
 
-    std::string errMsg = fmt::format(AELOCMAN.GetLiteral("PHYSICS_ENGINE_CALLBACK_ERR_MSG"), message);
-    AELOGGER.AddNewLog(logLVL, errMsg);
+    AELogHelpers::Log(logLVL, LogSystem::Physics, "PHYSICS_ENGINE_CALLBACK_ERR_MSG", message);
 }

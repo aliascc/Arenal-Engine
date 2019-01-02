@@ -501,6 +501,16 @@ class GameApp abstract : public AEObject
             return *m_ImGuiManager;
         }
 
+        /// <summary>
+        /// Gets Game Component Collection Instance for the Game Application
+        /// </summary>
+        /// <returns>Game Component Collection Instance</returns>
+        inline GameComponentCollection& GetGameComponentCollection()
+        {
+            AEAssert(m_GameComponentCollection != nullptr);
+            return *m_GameComponentCollection;
+        }
+
         inline bool IsNewProject() const
         {
             return (m_GameProject.m_ProjectName.empty());

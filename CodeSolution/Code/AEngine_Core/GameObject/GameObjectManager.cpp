@@ -1568,9 +1568,7 @@ AEResult GameObjectManager::LoadGameObjectManagerFile(const std::string& file)
     AEXMLParser newFile;
     if (newFile.LoadFile(file) != AEResult::Ok)
     {
-        std::string msg_error = fmt::format(AELOCMAN.GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, file);
-
-        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::GameObjects, "INIT_COULDNT_READ_FILE_MSG", __FUNCTION__, file);
         return AEResult::OpenFileFail;
     }
 

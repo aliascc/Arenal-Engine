@@ -68,8 +68,6 @@ class GameComponentCollection : public AEObject
         ****************************/
 #pragma region Private Methods
 
-        void NeedSortChange();
-
         void FillGCBasicProps(const GameComponent& gc, GCBasicProps& basicProps) const;
 
 #pragma endregion
@@ -94,6 +92,7 @@ class GameComponentCollection : public AEObject
 #pragma endregion
 
         //Framework Methods
+
         AEResult Add(GameComponent* gc);
         AEResult Remove(GameComponent* gc);
         AEResult SetGCDrawCallOrder(uint32_t id, uint32_t drawCallOrder);

@@ -162,10 +162,7 @@ namespace AEShaderHelper
                 dxFilter = D3D11_FILTER_MAXIMUM_ANISOTROPIC;
                 break;
             default:
-                {
-                    std::string msgerr = fmt::format(AELOCMAN.GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Filter", static_cast<uint32_t>(shaderFilter), "D3D11_FILTER_MIN_MAG_MIP_LINEAR");
-                    AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
-                }
+                AELogHelpers::Log(LogLevel::Warning, LogSystem::Graphics, "DX_TYPE_NOT_FOUND_ERR_MSG", __FUNCTION__, "DX Filter", static_cast<uint32_t>(shaderFilter), "D3D11_FILTER_MIN_MAG_MIP_LINEAR");
                 break;
         }
 
@@ -194,10 +191,7 @@ namespace AEShaderHelper
                 dxTAMode = D3D11_TEXTURE_ADDRESS_MIRROR_ONCE;
                 break;
             default:
-                {
-                    std::string msgerr = fmt::format(AELOCMAN.GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Texture Address Mode", static_cast<uint32_t>(textureAddressMode), "D3D11_TEXTURE_ADDRESS_CLAMP");
-                    AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
-                }
+                AELogHelpers::Log(LogLevel::Warning, LogSystem::Graphics, "DX_TYPE_NOT_FOUND_ERR_MSG", __FUNCTION__, "DX Texture Address Mode", static_cast<uint32_t>(textureAddressMode), "D3D11_TEXTURE_ADDRESS_CLAMP");
                 break;
         }
 
@@ -235,10 +229,7 @@ namespace AEShaderHelper
                 dxCompFunt = D3D11_COMPARISON_ALWAYS;
                 break;
             default:
-                {
-                    std::string msgerr = fmt::format(AELOCMAN.GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Comparison Function", static_cast<uint32_t>(compFunct), "D3D11_COMPARISON_NEVER");
-                    AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
-                }
+                AELogHelpers::Log(LogLevel::Warning, LogSystem::Graphics, "DX_TYPE_NOT_FOUND_ERR_MSG", __FUNCTION__, "DX Comparison Function", static_cast<uint32_t>(compFunct), "D3D11_COMPARISON_NEVER");
                 break;
         }
 

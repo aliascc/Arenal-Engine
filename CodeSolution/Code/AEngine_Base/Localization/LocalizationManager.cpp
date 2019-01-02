@@ -161,11 +161,7 @@ AEResult LocalizationManager::ReloadEngineWithoutLock(const std::string& engineP
     if (newFile.LoadFile(m_FilenameEngine) != AEResult::Ok)
     {
         /*Hard coded string Loc Manager not loaded*/
-        std::string msg_error = fmt::format("{0}: Could not read file: {1}", __FUNCTION__, m_FilenameEngine);
-
-        m_CallByLocManager = true;
-        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
-        m_CallByLocManager = false;
+        AELogHelpers::LogExplicit(LogLevel::Error, LogSystem::Localization, AE_LOC_READ_FILE_ERR_MSG, m_FilenameEngine);
 
         return AEResult::OpenFileFail;
     }
@@ -200,11 +196,7 @@ AEResult LocalizationManager::ReloadEngineWithoutLock(const std::string& engineP
                 if (loadLangRet != AEResult::Ok)
                 {
                     /*Hard coded string Loc Manager not loaded*/
-                    std::string msg_error = fmt::format("{0}: Failed to read Language Literals: {1}, from file: {2}", __FUNCTION__, language, langFile);
-
-                    m_CallByLocManager = true;
-                    AELOGGER.AddNewLog(LogLevel::Error, msg_error);
-                    m_CallByLocManager = false;
+                    AELogHelpers::LogExplicit(LogLevel::Error, LogSystem::Localization, AE_LOC_READ_LANG_LITERALS_INIT_ERR_MSG, language, langFile);
 
                     ret |= false;
                 }
@@ -253,13 +245,7 @@ AEResult LocalizationManager::ReloadProjectWithoutLock(const std::string& projec
     AEXMLParser newFile;
     if (newFile.LoadFile(m_FilenameProject) != AEResult::Ok)
     {
-        AETODO("Add literal");
-
-        std::string msg_error = fmt::format("{0}: Could not read file: {1}", __FUNCTION__, m_FilenameProject);
-
-        m_CallByLocManager = true;
-        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
-        m_CallByLocManager = false;
+        AELogHelpers::LogExplicit(LogLevel::Error, LogSystem::Localization, AE_LOC_READ_FILE_ERR_MSG, m_FilenameProject);
 
         return AEResult::OpenFileFail;
     }
@@ -289,13 +275,7 @@ AEResult LocalizationManager::ReloadProjectWithoutLock(const std::string& projec
                 AEResult loadLangRet = LoadExtendedLanguageLiterals(language, langFile);
                 if (loadLangRet != AEResult::Ok)
                 {
-                    AETODO("Add Literal");
-
-                    std::string msg_error = fmt::format("{0}: Failed to read Language Literals: {1}, from file: {2}", __FUNCTION__, language, langFile);
-
-                    m_CallByLocManager = true;
-                    AELOGGER.AddNewLog(LogLevel::Error, msg_error);
-                    m_CallByLocManager = false;
+                    AELogHelpers::LogExplicit(LogLevel::Error, LogSystem::Localization, AE_LOC_READ_LANG_LITERALS_INIT_ERR_MSG, language, langFile);
 
                     ret |= false;
                 }
@@ -327,11 +307,7 @@ AEResult LocalizationManager::LoadLanguageLiterals(const std::string& name, cons
     if (newFile.LoadFile(file) != AEResult::Ok)
     {
         /*Hard coded string Loc Manager not loaded*/
-        std::string msg_error = fmt::format("{0}: Could not read file: {1}", __FUNCTION__, file);
-
-        m_CallByLocManager = true;
-        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
-        m_CallByLocManager = false;
+        AELogHelpers::LogExplicit(LogLevel::Error, LogSystem::Localization, AE_LOC_READ_FILE_ERR_MSG, file);
 
         return AEResult::OpenFileFail;
     }
@@ -370,21 +346,13 @@ AEResult LocalizationManager::LoadLanguageLiterals(const std::string& name, cons
                     else //If Literal Name is present
                     {
                         /*Hard coded string Loc Manager not loaded*/
-                        std::string msg_error = fmt::format("{0}: Literal: {1}, already exists in the language collection", __FUNCTION__, literalName);
-
-                        m_CallByLocManager = true;
-                        AELOGGER.AddNewLog(LogLevel::Warning, msg_error);
-                        m_CallByLocManager = false;
+                        AELogHelpers::LogExplicit(LogLevel::Error, LogSystem::Localization, AE_LOC_LITERAL_EXISTS_ERR_MSG, literalName);
                     }
                 }
                 else
                 {
                     /*Hard coded string Loc Manager not loaded*/
-                    std::string msg_error = fmt::format("{0}: Msg: {1} does not have a name", __FUNCTION__, literalMsg);
-
-                    m_CallByLocManager = true;
-                    AELOGGER.AddNewLog(LogLevel::Warning, msg_error);
-                    m_CallByLocManager = false;
+                    AELogHelpers::LogExplicit(LogLevel::Error, LogSystem::Localization, AE_LOC_LITERAL_MSG_NAME_ERR_MSG, literalMsg);
                 }
             }
         }
@@ -405,14 +373,7 @@ AEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::string& na
     AEXMLParser newFile;
     if (newFile.LoadFile(file) != AEResult::Ok)
     {
-        AETODO("Add literal");
-
-
-        std::string msg_error = fmt::format("{0}: Could not read file: {1}", __FUNCTION__, file);
-
-        m_CallByLocManager = true;
-        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
-        m_CallByLocManager = false;
+        AELogHelpers::LogExplicit(LogLevel::Error, LogSystem::Localization, AE_LOC_READ_FILE_ERR_MSG, file);
 
         return AEResult::OpenFileFail;
     }
@@ -458,26 +419,12 @@ AEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::string& na
                     }
                     else
                     {
-                        AETODO("Add literal");
-
-
-                        std::string msg_error = fmt::format("{0}: Literal: {1}, already exists in the language collection", __FUNCTION__, literalName);
-
-                        m_CallByLocManager = true;
-                        AELOGGER.AddNewLog(LogLevel::Warning, msg_error);
-                        m_CallByLocManager = false;
+                        AELogHelpers::LogExplicit(LogLevel::Error, LogSystem::Localization, AE_LOC_LITERAL_EXISTS_ERR_MSG, literalName);
                     }
                 }
                 else
                 {
-                    AETODO("Add literal");
-
-
-                    std::string msg_error = fmt::format("{0}: Msg: {1} does not have a name", __FUNCTION__, literalMsg);
-
-                    m_CallByLocManager = true;
-                    AELOGGER.AddNewLog(LogLevel::Warning, msg_error);
-                    m_CallByLocManager = false;
+                    AELogHelpers::LogExplicit(LogLevel::Error, LogSystem::Localization, AE_LOC_LITERAL_MSG_NAME_ERR_MSG, literalMsg);
                 }
             }
         }
@@ -488,7 +435,7 @@ AEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::string& na
     return AEResult::Fail;
 }
 
-const std::string& LocalizationManager::GetLiteral(const std::string& literalName)
+const std::string& LocalizationManager::GetLiteral(const std::string& literalName) const
 {
     if(!m_IsReady)
     {
@@ -497,9 +444,14 @@ const std::string& LocalizationManager::GetLiteral(const std::string& literalNam
 
     std::lock_guard<std::mutex> lock(m_LocalizationMutex);
 
+    return GetLiteralWithoutLock(literalName);
+}
+
+const std::string& LocalizationManager::GetLiteralWithoutLock(const std::string& literalName) const
+{
     auto it = m_CurrentLiteralMap->find(literalName);
 
-    if(it != m_CurrentLiteralMap->end())
+    if (it != m_CurrentLiteralMap->end())
     {
         return it->second.m_Msg;
     }
@@ -630,11 +582,9 @@ AEResult LocalizationManager::AddExtendedLiteral(const std::string& languageName
     {
         //////////////////////////////////
         //Literal exists in default Engine config, invalid option
+        AELogHelpers::LogExplicit(LogLevel::Error, LogSystem::Localization, AE_LOC_LITERAL_EXISTS_ERR_MSG, literalName);
 
-        AETODO("Add log");
-
-        AETODO("Better return type");
-        return AEResult::Fail;
+        return AEResult::ObjExists;
     }
 
     //////////////////////////////////
@@ -750,14 +700,12 @@ AEResult LocalizationManager::SaveToXML(const std::string& filename, const std::
     ret = xmlWriter.CreateXML(filename, true);
     if (ret != AEResult::Ok)
     {
-        AETODO("Better return code");
         return AEResult::Fail;
     }
 
     ret = xmlWriter.StartNode(AE_LOC_LOCALIZATION_NODE_NAME);
     if (ret != AEResult::Ok)
     {
-        AETODO("Better return code");
         return AEResult::Fail;
     }
 
@@ -766,7 +714,6 @@ AEResult LocalizationManager::SaveToXML(const std::string& filename, const std::
         ret = xmlWriter.StartNode(AE_LOC_LANGUAGE_NODE_NAME);
         if (ret != AEResult::Ok)
         {
-            AETODO("Better return code");
             return AEResult::Fail;
         }
 
@@ -782,9 +729,6 @@ AEResult LocalizationManager::SaveToXML(const std::string& filename, const std::
             ret = SaveToXMLExtentedLiteral(filename, extendedLiteralIt.second, extendedLiteralIt.first);
             if (ret != AEResult::Ok)
             {
-                AETODO("Add error");
-
-                AETODO("Better return code");
                 return AEResult::Fail;
             }
         }
@@ -792,7 +736,6 @@ AEResult LocalizationManager::SaveToXML(const std::string& filename, const std::
         ret = xmlWriter.EndNode();
         if (ret != AEResult::Ok)
         {
-            AETODO("Better return code");
             return AEResult::Fail;
         }
     }
@@ -800,14 +743,12 @@ AEResult LocalizationManager::SaveToXML(const std::string& filename, const std::
     ret = xmlWriter.EndNode();
     if (ret != AEResult::Ok)
     {
-        AETODO("Better return code");
         return AEResult::Fail;
     }
 
     ret = xmlWriter.FinalizeXML();
     if (ret != AEResult::Ok)
     {
-        AETODO("Better return code");
         return AEResult::Fail;
     }
 
@@ -829,21 +770,18 @@ AEResult LocalizationManager::SaveToXMLExtentedLiteral(const std::string& filena
     ret = xmlWriter.CreateXML(filename, true);
     if (ret != AEResult::Ok)
     {
-        AETODO("Better return code");
         return AEResult::Fail;
     }
 
     ret = xmlWriter.StartNode(AE_LOC_LANGUAGE_NODE_NAME);
     if (ret != AEResult::Ok)
     {
-        AETODO("Better return code");
         return AEResult::Fail;
     }
 
     auto langMapIt = m_LanguagesMap.find(languageName);
     if (langMapIt != m_LanguagesMap.end())
     {
-        AETODO("Better return code");
         return AEResult::Fail;
     }
 
@@ -853,7 +791,6 @@ AEResult LocalizationManager::SaveToXMLExtentedLiteral(const std::string& filena
         ret = xmlWriter.StartNode(AE_LOC_LITERAL_NODE_NAME);
         if (ret != AEResult::Ok)
         {
-            AETODO("Better return code");
             return AEResult::Fail;
         }
 
@@ -864,7 +801,6 @@ AEResult LocalizationManager::SaveToXMLExtentedLiteral(const std::string& filena
         ret = xmlWriter.EndNode();
         if (ret != AEResult::Ok)
         {
-            AETODO("Better return code");
             return AEResult::Fail;
         }
     }
@@ -872,14 +808,12 @@ AEResult LocalizationManager::SaveToXMLExtentedLiteral(const std::string& filena
     ret = xmlWriter.EndNode();
     if (ret != AEResult::Ok)
     {
-        AETODO("Better return code");
         return AEResult::Fail;
     }
 
     ret = xmlWriter.FinalizeXML();
     if (ret != AEResult::Ok)
     {
-        AETODO("Better return code");
         return AEResult::Fail;
     }
 

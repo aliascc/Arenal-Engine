@@ -256,9 +256,7 @@ AEResult GraphicDevice::CheckDevCaps(const std::string& file)
     AEXMLParser newFile;
     if (newFile.LoadFile(file) != AEResult::Ok)
     {
-        std::string msg_error = fmt::format(AELOCMAN.GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, file);
-        
-        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Graphics, "INIT_COULDNT_READ_FILE_MSG", __FUNCTION__, file);
         return AEResult::Fail;
     }
 
@@ -723,8 +721,7 @@ AEResult GraphicDevice::InitDevice()
         ReleaseCOM(m_DeviceDX);
         ReleaseCOM(m_DeviceContextDX);
 
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("DX_11_UNSUPPORTED_ERR_MSG"), __FUNCTION__);
-        AELOGGER.AddNewLog(LogLevel::Error, msgerr);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Graphics, "DX_11_UNSUPPORTED_ERR_MSG", __FUNCTION__);
 
         return AEResult::FeatureLvlUnsupported;
     }
@@ -747,8 +744,7 @@ AEResult GraphicDevice::InitDevice()
         ReleaseCOM(m_DeviceDX);
         ReleaseCOM(m_DeviceContextDX);
 
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("DX_11_FAIL_SWAP_CHAIN_ERR_MSG"), __FUNCTION__);
-        AELOGGER.AddNewLog(LogLevel::Error, msgerr);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Graphics, "DX_11_FAIL_SWAP_CHAIN_ERR_MSG", __FUNCTION__);
 
         return AEResult::CreateDXSwapChainFail;
     }
@@ -759,8 +755,7 @@ AEResult GraphicDevice::InitDevice()
         ReleaseCOM(m_DeviceDX);
         ReleaseCOM(m_DeviceContextDX);
 
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("DX_11_FAIL_RENDER_TARGETS_ERR_MSG"), __FUNCTION__);
-        AELOGGER.AddNewLog(LogLevel::Error, msgerr);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Graphics, "DX_11_FAIL_RENDER_TARGETS_ERR_MSG", __FUNCTION__);
 
         return AEResult::CreateDXDefaultRTDSFail;
     }
@@ -771,8 +766,7 @@ AEResult GraphicDevice::InitDevice()
         ReleaseCOM(m_DeviceDX);
         ReleaseCOM(m_DeviceContextDX);
 
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("DX_11_FAIL_VIEWPORT_ERR_MSG"), __FUNCTION__);
-        AELOGGER.AddNewLog(LogLevel::Error, msgerr);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Graphics, "DX_11_FAIL_VIEWPORT_ERR_MSG", __FUNCTION__);
 
         return AEResult::InitViewportFail;
     }

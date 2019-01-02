@@ -227,6 +227,7 @@
   -->
 
   <Literal  name="LOGGER_SAME_LOG_MSG"                          msg="The last log message has been repeated {0} times." />
+  <Literal  name="LOGGER_INIT_ERR_MSG"                          msg="The Log system failed to initialized." />
 
   <!--
   #############
@@ -252,5 +253,13 @@
   -->
 
   <Literal  name="ASSET_MANAGER_INIT_ERR_MSG"                   msg="Game Asset Manager failed to be initialized." />
+
+  <!--
+  #############
+  Project
+  #############
+  -->
+
+  <Literal  name="PROJECT_CONFIG_ERR_MSG"                       msg="Project properties could not be loaded." />
 
 </Language>

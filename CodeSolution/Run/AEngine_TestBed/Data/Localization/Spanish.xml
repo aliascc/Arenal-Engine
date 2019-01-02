@@ -227,6 +227,7 @@
   -->
 
   <Literal  name="LOGGER_SAME_LOG_MSG"                          msg="El mensaje de log se ha repetido {0} veces." />
+  <Literal  name="LOGGER_INIT_ERR_MSG"                          msg="El sistema de logs fallo al ser inicializado." />
 
   <!--
   #############
@@ -252,5 +253,13 @@
   -->
 
   <Literal  name="ASSET_MANAGER_INIT_ERR_MSG"                   msg="Game Asset Manager fallo al ser inicializado." />
+
+  <!--
+  #############
+  Project
+  #############
+  -->
+
+  <Literal  name="PROJECT_CONFIG_ERR_MSG"                       msg="La configuración del proyecto no puedo ser cargado." />
 
 </Language>

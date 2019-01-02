@@ -249,9 +249,7 @@ int8_t AEXMLParser::GetInt8(const std::string& propName, int8_t defaultValue, bo
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, (int32_t)defaultValue, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, (int32_t)defaultValue, propName);
     }
 
     xmlFree(value);
@@ -272,9 +270,7 @@ uint8_t AEXMLParser::GetUInt8(const std::string& propName, uint8_t defaultValue,
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, (int32_t)defaultValue, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, (int32_t)defaultValue, propName);
     }
 
     xmlFree(value);
@@ -294,9 +290,7 @@ int16_t AEXMLParser::GetInt16(const std::string& propName, int16_t defaultValue,
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, defaultValue, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, defaultValue, propName);
     }
 
     xmlFree(value);
@@ -316,9 +310,7 @@ uint16_t AEXMLParser::GetUInt16(const std::string& propName, uint16_t defaultVal
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, defaultValue, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, defaultValue, propName);
     }
 
     xmlFree(value);
@@ -338,9 +330,7 @@ int32_t AEXMLParser::GetInt(const std::string& propName, int32_t defaultValue, b
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, defaultValue, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, defaultValue, propName);
     }
 
     xmlFree(value);
@@ -360,9 +350,7 @@ uint32_t AEXMLParser::GetUInt(const std::string& propName, uint32_t defaultValue
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, defaultValue, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, defaultValue, propName);
     }
 
     xmlFree(value);
@@ -382,9 +370,7 @@ int64_t AEXMLParser::GetInt64(const std::string& propName, int64_t defaultValue,
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, defaultValue, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, defaultValue, propName);
     }
 
     xmlFree(value);
@@ -404,9 +390,7 @@ uint64_t AEXMLParser::GetUInt64(const std::string& propName, uint64_t defaultVal
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, defaultValue, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, defaultValue, propName);
     }
 
     xmlFree(value);
@@ -426,9 +410,7 @@ float AEXMLParser::GetFloat(const std::string& propName, float defaultValue, boo
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, defaultValue, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, defaultValue, propName);
     }
 
     xmlFree(value);
@@ -448,9 +430,7 @@ double AEXMLParser::GetDouble(const std::string& propName, double defaultValue, 
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, defaultValue, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, defaultValue, propName);
     }
 
     xmlFree(value);
@@ -472,9 +452,7 @@ bool AEXMLParser::GetBool(const std::string& propName, bool defaultValue, bool w
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, defaultValue, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, defaultValue, propName);
     }
 
     xmlFree(value);
@@ -496,9 +474,7 @@ std::string AEXMLParser::GetString(const std::string& propName, const std::strin
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MSG"), __FUNCTION__, defaultValue, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MSG", __FUNCTION__, defaultValue, propName);
     }
 
     xmlFree(value);
@@ -518,9 +494,7 @@ glm::vec2 AEXMLParser::GetVect2f(const std::string& propName, const glm::vec2& d
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_2_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, propName);
     }
 
     xmlFree(value);
@@ -540,9 +514,7 @@ glm::vec3 AEXMLParser::GetVect3f(const std::string& propName, const glm::vec3& d
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_3_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
     }
 
     xmlFree(value);
@@ -562,9 +534,7 @@ glm::vec4 AEXMLParser::GetVect4f(const std::string& propName, const glm::vec4& d
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_4_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
     }
 
     xmlFree(value);
@@ -584,9 +554,7 @@ glm::dvec2 AEXMLParser::GetVect2d(const std::string& propName, const glm::dvec2&
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_2_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, propName);
     }
 
     xmlFree(value);
@@ -606,9 +574,7 @@ glm::dvec3 AEXMLParser::GetVect3d(const std::string& propName, const glm::dvec3&
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_3_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
     }
 
     xmlFree(value);
@@ -628,9 +594,7 @@ glm::dvec4 AEXMLParser::GetVect4d(const std::string& propName, const glm::dvec4&
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_4_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
     }
 
     xmlFree(value);
@@ -657,9 +621,7 @@ glm::bvec2 AEXMLParser::GetVect2b(const std::string& propName, const glm::bvec2&
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_2_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, propName);
     }
 
     xmlFree(value);
@@ -686,9 +648,7 @@ glm::bvec3 AEXMLParser::GetVect3b(const std::string& propName, const glm::bvec3&
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_3_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
     }
 
     xmlFree(value);
@@ -715,9 +675,7 @@ glm::bvec4 AEXMLParser::GetVect4b(const std::string& propName, const glm::bvec4&
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_4_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
     }
 
     xmlFree(value);
@@ -737,9 +695,7 @@ glm::ivec2 AEXMLParser::GetVect2i(const std::string& propName, const glm::ivec2&
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_2_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, propName);
     }
 
     xmlFree(value);
@@ -759,9 +715,7 @@ glm::ivec3 AEXMLParser::GetVect3i(const std::string& propName, const glm::ivec3&
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_3_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, propName);
     }
 
     xmlFree(value);
@@ -781,9 +735,7 @@ glm::ivec4 AEXMLParser::GetVect4i(const std::string& propName, const glm::ivec4&
     }
     else if(warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_VECTOR_4_MSG"), __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
-        
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_VECTOR_4_MSG", __FUNCTION__, defaultValue.x, defaultValue.y, defaultValue.z, defaultValue.w, propName);
     }
 
     xmlFree(value);
@@ -807,11 +759,9 @@ glm::mat2 AEXMLParser::GetMat2f(const std::string& propName, const glm::mat2& de
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MATRIX_2_MSG"), __FUNCTION__,
-                                                        defaultValue[0].x, defaultValue[0].y,
-                                                        defaultValue[1].x, defaultValue[1].y, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MATRIX_2_MSG", __FUNCTION__,
+                          defaultValue[0].x, defaultValue[0].y,
+                          defaultValue[1].x, defaultValue[1].y, propName);
     }
 
     xmlFree(value);
@@ -837,12 +787,10 @@ glm::mat3 AEXMLParser::GetMat3f(const std::string& propName, const glm::mat3& de
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MATRIX_3_MSG"), __FUNCTION__,
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MATRIX_3_MSG", __FUNCTION__,
                                                         defaultValue[0].x, defaultValue[0].y, defaultValue[0].z,
                                                         defaultValue[1].x, defaultValue[1].y, defaultValue[1].z, 
                                                         defaultValue[2].x, defaultValue[2].y, defaultValue[2].z, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
     }
 
     xmlFree(value);
@@ -870,13 +818,11 @@ glm::mat4 AEXMLParser::GetMat4f(const std::string& propName, const glm::mat4& de
     }
     else if (warning)
     {
-        std::string msgerr = fmt::format(AELOCMAN.GetLiteral("XML_DEFAULT_VALUE_USE_MATRIX_4_MSG"), __FUNCTION__,
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::XML, "XML_DEFAULT_VALUE_USE_MATRIX_4_MSG", __FUNCTION__,
                                                         defaultValue[0].x, defaultValue[0].y, defaultValue[0].z, defaultValue[0].w,
                                                         defaultValue[1].x, defaultValue[1].y, defaultValue[1].z, defaultValue[1].w,
                                                         defaultValue[2].x, defaultValue[2].y, defaultValue[2].z, defaultValue[2].w,
                                                         defaultValue[3].x, defaultValue[3].y, defaultValue[3].z, defaultValue[3].w, propName);
-
-        AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
     }
 
     xmlFree(value);

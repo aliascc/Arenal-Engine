@@ -35,7 +35,6 @@
 #include "GameComponent.h"
 #include "DrawableGameComponent.h"
 #include "GameComponentCollection.h"
-#include "Core Game Command/CoreCommands.h"
 #include "AngelScript\AngelScriptManager.h"
 
 //Always include last
@@ -163,12 +162,6 @@ bool GameComponentCollection::ValidIndex(uint32_t index) const
     return true;
 }
 
-void GameComponentCollection::NeedSortChange()
-{
-    GCSortCommand* sortCommand = new GCSortCommand(*this);
-    GameCommandManager::GetInstance().AddCommand(sortCommand);
-}
-
 void GameComponentCollection::SortContainer()
 {
     std::sort(m_Container.begin(), m_Container.end(),
@@ -203,14 +196,9 @@ AEResult GameComponentCollection::Add(GameComponent* gc)
 
     if(DoesGCExist(gc))
     {
-        std::string errMsg = fmt::format(AELOCMAN.GetLiteral("GC_ID_DUPLICATE_ERR_MSG"), __FUNCTION__, gc->GetUniqueID());
-        AELOGGER.AddNewLog(LogLevel::Warning, errMsg);
-
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::GameComponents, "GC_ID_DUPLICATE_ERR_MSG", __FUNCTION__, gc->GetUniqueID());
         return AEResult::ObjExists;
     }
-
-    //Reference m_NeedSortChangeCallback to GC Class
-    gc->m_NeedSortChangeCallback = std::bind(&GameComponentCollection::NeedSortChange, this);
 
     //Add to Container
     m_Container.push_back(gc);
@@ -235,9 +223,6 @@ AEResult GameComponentCollection::Remove(GameComponent* gc)
     {
         return AEResult::NotFound;
     }
-
-    //Remove Callback for sorting
-    gc->m_NeedSortChangeCallback = nullptr;
 
     //Dereference GC Class from Container
     auto it = m_Container.begin();

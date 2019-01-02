@@ -97,16 +97,9 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         bool m_IsReady = false;
 
         /// <summary>
-        /// Variable to let logger know it has been called by Localization Manager.
-        /// Set this variable to true when calling the Logger, this will avoid 
-        /// Logger calling back Localization Manager and causing a deadlock
-        /// </summary>
-        bool m_CallByLocManager = false;
-
-        /// <summary>
         /// Mutex for Localization Manager to be thread safe
         /// </summary>
-        std::mutex m_LocalizationMutex;
+        mutable std::mutex m_LocalizationMutex;
 
 #pragma endregion
 
@@ -179,6 +172,13 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// <returns>Returns AEResult::OK if it was successful</returns>
         AEResult SaveToXMLExtentedLiteral(const std::string& filename, const LiteralsSet& literalSet, const std::string& languageName) const;
 
+        /// <summary>
+        /// Gets a Literal, does not lock the thread
+        /// </summary>
+        /// <param name='literalName'>Name of the literal to get</param>
+        /// <returns>Returns Literal if found, if not, just returns AE_LOC_LANG_DEFAULT_LITERAL</returns>
+        const std::string& GetLiteralWithoutLock(const std::string& literalName) const;
+
 #pragma endregion
 
         /***********************************************
@@ -208,15 +208,6 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         *   Get Methods   *
         *******************/
 #pragma region Get Methods
-
-        /// <summary>
-        /// Gets the if Logger has been called by this Manager
-        /// </summary>
-        /// <returns>True if Logger is been called by this manager</returns>
-        inline bool GetCallByLocManager() const
-        {
-            return m_CallByLocManager;
-        }
 
         /// <summary>
         /// Gets the Current Default Language
@@ -252,7 +243,7 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// </summary>
         /// <param name='literalName'>Name of the literal to get</param>
         /// <returns>Returns Literal if found, if not, just returns AE_LOC_LANG_DEFAULT_LITERAL</returns>
-        const std::string& GetLiteral(const std::string& literalName);
+        const std::string& GetLiteral(const std::string& literalName) const;
 
         /// <summary>
         /// Sets the current default
