@@ -31,7 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "ImGuiWindow.h"
+#include "ImGuiMainMenu.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -42,52 +42,39 @@
 
 #ifdef AE_EDITOR_MODE
 
-ImGuiWindow::ImGuiWindow(const std::string& name, bool visible, ImGuiWindowFlags flags, bool showCloseIcon)
-    : ImGuiObject(name, visible)
-    , m_Flags(flags)
-    , m_ShowCloseIcon(showCloseIcon)
+ImGuiMainMenu::ImGuiMainMenu()
+    : ImGuiObject("Main Menu", true)
 {
 }
 
-ImGuiWindow::~ImGuiWindow()
+ImGuiMainMenu::~ImGuiMainMenu()
 {
 }
 
-bool ImGuiWindow::PreUpdate()
+void ImGuiMainMenu::Update(const TimerParams& timerParams)
 {
-    bool* closeIconBool = nullptr;
-    if (m_ShowCloseIcon)
-    {
-        closeIconBool = &m_Visible;
-    }
-
-    if (!ImGui::Begin(m_Name.c_str(), closeIconBool, m_Flags))
-    {
-        AETODO("Add log message");
-
-        ImGui::End();
-        return false;
-    }
-
-    return true;
-}
-
-void ImGuiWindow::Update(const TimerParams& timerParams)
-{
-    if (!m_Visible)
+    if (!ImGui::BeginMainMenuBar())
     {
         return;
     }
 
-    bool ret = PreUpdate();
-    if (!ret)
+    /*if (ImGui::BeginMenu("File"))
     {
-        return;
+        ShowExampleMenuFile();
+        ImGui::EndMenu();
     }
+    if (ImGui::BeginMenu("Edit"))
+    {
+        if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+        if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+        ImGui::Separator();
+        if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+        if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+        if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+        ImGui::EndMenu();
+    }*/
 
-    UpdateWindow(timerParams);
-
-    ImGui::End();
+    ImGui::EndMainMenuBar();
 }
 
 #endif //AE_EDITOR_MODE

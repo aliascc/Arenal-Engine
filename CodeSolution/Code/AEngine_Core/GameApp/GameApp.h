@@ -496,6 +496,16 @@ class GameApp abstract : public AEObject
             return *m_AudioManager;
         }
 
+        /// <summary>
+        /// Gets ImGui Manager Instance for the Game Application
+        /// </summary>
+        /// <returns>ImGui Manager Instance</returns>
+        inline ImGuiManager& GetImGuiManager()
+        {
+            AEAssert(m_ImGuiManager != nullptr);
+            return *m_ImGuiManager;
+        }
+
         inline bool IsNewProject() const
         {
             return (m_GameProject.m_ProjectName.empty());

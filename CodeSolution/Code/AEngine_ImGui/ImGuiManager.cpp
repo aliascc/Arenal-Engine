@@ -31,7 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "ImGuiWindow.h"
+#include "ImGuiObject.h"
 #include "ImGuiManager.h"
 #include "GraphicDevice.h"
 
@@ -61,49 +61,49 @@ void ImGuiManager::CleanUp()
     ImGui::DestroyContext();
 }
 
-AEResult ImGuiManager::AddWindow(ImGuiWindow* window)
+AEResult ImGuiManager::AddImGuiObject(ImGuiObject* imGuiObject)
 {
-    if (window == nullptr)
+    if (imGuiObject == nullptr)
     {
         return AEResult::NullParameter;
     }
 
-    size_t windowIndex = 0;
-    const uint64_t windowID = window->GetUniqueID();
+    size_t imGuiObjectIndex = 0;
+    const uint64_t imGuiObjectID = imGuiObject->GetUniqueID();
 
-    if (GetWindowIndex(windowID, windowIndex) == AEResult::Ok)
+    if (GetImGuiObjectIndex(imGuiObjectID, imGuiObjectIndex) == AEResult::Ok)
     {
         return AEResult::ObjExists;
     }
 
-    m_WindowsIndex[windowID] = m_Windows.size();
-    m_Windows.push_back(window);
+    m_ImGuiObjectIndex[imGuiObjectID] = m_ImGuiObjects.size();
+    m_ImGuiObjects.push_back(imGuiObject);
 
     return AEResult::Ok;
 }
 
-AEResult ImGuiManager::RemoveWindow(const uint64_t windowID, bool freeMemory)
+AEResult ImGuiManager::RemoveImGuiObject(const uint64_t imGuiObjectID, bool freeMemory)
 {
-    size_t windowIndex = 0;
+    size_t imGuiObjectIndex = 0;
 
-    if (GetWindowIndex(windowID, windowIndex) != AEResult::Ok)
+    if (GetImGuiObjectIndex(imGuiObjectID, imGuiObjectIndex) != AEResult::Ok)
     {
         return AEResult::NotFound;
     }
 
     //Reorganize the indexes of the windows
-    m_WindowsIndex.erase(windowID);
-    for (auto& idx : m_WindowsIndex)
+    m_ImGuiObjectIndex.erase(imGuiObjectID);
+    for (auto& idx : m_ImGuiObjectIndex)
     {
-        if (idx.second >= windowIndex)
+        if (idx.second >= imGuiObjectIndex)
         {
             --idx.second;
         }
     }
 
     //Remove from the vector
-    auto itWhere = m_Windows.begin() + windowIndex;
-    m_Windows.erase(itWhere);
+    auto itWhere = m_ImGuiObjects.begin() + imGuiObjectIndex;
+    m_ImGuiObjects.erase(itWhere);
 
     return AEResult::Ok;
 }
@@ -135,10 +135,10 @@ void ImGuiManager::Update(const TimerParams& timerParams)
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    size_t size = m_Windows.size();
+    size_t size = m_ImGuiObjects.size();
     for (size_t i = 0; i < size; i++)
     {
-        m_Windows[i]->Update(timerParams);
+        m_ImGuiObjects[i]->Update(timerParams);
     }
 
     ImGui::EndFrame();

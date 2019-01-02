@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _IM_GUI_MANAGER_H
-#define _IM_GUI_MANAGER_H
-
 #ifdef AE_EDITOR_MODE
 
 /**********************
@@ -41,7 +38,7 @@
 /********************
 *   Forward Decls   *
 *********************/
-class ImGuiWindow;
+class ImGuiObject;
 class GraphicDevice;
 
 /*****************
@@ -61,9 +58,9 @@ private:
     /// </summary>
     GraphicDevice& m_GraphicDevice;
 
-    std::vector<ImGuiWindow*> m_Windows;
+    std::vector<ImGuiObject*> m_ImGuiObjects;
 
-    std::unordered_map<uint64_t, size_t> m_WindowsIndex;
+    std::unordered_map<uint64_t, size_t> m_ImGuiObjectIndex;
 
 #pragma endregion
 
@@ -73,20 +70,20 @@ private:
 #pragma region Private Methods
 
     /// <summary>
-    /// ImGuiManager Constructor
+    /// Get the ImGui Object Index
     /// </summary>
-    /// <param name="windowID">Window Unique ID</param>
-    /// <param name="windowIndex">Window Index in the vector</param>
+    /// <param name="windowID">ImGui Object Unique ID</param>
+    /// <param name="windowIndex">ImGui Object Index in the vector</param>
     /// <returns>OK if it was added, otherwise an error code</returns>
-    inline AEResult GetWindowIndex(const uint64_t windowID, size_t& windowIndex)
+    inline AEResult GetImGuiObjectIndex(const uint64_t imGuiObjectID, size_t& imGuiObjectIndex)
     {
-        auto it = m_WindowsIndex.find(windowID);
-        if (it == m_WindowsIndex.end())
+        auto it = m_ImGuiObjectIndex.find(imGuiObjectID);
+        if (it == m_ImGuiObjectIndex.end())
         {
             return AEResult::NotFound;
         }
 
-        windowIndex = it->second;
+        imGuiObjectIndex = it->second;
 
         return AEResult::Ok;
     }
@@ -116,6 +113,10 @@ public:
     /// </summary>
     virtual ~ImGuiManager();
 
+    //Delete copy constructor/operator
+    ImGuiManager(const ImGuiManager&) = delete;
+    ImGuiManager& operator=(const ImGuiManager&) = delete;
+
 #pragma endregion
 
     /************************
@@ -124,19 +125,19 @@ public:
 #pragma region Framework Methods
 
     /// <summary>
-    /// Adds a Window to the manager
+    /// Adds a ImGui Object to the manager
     /// </summary>
-    /// <param name="window">ImGui Window to process</param>
+    /// <param name="window">ImGui Object to process</param>
     /// <returns>OK if it was added, otherwise an error code</returns>
-    AEResult AddWindow(ImGuiWindow* window);
+    AEResult AddImGuiObject(ImGuiObject* imGuiObject);
 
     /// <summary>
-    /// Removes a Window from the Manager
+    /// Removes a ImGui Object from the Manager
     /// </summary>
-    /// <param name="windowID">Unique ID of the Window to remove</param>
-    /// <param name="freeMemory">Deletes the Window from the memory</param>
-    /// <returns>OK if the window was removed from the manager, otherwise error code</returns>
-    AEResult RemoveWindow(const uint64_t windowID, bool freeMemory = false);
+    /// <param name="imGuiObjectID">Unique ID of the ImGui Object to remove</param>
+    /// <param name="freeMemory">Deletes the ImGui Object from the memory</param>
+    /// <returns>OK if the ImGui Object was removed from the manager, otherwise error code</returns>
+    AEResult RemoveImGuiObject(const uint64_t imGuiObjectID, bool freeMemory = false);
 
     /// <summary>
     /// Initializes Im Gui
@@ -161,5 +162,3 @@ public:
 };
 
 #endif // AE_EDITOR_MODE
-
-#endif

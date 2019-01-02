@@ -37,8 +37,9 @@
 *   Forward Decls   *
 *********************/
 struct TimerParams;
-class AudioListener;
 class ImGuiManager;
+class ImGuiMainMenu;
+class AudioListener;
 
 /*****************
 *   Class Decl   *
@@ -48,7 +49,11 @@ class ImGuiComponent sealed : public DrawableGameComponent
 {
 private:
 
-    ImGuiManager* m_ImGuiManager = nullptr;
+    ImGuiManager& m_ImGuiManager;
+
+    ImGuiMainMenu* m_ImGuiMainMenu = nullptr;
+
+    void CleanUp();
 
 public:
 
@@ -58,6 +63,8 @@ public:
     virtual ~ImGuiComponent();
 
     //Game Component Override methods
+    void Initialize() override;
+
     void Update(const TimerParams& timerParams) override;
 
     void Render(const TimerParams& timerParams) override;

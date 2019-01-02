@@ -4,10 +4,13 @@
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="ImGuiWindow.h" />
     <ClInclude Include="precomp_imgui.h" />
+    <ClInclude Include="ImGuiMainMenu.h" />
+    <ClInclude Include="ImGuiObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGuiWindow.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="precomp_imgui.cpp" />
+    <ClCompile Include="ImGuiMainMenu.cpp" />
   </ItemGroup>
 </Project>

@@ -30,29 +30,13 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "ImGuiObject.h"
+#include "Base/Named.h"
 
 /*****************
 *   Class Decl   *
 ******************/
-class ImGuiWindow : public ImGuiObject
+class ImGuiObject : public Named
 {
-private:
-
-    /**********************
-    *   Private Methods   *
-    ***********************/
-#pragma region Private Methods
-
-    /// <summary>
-    /// Executes the steps needed before the calls
-    /// to Im Gui
-    /// </summary>
-    /// <returns>True if the window can be drawn, false otherwise</returns>
-    bool PreUpdate();
-
-#pragma endregion
-
 
 protected:
 
@@ -62,38 +46,9 @@ protected:
 #pragma region Protected Variables
 
     /// <summary>
-    /// Name of the Window
-    /// </summary>
-    std::string m_Name = "";
-
-    /// <summary>
     /// Determines if the Window is visible or not
     /// </summary>
     bool m_Visible = false;
-
-    /// <summary>
-    /// Flags describing the behaviour of the Im Gui Window
-    /// </summary>
-    ImGuiWindowFlags m_Flags = ImGuiWindowFlags_None;
-
-    /// <summary>
-    /// Determines if the Close Icon will be shown
-    /// </summary>
-    bool m_ShowCloseIcon = true;
-
-#pragma endregion
-
-    /************************
-    *   Protected Methods   *
-    *************************/
-#pragma region Protected Methods
-
-    /// <summary>
-    /// Updates the window with the new information for the
-    /// Im GUI render to display
-    /// </summary>
-    /// <param name="timerParams">Game Timer Parameters</param>
-    virtual void UpdateWindow(const TimerParams& timerParams) = 0;
 
 #pragma endregion
 
@@ -109,14 +64,18 @@ public:
     /// </summary>
     /// <param name="name">Name of the Window</param>
     /// <param name="visible">Determines if the window is visible or not</param>
-    /// <param name="flags">Im Gui Window Flags</param>
-    /// <param name="showCloseIcon">Determines if the Close Icon will be shown</param>
-    ImGuiWindow(const std::string& name, bool visible = true, ImGuiWindowFlags flags = ImGuiWindowFlags_None, bool showCloseIcon = true);
+    ImGuiObject(const std::string& name, bool visible = true)
+        : Named(name)
+        , m_Visible(visible)
+    {
+    }
 
     /// <summary>
     /// Default ImGUIObject Destructor
     /// </summary>
-    virtual ~ImGuiWindow();
+    virtual ~ImGuiObject()
+    {
+    }
 
 #pragma endregion
 
@@ -132,24 +91,6 @@ public:
     inline bool IsVisible() const
     {
         return m_Visible;
-    }
-
-    /// <summary>
-    /// Gets the Flag of the Im Gui Window
-    /// </summary>
-    /// <returns>Im Gui Window Flags</returns>
-    inline ImGuiWindowFlags GetFlags() const
-    {
-        return m_Flags;
-    }
-
-    /// <summary>
-    /// Gets the name of the Window
-    /// </summary>
-    /// <returns>Name of the Window</returns>
-    inline const std::string& GetName() const
-    {
-        return m_Name;
     }
 
 #pragma endregion
@@ -168,24 +109,6 @@ public:
         m_Visible = value;
     }
 
-    /// <summary>
-    /// Sets the Im Gui Window Flags
-    /// </summary>
-    /// <param name="value">Im Gui Window Flags</param>
-    inline void SetFlags(ImGuiWindowFlags value)
-    {
-        m_Flags = value;
-    }
-
-    /// <summary>
-    /// Sets the name of the Window
-    /// </summary>
-    /// <param name="value">Name of the Window</param>
-    inline void SetName(const std::string& value)
-    {
-        m_Name = value;
-    }
-
 #pragma endregion
 
     /************************
@@ -197,7 +120,7 @@ public:
     /// Call to Update the Im Gui Window
     /// </summary>
     /// <param name="timerParams">Game Timer Parameters</param>
-    void Update(const TimerParams& timerParams) override;
+    virtual void Update(const TimerParams& timerParams) = 0;
 
 #pragma endregion
 
