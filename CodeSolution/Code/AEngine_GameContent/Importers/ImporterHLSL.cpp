@@ -155,8 +155,8 @@ AEResult ImporterHLSL::ImportShader(const std::string& filename, ShaderType shad
 
         ReleaseCOM(err);
 
-        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("SHADER_COMPILARION_FAILED_ERR_MSG"), name, strErrorDX);
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        std::string msg_error = fmt::format(AELOCMAN.GetLiteral("SHADER_COMPILARION_FAILED_ERR_MSG"), name, strErrorDX);
+        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
 
         return AEResult::ShaderCompiledFail;
     }

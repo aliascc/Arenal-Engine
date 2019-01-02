@@ -55,7 +55,7 @@ class GameAudioUpdate sealed : public GameComponent
 
         void UpdateGameAudio(GameObject* gameObject, const TimerParams& timerParams);
 
-        void UpdateAudioListener(GameObject* gameObject, AudioListener* audioListener);
+        void UpdateAudioListener(GameObject* gameObject, AudioListener& audioListener);
 
         void UpdateAudioSources(GameObject* gameObject);
 

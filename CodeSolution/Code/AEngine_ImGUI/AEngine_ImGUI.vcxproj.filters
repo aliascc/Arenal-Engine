@@ -6,6 +6,7 @@
     <ClInclude Include="precomp_imgui.h" />
     <ClInclude Include="ImGuiMainMenu.h" />
     <ClInclude Include="ImGuiObject.h" />
+    <ClInclude Include="ImGuiDefs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGuiWindow.cpp" />

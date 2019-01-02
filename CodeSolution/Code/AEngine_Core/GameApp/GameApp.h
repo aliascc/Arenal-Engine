@@ -269,11 +269,6 @@ class GameApp abstract : public AEObject
         PhysicsManager* m_PhysicsManager = nullptr;
 
         /// <summary>
-        /// Class to Manage all the Game Commands
-        /// </summary>
-        GameCommandManager* m_GameCommandManager = nullptr;
-
-        /// <summary>
         /// Application Init options
         /// </summary>
         GameAppOpts m_GameAppOpts;

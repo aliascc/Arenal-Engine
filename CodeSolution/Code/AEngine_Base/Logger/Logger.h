@@ -176,6 +176,10 @@ class Logger : public Singleton<Logger>
         /// </summary>
         virtual ~Logger();
 
+        // Prevent copy-construction / assignment
+        Logger(const Logger&) = delete;
+        Logger& operator=(const Logger&) = delete;
+
 #pragma endregion
 
     public:

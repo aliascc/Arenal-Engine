@@ -83,16 +83,15 @@ void GameAudioUpdate::UpdateGameAudio(GameObject* gameObject, const TimerParams&
     }
 }
 
-void GameAudioUpdate::UpdateAudioListener(GameObject* gameObject, AudioListener* audioListener)
+void GameAudioUpdate::UpdateAudioListener(GameObject* gameObject, AudioListener& audioListener)
 {
-    if (gameObject == NULL || audioListener == NULL)
+    if (gameObject == NULL)
     {
         return;
     }
 
-    audioListener->SetPosition(gameObject->GetWorldPosition());
-
-    audioListener->SetDirection(gameObject->GetDirection());
+    audioListener.SetPosition(gameObject->GetWorldPosition());
+    audioListener.SetDirection(gameObject->GetDirection());
 }
 
 void GameAudioUpdate::UpdateAudioSources(GameObject* gameObject)

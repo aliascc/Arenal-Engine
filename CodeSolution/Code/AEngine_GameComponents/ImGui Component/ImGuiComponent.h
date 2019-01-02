@@ -38,7 +38,6 @@
 *********************/
 struct TimerParams;
 class ImGuiManager;
-class ImGuiMainMenu;
 class AudioListener;
 
 /*****************
@@ -50,8 +49,6 @@ class ImGuiComponent sealed : public DrawableGameComponent
 private:
 
     ImGuiManager& m_ImGuiManager;
-
-    ImGuiMainMenu* m_ImGuiMainMenu = nullptr;
 
     void CleanUp();
 

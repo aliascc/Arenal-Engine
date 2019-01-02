@@ -64,8 +64,8 @@ AEResult AngelScriptManager::Initialize()
     
     if(m_ASEngine == nullptr)
     {
-        std::string errMsg = fmt::format(AELOCMAN->GetLiteral("AS_CREATE_ENGINE_FAIL_ERR_MSG"), __FUNCTION__);
-        AELOGGER->AddNewLog(LogLevel::Error, errMsg);
+        std::string errMsg = fmt::format(AELOCMAN.GetLiteral("AS_CREATE_ENGINE_FAIL_ERR_MSG"), __FUNCTION__);
+        AELOGGER.AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
     }
@@ -84,8 +84,8 @@ AEResult AngelScriptManager::Initialize()
     ret = m_ASEngine->SetMessageCallback(asMETHOD(AngelScriptManager, ASMessageCallback), this, asCALL_THISCALL);
     if(ret < 0)
     {
-        std::string errMsg = fmt::format(AELOCMAN->GetLiteral("AS_SET_MSG_CALLBACK_ERR_MSG"), __FUNCTION__);
-        AELOGGER->AddNewLog(LogLevel::Error, errMsg);
+        std::string errMsg = fmt::format(AELOCMAN.GetLiteral("AS_SET_MSG_CALLBACK_ERR_MSG"), __FUNCTION__);
+        AELOGGER.AddNewLog(LogLevel::Error, errMsg);
 
         return AEResult::Fail;
     }
@@ -308,6 +308,6 @@ void AngelScriptManager::ASMessageCallback(const asSMessageInfo& msg)
             break;
     }
 
-    std::string errMsg = fmt::format(AELOCMAN->GetLiteral("AS_ENGINE_CALLBACK_ERR_MSG"), __FUNCTION__, msg.section, msg.row, msg.col, msg.message);
-    AELOGGER->AddNewLog(logLVL, errMsg);
+    std::string errMsg = fmt::format(AELOCMAN.GetLiteral("AS_ENGINE_CALLBACK_ERR_MSG"), __FUNCTION__, msg.section, msg.row, msg.col, msg.message);
+    AELOGGER.AddNewLog(logLVL, errMsg);
 }

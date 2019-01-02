@@ -31,24 +31,21 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameCommand.h"
+#include "Game Command/GameCommand.h"
 
 /********************
 *   Forward Decls   *
 *********************/
 class GameApp;
+class GameComponentCollection;
 
-/*****************
-*   Class Decl   *
-******************/
+/*******************************
+*   ResizeCommand Class Decl   *
+********************************/
+
 class ResizeCommand sealed : public GameCommand
 {
 private:
-
-    /************************
-    *   Private Variables   *
-    *************************/
-#pragma region Private Variables
 
     /// <summary>
     /// Game App
@@ -60,14 +57,7 @@ private:
     /// </summary>
     glm::ivec2 m_NewSize;
 
-#pragma endregion
-
 public:
-
-    /***************************************
-    *   Constructor & Destructor Methods   *
-    ****************************************/
-#pragma region Constructor & Destructor Methods
 
     /// <summary>
     /// ResizeCommand Constructor
@@ -81,20 +71,39 @@ public:
     /// </summary>
     virtual ~ResizeCommand();
 
-#pragma endregion
+    /// <summary>
+    /// Executes the Game Command
+    /// </summary>
+    void Execute() override;
+};
 
-    /************************
-    *   Framework Methods   *
-    *************************/
-#pragma region Framework Methods
+/*******************************
+*   GCSortCommand Class Decl   *
+********************************/
+
+class GCSortCommand sealed : public GameCommand
+{
+private:
+
+    GameComponentCollection& m_GameComponentCollection;
+
+public:
+
+    /// <summary>
+    /// GCSortCommand Constructor
+    /// </summary>
+    /// <param name="gameComponentCollection">Game Component Collection to sort</param>
+    GCSortCommand(GameComponentCollection& gameComponentCollection);
+
+    /// <summary>
+    /// Default GCSortCommand Destructor
+    /// </summary>
+    virtual ~GCSortCommand();
 
     /// <summary>
     /// Executes the Game Command
     /// </summary>
     void Execute() override;
-
-#pragma endregion
-
 };
 
 #endif

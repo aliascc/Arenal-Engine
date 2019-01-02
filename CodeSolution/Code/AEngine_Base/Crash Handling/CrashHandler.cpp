@@ -64,7 +64,7 @@ LONG CrashHandler::ExceptionVectorHandler(_In_ PEXCEPTION_POINTERS exceptionInfo
 
     std::string coreDumpFileName = "";
 
-    if (!CrashHandlerInst->CreateCoreDump(exceptionInfo, coreDumpFileName))
+    if (!CrashHandlerInst.CreateCoreDump(exceptionInfo, coreDumpFileName))
     {
         return  EXCEPTION_CONTINUE_SEARCH;
     }

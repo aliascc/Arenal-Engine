@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _GAME_COMMAND_H
-#define _GAME_COMMAND_H
-
 /**********************
 *   System Includes   *
 ***********************/
@@ -31,6 +28,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "Base/AEObject.h"
 
 /********************
 *   Forward Decls   *
@@ -103,5 +101,3 @@ public:
 #pragma endregion
 
 };
-
-#endif

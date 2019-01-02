@@ -181,12 +181,10 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
 
 #pragma endregion
 
-    public:
-
-        /***************************************
-        *   Constructor & Destructor Methods   *
-        ****************************************/
-#pragma region Constructor & Destructor Methods
+        /***********************************************
+        *   Private Constructor & Destructor Methods   *
+        ************************************************/
+#pragma region Private Constructor & Destructor Methods
 
         /// <summary>
         /// LocalizationManager Constructor
@@ -198,7 +196,13 @@ class LocalizationManager sealed : public Singleton<LocalizationManager>
         /// </summary>
         virtual ~LocalizationManager();
 
+        // Prevent copy-construction / assignment
+        LocalizationManager(const LocalizationManager&) = delete;
+        LocalizationManager& operator=(const LocalizationManager&) = delete;
+
 #pragma endregion
+
+    public:
         
         /******************
         *   Get Methods   *

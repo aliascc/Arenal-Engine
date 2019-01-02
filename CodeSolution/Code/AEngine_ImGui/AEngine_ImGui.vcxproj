@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ImGuiDefs.h" />
     <ClInclude Include="ImGuiMainMenu.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="ImGuiObject.h" />

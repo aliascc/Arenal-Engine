@@ -40,6 +40,7 @@
 *********************/
 class ImGuiObject;
 class GraphicDevice;
+class ImGuiMainMenu;
 
 /*****************
 *   Class Decl   *
@@ -57,6 +58,8 @@ private:
     /// Graphic Device of the Game App
     /// </summary>
     GraphicDevice& m_GraphicDevice;
+
+    ImGuiMainMenu* m_ImGuiMainMenu = nullptr;
 
     std::vector<ImGuiObject*> m_ImGuiObjects;
 

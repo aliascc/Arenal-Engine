@@ -164,7 +164,7 @@ AEResult LocalizationManager::ReloadEngineWithoutLock(const std::string& engineP
         std::string msg_error = fmt::format("{0}: Could not read file: {1}", __FUNCTION__, m_FilenameEngine);
 
         m_CallByLocManager = true;
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
         m_CallByLocManager = false;
 
         return AEResult::OpenFileFail;
@@ -203,7 +203,7 @@ AEResult LocalizationManager::ReloadEngineWithoutLock(const std::string& engineP
                     std::string msg_error = fmt::format("{0}: Failed to read Language Literals: {1}, from file: {2}", __FUNCTION__, language, langFile);
 
                     m_CallByLocManager = true;
-                    AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+                    AELOGGER.AddNewLog(LogLevel::Error, msg_error);
                     m_CallByLocManager = false;
 
                     ret |= false;
@@ -258,7 +258,7 @@ AEResult LocalizationManager::ReloadProjectWithoutLock(const std::string& projec
         std::string msg_error = fmt::format("{0}: Could not read file: {1}", __FUNCTION__, m_FilenameProject);
 
         m_CallByLocManager = true;
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
         m_CallByLocManager = false;
 
         return AEResult::OpenFileFail;
@@ -294,7 +294,7 @@ AEResult LocalizationManager::ReloadProjectWithoutLock(const std::string& projec
                     std::string msg_error = fmt::format("{0}: Failed to read Language Literals: {1}, from file: {2}", __FUNCTION__, language, langFile);
 
                     m_CallByLocManager = true;
-                    AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+                    AELOGGER.AddNewLog(LogLevel::Error, msg_error);
                     m_CallByLocManager = false;
 
                     ret |= false;
@@ -330,7 +330,7 @@ AEResult LocalizationManager::LoadLanguageLiterals(const std::string& name, cons
         std::string msg_error = fmt::format("{0}: Could not read file: {1}", __FUNCTION__, file);
 
         m_CallByLocManager = true;
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
         m_CallByLocManager = false;
 
         return AEResult::OpenFileFail;
@@ -373,7 +373,7 @@ AEResult LocalizationManager::LoadLanguageLiterals(const std::string& name, cons
                         std::string msg_error = fmt::format("{0}: Literal: {1}, already exists in the language collection", __FUNCTION__, literalName);
 
                         m_CallByLocManager = true;
-                        AELOGGER->AddNewLog(LogLevel::Warning, msg_error);
+                        AELOGGER.AddNewLog(LogLevel::Warning, msg_error);
                         m_CallByLocManager = false;
                     }
                 }
@@ -383,7 +383,7 @@ AEResult LocalizationManager::LoadLanguageLiterals(const std::string& name, cons
                     std::string msg_error = fmt::format("{0}: Msg: {1} does not have a name", __FUNCTION__, literalMsg);
 
                     m_CallByLocManager = true;
-                    AELOGGER->AddNewLog(LogLevel::Warning, msg_error);
+                    AELOGGER.AddNewLog(LogLevel::Warning, msg_error);
                     m_CallByLocManager = false;
                 }
             }
@@ -411,7 +411,7 @@ AEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::string& na
         std::string msg_error = fmt::format("{0}: Could not read file: {1}", __FUNCTION__, file);
 
         m_CallByLocManager = true;
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
         m_CallByLocManager = false;
 
         return AEResult::OpenFileFail;
@@ -464,7 +464,7 @@ AEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::string& na
                         std::string msg_error = fmt::format("{0}: Literal: {1}, already exists in the language collection", __FUNCTION__, literalName);
 
                         m_CallByLocManager = true;
-                        AELOGGER->AddNewLog(LogLevel::Warning, msg_error);
+                        AELOGGER.AddNewLog(LogLevel::Warning, msg_error);
                         m_CallByLocManager = false;
                     }
                 }
@@ -476,7 +476,7 @@ AEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::string& na
                     std::string msg_error = fmt::format("{0}: Msg: {1} does not have a name", __FUNCTION__, literalMsg);
 
                     m_CallByLocManager = true;
-                    AELOGGER->AddNewLog(LogLevel::Warning, msg_error);
+                    AELOGGER.AddNewLog(LogLevel::Warning, msg_error);
                     m_CallByLocManager = false;
                 }
             }

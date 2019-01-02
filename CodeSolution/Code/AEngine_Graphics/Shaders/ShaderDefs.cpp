@@ -163,8 +163,8 @@ namespace AEShaderHelper
                 break;
             default:
                 {
-                    std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Filter", static_cast<uint32_t>(shaderFilter), "D3D11_FILTER_MIN_MAG_MIP_LINEAR");
-                    AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+                    std::string msgerr = fmt::format(AELOCMAN.GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Filter", static_cast<uint32_t>(shaderFilter), "D3D11_FILTER_MIN_MAG_MIP_LINEAR");
+                    AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
                 }
                 break;
         }
@@ -195,8 +195,8 @@ namespace AEShaderHelper
                 break;
             default:
                 {
-                    std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Texture Address Mode", static_cast<uint32_t>(textureAddressMode), "D3D11_TEXTURE_ADDRESS_CLAMP");
-                    AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+                    std::string msgerr = fmt::format(AELOCMAN.GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Texture Address Mode", static_cast<uint32_t>(textureAddressMode), "D3D11_TEXTURE_ADDRESS_CLAMP");
+                    AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
                 }
                 break;
         }
@@ -236,8 +236,8 @@ namespace AEShaderHelper
                 break;
             default:
                 {
-                    std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Comparison Function", static_cast<uint32_t>(compFunct), "D3D11_COMPARISON_NEVER");
-                    AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+                    std::string msgerr = fmt::format(AELOCMAN.GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "DX Comparison Function", static_cast<uint32_t>(compFunct), "D3D11_COMPARISON_NEVER");
+                    AELOGGER.AddNewLog(LogLevel::Warning, msgerr);
                 }
                 break;
         }

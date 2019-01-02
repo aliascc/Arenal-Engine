@@ -35,6 +35,7 @@
 #include "GameComponent.h"
 #include "DrawableGameComponent.h"
 #include "GameComponentCollection.h"
+#include "Core Game Command/CoreCommands.h"
 #include "AngelScript\AngelScriptManager.h"
 
 //Always include last
@@ -100,60 +101,56 @@ AEResult GameComponentCollection::SetGCEnable(uint32_t id, bool enable)
     return AEResult::Ok;
 }
 
+void GameComponentCollection::FillGCBasicProps(const GameComponent& gc, GCBasicProps& basicProps) const
+{
+    basicProps.m_GCName          = gc.GetName();
+    basicProps.m_GCID            = gc.GetUniqueID();
+    basicProps.m_Enabled         = gc.GetEnable();
+    basicProps.m_GCCallOrder     = gc.GetCallOrder();
+    
+    if(gc.IsDrawableGameComponent())
+    {
+        const DrawableGameComponent& dgc    = reinterpret_cast<const DrawableGameComponent&>(gc);
+        basicProps.m_Drawable               = true;
+        basicProps.m_Visibled               = dgc.GetVisible();
+    }
+}
+
+AETODO("Change to return success and save info in reference");
+AETODO("Change method to const");
 GCBasicProps GameComponentCollection::GetGCBasicProps(uint32_t index)
 {
-    GCBasicProps basic;
+    GCBasicProps basicProps;
 
     if(index >= m_Container.size())
     {
-        return basic;
+        return basicProps;
     }
 
-    auto it = m_Container.begin();
+    const GameComponent* gc   = m_Container[index];
 
-    for(uint32_t i = 0; i < index; ++i, ++it);
+    FillGCBasicProps(*gc, basicProps);
 
-    GameComponent* gc = (*it);
-    
-    basic.m_GCName = gc->GetName();
-    basic.m_GCID = gc->GetUniqueID();
-    basic.m_Enabled = gc->GetEnable();
-    basic.m_GCCallOrder = gc->GetCallOrder();
-    
-    if(gc->IsDrawableGameComponent())
-    {
-        DrawableGameComponent* dgc = static_cast<DrawableGameComponent*>(gc);
-        basic.m_Drawable = true;
-        basic.m_Visibled = dgc->GetVisible();
-    }
-
-    return basic;
+    return basicProps;
 }
 
+AETODO("Change to return success and save info in reference");
+AETODO("Change to unsigned 64bit integer");
+AETODO("Change method to const");
 GCBasicProps GameComponentCollection::GetGCBasicPropsID(uint32_t id)
 {
-    GCBasicProps basic;
-    
+    GCBasicProps basicProps;
+
     if(m_Map.find(id) == m_Map.end())
     {
-        return basic;
+        return basicProps;
     }
 
-    GameComponent* gc = (m_Map[id]);
-    
-    basic.m_GCName = gc->GetName();
-    basic.m_GCID = gc->GetUniqueID();
-    basic.m_Enabled = gc->GetEnable();
-    basic.m_GCCallOrder = gc->GetCallOrder();
-    
-    if(gc->IsDrawableGameComponent())
-    {
-        DrawableGameComponent* dgc = static_cast<DrawableGameComponent*>(gc);
-        basic.m_Drawable = true;
-        basic.m_Visibled = dgc->GetVisible();
-    }
+    const GameComponent* gc = m_Map[id];
 
-    return basic;
+    FillGCBasicProps(*gc, basicProps);
+
+    return basicProps;
 }
 
 bool GameComponentCollection::ValidIndex(uint32_t index) const
@@ -166,14 +163,19 @@ bool GameComponentCollection::ValidIndex(uint32_t index) const
     return true;
 }
 
-bool GameComponentCollection::SortGCCol::operator()(GameComponent* left, GameComponent* right) const
+void GameComponentCollection::NeedSortChange()
 {
-    return (left->GetCallOrder() < right->GetCallOrder());
+    GCSortCommand* sortCommand = new GCSortCommand(*this);
+    GameCommandManager::GetInstance().AddCommand(sortCommand);
 }
 
 void GameComponentCollection::SortContainer()
 {
-    m_Container.sort(m_SortGCContainer);
+    std::sort(m_Container.begin(), m_Container.end(),
+              [](GameComponent* left, GameComponent* right)
+                {
+                    return (left->GetCallOrder() < right->GetCallOrder());
+                });
 }
 
 bool GameComponentCollection::DoesGCExist(GameComponent* gc) const
@@ -201,11 +203,8 @@ AEResult GameComponentCollection::Add(GameComponent* gc)
 
     if(DoesGCExist(gc))
     {
-        if(AELOGGER != nullptr && AELOCMAN != nullptr)
-        {
-            std::string errMsg = fmt::format(AELOCMAN->GetLiteral("GC_ID_DUPLICATE_ERR_MSG"), __FUNCTION__, gc->GetUniqueID());
-            AELOGGER->AddNewLog(LogLevel::Warning, errMsg);
-        }
+        std::string errMsg = fmt::format(AELOCMAN.GetLiteral("GC_ID_DUPLICATE_ERR_MSG"), __FUNCTION__, gc->GetUniqueID());
+        AELOGGER.AddNewLog(LogLevel::Warning, errMsg);
 
         return AEResult::ObjExists;
     }
@@ -241,7 +240,10 @@ AEResult GameComponentCollection::Remove(GameComponent* gc)
     gc->m_NeedSortChangeCallback = nullptr;
 
     //Dereference GC Class from Container
-    m_Container.remove(gc);
+    auto it = m_Container.begin();
+    for (; (*it)->GetUniqueID() != gc->GetUniqueID() && it != m_Container.end(); it++);
+    AEAssert(it != m_Container.end());
+    m_Container.erase(it);
 
     //Remove from Map
     m_Map.erase(gc->GetUniqueID());
@@ -251,80 +253,75 @@ AEResult GameComponentCollection::Remove(GameComponent* gc)
 
 void GameComponentCollection::InitializeCollection()
 {
-    for(auto gc : m_Container)
+    size_t size = m_Container.size();
+    for(size_t i = 0; i < size; i++)
     {        
-        gc->Initialize();
+        m_Container[i]->Initialize();
     }
 }
 
 void GameComponentCollection::LoadContentCollection()
 {
-    for(auto gc : m_Container)
-    {    
-        gc->LoadContent();
+    size_t size = m_Container.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        m_Container[i]->LoadContent();
     }
 }
 
 void GameComponentCollection::UnLoadContentCollection()
 {
-    for(auto gc : m_Container)
-    {    
-        gc->UnLoadContent();
+    size_t size = m_Container.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        m_Container[i]->UnLoadContent();
     }
 }
 
 void GameComponentCollection::ConstantUpdateCollection(const TimerParams& timerParams)
 {
-    //First check if we need to sort the container
-    if(m_NeedSort)
-    {
-        SortContainer();
-    }
-
-    for(auto gc : m_Container)
+    size_t size = m_Container.size();
+    for (size_t i = 0; i < size; i++)
     {    
-        if(gc->GetEnable())
+        if(m_Container[i]->GetEnable())
         {
-            gc->ConstantUpdate(timerParams);
+            m_Container[i]->ConstantUpdate(timerParams);
         }
     }
 }
 
 void GameComponentCollection::UpdateCollection(const TimerParams& timerParams)
 {
-    //First check if we need to sort the container
-    if(m_NeedSort)
-    {
-        SortContainer();
-    }
-
-    for(auto gc : m_Container)
+    size_t size = m_Container.size();
+    for (size_t i = 0; i < size; i++)
     {    
-        if(gc->GetEnable())
+        if(m_Container[i]->GetEnable())
         {
-            gc->Update(timerParams);
+            m_Container[i]->Update(timerParams);
         }
     }
 }
 
 void GameComponentCollection::PostUpdateCollection(const TimerParams& timerParams)
 {
-    for(auto gc : m_Container)
+    size_t size = m_Container.size();
+    for (size_t i = 0; i < size; i++)
     {    
-        if(gc->GetEnable())
+        if(m_Container[i]->GetEnable())
         {
-            gc->PostUpdate(timerParams);
+            m_Container[i]->PostUpdate(timerParams);
         }
     }
 }
 
 void GameComponentCollection::RenderCollection(const TimerParams& timerParams)
 {
-    for(auto gc : m_Container)
+    size_t size = m_Container.size();
+    for (size_t i = 0; i < size; i++)
     {    
-        if(gc->IsDrawableGameComponent())
+        if(m_Container[i]->IsDrawableGameComponent())
         {
-            DrawableGameComponent* dgc = static_cast<DrawableGameComponent*>(gc);
+            DrawableGameComponent* dgc = reinterpret_cast<DrawableGameComponent*>(m_Container[i]);
 
             if(dgc->GetVisible())
             {
@@ -336,16 +333,18 @@ void GameComponentCollection::RenderCollection(const TimerParams& timerParams)
         
 void GameComponentCollection::OnLostDeviceCollection()
 {
-    for(auto gc : m_Container)
+    size_t size = m_Container.size();
+    for (size_t i = 0; i < size; i++)
     {    
-        gc->OnLostDevice();
+        m_Container[i]->OnLostDevice();
     }
 }
 
 void GameComponentCollection::OnResetDeviceCollection()
 {
-    for(auto gc : m_Container)
-    {    
-        gc->OnResetDevice();
+    size_t size = m_Container.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        m_Container[i]->OnResetDevice();
     }
 }

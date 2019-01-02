@@ -347,14 +347,15 @@ AEResult LogAddOnAS::RegisterLoggerObjectPointer(asIScriptEngine* engine)
     ////////////////////////////////////
     //Set AELog Array Type to Logger
     asITypeInfo* scriptXEArrayType = engine->GetObjectTypeByIndex(engine->GetTypeIdByDecl("array<AELog>"));
-    AELOGGER->SetScriptAELogArrayType(scriptXEArrayType);
+    AELOGGER.SetScriptAELogArrayType(scriptXEArrayType);
 
     AETODO("Change Names for Script");
-    ret = engine->RegisterGlobalProperty("Logger m_Logger", AELOGGER);
+    AETODO("Fix for reference");
+    /*ret = engine->RegisterGlobalProperty("Logger m_Logger", AELOGGER);
     if (ret < 0)
     {
         return AEResult::RegGlobalPropFail;
-    }
+    }*/
 
     return AEResult::Ok;
 }

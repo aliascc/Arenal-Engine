@@ -118,11 +118,12 @@ AEResult LocalizationAddOnAS::RegisterLocalizationObjectPointer(asIScriptEngine*
     int ret = 0;
 
     AETODO("Change Names for Script");
-    ret = engine->RegisterGlobalProperty("LocalizationManager m_LocalizationManager", AELOCMAN);
-    if (ret < 0)
-    {
-        return AEResult::RegGlobalPropFail;
-    }
+    AETODO("Fix for reference");
+    //ret = engine->RegisterGlobalProperty("LocalizationManager m_LocalizationManager", AELOCMAN);
+    //if (ret < 0)
+    //{
+    //    return AEResult::RegGlobalPropFail;
+    //}
 
     return AEResult::Ok;
 }

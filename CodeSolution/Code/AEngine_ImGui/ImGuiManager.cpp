@@ -34,6 +34,7 @@
 #include "ImGuiObject.h"
 #include "ImGuiManager.h"
 #include "GraphicDevice.h"
+#include "ImGuiMainMenu.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -56,6 +57,11 @@ ImGuiManager::~ImGuiManager()
 
 void ImGuiManager::CleanUp()
 {
+    m_ImGuiObjectIndex.clear();
+    m_ImGuiObjects.clear();
+
+    DeleteMem(m_ImGuiMainMenu);
+
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
@@ -125,6 +131,9 @@ AEResult ImGuiManager::Initialize()
     {
         return AEResult::Fail;
     }
+
+    m_ImGuiMainMenu = new ImGuiMainMenu();
+    AddImGuiObject(m_ImGuiMainMenu);
 
     return AEResult::Ok;
 }

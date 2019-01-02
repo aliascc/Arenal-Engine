@@ -11,9 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game Command\GameCommand.cpp" />
-    <ClCompile Include="Game Command\GameCommandManager.cpp" />
-    <ClCompile Include="Game Command\ResizeCommand.cpp" />
+    <ClCompile Include="Core Game Command\CoreCommands.cpp" />
     <ClCompile Include="GameApp\GameApp.cpp" />
     <ClCompile Include="GameApp\GameAppDefs.cpp" />
     <ClCompile Include="GameASAddOns\AudioAddOnAS.cpp" />
@@ -79,9 +77,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game Command\GameCommand.h" />
-    <ClInclude Include="Game Command\GameCommandManager.h" />
-    <ClInclude Include="Game Command\ResizeCommand.h" />
+    <ClInclude Include="Core Game Command\CoreCommands.h" />
     <ClInclude Include="GameApp\GameApp.h" />
     <ClInclude Include="GameApp\GameAppDefs.h" />
     <ClInclude Include="GameASAddOns\AudioAddOnAS.h" />

@@ -129,3 +129,5 @@
 #include "XML\AEXMLDefs.h"
 #include "XML\AEXMLParser.h"
 #include "XML\AEXMLWriter.h"
+
+#include "Game Command\GameCommandManager.h"

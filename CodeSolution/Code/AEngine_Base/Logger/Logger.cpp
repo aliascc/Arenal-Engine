@@ -210,9 +210,9 @@ void Logger::AddNewLog(LogLevel logLevel, const std::string& msg)
         {
             std::string sameLogMsg = "";
 
-            if (!AELOCMAN->GetCallByLocManager())
+            if (!AELOCMAN.GetCallByLocManager())
             {
-                sameLogMsg = fmt::format(AELOCMAN->GetLiteral("LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
+                sameLogMsg = fmt::format(AELOCMAN.GetLiteral("LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
             }
             else
             {
@@ -376,9 +376,9 @@ void Logger::MonitorRepeatedLogTimeOut()
         {
             std::string sameLogMsg = "";
 
-            if(!AELOCMAN->GetCallByLocManager())
+            if(!AELOCMAN.GetCallByLocManager())
             {
-                sameLogMsg = fmt::format(sameLogMsg, AELOCMAN->GetLiteral("LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
+                sameLogMsg = fmt::format(sameLogMsg, AELOCMAN.GetLiteral("LOGGER_SAME_LOG_MSG"), m_LastLog.m_NumSameLogs);
             }
             else
             {

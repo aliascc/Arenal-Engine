@@ -33,6 +33,7 @@
 ****************************/
 #include "Base\Base.h"
 #include "Base\AEObject.h"
+#include "Base/BaseFunctions.h"
 
 /********************
 *   Forward Decls   *
@@ -102,7 +103,12 @@ class Singleton abstract : public AEObject
         ***************************/
 #pragma region Private Variables
 
-        static T* GetInstance()
+        static bool HasInstance()
+        {
+            return (m_Instance != nullptr);
+        }
+
+        static T& GetInstance()
         {
             if (m_Instance == nullptr)
             {
@@ -114,7 +120,8 @@ class Singleton abstract : public AEObject
                 }
             }
 
-            return m_Instance;
+            AEAssert(m_Instance != nullptr);
+            return *m_Instance;
         }
 
         static void DestroyInstance()
