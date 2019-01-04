@@ -14,6 +14,10 @@
     <ClInclude Include="ImGuiDefs.h" />
     <ClInclude Include="ImGuiMainMenu.h" />
     <ClInclude Include="ImGuiManager.h" />
+    <ClInclude Include="ImGuiMenu.h" />
+    <ClInclude Include="ImGuiMenuItem.h" />
+    <ClInclude Include="ImGuiMenuObject.h" />
+    <ClInclude Include="ImGuiMenuSeparator.h" />
     <ClInclude Include="ImGuiObject.h" />
     <ClInclude Include="ImGuiWindow.h" />
     <ClInclude Include="precomp_imgui.h" />
@@ -21,6 +25,9 @@
   <ItemGroup>
     <ClCompile Include="ImGuiMainMenu.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
+    <ClCompile Include="ImGuiMenu.cpp" />
+    <ClCompile Include="ImGuiMenuItem.cpp" />
+    <ClCompile Include="ImGuiMenuSeparator.cpp" />
     <ClCompile Include="ImGuiWindow.cpp" />
     <ClCompile Include="precomp_imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

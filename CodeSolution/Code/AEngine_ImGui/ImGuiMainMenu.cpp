@@ -31,6 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "ImGuiDefs.h"
 #include "ImGuiMainMenu.h"
 
 //Always include last
@@ -43,7 +44,7 @@
 #ifdef AE_EDITOR_MODE
 
 ImGuiMainMenu::ImGuiMainMenu()
-    : ImGuiObject("Main Menu", true)
+    : ImGuiMenu("Main Menu", AE_IMGUI_MENU_LITERAL_MAIN_MENU, 0, true)
 {
 }
 
@@ -58,21 +59,7 @@ void ImGuiMainMenu::Update(const TimerParams& timerParams)
         return;
     }
 
-    /*if (ImGui::BeginMenu("File"))
-    {
-        ShowExampleMenuFile();
-        ImGui::EndMenu();
-    }
-    if (ImGui::BeginMenu("Edit"))
-    {
-        if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-        if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-        ImGui::Separator();
-        if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-        if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-        if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-        ImGui::EndMenu();
-    }*/
+    UpdateMethods(timerParams);
 
     ImGui::EndMainMenuBar();
 }

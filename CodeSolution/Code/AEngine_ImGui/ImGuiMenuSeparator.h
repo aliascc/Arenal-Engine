@@ -30,32 +30,14 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "ImGuiMenu.h"
-
-/*******************
-*   Forward Decl   *
-********************/
+#include "ImGuiMenuObject.h"
 
 /*****************
 *   Class Decl   *
 ******************/
-class ImGuiMainMenu : public ImGuiMenu
+class ImGuiMenuSeparator : public ImGuiMenuObject
 {
 private:
-
-    /************************
-    *   Private Variables   *
-    *************************/
-#pragma region Private Variables
-
-#pragma endregion
-
-    /**********************
-    *   Private Methods   *
-    ***********************/
-#pragma region Private Methods
-
-#pragma endregion
 
 public:
 
@@ -65,28 +47,18 @@ public:
 #pragma region Constructor & Destructor Methods
 
     /// <summary>
-    /// ImGUIObject Constructor
+    /// ImGuiMenuSeparator Constructor
     /// </summary>
-    ImGuiMainMenu();
+    /// <param name="name">Name of the Menu Item</param>
+    /// <param name="menuNameLiteral">Literal for the Menu Item Name</param>
+    /// <param name="renderPriority">Render Priority for the menu item</param>
+    /// <param name="visible">Determines if the menu item is visible or not</param>
+    ImGuiMenuSeparator(const std::string& name, uint32_t renderPriority, bool visible = true);
 
     /// <summary>
-    /// Default ImGUIObject Destructor
+    /// Default ImGuiMenuSeparator Destructor
     /// </summary>
-    virtual ~ImGuiMainMenu();
-
-#pragma endregion
-
-    /******************
-    *   Get Methods   *
-    *******************/
-#pragma region Get Methods
-
-#pragma endregion
-
-    /******************
-    *   Set Methods   *
-    *******************/
-#pragma region Set Methods
+    virtual ~ImGuiMenuSeparator();
 
 #pragma endregion
 

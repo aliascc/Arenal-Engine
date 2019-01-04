@@ -15,9 +15,10 @@
 * limitations under the License.
 */
 
-#pragma once
-
-#ifdef AE_EDITOR_MODE
+/*************************
+*   Precompiled Header   *
+**************************/
+#include "precomp_imgui.h"
 
 /**********************
 *   System Includes   *
@@ -30,15 +31,30 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "ImGuiMenuSeparator.h"
+#include "Localization/LocalizationManagerDefs.h"
 
-/************
-*   Enums   *
-*************/
+//Always include last
+#include "Memory\MemLeaks.h"
 
-/**************
-*   Defines   *
-***************/
+/*********************
+*   Framework Defs   *
+**********************/
 
-#define AE_IMGUI_MENU_LITERAL_MAIN_MENU     "AE_MENU_LITERAL_MAIN_MENU"
+#ifdef AE_EDITOR_MODE
+
+ImGuiMenuSeparator::ImGuiMenuSeparator(const std::string& name, uint32_t renderPriority, bool visible)
+    : ImGuiMenuObject(name, renderPriority, visible)
+{
+}
+
+ImGuiMenuSeparator::~ImGuiMenuSeparator()
+{
+}
+
+void ImGuiMenuSeparator::Update(const TimerParams& timerParams)
+{
+    ImGui::Separator();
+}
 
 #endif //AE_EDITOR_MODE

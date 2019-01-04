@@ -39,6 +39,7 @@
 *   Forward Decls   *
 *********************/
 class ImGuiObject;
+class ImGuiWindow;
 class GraphicDevice;
 class ImGuiMainMenu;
 
@@ -47,6 +48,10 @@ class ImGuiMainMenu;
 ******************/
 class ImGuiManager sealed : public AEObject
 {
+    //Typedef for STL Game Component List 
+    typedef std::vector<ImGuiWindow*>                   ImGuiWindowVector;
+    typedef std::unordered_map<uint64_t, ImGuiWindow*>  ImGuiWindowMap;
+
 private:
 
     /************************
@@ -61,9 +66,8 @@ private:
 
     ImGuiMainMenu* m_ImGuiMainMenu = nullptr;
 
-    std::vector<ImGuiObject*> m_ImGuiObjects;
-
-    std::unordered_map<uint64_t, size_t> m_ImGuiObjectIndex;
+    ImGuiWindowVector m_ImGuiWindows;
+    ImGuiWindowMap m_ImGuiWindowMap;
 
 #pragma endregion
 
@@ -71,25 +75,6 @@ private:
     *   Private Methods   *
     ***********************/
 #pragma region Private Methods
-
-    /// <summary>
-    /// Get the ImGui Object Index
-    /// </summary>
-    /// <param name="windowID">ImGui Object Unique ID</param>
-    /// <param name="windowIndex">ImGui Object Index in the vector</param>
-    /// <returns>OK if it was added, otherwise an error code</returns>
-    inline AEResult GetImGuiObjectIndex(const uint64_t imGuiObjectID, size_t& imGuiObjectIndex)
-    {
-        auto it = m_ImGuiObjectIndex.find(imGuiObjectID);
-        if (it == m_ImGuiObjectIndex.end())
-        {
-            return AEResult::NotFound;
-        }
-
-        imGuiObjectIndex = it->second;
-
-        return AEResult::Ok;
-    }
 
     /// <summary>
     /// Clean up ImGuiManager resources
@@ -128,19 +113,23 @@ public:
 #pragma region Framework Methods
 
     /// <summary>
-    /// Adds a ImGui Object to the manager
+    /// Sorts the Windows
     /// </summary>
-    /// <param name="window">ImGui Object to process</param>
-    /// <returns>OK if it was added, otherwise an error code</returns>
-    AEResult AddImGuiObject(ImGuiObject* imGuiObject);
+    void SortWindows();
 
     /// <summary>
-    /// Removes a ImGui Object from the Manager
+    /// Adds a ImGui Windowto the manager
     /// </summary>
-    /// <param name="imGuiObjectID">Unique ID of the ImGui Object to remove</param>
-    /// <param name="freeMemory">Deletes the ImGui Object from the memory</param>
-    /// <returns>OK if the ImGui Object was removed from the manager, otherwise error code</returns>
-    AEResult RemoveImGuiObject(const uint64_t imGuiObjectID, bool freeMemory = false);
+    /// <param name="window">ImGui Window to process</param>
+    /// <returns>OK if it was added, otherwise an error code</returns>
+    AEResult AddImGuiWindow(ImGuiWindow* imGuiWindow);
+
+    /// <summary>
+    /// Removes a ImGui Window from the Manager
+    /// </summary>
+    /// <param name="imGuiObjectID">Unique ID of the ImGui Window to remove</param>
+    /// <returns>OK if the ImGui Window was removed from the manager, otherwise error code</returns>
+    AEResult RemoveImGuiWindow(const uint64_t imGuiWindowID);
 
     /// <summary>
     /// Initializes Im Gui

@@ -30,12 +30,12 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base/Named.h"
+#include "ImGuiObject.h"
 
 /*****************
 *   Class Decl   *
 ******************/
-class ImGuiObject : public Named
+class ImGuiMenuObject : public ImGuiObject
 {
 
 protected:
@@ -44,16 +44,6 @@ protected:
     *   Protected Variables   *
     ***************************/
 #pragma region Protected Variables
-
-    /// <summary>
-    /// Determines if the Window is visible or not
-    /// </summary>
-    bool m_Visible = false;
-
-    /// <summary>
-    /// Render Priority of the window
-    /// </summary>
-    uint32_t m_RenderPriority = 0;
 
 #pragma endregion
 
@@ -65,22 +55,20 @@ public:
 #pragma region Constructor & Destructor Methods
 
     /// <summary>
-    /// ImGUIObject Constructor
+    /// ImGuiMenuObject Constructor
     /// </summary>
-    /// <param name="name">Name of the object</param>
-    /// <param name="renderPriority">Render Priority of the object</param>
-    /// <param name="visible">Determines if the object is visible or not</param>
-    ImGuiObject(const std::string& name, uint32_t renderPriority, bool visible = true)
-        : Named(name)
-        , m_Visible(visible)
-        , m_RenderPriority(renderPriority)
+    /// <param name="name">Name of the menu</param>
+    /// <param name="renderPriority">Render Priority of the menu</param>
+    /// <param name="visible">Determines if the menu is visible or not</param>
+    ImGuiMenuObject(const std::string& name, uint32_t renderPriority, bool visible = true)
+        : ImGuiObject(name, renderPriority, m_Visible)
     {
     }
 
     /// <summary>
-    /// Default ImGUIObject Destructor
+    /// Default ImGuiMenuObject Destructor
     /// </summary>
-    virtual ~ImGuiObject()
+    virtual ~ImGuiMenuObject()
     {
     }
 
@@ -91,23 +79,6 @@ public:
     *******************/
 #pragma region Get Methods
 
-    /// <summary>
-    /// Gets if the Window is visible
-    /// </summary>
-    /// <returns>True if window is visible, false if it is not</returns>
-    inline bool IsVisible() const
-    {
-        return m_Visible;
-    }
-
-    /// <summary>
-    /// Get Render Priority of the window
-    /// </summary>
-    inline uint32_t GetRenderPriority() const
-    {
-        return m_RenderPriority;
-    }
-
 #pragma endregion
 
     /******************
@@ -115,27 +86,12 @@ public:
     *******************/
 #pragma region Set Methods
 
-    /// <summary>
-    /// Sets if the Window is visible or not
-    /// </summary>
-    /// <param name="value">Visible Value of the Window</param>
-    inline void SetIsVisible(bool value)
-    {
-        m_Visible = value;
-    }
-
 #pragma endregion
 
     /************************
     *   Framework Methods   *
     *************************/
 #pragma region Framework Methods
-
-    /// <summary>
-    /// Call to Update the Im Gui Window
-    /// </summary>
-    /// <param name="timerParams">Game Timer Parameters</param>
-    virtual void Update(const TimerParams& timerParams) = 0;
 
 #pragma endregion
 

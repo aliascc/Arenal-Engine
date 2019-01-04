@@ -31,7 +31,9 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "ImGuiMenu.h"
 #include "ImGuiObject.h"
+#include "ImGuiWindow.h"
 #include "ImGuiManager.h"
 #include "GraphicDevice.h"
 #include "ImGuiMainMenu.h"
@@ -57,8 +59,8 @@ ImGuiManager::~ImGuiManager()
 
 void ImGuiManager::CleanUp()
 {
-    m_ImGuiObjectIndex.clear();
-    m_ImGuiObjects.clear();
+    m_ImGuiWindowMap.clear();
+    m_ImGuiWindows.clear();
 
     DeleteMem(m_ImGuiMainMenu);
 
@@ -67,49 +69,40 @@ void ImGuiManager::CleanUp()
     ImGui::DestroyContext();
 }
 
-AEResult ImGuiManager::AddImGuiObject(ImGuiObject* imGuiObject)
+void ImGuiManager::SortWindows()
 {
-    if (imGuiObject == nullptr)
+    std::sort(m_ImGuiWindows.begin(), m_ImGuiWindows.end(),
+              [](ImGuiWindow* left, ImGuiWindow* right)
+                {
+                    return (left->GetRenderPriority() < right->GetRenderPriority());
+                });
+}
+
+AEResult ImGuiManager::AddImGuiWindow(ImGuiWindow* imGuiWindow)
+{
+    if (imGuiWindow == nullptr)
     {
         return AEResult::NullParameter;
     }
 
-    size_t imGuiObjectIndex = 0;
-    const uint64_t imGuiObjectID = imGuiObject->GetUniqueID();
+    const uint64_t imGuiWindowID    = imGuiWindow->GetUniqueID();
 
-    if (GetImGuiObjectIndex(imGuiObjectID, imGuiObjectIndex) == AEResult::Ok)
-    {
-        return AEResult::ObjExists;
-    }
-
-    m_ImGuiObjectIndex[imGuiObjectID] = m_ImGuiObjects.size();
-    m_ImGuiObjects.push_back(imGuiObject);
+    m_ImGuiWindowMap[imGuiWindowID] = imGuiWindow;
+    m_ImGuiWindows.push_back(imGuiWindow);
 
     return AEResult::Ok;
 }
 
-AEResult ImGuiManager::RemoveImGuiObject(const uint64_t imGuiObjectID, bool freeMemory)
+AEResult ImGuiManager::RemoveImGuiWindow(const uint64_t imGuiWindowID)
 {
-    size_t imGuiObjectIndex = 0;
-
-    if (GetImGuiObjectIndex(imGuiObjectID, imGuiObjectIndex) != AEResult::Ok)
-    {
-        return AEResult::NotFound;
-    }
-
     //Reorganize the indexes of the windows
-    m_ImGuiObjectIndex.erase(imGuiObjectID);
-    for (auto& idx : m_ImGuiObjectIndex)
-    {
-        if (idx.second >= imGuiObjectIndex)
-        {
-            --idx.second;
-        }
-    }
+    m_ImGuiWindowMap.erase(imGuiWindowID);
 
     //Remove from the vector
-    auto itWhere = m_ImGuiObjects.begin() + imGuiObjectIndex;
-    m_ImGuiObjects.erase(itWhere);
+    auto it = m_ImGuiWindows.begin();
+    for (; (*it)->GetUniqueID() != imGuiWindowID && it != m_ImGuiWindows.end(); it++);
+    AEAssert(it != m_ImGuiWindows.end());
+    m_ImGuiWindows.erase(it);
 
     return AEResult::Ok;
 }
@@ -133,7 +126,6 @@ AEResult ImGuiManager::Initialize()
     }
 
     m_ImGuiMainMenu = new ImGuiMainMenu();
-    AddImGuiObject(m_ImGuiMainMenu);
 
     return AEResult::Ok;
 }
@@ -144,10 +136,20 @@ void ImGuiManager::Update(const TimerParams& timerParams)
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    size_t size = m_ImGuiObjects.size();
+    if (m_ImGuiMainMenu->IsVisible())
+    {
+        m_ImGuiMainMenu->Update(timerParams);
+    }
+
+    size_t size = m_ImGuiWindows.size();
     for (size_t i = 0; i < size; i++)
     {
-        m_ImGuiObjects[i]->Update(timerParams);
+        ImGuiWindow* window = m_ImGuiWindows[i];
+
+        if (window->IsVisible())
+        {
+            window->Update(timerParams);
+        }
     }
 
     ImGui::EndFrame();
