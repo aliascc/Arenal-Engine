@@ -44,7 +44,7 @@
 #ifdef AE_EDITOR_MODE
 
 ImGuiMenu::ImGuiMenu(const std::string& name, const std::string& menuNameLiteral, uint32_t renderPriority, bool visible)
-    : ImGuiMenuObject(name, renderPriority, visible)
+    : ImGuiMenuObject(ImGuiMenuObjectType::Menu, name, renderPriority, visible)
     , m_MenuNameLiteral(menuNameLiteral)
 {
 }
@@ -52,6 +52,7 @@ ImGuiMenu::ImGuiMenu(const std::string& name, const std::string& menuNameLiteral
 ImGuiMenu::~ImGuiMenu()
 {
     m_ImGuiMenuObjectVector.clear();
+    m_ImGuiMenuObjectMap.clear();
 }
 
 AEResult ImGuiMenu::AddMenuObject(ImGuiMenuObject* menuObject)
@@ -61,6 +62,7 @@ AEResult ImGuiMenu::AddMenuObject(ImGuiMenuObject* menuObject)
         return AEResult::NullParameter;
     }
 
+    m_ImGuiMenuObjectMap[menuObject->GetName()] = menuObject;
     m_ImGuiMenuObjectVector.push_back(menuObject);
 
     std::sort(m_ImGuiMenuObjectVector.begin(), m_ImGuiMenuObjectVector.end(),
@@ -75,13 +77,14 @@ AEResult ImGuiMenu::AddMenuObject(ImGuiMenuObject* menuObject)
 AEResult ImGuiMenu::RemoveMenuObject(uint64_t menuObjectID)
 {
     auto it = m_ImGuiMenuObjectVector.begin();
-    for (; (*it)->GetUniqueID() != menuObjectID && it != m_ImGuiMenuObjectVector.end(); it++);
+    for (; (*it)->GetUniqueID() != menuObjectID && it != m_ImGuiMenuObjectVector.end(); ++it);
 
     if (it == m_ImGuiMenuObjectVector.end())
     {
         return AEResult::NotFound;
     }
 
+    m_ImGuiMenuObjectMap.erase((*it)->GetName());
     m_ImGuiMenuObjectVector.erase(it);
 
     return AEResult::Ok;
@@ -100,6 +103,96 @@ void ImGuiMenu::UpdateMethods(const TimerParams& timerParams)
     }
 }
 
+AEResult ImGuiMenu::GetSubMenu(const std::string& menuName, ImGuiMenu** subMenu)
+{
+    if (subMenu == nullptr)
+    {
+        return AEResult::NullParameter;
+    }
+
+    *subMenu = nullptr;
+
+    auto& it = m_ImGuiMenuObjectMap.find(menuName);
+    if (it == m_ImGuiMenuObjectMap.end())
+    {
+        return AEResult::NotFound;
+    }
+
+    if (it->second->GetImGuiMenuObjectType() != ImGuiMenuObjectType::Menu)
+    {
+        return AEResult::InvalidObjType;
+    }
+
+    *subMenu = reinterpret_cast<ImGuiMenu*>(it->second);
+
+    return AEResult::Ok;
+}
+
+AEResult ImGuiMenu::GetSubMenu(uint64_t subMenuObjectID, ImGuiMenu** subMenu)
+{
+    if (subMenu == nullptr)
+    {
+        return AEResult::NullParameter;
+    }
+
+    *subMenu = nullptr;
+
+    size_t size = m_ImGuiMenuObjectVector.size();
+    for (size_t i = 0; i < size; i++)
+    {
+        ImGuiMenuObject* temp = m_ImGuiMenuObjectVector[i];
+        if (temp->GetUniqueID() == subMenuObjectID)
+        {
+            if (temp->GetImGuiMenuObjectType() != ImGuiMenuObjectType::Menu)
+            {
+                return AEResult::InvalidObjType;
+            }
+            else
+            {
+                *subMenu = reinterpret_cast<ImGuiMenu*>(temp);
+                break;
+            }
+        }
+    }
+
+    if (subMenu == nullptr)
+    {
+        return AEResult::NotFound;
+    }
+
+    return AEResult::Ok;
+}
+
+AEResult ImGuiMenu::GetSubMenuLeaf(const std::string& menuTree, ImGuiMenu** subMenu)
+{
+    if (subMenu == nullptr)
+    {
+        return AEResult::NullParameter;
+    }
+    *subMenu = nullptr;
+
+    // Get the Names of the Sub Menus
+    std::vector<std::string> subMenuNames;
+    AE_Base::SplitString(menuTree, subMenuNames, "/", true);
+
+    if (subMenuNames.empty())
+    {
+        return AEResult::NotFound;
+    }
+
+    AEResult res = AEResult::Ok;
+    ImGuiMenu* temp = this;
+
+    size_t size = subMenuNames.size();
+    for (size_t i = 0; i < size && res == AEResult::Ok; ++i)
+    {
+        res = temp->GetSubMenu(subMenuNames[i], &temp);
+    }
+
+    *subMenu = temp;
+    return res;
+}
+
 void ImGuiMenu::Update(const TimerParams& timerParams)
 {
     const std::string menuName = AELOCMAN.GetLiteral(m_MenuNameLiteral);
@@ -110,18 +203,6 @@ void ImGuiMenu::Update(const TimerParams& timerParams)
     }
 
     UpdateMethods(timerParams);
-
-    /*
-    if (ImGui::BeginMenu("Edit"))
-    {
-        if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-        if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-        ImGui::Separator();
-        if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-        if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-        if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-        ImGui::EndMenu();
-    }*/
 
     ImGui::EndMenu();
 }

@@ -44,7 +44,7 @@
 #ifdef AE_EDITOR_MODE
 
 ImGuiMenuItem::ImGuiMenuItem(const std::string& name, const std::string& menuNameLiteral, uint32_t renderPriority, bool visible)
-    : ImGuiMenuObject(name, renderPriority, visible)
+    : ImGuiMenuObject(ImGuiMenuObjectType::Item, name, renderPriority, visible)
     , m_MenuNameLiteral(menuNameLiteral)
 {
 }

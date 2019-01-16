@@ -30,6 +30,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "ImGuiDefs.h"
 #include "ImGuiObject.h"
 
 /*****************
@@ -38,14 +39,12 @@
 class ImGuiMenuObject : public ImGuiObject
 {
 
-protected:
+private:
 
-    /**************************
-    *   Protected Variables   *
-    ***************************/
-#pragma region Protected Variables
-
-#pragma endregion
+    /// <summary>
+    /// Type of the Menu Object
+    /// </summary>
+    ImGuiMenuObjectType m_ImGuiMenuObjectType;
 
 public:
 
@@ -60,8 +59,9 @@ public:
     /// <param name="name">Name of the menu</param>
     /// <param name="renderPriority">Render Priority of the menu</param>
     /// <param name="visible">Determines if the menu is visible or not</param>
-    ImGuiMenuObject(const std::string& name, uint32_t renderPriority, bool visible = true)
+    ImGuiMenuObject(ImGuiMenuObjectType imGuiMenuObjectType, const std::string& name, uint32_t renderPriority, bool visible = true)
         : ImGuiObject(name, renderPriority, m_Visible)
+        , m_ImGuiMenuObjectType(imGuiMenuObjectType)
     {
     }
 
@@ -74,26 +74,10 @@ public:
 
 #pragma endregion
 
-    /******************
-    *   Get Methods   *
-    *******************/
-#pragma region Get Methods
-
-#pragma endregion
-
-    /******************
-    *   Set Methods   *
-    *******************/
-#pragma region Set Methods
-
-#pragma endregion
-
-    /************************
-    *   Framework Methods   *
-    *************************/
-#pragma region Framework Methods
-
-#pragma endregion
+    inline ImGuiMenuObjectType GetImGuiMenuObjectType() const
+    {
+        return m_ImGuiMenuObjectType;
+    }
 
 };
 

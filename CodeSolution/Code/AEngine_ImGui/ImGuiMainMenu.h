@@ -39,7 +39,7 @@
 /*****************
 *   Class Decl   *
 ******************/
-class ImGuiMainMenu : public ImGuiMenu
+class ImGuiMainMenu sealed : public ImGuiMenu
 {
 private:
 

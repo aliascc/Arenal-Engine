@@ -35,6 +35,13 @@
 *   Enums   *
 *************/
 
+enum class ImGuiMenuObjectType : uint32_t
+{
+    Menu        = 0,
+    Item        = 1,
+    Separator   = 2
+};
+
 /**************
 *   Defines   *
 ***************/

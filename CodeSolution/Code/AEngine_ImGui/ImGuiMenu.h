@@ -35,45 +35,39 @@
 /*****************
 *   Class Decl   *
 ******************/
+
+/// <summary>
+/// ImGui Menu Container
+/// </summary>
 class ImGuiMenu : public ImGuiMenuObject
 {
+    typedef std::unordered_map<std::string, ImGuiMenuObject*> ImGuiMenuObjectMap;
     typedef std::vector<ImGuiMenuObject*> ImGuiMenuObjectVector;
 
 protected:
 
-    /**********************
-    *   Private Methods   *
-    ***********************/
-#pragma region Private Methods
+    /// <summary>
+    /// Map for the Menu Objects
+    /// </summary>
+    ImGuiMenuObjectMap m_ImGuiMenuObjectMap;
 
-    std::vector<ImGuiMenuObject*> m_ImGuiMenuObjectVector;
+    /// <summary>
+    /// Vector for the Menu Objects
+    /// </summary>
+    ImGuiMenuObjectVector m_ImGuiMenuObjectVector;
 
+    /// <summary>
+    /// Menu Name Literal
+    /// </summary>
     std::string m_MenuNameLiteral;
 
-#pragma endregion
-
-    /**************************
-    *   Protected Variables   *
-    ***************************/
-#pragma region Protected Variables
-
-#pragma endregion
-
-    /************************
-    *   Protected Methods   *
-    *************************/
-#pragma region Protected Methods
-
+    /// <summary>
+    /// Calls the Update Methods for the Menu Objects this menu contains
+    /// </summary>
+    /// <param name="timerParams">Game Timer Parameters</param>
     void UpdateMethods(const TimerParams& timerParams);
 
-#pragma endregion
-
 public:
-
-    /***************************************
-    *   Constructor & Destructor Methods   *
-    ****************************************/
-#pragma region Constructor & Destructor Methods
 
     /// <summary>
     /// ImGuiMenu Constructor
@@ -89,35 +83,49 @@ public:
     /// </summary>
     virtual ~ImGuiMenu();
 
-#pragma endregion
-
-    /******************
-    *   Get Methods   *
-    *******************/
-#pragma region Get Methods
-
-#pragma endregion
-
-    /******************
-    *   Set Methods   *
-    *******************/
-#pragma region Set Methods
-
-#pragma endregion
-
-    /************************
-    *   Framework Methods   *
-    *************************/
-#pragma region Framework Methods
-
+    /// <summary>
+    /// Adds a Menu object to the Menu Instance
+    /// </summary>
+    /// <param name="menuObject">Menu Object to add</param>
+    /// <returns>AEResult::Ok if successful otherwise an error code</returns>
     AEResult AddMenuObject(ImGuiMenuObject* menuObject);
 
+    /// <summary>
+    /// Removes a Menu Object from this Menu Instance
+    /// </summary>
+    /// <param name="menuObjectID">ID of the Menu object to be removed</param>
+    /// <returns>AEResult::Ok if successful otherwise an error code</returns>
     AEResult RemoveMenuObject(uint64_t menuObjectID);
+
+    /// <summary>
+    /// Gets a sub-menu object fromo this Menu Instance
+    /// </summary>
+    /// <param name="menuName">Sub-menu name</param>
+    /// <param name="subMenu">Pointer to where the sub-menu will be saved to if found</param>
+    /// <returns>AEResult::Ok if successful otherwise an error code</returns>
+    AEResult GetSubMenu(const std::string& menuName, ImGuiMenu** subMenu);
+
+    /// <summary>
+    /// Gets a sub-menu object fromo this Menu Instance
+    /// </summary>
+    /// <param name="subMenuObjectID">Sub-menu Object ID</param>
+    /// <param name="subMenu">Pointer to where the sub-menu will be saved to if found</param>
+    /// <returns>AEResult::Ok if successful otherwise an error code</returns>
+    AEResult GetSubMenu(uint64_t subMenuObjectID, ImGuiMenu** subMenu);
+
+    /// <summary>
+    /// Gets the Leaf sub menu within this Menu instance.
+    /// Using "/" as separator will track down the last menu if found.
+    /// e.g. "Tools/Views/Debug" will return the "Debug" sub-menu that is 
+    /// found inside Views which is inside Tools.
+    /// </summary>
+    /// <param name="menuTree">Menu Tree Name</param>
+    /// <param name="subMenu">Pointer to where the sub-menu will be saved to if found</param>
+    /// <returns>AEResult::Ok if successful otherwise an error code</returns>
+    AEResult GetSubMenuLeaf(const std::string& menuTree, ImGuiMenu** subMenu);
 
     /// <see cref="ImGuiObject::UpdateWindow(const TimerParams&)"/>
     virtual void Update(const TimerParams& timerParams) override;
-
-#pragma endregion
 
 };
 
