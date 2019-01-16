@@ -17,8 +17,10 @@
 
 #pragma once
 
-#ifndef _PRECOMP_AUDIO_H
-#define _PRECOMP_AUDIO_H
+/*************************
+*   Game Engine Config   *
+**************************/
+#include "Base\ProjectConfig.h"
 
 /**********************
 *   System Includes   *
@@ -75,8 +77,6 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\ProjectConfig.h"
-
 #include "Base\Base.h"
 #include "Base\Named.h"
 #include "Base\AEObject.h"
@@ -104,5 +104,3 @@
 #include "Time\AETime.h"
 #include "Time\AETimer.h"
 #include "Time\AETimeDefs.h"
-
-#endif

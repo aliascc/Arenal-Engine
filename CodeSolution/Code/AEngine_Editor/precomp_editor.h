@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _PRECOMP_EDITOR_H
-#define _PRECOMP_EDITOR_H
-
 /*************************
 *   Game Engine Config   *
 **************************/
@@ -163,5 +160,3 @@
 #include "Forward+ Rendering\ForwardPlusRendering.h"
 
 #include "ImGui Component\ImGuiComponent.h"
-
-#endif

@@ -17,8 +17,10 @@
 
 #pragma once
 
-#ifndef _PRECOMP_BASE_H
-#define _PRECOMP_BASE_H
+/*************************
+*   Game Engine Config   *
+**************************/
+#include "Base\ProjectConfig.h"
 
 /**********************
 *   System Includes   *
@@ -81,6 +83,3 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base\ProjectConfig.h"
-
-#endif

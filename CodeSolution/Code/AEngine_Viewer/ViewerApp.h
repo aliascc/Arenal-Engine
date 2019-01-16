@@ -95,7 +95,9 @@ class ViewerApp sealed : public GameApp
         void UnLoadContent() override;
         void OnLostDevice() override;
         void OnResetDevice() override;
+        void ConstantUpdate(const TimerParams& timerParams) override;
         void Update(const TimerParams& timerParams) override;
+        void PostUpdate(const TimerParams& timerParams) override;
         void Render(const TimerParams& timerParams) override;
 };
 

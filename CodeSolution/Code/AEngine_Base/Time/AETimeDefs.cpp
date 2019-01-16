@@ -170,11 +170,28 @@ bool TimeStamp::operator>=(const TimeStamp& other)
     }
 }
 
-std::string TimeStamp::ToString() const 
+void TimeStamp::GetTimeString(std::string& timeStr, bool useColonForTime) const
 {
+    timeStr.clear();
+
     std::stringstream strDate;
 
-    strDate << m_Year << "-" << m_Month << "-" << m_Day << " " << m_Hour << ":" << m_Minute << ":" << m_Second;
+    char colonValue = ':';
+    if (!useColonForTime)
+    {
+        colonValue = '_';
+    }
 
-    return strDate.str();
+    strDate << m_Year << "-" << m_Month << "-" << m_Day << " " << m_Hour << colonValue << m_Minute << colonValue << m_Second;
+
+    timeStr = strDate.str();
+}
+
+std::string TimeStamp::ToString() const
+{
+    std::string timeStr = "";
+
+    GetTimeString(timeStr);
+
+    return timeStr;
 }

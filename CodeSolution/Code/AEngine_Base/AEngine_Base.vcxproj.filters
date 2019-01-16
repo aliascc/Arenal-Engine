@@ -34,6 +34,9 @@
     <Filter Include="Crash Handling">
       <UniqueIdentifier>{277e87cf-29ff-46b3-a08a-39e470e4d44d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Command">
+      <UniqueIdentifier>{89897ef5-b5d2-47b0-89a0-56d17d201390}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\Base.h">
@@ -130,6 +133,12 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="precomp_base.h" />
+    <ClInclude Include="Game Command\GameCommandManager.h">
+      <Filter>Game Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Command\GameCommand.h">
+      <Filter>Game Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Memory\MemLeaks.cpp">
@@ -199,5 +208,11 @@
       <Filter>Crash Handling</Filter>
     </ClCompile>
     <ClCompile Include="precomp_base.cpp" />
+    <ClCompile Include="Game Command\GameCommandManager.cpp">
+      <Filter>Game Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Game Command\GameCommand.cpp">
+      <Filter>Game Command</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

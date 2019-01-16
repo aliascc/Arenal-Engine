@@ -4,10 +4,21 @@
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="ImGuiWindow.h" />
     <ClInclude Include="precomp_imgui.h" />
+    <ClInclude Include="ImGuiMainMenu.h" />
+    <ClInclude Include="ImGuiObject.h" />
+    <ClInclude Include="ImGuiDefs.h" />
+    <ClInclude Include="ImGuiMenu.h" />
+    <ClInclude Include="ImGuiMenuItem.h" />
+    <ClInclude Include="ImGuiMenuObject.h" />
+    <ClInclude Include="ImGuiMenuSeparator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGuiWindow.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="precomp_imgui.cpp" />
+    <ClCompile Include="ImGuiMainMenu.cpp" />
+    <ClCompile Include="ImGuiMenuItem.cpp" />
+    <ClCompile Include="ImGuiMenu.cpp" />
+    <ClCompile Include="ImGuiMenuSeparator.cpp" />
   </ItemGroup>
 </Project>

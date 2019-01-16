@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _PRECOMP_GAMECOMPONENTS_H
-#define _PRECOMP_GAMECOMPONENTS_H
-
 /*************************
 *   Game Engine Config   *
 **************************/
@@ -100,6 +97,10 @@
 #include "DirectXTK\SpriteFont.h"
 #include "DirectXTK\SpriteBatch.h"
 
+#include "imgui\imgui.h"
+#include "imgui\imgui_impl_dx11.h"
+#include "imgui\imgui_impl_win32.h"
+
 /***************************
 *   Game Engine Includes   *
 ****************************/
@@ -144,5 +145,3 @@
 
 #include "GameUtils\GameComponent.h"
 #include "GameUtils\DrawableGameComponent.h"
-
-#endif

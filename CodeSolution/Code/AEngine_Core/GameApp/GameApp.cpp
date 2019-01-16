@@ -52,14 +52,13 @@
 #include "GameASAddOns\AudioAddOnAS.h"
 #include "GameASAddOns\InputAddOnAS.h"
 #include "GameASAddOns\ColorAddOnAS.h"
-#include "Game Command\ResizeCommand.h"
 #include "Crash Handling\CrashHandler.h"
 #include "GameAssets\GameAssetManager.h"
 #include "GameASAddOns\GameCoreAddOnAS.h"
 #include "GameObject\GameObjectManager.h"
 #include "Resource\GameResourceManager.h"
 #include "AngelScript\AngelScriptManager.h"
-#include "Game Command\GameCommandManager.h"
+#include "Core Game Command\CoreCommands.h"
 #include "Crash Handling\CrashHandlerDefs.h"
 #include "GameUtils\GameServiceCollection.h"
 #include "GameASAddOns\LocalizationAddOnAS.h"
@@ -77,24 +76,28 @@ GameApp::GameApp(HINSTANCE hInstance)
 {
 #if defined(AE_MEM_CHECK)
     MemLeaks::MemoryBegin();
-#endif
+#endif //AE_MEM_CHECK
 
-    if (CrashHandlerInst->InitCrashHandling() != AEResult::Ok)
+#ifdef AE_CRASH_HANDILING
+    if (CrashHandlerInst.InitCrashHandling() != AEResult::Ok)
     {
         AETODO("Add error window");
     }
+#endif //AE_CRASH_HANDILING
 }
 
 GameApp::~GameApp()
 {
     CleanUp();
 
-    CrashHandlerInst->DeinitCrashHandling();
-    CrashHandlerInst->DestroyInstance();
+#ifdef AE_CRASH_HANDILING
+    CrashHandlerInst.DeinitCrashHandling();
+    CrashHandlerInst.DestroyInstance();
+#endif //AE_CRASH_HANDILING
 
 #if defined(AE_MEM_CHECK)
     MemLeaks::MemoryEnd();
-#endif
+#endif //AE_MEM_CHECK
 }
 
 void GameApp::CleanUp()
@@ -142,8 +145,6 @@ void GameApp::CleanUp()
 
     DeleteMem(m_CameraManager);
 
-    DeleteMem(m_GameCommandManager);
-
     //Delete Graphic Device Last after Components, Resources and Services
     DeleteMem(m_GraphicDevice);
 
@@ -164,7 +165,8 @@ void GameApp::CleanUp()
 
     DeleteMem(m_AngelScriptManager);
 
-    //Delete Logger and Localization Manager instance
+    //Singleton instance
+    GameCommandManager::DestroyInstance();
     Logger::DestroyInstance();
     AudioListener::DestroyInstance();
     LocalizationManager::DestroyInstance();
@@ -191,9 +193,7 @@ AEResult GameApp::ExtractGameEngineConfig()
     AEXMLParser newFile;
     if (newFile.LoadFile(m_GameProject.m_EngineConfigFile) != AEResult::Ok)
     {
-        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_EngineConfigFile);
-        
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "INIT_COULDNT_READ_FILE_MSG", __FUNCTION__, m_GameProject.m_EngineConfigFile);
         return AEResult::OpenFileFail;
     }
 
@@ -232,9 +232,7 @@ AEResult GameApp::ExtractGameProjectConfig()
     AEXMLParser newFile;
     if (newFile.LoadFile(m_GameProject.m_ProjectConfigFile) != AEResult::Ok)
     {
-        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_ProjectConfigFile);
-
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "INIT_COULDNT_READ_FILE_MSG", __FUNCTION__, m_GameProject.m_ProjectConfigFile);
         return AEResult::OpenFileFail;
     }
 
@@ -304,9 +302,9 @@ AEResult GameApp::ExtractGameConfigInput()
     AEXMLParser newFile;
     if (newFile.LoadFile(m_GameProject.m_GameProjectConfig.m_InputFile) != AEResult::Ok)
     {
-        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_GameProjectConfig.m_InputFile);
+        std::string msg_error = fmt::format(AELOCMAN.GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_GameProjectConfig.m_InputFile);
 
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
         return AEResult::OpenFileFail;
     }
 
@@ -345,9 +343,7 @@ AEResult GameApp::ExtractGameAppOpts()
     AEXMLParser newFile;
     if (newFile.LoadFile(m_GameProject.m_GameEngineConfig.m_GameOptsFile) != AEResult::Ok)
     {
-        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_GameEngineConfig.m_GameOptsFile);
-
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "INIT_COULDNT_READ_FILE_MSG", __FUNCTION__, m_GameProject.m_GameEngineConfig.m_GameOptsFile);
         return AEResult::OpenFileFail;
     }
 
@@ -431,9 +427,9 @@ AEResult GameApp::ExtractGraphicOpts()
     AEXMLParser newFile;
     if (newFile.LoadFile(m_GameProject.m_GameProjectConfig.m_GraphicOptsFile) != AEResult::Ok)
     {
-        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_GameProjectConfig.m_GraphicOptsFile);
+        std::string msg_error = fmt::format(AELOCMAN.GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, m_GameProject.m_GameProjectConfig.m_GraphicOptsFile);
         
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELOGGER.AddNewLog(LogLevel::Error, msg_error);
         return AEResult::OpenFileFail;
     }
 
@@ -490,16 +486,13 @@ AEResult GameApp::InitProject(const std::string& configProjFile, std::string& er
 
     if (ExtractGameProjectConfig() != AEResult::Ok)
     {
-        AETODO("Add literal for project config");
-        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GAME_CONFIG_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "PROJECT_CONFIG_ERR_MSG");
 
         return AEResult::Fail;
     }
 
     AEAssert(!m_GameProject.m_GameProjectConfig.m_LocalizationFile.empty());
-    if (AELOCMAN->LoadProjectFile(m_GameProject.m_GameProjectConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation) != AEResult::Ok)
+    if (AELOCMAN.LoadProjectFile(m_GameProject.m_GameProjectConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation) != AEResult::Ok)
     {
         return AEResult::Fail;
     }
@@ -508,14 +501,13 @@ AEResult GameApp::InitProject(const std::string& configProjFile, std::string& er
     //Load Project
     if (LoadGameProjectInfo() != AEResult::Ok)
     {
-        AELOGGER->AddNewLog(LogLevel::Error, AELOCMAN->GetLiteral("AE_GAME_APP_LOAD_PROJ_FAIL_ERR_MSG"));
-
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "AE_GAME_APP_LOAD_PROJ_FAIL_ERR_MSG");
         return AEResult::Fail;
     }
 
     //////////////////////////////////
     //Finish
-    AELOGGER->AddNewLog(LogLevel::Info, AELOCMAN->GetLiteral("AE_GAME_APP_LOAD_PROJ_INFO_MSG"));
+    AELogHelpers::Log(LogLevel::Info, LogSystem::Core, "AE_GAME_APP_LOAD_PROJ_INFO_MSG");
     return AEResult::Ok;
 }
 
@@ -540,44 +532,36 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
     //Create Logger and Localization Manager
     AELOGGER;
     AELOCMAN;
+    GameCommandManager::GetInstance();
 
     m_GameProject.m_EngineConfigFile = configEngineFile;
 
     if (ExtractGameEngineConfig() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GAME_CONFIG_ERR_MSG");
-        
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-        
+        MessageBox(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, "Unable to extract engine configuration.", 0, 0);
         return AEResult::Fail;
     }
 
     if (InitLocalizationManager() != AEResult::Ok)
     {
-        /*Hard coded strings here because Localization Manager failed to start*/
-        errorMsg = "Localization Parameters could not be initialize";
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        MessageBox(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, "Localization Parameters could not be initialize.", 0, 0);
         return AEResult::Fail;
     }
 
     if (ExtractGameAppOpts() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GAME_OPTS_ERR_MSG");
+        std::string errMsg = AELOCMAN.GetLiteral("EXTRACT_GAME_OPTS_ERR_MSG");
 
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
+        MessageBox(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, errMsg.c_str(), 0, 0);
 
         return AEResult::Fail;
     }
 
     if (InitLogger() != AEResult::Ok)
     {
-        AETODO("Add to loc files");
-        errorMsg = "Log Error";
-        //m_LocalizationManager->GetLiteral("EXTRACT_GAME_OPTS_ERR_MSG");
+        std::string errMsg = AELOCMAN.GetLiteral("LOGGER_INIT_ERR_MSG");
 
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
+        MessageBox(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, errMsg.c_str(), 0, 0);
 
         return AEResult::Fail;
     }
@@ -591,61 +575,39 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
 
     if (ExtractGraphicOpts() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("EXTRACT_GRAPHIC_OPTS_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "EXTRACT_GRAPHIC_OPTS_ERR_MSG");
         return AEResult::Fail;
     }
 
     if (InitMainWindow() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("INIT_MAIN_WINDOW_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "INIT_MAIN_WINDOW_ERR_MSG");
         return AEResult::Fail;
     }
-    
+
     if (Init3D_Device() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("INIT_3D_DEVICE_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "INIT_3D_DEVICE_ERR_MSG");
         return AEResult::Fail;
     }
 
     if (InitInputManager() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("INIT_INPUT_DEVICES_FAIL_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "INIT_INPUT_DEVICES_FAIL_ERR_MSG");
         return AEResult::Fail;
     }
 
     if (InitPhysicsManager() != AEResult::Ok)
     {
-        AETODO("Add correct log msg")
-        //errorMsg = AELOCMAN->GetLiteral("SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
-        //AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "PHYSICS_ENGINE_INIT_ERR_MSG");
         return AEResult::Fail;
     }
 
     if (InitScriptingEngine() != AEResult::Ok)
     {
-        errorMsg = AELOCMAN->GetLiteral("SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
-
-        AELOGGER->AddNewLog(LogLevel::Error, errorMsg);
-        
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
         return AEResult::Fail;
     }
-
-    ////////////////////////////////////////////////
-    //Create Camera Manager
-    m_GameCommandManager = new GameCommandManager();
 
     ////////////////////////////////////////////////
     //Create Camera Manager
@@ -674,8 +636,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
     //Register Data that the Angel Script will have available
     if (RegisterScriptData() != AEResult::Ok)
     {
-        AETODO("Add error box message here");
-
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "SCRIPT_ENGINE_REGISTER_DATA_ERR_MSG");
         return AEResult::Fail;
     }
 
@@ -685,11 +646,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
 
     if(m_GameAssetManager->Initialize() != AEResult::Ok)
     {
-        AETODO("Better init of asset game manager");
-        /*errorMsg = m_LocalizationManager->GetLiteral("SCRIPT_ENGINE_INIT_FAIL_ERR_MSG");
-
-        m_Logger->AddNewLog(LogLevel::Error, errorMsg);*/
-
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "ASSET_MANAGER_INIT_ERR_MSG");
         return AEResult::Fail;
     }
 
@@ -704,7 +661,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
     m_ImGuiManager = new ImGuiManager(*m_GraphicDevice);
     if (m_ImGuiManager->Initialize() != AEResult::Ok)
     {
-        AETODO("Add Log");
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "IMGUI_INIT_ERR_MSG");
         return AEResult::Fail;
     }
 
@@ -716,7 +673,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
 
     //////////////////////////////////
     //Log that Engine is ready to run
-    AELOGGER->AddNewLog(LogLevel::Info, AELOCMAN->GetLiteral("AE_GAME_APP_READY_INFO_MSG"));
+    AELogHelpers::Log(LogLevel::Info, LogSystem::Core, "AE_GAME_APP_READY_INFO_MSG");
 
     //////////////////////////////////
     //Finish
@@ -739,9 +696,7 @@ AEResult GameApp::InitMainWindow()
 
     if( !RegisterClass(&wc) )
     {
-        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("REGISTER_CLASS_FAIL_MSG"), __FUNCTION__);
-
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "REGISTER_CLASS_FAIL_MSG", __FUNCTION__);
 
         PostQuitMessage(0);
         return AEResult::Fail;
@@ -777,9 +732,7 @@ AEResult GameApp::InitMainWindow()
 
     if( !m_MainWnd )
     {
-        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("CREATE_WINDOW_FAIL_MSG"), __FUNCTION__);
-
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "CREATE_WINDOW_FAIL_MSG", __FUNCTION__);
 
         PostQuitMessage(0);
         return AEResult::Fail;
@@ -831,7 +784,7 @@ AEResult GameApp::Init3D_Device()
 AEResult GameApp::InitLocalizationManager()
 {
     AEAssert(!m_GameProject.m_GameEngineConfig.m_LocalizationFile.empty());
-    if (AELOCMAN->Initialize(m_GameProject.m_GameEngineConfig.m_LocalizationFile, m_GameProject.m_EngineLocation + AE_ENGINE_BIN_TO_DATA_PATH_ADD) != AEResult::Ok)
+    if (AELOCMAN.Initialize(m_GameProject.m_GameEngineConfig.m_LocalizationFile, m_GameProject.m_EngineLocation + AE_ENGINE_BIN_TO_DATA_PATH_ADD) != AEResult::Ok)
     {
         return AEResult::Fail;
     }
@@ -873,18 +826,18 @@ AEResult GameApp::InitScriptingEngine()
 
 AEResult GameApp::InitLogger()
 {
-    AELOGGER->SetCapacity(m_GameAppOpts.m_LogCapacity);
+    AELOGGER.SetCapacity(m_GameAppOpts.m_LogCapacity);
 
-    AELOGGER->SetLogLevel(m_GameAppOpts.m_AELogLvl);
+    AELOGGER.SetLogLevel(m_GameAppOpts.m_AELogLvl);
 
-    if (AELOGGER->SetLogFilename(m_GameAppOpts.m_LogFilePath) != AEResult::Ok)
+    if (AELOGGER.SetLogFilename(m_GameAppOpts.m_LogFilePath) != AEResult::Ok)
     {
         return AEResult::InitLoggerFail;
     }
 
     if(m_GameAppOpts.m_LogToFile)
     {
-        if (AELOGGER->ActivateLogToFile() != AEResult::Ok)
+        if (AELOGGER.ActivateLogToFile() != AEResult::Ok)
         {
             return AEResult::InitLoggerFail;
         }
@@ -973,21 +926,6 @@ AEResult GameApp::RegisterScriptData()
     return AEResult::Ok;
 }
 
-void GameApp::Initialize()
-{
-    m_GameComponentCollection->InitializeCollection();
-}
-
-void GameApp::LoadContent()
-{
-    m_GameComponentCollection->LoadContentCollection();
-}
-
-void GameApp::UnLoadContent()
-{
-    m_GameComponentCollection->UnLoadContentCollection();
-}
-
 void GameApp::OnResize(uint32_t width, uint32_t heigth)
 {
     if(!m_IsReady)
@@ -1004,7 +942,7 @@ void GameApp::OnResize(uint32_t width, uint32_t heigth)
 
     ResizeCommand* rc = new ResizeCommand(*this, newSize);
 
-    m_GameCommandManager->AddCommand(rc);
+    GameCommandManager::GetInstance().AddCommand(rc);
 }
 
 AEResult GameApp::SetFullScreen(bool fullScreenEnable)
@@ -1148,31 +1086,12 @@ GameService* GameApp::GetGameServiceBase(const std::string& serviceName) const
 
 void GameApp::PreRender()
 {
+    m_GraphicDevice->Clear();
 }
 
 void GameApp::PostRender()
 {
     m_GraphicDevice->Present();
-}
-
-void GameApp::Render(const TimerParams& timerParams)
-{
-    m_GameComponentCollection->RenderCollection(timerParams);
-}
-
-void GameApp::ConstantUpdate(const TimerParams& timerParams)
-{
-    m_GameComponentCollection->ConstantUpdateCollection(timerParams);
-}
-
-void GameApp::Update(const TimerParams& timerParams)
-{
-    m_GameComponentCollection->UpdateCollection(timerParams);
-}
-
-void GameApp::PostUpdate(const TimerParams& timerParams)
-{
-    m_GameComponentCollection->PostUpdateCollection(timerParams);
 }
 
 int GameApp::Run()
@@ -1190,8 +1109,8 @@ int GameApp::Run()
     m_Timer.Update();
 
     //Initialize Game and Load Content
-    Initialize();
-    LoadContent();
+    InternalInitialize();
+    InternalLoadContent();
 
     while(msg.message != WM_QUIT && !m_StartShutdown)
     {
@@ -1216,32 +1135,22 @@ int GameApp::Run()
             m_Timer.Update();
 
             //Constant Update
-            const TimerParams& constUpdateTimerParams = m_Timer.GetConstantUpdateTimerParams();
-            while (m_Timer.NeedToRunConstantUpdate())
-            {
-                ConstantUpdate(constUpdateTimerParams);
-            }
+            InternalConstantUpdate();
 
             //Frame Timer
             const TimerParams& frameTimerParams = m_Timer.GetFrameTimerParams();
 
             //Update Game
-            Update(frameTimerParams);
+            InternalUpdate(frameTimerParams);
 
             //A Post Update, so stuff like cameras can be updated after all the scene has
-            PostUpdate(frameTimerParams);
-
-            //Pre Render Commands
-            PreRender();
+            InternalPostUpdate(frameTimerParams);
 
             //Render Game
-            Render(frameTimerParams);
-
-            //Post Render Commands
-            PostRender();
+            InternalRender(frameTimerParams);
 
             //Run Game Commands
-            m_GameCommandManager->ExecuteCommands();
+            GameCommandManager::GetInstance().ExecuteCommands();
         }
     }
 
@@ -1254,6 +1163,97 @@ int GameApp::Run()
     return (int)msg.wParam;
 }
 
+void GameApp::InternalInitialize()
+{
+    //Game App Initialize
+    Initialize();
+
+    //Game Component Initialize
+    m_GameComponentCollection->InitializeCollection();
+}
+
+void GameApp::InternalLoadContent()
+{
+    //Game App LoadContent
+    LoadContent();
+
+    //Game Component LoadContent
+    m_GameComponentCollection->LoadContentCollection();
+}
+
+void GameApp::InternalUnLoadContent()
+{
+    //Game App UnLoadContent
+    UnLoadContent();
+
+    //Game Component UnLoadContent
+    m_GameComponentCollection->UnLoadContentCollection();
+}
+
+void GameApp::InternalRender(const TimerParams& timerParams)
+{
+    //Pre Render Commands
+    PreRender();
+
+    //Game App Render
+    Render(timerParams);
+
+    //Game Component Render
+    m_GameComponentCollection->RenderCollection(timerParams);
+
+    //Post Render Commands
+    PostRender();
+}
+
+void GameApp::InternalConstantUpdate()
+{
+    const TimerParams& constUpdateTimerParams = m_Timer.GetConstantUpdateTimerParams();
+    while (m_Timer.NeedToRunConstantUpdate())
+    {
+        //Game App Constant Update
+        ConstantUpdate(constUpdateTimerParams);
+
+        //Game Component Constant Update
+        m_GameComponentCollection->ConstantUpdateCollection(constUpdateTimerParams);
+    }
+}
+
+void GameApp::InternalUpdate(const TimerParams& timerParams)
+{
+    //Game App Update
+    Update(timerParams);
+
+    //Game Component Update
+    m_GameComponentCollection->UpdateCollection(timerParams);
+}
+
+void GameApp::InternalPostUpdate(const TimerParams& timerParams)
+{
+    //Game App Update
+    PostUpdate(timerParams);
+
+    //Game Component Update
+    m_GameComponentCollection->PostUpdateCollection(timerParams);
+}
+
+void GameApp::InternalOnLostDevice()
+{
+    //Game App Update
+    OnLostDevice();
+
+    //Game Component Update
+    m_GameComponentCollection->OnLostDeviceCollection();
+}
+
+void GameApp::InternalOnResetDevice()
+{
+    //Game App Update
+    OnResetDevice();
+
+    //Game Component Update
+    m_GameComponentCollection->OnResetDeviceCollection();
+}
+
 AEResult GameApp::SaveGameInfo()
 {
     if (!m_IsReady)
@@ -1263,7 +1263,7 @@ AEResult GameApp::SaveGameInfo()
 
     AEResult ret = AEResult::Ok;
 
-    ret = AELOCMAN->SaveToXML(m_GameProject.m_GameProjectConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation);
+    ret = AELOCMAN.SaveToXML(m_GameProject.m_GameProjectConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation);
     if (ret != AEResult::Ok)
     {
         AETODO("Log error");
@@ -1296,7 +1296,7 @@ AEResult GameApp::LoadGameProjectInfo()
 
     AEResult ret = AEResult::Ok;
 
-    ret = AELOCMAN->LoadProjectFile(m_GameProject.m_GameProjectConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation);
+    ret = AELOCMAN.LoadProjectFile(m_GameProject.m_GameProjectConfig.m_LocalizationFile, m_GameProject.m_ProjectLocation);
     if (ret != AEResult::Ok)
     {
         AETODO("Log error");

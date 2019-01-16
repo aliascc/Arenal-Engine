@@ -18,7 +18,7 @@
 /*************************
 *   Precompiled Header   *
 **************************/
-#include "precomp_core.h"
+#include "precomp_base.h"
 
 /**********************
 *   System Includes   *

@@ -77,7 +77,6 @@ AELog& AELog::operator=(const AELog &other)
 ********************/
 namespace AELogHelpers
 {
-
     std::string AELogHelpers::LogLevelStr(LogLevel lvl)
     {
         switch (lvl)
@@ -130,5 +129,4 @@ namespace AELogHelpers
 
         return LogLevel::None;
     }
-
 }

@@ -91,7 +91,25 @@ class GameApp abstract : public AEObject
         /**********************
         *   Private Methods   *
         ***********************/
-#pragma region Private Methods 
+#pragma region Private Methods
+
+        void InternalInitialize();
+
+        void InternalLoadContent();
+
+        void InternalUnLoadContent();
+
+        void InternalRender(const TimerParams& timerParams);
+
+        void InternalConstantUpdate();
+
+        void InternalUpdate(const TimerParams& timerParams);
+
+        void InternalPostUpdate(const TimerParams& timerParams);
+
+        void InternalOnLostDevice();
+
+        void InternalOnResetDevice();
 
         //Static Callback function for Windows Message Loop
         static LRESULT CALLBACK MainWndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -249,11 +267,6 @@ class GameApp abstract : public AEObject
         /// Class to manage all the Game Object Physics
         /// </summary>
         PhysicsManager* m_PhysicsManager = nullptr;
-
-        /// <summary>
-        /// Class to Manage all the Game Commands
-        /// </summary>
-        GameCommandManager* m_GameCommandManager = nullptr;
 
         /// <summary>
         /// Application Init options
@@ -478,6 +491,26 @@ class GameApp abstract : public AEObject
             return *m_AudioManager;
         }
 
+        /// <summary>
+        /// Gets ImGui Manager Instance for the Game Application
+        /// </summary>
+        /// <returns>ImGui Manager Instance</returns>
+        inline ImGuiManager& GetImGuiManager()
+        {
+            AEAssert(m_ImGuiManager != nullptr);
+            return *m_ImGuiManager;
+        }
+
+        /// <summary>
+        /// Gets Game Component Collection Instance for the Game Application
+        /// </summary>
+        /// <returns>Game Component Collection Instance</returns>
+        inline GameComponentCollection& GetGameComponentCollection()
+        {
+            AEAssert(m_GameComponentCollection != nullptr);
+            return *m_GameComponentCollection;
+        }
+
         inline bool IsNewProject() const
         {
             return (m_GameProject.m_ProjectName.empty());
@@ -530,23 +563,23 @@ class GameApp abstract : public AEObject
 
         AEResult CreateProjectFolder(const std::string& projectFolder, const std::string& projectName, bool createFolder);
 
-        virtual void Initialize();
+        virtual void Initialize() = 0;
 
-        virtual void LoadContent();
+        virtual void LoadContent() = 0;
 
-        virtual void UnLoadContent();
+        virtual void UnLoadContent() = 0;
 
-        virtual void Render(const TimerParams& timerParams);
+        virtual void Render(const TimerParams& timerParams) = 0;
 
-        virtual void ConstantUpdate(const TimerParams& timerParams);
+        virtual void ConstantUpdate(const TimerParams& timerParams) = 0;
 
-        virtual void Update(const TimerParams& timerParams);
+        virtual void Update(const TimerParams& timerParams) = 0;
 
-        virtual void PostUpdate(const TimerParams& timerParams);
+        virtual void PostUpdate(const TimerParams& timerParams) = 0;
 
-        virtual void OnLostDevice();
+        virtual void OnLostDevice() = 0;
 
-        virtual void OnResetDevice();
+        virtual void OnResetDevice() = 0;
 
         template<class T>
         T* GetGameService(const std::string& serviceName) const

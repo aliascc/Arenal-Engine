@@ -142,9 +142,7 @@ AEResult GameResourceManager::ManageGameResource(GameResource* gameResource, con
 
             if(GameResourceExists(id))
             {
-                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("GAME_RESOURCE_STR_ID_EXISTS_ERR_MSG"), __FUNCTION__, stringID);
-                AELOGGER->AddNewLog(LogLevel::Error, msgerr);
-
+                AELogHelpers::Log(LogLevel::Error, LogSystem::GameResources, "GAME_RESOURCE_STR_ID_EXISTS_ERR_MSG", __FUNCTION__, stringID);
                 return AEResult::ObjExists;
             }
         }
@@ -192,9 +190,7 @@ void GameResourceManager::GameResourceReleaseCallback(uint64_t id)
     
     if(!GameResourceExists(id))
     {
-        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("GAME_RESOURCE_RELEASE_ID_NOT_FOUND_ERR_MSG"), __FUNCTION__, id);
-        AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
-
+        AELogHelpers::Log(LogLevel::Warning, LogSystem::GameResources, "GAME_RESOURCE_RELEASE_ID_NOT_FOUND_ERR_MSG", __FUNCTION__, id);
         return;
     }
 

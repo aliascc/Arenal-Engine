@@ -119,6 +119,8 @@
     <ClInclude Include="Color\Color.h" />
     <ClInclude Include="Crash Handling\CrashHandler.h" />
     <ClInclude Include="Crash Handling\CrashHandlerDefs.h" />
+    <ClInclude Include="Game Command\GameCommand.h" />
+    <ClInclude Include="Game Command\GameCommandManager.h" />
     <ClInclude Include="Localization\LocalizationManager.h" />
     <ClInclude Include="Localization\LocalizationManagerDefs.h" />
     <ClInclude Include="Logger\Logger.h" />
@@ -149,6 +151,8 @@
     <ClCompile Include="Color\AEColorDefs.cpp" />
     <ClCompile Include="Color\Color.cpp" />
     <ClCompile Include="Crash Handling\CrashHandler.cpp" />
+    <ClCompile Include="Game Command\GameCommand.cpp" />
+    <ClCompile Include="Game Command\GameCommandManager.cpp" />
     <ClCompile Include="Localization\LocalizationManager.cpp" />
     <ClCompile Include="Localization\LocalizationManagerDefs.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />

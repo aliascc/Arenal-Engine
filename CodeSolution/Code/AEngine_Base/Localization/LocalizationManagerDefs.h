@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _LOCALIZATION_MANAGER_DEFS_H
-#define _LOCALIZATION_MANAGER_DEFS_H
-
 /**********************
 *   System Includes   *
 ***********************/
@@ -88,6 +85,16 @@ class LocalizationManager;
 /// </summary>
 #define AE_LOC_LITERAL_MSG_PROP_NAME    "msg"
 
+
+/// <summary>
+/// Localization Default Strings
+/// </summary>
+
+#define AE_LOC_READ_FILE_ERR_MSG                "Localization System could not read file: {0}."
+#define AE_LOC_READ_LANG_LITERALS_INIT_ERR_MSG  "Localization System failed to read Language Literals: {0}, from file: {1}."
+#define AE_LOC_LITERAL_EXISTS_ERR_MSG           "Literal: {0}, already exists in the language collection."
+#define AE_LOC_LITERAL_MSG_NAME_ERR_MSG         "Literal Msg: {0}, does not have a name."
+
 /****************
 *   Constants   *
 *****************/
@@ -115,5 +122,3 @@ struct LocalizationLiteral sealed : public Named
 ****************/
 typedef std::unordered_map<std::string, LocalizationLiteral>   LiteralMap;
 typedef std::unordered_map<std::string, LiteralMap>            LanguageMap;
-
-#endif

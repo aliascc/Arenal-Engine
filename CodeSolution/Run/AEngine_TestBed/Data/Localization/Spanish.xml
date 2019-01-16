@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <Language>
-	<Literal  name="INTERNAL_DRIVER_ERROR_MSG"                    msg="Error en el Dirver... Abortando" />
-	<Literal  name="INIT_COULDNT_READ_FILE_MSG"                   msg="{0}: No se pudo leer del archivo: {1}" />
+  <Literal  name="INTERNAL_DRIVER_ERROR_MSG"                    msg="Error en el Dirver... Abortando" />
+  <Literal  name="INIT_COULDNT_READ_FILE_MSG"                   msg="{0}: No se pudo leer del archivo: {1}" />
   <Literal  name="EXTRACT_GAME_CONFIG_ERR_MSG"                  msg="No se pudo leer del archivo de Configuración del Juego. El archivo puede estar corrupto" />
   <Literal  name="EXTRACT_GAME_OPTS_ERR_MSG"                    msg="No se pudo leer del archivo de Opciones del Juego. El archivo puede estar corrupto" />
   <Literal  name="EXTRACT_GRAPHIC_OPTS_ERR_MSG"                 msg="No se pudo leer del archivo de Opciones Graficas. El archivo puede estar corrupto" />
@@ -9,17 +9,17 @@
   <Literal  name="REGISTER_CLASS_FAIL_MSG"                      msg="{0}: Fallo al Registrar la clase de la Ventana Principal" />
   <Literal  name="CREATE_WINDOW_FAIL_MSG"                       msg="{0}: Creación de la Ventana Principal fallo" />
   <Literal  name="INIT_3D_DEVICE_ERR_MSG"                       msg="No se ha podido crear el dispositivo 3D..." />
-	<Literal  name="AE_RUNTIME_TYPE_UNKNOWN_ERR_MSG"              msg="{0}: Runtime tipo desconocido:{1}, asumiendo DirectX9"/>
-	<Literal  name="DEVICE_NOT_INITIALIZE_ERR_MSG"                msg="El dispositivo 3D no ha sido inicializado... Abortando" />
-	<Literal  name="DX_MULTI_SAMPLE_TYPE_NOT_FOUND_ERR_MSG"       msg="{0}: Formato de 'Multi Sample' de DirectX '{1}' no ha sido encontrado, por defecto devolviendo {2}" />
-	<Literal  name="DX_PRESENTATION_PARAMETER_NOT_FOUND_ERR_MSG"  msg="{0}: 'Presentation Parameter' de DirectX '{1}' no ha sido encontrado, por defecto devolviendo {2}" />
-	<Literal  name="DX_OBJECT_CREAT_FAIL_ERR_MSG"                 msg="{0}: Creación del Objecto de DirectX Fallo" />
-	<Literal  name="CHECK_DEV_CAPS_ERR_MSG"                       msg="{0}: Fallo el chequeo de las capacidades del dispositivo." />
-	<Literal  name="INIT_INPUT_DEVICES_FAIL_ERR_MSG"              msg="No se ha podido inicializar los dispositivos de entrada." />
-	<Literal  name="INPUT_DEVICE_FAIL_CREATE_ERR_MSG"             msg="{0}: No se ha podido crear el dispositivo de entrada." />
-	<Literal  name="DX_INPUT_KEY_NOT_FOUND_ERR_MSG"               msg="{0}: Tecla de DirectX '{1}' no se encontro, retornando {2} por defecto" />
-	<Literal  name="DX_LOAD_PARAMETERS_MEM_FAIl_ERR_MSG"          msg="{0}: Efecto de DirectX fallo al cargar todos los parametros a memoria" />
-	<Literal  name="DX_LOAD_TECHNIQUES_MEM_FAIl_ERR_MSG"          msg="{0}: Efecto de DirectX fallo al cargar todas las tecnicas a memoria" />
+  <Literal  name="AE_RUNTIME_TYPE_UNKNOWN_ERR_MSG"              msg="{0}: Runtime tipo desconocido:{1}, asumiendo DirectX9"/>
+  <Literal  name="DEVICE_NOT_INITIALIZE_ERR_MSG"                msg="El dispositivo 3D no ha sido inicializado... Abortando" />
+  <Literal  name="DX_MULTI_SAMPLE_TYPE_NOT_FOUND_ERR_MSG"       msg="{0}: Formato de 'Multi Sample' de DirectX '{1}' no ha sido encontrado, por defecto devolviendo {2}" />
+  <Literal  name="DX_PRESENTATION_PARAMETER_NOT_FOUND_ERR_MSG"  msg="{0}: 'Presentation Parameter' de DirectX '{1}' no ha sido encontrado, por defecto devolviendo {2}" />
+  <Literal  name="DX_OBJECT_CREAT_FAIL_ERR_MSG"                 msg="{0}: Creación del Objecto de DirectX Fallo" />
+  <Literal  name="CHECK_DEV_CAPS_ERR_MSG"                       msg="{0}: Fallo el chequeo de las capacidades del dispositivo." />
+  <Literal  name="INIT_INPUT_DEVICES_FAIL_ERR_MSG"              msg="No se ha podido inicializar los dispositivos de entrada." />
+  <Literal  name="INPUT_DEVICE_FAIL_CREATE_ERR_MSG"             msg="{0}: No se ha podido crear el dispositivo de entrada." />
+  <Literal  name="DX_INPUT_KEY_NOT_FOUND_ERR_MSG"               msg="{0}: Tecla de DirectX '{1}' no se encontro, retornando {2} por defecto" />
+  <Literal  name="DX_LOAD_PARAMETERS_MEM_FAIl_ERR_MSG"          msg="{0}: Efecto de DirectX fallo al cargar todos los parametros a memoria" />
+  <Literal  name="DX_LOAD_TECHNIQUES_MEM_FAIl_ERR_MSG"          msg="{0}: Efecto de DirectX fallo al cargar todas las tecnicas a memoria" />
   <Literal  name="DX_POOL_NOT_FOUND_ERR_MSG"                    msg="{0}: 'Pool' de DirectX '{1}' no ha sido encontrado, por defecto devolviendo {2}" />
   <Literal  name="DX_VVT_NOT_FOUND_ERR_MSG"                     msg="{0}: Tipo de Variable de Vertice de DirectX '{1}' no ha sido encontrado, por defecto devolviendo {2}" />
   <Literal  name="DX_DECL_METH_NOT_FOUND_ERR_MSG"               msg="{0}: Metodo de Declaracion de Vertice de DirectX '{1}' no ha sido encontrado, por defecto devolviendo {2}" />
@@ -34,7 +34,6 @@
   <Literal  name="COULD_NOT_LOAD_TEXTURE"                       msg="{0}: No se pudo leer el archivo de Textura '{1}'" />
   <Literal  name="GC_ID_DUPLICATE_ERR_MSG"                      msg="{0}: GC ID '{1}' ya esta en la Mapa de GC Collection" />
   <Literal  name="DX_SPRITE_CREATE_FAIL_ERR_MSG"                msg="{0}: DirectX Sprite fallo al ser creado." />
-  <Literal  name="SCRIPT_ENGINE_INIT_FAIL_ERR_MSG"              msg="Scripting Engine fallo al ser inicializado" />
   <Literal  name="CONTENT_IMPORT_LOAD_FAIL_ERR_MSG"             msg="{0}: Content Importer fallo al cargar archivo: {1}, tipo desconocido: {2}" />
 
   <!--
@@ -123,6 +122,15 @@
   <Literal  name="AS_SET_MSG_CALLBACK_ERR_MSG"                  msg="{0}: Angel Script Fallo al setear función de Callback." />
   <Literal  name="AS_CREATE_ENGINE_FAIL_ERR_MSG"                msg="{0}: Angel Script Engine fallo al ser creado" />
   <Literal  name="AS_ENGINE_CALLBACK_ERR_MSG"                   msg="{0}: {1} ({2}, {3}) -> {4}" />
+
+  <!--
+  #############
+  Script Engine
+  #############
+  -->
+
+  <Literal  name="SCRIPT_ENGINE_INIT_FAIL_ERR_MSG"              msg="Scripting Engine fallo al ser inicializado." />
+  <Literal  name="SCRIPT_ENGINE_REGISTER_DATA_ERR_MSG"          msg="Scripting Engine fallo al register datos basicos." />
 
   <!--
   #############
@@ -219,14 +227,39 @@
   -->
 
   <Literal  name="LOGGER_SAME_LOG_MSG"                          msg="El mensaje de log se ha repetido {0} veces." />
+  <Literal  name="LOGGER_INIT_ERR_MSG"                          msg="El sistema de logs fallo al ser inicializado." />
 
   <!--
   #############
   Physics
   #############
   -->
-  
+
+  <Literal  name="PHYSICS_ENGINE_INIT_ERR_MSG"                  msg="PhysX fallo al ser inicializado." />
   <Literal  name="PHYSICS_ENGINE_CALLBACK_ERR_MSG"              msg="PhysX Msj: {0}" />
-  
+
+  <!--
+  #############
+  Im Gui
+  #############
+  -->
+
+  <Literal  name="IMGUI_INIT_ERR_MSG"                           msg="ImGui fallo al ser inicializado." />
+
+  <!--
+  #############
+  XE Assets
+  #############
+  -->
+
+  <Literal  name="ASSET_MANAGER_INIT_ERR_MSG"                   msg="Game Asset Manager fallo al ser inicializado." />
+
+  <!--
+  #############
+  Project
+  #############
+  -->
+
+  <Literal  name="PROJECT_CONFIG_ERR_MSG"                       msg="La configuración del proyecto no puedo ser cargado." />
 
 </Language>

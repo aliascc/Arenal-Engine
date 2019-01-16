@@ -17,8 +17,7 @@
 
 #pragma once
 
-#ifndef _GAME_COMMAND_H
-#define _GAME_COMMAND_H
+#ifdef AE_EDITOR_MODE
 
 /**********************
 *   System Includes   *
@@ -31,31 +30,21 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-
-/********************
-*   Forward Decls   *
-*********************/
+#include "ImGuiDefs.h"
+#include "ImGuiObject.h"
 
 /*****************
 *   Class Decl   *
 ******************/
-class GameCommand abstract : public AEObject
+class ImGuiMenuObject : public ImGuiObject
 {
+
 private:
 
-    /************************
-    *   Private Variables   *
-    *************************/
-#pragma region Private Variables
-
-#pragma endregion
-
-    /**********************
-    *   Private Methods   *
-    ***********************/
-#pragma region Private Methods
-
-#pragma endregion
+    /// <summary>
+    /// Type of the Menu Object
+    /// </summary>
+    ImGuiMenuObjectType m_ImGuiMenuObjectType;
 
 public:
 
@@ -65,43 +54,31 @@ public:
 #pragma region Constructor & Destructor Methods
 
     /// <summary>
-    /// GameCommand Constructor
+    /// ImGuiMenuObject Constructor
     /// </summary>
-    GameCommand();
+    /// <param name="name">Name of the menu</param>
+    /// <param name="renderPriority">Render Priority of the menu</param>
+    /// <param name="visible">Determines if the menu is visible or not</param>
+    ImGuiMenuObject(ImGuiMenuObjectType imGuiMenuObjectType, const std::string& name, uint32_t renderPriority, bool visible = true)
+        : ImGuiObject(name, renderPriority, m_Visible)
+        , m_ImGuiMenuObjectType(imGuiMenuObjectType)
+    {
+    }
 
     /// <summary>
-    /// Default GameCommand Destructor
+    /// Default ImGuiMenuObject Destructor
     /// </summary>
-    virtual ~GameCommand();
+    virtual ~ImGuiMenuObject()
+    {
+    }
 
 #pragma endregion
 
-    /******************
-    *   Get Methods   *
-    *******************/
-#pragma region Get Methods
-
-#pragma endregion
-
-    /******************
-    *   Set Methods   *
-    *******************/
-#pragma region Set Methods
-
-#pragma endregion
-
-    /************************
-    *   Framework Methods   *
-    *************************/
-#pragma region Framework Methods
-
-    /// <summary>
-    /// Executes the Game Command
-    /// </summary>
-    virtual void Execute() = 0;
-
-#pragma endregion
+    inline ImGuiMenuObjectType GetImGuiMenuObjectType() const
+    {
+        return m_ImGuiMenuObjectType;
+    }
 
 };
 
-#endif
+#endif //AE_EDITOR_MODE

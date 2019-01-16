@@ -1,7 +1,7 @@
 Tool:          DirectXTex
-Last Updated:  May 2018
-Version:       May 2018
-Last Build:    May 18 2018
+Last Updated:  January 1 2019
+Version:       November 2018
+Last Build:    January 1 2019
 
 Comments:
 

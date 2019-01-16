@@ -82,8 +82,8 @@ void AETime::SampleFPS()
         totalTime += m_FrameSamples[i];
     }
 
-    m_MilliPerFrame = totalTime / m_NumOfSamples;
-    m_FPS = 1. / m_MilliPerFrame;
+    m_MilliPerFrame = static_cast<float>(totalTime / m_NumOfSamples);
+    m_FPS = 1.0f / m_MilliPerFrame;
 }
 
 bool AETime::NeedToRunConstantUpdate()

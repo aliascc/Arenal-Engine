@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <Language>
-	<Literal  name="INTERNAL_DRIVER_ERROR_MSG"                    msg="Internal Driver error... Exiting" />
-	<Literal  name="INIT_COULDNT_READ_FILE_MSG"                   msg="{0}: Could not read file: {1}" />
-	<Literal  name="EXTRACT_GAME_CONFIG_ERR_MSG"                  msg="Could not read from Game Configuration file. File may be curropted" />
-	<Literal  name="EXTRACT_GAME_OPTS_ERR_MSG"                    msg="Could not read from Game Options file. File may be curropted" />
-	<Literal  name="EXTRACT_GRAPHIC_OPTS_ERR_MSG"                 msg="Could not read from Graphic Options file. File may be curropted" />
-	<Literal  name="INIT_MAIN_WINDOW_ERR_MSG"                     msg="Could not create Main App Window..." />
-	<Literal  name="REGISTER_CLASS_FAIL_MSG"                      msg="{0}: Register class for Main Window Failed" />
-	<Literal  name="CREATE_WINDOW_FAIL_MSG"                       msg="{0}: Main Window Creation Failed" />
-	<Literal  name="INIT_3D_DEVICE_ERR_MSG"                       msg="Could not create 3D Device..." />
-	<Literal  name="AE_RUNTIME_TYPE_UNKNOWN_ERR_MSG"              msg="{0}: Runtime unknown type:{1}, assuming DirectX9"/>
-	<Literal  name="DEVICE_NOT_INITIALIZE_ERR_MSG"                msg="3D Device has not been initialize... Exiting" />
-	<Literal  name="DX_MULTI_SAMPLE_TYPE_NOT_FOUND_ERR_MSG"       msg="{0}: DirectX Multi Sample Type '{1}' has not been found, returning {2} as default" />
-	<Literal  name="DX_PRESENTATION_PARAMETER_NOT_FOUND_ERR_MSG"  msg="{0}: DirectX Presentation Parameter '{1}' has not been found, returning {2} as default" />
-	<Literal  name="DX_OBJECT_CREAT_FAIL_ERR_MSG"                 msg="{0}: DirectX Object Creation Failed" />
-	<Literal  name="CHECK_DEV_CAPS_ERR_MSG"                       msg="{0}: Check Device Capabilities failed." />
-	<Literal  name="INIT_INPUT_DEVICES_FAIL_ERR_MSG"              msg="Could not initialize the Input Devices." />
-	<Literal  name="INPUT_DEVICE_FAIL_CREATE_ERR_MSG"             msg="{0}: Could not create input device." />
-	<Literal  name="DX_INPUT_KEY_NOT_FOUND_ERR_MSG"               msg="{0}: DirectX Input Key '{1}' has not been found, returning {2} as default" />
-	<Literal  name="DX_LOAD_PARAMETERS_MEM_FAIl_ERR_MSG"          msg="{0}: DirectX Effect fail to load all parameters to memory" />
-	<Literal  name="DX_LOAD_TECHNIQUES_MEM_FAIl_ERR_MSG"          msg="{0}: DirectX Effect fail to load all techniques to memory" />
-	<Literal  name="DX_POOL_NOT_FOUND_ERR_MSG"                    msg="{0}: DirectX Pool '{1}' has not been found, returning {2} as default" />
-	<Literal  name="DX_VVT_NOT_FOUND_ERR_MSG"                     msg="{0}: DirectX Vertex Variable Type '{1}' has not been found, returning {2} as default" />
-	<Literal  name="DX_DECL_METH_NOT_FOUND_ERR_MSG"               msg="{0}: DirectX Vertex Declaration Methods '{1}' has not been found, returning {2} as default" />
-	<Literal  name="DX_VTX_USAGE_NOT_FOUND_ERR_MSG"               msg="{0}: DirectX Vertex Usage '{1}' has not been found, returning {2} as default" />
-	<Literal  name="DX_IB_TYPE_NOT_FOUND_ERR_MSG"                 msg="{0}: DirectX Index Buffer Type '{1}' has not been found, returning {2} as default" />
-	<Literal  name="DX_PT_TYPE_NOT_FOUND_ERR_MSG"                 msg="{0}: DirectX Primitive Type '{1}' has not been found, returning {2} as default" />
-	<Literal  name="FONT_RES_NOT_FOUND_ERR_MSG"                   msg="{0}: Font Resource '{1}' has not been found" />
-	<Literal  name="FONT_FAIL_ADD_ERR_MSG"                        msg="{0}: Font Resource '{1}' failed to be added to memory" />
-	<Literal  name="DX_FONT_CREATE_FAIL_ERR_MSG"                  msg="{0}: DirectX Font failed to be created" />
-	<Literal  name="MODEL_FILE_CORRUPTED_ERR_MSG"                 msg="{0}: Model File '{1}' is an invalid file or it is corrupted" />
-	<Literal  name="MODEL_FILE_EXP_VER_ERR_MSG"                   msg="{0}: Model File '{1}' exported version is not supported" />
-	<Literal  name="COULD_NOT_LOAD_TEXTURE"                       msg="{0}: Unable to read Texture File '{1}'" />
-	<Literal  name="GC_ID_DUPLICATE_ERR_MSG"                      msg="{0}: GC ID '{1}' is already in GC Collection Map" />
-	<Literal  name="DX_SPRITE_CREATE_FAIL_ERR_MSG"                msg="{0}: DirectX Sprite fail to be created." />
-	<Literal  name="SCRIPT_ENGINE_INIT_FAIL_ERR_MSG"              msg="Scripting Engine fail to be initialize" />
-	<Literal  name="CONTENT_IMPORT_LOAD_FAIL_ERR_MSG"             msg="{0}: Content Importer failed to load file: {1}, unknown type: {2}" />
-  
+  <Literal  name="INTERNAL_DRIVER_ERROR_MSG"                    msg="Internal Driver error... Exiting" />
+  <Literal  name="INIT_COULDNT_READ_FILE_MSG"                   msg="{0}: Could not read file: {1}" />
+  <Literal  name="EXTRACT_GAME_CONFIG_ERR_MSG"                  msg="Could not read from Game Configuration file. File may be curropted" />
+  <Literal  name="EXTRACT_GAME_OPTS_ERR_MSG"                    msg="Could not read from Game Options file. File may be curropted" />
+  <Literal  name="EXTRACT_GRAPHIC_OPTS_ERR_MSG"                 msg="Could not read from Graphic Options file. File may be curropted" />
+  <Literal  name="INIT_MAIN_WINDOW_ERR_MSG"                     msg="Could not create Main App Window..." />
+  <Literal  name="REGISTER_CLASS_FAIL_MSG"                      msg="{0}: Register class for Main Window Failed" />
+  <Literal  name="CREATE_WINDOW_FAIL_MSG"                       msg="{0}: Main Window Creation Failed" />
+  <Literal  name="INIT_3D_DEVICE_ERR_MSG"                       msg="Could not create 3D Device..." />
+  <Literal  name="AE_RUNTIME_TYPE_UNKNOWN_ERR_MSG"              msg="{0}: Runtime unknown type:{1}, assuming DirectX9"/>
+  <Literal  name="DEVICE_NOT_INITIALIZE_ERR_MSG"                msg="3D Device has not been initialize... Exiting" />
+  <Literal  name="DX_MULTI_SAMPLE_TYPE_NOT_FOUND_ERR_MSG"       msg="{0}: DirectX Multi Sample Type '{1}' has not been found, returning {2} as default" />
+  <Literal  name="DX_PRESENTATION_PARAMETER_NOT_FOUND_ERR_MSG"  msg="{0}: DirectX Presentation Parameter '{1}' has not been found, returning {2} as default" />
+  <Literal  name="DX_OBJECT_CREAT_FAIL_ERR_MSG"                 msg="{0}: DirectX Object Creation Failed" />
+  <Literal  name="CHECK_DEV_CAPS_ERR_MSG"                       msg="{0}: Check Device Capabilities failed." />
+  <Literal  name="INIT_INPUT_DEVICES_FAIL_ERR_MSG"              msg="Could not initialize the Input Devices." />
+  <Literal  name="INPUT_DEVICE_FAIL_CREATE_ERR_MSG"             msg="{0}: Could not create input device." />
+  <Literal  name="DX_INPUT_KEY_NOT_FOUND_ERR_MSG"               msg="{0}: DirectX Input Key '{1}' has not been found, returning {2} as default" />
+  <Literal  name="DX_LOAD_PARAMETERS_MEM_FAIl_ERR_MSG"          msg="{0}: DirectX Effect fail to load all parameters to memory" />
+  <Literal  name="DX_LOAD_TECHNIQUES_MEM_FAIl_ERR_MSG"          msg="{0}: DirectX Effect fail to load all techniques to memory" />
+  <Literal  name="DX_POOL_NOT_FOUND_ERR_MSG"                    msg="{0}: DirectX Pool '{1}' has not been found, returning {2} as default" />
+  <Literal  name="DX_VVT_NOT_FOUND_ERR_MSG"                     msg="{0}: DirectX Vertex Variable Type '{1}' has not been found, returning {2} as default" />
+  <Literal  name="DX_DECL_METH_NOT_FOUND_ERR_MSG"               msg="{0}: DirectX Vertex Declaration Methods '{1}' has not been found, returning {2} as default" />
+  <Literal  name="DX_VTX_USAGE_NOT_FOUND_ERR_MSG"               msg="{0}: DirectX Vertex Usage '{1}' has not been found, returning {2} as default" />
+  <Literal  name="DX_IB_TYPE_NOT_FOUND_ERR_MSG"                 msg="{0}: DirectX Index Buffer Type '{1}' has not been found, returning {2} as default" />
+  <Literal  name="DX_PT_TYPE_NOT_FOUND_ERR_MSG"                 msg="{0}: DirectX Primitive Type '{1}' has not been found, returning {2} as default" />
+  <Literal  name="FONT_RES_NOT_FOUND_ERR_MSG"                   msg="{0}: Font Resource '{1}' has not been found" />
+  <Literal  name="FONT_FAIL_ADD_ERR_MSG"                        msg="{0}: Font Resource '{1}' failed to be added to memory" />
+  <Literal  name="DX_FONT_CREATE_FAIL_ERR_MSG"                  msg="{0}: DirectX Font failed to be created" />
+  <Literal  name="MODEL_FILE_CORRUPTED_ERR_MSG"                 msg="{0}: Model File '{1}' is an invalid file or it is corrupted" />
+  <Literal  name="MODEL_FILE_EXP_VER_ERR_MSG"                   msg="{0}: Model File '{1}' exported version is not supported" />
+  <Literal  name="COULD_NOT_LOAD_TEXTURE"                       msg="{0}: Unable to read Texture File '{1}'" />
+  <Literal  name="GC_ID_DUPLICATE_ERR_MSG"                      msg="{0}: GC ID '{1}' is already in GC Collection Map" />
+  <Literal  name="DX_SPRITE_CREATE_FAIL_ERR_MSG"                msg="{0}: DirectX Sprite fail to be created." />
+  <Literal  name="CONTENT_IMPORT_LOAD_FAIL_ERR_MSG"             msg="{0}: Content Importer failed to load file: {1}, unknown type: {2}" />
+
   <!--
   #############
   AE Game Info
@@ -107,7 +106,7 @@
 
   <Literal  name="ASSIMP_IDX_BUFFER_ERR_MSG"                    msg="{0}: Assimp could not build Index Buffer for Mesh Part '{1}' to Mesh '{2}'" />
   <Literal  name="ASSIMP_VTX_BUFFER_ERR_MSG"                    msg="{0}: Assimp could not build Vertex Buffer for Mesh Part '{1}' to Mesh '{2}'" />
-  
+
   <!--
   #############
   Angel Script
@@ -123,6 +122,15 @@
   <Literal  name="AS_SET_MSG_CALLBACK_ERR_MSG"                  msg="{0}: Angel Script Failed to Set Message Callback Function." />
   <Literal  name="AS_CREATE_ENGINE_FAIL_ERR_MSG"                msg="{0}: Angel Script Engine fail on create" />
   <Literal  name="AS_ENGINE_CALLBACK_ERR_MSG"                   msg="{0}: {1} ({2}, {3}) -> {4}" />
+
+  <!--
+  #############
+  Script Engine
+  #############
+  -->
+
+  <Literal  name="SCRIPT_ENGINE_INIT_FAIL_ERR_MSG"              msg="Scripting Engine fail to be initialize." />
+  <Literal  name="SCRIPT_ENGINE_REGISTER_DATA_ERR_MSG"          msg="Scripting Engine fail to be register base data." />
 
   <!--
   #############
@@ -219,6 +227,7 @@
   -->
 
   <Literal  name="LOGGER_SAME_LOG_MSG"                          msg="The last log message has been repeated {0} times." />
+  <Literal  name="LOGGER_INIT_ERR_MSG"                          msg="The Log system failed to initialized." />
 
   <!--
   #############
@@ -226,6 +235,31 @@
   #############
   -->
 
+  <Literal  name="PHYSICS_ENGINE_INIT_ERR_MSG"                  msg="PhysX failed to be initialized." />
   <Literal  name="PHYSICS_ENGINE_CALLBACK_ERR_MSG"              msg="PhysX Msg: {0}" />
+
+  <!--
+  #############
+  Im Gui
+  #############
+  -->
+
+  <Literal  name="IMGUI_INIT_ERR_MSG"                           msg="ImGui failed to be initialized." />
+
+  <!--
+  #############
+  XE Assets
+  #############
+  -->
+
+  <Literal  name="ASSET_MANAGER_INIT_ERR_MSG"                   msg="Game Asset Manager failed to be initialized." />
+
+  <!--
+  #############
+  Project
+  #############
+  -->
+
+  <Literal  name="PROJECT_CONFIG_ERR_MSG"                       msg="Project properties could not be loaded." />
 
 </Language>

@@ -1594,9 +1594,7 @@ AEResult GameAssetManager::LoadAssetManagerFile(const std::string& gameAssetsFil
     AEXMLParser newFile;
     if (newFile.LoadFile(gameAssetsFilename) != AEResult::Ok)
     {
-        std::string msg_error = fmt::format(AELOCMAN->GetLiteral("INIT_COULDNT_READ_FILE_MSG"), __FUNCTION__, gameAssetsFilename);
-
-        AELOGGER->AddNewLog(LogLevel::Error, msg_error);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::GameAssets, "INIT_COULDNT_READ_FILE_MSG", __FUNCTION__, gameAssetsFilename);
         return AEResult::OpenFileFail;
     }
 

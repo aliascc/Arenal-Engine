@@ -34,6 +34,7 @@
 #include "GameComponent.h"
 #include "GameApp\GameApp.h"
 #include "Resource\GameResourceManager.h"
+#include "Core Game Command/CoreCommands.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -63,10 +64,8 @@ void GameComponent::SetCallOrder(uint32_t callOrder)
 
     m_CallOrder = callOrder;
 
-    if(m_NeedSortChangeCallback != nullptr)
-    {
-        m_NeedSortChangeCallback();
-    }
+    GCSortCommand* sortCommand = new GCSortCommand(m_GameApp.GetGameComponentCollection());
+    GameCommandManager::GetInstance().AddCommand(sortCommand);
 }
 
 void GameComponent::ConstantUpdate(const TimerParams& timerParams)

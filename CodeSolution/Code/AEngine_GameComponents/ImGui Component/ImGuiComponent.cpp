@@ -27,6 +27,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "ImGuiManager.h"
 #include "ImGuiComponent.h"
 
 //Always include last
@@ -37,17 +38,30 @@
 *********************/
 ImGuiComponent::ImGuiComponent(GameApp& gameApp, const std::string& gameComponentName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
+    , m_ImGuiManager(gameApp.GetImGuiManager())
 {
 }
 
 ImGuiComponent::~ImGuiComponent()
 {
+    CleanUp();
+}
+
+void ImGuiComponent::CleanUp()
+{
+}
+
+void ImGuiComponent::Initialize()
+{
+    AEResult res = AEResult::Ok;
 }
 
 void ImGuiComponent::Update(const TimerParams& timerParams)
 {
+    m_ImGuiManager.Update(timerParams);
 }
 
 void ImGuiComponent::Render(const TimerParams& timerParams)
 {
+    m_ImGuiManager.Render(timerParams);
 }

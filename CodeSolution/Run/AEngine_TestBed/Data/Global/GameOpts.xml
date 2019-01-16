@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <GameOpts>
   <WindowsPosition Pos="100 100" />
-  <WinCaption WP="XE_Editor" />
+  <WinCaption WP="Arenal Engine Editor" />
   <WinClassName WCN="3DWndClassName" />
   <SampleFPS />
   <Log Level="DEBUG" Capacity="500" LogToFile="true" LogFile="Data/Logs/Logs.txt" />

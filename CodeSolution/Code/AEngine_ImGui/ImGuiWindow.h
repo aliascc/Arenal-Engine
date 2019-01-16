@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _IM_GUI_WINDOW_H
-#define _IM_GUI_WINDOW_H
-
 #ifdef AE_EDITOR_MODE
 
 /**********************
@@ -33,11 +30,12 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "ImGuiObject.h"
 
 /*****************
 *   Class Decl   *
 ******************/
-class ImGuiWindow : public AEObject
+class ImGuiWindow : public ImGuiObject
 {
 private:
 
@@ -64,11 +62,6 @@ protected:
 #pragma region Protected Variables
 
     /// <summary>
-    /// Name of the Window
-    /// </summary>
-    std::string m_Name = "";
-
-    /// <summary>
     /// Determines if the Window is visible or not
     /// </summary>
     bool m_Visible = false;
@@ -76,12 +69,17 @@ protected:
     /// <summary>
     /// Flags describing the behaviour of the Im Gui Window
     /// </summary>
-    ImGuiWindowFlags m_Flags = 0;
+    ImGuiWindowFlags m_Flags = ImGuiWindowFlags_None;
 
     /// <summary>
     /// Determines if the Close Icon will be shown
     /// </summary>
     bool m_ShowCloseIcon = true;
+
+    /// <summary>
+    /// Determines if the Window has a menu bar enabled
+    /// </summary>
+    bool m_EnableMenu = false;
 
 #pragma endregion
 
@@ -110,10 +108,11 @@ public:
     /// ImGUIObject Constructor
     /// </summary>
     /// <param name="name">Name of the Window</param>
+    /// <param name="renderPriority">Render Priority of the Window</param>
     /// <param name="visible">Determines if the window is visible or not</param>
     /// <param name="flags">Im Gui Window Flags</param>
     /// <param name="showCloseIcon">Determines if the Close Icon will be shown</param>
-    ImGuiWindow(const std::string& name, bool visible = true, ImGuiWindowFlags flags = 0, bool showCloseIcon = true);
+    ImGuiWindow(const std::string& name, uint32_t renderPriority, bool visible = true, ImGuiWindowFlags flags = ImGuiWindowFlags_None, bool showCloseIcon = true);
 
     /// <summary>
     /// Default ImGUIObject Destructor
@@ -146,12 +145,12 @@ public:
     }
 
     /// <summary>
-    /// Gets the name of the Window
+    /// Gets if the Window has its menu enabled
     /// </summary>
-    /// <returns>Name of the Window</returns>
-    inline const std::string& GetName() const
+    /// <returns>True if window has its menu enabled, false if it is not</returns>
+    inline bool GetEnableMenu() const
     {
-        return m_Name;
+        return m_EnableMenu;
     }
 
 #pragma endregion
@@ -180,12 +179,12 @@ public:
     }
 
     /// <summary>
-    /// Sets the name of the Window
+    /// Sets if the Window has its menu enabled
     /// </summary>
-    /// <param name="value">Name of the Window</param>
-    inline void SetName(const std::string& value)
+    /// <param name="value">Enables or disables the menu</param>
+    inline void SetEnableMenu(bool value)
     {
-        m_Name = value;
+        m_EnableMenu = value;
     }
 
 #pragma endregion
@@ -199,12 +198,10 @@ public:
     /// Call to Update the Im Gui Window
     /// </summary>
     /// <param name="timerParams">Game Timer Parameters</param>
-    void Update(const TimerParams& timerParams);
+    void Update(const TimerParams& timerParams) override;
 
 #pragma endregion
 
 };
 
 #endif //AE_EDITOR_MODE
-
-#endif

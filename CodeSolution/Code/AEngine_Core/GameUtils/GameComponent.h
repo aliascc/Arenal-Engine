@@ -46,21 +46,12 @@ class GameResourceManager;
 ******************/
 class GameComponent abstract : public GameService
 {
-    //Friend class to access private methods
-    friend class GameComponentCollection;
-
     private:
 
         /************************
         *   Private Variables   *
         *************************/
 #pragma region Private Variables
-
-        /// <summary>
-        /// Callback NeedSortChange from GameCollection to let it know if we change the draw/update order and we need a sort.
-        /// It is Private so derive classes can not change its function
-        /// </summary>
-        NeedSortChangeCallback m_NeedSortChangeCallback = nullptr;
 
         /// <summary>
         /// Order in which game component is called to be updated and drawn. Private so we force the derive classes to use the get and set methods
@@ -73,15 +64,6 @@ class GameComponent abstract : public GameService
          *   Private Methods    *
          ************************/
 #pragma region Private Methods
-
-        /// <summary>
-        /// Find out if we are a game component or drawable game component
-        /// </summary>
-        /// <returns>Returns true if it a drawable game component, false otherwise</returns>
-        virtual inline bool IsDrawableGameComponent    () const
-        { 
-            return false; 
-        }
 
 #pragma endregion
 
@@ -231,6 +213,15 @@ class GameComponent abstract : public GameService
         /// If the Graphic Device is Lost and it is recover this methods will be called and GC should handle decide what to do 
         /// </summary>
         virtual void OnResetDevice();
+
+        /// <summary>
+        /// Find out if we are a game component or drawable game component
+        /// </summary>
+        /// <returns>Returns true if it a drawable game component, false otherwise</returns>
+        virtual inline bool IsDrawableGameComponent() const
+        {
+            return false;
+        }
 
 #pragma endregion
 

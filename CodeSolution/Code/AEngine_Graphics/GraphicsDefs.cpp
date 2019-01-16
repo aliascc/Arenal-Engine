@@ -349,9 +349,7 @@ namespace AEGraphicHelpers
                 dxUsage = D3D11_USAGE_STAGING;
                 break;
             default:
-                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "Buffer Usage", static_cast<uint32_t>(bufferUsage), "D3D11_USAGE_DEFAULT");
-                AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
-
+                AELogHelpers::Log(LogLevel::Warning, LogSystem::Graphics, "DX_TYPE_NOT_FOUND_ERR_MSG", __FUNCTION__, "Buffer Usage", static_cast<uint32_t>(bufferUsage), "D3D11_USAGE_DEFAULT");
                 break;
         }
 
@@ -377,9 +375,7 @@ namespace AEGraphicHelpers
                 dxAccess = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
                 break;
             default:
-                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("DX_TYPE_NOT_FOUND_ERR_MSG"), __FUNCTION__, "Buffer Access", static_cast<uint32_t>(bufferAccess), "0");
-                AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
-
+                AELogHelpers::Log(LogLevel::Warning, LogSystem::Graphics, "DX_TYPE_NOT_FOUND_ERR_MSG", __FUNCTION__, "Buffer Access", static_cast<uint32_t>(bufferAccess), "0");
                 break;
         }
 
@@ -826,9 +822,7 @@ namespace AEGraphicHelpers
         }
         else
         {
-            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("ShaderType::AE_ST_PX_FMT_NOT_FOUND_ERR_MSG"), __FUNCTION__, pxFormat, "DXGI_FORMAT_UNKNOWN");
-            AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
-        
+            AELogHelpers::Log(LogLevel::Warning, LogSystem::Graphics, "AE_ST_PX_FMT_NOT_FOUND_ERR_MSG", __FUNCTION__, pxFormat, "DXGI_FORMAT_UNKNOWN");
             return DXGI_FORMAT_UNKNOWN;
         }
     }

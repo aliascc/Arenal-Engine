@@ -1,7 +1,7 @@
 Tool:          Angel Script
-Last Updated:  January 8 2018
-Version:       2.32.0
-Last Build:    May 18 2018
+Last Updated:  January 1 2019
+Version:       2.33.0
+Last Build:    January 1 2019
 
 Comments:
  - Download: http://www.angelcode.com/angelscript/downloads.html

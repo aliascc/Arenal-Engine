@@ -45,14 +45,8 @@ class GameComponent;
 class GameComponentCollection : public AEObject
 {
     //Typedef for STL Game Component List 
-    typedef std::list<GameComponent*>           GCList;
+    typedef std::vector<GameComponent*>         GCVector;
     typedef std::map<uint64_t, GameComponent*>  GCMap;
-    
-    //Function to sort container
-    struct SortGCCol : public std::binary_function<GameComponent*, GameComponent*, bool>
-    {
-        bool operator()(GameComponent* left, GameComponent* right) const;
-    };
 
     private:
         
@@ -65,12 +59,7 @@ class GameComponentCollection : public AEObject
         GCMap m_Map;
 
         //Game Component Collection Container
-        GCList m_Container;
-
-        //If true we have to sort the list next update call
-        bool m_NeedSort = false;
-
-        SortGCCol m_SortGCContainer;
+        GCVector m_Container;
 
 #pragma endregion
 
@@ -78,13 +67,8 @@ class GameComponentCollection : public AEObject
         *      Private Methods     *
         ****************************/
 #pragma region Private Methods
-        
-        void SortContainer();
 
-        inline void NeedSortChange()
-        { 
-            m_NeedSort = true; 
-        }
+        void FillGCBasicProps(const GameComponent& gc, GCBasicProps& basicProps) const;
 
 #pragma endregion
 
@@ -108,6 +92,7 @@ class GameComponentCollection : public AEObject
 #pragma endregion
 
         //Framework Methods
+
         AEResult Add(GameComponent* gc);
         AEResult Remove(GameComponent* gc);
         AEResult SetGCDrawCallOrder(uint32_t id, uint32_t drawCallOrder);
@@ -115,6 +100,8 @@ class GameComponentCollection : public AEObject
         AEResult SetGCEnable(uint32_t id, bool enable);
         GCBasicProps GetGCBasicProps(uint32_t index);
         GCBasicProps GetGCBasicPropsID(uint32_t id);
+
+        void SortContainer();
 
         //Function to find out if GameComponent Exists
         bool DoesGCExist(GameComponent* gc) const;

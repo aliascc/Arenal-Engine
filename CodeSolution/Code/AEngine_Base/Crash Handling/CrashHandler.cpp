@@ -20,6 +20,8 @@
 **************************/
 #include "precomp_base.h"
 
+#ifdef AE_CRASH_HANDILING
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -55,13 +57,20 @@ CrashHandler::~CrashHandler()
 LONG CrashHandler::ExceptionVectorHandler(_In_ PEXCEPTION_POINTERS exceptionInfo)
 {
     //Check to see if the exception was handled in the code
-    if (exceptionInfo->ExceptionRecord->ExceptionFlags == EXCEPTION_NONCONTINUABLE)
+    if (exceptionInfo->ExceptionRecord->ExceptionCode < CRASH_HANDLER_MAX_INFORMATION_EXCEPTION_CODE)
     {
         return EXCEPTION_CONTINUE_EXECUTION;
     }
 
-    //Create Core Dump
-    CrashHandlerInst->CreateCoreDump(exceptionInfo);
+    std::string coreDumpFileName = "";
+
+    if (!CrashHandlerInst.CreateCoreDump(exceptionInfo, coreDumpFileName))
+    {
+        return  EXCEPTION_CONTINUE_SEARCH;
+    }
+
+    std::string crashMsg = "Crash detected. Core Dump loaded into: " + coreDumpFileName;
+    MessageBox(0, crashMsg.c_str(), 0, 0);
 
     //Exit Process with failure
     exit(EXIT_FAILURE);
@@ -69,12 +78,12 @@ LONG CrashHandler::ExceptionVectorHandler(_In_ PEXCEPTION_POINTERS exceptionInfo
     //No return as we exit the program
 }
 
-void CrashHandler::CreateCoreDump(PEXCEPTION_POINTERS exceptionInfo)
+bool CrashHandler::CreateCoreDump(PEXCEPTION_POINTERS exceptionInfo, std::string& coreDumpFileName)
 {
     if (!m_IsReady)
     {
-        AETODO("Open Message Window with error");
-        return;
+        MessageBox(0, "Crash Handling failed to report the crash correctly as it was not initialized.", 0, 0);
+        return false;
     }
 
     //Core Dump Flags
@@ -91,25 +100,32 @@ void CrashHandler::CreateCoreDump(PEXCEPTION_POINTERS exceptionInfo)
     AE_Base::GetDate(timeStamp);    
 
     //Get Core Dump File
-    std::string coreDumpFileName = fmt::format(AE_CONFIG_ENGINE_CORE_DUMP, timeStamp.ToString());
+    std::string timeStr = "";
+    timeStamp.GetTimeString(timeStr, false);
+    coreDumpFileName = fmt::format(AE_CONFIG_ENGINE_CORE_DUMP, timeStr);
 
     //Open File using Window Handles
     HANDLE hFile = CreateFile(coreDumpFileName.c_str(), GENERIC_ALL, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
     if (hFile == nullptr)
     {
-        AETODO("Open Message Window with error");
-        return;
+        std::string errMsg = "Crash Handling failed to report the crash correctly as it could not open target file to load the core dump into: " + coreDumpFileName;
+        MessageBox(0, errMsg.c_str(), 0, 0);
+        return false;
     }
 
     //Create Dump File
+    std::string errMsg = "Crash Handling failed to report the crash correctly as it could not open target file to load the core dump into: " + coreDumpFileName;
     BOOL Result = MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, (MINIDUMP_TYPE)flags, &expParam, nullptr, nullptr);
+    CloseHandle(hFile);
+
     if (Result == FALSE)
     {
-        AETODO("Open Message Window with error");
+        std::string errMsg = "Crash Handling failed to report the crash correctly as it could not write the core dump into the file: " + coreDumpFileName;
+        MessageBox(0, errMsg.c_str(), 0, 0);
+        return false;
     }
 
-    //Close File
-    CloseHandle(hFile);
+    return true;
 }
 
 AEResult CrashHandler::InitCrashHandling()
@@ -145,3 +161,5 @@ void CrashHandler::DeinitCrashHandling()
 
     m_IsReady = false;
 }
+
+#endif //AE_CRASH_HANDILING

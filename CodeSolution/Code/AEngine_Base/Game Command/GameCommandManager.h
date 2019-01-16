@@ -31,6 +31,7 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "Utils/Singleton.h"
 
 /********************
 *   Forward Decls   *
@@ -40,8 +41,10 @@ class GameCommand;
 /*****************
 *   Class Decl   *
 ******************/
-class GameCommandManager sealed : public AEObject
+class GameCommandManager sealed : public Singleton<GameCommandManager>
 {
+    friend class Singleton<GameCommandManager>;
+
     typedef std::list<GameCommand*> GameCommandList;
 
 private:
@@ -65,11 +68,9 @@ private:
 
 #pragma endregion
 
-public:
-
-    /***************************************
-    *   Constructor & Destructor Methods   *
-    ****************************************/
+    /***********************************************
+    *   Private Constructor & Destructor Methods   *
+    ************************************************/
 #pragma region Constructor & Destructor Methods
 
     /// <summary>
@@ -82,7 +83,13 @@ public:
     /// </summary>
     virtual ~GameCommandManager();
 
+    // Prevent copy-construction / assignment
+    GameCommandManager(const GameCommandManager&) = delete;
+    GameCommandManager& operator=(const GameCommandManager&) = delete;
+
 #pragma endregion
+
+public:
 
     /******************
     *   Get Methods   *

@@ -36,6 +36,17 @@
 *   Defines   *
 ***************/
 
+// From PhysX this exception is used when 'setting the thread name in Microsoft debuggers'
+// We omit the crash handler when we this this type of exception
+// NS_MS_VC_EXCEPTION 0x406D1388
+
+// All exception codes that would cause a crash start after
+// https://docs.microsoft.com/en-us/windows/desktop/Debug/getexceptioncode
+// https://docs.microsoft.com/en-us/windows/desktop/LearnWin32/error-codes-in-com
+// https://stackoverflow.com/a/12300563/1967659
+#define CRASH_HANDLER_MAX_INFORMATION_EXCEPTION_CODE 0x80000000L
+
+
 /// <summary>
 /// Define for Crash Handler Singleton Instance Get Call 
 /// </summary>

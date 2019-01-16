@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _RESIZE_COMMAND_H
-#define _RESIZE_COMMAND_H
-
 /**********************
 *   System Includes   *
 ***********************/
@@ -31,17 +28,16 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameCommand.h"
+#include "Base/AEObject.h"
 
 /********************
 *   Forward Decls   *
 *********************/
-class GameApp;
 
 /*****************
 *   Class Decl   *
 ******************/
-class ResizeCommand sealed : public GameCommand
+class GameCommand abstract : public AEObject
 {
 private:
 
@@ -50,15 +46,12 @@ private:
     *************************/
 #pragma region Private Variables
 
-    /// <summary>
-    /// Game App
-    /// </summary>
-    GameApp& m_GameApp;
+#pragma endregion
 
-    /// <summary>
-    /// New size that is been requested
-    /// </summary>
-    glm::ivec2 m_NewSize;
+    /**********************
+    *   Private Methods   *
+    ***********************/
+#pragma region Private Methods
 
 #pragma endregion
 
@@ -70,16 +63,28 @@ public:
 #pragma region Constructor & Destructor Methods
 
     /// <summary>
-    /// ResizeCommand Constructor
+    /// GameCommand Constructor
     /// </summary>
-    /// <param name="gameApp">Current Game App</param>
-    /// <param name="m_NewSize">Resize requested</param>
-    ResizeCommand(GameApp& gameApp, const glm::ivec2& newSize);
+    GameCommand();
 
     /// <summary>
-    /// Default ResizeCommand Destructor
+    /// Default GameCommand Destructor
     /// </summary>
-    virtual ~ResizeCommand();
+    virtual ~GameCommand();
+
+#pragma endregion
+
+    /******************
+    *   Get Methods   *
+    *******************/
+#pragma region Get Methods
+
+#pragma endregion
+
+    /******************
+    *   Set Methods   *
+    *******************/
+#pragma region Set Methods
 
 #pragma endregion
 
@@ -91,10 +96,8 @@ public:
     /// <summary>
     /// Executes the Game Command
     /// </summary>
-    void Execute() override;
+    virtual void Execute() = 0;
 
 #pragma endregion
 
 };
-
-#endif

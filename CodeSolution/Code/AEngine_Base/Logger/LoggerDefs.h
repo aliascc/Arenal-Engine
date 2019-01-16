@@ -38,6 +38,7 @@
 #include "Base\Base.h"
 #include "Base\AEObject.h"
 #include "Time\AETimeDefs.h"
+#include "Localization/LocalizationManagerDefs.h"
 
 /********************
 *   Forward Decls   *
@@ -120,6 +121,26 @@ enum class LogLevel : uint32_t
     ******************************/
 };
 
+enum class LogSystem : uint32_t
+{
+    None            = 0x00000000,
+    Localization    = 0x00000001,
+    Graphics        = 0x00000002,
+    Core            = 0x00000004,
+    GameResources   = 0x00000008,
+    XML             = 0x00000010,
+    GameComponents  = 0x00000020,
+    GraphicsExt     = 0x00000040,
+    GameAssets      = 0x00000080,
+    GameObjects     = 0x00000100,
+    GameImporters   = 0x00000200,
+    Physics         = 0x00000400,
+    Scripting       = 0x00000800,
+
+    ////////////
+    All             = 0xffffffff
+};
+
 /*************
 *   Struct   *
 **************/
@@ -129,7 +150,6 @@ enum class LogLevel : uint32_t
 /// </summary>
 struct AELastLog sealed : public AEObject
 {
-
     /************************
      *   Public Variables   *
      ************************/
@@ -236,22 +256,84 @@ struct AELog sealed : public AEObject
 /***********************
 *   Global Functions   *
 ************************/
+
+inline LogSystem operator&(LogSystem left, LogSystem right)
+{
+    LogSystem res = (LogSystem)( (uint32_t)left & (uint32_t)right );
+    return res;
+}
+
+inline LogSystem& operator&=(LogSystem& in, LogSystem right)
+{
+    in = (LogSystem)((uint32_t)in & (uint32_t)right);
+    return in;
+}
+
+inline LogSystem operator|(LogSystem left, LogSystem right)
+{
+    LogSystem res = (LogSystem)((uint32_t)left | (uint32_t)right);
+    return res;
+}
+
+inline LogSystem& operator|=(LogSystem& in, LogSystem right)
+{
+    in = (LogSystem)((uint32_t)in | (uint32_t)right);
+    return in;
+}
+
+inline LogSystem operator^(LogSystem left, LogSystem right)
+{
+    LogSystem res = (LogSystem)((uint32_t)left ^ (uint32_t)right);
+    return res;
+}
+
+inline LogSystem& operator^=(LogSystem& in, LogSystem right)
+{
+    in = (LogSystem)((uint32_t)in ^ (uint32_t)right);
+    return in;
+}
+
 namespace AELogHelpers
 {
+    /// <summary>
+    /// Converts an enum LogLevel to a string, using the same name as its variable
+    /// </summary>
+    /// <param name="lvl">LogLevel to convert to string</param>
+    /// <returns>String name of the enum</returns>
+    extern std::string LogLevelStr(LogLevel lvl);
 
-        /// <summary>
-        /// Converts an enum LogLevel to a string, using the same name as its variable
-        /// </summary>
-        /// <param name="lvl">LogLevel to convert to string</param>
-        /// <returns>String name of the enum</returns>
-        extern std::string LogLevelStr(LogLevel lvl);
+    /// <summary>
+    /// Converts a string to a enum LogLevel
+    /// </summary>
+    /// <param name="lvl">LogLevel to convert to string, string has to be the same name as the variable to convert to, if not it return LogLevel::None</param>
+    /// <returns>enum LogLevel</returns>
+    extern LogLevel Str2LogLevel(std::string lvl);
 
-        /// <summary>
-        /// Converts a string to a enum LogLevel
-        /// </summary>
-        /// <param name="lvl">LogLevel to convert to string, string has to be the same name as the variable to convert to, if not it return LogLevel::None</param>
-        /// <returns>enum LogLevel</returns>
-        extern LogLevel Str2LogLevel(std::string lvl);
+    template<class...LogArgs>
+    inline void Log(LogLevel logLevel, LogSystem logSystem, const std::string& literalID, LogArgs... logArgs)
+    {
+        if ( (AELOGGER.GetLogSystem() & logSystem) == LogSystem::None || AELOGGER.GetLogLevel() < logLevel)
+        {
+            return;
+        }
+
+        std::string msg = fmt::format(AELOCMAN.GetLiteral(literalID), logArgs...);
+
+        AELOGGER.AddNewLog(logLevel, logSystem, msg);
+    }
+
+    template<class...LogArgs>
+    inline void LogExplicit(LogLevel logLevel, LogSystem logSystem, const std::string& logMsg, LogArgs... logArgs)
+    {
+        if ((AELOGGER.GetLogSystem() & logSystem) == LogSystem::None || AELOGGER.GetLogLevel() < logLevel)
+        {
+            return;
+        }
+
+        std::string msg = fmt::format(logMsg, logArgs...);
+
+        AELOGGER.AddNewLog(logLevel, logSystem, msg);
+    }
 };
 
 /***************

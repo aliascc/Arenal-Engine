@@ -90,6 +90,11 @@ class Logger : public Singleton<Logger>
         LogLevel m_LogLevel = LogLevel::Info;
 
         /// <summary>
+        /// Systems that currently can print out logs
+        /// </summary>
+        LogSystem m_LogSystem = LogSystem::All;
+
+        /// <summary>
         /// Variable to time logs, so if same message appears continuously
         /// in a certain time frame it will only to print how many logs of the 
         /// same message has been repeated.
@@ -176,6 +181,10 @@ class Logger : public Singleton<Logger>
         /// </summary>
         virtual ~Logger();
 
+        // Prevent copy-construction / assignment
+        Logger(const Logger&) = delete;
+        Logger& operator=(const Logger&) = delete;
+
 #pragma endregion
 
     public:
@@ -236,6 +245,14 @@ class Logger : public Singleton<Logger>
         }
 
         /// <summary>
+        /// Systems that currently can print out logs
+        /// </summary>
+        inline LogSystem GetLogSystem() const
+        {
+            return m_LogSystem;
+        }
+
+        /// <summary>
         /// Log File where Logs will be flush also if activated
         /// </summary>
         /// <returns>Name of Log File</returns>
@@ -292,11 +309,30 @@ class Logger : public Singleton<Logger>
         AEResult SaveLogsInFile();
 
         /// <summary>
+        /// Enables the recording of logs from a system
+        /// </summary>
+        /// <param name="logSystem">System to enable</param>
+        inline void EnableLogSystem(LogSystem logSystem)
+        {
+            m_LogSystem |= logSystem;
+        }
+
+        /// <summary>
+        /// Disables the recording of logs from a system
+        /// </summary>
+        /// <param name="logSystem">System to disable</param>
+        inline void DisableLogSystem(LogSystem logSystem)
+        {
+            m_LogSystem ^= logSystem;
+        }
+
+        /// <summary>
         /// Add new Log to file
         /// </summary>
         /// <param name="logLevel">Log Level of the Log</param>
+        /// <param name="logSystem">Log System for the Log</param>
         /// <param name="msg">Log message</param>
-        void AddNewLog(LogLevel logLevel, const std::string& msg);
+        void AddNewLog(LogLevel logLevel, LogSystem logSystem, const std::string& msg);
 
         /// <summary>
         /// Returns a Script Array of the current Logs
@@ -305,6 +341,7 @@ class Logger : public Singleton<Logger>
         CScriptArray* GetLogsScript();
 
 #pragma endregion
+
 };
 
 #endif

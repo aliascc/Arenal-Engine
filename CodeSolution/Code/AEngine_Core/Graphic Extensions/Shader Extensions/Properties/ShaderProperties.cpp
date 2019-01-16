@@ -377,8 +377,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_CB_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
-        AELOGGER->AddNewLog(LogLevel::Error, msgerr);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::GraphicsExt, "SHADER_CB_ADD_SIG_LIST_ERR_MSG", __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
 
         return ret;
     }
@@ -391,8 +390,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_SAM_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
-        AELOGGER->AddNewLog(LogLevel::Error, msgerr);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::GraphicsExt, "SHADER_SAM_ADD_SIG_LIST_ERR_MSG", __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
 
         return ret;
     }
@@ -405,8 +403,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_B_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
-        AELOGGER->AddNewLog(LogLevel::Error, msgerr);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::GraphicsExt, "SHADER_B_ADD_SIG_LIST_ERR_MSG", __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
 
         return ret;
     }
@@ -419,8 +416,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_SB_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
-        AELOGGER->AddNewLog(LogLevel::Error, msgerr);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::GraphicsExt, "SHADER_SB_ADD_SIG_LIST_ERR_MSG", __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
 
         return ret;
     }
@@ -433,8 +429,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_TB_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
-        AELOGGER->AddNewLog(LogLevel::Error, msgerr);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::GraphicsExt, "SHADER_TB_ADD_SIG_LIST_ERR_MSG", __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
 
         return ret;
     }
@@ -447,8 +442,7 @@ AEResult ShaderProperties::CreateFromShaderSignatures(Shader* shader)
     {
         CleanUp();
 
-        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_TA_ADD_SIG_LIST_ERR_MSG"), __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
-        AELOGGER->AddNewLog(LogLevel::Error, msgerr);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::GraphicsExt, "SHADER_TA_ADD_SIG_LIST_ERR_MSG", __FUNCTION__, shader->GetName(), AE_Base::GetAEResultString(ret));
 
         return ret;
     }
@@ -475,8 +469,7 @@ AEResult ShaderProperties::AddConstantBuffersFromSigList(const ConstantBufferSig
             {
                 DeleteMem(scVar);
 
-                std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_CB_SIG_ADD_VAR_DBG_MSG"), __FUNCTION__, constSCVar.m_Name, cb->GetName(), AE_Base::GetAEResultString(ret));
-                AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
+                AELogHelpers::Log(LogLevel::Debug, LogSystem::GraphicsExt, "SHADER_CB_SIG_ADD_VAR_DBG_MSG", __FUNCTION__, constSCVar.m_Name, cb->GetName(), AE_Base::GetAEResultString(ret));
 
                 break;
             }
@@ -492,8 +485,7 @@ AEResult ShaderProperties::AddConstantBuffersFromSigList(const ConstantBufferSig
         ret = cb->Initialize();
         if(ret != AEResult::Ok)
         {
-            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_CB_SIG_INIT_CB_DBG_MSG"), __FUNCTION__, cb->GetName(), AE_Base::GetAEResultString(ret));
-            AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
+            AELogHelpers::Log(LogLevel::Debug, LogSystem::GraphicsExt, "SHADER_CB_SIG_INIT_CB_DBG_MSG", __FUNCTION__, cb->GetName(), AE_Base::GetAEResultString(ret));
 
             return ret; 
         }
@@ -501,8 +493,7 @@ AEResult ShaderProperties::AddConstantBuffersFromSigList(const ConstantBufferSig
         ret = AddConstantBuffer(cb);
         if(ret != AEResult::Ok)
         {
-            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_CB_SIG_ADD_CB_DBG_MSG"), __FUNCTION__, cb->GetName(), AE_Base::GetAEResultString(ret));
-            AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
+            AELogHelpers::Log(LogLevel::Debug, LogSystem::GraphicsExt, "SHADER_CB_SIG_ADD_CB_DBG_MSG", __FUNCTION__, cb->GetName(), AE_Base::GetAEResultString(ret));
 
             DeleteMem(cb);
 
@@ -524,8 +515,9 @@ AEResult ShaderProperties::AddSamplersFromSigList(const SamplerSignatureList& sa
         ret = sampler->Initialize();
         if (ret != AEResult::Ok)
         {
-            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_SAM_SIG_INIT_CB_DBG_MSG"), __FUNCTION__, sampler->GetName(), AE_Base::GetAEResultString(ret));
-            AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
+            AELogHelpers::Log(LogLevel::Debug, LogSystem::GraphicsExt, "SHADER_SAM_SIG_INIT_CB_DBG_MSG", __FUNCTION__, sampler->GetName(), AE_Base::GetAEResultString(ret));
+
+            DeleteMem(sampler);
 
             return ret;
         }
@@ -533,8 +525,7 @@ AEResult ShaderProperties::AddSamplersFromSigList(const SamplerSignatureList& sa
         ret = AddSampler(sampler);
         if (ret != AEResult::Ok)
         {
-            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_SAM_SIG_ADD_CB_DBG_MSG"), __FUNCTION__, sampler->GetName(), AE_Base::GetAEResultString(ret));
-            AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
+            AELogHelpers::Log(LogLevel::Debug, LogSystem::GraphicsExt, "SHADER_SAM_SIG_INIT_CB_DBG_MSG", __FUNCTION__, sampler->GetName(), AE_Base::GetAEResultString(ret));
 
             DeleteMem(sampler);
 
@@ -557,10 +548,9 @@ AEResult ShaderProperties::AddSimpleBuffersFromSigList(const SimpleBufferSignatu
 
         if(ret != AEResult::Ok)
         {
-            DeleteMem(simpleBuffer);
+            AELogHelpers::Log(LogLevel::Debug, LogSystem::GraphicsExt, "SHADER_B_SIG_ADD_B_DBG_MSG", __FUNCTION__, simpleBufferSig.m_Name, AE_Base::GetAEResultString(ret));
 
-            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_B_SIG_ADD_B_DBG_MSG"), __FUNCTION__, simpleBufferSig.m_Name, AE_Base::GetAEResultString(ret));
-            AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
+            DeleteMem(simpleBuffer);
 
             return ret;
         }
@@ -581,10 +571,9 @@ AEResult ShaderProperties::AddStructuredBuffersFromSigList(const StructuredBuffe
 
         if(ret != AEResult::Ok)
         {
-            DeleteMem(structuredBuffer);
+            AELogHelpers::Log(LogLevel::Debug, LogSystem::GraphicsExt, "SHADER_SB_SIG_ADD_SB_DBG_MSG", __FUNCTION__, structuredBufferSig.m_Name, AE_Base::GetAEResultString(ret));
 
-            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_SB_SIG_ADD_SB_DBG_MSG"), __FUNCTION__, structuredBufferSig.m_Name, AE_Base::GetAEResultString(ret));
-            AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
+            DeleteMem(structuredBuffer);
 
             return ret;
         }
@@ -605,10 +594,9 @@ AEResult ShaderProperties::AddTextureBindingsFromSigList(const TextureInputSigna
 
         if(ret != AEResult::Ok)
         {
-            DeleteMem(stb);
+            AELogHelpers::Log(LogLevel::Debug, LogSystem::GraphicsExt, "SHADER_TB_SIG_ADD_TB_DBG_MSG", __FUNCTION__, textBindingSig.m_Name, AE_Base::GetAEResultString(ret));
 
-            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_TB_SIG_ADD_TB_DBG_MSG"), __FUNCTION__, textBindingSig.m_Name, AE_Base::GetAEResultString(ret));
-            AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
+            DeleteMem(stb);
 
             return ret;
         }
@@ -644,10 +632,9 @@ AEResult ShaderProperties::AddTextureArraysFromSigList(const TextureArrayInputSi
 
         if (ret != AEResult::Ok)
         {
-            DeleteMem(textureArray);
+            AELogHelpers::Log(LogLevel::Debug, LogSystem::GraphicsExt, "SHADER_TA_SIG_ADD_SB_DBG_MSG", __FUNCTION__, textArrayInput.m_Name, AE_Base::GetAEResultString(ret));
 
-            std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_TA_SIG_ADD_SB_DBG_MSG"), __FUNCTION__, textArrayInput.m_Name, AE_Base::GetAEResultString(ret));
-            AELOGGER->AddNewLog(LogLevel::Debug, msgerr);
+            DeleteMem(textureArray);
 
             return ret;
         }
@@ -1315,8 +1302,7 @@ AEResult ShaderProperties::CopyVariableData(const ShaderProperties* otherShaderP
 
                     if(ret != AEResult::Ok)
                     {
-                        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_CB_SET_VALUE_ERR_MSG"), __FUNCTION__, thisShaderVar->m_Name, thisCB->GetName(), AE_Base::GetAEResultString(ret));
-                        AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+                        AELogHelpers::Log(LogLevel::Warning, LogSystem::GraphicsExt, "SHADER_CB_SET_VALUE_ERR_MSG", __FUNCTION__, thisShaderVar->m_Name, thisCB->GetName(), AE_Base::GetAEResultString(ret));
                     }
                 }
             }
@@ -1348,10 +1334,9 @@ AEResult ShaderProperties::CopyVariableData(const ShaderProperties* otherShaderP
 
                     if(ret != AEResult::Ok)
                     {
-                        AERelease(reference);
+                        AELogHelpers::Log(LogLevel::Warning, LogSystem::GraphicsExt, "SHADER_TEX_BINDING_SET_ERR_MSG", __FUNCTION__, thisTextBinding->GetName(), AE_Base::GetAEResultString(ret));
 
-                        std::string msgerr = fmt::format(AELOCMAN->GetLiteral("SHADER_TEX_BINDING_SET_ERR_MSG"), __FUNCTION__, thisTextBinding->GetName(), AE_Base::GetAEResultString(ret));
-                        AELOGGER->AddNewLog(LogLevel::Warning, msgerr);
+                        AERelease(reference);
 
                         continue;
                     }

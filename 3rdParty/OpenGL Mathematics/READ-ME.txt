@@ -1,7 +1,7 @@
 Tool:           OpenGL Mathematics
-Last Updated:   January 10 2018
-Version:        0.9.8.5
-
+Last Updated:   January 1 2019
+Version:        0.9.9.3
+1
 Comments:
 
  - Download: https://github.com/g-truc/glm/releases

@@ -15,10 +15,9 @@
 * limitations under the License.
 */
 
-/*************************
-*   Precompiled Header   *
-**************************/
-#include "precomp_core.h"
+#pragma once
+
+#ifdef AE_EDITOR_MODE
 
 /**********************
 *   System Includes   *
@@ -31,32 +30,22 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GraphicDevice.h"
-#include "ResizeCommand.h"
-#include "GameApp/GameApp.h"
 
-//Always include last
-#include "Memory\MemLeaks.h"
+/************
+*   Enums   *
+*************/
 
-/********************
-*   Function Defs   *
-*********************/
-
-ResizeCommand::ResizeCommand(GameApp& gameApp, const glm::ivec2& newSize)
-    : m_GameApp(gameApp)
-    , m_NewSize(newSize)
+enum class ImGuiMenuObjectType : uint32_t
 {
-}
+    Menu        = 0,
+    Item        = 1,
+    Separator   = 2
+};
 
-ResizeCommand::~ResizeCommand()
-{
-}
+/**************
+*   Defines   *
+***************/
 
-void ResizeCommand::Execute()
-{
-    m_GameApp.OnLostDevice();
+#define AE_IMGUI_MENU_LITERAL_MAIN_MENU     "AE_MENU_LITERAL_MAIN_MENU"
 
-    m_GameApp.GetGraphicsDevice().Resize(m_NewSize.x, m_NewSize.y);
-
-    m_GameApp.OnResetDevice();
-}
+#endif //AE_EDITOR_MODE

@@ -45,17 +45,6 @@ class GraphicDevice;
 ******************/
 class DrawableGameComponent abstract : public GameComponent
 {
-    //Friend class
-    friend class GameComponentCollection;
-
-    private:
-
-        //Find out if we are a game component or drawable game component
-        inline bool IsDrawableGameComponent() const override
-        {
-            return true;
-        }
-
     protected:
         //Variable to check if we can draw or not
         bool m_Visible = true;
@@ -85,6 +74,12 @@ class DrawableGameComponent abstract : public GameComponent
         /// </summary>
         /// <param name="timerParams">Game Timer Parameters</param>
         virtual void Render(const TimerParams& timerParams) = 0;
+
+        //Find out if we are a game component or drawable game component
+        inline bool IsDrawableGameComponent() const override
+        {
+            return true;
+        }
 };
 
 #endif

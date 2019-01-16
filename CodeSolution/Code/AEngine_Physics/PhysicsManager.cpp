@@ -81,7 +81,7 @@ AEResult PhysicsManager::Initialize()
     ////////////////////////////////////
     //Initialize Physics Objects
 
-    m_PxFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, m_PxDefaultAllocatorCallback, m_ErrorCallbackPhysX);
+    m_PxFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_PxDefaultAllocatorCallback, m_ErrorCallbackPhysX);
     if (m_PxFoundation == nullptr)
     {
         CleanUp();
@@ -112,7 +112,7 @@ AEResult PhysicsManager::Initialize()
     physx::PxSceneDesc sceneDesc(m_PxPhysics->getTolerancesScale());
     sceneDesc.gravity = physx::PxVec3(0.0f, -m_DefaultGravity, 0.0f);
 
-    if (!sceneDesc.cpuDispatcher)
+    if (sceneDesc.cpuDispatcher == nullptr)
     {
         m_CpuDispatcher = physx::PxDefaultCpuDispatcherCreate(1);
 
