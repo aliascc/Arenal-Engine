@@ -1599,16 +1599,13 @@ AEResult GameAssetManager::LoadAssetManagerFile(const std::string& gameAssetsFil
     }
 
     AEXMLParser configXML = newFile[AE_ASSET_MANAGER_NODE_NAME];
-    if (!configXML.IsReady())
+    if (!configXML.HasElement())
     {
         return AEResult::XMLReadError;
     }
 
-    uint32_t l_Count = configXML.GetNumChildren();
-    for (uint32_t i = 0; i < l_Count; ++i)
+    for (AEXMLParser child = configXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = configXML(i);
-
         std::string l_Type = child.GetName();
 
         if (l_Type.compare(AE_ASSET_CONFIG_NODE_NAME) == 0)
@@ -1636,11 +1633,8 @@ AEResult GameAssetManager::LoadAssetManagerFile(const std::string& gameAssetsFil
 
 AEResult GameAssetManager::LoadRawAssets(AEXMLParser& rawAssetXML)
 {
-    uint32_t l_Count = rawAssetXML.GetNumChildren();
-    for (uint32_t i = 0; i < l_Count; ++i)
+    for (AEXMLParser child = rawAssetXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = rawAssetXML(i);
-
         std::string l_Type = child.GetName();
 
         if (l_Type.compare("RawFile") == 0)
@@ -1677,11 +1671,8 @@ AEResult GameAssetManager::LoadRawAssets(AEXMLParser& rawAssetXML)
 
 AEResult GameAssetManager::LoadGameAssets(AEXMLParser& gameAssetXML)
 {
-    uint32_t l_Count = gameAssetXML.GetNumChildren();
-    for (uint32_t i = 0; i < l_Count; ++i)
+    for (AEXMLParser child = gameAssetXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = gameAssetXML(i);
-
         std::string l_Type = child.GetName();
 
         if (l_Type.compare("Asset") == 0)

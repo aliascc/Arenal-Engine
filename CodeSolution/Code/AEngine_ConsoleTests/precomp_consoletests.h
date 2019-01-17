@@ -88,8 +88,7 @@
 
 #include "boost\filesystem.hpp"
 
-#include "libxml\parser.h"
-#include "libxml\xmlwriter.h"
+#include "tinyxml2.h"
 
 #include "SFML\Audio.hpp"
 

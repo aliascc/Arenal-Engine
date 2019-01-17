@@ -198,18 +198,15 @@ AEResult GameApp::ExtractGameEngineConfig()
     }
 
     AEXMLParser configXML = newFile[AE_ENGINE_CONFIG_MAIN_NODE];
-    if (!configXML.IsReady())
+    if (!configXML.HasElement())
     {
         return AEResult::XMLReadError;
     }
 
     m_GameProject.m_EngineLocation = boost::filesystem::current_path().string();
 
-    uint32_t l_Count = configXML.GetNumChildren();
-    for (uint32_t i = 0; i < l_Count; ++i)
+    for (AEXMLParser child = configXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = configXML(i);
-
         std::string l_Type = child.GetName();
         
         if (l_Type.compare(AE_ENGINE_LOCALIZATION_NODE) == 0)
@@ -237,7 +234,7 @@ AEResult GameApp::ExtractGameProjectConfig()
     }
 
     AEXMLParser configXML = newFile[AE_PROJ_CONFIG_MAIN_NODE];
-    if (!configXML.IsReady())
+    if (!configXML.HasElement())
     {
         return AEResult::XMLReadError;
     }
@@ -245,11 +242,8 @@ AEResult GameApp::ExtractGameProjectConfig()
     std::size_t foundPos = m_GameProject.m_ProjectConfigFile.find(AE_PROJ_CONFIG_PROJ_FILE);
     m_GameProject.m_ProjectLocation = m_GameProject.m_ProjectConfigFile.erase(foundPos);
 
-    uint32_t l_Count = configXML.GetNumChildren();
-    for (uint32_t i = 0; i < l_Count; ++i)
+    for (AEXMLParser child = configXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = configXML(i);
-
         std::string l_Type = child.GetName();
 
         if (l_Type.compare(AE_PROJ_DEV_CAPS_NODE) == 0)
@@ -348,16 +342,13 @@ AEResult GameApp::ExtractGameAppOpts()
     }
 
     AEXMLParser gameOptXML = newFile["GameOpts"];
-    if (!gameOptXML.IsReady())
+    if (!gameOptXML.HasElement())
     {
         return AEResult::XMLReadError;
     }
 
-    uint32_t l_Count = gameOptXML.GetNumChildren();
-    for (uint32_t i = 0; i < l_Count; ++i)
+    for (AEXMLParser child = gameOptXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = gameOptXML(i);
-
         std::string l_Type = child.GetName();
             
         if (l_Type.compare("WindowsPosition") == 0)

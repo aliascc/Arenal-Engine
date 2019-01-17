@@ -37,6 +37,7 @@
 #include <list>
 #include <array>
 #include <queue>
+#include <stack>
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
@@ -77,8 +78,7 @@
 #include "boost\lexical_cast.hpp"
 #include "boost\algorithm\string.hpp"
 
-#include "libxml\parser.h"
-#include "libxml\xmlwriter.h"
+#include "tinyxml2.h"
 
 /***************************
 *   Game Engine Includes   *

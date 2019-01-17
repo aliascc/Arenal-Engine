@@ -309,6 +309,52 @@ namespace AELogHelpers
     /// <returns>enum LogLevel</returns>
     extern LogLevel Str2LogLevel(std::string lvl);
 
+#if !defined(AE_FINAL)
+    template<class...LogArgs>
+    inline void LogDebug(LogSystem logSystem, const std::string& literalID, LogArgs... logArgs)
+    {
+        Log(LogLevel::Debug, logSystem, literalID, logArgs...);
+    }
+
+    template<class...LogArgs>
+    inline void LogError(LogSystem logSystem, const std::string& literalID, LogArgs... logArgs)
+    {
+        Log(LogLevel::Error, logSystem, literalID, logArgs...);
+    }
+
+    template<class...LogArgs>
+    inline void LogWarning(LogSystem logSystem, const std::string& literalID, LogArgs... logArgs)
+    {
+        Log(LogLevel::Warning, logSystem, literalID, logArgs...);
+    }
+
+    template<class...LogArgs>
+    inline void LogInfo(LogSystem logSystem, const std::string& literalID, LogArgs... logArgs)
+    {
+        Log(LogLevel::Info, logSystem, literalID, logArgs...);
+    }
+#else
+    template<class...LogArgs>
+    inline void LogDebug(LogSystem logSystem, const std::string& literalID, LogArgs... logArgs)
+    {
+    }
+
+    template<class...LogArgs>
+    inline void LogError(LogSystem logSystem, const std::string& literalID, LogArgs... logArgs)
+    {
+    }
+
+    template<class...LogArgs>
+    inline void LogWarning(LogSystem logSystem, const std::string& literalID, LogArgs... logArgs)
+    {
+    }
+
+    template<class...LogArgs>
+    inline void LogInfo(LogSystem logSystem, const std::string& literalID, LogArgs... logArgs)
+    {
+    }
+#endif
+
     template<class...LogArgs>
     inline void Log(LogLevel logLevel, LogSystem logSystem, const std::string& literalID, LogArgs... logArgs)
     {

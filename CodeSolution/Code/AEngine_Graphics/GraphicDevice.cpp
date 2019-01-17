@@ -261,17 +261,13 @@ AEResult GraphicDevice::CheckDevCaps(const std::string& file)
     }
 
     AEXMLParser devCapsXML = newFile["DevCaps"];
-    if ( !devCapsXML.IsReady() )
+    if ( !devCapsXML.HasElement() )
     {
         return AEResult::Fail;
     }
 
-    uint16_t l_Count = devCapsXML.GetNumChildren();
-
-    for( uint16_t i = 0; i < l_Count; ++i )
+    for (AEXMLParser child = devCapsXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = devCapsXML(i);
-
         std::string l_Type = child.GetName();
 
         if( l_Type.compare("PixelShader") == 0 )

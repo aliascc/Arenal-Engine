@@ -1573,16 +1573,13 @@ AEResult GameObjectManager::LoadGameObjectManagerFile(const std::string& file)
     }
 
     AEXMLParser configXML = newFile[AE_GAME_OBJ_MANAGER_NODE_NAME];
-    if (!configXML.IsReady())
+    if (!configXML.HasElement())
     {
         return AEResult::XMLReadError;
     }
 
-    uint32_t l_Count = configXML.GetNumChildren();
-    for (uint32_t i = 0; i < l_Count; ++i)
+    for (AEXMLParser child = configXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = configXML(i);
-
         std::string l_Type = child.GetName();
 
         if (l_Type.compare(AE_GAME_OBJ_NODE_NAME) == 0)
@@ -1628,11 +1625,8 @@ AEResult GameObjectManager::LoadXMLGameObject(AEXMLParser& xmlParser, GameObject
 
     ////////////////////////////
     //Get Game Object Components
-    uint32_t l_Count = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < l_Count; ++i)
+    for (AEXMLParser child = xmlParser.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = xmlParser(i);
-
         std::string l_Type = child.GetName();
 
         if (l_Type.compare(AE_GAME_OBJ_COMPONENTS_NODE_NAME) == 0)
@@ -1644,11 +1638,8 @@ AEResult GameObjectManager::LoadXMLGameObject(AEXMLParser& xmlParser, GameObject
         }
         else if (l_Type.compare(AE_GAME_OBJ_CHILDS_NODE_NAME) == 0)
         {
-            uint32_t childrenCount = child.GetNumChildren();
-            for (uint32_t i = 0; i < childrenCount; ++i)
+            for (AEXMLParser childObject = child.GetFirstChildElement(); childObject.HasElement(); childObject = childObject.GetNextSiblingElement())
             {
-                AEXMLParser childObject = child(i);
-
                 std::string childType = childObject.GetName();
 
                 if (l_Type.compare(AE_GAME_OBJ_NODE_NAME) == 0)
@@ -1672,11 +1663,8 @@ AEResult GameObjectManager::LoadXMLGameObjectComponents(AEXMLParser& xmlParser, 
     ////////////////////////////
     //Load Game Object Components
 
-    uint32_t componentCount = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < componentCount; ++i)
+    for (AEXMLParser child = xmlParser.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = xmlParser(i);
-
         std::string childType = child.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_MESH_NODE_NAME) == 0)
@@ -1791,11 +1779,8 @@ AEResult GameObjectManager::LoadXMLMeshComponent(AEXMLParser& xmlParser, GameObj
 
 AEResult GameObjectManager::LoadXMLMeshMaterialsComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    uint32_t childCount = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < childCount; ++i)
+    for (AEXMLParser childObject = xmlParser.GetFirstChildElement(); childObject.HasElement(); childObject = childObject.GetNextSiblingElement())
     {
-        AEXMLParser childObject = xmlParser(i);
-
         std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_MAT_NODE_NAME) == 0)
@@ -1818,11 +1803,8 @@ AEResult GameObjectManager::LoadXMLMeshMaterialComponent(AEXMLParser& xmlParser,
 
     material->SetName(name);
 
-    uint32_t childCount = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < childCount; ++i)
+    for (AEXMLParser childObject = xmlParser.GetFirstChildElement(); childObject.HasElement(); childObject = childObject.GetNextSiblingElement())
     {
-        AEXMLParser childObject = xmlParser(i);
-
         std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_MAT_SHADER_NODE_NAME) == 0)
@@ -1942,11 +1924,8 @@ AEResult GameObjectManager::LoadXMLShader(AEXMLParser& xmlParser, MeshMaterialGO
             break;
     }
 
-    uint32_t childCount = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < childCount; ++i)
+    for (AEXMLParser childObject = xmlParser.GetFirstChildElement(); childObject.HasElement(); childObject = childObject.GetNextSiblingElement())
     {
-        AEXMLParser childObject = xmlParser(i);
-
         std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_MAT_SHADER_PROPS_NODE_NAME) == 0)
@@ -1968,11 +1947,8 @@ AEResult GameObjectManager::LoadXMLShaderProperties(AEXMLParser& xmlParser, Shad
         return AEResult::NullParameter;
     }
 
-    uint32_t childCount = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < childCount; ++i)
+    for (AEXMLParser childObject = xmlParser.GetFirstChildElement(); childObject.HasElement(); childObject = childObject.GetNextSiblingElement())
     {
-        AEXMLParser childObject = xmlParser(i);
-
         std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_MAT_SHADER_CB_NODE_NAME) == 0)
@@ -2020,11 +1996,8 @@ AEResult GameObjectManager::LoadXMLCBShaderVariable(AEXMLParser& xmlParser, Cons
         return AEResult::NullParameter;
     }
 
-    uint32_t varCount = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < varCount; ++i)
+    for (AEXMLParser varObject = xmlParser.GetFirstChildElement(); varObject.HasElement(); varObject = varObject.GetNextSiblingElement())
     {
-        AEXMLParser varObject = xmlParser(i);
-
         std::string varType = varObject.GetName();
 
         if (varType.compare(AE_GAME_OBJ_GOC_MAT_SHADER_VAR_NODE_NAME) == 0)
@@ -2317,11 +2290,8 @@ AEResult GameObjectManager::LoadXMLCBMatrix(AEXMLParser& xmlParser, ConstantBuff
 
 AEResult GameObjectManager::LoadXMLGameObjectScriptsComponents(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    uint32_t childCount = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < childCount; ++i)
+    for (AEXMLParser childObject = xmlParser.GetFirstChildElement(); childObject.HasElement(); childObject = childObject.GetNextSiblingElement())
     {
-        AEXMLParser childObject = xmlParser(i);
-
         std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_SCRIPT_NODE_NAME) == 0)
@@ -2375,12 +2345,8 @@ AEResult GameObjectManager::LoadXMLGameObjectScriptsProperties(AEXMLParser& xmlP
         return AEResult::NullParameter;
     }
 
-
-    uint32_t childCount = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < childCount; ++i)
+    for (AEXMLParser childObject = xmlParser.GetFirstChildElement(); childObject.HasElement(); childObject = childObject.GetNextSiblingElement())
     {
-        AEXMLParser childObject = xmlParser(i);
-
         std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_SCRIPT_PROPERTY_NODE_NAME) == 0)
@@ -2591,11 +2557,8 @@ AEResult GameObjectManager::LoadXMLMeshAnimationComponent(AEXMLParser& xmlParser
         }
     }
 
-    uint32_t childCount = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < childCount; ++i)
+    for (AEXMLParser childObject = xmlParser.GetFirstChildElement(); childObject.HasElement(); childObject = childObject.GetNextSiblingElement())
     {
-        AEXMLParser childObject = xmlParser(i);
-
         std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_ANIM_ASSET_NODE_NAME) == 0)
@@ -2672,16 +2635,13 @@ AEResult GameObjectManager::LoadXMLAudioListenerComponent(AEXMLParser& xmlParser
 
 AEResult GameObjectManager::LoadXMLAudioSourceComponent(AEXMLParser& xmlParser, GameObject& gameObject)
 {
-    uint32_t childCount = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < childCount; ++i)
+    for (AEXMLParser childObject = xmlParser.GetFirstChildElement(); childObject.HasElement(); childObject = childObject.GetNextSiblingElement())
     {
-        AEXMLParser childObject = xmlParser(i);
-
         std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_AUDIO_SOURCE_NODE_NAME) == 0)
         {
-            std::string name        = xmlParser.GetString(AE_GAME_OBJ_GOC_AUDIO_SOURCE_NAME_PROP);
+            std::string name         = xmlParser.GetString(AE_GAME_OBJ_GOC_AUDIO_SOURCE_NAME_PROP);
             uint64_t audioAssetID    = xmlParser.GetUInt64(AE_GAME_OBJ_COMPONENT_ASSETID_PROP);
 
             AudioSourceGOC* audioSourceGOC = new AudioSourceGOC(gameObject, name);
@@ -2730,11 +2690,8 @@ AEResult GameObjectManager::LoadXMLPhysicsComponent(AEXMLParser& xmlParser, Game
         }
     }
 
-    uint32_t childCount = xmlParser.GetNumChildren();
-    for (uint32_t i = 0; i < childCount; ++i)
+    for (AEXMLParser childObject = xmlParser.GetFirstChildElement(); childObject.HasElement(); childObject = childObject.GetNextSiblingElement())
     {
-        AEXMLParser childObject = xmlParser(i);
-
         std::string childType = childObject.GetName();
 
         if (childType.compare(AE_GAME_OBJ_GOC_PHYSICS_COLLIDER_NODE_NAME) == 0)
