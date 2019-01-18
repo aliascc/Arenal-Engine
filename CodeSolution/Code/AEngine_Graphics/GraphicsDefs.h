@@ -441,10 +441,10 @@ namespace AEGraphicHelpers
 
     extern TextureType GetTextureTypeString(std::string textureType);
 
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
     template<class T>
     inline void SetDebugObjectName(T* resource, const std::string& name)
     {
-#if defined(AE_GRAPHIC_DEBUG_DEVICE)
         AEAssert(resource != nullptr);
 
         if(resource == nullptr)
@@ -455,8 +455,13 @@ namespace AEGraphicHelpers
         uint32_t size = (uint32_t)name.size();
 
         resource->SetPrivateData(WKPDID_D3DDebugObjectName, size, name.c_str());
-#endif
     }
+#else
+    template<class T>
+    inline void SetDebugObjectName(T* resource, const std::string& name)
+    {
+    }
+#endif
 }
 
 #endif

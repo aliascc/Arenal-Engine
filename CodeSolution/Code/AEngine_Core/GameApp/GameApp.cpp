@@ -994,10 +994,7 @@ AEResult GameApp::SetFullScreen(bool fullScreenEnable)
     //Signal Everything that we need to reset device
     OnLostDevice();
     
-    if(m_GraphicDevice->ResetDevice() != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice->ResetDevice();
 
     OnResetDevice();
     

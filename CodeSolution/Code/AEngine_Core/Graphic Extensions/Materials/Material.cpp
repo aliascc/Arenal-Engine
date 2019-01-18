@@ -153,12 +153,7 @@ AEResult Material::Apply()
     /***********************
     *Vertex Shader
     ***********************/
-    ret = m_GraphicDevice.SetVertexShader(m_VertexShader);
-
-    if(ret != AEResult::Ok)
-    {
-        return AEResult::SetVertexShaderFailed;
-    }
+    m_GraphicDevice.SetVertexShader(m_VertexShader);
 
     if(m_VertexShader != nullptr && m_VSProps != nullptr)
     {
@@ -173,12 +168,7 @@ AEResult Material::Apply()
     /***********************
     *Pixel Shader
     ***********************/
-    ret = m_GraphicDevice.SetPixelShader(m_PixelShader);
-
-    if(ret != AEResult::Ok)
-    {
-        return AEResult::SetPixelShaderFailed;
-    }
+    m_GraphicDevice.SetPixelShader(m_PixelShader);
 
     if(m_PixelShader != nullptr && m_PSProps != nullptr)
     {
@@ -193,12 +183,7 @@ AEResult Material::Apply()
     /***********************
     *Geometry Shader
     ***********************/
-    ret = m_GraphicDevice.SetGeometryShader(m_GeometryShader);
-
-    if(ret != AEResult::Ok)
-    {
-        return AEResult::SetGeometryShaderFailed;
-    }
+    m_GraphicDevice.SetGeometryShader(m_GeometryShader);
 
     if(m_GeometryShader != nullptr && m_GSProps != nullptr)
     {
@@ -213,12 +198,7 @@ AEResult Material::Apply()
     /***********************
     *Domain Shader
     ***********************/
-    ret = m_GraphicDevice.SetDomainShader(m_DomainShader);
-
-    if(ret != AEResult::Ok)
-    {
-        return AEResult::SetDomainShaderFailed;
-    }
+    m_GraphicDevice.SetDomainShader(m_DomainShader);
 
     if(m_DomainShader != nullptr && m_DSProps != nullptr)
     {
@@ -233,12 +213,7 @@ AEResult Material::Apply()
     /***********************
     *Hull Shader
     ***********************/
-    ret = m_GraphicDevice.SetHullShader(m_HullShader);
-
-    if(ret != AEResult::Ok)
-    {
-        return AEResult::SetHullShaderFailed;
-    }
+    m_GraphicDevice.SetHullShader(m_HullShader);
 
     if(m_HullShader != nullptr && m_HSProps != nullptr)
     {
@@ -253,12 +228,7 @@ AEResult Material::Apply()
     /***********************
     *Compute Shader
     ***********************/
-    ret = m_GraphicDevice.SetComputeShader(m_ComputeShader);
-
-    if(ret != AEResult::Ok)
-    {
-        return AEResult::SetComputeShaderFailed;
-    }
+    m_GraphicDevice.SetComputeShader(m_ComputeShader);
 
     if(m_ComputeShader != nullptr && m_CSProps != nullptr)
     {
@@ -290,21 +260,11 @@ AEResult Material::UnApply()
     ***********************/
     if(m_VertexShader != nullptr)
     {
-        ret = m_GraphicDevice.SetVertexShader(nullptr);
-
-        if(ret != AEResult::Ok)
-        {
-            return AEResult::SetVertexShaderFailed;
-        }
+        m_GraphicDevice.SetVertexShader(nullptr);
 
         if(m_VSProps != nullptr)
         {
-            ret = m_VSProps->UnApplyAll();
-
-            if(ret != AEResult::Ok)
-            {
-                return AEResult::SetVertexShaderPropsFailed;
-            }
+            m_VSProps->UnApplyAll();
         }
     }
     
@@ -313,21 +273,11 @@ AEResult Material::UnApply()
     ***********************/
     if(m_PixelShader != nullptr)
     {
-        ret = m_GraphicDevice.SetPixelShader(nullptr);
-
-        if(ret != AEResult::Ok)
-        {
-            return AEResult::SetPixelShaderFailed;
-        }
+        m_GraphicDevice.SetPixelShader(nullptr);
 
         if(m_PSProps != nullptr)
         {
-            ret = m_PSProps->UnApplyAll();
-
-            if(ret != AEResult::Ok)
-            {
-                return AEResult::SetPixelShaderPropsFailed;
-            }
+            m_PSProps->UnApplyAll();
         }
     }
     
@@ -336,21 +286,11 @@ AEResult Material::UnApply()
     ***********************/
     if(m_GeometryShader != nullptr)
     {
-        ret = m_GraphicDevice.SetGeometryShader(nullptr);
-
-        if(ret != AEResult::Ok)
-        {
-            return AEResult::SetGeometryShaderFailed;
-        }
+        m_GraphicDevice.SetGeometryShader(nullptr);
 
         if(m_GSProps != nullptr)
         {
-            ret = m_GSProps->UnApplyAll();
-
-            if(ret != AEResult::Ok)
-            {
-                return AEResult::SetGeometryShaderPropsFailed;
-            }
+            m_GSProps->UnApplyAll();
         }
     }
     
@@ -359,21 +299,11 @@ AEResult Material::UnApply()
     ***********************/
     if(m_DomainShader != nullptr)
     {
-        ret = m_GraphicDevice.SetDomainShader(nullptr);
-
-        if(ret != AEResult::Ok)
-        {
-            return AEResult::SetDomainShaderFailed;
-        }
+        m_GraphicDevice.SetDomainShader(nullptr);
 
         if(m_DSProps != nullptr)
         {
-            ret = m_DSProps->UnApplyAll();
-
-            if(ret != AEResult::Ok)
-            {
-                return AEResult::SetDomainShaderPropsFailed;
-            }
+            m_DSProps->UnApplyAll();
         }
     }
     
@@ -382,21 +312,11 @@ AEResult Material::UnApply()
     ***********************/
     if(m_HullShader != nullptr)
     {
-        ret = m_GraphicDevice.SetHullShader(nullptr);
-
-        if(ret != AEResult::Ok)
-        {
-            return AEResult::SetHullShaderFailed;
-        }
+        m_GraphicDevice.SetHullShader(nullptr);
 
         if(m_HSProps != nullptr)
         {
-            ret = m_HSProps->UnApplyAll();
-
-            if(ret != AEResult::Ok)
-            {
-                return AEResult::SetHullShaderPropsFailed;
-            }
+            m_HSProps->UnApplyAll();
         }
     }
     
@@ -405,21 +325,11 @@ AEResult Material::UnApply()
     ***********************/
     if(m_ComputeShader != nullptr)
     {
-        ret = m_GraphicDevice.SetComputeShader(nullptr);
-
-        if(ret != AEResult::Ok)
-        {
-            return AEResult::SetComputeShaderFailed;
-        }
+        m_GraphicDevice.SetComputeShader(nullptr);
 
         if(m_CSProps != nullptr)
         {
-            ret = m_CSProps->UnApplyAll();
-
-            if(ret != AEResult::Ok)
-            {
-                return AEResult::SetComputeShaderPropsFailed;
-            }
+            m_CSProps->UnApplyAll();
         }
     }
     
