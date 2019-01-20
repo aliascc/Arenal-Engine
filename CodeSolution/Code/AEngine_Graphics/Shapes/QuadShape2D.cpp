@@ -147,8 +147,8 @@ AEResult QuadShape2D::Resize(const RECT& size, const glm::vec4& textCoords)
         return AEResult::Ok;
     }
 
-    uint32_t width = m_GraphicDevice.GetGraphicPP().m_BackBufferWidth;
-    uint32_t height = m_GraphicDevice.GetGraphicPP().m_BackBufferHeight;
+    uint32_t width  = m_GraphicDevice.GetGraphicPP().m_GameBackBufferWidth;
+    uint32_t height = m_GraphicDevice.GetGraphicPP().m_GameBackBufferHeight;
 
     //Top Left
     m_Vtx[0].m_Position.x = ( ((float)size.left / (float)width) * 2) - 1;

@@ -57,7 +57,7 @@ void EditorViewer::Initialize()
     m_InputHandler = new InputHandler(*this);
     this->AddComponent(m_InputHandler);
 
-    glm::ivec2 dimension(m_GraphicDevice->GetGraphicPP().m_BackBufferWidth, m_GraphicDevice->GetGraphicPP().m_BackBufferHeight);
+    glm::ivec2 dimension(m_GraphicDevice->GetGraphicPP().m_GameBackBufferWidth, m_GraphicDevice->GetGraphicPP().m_GameBackBufferHeight);
     EditorCamera* editorCamera = new EditorCamera(AE_CAMERA_EDITOR_ENG_DEFAULT_NAME, glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), AEMathHelpers::Vec3fUp, dimension, 45.0f, 1.0f, 1000.0f);
 
     m_CameraManager->AddCamera(editorCamera);

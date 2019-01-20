@@ -128,7 +128,7 @@ AEResult TextureCube::Load()
 
     m_TextureDX = reinterpret_cast<ID3D11Texture2D*>(resource);
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_CUBE_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_TextureDX, AE_DEBUG_TEX_CUBE_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Shader Resource View
@@ -151,7 +151,7 @@ AEResult TextureCube::Load()
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_CUBE_SRV_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_ShaderResourceView, AE_DEBUG_TEX_CUBE_SRV_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Set Width and Height

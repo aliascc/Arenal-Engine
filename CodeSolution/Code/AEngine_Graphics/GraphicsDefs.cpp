@@ -147,8 +147,8 @@ GraphicOptsPreferred::GraphicOptsPreferred()
 AETODO("CHECK VARIABLES TO REMOVE");
 GraphicsPresentationParameters::GraphicsPresentationParameters()
 {
-    m_MultiSample.Count = 1;
-    m_MultiSample.Quality = 0;
+    m_MultiSample.Count     = 1;
+    m_MultiSample.Quality   = 0;
 }
 
 /**************************
@@ -218,7 +218,7 @@ AEResult GraphicBlendStates::InitStates(GraphicDevice* graphicDevice)
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11BlendState>(m_DefaultState, AE_DEBUG_DEFAULT_BLEND_STATE_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_DefaultState, AE_DEBUG_DEFAULT_BLEND_STATE_NAME);
 
     //Create Additive Blend State
     dxTempDesc = dxDefaultBlendDesc;
@@ -238,7 +238,7 @@ AEResult GraphicBlendStates::InitStates(GraphicDevice* graphicDevice)
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11BlendState>(m_AdditiveState, AE_DEBUG_ADDICTIVE_BLEND_STATE_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_AdditiveState, AE_DEBUG_ADDICTIVE_BLEND_STATE_NAME);
 
     //Create Alpha Blend State
     dxTempDesc = dxDefaultBlendDesc;
@@ -258,7 +258,7 @@ AEResult GraphicBlendStates::InitStates(GraphicDevice* graphicDevice)
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11BlendState>(m_AlphaBlendState, AE_DEBUG_ALPHA_BLEND_STATE_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_AlphaBlendState, AE_DEBUG_ALPHA_BLEND_STATE_NAME);
 
     //Create Opaque Blend State
     dxTempDesc = dxDefaultBlendDesc;
@@ -278,7 +278,7 @@ AEResult GraphicBlendStates::InitStates(GraphicDevice* graphicDevice)
         return AEResult::Fail;
     }
     
-    AEGraphicHelpers::SetDebugObjectName<ID3D11BlendState>(m_OpaqueState, AE_DEBUG_OPAQUE_BLEND_STATE_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_OpaqueState, AE_DEBUG_OPAQUE_BLEND_STATE_NAME);
 
     //Create Non-Premultiplied Blend State
     dxTempDesc = dxDefaultBlendDesc;
@@ -298,7 +298,7 @@ AEResult GraphicBlendStates::InitStates(GraphicDevice* graphicDevice)
         return AEResult::Fail;
     }
     
-    AEGraphicHelpers::SetDebugObjectName<ID3D11BlendState>(m_NonPremultipliedState, AE_DEBUG_NON_PREMULTIPLIED_BLEND_STATE_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_NonPremultipliedState, AE_DEBUG_NON_PREMULTIPLIED_BLEND_STATE_NAME);
 
     return AEResult::Ok;
 }
@@ -365,15 +365,19 @@ namespace AEGraphicHelpers
             case GraphicBufferAccess::None:
                 dxAccess = 0;
                 break;
+
             case GraphicBufferAccess::Read:
                 dxAccess = D3D11_CPU_ACCESS_READ;
                 break;
+
             case GraphicBufferAccess::Write:
                 dxAccess = D3D11_CPU_ACCESS_WRITE;
                 break;
+
             case GraphicBufferAccess::ReadWrite:
                 dxAccess = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
                 break;
+
             default:
                 AELogHelpers::Log(LogLevel::Warning, LogSystem::Graphics, "DX_TYPE_NOT_FOUND_ERR_MSG", __FUNCTION__, "Buffer Access", static_cast<uint32_t>(bufferAccess), "0");
                 break;

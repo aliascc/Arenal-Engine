@@ -65,31 +65,40 @@ GraphicDevice::GraphicDevice(HWND hMainWnd, const GraphicOptsPreferred& graphicO
 {
     AEAssert(hMainWnd != nullptr);
 
-    ZeroMemory(&m_ScreenViewportDX, sizeof(D3D11_VIEWPORT));
+    m_GraphicPP.m_DeviceWindow =  hMainWnd;
 
-    m_gPP.m_DeviceWindow =  hMainWnd;
+    m_GraphicPP.m_SingleThreaded = graphicOpts.m_SingleThreaded;
 
-    m_gPP.m_SingleThreaded = graphicOpts.m_SingleThreaded;
-
+#ifndef AE_EDITOR_MODE
     if(graphicOpts.m_FullScreen)
     {
-        m_gPP.m_BackBufferWidth = graphicOpts.m_ScreenResolution.x;
-        m_gPP.m_BackBufferHeight = graphicOpts.m_ScreenResolution.y;
+        m_gPP.m_GameBackBufferWidth         = graphicOpts.m_ScreenResolution.x;
+        m_gPP.m_GameBackBufferHeight        = graphicOpts.m_ScreenResolution.y;
 
-        m_gPP.m_BackBufferFormatFullScreen = AEGraphicHelpers::GetPXFormatFromString(graphicOpts.m_BackBufferFormatFullScreen);
+        m_gPP.m_BackBufferFormatFullScreen  = AEGraphicHelpers::GetPXFormatFromString(graphicOpts.m_BackBufferFormatFullScreen);
 
         m_gPP.m_Windowed = false;
     }
     else 
+#endif
     {
         glm::ivec2 wndSize = AEGraphicHelpers::GetWindowSize(hMainWnd);
-        
-        m_gPP.m_BackBufferWidth = wndSize.x;
-        m_gPP.m_BackBufferHeight = wndSize.y;
-        
-        m_gPP.m_BackBufferFormatWindowed = AEGraphicHelpers::GetPXFormatFromString(graphicOpts.m_BackBufferFormatWindowed);
 
-        m_gPP.m_Windowed = true;
+#ifdef AE_EDITOR_MODE
+        m_GraphicPP.m_EditorBackBufferWidth   = wndSize.x;
+        m_GraphicPP.m_EditorBackBufferHeight  = wndSize.y;
+
+        AETODO("Check default sizes");
+        m_GraphicPP.m_GameBackBufferWidth     = 256;
+        m_GraphicPP.m_GameBackBufferHeight    = 256;
+#else
+        m_gPP.m_GameBackBufferWidth     = wndSize.x;
+        m_gPP.m_GameBackBufferHeight    = wndSize.y;
+#endif
+        
+        m_GraphicPP.m_BackBufferFormatWindowed = AEGraphicHelpers::GetPXFormatFromString(graphicOpts.m_BackBufferFormatWindowed);
+
+        m_GraphicPP.m_Windowed = true;
     }
 
     m_QuadShape2D = new QuadShape2D(*this, true);
@@ -107,10 +116,10 @@ GraphicDevice::~GraphicDevice()
 
     DeleteMemArr(m_CurrentRenderTargetViewsDX);
 
-    ReleaseCOM(m_DefaultRenderTargetViewDX);
-    ReleaseCOM(m_DefaultDepthStencilViewDX);
+    CleanUpDefaultDepthStencil();
+    CleanUpDefaultRenderTargets();
+
     ReleaseCOM(m_SwapChainDX);
-    ReleaseCOM(m_DefaultDepthStencilBufferDX);
 
 #if defined(AE_GRAPHIC_DEBUG_DEVICE)
     ReleaseCOM(m_UserDefinedAnnotationDX);
@@ -186,8 +195,8 @@ void GraphicDevice::ReleaseDefaultTextures()
 
 void GraphicDevice::ResetHalfPixel()
 {
-    m_HalfPixel.x = (0.5f / (float)m_gPP.m_BackBufferWidth);
-    m_HalfPixel.y = (0.5f / (float)m_gPP.m_BackBufferHeight);
+    m_HalfPixel.x = (0.5f / (float)m_GraphicPP.m_GameBackBufferWidth);
+    m_HalfPixel.y = (0.5f / (float)m_GraphicPP.m_GameBackBufferHeight);
 }
 
 void GraphicDevice::OnLostDevice()
@@ -195,7 +204,8 @@ void GraphicDevice::OnLostDevice()
     AEAssert(m_IsReady);
 
     //First all Related to the Graphic Device
-    ReleaseDefaultRTDS();
+    CleanUpDefaultDepthStencil();
+    CleanUpDefaultRenderTargets();
 }
 
 void GraphicDevice::OnResetDevice()
@@ -296,8 +306,13 @@ void GraphicDevice::InitSwapChainDesc()
     ZeroMemory(&m_SwapChainDescDX, sizeof(DXGI_SWAP_CHAIN_DESC));
     
     //Fill out a DXGI_SWAP_CHAIN_DESC to describe our swap chain.
-    m_SwapChainDescDX.BufferDesc.Width                      = m_gPP.m_BackBufferWidth;
-    m_SwapChainDescDX.BufferDesc.Height                     = m_gPP.m_BackBufferHeight;
+#ifdef AE_EDITOR_MODE
+    m_SwapChainDescDX.BufferDesc.Width                      = m_GraphicPP.m_EditorBackBufferWidth;
+    m_SwapChainDescDX.BufferDesc.Height                     = m_GraphicPP.m_EditorBackBufferHeight;
+#else
+    m_SwapChainDescDX.BufferDesc.Width                      = m_GraphicPP.m_GameBackBufferWidth;
+    m_SwapChainDescDX.BufferDesc.Height                     = m_GraphicPP.m_GameBackBufferHeight;
+#endif
 
     AETODO("Check into Scaling");
     m_SwapChainDescDX.BufferDesc.Scaling                    = DXGI_MODE_SCALING_UNSPECIFIED;
@@ -307,26 +322,26 @@ void GraphicDevice::InitSwapChainDesc()
     m_SwapChainDescDX.BufferDesc.RefreshRate.Numerator      = 60;
     m_SwapChainDescDX.BufferDesc.RefreshRate.Denominator    = 1;
 
-    if(m_gPP.m_Windowed)
+    if(m_GraphicPP.m_Windowed)
     {
-        m_SwapChainDescDX.BufferDesc.Format = m_gPP.m_BackBufferFormatWindowed;
+        m_SwapChainDescDX.BufferDesc.Format = m_GraphicPP.m_BackBufferFormatWindowed;
     }
     else
     {
-        m_SwapChainDescDX.BufferDesc.Format = m_gPP.m_BackBufferFormatFullScreen;
+        m_SwapChainDescDX.BufferDesc.Format = m_GraphicPP.m_BackBufferFormatFullScreen;
     }
 
-    m_SwapChainDescDX.OutputWindow          = m_gPP.m_DeviceWindow;
-    m_SwapChainDescDX.Windowed              = m_gPP.m_Windowed;
-    m_SwapChainDescDX.SampleDesc            = m_gPP.m_MultiSample;
+    m_SwapChainDescDX.OutputWindow          = m_GraphicPP.m_DeviceWindow;
+    m_SwapChainDescDX.Windowed              = m_GraphicPP.m_Windowed;
+    m_SwapChainDescDX.SampleDesc            = m_GraphicPP.m_MultiSample;
 
     AETODO("Check into Usage Render Target Output");
     AETODO("Add option to Back Buffer");
-    m_SwapChainDescDX.BufferCount           = m_gPP.m_BackBufferCount; // = 2;                               // Use double buffering to minimize latency.
+    m_SwapChainDescDX.BufferCount           = m_GraphicPP.m_BackBufferCount; // = 2;                               // Use double buffering to minimize latency.
     m_SwapChainDescDX.BufferUsage           = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     
     //DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL; // All Metro style apps must use this SwapEffect.
-    m_SwapChainDescDX.SwapEffect            = m_gPP.m_SwapEffect;
+    m_SwapChainDescDX.SwapEffect            = m_GraphicPP.m_SwapEffect;
     
     AETODO("Check into Swap Chain Flags");
     m_SwapChainDescDX.Flags                 = 0;
@@ -388,9 +403,9 @@ AEResult GraphicDevice::CreateSwapChain()
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<IDXGISwapChain>(m_SwapChainDX, AE_DEBUG_MAIN_SC_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_SwapChainDX, AE_DEBUG_MAIN_SC_NAME);
 
-    //AETODO("Check into this");
+    AETODO("Check into this");
     //// Ensure that DXGI does not queue more than one frame at a time. This both reduces
     //// latency and ensures that the application will only render after each VSync, minimizing
     //// power consumption.
@@ -406,27 +421,38 @@ AEResult GraphicDevice::CreateSwapChain()
 void GraphicDevice::InitViewport()
 {
     // Set the viewport Transform.
-    m_ScreenViewportDX.TopLeftX = 0;
-    m_ScreenViewportDX.TopLeftY = 0;
-    m_ScreenViewportDX.Width    = static_cast<float>(m_gPP.m_BackBufferWidth);
-    m_ScreenViewportDX.Height   = static_cast<float>(m_gPP.m_BackBufferHeight);
-    m_ScreenViewportDX.MinDepth = 0.0f;
-    m_ScreenViewportDX.MaxDepth = 1.0f;
+    m_GameViewportDX.TopLeftX = 0;
+    m_GameViewportDX.TopLeftY = 0;
+    m_GameViewportDX.Width    = static_cast<float>(m_GraphicPP.m_GameBackBufferWidth);
+    m_GameViewportDX.Height   = static_cast<float>(m_GraphicPP.m_GameBackBufferHeight);
+    m_GameViewportDX.MinDepth = 0.0f;
+    m_GameViewportDX.MaxDepth = 1.0f;
 
-    m_DeviceContextDX->RSSetViewports(1, &m_ScreenViewportDX);
+    m_DeviceContextDX->RSSetViewports(1, &m_GameViewportDX);
+
+#ifdef AE_EDITOR_MODE
+
+    AETODO("Check if we need this, ImGui might have its own viewport");
+    m_EditorViewportDX.TopLeftX = 0;
+    m_EditorViewportDX.TopLeftY = 0;
+    m_EditorViewportDX.Width    = static_cast<float>(m_GraphicPP.m_EditorBackBufferWidth);
+    m_EditorViewportDX.Height   = static_cast<float>(m_GraphicPP.m_EditorBackBufferHeight);
+    m_EditorViewportDX.MinDepth = 0.0f;
+    m_EditorViewportDX.MaxDepth = 1.0f;
+
+#endif
 }
 
 AEResult GraphicDevice::CreateDefaultRTDS()
 {    
-    if(CreateDepthStencil() == AEResult::Fail)
+    if(CreateDefaultDepthStencil() == AEResult::Fail)
     {
         return AEResult::Fail;
     }
 
-    if(CreateRenderTarget() == AEResult::Fail)
+    if(CreateDefaultRenderTarget() == AEResult::Fail)
     {
-        ReleaseCOM(m_DefaultDepthStencilBufferDX);
-        ReleaseCOM(m_DefaultDepthStencilViewDX);
+        CleanUpDefaultDepthStencil();
 
         return AEResult::Fail;
     }
@@ -434,29 +460,29 @@ AEResult GraphicDevice::CreateDefaultRTDS()
     //////////////////////////////////////////////////////////////////////////////////
     //Bind the render target view and depth/stencil view to the pipeline.
     memset(m_CurrentRenderTargetViewsDX, 0, sizeof(ID3D11RenderTargetView*) * m_MaxNumRenderTargets);
-    m_CurrentRenderTargetViewsDX[0] = m_DefaultRenderTargetViewDX;
+    m_CurrentRenderTargetViewsDX[0] = m_GameRenderTargetViewDX;
     m_HighestRenderTargetStage = 1;
 
-    m_CurrentDepthStencilViewDX = m_DefaultDepthStencilViewDX;
+    m_CurrentDepthStencilViewDX = m_GameDepthStencilViewDX;
 
     m_DeviceContextDX->OMSetRenderTargets(m_HighestRenderTargetStage, m_CurrentRenderTargetViewsDX, m_CurrentDepthStencilViewDX);
 
     return AEResult::Ok;
 }
 
-AEResult GraphicDevice::CreateDepthStencil()
+AEResult GraphicDevice::CreateDefaultDepthStencil()
 {
     D3D11_TEXTURE2D_DESC depthStencilDesc = { 0 };
 
-    depthStencilDesc.Format             = m_gPP.m_DepthStencilFormat;
+    depthStencilDesc.Format             = m_GraphicPP.m_DepthStencilFormat;
 
-    depthStencilDesc.Width              = m_gPP.m_BackBufferWidth;
-    depthStencilDesc.Height             = m_gPP.m_BackBufferHeight;
+    depthStencilDesc.Width              = m_GraphicPP.m_GameBackBufferWidth;
+    depthStencilDesc.Height             = m_GraphicPP.m_GameBackBufferHeight;
 
     depthStencilDesc.MipLevels          = 1; //Depth Stencil for Default has 1 Mip Map
     depthStencilDesc.ArraySize          = 1; //Depth Stencil for Default has 1 Array Size
     
-    depthStencilDesc.SampleDesc         = m_gPP.m_MultiSample;
+    depthStencilDesc.SampleDesc         = m_GraphicPP.m_MultiSample;
 
     AETODO("Check Flags");
     depthStencilDesc.Usage              = D3D11_USAGE_DEFAULT;
@@ -464,37 +490,30 @@ AEResult GraphicDevice::CreateDepthStencil()
     depthStencilDesc.CPUAccessFlags     = 0; 
     depthStencilDesc.MiscFlags          = 0;
 
-    HRESULT hr = S_OK;
-
-    hr = m_DeviceDX->CreateTexture2D(&depthStencilDesc, nullptr, &m_DefaultDepthStencilBufferDX);
-    
+    HRESULT hr = m_DeviceDX->CreateTexture2D(&depthStencilDesc, nullptr, &m_GameDepthStencilBufferDX);
     if(hr != S_OK)
     {
         DisplayError(hr);
-
         return AEResult::Fail;
     }
+    AEGraphicHelpers::SetDebugObjectName(m_GameDepthStencilBufferDX, AE_DEBUG_GAME_DST_NAME);
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_DefaultDepthStencilBufferDX, AE_DEBUG_MAIN_DST_NAME);
-    
     AETODO("Check Depth Stencil View Desc");
-    hr = m_DeviceDX->CreateDepthStencilView(m_DefaultDepthStencilBufferDX, 0, &m_DefaultDepthStencilViewDX);
-    
+    hr = m_DeviceDX->CreateDepthStencilView(m_GameDepthStencilBufferDX, 0, &m_GameDepthStencilViewDX);
     if(hr != S_OK)
     {
+        CleanUpDefaultDepthStencil();
+
         DisplayError(hr);
-
-        ReleaseCOM(m_DefaultDepthStencilBufferDX);
-
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11DepthStencilView>(m_DefaultDepthStencilViewDX, AE_DEBUG_MAIN_DSV_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_GameDepthStencilViewDX, AE_DEBUG_GAME_DSV_NAME);
 
     return AEResult::Ok;
 }
 
-AEResult GraphicDevice::CreateRenderTarget()
+AEResult GraphicDevice::CreateDefaultRenderTarget()
 {
     ID3D11Texture2D* backBuffer = nullptr;
 
@@ -505,31 +524,74 @@ AEResult GraphicDevice::CreateRenderTarget()
     if(hr != S_OK)
     {
         DisplayError(hr);
-
         return AEResult::Fail;
     }
 
-    hr = m_DeviceDX->CreateRenderTargetView(backBuffer, 0, &m_DefaultRenderTargetViewDX);
-    
+#ifdef AE_EDITOR_MODE
+    ID3D11RenderTargetView** rtView = &m_EditorRenderTargetViewDX;
+#else
+    ID3D11RenderTargetView** rtView = &m_GameRenderTargetViewDX;
+#endif
+    hr = m_DeviceDX->CreateRenderTargetView(backBuffer, 0, rtView);
     ReleaseCOM(backBuffer);
-
     if(hr != S_OK)
     {
         DisplayError(hr);
-
         return AEResult::Fail;
     }
-    
-    AEGraphicHelpers::SetDebugObjectName<ID3D11RenderTargetView>(m_DefaultRenderTargetViewDX, AE_DEBUG_MAIN_RTV_NAME);
+#ifdef AE_EDITOR_MODE
+    AEGraphicHelpers::SetDebugObjectName(m_EditorRenderTargetViewDX, AE_DEBUG_EDITOR_RTV_NAME);
+#else
+    AEGraphicHelpers::SetDebugObjectName(m_GameRenderTargetViewDX, AE_DEBUG_GAME_RTV_NAME);
+#endif
+
+#ifdef AE_EDITOR_MODE
+    D3D11_TEXTURE2D_DESC dxDesc = { 0 };
+
+    dxDesc.Width                = m_GraphicPP.m_GameBackBufferWidth;
+    dxDesc.Height               = m_GraphicPP.m_GameBackBufferHeight;
+    dxDesc.MipLevels            = 1;
+    dxDesc.ArraySize            = 1;
+    dxDesc.Usage                = D3D11_USAGE_DEFAULT;
+    dxDesc.BindFlags            = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+    dxDesc.CPUAccessFlags       = 0;
+    dxDesc.Format               = m_GraphicPP.m_BackBufferFormatWindowed;    
+    dxDesc.MiscFlags            = 0;
+    dxDesc.SampleDesc.Count     = 1;
+    dxDesc.SampleDesc.Quality   = 0;
+    AETODO("Check multisample");
+    AETODO("Check other flags for RT and if Mip Map is needed");
+
+    hr = m_DeviceDX->CreateTexture2D(&dxDesc, nullptr, &m_GameRenderTargetBufferDX);
+    if (hr != S_OK)
+    {
+        CleanUpDefaultRenderTargets();
+        DisplayError(hr);
+        return AEResult::CreateTextureFailed;
+    }
+    AEGraphicHelpers::SetDebugObjectName(m_GameRenderTargetBufferDX, AE_DEBUG_GAME_RTT_NAME);
+
+    hr = m_DeviceDX->CreateShaderResourceView(m_GameRenderTargetBufferDX, nullptr, &m_GameRenderTargetSRV);
+    if (hr != S_OK)
+    {
+        CleanUpDefaultRenderTargets();
+        DisplayError(hr);
+        return AEResult::CreateSRViewFailed;
+    }
+    AEGraphicHelpers::SetDebugObjectName(m_GameRenderTargetSRV, AE_DEBUG_GAME_SRV_NAME);
+
+    AETODO("Check Render Target Desc");
+    hr = m_DeviceDX->CreateRenderTargetView(m_GameRenderTargetBufferDX, nullptr, &m_GameRenderTargetViewDX);
+    if (hr != S_OK)
+    {
+        CleanUpDefaultRenderTargets();
+        DisplayError(hr);
+        return AEResult::CreateRTViewFailed;
+    }
+    AEGraphicHelpers::SetDebugObjectName(m_GameRenderTargetViewDX, AE_DEBUG_GAME_RTV_NAME);
+#endif
 
     return AEResult::Ok;
-}
-
-void GraphicDevice::ReleaseDefaultRTDS()
-{
-    ReleaseCOM(m_DefaultDepthStencilBufferDX);
-    ReleaseCOM(m_DefaultDepthStencilViewDX);
-    ReleaseCOM(m_DefaultRenderTargetViewDX);
 }
 
 void GraphicDevice::ResetDevice()
@@ -546,7 +608,11 @@ void GraphicDevice::ResetDevice()
     //Resize Swap Chain
     AETODO("Check to see if we are in full screen or window");
     AETODO("Check Swap Chain Flags");
-    hr = m_SwapChainDX->ResizeBuffers(1, m_gPP.m_BackBufferWidth, m_gPP.m_BackBufferHeight, m_gPP.m_BackBufferFormatFullScreen, 0);
+#ifdef AE_EDITOR_MODE
+    hr = m_SwapChainDX->ResizeBuffers(1, m_GraphicPP.m_EditorBackBufferWidth, m_GraphicPP.m_EditorBackBufferHeight, m_GraphicPP.m_BackBufferFormatFullScreen, 0);
+#else
+    hr = m_SwapChainDX->ResizeBuffers(1, m_GraphicPP.m_GameBackBufferWidth, m_GraphicPP.m_GameBackBufferHeight, m_GraphicPP.m_BackBufferFormatFullScreen, 0);
+#endif
 
     AEAssert(hr == S_OK);
     if(hr != S_OK)
@@ -565,11 +631,23 @@ void GraphicDevice::Resize(uint32_t width, uint32_t height)
 {
     AEAssert(m_IsReady);
 
-    m_gPP.m_BackBufferWidth     = width;
-    m_gPP.m_BackBufferHeight    = height;
+    m_GraphicPP.m_GameBackBufferWidth     = width;
+    m_GraphicPP.m_GameBackBufferHeight    = height;
 
+#ifdef AE_EDITOR_MODE
+    ResetGameRenderTargetView();
+#else
     ResetDevice();
+#endif
 }
+
+#ifdef AE_EDITOR_MODE
+
+void GraphicDevice::ResetGameRenderTargetView()
+{
+}
+
+#endif
 
 AEResult GraphicDevice::InitDevice()
 {
@@ -593,7 +671,7 @@ AEResult GraphicDevice::InitDevice()
     createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-    if(m_gPP.m_SingleThreaded)
+    if(m_GraphicPP.m_SingleThreaded)
     {
         createDeviceFlags |= D3D11_CREATE_DEVICE_SINGLETHREADED;
     }
@@ -631,8 +709,8 @@ AEResult GraphicDevice::InitDevice()
     }
 
     //Add names to DX Objects for Debugging
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Device>(m_DeviceDX, AE_DEBUG_MAIN_GD_NAME);
-    AEGraphicHelpers::SetDebugObjectName<ID3D11DeviceContext>(m_DeviceContextDX, AE_DEBUG_MAIN_DC_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_DeviceDX, AE_DEBUG_MAIN_GD_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_DeviceContextDX, AE_DEBUG_MAIN_DC_NAME);
 
     AETODO("CHECK Device1 and other stuff, it is only available in windows 8");
     //hr = device->QueryInterface(__uuidof(ID3D11Device1), (void**)&m_DX3D11Device);
@@ -852,30 +930,28 @@ void GraphicDevice::SetRenderTarget(uint32_t stage_id, RenderTarget* rt)
     ///////////////////////////////////////
     //Verify that it does not past max num of render target
     AEAssert(stage_id < m_MaxNumRenderTargets);
-    if(stage_id >= m_MaxNumRenderTargets)
+    if (stage_id >= m_MaxNumRenderTargets)
     {
         return;
+    }
+    
+    ID3D11RenderTargetView* rtDX = nullptr;
+
+    ///////////////////////////////////////
+    //Set Render Target
+    if(rt != nullptr)
+    {
+        rtDX = rt->GetDXRenderTargetView();
+        AEAssert(rtDX != nullptr);
     }
 
     ///////////////////////////////////////
     //Set Render Target
-    if(rt == nullptr)
-    {
-        m_CurrentRenderTargetViewsDX[stage_id] = nullptr;
-    }
-    else
-    {
-        m_CurrentRenderTargetViewsDX[stage_id] = rt->GetDXRenderTargetView();
-
-        if(m_CurrentRenderTargetViewsDX[stage_id] == nullptr)
-        {
-            AETODO("Log warning");
-        }
-    }
+    m_CurrentRenderTargetViewsDX[stage_id] = rtDX;
 
     ///////////////////////////////////////
     //Set Highest Render Target Stage
-    m_HighestRenderTargetStage = ( (stage_id + 1) > m_HighestRenderTargetStage) ? (stage_id + 1) : m_HighestRenderTargetStage;
+    m_HighestRenderTargetStage = ((stage_id + 1) > m_HighestRenderTargetStage) ? (stage_id + 1) : m_HighestRenderTargetStage;
 
     ///////////////////////////////////////
     //Set Render Targets and Depth Stencil
@@ -884,20 +960,20 @@ void GraphicDevice::SetRenderTarget(uint32_t stage_id, RenderTarget* rt)
     ///////////////////////////////////////
     //Set Highest Render Target Stage if
     //the last render target was null
-    if(m_CurrentRenderTargetViewsDX[stage_id] == nullptr && stage_id == m_HighestRenderTargetStage)
+    if (m_CurrentRenderTargetViewsDX[stage_id] == nullptr && stage_id == m_HighestRenderTargetStage)
     {
         bool setNewHigh = false;
 
         for (uint32_t i = stage_id; i >= 0 && !setNewHigh; i--)
         {
-            if(m_CurrentRenderTargetViewsDX[i] != nullptr)
+            if (m_CurrentRenderTargetViewsDX[i] != nullptr)
             {
                 m_HighestRenderTargetStage = i;
                 setNewHigh = true;
             }
         }
 
-        if(!setNewHigh)
+        if (!setNewHigh)
         {
             m_HighestRenderTargetStage = 0;
         }
@@ -1048,7 +1124,7 @@ void GraphicDevice::ResetRenderTarget()
 
     ///////////////////////////////////////
     //Set Default Render Targets
-    m_CurrentRenderTargetViewsDX[0] = m_DefaultRenderTargetViewDX;
+    m_CurrentRenderTargetViewsDX[0] = m_GameRenderTargetViewDX;
 
     ///////////////////////////////////////
     //Set Highest Render Target Stage 
@@ -1065,7 +1141,7 @@ void GraphicDevice::ResetDepthStencil()
 
     ///////////////////////////////////////
     //Set Default Depth Stencil
-    m_CurrentDepthStencilViewDX = m_DefaultDepthStencilViewDX;
+    m_CurrentDepthStencilViewDX = m_GameDepthStencilViewDX;
 
     ///////////////////////////////////////
     //Set Render Targets and Depth Stencil
@@ -1085,7 +1161,7 @@ void GraphicDevice::ResetRenderTargetAndSetDepthStencil()
 
     ///////////////////////////////////////
     //Set Default Render Targets
-    m_CurrentRenderTargetViewsDX[0] = m_DefaultRenderTargetViewDX;
+    m_CurrentRenderTargetViewsDX[0] = m_GameRenderTargetViewDX;
 
     ///////////////////////////////////////
     //Set Highest Render Target Stage 
@@ -1093,7 +1169,7 @@ void GraphicDevice::ResetRenderTargetAndSetDepthStencil()
 
     ///////////////////////////////////////
     //Set Default Depth Stencil
-    m_CurrentDepthStencilViewDX = m_DefaultDepthStencilViewDX;
+    m_CurrentDepthStencilViewDX = m_GameDepthStencilViewDX;
 
     ///////////////////////////////////////
     //Set Render Targets and Depth Stencil
@@ -1134,7 +1210,11 @@ void GraphicDevice::ResetViewport()
 {
     AEAssert(m_IsReady);
 
+#ifdef AE_EDITOR_MODE
+    m_DeviceContextDX->RSSetViewports(1, &m_EditorViewportDX);
+#else
     m_DeviceContextDX->RSSetViewports(1, &m_ScreenViewportDX);
+#endif
 }
 
 void GraphicDevice::SetIndexBuffer(IndexBuffer* ib, uint32_t offset)
@@ -1235,7 +1315,7 @@ void GraphicDevice::DrawFullScreenQuad(const glm::vec4& texCoord)
 {
     AEAssert(m_IsReady);
 
-    RECT size = { 0, 0, (LONG)m_gPP.m_BackBufferWidth, (LONG)m_gPP.m_BackBufferHeight };
+    RECT size = { 0, 0, (LONG)m_GraphicPP.m_GameBackBufferWidth, (LONG)m_GraphicPP.m_GameBackBufferHeight };
 
     DrawQuad2D(size, texCoord);
 }
@@ -1701,10 +1781,8 @@ void GraphicDevice::SetBlendState(ID3D11BlendState* blendState, const glm::vec4&
 #if defined(AE_GRAPHIC_DEBUG_DEVICE)
 void GraphicDevice::BeginEvent(const std::string& eventName)
 {
-    if (!m_IsReady || m_UserDefinedAnnotationDX == nullptr)
-    {
-        return;
-    }
+    AEAssert(m_IsReady);
+    AEAssert(m_UserDefinedAnnotationDX != nullptr);
 
     std::wstring eventNameW = AE_Base::String2WideStr(eventName);
     if (m_UserDefinedAnnotationDX->BeginEvent(eventNameW.c_str()) != 0)
@@ -1715,10 +1793,8 @@ void GraphicDevice::BeginEvent(const std::string& eventName)
 
 void GraphicDevice::EndEvent()
 {
-    if (!m_IsReady || m_UserDefinedAnnotationDX == nullptr)
-    {
-        return;
-    }
+    AEAssert(m_IsReady);
+    AEAssert(m_UserDefinedAnnotationDX != nullptr);
 
     if (m_UserDefinedAnnotationDX->EndEvent() != 0)
     {
@@ -1728,12 +1804,27 @@ void GraphicDevice::EndEvent()
 
 void GraphicDevice::SetEventmarker(const std::string& eventName)
 {
-    if (!m_IsReady || m_UserDefinedAnnotationDX == nullptr)
-    {
-        return;
-    }
+    AEAssert(m_IsReady);
+    AEAssert(m_UserDefinedAnnotationDX != nullptr);
 
     std::wstring eventNameW = AE_Base::String2WideStr(eventName);
     m_UserDefinedAnnotationDX->SetMarker(eventNameW.c_str());
 }
 #endif // defined(AE_GRAPHIC_DEBUG_DEVICE)
+
+#ifdef AE_EDITOR_MODE
+
+/// <summary>
+/// Sets the Defaults Render Targets 
+/// </summary>
+void GraphicDevice::SetEditorRenderTargetAndViewPort()
+{
+    AEAssert(m_IsReady);
+
+    m_HighestRenderTargetStage = 1;
+    m_CurrentRenderTargetViewsDX[0] = m_EditorRenderTargetViewDX;
+    m_DeviceContextDX->OMSetRenderTargets(m_HighestRenderTargetStage, m_CurrentRenderTargetViewsDX, nullptr);
+    m_DeviceContextDX->RSSetViewports(1, &m_EditorViewportDX);
+}
+
+#endif

@@ -148,7 +148,7 @@ AEResult ConstantBuffer::Initialize()
         return AEResult::ConstantBufferInitFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_ConstantBufferDX, AE_DEBUG_CB_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_ConstantBufferDX, AE_DEBUG_CB_NAME_PREFIX + m_Name);
 
     /******************************************
     *3. Finish

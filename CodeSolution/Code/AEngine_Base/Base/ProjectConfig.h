@@ -53,7 +53,10 @@
 #error AE_FINAL and _DEBUG cannot be defined at the same time.
 #endif
 
-#define AE_CRASH_HANDILING
+/// <summary>
+/// Defines if Crash Handling Module is active
+/// </summary>
+//#define AE_CRASH_HANDILING
 
 #if !defined(AE_FINAL)
 

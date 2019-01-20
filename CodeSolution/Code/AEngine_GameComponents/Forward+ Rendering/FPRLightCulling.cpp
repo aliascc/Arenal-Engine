@@ -153,8 +153,8 @@ void FPRLightCulling::Render(const TimerParams& timerParams)
         cb->SetValueT<glm::mat4>(AE_CB_VIEW_VAR_NAME, currentCamera->GetViewMatrix());
         cb->SetValueT<glm::mat4>(AE_CB_INV_PROJECTION_VAR_NAME, invProj);
 
-        cb->SetValueT<uint32_t>(AE_CB_WINDOW_HEIGHT_VAR_NAME, m_GraphicDevice.GetGraphicPP().m_BackBufferHeight);
-        cb->SetValueT<uint32_t>(AE_CB_WINDOW_WIDTH_VAR_NAME, m_GraphicDevice.GetGraphicPP().m_BackBufferWidth);
+        cb->SetValueT<uint32_t>(AE_CB_WINDOW_HEIGHT_VAR_NAME, m_GraphicDevice.GetGraphicPP().m_GameBackBufferHeight);
+        cb->SetValueT<uint32_t>(AE_CB_WINDOW_WIDTH_VAR_NAME, m_GraphicDevice.GetGraphicPP().m_GameBackBufferWidth);
         cb->SetValueT<uint32_t>(AE_CB_NUM_LIGHTS_VAR_NAME, numLights);
     }
 

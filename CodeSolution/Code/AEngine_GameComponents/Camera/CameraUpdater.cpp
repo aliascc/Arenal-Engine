@@ -102,6 +102,6 @@ void CameraUpdater::OnResetDevice()
 
     for (auto cameraIt : m_CameraManager)
     {
-        cameraIt.second->ScreenDimensionsChanged(graphicDevice.GetGraphicPP().m_BackBufferWidth, graphicDevice.GetGraphicPP().m_BackBufferHeight);
+        cameraIt.second->ScreenDimensionsChanged(graphicDevice.GetGraphicPP().m_GameBackBufferWidth, graphicDevice.GetGraphicPP().m_GameBackBufferHeight);
     }
 }

@@ -177,7 +177,7 @@ void FPRObjectDraw::DrawGameObject(GameObject* gameObject)
                     if (cbPS != nullptr)
                     {
                         cbPS->SetValueT<glm::vec3>(AE_CB_CAMERA_POS_VAR_NAME, currentCamera->GetPosition());
-                        cbPS->SetValueT<uint32_t>(AE_CB_WINDOW_WIDTH_VAR_NAME, m_GraphicDevice.GetGraphicPP().m_BackBufferWidth);
+                        cbPS->SetValueT<uint32_t>(AE_CB_WINDOW_WIDTH_VAR_NAME, m_GraphicDevice.GetGraphicPP().m_GameBackBufferWidth);
                     }
 
                     /////////////////////////////////////////////////////////

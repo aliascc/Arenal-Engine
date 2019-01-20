@@ -78,7 +78,7 @@ AEResult GeometryShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint3
     ReleaseCOM(m_GSDX);
     m_GSDX = tempDX;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11GeometryShader>(m_GSDX, AE_DEBUG_GS_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_GSDX, AE_DEBUG_GS_NAME_PREFIX + m_Name);
     
     return AEResult::Ok;
 }

@@ -130,7 +130,7 @@ void ForwardPlusRendering::LoadContent()
     AEResult ret = AEResult::Ok;
     GraphicDevice& graphicDevice = m_GameApp.GetGraphicsDevice();
 
-    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice.GetGraphicPP().m_BackBufferWidth, graphicDevice.GetGraphicPP().m_BackBufferHeight);
+    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice.GetGraphicPP().m_GameBackBufferWidth, graphicDevice.GetGraphicPP().m_GameBackBufferHeight);
 
     AETODO("Set is ready when ds and buffers are created");
 
@@ -273,7 +273,7 @@ void ForwardPlusRendering::OnResetDevice()
 {
     GraphicDevice& graphicDevice = m_GameApp.GetGraphicsDevice();
 
-    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice.GetGraphicPP().m_BackBufferWidth, graphicDevice.GetGraphicPP().m_BackBufferHeight);
+    m_NumTiles = ForwardPlusHelper::GetNumTiles(graphicDevice.GetGraphicPP().m_GameBackBufferWidth, graphicDevice.GetGraphicPP().m_GameBackBufferHeight);
 
     AETODO("Check returns");
 
@@ -294,8 +294,8 @@ AEResult ForwardPlusRendering::InitForwardPlusDS()
 
     AEResult ret = AEResult::Ok;
 
-    uint32_t screenWidth = graphicDevice.GetGraphicPP().m_BackBufferWidth;
-    uint32_t screenHeight = graphicDevice.GetGraphicPP().m_BackBufferHeight;
+    uint32_t screenWidth = graphicDevice.GetGraphicPP().m_GameBackBufferWidth;
+    uint32_t screenHeight = graphicDevice.GetGraphicPP().m_GameBackBufferHeight;
 
     ret = m_ForwardPlusDS->InitializeDepthStencilSurface(screenWidth, screenHeight, DXGI_FORMAT_R24G8_TYPELESS, DXGI_FORMAT_D24_UNORM_S8_UINT, DXGI_FORMAT_R24_UNORM_X8_TYPELESS);
     if(ret != AEResult::Ok)

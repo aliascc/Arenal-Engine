@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _RESIZE_COMMAND_H
-#define _RESIZE_COMMAND_H
-
 /**********************
 *   System Includes   *
 ***********************/
@@ -37,6 +34,8 @@
 *   Forward Decls   *
 *********************/
 class GameApp;
+class ImGuiManager;
+class GraphicDevice;
 class GameComponentCollection;
 
 /*******************************
@@ -51,6 +50,11 @@ private:
     /// Game App
     /// </summary>
     GameApp& m_GameApp;
+
+    /// <summary>
+    /// Graphic Device
+    /// </summary>
+    GraphicDevice& m_GraphicDevice;
 
     /// <summary>
     /// New size that is been requested
@@ -99,6 +103,52 @@ public:
     /// Default GCSortCommand Destructor
     /// </summary>
     virtual ~GCSortCommand();
+
+    /// <summary>
+    /// Executes the Game Command
+    /// </summary>
+    void Execute() override;
+};
+
+#ifdef AE_EDITOR_MODE
+
+/*******************************
+*   Resize Editor Class Decl   *
+********************************/
+
+class ResizeEditorCommand sealed : public GameCommand
+{
+private:
+
+    /// <summary>
+    /// Graphic Device
+    /// </summary>
+    GraphicDevice& m_GraphicDevice;
+
+    /// <summary>
+    /// ImGui Manager
+    /// </summary>
+    ImGuiManager& m_ImGuiManager;
+
+    /// <summary>
+    /// New size that is been requested
+    /// </summary>
+    glm::ivec2 m_NewSize;
+
+public:
+
+    /// <summary>
+    /// ResizeEditorCommand Constructor
+    /// </summary>
+    /// <param name="graphicDevice">Graphic Device</param>
+    /// <param name="imGuiManager">ImGui Manager</param>
+    /// <param name="m_NewSize">Resize requested</param>
+    ResizeEditorCommand(GraphicDevice& graphicDevice, ImGuiManager& imGuiManager, const glm::ivec2& newSize);
+
+    /// <summary>
+    /// Default ResizeEditorCommand Destructor
+    /// </summary>
+    virtual ~ResizeEditorCommand();
 
     /// <summary>
     /// Executes the Game Command

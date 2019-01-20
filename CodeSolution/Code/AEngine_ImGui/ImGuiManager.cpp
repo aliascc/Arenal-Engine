@@ -71,6 +71,8 @@ void ImGuiManager::CleanUp()
 
 void ImGuiManager::SortWindows()
 {
+    AEAssert(m_IsReady);
+
     std::sort(m_ImGuiWindows.begin(), m_ImGuiWindows.end(),
               [](ImGuiWindow* left, ImGuiWindow* right)
                 {
@@ -80,6 +82,8 @@ void ImGuiManager::SortWindows()
 
 AEResult ImGuiManager::AddImGuiWindow(ImGuiWindow* imGuiWindow)
 {
+    AEAssert(m_IsReady);
+
     if (imGuiWindow == nullptr)
     {
         return AEResult::NullParameter;
@@ -95,6 +99,8 @@ AEResult ImGuiManager::AddImGuiWindow(ImGuiWindow* imGuiWindow)
 
 AEResult ImGuiManager::RemoveImGuiWindow(const uint64_t imGuiWindowID)
 {
+    AEAssert(m_IsReady);
+
     //Reorganize the indexes of the windows
     m_ImGuiWindowMap.erase(imGuiWindowID);
 
@@ -109,7 +115,28 @@ AEResult ImGuiManager::RemoveImGuiWindow(const uint64_t imGuiWindowID)
 
 AEResult ImGuiManager::Initialize()
 {
+    if (m_IsReady)
+    {
+        return AEResult::Ok;
+    }
+
     ImGui::CreateContext();
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    //ImGui::StyleColorsClassic();
+
+    // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        style.WindowRounding = 0.0f;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+    }
 
     HWND windowHandle                       = m_GraphicDevice.GetGraphicPP().m_DeviceWindow;
     ID3D11Device* d3dDevice                 = m_GraphicDevice.GetDeviceDX();
@@ -127,11 +154,15 @@ AEResult ImGuiManager::Initialize()
 
     m_ImGuiMainMenu = new ImGuiMainMenu();
 
+    m_IsReady = true;
+
     return AEResult::Ok;
 }
 
 void ImGuiManager::Update(const TimerParams& timerParams)
 {
+    AEAssert(m_IsReady);
+
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
@@ -157,8 +188,46 @@ void ImGuiManager::Update(const TimerParams& timerParams)
 
 void ImGuiManager::Render(const TimerParams& timerParams)
 {
+    AEAssert(m_IsReady);
+
+    ///////////////////////////
+    // Render the ImGui Data
     ImGui::Render();
+
+    ///////////////////////////
+    // Set Editor Render Target and clear
+    m_GraphicDevice.SetEditorRenderTargetAndViewPort();
+    m_GraphicDevice.Clear(true, 0, false, false);
+
+    ///////////////////////////
+    // Render to DirectX
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+    ///////////////////////////
+    // Update and Render additional Platform Windows
+    // Enclose in if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    // but we will always have view ports on
+    ImGui::UpdatePlatformWindows();
+    ImGui::RenderPlatformWindowsDefault();
+
+    ///////////////////////////
+    // Reset the Render Target to the Game
+    m_GraphicDevice.ResetRenderTargetAndSetDepthStencil();
+    m_GraphicDevice.ResetViewport();
+}
+
+void ImGuiManager::OnLostDevice()
+{
+    AEAssert(m_IsReady);
+
+    ImGui_ImplDX11_InvalidateDeviceObjects();
+}
+
+void ImGuiManager::OnResetDevice()
+{
+    AEAssert(m_IsReady);
+
+    ImGui_ImplDX11_CreateDeviceObjects();
 }
 
 #endif //AE_EDITOR_MODE

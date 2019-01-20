@@ -77,7 +77,7 @@ AEResult PixelShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_t
     ReleaseCOM(m_PSDX);
     m_PSDX = tempDX;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11PixelShader>(m_PSDX, AE_DEBUG_PS_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_PSDX, AE_DEBUG_PS_NAME_PREFIX + m_Name);
 
     return AEResult::Ok;
 }

@@ -731,7 +731,8 @@ AEResult GameApp::InitMainWindow()
 
     SetWindowLongPtr(m_MainWnd, GWLP_USERDATA, (LONG_PTR)this);
 
-    ShowWindow(m_MainWnd, SW_SHOW);
+    ShowWindow(m_MainWnd, SW_SHOWMAXIMIZED);
+
     UpdateWindow(m_MainWnd);
 
     return AEResult::Ok;
@@ -747,7 +748,6 @@ AEResult GameApp::Init3D_Device()
     //if(m_GraphicDevice->CheckDevCaps(m_GameConfig.m_DevCapFile) != AEResult::Ok)
     //{
     //    std::string msgerr = fmt::format(m_LocalizationManager->GetLiteral("CHECK_DEV_CAPS_ERR_MSG"), __FUNCTION__);
-
     //    m_Logger->AddNewLog(LogLevel::Error, msgerr);
     //    return AEResult::Fail;
     //}
@@ -931,12 +931,17 @@ void GameApp::OnResize(uint32_t width, uint32_t heigth)
 
     glm::ivec2 newSize = { width, heigth };
 
+#ifdef AE_EDITOR_MODE
+    ResizeEditorCommand* rc = new ResizeEditorCommand(*m_GraphicDevice, *m_ImGuiManager, newSize);
+#else
     ResizeCommand* rc = new ResizeCommand(*this, newSize);
+#endif
 
     GameCommandManager::GetInstance().AddCommand(rc);
 }
 
-AEResult GameApp::SetFullScreen(bool fullScreenEnable)
+#ifndef AE_EDITOR_MODE
+void GameApp::SetFullScreen(bool fullScreenEnable)
 {
     GraphicsPresentationParameters* gpp = &m_GraphicDevice->GetGraphicPP();
     
@@ -944,7 +949,7 @@ AEResult GameApp::SetFullScreen(bool fullScreenEnable)
     {
         if(!gpp->m_Windowed)
         {
-            return AEResult::Ok;
+            return;
         }
         
         //Set Windowed to false
@@ -961,14 +966,14 @@ AEResult GameApp::SetFullScreen(bool fullScreenEnable)
                     m_GraphicOptsPreferred.m_ScreenResolution.y, 
                     SWP_NOZORDER | SWP_SHOWWINDOW);    
         
-        gpp->m_BackBufferWidth = m_GraphicOptsPreferred.m_ScreenResolution.x;
-        gpp->m_BackBufferHeight = m_GraphicOptsPreferred.m_ScreenResolution.y;
+        gpp->m_GameBackBufferWidth  = m_GraphicOptsPreferred.m_ScreenResolution.x;
+        gpp->m_GameBackBufferHeight = m_GraphicOptsPreferred.m_ScreenResolution.y;
     }
     else
     {
         if(gpp->m_Windowed)
         {
-            return AEResult::Ok;
+            return;
         }
         
         //Set Windowed to true
@@ -997,9 +1002,8 @@ AEResult GameApp::SetFullScreen(bool fullScreenEnable)
     m_GraphicDevice->ResetDevice();
 
     OnResetDevice();
-    
-    return AEResult::Ok;
 }
+#endif
 
 void GameApp::OnLostDevice()
 {
@@ -1222,24 +1226,6 @@ void GameApp::InternalPostUpdate(const TimerParams& timerParams)
 
     //Game Component Update
     m_GameComponentCollection->PostUpdateCollection(timerParams);
-}
-
-void GameApp::InternalOnLostDevice()
-{
-    //Game App Update
-    OnLostDevice();
-
-    //Game Component Update
-    m_GameComponentCollection->OnLostDeviceCollection();
-}
-
-void GameApp::InternalOnResetDevice()
-{
-    //Game App Update
-    OnResetDevice();
-
-    //Game Component Update
-    m_GameComponentCollection->OnResetDeviceCollection();
 }
 
 AEResult GameApp::SaveGameInfo()
@@ -1472,7 +1458,7 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
         // WM_SIZE is sent when the user resizes the window.  
         case WM_SIZE:
-
+        {
             width  = LOWORD(lParam);
             height = HIWORD(lParam);
 
@@ -1501,6 +1487,7 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
                 {
                     m_AppInactive = false;
                     m_Minimized = false;
+
                     OnResize(width, height);
                 }
                 // Restoring from maximized state?
@@ -1508,6 +1495,7 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
                 {
                     m_AppInactive = false;
                     m_Maximized = false;
+
                     OnResize(width, height);
                 }
                 else if(m_Resizing)
@@ -1528,6 +1516,7 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
             }
 
             return 0;
+        }
 
         case WM_ENTERSIZEMOVE:
             m_AppInactive = true;
@@ -1537,23 +1526,28 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
         // WM_EXITSIZEMOVE is sent when the user releases the resize bars.
         // Here we reset everything based on the new window dimensions.
         case WM_EXITSIZEMOVE:
+        {
             GetClientRect(m_MainWnd, &clientRect);
 
-            width  = (uint32_t)clientRect.right;
-            height = (uint32_t)clientRect.bottom;
+            width           = (uint32_t)clientRect.right;
+            height          = (uint32_t)clientRect.bottom;
 
-            m_AppInactive = false;
-            m_Resizing  = false;
+            m_AppInactive   = false;
+            m_Resizing      = false;
 
             OnResize(width, height);
 
             return 0;
+        }
 
         // WM_CLOSE is sent when the user presses the 'X' button in the
         // caption bar menu.
         case WM_CLOSE:
+        {
+            AETODO("Verify we need this or we can call it from outside");
             DestroyWindow(m_MainWnd);
             return 0;
+        }
 
         // WM_DESTROY is sent when the window is being destroyed.
         case WM_DESTROY:

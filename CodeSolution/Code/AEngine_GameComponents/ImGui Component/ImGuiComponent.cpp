@@ -63,5 +63,13 @@ void ImGuiComponent::Update(const TimerParams& timerParams)
 
 void ImGuiComponent::Render(const TimerParams& timerParams)
 {
+    ///////////////////////////////////////////
+    //Begin Event for Diagnostic View
+    m_GraphicDevice.BeginEvent("ImGui Rendering");
+
     m_ImGuiManager.Render(timerParams);
+
+    ///////////////////////////////////////////
+    //End Event for Diagnostic View
+    m_GraphicDevice.EndEvent();
 }

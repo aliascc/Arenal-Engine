@@ -87,15 +87,17 @@ AEResult RenderTarget::InitializeRenderTarget(uint32_t width, uint32_t height, D
     dxDesc.SampleDesc.Count     = 1;
     dxDesc.SampleDesc.Quality   = 0;
 
-    AETODO("Check if we need this RT");
-    /*uint32_t pixelSize = AEGraphicHelpers::GetSizeOfDXFormat(format);
-    char* pixelData = new char[pixelSize * width * height];
+    AETODO("To use a local buffer as the render target");
+    /*
+    uint32_t pixelSize  = AEGraphicHelpers::GetSizeOfDXFormat(format);
+    char* pixelData     = new char[pixelSize * width * height];
     ZeroMemory(pixelData, pixelSize * width * height);
 
     D3D11_SUBRESOURCE_DATA dxData;
-    dxData.pSysMem = pixelData;
-    dxData.SysMemPitch = pixelSize * width;*/
-    //dxData.SysMemSlicePitch = 0;
+    dxData.pSysMem          = pixelData;
+    dxData.SysMemPitch      = pixelSize * width;
+    dxData.SysMemSlicePitch = 0;
+    */
 
     HRESULT hr = m_GraphicDevice.GetDeviceDX()->CreateTexture2D(&dxDesc, nullptr/*&dxData*/, &m_TextureDX);
 
@@ -108,9 +110,10 @@ AEResult RenderTarget::InitializeRenderTarget(uint32_t width, uint32_t height, D
         return AEResult::CreateTextureFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_RT_T_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_TextureDX, AE_DEBUG_RT_T_NAME_PREFIX + m_Name);
 
     AETODO("Check Shader Resource Desc");
+    AETODO("Do not bind if RT is not needed as shader input");
     hr = m_GraphicDevice.GetDeviceDX()->CreateShaderResourceView(m_TextureDX, nullptr, &m_ShaderResourceView);
 
     if(hr != S_OK)
@@ -123,7 +126,7 @@ AEResult RenderTarget::InitializeRenderTarget(uint32_t width, uint32_t height, D
         return AEResult::CreateSRViewFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_RT_SRV_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_ShaderResourceView, AE_DEBUG_RT_SRV_NAME_PREFIX + m_Name);
 
     AETODO("Check Render Target Desc");
     hr = m_GraphicDevice.GetDeviceDX()->CreateRenderTargetView(m_TextureDX, nullptr, &m_RenderTargetDX);
@@ -139,10 +142,10 @@ AEResult RenderTarget::InitializeRenderTarget(uint32_t width, uint32_t height, D
         return AEResult::CreateRTViewFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11RenderTargetView>(m_RenderTargetDX, AE_DEBUG_RT_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_RenderTargetDX, AE_DEBUG_RT_NAME_PREFIX + m_Name);
 
-    m_Width = width;
-    m_Height = height;
+    m_Width     = width;
+    m_Height    = height;
 
     return AEResult::Ok;
 }

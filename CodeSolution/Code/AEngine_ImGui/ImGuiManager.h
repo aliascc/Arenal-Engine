@@ -54,11 +54,6 @@ class ImGuiManager sealed : public AEObject
 
 private:
 
-    /************************
-    *   Private Variables   *
-    *************************/
-#pragma region Private Variables
-
     /// <summary>
     /// Graphic Device of the Game App
     /// </summary>
@@ -69,26 +64,18 @@ private:
     ImGuiWindowVector m_ImGuiWindows;
     ImGuiWindowMap m_ImGuiWindowMap;
 
-#pragma endregion
-
-    /**********************
-    *   Private Methods   *
-    ***********************/
-#pragma region Private Methods
+    /// <summary>
+    /// Declares if the Manager has been initialized and
+    /// it is ready to run.
+    /// </summary>
+    bool m_IsReady = false;
 
     /// <summary>
     /// Clean up ImGuiManager resources
     /// </summary>
     void CleanUp();
 
-#pragma endregion
-
 public:
-
-    /***************************************
-    *   Constructor & Destructor Methods   *
-    ****************************************/
-#pragma region Constructor & Destructor Methods
 
     /// <summary>
     /// ImGuiManager Constructor
@@ -105,12 +92,10 @@ public:
     ImGuiManager(const ImGuiManager&) = delete;
     ImGuiManager& operator=(const ImGuiManager&) = delete;
 
-#pragma endregion
-
-    /************************
-    *   Framework Methods   *
-    *************************/
-#pragma region Framework Methods
+    inline bool IsReady() const
+    {
+        return m_IsReady;
+    }
 
     /// <summary>
     /// Sorts the Windows
@@ -149,8 +134,15 @@ public:
     /// <param name="timerParams">Game Timer Parameters</param>
     void Render(const TimerParams& timerParams);
 
-#pragma endregion
+    /// <summary>
+    /// When the Graphic Device is going to a reset mode
+    /// </summary>
+    void OnLostDevice();
 
+    /// <summary>
+    /// When the Graphic Device is coming out of a reset mode
+    /// </summary>
+    void OnResetDevice();
 };
 
-#endif // AE_EDITOR_MODE
+#endif //AE_EDITOR_MODE
