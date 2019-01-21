@@ -65,6 +65,16 @@ private:
     ImGuiWindowMap m_ImGuiWindowMap;
 
     /// <summary>
+    /// ImGui Docking Flags
+    /// </summary>
+    ImGuiWindowFlags m_DockingFlags = ImGuiWindowFlags_None;
+
+    /// <summary>
+    /// ImGui Docking WIndow Flags
+    /// </summary>
+    ImGuiDockNodeFlags m_DockingWindowFlags = ImGuiDockNodeFlags_None;
+
+    /// <summary>
     /// Declares if the Manager has been initialized and
     /// it is ready to run.
     /// </summary>
@@ -74,6 +84,11 @@ private:
     /// Clean up ImGuiManager resources
     /// </summary>
     void CleanUp();
+
+    /// <summary>
+    /// Update Docking Space
+    /// </summary>
+    void UpdateDockingSpace();
 
 public:
 

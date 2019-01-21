@@ -18,7 +18,7 @@
 /*************************
 *   Precompiled Header   *
 **************************/
-#include "precomp_imgui.h"
+#include "precomp_editor.h"
 
 /**********************
 *   System Includes   *
@@ -31,37 +31,25 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "ImGuiDefs.h"
-#include "ImGuiMainMenu.h"
+#include "UI/UIDefs.h"
+#include "UIRenderWidget.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
 
-/*********************
-*   Framework Defs   *
-**********************/
+/********************
+*   Function Defs   *
+*********************/
 
-#ifdef AE_EDITOR_MODE
-
-ImGuiMainMenu::ImGuiMainMenu()
-    : ImGuiMenu("Main Menu", AE_LITERAL_UI_MAIN_MENU_NAME, 0, true)
+UIRenderWidget::UIRenderWidget()
+    : ImGuiWindow("Render Window", AE_LITERAL_UI_RENDER_WINDOW_NAME, AE_UI_RENDER_WINDOW_PRIORITY)
 {
 }
 
-ImGuiMainMenu::~ImGuiMainMenu()
+UIRenderWidget::~UIRenderWidget()
 {
 }
 
-void ImGuiMainMenu::Update(const TimerParams& timerParams)
+void UIRenderWidget::UpdateWindow(const TimerParams& timerParams)
 {
-    if (!ImGui::BeginMainMenuBar())
-    {
-        return;
-    }
-
-    UpdateMethods(timerParams);
-
-    ImGui::EndMainMenuBar();
 }
-
-#endif //AE_EDITOR_MODE

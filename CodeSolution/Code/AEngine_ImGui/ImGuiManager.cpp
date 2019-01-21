@@ -152,11 +152,51 @@ AEResult ImGuiManager::Initialize()
         return AEResult::Fail;
     }
 
+    //////////////////////////////////
+    // Init ImGui Docking Variables
+
+    // We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
+    // because it would be confusing to have two docking targets within each others.
+    m_DockingWindowFlags =  ImGuiWindowFlags_MenuBar                | ImGuiWindowFlags_NoDocking    |
+                            ImGuiWindowFlags_NoTitleBar             | ImGuiWindowFlags_NoCollapse   |
+                            ImGuiWindowFlags_NoResize               | ImGuiWindowFlags_NoMove       |
+                            ImGuiWindowFlags_NoBringToFrontOnFocus  | ImGuiWindowFlags_NoNavFocus   |
+                            ImGuiWindowFlags_NoBackground;
+
+    // When using ImGuiDockNodeFlags_PassthruDockspace, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
+    m_DockingFlags = ImGuiDockNodeFlags_PassthruDockspace;
+
+    //////////////////////////////////
+    // Creatte Main Menu
     m_ImGuiMainMenu = new ImGuiMainMenu();
 
     m_IsReady = true;
 
     return AEResult::Ok;
+}
+
+void ImGuiManager::UpdateDockingSpace()
+{
+    AEAssert(m_IsReady);
+
+    ImGuiIO& io = ImGui::GetIO();
+    AEAssert(io.ConfigFlags & ImGuiConfigFlags_DockingEnable);
+
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(viewport->Pos);
+    ImGui::SetNextWindowSize(viewport->Size);
+    ImGui::SetNextWindowViewport(viewport->ID);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
+    ImGui::Begin(AE_DOCKING_SPACE_WINDOW_NAME, nullptr, m_DockingWindowFlags);
+    ImGui::PopStyleVar(3);
+
+    ImGuiID dockspaceID = ImGui::GetID(AE_DOCKING_SPACE_NAME);
+    ImGui::DockSpace(dockspaceID, ImVec2(0.0f, 0.0f), m_DockingFlags);
+
+    ImGui::End();
 }
 
 void ImGuiManager::Update(const TimerParams& timerParams)
@@ -166,6 +206,8 @@ void ImGuiManager::Update(const TimerParams& timerParams)
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+
+    UpdateDockingSpace();
 
     if (m_ImGuiMainMenu->IsVisible())
     {

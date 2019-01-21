@@ -60,7 +60,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\TinyXML2\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\AEngine_ImGui;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\TinyXML2\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include;$(SolutionDir)\Code\3rdParty\ImGui\include;</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -86,7 +86,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\TinyXML2\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName);$(SolutionDir)\Code\AEngine_Base;$(SolutionDir)\Code\AEngine_Scripting;$(SolutionDir)\Code\AEngine_Graphics;$(SolutionDir)\Code\AEngine_GameContent;$(SolutionDir)\Code\AEngine_Core;$(SolutionDir)\Code\AEngine_Resources;$(SolutionDir)\Code\AEngine_Input;$(SolutionDir)\Code\AEngine_Shaders;$(SolutionDir)\Code\AEngine_GameComponents;$(SolutionDir)\Code\AEngine_Audio;$(SolutionDir)\Code\AEngine_Physics;$(SolutionDir)\Code\AEngine_ImGui;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\DirectXTK\include;$(SolutionDir)\Code\3rdParty\DirectXTex\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(SolutionDir)\Code\3rdParty\TinyXML2\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\SFML\include;$(SolutionDir)\Code\3rdParty\PhysX\include;$(SolutionDir)\Code\3rdParty\ImGui\include;</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -119,10 +119,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="UI\Main Menu\UIMainMenu.cpp" />
+    <ClCompile Include="UI\UIManager.cpp" />
+    <ClCompile Include="UI\Widgets\Render\UIRenderWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorViewer.h" />
     <ClInclude Include="precomp_editor.h" />
+    <ClInclude Include="UI\Main Menu\UIMainMenu.h" />
+    <ClInclude Include="UI\UIDefs.h" />
+    <ClInclude Include="UI\UIManager.h" />
+    <ClInclude Include="UI\Widgets\Render\UIRenderWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

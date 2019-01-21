@@ -15,10 +15,7 @@
 * limitations under the License.
 */
 
-/*************************
-*   Precompiled Header   *
-**************************/
-#include "precomp_imgui.h"
+#pragma once
 
 /**********************
 *   System Includes   *
@@ -31,37 +28,25 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "ImGuiDefs.h"
-#include "ImGuiMainMenu.h"
+#include "ImGuiWindow.h"
 
-//Always include last
-#include "Memory\MemLeaks.h"
+/********************
+*   Forward Decls   *
+*********************/
 
-/*********************
-*   Framework Defs   *
-**********************/
+/*****************
+*   Class Decl   *
+******************/
 
-#ifdef AE_EDITOR_MODE
-
-ImGuiMainMenu::ImGuiMainMenu()
-    : ImGuiMenu("Main Menu", AE_LITERAL_UI_MAIN_MENU_NAME, 0, true)
+class UIRenderWidget sealed : public ImGuiWindow
 {
-}
+private:
 
-ImGuiMainMenu::~ImGuiMainMenu()
-{
-}
+    /// <see cref="ImGuiWindow::UpdateWindow(const TimerParams&)"/>
+    void UpdateWindow(const TimerParams& timerParams) override;
 
-void ImGuiMainMenu::Update(const TimerParams& timerParams)
-{
-    if (!ImGui::BeginMainMenuBar())
-    {
-        return;
-    }
+public:
 
-    UpdateMethods(timerParams);
-
-    ImGui::EndMainMenuBar();
-}
-
-#endif //AE_EDITOR_MODE
+    UIRenderWidget();
+    ~UIRenderWidget();
+};

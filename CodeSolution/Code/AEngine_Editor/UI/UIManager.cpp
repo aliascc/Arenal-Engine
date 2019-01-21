@@ -18,7 +18,7 @@
 /*************************
 *   Precompiled Header   *
 **************************/
-#include "precomp_imgui.h"
+#include "precomp_editor.h"
 
 /**********************
 *   System Includes   *
@@ -31,37 +31,35 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "ImGuiDefs.h"
-#include "ImGuiMainMenu.h"
+#include "UIManager.h"
+#include "ImGuiManager.h"
+#include "GameApp/GameApp.h"
+#include "UI/Widgets/Render/UIRenderWidget.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
 
-/*********************
-*   Framework Defs   *
-**********************/
+/********************
+*   Function Defs   *
+*********************/
 
-#ifdef AE_EDITOR_MODE
-
-ImGuiMainMenu::ImGuiMainMenu()
-    : ImGuiMenu("Main Menu", AE_LITERAL_UI_MAIN_MENU_NAME, 0, true)
+UIManager::UIManager(GameApp& gameApp)
+    : m_GameApp(gameApp)
+    , m_ImGuiManager(gameApp.GetImGuiManager())
 {
 }
 
-ImGuiMainMenu::~ImGuiMainMenu()
+UIManager::~UIManager()
 {
+    DeleteMem(m_UIRenderWidget);
 }
 
-void ImGuiMainMenu::Update(const TimerParams& timerParams)
+AEResult UIManager::AddEditorWidgets()
 {
-    if (!ImGui::BeginMainMenuBar())
-    {
-        return;
-    }
+    m_UIRenderWidget = new UIRenderWidget();
+    m_UIRenderWidget->SetIsVisible(true);
 
-    UpdateMethods(timerParams);
+    m_ImGuiManager.AddImGuiWindow(m_UIRenderWidget);
 
-    ImGui::EndMainMenuBar();
+    return AEResult::Ok;
 }
-
-#endif //AE_EDITOR_MODE

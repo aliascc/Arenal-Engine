@@ -266,4 +266,13 @@
 
   <Literal  name="PROJECT_CONFIG_ERR_MSG"                       msg="La configuración del proyecto no puedo ser cargado." />
 
+  <!--
+  #############
+  UI
+  #############
+  -->
+
+  <Literal  name="AE_UI_MAIN_MENU_NAME"                         msg="Menu Principal" />
+  <Literal  name="AE_UI_RENDER_WINDOW_NAME"                     msg="Ventana de Renderizado" />
+
 </Language>

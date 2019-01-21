@@ -44,7 +44,7 @@
 #ifdef AE_EDITOR_MODE
 
 ImGuiMenuSeparator::ImGuiMenuSeparator(const std::string& name, uint32_t renderPriority, bool visible)
-    : ImGuiMenuObject(ImGuiMenuObjectType::Separator, name, renderPriority, visible)
+    : ImGuiMenuObject(ImGuiMenuObjectType::Separator, name, "", renderPriority, visible)
 {
 }
 

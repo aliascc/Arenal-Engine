@@ -43,9 +43,8 @@
 
 #ifdef AE_EDITOR_MODE
 
-ImGuiMenuItem::ImGuiMenuItem(const std::string& name, const std::string& menuNameLiteral, uint32_t renderPriority, bool visible)
-    : ImGuiMenuObject(ImGuiMenuObjectType::Item, name, renderPriority, visible)
-    , m_MenuNameLiteral(menuNameLiteral)
+ImGuiMenuItem::ImGuiMenuItem(const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible)
+    : ImGuiMenuObject(ImGuiMenuObjectType::Item, name, literalName, renderPriority, visible)
 {
 }
 
@@ -55,7 +54,7 @@ ImGuiMenuItem::~ImGuiMenuItem()
 
 void ImGuiMenuItem::Update(const TimerParams& timerParams)
 {
-    const std::string menuName = AELOCMAN.GetLiteral(m_MenuNameLiteral);
+    const std::string& menuName = AELOCMAN.GetLiteral(m_LiteralName);
 
     if (ImGui::MenuItem(menuName.c_str()))
     {

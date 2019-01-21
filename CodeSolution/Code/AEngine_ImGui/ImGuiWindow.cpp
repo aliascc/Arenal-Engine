@@ -42,8 +42,8 @@
 
 #ifdef AE_EDITOR_MODE
 
-ImGuiWindow::ImGuiWindow(const std::string& name, uint32_t renderPriority, bool visible, ImGuiWindowFlags flags, bool showCloseIcon)
-    : ImGuiObject(name, renderPriority, visible)
+ImGuiWindow::ImGuiWindow(const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible, ImGuiWindowFlags flags, bool showCloseIcon)
+    : ImGuiObject(name, literalName, renderPriority, visible)
     , m_Flags(flags)
     , m_ShowCloseIcon(showCloseIcon)
 {
@@ -61,7 +61,9 @@ bool ImGuiWindow::PreUpdate()
         closeIconBool = &m_Visible;
     }
 
-    if (!ImGui::Begin(m_Name.c_str(), closeIconBool, m_Flags))
+    const std::string& windowName = AELOCMAN.GetLiteral(m_LiteralName);
+
+    if (!ImGui::Begin(windowName.c_str(), closeIconBool, m_Flags))
     {
         AETODO("Add log message");
 

@@ -266,4 +266,13 @@
 
   <Literal  name="PROJECT_CONFIG_ERR_MSG"                       msg="Project properties could not be loaded." />
 
+  <!--
+  #############
+  UI
+  #############
+  -->
+
+  <Literal  name="AE_UI_MAIN_MENU_NAME"                         msg="Main Menu" />
+  <Literal  name="AE_UI_RENDER_WINDOW_NAME"                     msg="Render Window" />
+
 </Language>

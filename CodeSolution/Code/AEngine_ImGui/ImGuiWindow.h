@@ -39,11 +39,6 @@ class ImGuiWindow : public ImGuiObject
 {
 private:
 
-    /**********************
-    *   Private Methods   *
-    ***********************/
-#pragma region Private Methods
-
     /// <summary>
     /// Executes the steps needed before the calls
     /// to Im Gui
@@ -51,15 +46,7 @@ private:
     /// <returns>True if the window can be drawn, false otherwise</returns>
     bool PreUpdate();
 
-#pragma endregion
-
-
 protected:
-
-    /**************************
-    *   Protected Variables   *
-    ***************************/
-#pragma region Protected Variables
 
     /// <summary>
     /// Determines if the Window is visible or not
@@ -81,13 +68,6 @@ protected:
     /// </summary>
     bool m_EnableMenu = false;
 
-#pragma endregion
-
-    /************************
-    *   Protected Methods   *
-    *************************/
-#pragma region Protected Methods
-
     /// <summary>
     /// Updates the window with the new information for the
     /// Im GUI render to display
@@ -95,36 +75,23 @@ protected:
     /// <param name="timerParams">Game Timer Parameters</param>
     virtual void UpdateWindow(const TimerParams& timerParams) = 0;
 
-#pragma endregion
-
 public:
-
-    /***************************************
-    *   Constructor & Destructor Methods   *
-    ****************************************/
-#pragma region Constructor & Destructor Methods
 
     /// <summary>
     /// ImGUIObject Constructor
     /// </summary>
     /// <param name="name">Name of the Window</param>
+    /// <param name="literalName">Literal Name of the Window</param>
     /// <param name="renderPriority">Render Priority of the Window</param>
     /// <param name="visible">Determines if the window is visible or not</param>
     /// <param name="flags">Im Gui Window Flags</param>
     /// <param name="showCloseIcon">Determines if the Close Icon will be shown</param>
-    ImGuiWindow(const std::string& name, uint32_t renderPriority, bool visible = true, ImGuiWindowFlags flags = ImGuiWindowFlags_None, bool showCloseIcon = true);
+    ImGuiWindow(const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible = true, ImGuiWindowFlags flags = ImGuiWindowFlags_None, bool showCloseIcon = true);
 
     /// <summary>
     /// Default ImGUIObject Destructor
     /// </summary>
     virtual ~ImGuiWindow();
-
-#pragma endregion
-
-    /******************
-    *   Get Methods   *
-    *******************/
-#pragma region Get Methods
 
     /// <summary>
     /// Gets if the Window is visible
@@ -153,13 +120,6 @@ public:
         return m_EnableMenu;
     }
 
-#pragma endregion
-
-    /******************
-    *   Set Methods   *
-    *******************/
-#pragma region Set Methods
-
     /// <summary>
     /// Sets if the Window is visible or not
     /// </summary>
@@ -187,20 +147,11 @@ public:
         m_EnableMenu = value;
     }
 
-#pragma endregion
-
-    /************************
-    *   Framework Methods   *
-    *************************/
-#pragma region Framework Methods
-
     /// <summary>
     /// Call to Update the Im Gui Window
     /// </summary>
     /// <param name="timerParams">Game Timer Parameters</param>
     void Update(const TimerParams& timerParams) override;
-
-#pragma endregion
 
 };
 

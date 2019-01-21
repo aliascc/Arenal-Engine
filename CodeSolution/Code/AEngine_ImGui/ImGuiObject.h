@@ -40,10 +40,10 @@ class ImGuiObject : public Named
 
 protected:
 
-    /**************************
-    *   Protected Variables   *
-    ***************************/
-#pragma region Protected Variables
+    /// <summary>
+    /// Literal Name of the ImGui Object
+    /// </summary>
+    std::string m_LiteralName = "";
 
     /// <summary>
     /// Determines if the Window is visible or not
@@ -55,23 +55,18 @@ protected:
     /// </summary>
     uint32_t m_RenderPriority = 0;
 
-#pragma endregion
-
 public:
-
-    /***************************************
-    *   Constructor & Destructor Methods   *
-    ****************************************/
-#pragma region Constructor & Destructor Methods
 
     /// <summary>
     /// ImGUIObject Constructor
     /// </summary>
     /// <param name="name">Name of the object</param>
+    /// <param name="literalName">Literal Name of the object</param>
     /// <param name="renderPriority">Render Priority of the object</param>
     /// <param name="visible">Determines if the object is visible or not</param>
-    ImGuiObject(const std::string& name, uint32_t renderPriority, bool visible = true)
+    ImGuiObject(const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible = true)
         : Named(name)
+        , m_LiteralName(literalName)
         , m_Visible(visible)
         , m_RenderPriority(renderPriority)
     {
@@ -83,13 +78,6 @@ public:
     virtual ~ImGuiObject()
     {
     }
-
-#pragma endregion
-
-    /******************
-    *   Get Methods   *
-    *******************/
-#pragma region Get Methods
 
     /// <summary>
     /// Gets if the Window is visible
@@ -108,13 +96,6 @@ public:
         return m_RenderPriority;
     }
 
-#pragma endregion
-
-    /******************
-    *   Set Methods   *
-    *******************/
-#pragma region Set Methods
-
     /// <summary>
     /// Sets if the Window is visible or not
     /// </summary>
@@ -124,20 +105,11 @@ public:
         m_Visible = value;
     }
 
-#pragma endregion
-
-    /************************
-    *   Framework Methods   *
-    *************************/
-#pragma region Framework Methods
-
     /// <summary>
     /// Call to Update the Im Gui Window
     /// </summary>
     /// <param name="timerParams">Game Timer Parameters</param>
     virtual void Update(const TimerParams& timerParams) = 0;
-
-#pragma endregion
 
 };
 

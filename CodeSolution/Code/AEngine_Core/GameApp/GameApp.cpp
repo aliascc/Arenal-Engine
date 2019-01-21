@@ -1410,8 +1410,22 @@ AEResult GameApp::CreateProjectFolder(const std::string& projectFolder, const st
     return AEResult::Ok;
 }
 
+
+#ifdef AE_EDITOR_MODE
+// ImGui Implementation to handle Windows Events
+IMGUI_IMPL_API LRESULT  ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+#endif
+
 LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+#ifdef AE_EDITOR_MODE
+    if (ImGui_ImplWin32_WndProcHandler(m_MainWnd, msg, wParam, lParam))
+    {
+        return true;
+    }
+#endif
+
+
     RECT clientRect = {0, 0, 0, 0};
     uint32_t width  = 0;
     uint32_t height = 0;

@@ -32,6 +32,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "EditorViewer.h"
+#include "UI\UIManager.h"
 #include "Camera\EditorCamera.h"
 #include "GameUtils\GameComponent.h"
 #include "GameObject\GameObjectManager.h"
@@ -43,6 +44,7 @@
 /********************
 *   Function Defs   *
 *********************/
+
 EditorViewer::EditorViewer(HINSTANCE hInstance)
     : GameApp(hInstance)
 {
@@ -104,6 +106,9 @@ void EditorViewer::Initialize()
 
     m_ImGuiComponent = new ImGuiComponent(*this);
     this->AddComponent(m_ImGuiComponent);
+
+    m_UIManager = new UIManager(*this);
+    m_UIManager->AddEditorWidgets();
 }
 
 void EditorViewer::LoadContent()
@@ -139,6 +144,8 @@ void EditorViewer::UnLoadContent()
     DeleteMem(m_GameObjectCameraUpdate);
     DeleteMem(m_GameAudioUpdate);
     DeleteMem(m_ImGuiComponent);
+
+    DeleteMem(m_UIManager);
 }
 
 void EditorViewer::OnLostDevice()

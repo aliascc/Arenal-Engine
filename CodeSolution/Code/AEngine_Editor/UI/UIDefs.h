@@ -15,10 +15,7 @@
 * limitations under the License.
 */
 
-/*************************
-*   Precompiled Header   *
-**************************/
-#include "precomp_imgui.h"
+#pragma once
 
 /**********************
 *   System Includes   *
@@ -31,37 +28,15 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "ImGuiDefs.h"
-#include "ImGuiMainMenu.h"
 
-//Always include last
-#include "Memory\MemLeaks.h"
+/************
+*   Enums   *
+*************/
 
-/*********************
-*   Framework Defs   *
-**********************/
+/**************
+*   Defines   *
+***************/
 
-#ifdef AE_EDITOR_MODE
+#define AE_LITERAL_UI_RENDER_WINDOW_NAME    "AE_UI_RENDER_WINDOW_NAME"
 
-ImGuiMainMenu::ImGuiMainMenu()
-    : ImGuiMenu("Main Menu", AE_LITERAL_UI_MAIN_MENU_NAME, 0, true)
-{
-}
-
-ImGuiMainMenu::~ImGuiMainMenu()
-{
-}
-
-void ImGuiMainMenu::Update(const TimerParams& timerParams)
-{
-    if (!ImGui::BeginMainMenuBar())
-    {
-        return;
-    }
-
-    UpdateMethods(timerParams);
-
-    ImGui::EndMainMenuBar();
-}
-
-#endif //AE_EDITOR_MODE
+#define AE_UI_RENDER_WINDOW_PRIORITY        0

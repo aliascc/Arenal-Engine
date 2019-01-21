@@ -17,8 +17,6 @@
 
 #pragma once
 
-#ifdef AE_EDITOR_MODE
-
 /**********************
 *   System Includes   *
 ***********************/
@@ -30,35 +28,47 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "ImGuiMenu.h"
 
 /*******************
 *   Forward Decl   *
 ********************/
+class GameApp;
+class ImGuiManager;
+class UIRenderWidget;
 
-/*****************
-*   Class Decl   *
-******************/
+/****************
+*   Class Def   *
+*****************/
 
-class ImGuiMainMenu sealed : public ImGuiMenu
+class UIManager : public AEObject
 {
 private:
+
+    /// <summary>
+    /// UI Render Widget
+    /// </summary>
+    UIRenderWidget* m_UIRenderWidget = nullptr;
+
+    GameApp& m_GameApp;
+
+    ImGuiManager& m_ImGuiManager;
 
 public:
 
     /// <summary>
-    /// ImGUIObject Constructor
+    /// Default Constructor for UIManager
     /// </summary>
-    ImGuiMainMenu();
+    /// <param name="gameApp">Game App Instance</param>
+    UIManager(GameApp& gameApp);
 
     /// <summary>
-    /// Default ImGUIObject Destructor
+    /// Destructor for UIManager
     /// </summary>
-    virtual ~ImGuiMainMenu();
+    ~UIManager();
 
-    /// <see cref="ImGuiObject::UpdateWindow(const TimerParams&)"/>
-    void Update(const TimerParams& timerParams) override;
-
+    /// <summary>
+    /// Adds the Editor Widgets to the ImGui Manager
+    /// </summary>
+    /// <returns>Returns AEResult::Ok if successful, otherwise an error code</returns>
+    AEResult AddEditorWidgets();
 };
-
-#endif //AE_EDITOR_MODE

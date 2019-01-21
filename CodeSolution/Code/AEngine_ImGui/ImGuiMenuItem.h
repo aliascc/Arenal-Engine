@@ -39,8 +39,6 @@ class ImGuiMenuItem : public ImGuiMenuObject
 {
 private:
 
-    std::string m_MenuNameLiteral;
-
 public:
 
     /***************************************

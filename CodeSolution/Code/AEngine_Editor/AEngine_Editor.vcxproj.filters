@@ -4,10 +4,31 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="EditorViewer.cpp" />
     <ClCompile Include="precomp_editor.cpp" />
+    <ClCompile Include="UI\Main Menu\UIMainMenu.cpp">
+      <Filter>UI\Main Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIManager.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\Render\UIRenderWidget.cpp">
+      <Filter>UI\Widgets\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorViewer.h" />
     <ClInclude Include="precomp_editor.h" />
+    <ClInclude Include="UI\Main Menu\UIMainMenu.h">
+      <Filter>UI\Main Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIManager.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\Render\UIRenderWidget.h">
+      <Filter>UI\Widgets\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIDefs.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

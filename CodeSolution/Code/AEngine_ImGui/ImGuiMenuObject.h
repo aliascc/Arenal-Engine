@@ -57,10 +57,11 @@ public:
     /// ImGuiMenuObject Constructor
     /// </summary>
     /// <param name="name">Name of the menu</param>
+    /// <param name="literalName">Literal Name of the menu</param>
     /// <param name="renderPriority">Render Priority of the menu</param>
     /// <param name="visible">Determines if the menu is visible or not</param>
-    ImGuiMenuObject(ImGuiMenuObjectType imGuiMenuObjectType, const std::string& name, uint32_t renderPriority, bool visible = true)
-        : ImGuiObject(name, renderPriority, m_Visible)
+    ImGuiMenuObject(ImGuiMenuObjectType imGuiMenuObjectType, const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible = true)
+        : ImGuiObject(name, literalName, renderPriority, m_Visible)
         , m_ImGuiMenuObjectType(imGuiMenuObjectType)
     {
     }

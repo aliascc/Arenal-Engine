@@ -57,11 +57,6 @@ protected:
     ImGuiMenuObjectVector m_ImGuiMenuObjectVector;
 
     /// <summary>
-    /// Menu Name Literal
-    /// </summary>
-    std::string m_MenuNameLiteral;
-
-    /// <summary>
     /// Calls the Update Methods for the Menu Objects this menu contains
     /// </summary>
     /// <param name="timerParams">Game Timer Parameters</param>
@@ -73,10 +68,10 @@ public:
     /// ImGuiMenu Constructor
     /// </summary>
     /// <param name="name">Name of the Menu</param>
-    /// <param name="menuNameLiteral">Literal for the Menu Name</param>
+    /// <param name="literalName">Literal for the Menu Name</param>
     /// <param name="renderPriority">Render Priority for the menu</param>
     /// <param name="visible">Determines if the menu is visible or not</param>
-    ImGuiMenu(const std::string& name, const std::string& menuNameLiteral, uint32_t renderPriority, bool visible = true);
+    ImGuiMenu(const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible = true);
 
     /// <summary>
     /// Default ImGuiMenu Destructor
