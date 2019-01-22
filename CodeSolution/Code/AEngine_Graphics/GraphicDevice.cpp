@@ -116,8 +116,12 @@ GraphicDevice::~GraphicDevice()
 
     DeleteMemArr(m_CurrentRenderTargetViewsDX);
 
-    CleanUpDefaultDepthStencil();
-    CleanUpDefaultRenderTargets();
+    CleanUpGameDepthStencil();
+    CleanUpGameRenderTargets();
+
+#ifdef AE_EDITOR_MODE
+    CleanUpEditorRenderTargets();
+#endif
 
     ReleaseCOM(m_SwapChainDX);
 
@@ -204,8 +208,12 @@ void GraphicDevice::OnLostDevice()
     AEAssert(m_IsReady);
 
     //First all Related to the Graphic Device
-    CleanUpDefaultDepthStencil();
-    CleanUpDefaultRenderTargets();
+#ifdef AE_EDITOR_MODE
+    CleanUpEditorRenderTargets();
+#else
+    CleanUpGameDepthStencil();
+    CleanUpGameRenderTargets();
+#endif
 }
 
 void GraphicDevice::OnResetDevice()
@@ -213,7 +221,12 @@ void GraphicDevice::OnResetDevice()
     AEAssert(m_IsReady);
 
     //First all Related to the Graphic Device
-    CreateDefaultRTDS();
+
+#ifdef AE_EDITOR_MODE
+    CreateEditorRenderTarget();
+#else
+    InitGameRTDS();
+#endif
 
     //Second The Rest
     ResetHalfPixel();
@@ -418,7 +431,7 @@ AEResult GraphicDevice::CreateSwapChain()
     return AEResult::Ok;
 }
 
-void GraphicDevice::InitViewport()
+void GraphicDevice::InitGameViewport()
 {
     // Set the viewport Transform.
     m_GameViewportDX.TopLeftX = 0;
@@ -429,30 +442,18 @@ void GraphicDevice::InitViewport()
     m_GameViewportDX.MaxDepth = 1.0f;
 
     m_DeviceContextDX->RSSetViewports(1, &m_GameViewportDX);
-
-#ifdef AE_EDITOR_MODE
-
-    AETODO("Check if we need this, ImGui might have its own viewport");
-    m_EditorViewportDX.TopLeftX = 0;
-    m_EditorViewportDX.TopLeftY = 0;
-    m_EditorViewportDX.Width    = static_cast<float>(m_GraphicPP.m_EditorBackBufferWidth);
-    m_EditorViewportDX.Height   = static_cast<float>(m_GraphicPP.m_EditorBackBufferHeight);
-    m_EditorViewportDX.MinDepth = 0.0f;
-    m_EditorViewportDX.MaxDepth = 1.0f;
-
-#endif
 }
 
-AEResult GraphicDevice::CreateDefaultRTDS()
+AEResult GraphicDevice::InitGameRTDS()
 {    
-    if(CreateDefaultDepthStencil() == AEResult::Fail)
+    if(CreateGameDepthStencil() == AEResult::Fail)
     {
         return AEResult::Fail;
     }
 
-    if(CreateDefaultRenderTarget() == AEResult::Fail)
+    if(CreateGameRenderTarget() == AEResult::Fail)
     {
-        CleanUpDefaultDepthStencil();
+        CleanUpGameDepthStencil();
 
         return AEResult::Fail;
     }
@@ -460,17 +461,18 @@ AEResult GraphicDevice::CreateDefaultRTDS()
     //////////////////////////////////////////////////////////////////////////////////
     //Bind the render target view and depth/stencil view to the pipeline.
     memset(m_CurrentRenderTargetViewsDX, 0, sizeof(ID3D11RenderTargetView*) * m_MaxNumRenderTargets);
-    m_CurrentRenderTargetViewsDX[0] = m_GameRenderTargetViewDX;
-    m_HighestRenderTargetStage = 1;
 
-    m_CurrentDepthStencilViewDX = m_GameDepthStencilViewDX;
+    m_CurrentRenderTargetViewsDX[0] = m_GameRenderTargetViewDX;
+    m_HighestRenderTargetStage      = 1;
+
+    m_CurrentDepthStencilViewDX     = m_GameDepthStencilViewDX;
 
     m_DeviceContextDX->OMSetRenderTargets(m_HighestRenderTargetStage, m_CurrentRenderTargetViewsDX, m_CurrentDepthStencilViewDX);
 
     return AEResult::Ok;
 }
 
-AEResult GraphicDevice::CreateDefaultDepthStencil()
+AEResult GraphicDevice::CreateGameDepthStencil()
 {
     D3D11_TEXTURE2D_DESC depthStencilDesc = { 0 };
 
@@ -502,7 +504,7 @@ AEResult GraphicDevice::CreateDefaultDepthStencil()
     hr = m_DeviceDX->CreateDepthStencilView(m_GameDepthStencilBufferDX, 0, &m_GameDepthStencilViewDX);
     if(hr != S_OK)
     {
-        CleanUpDefaultDepthStencil();
+        CleanUpGameDepthStencil();
 
         DisplayError(hr);
         return AEResult::Fail;
@@ -513,38 +515,8 @@ AEResult GraphicDevice::CreateDefaultDepthStencil()
     return AEResult::Ok;
 }
 
-AEResult GraphicDevice::CreateDefaultRenderTarget()
+AEResult GraphicDevice::CreateGameRenderTarget()
 {
-    ID3D11Texture2D* backBuffer = nullptr;
-
-    HRESULT hr = S_OK;
-
-    hr = m_SwapChainDX->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
-    
-    if(hr != S_OK)
-    {
-        DisplayError(hr);
-        return AEResult::Fail;
-    }
-
-#ifdef AE_EDITOR_MODE
-    ID3D11RenderTargetView** rtView = &m_EditorRenderTargetViewDX;
-#else
-    ID3D11RenderTargetView** rtView = &m_GameRenderTargetViewDX;
-#endif
-    hr = m_DeviceDX->CreateRenderTargetView(backBuffer, 0, rtView);
-    ReleaseCOM(backBuffer);
-    if(hr != S_OK)
-    {
-        DisplayError(hr);
-        return AEResult::Fail;
-    }
-#ifdef AE_EDITOR_MODE
-    AEGraphicHelpers::SetDebugObjectName(m_EditorRenderTargetViewDX, AE_DEBUG_EDITOR_RTV_NAME);
-#else
-    AEGraphicHelpers::SetDebugObjectName(m_GameRenderTargetViewDX, AE_DEBUG_GAME_RTV_NAME);
-#endif
-
 #ifdef AE_EDITOR_MODE
     D3D11_TEXTURE2D_DESC dxDesc = { 0 };
 
@@ -562,10 +534,10 @@ AEResult GraphicDevice::CreateDefaultRenderTarget()
     AETODO("Check multisample");
     AETODO("Check other flags for RT and if Mip Map is needed");
 
-    hr = m_DeviceDX->CreateTexture2D(&dxDesc, nullptr, &m_GameRenderTargetBufferDX);
+    HRESULT hr = m_DeviceDX->CreateTexture2D(&dxDesc, nullptr, &m_GameRenderTargetBufferDX);
     if (hr != S_OK)
     {
-        CleanUpDefaultRenderTargets();
+        CleanUpGameRenderTargets();
         DisplayError(hr);
         return AEResult::CreateTextureFailed;
     }
@@ -574,7 +546,7 @@ AEResult GraphicDevice::CreateDefaultRenderTarget()
     hr = m_DeviceDX->CreateShaderResourceView(m_GameRenderTargetBufferDX, nullptr, &m_GameRenderTargetSRV);
     if (hr != S_OK)
     {
-        CleanUpDefaultRenderTargets();
+        CleanUpGameRenderTargets();
         DisplayError(hr);
         return AEResult::CreateSRViewFailed;
     }
@@ -584,11 +556,32 @@ AEResult GraphicDevice::CreateDefaultRenderTarget()
     hr = m_DeviceDX->CreateRenderTargetView(m_GameRenderTargetBufferDX, nullptr, &m_GameRenderTargetViewDX);
     if (hr != S_OK)
     {
-        CleanUpDefaultRenderTargets();
+        CleanUpGameRenderTargets();
         DisplayError(hr);
         return AEResult::CreateRTViewFailed;
     }
     AEGraphicHelpers::SetDebugObjectName(m_GameRenderTargetViewDX, AE_DEBUG_GAME_RTV_NAME);
+
+#else
+
+    ID3D11Texture2D* backBuffer = nullptr;
+
+    HRESULT hr = m_SwapChainDX->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
+    if (hr != S_OK)
+    {
+        DisplayError(hr);
+        return AEResult::Fail;
+    }
+
+    hr = m_DeviceDX->CreateRenderTargetView(backBuffer, 0, &m_GameRenderTargetViewDX);
+    ReleaseCOM(backBuffer);
+    if (hr != S_OK)
+    {
+        DisplayError(hr);
+        return AEResult::Fail;
+    }
+    AEGraphicHelpers::SetDebugObjectName(m_GameRenderTargetViewDX, AE_DEBUG_GAME_RTV_NAME);
+
 #endif
 
     return AEResult::Ok;
@@ -621,7 +614,11 @@ void GraphicDevice::ResetDevice()
         return;
     }
 
-    InitViewport();
+#ifdef AE_EDITOR_MODE
+    InitEditorViewport();
+#else
+    InitGameViewport();
+#endif
 
     //Do Anything that needs to be done when Graphic Device is reset
     OnResetDevice();
@@ -640,14 +637,6 @@ void GraphicDevice::Resize(uint32_t width, uint32_t height)
     ResetDevice();
 #endif
 }
-
-#ifdef AE_EDITOR_MODE
-
-void GraphicDevice::ResetGameRenderTargetView()
-{
-}
-
-#endif
 
 AEResult GraphicDevice::InitDevice()
 {
@@ -772,8 +761,10 @@ AEResult GraphicDevice::InitDevice()
         return AEResult::CreateDXSwapChainFail;
     }
 
-    //Create Default Render Targets
-    if(CreateDefaultRTDS() != AEResult::Ok)
+#ifdef AE_EDITOR_MODE
+
+    //Create Editor Render Targets
+    if (CreateEditorRenderTarget() != AEResult::Ok)
     {
         ReleaseCOM(m_DeviceDX);
         ReleaseCOM(m_DeviceContextDX);
@@ -783,8 +774,24 @@ AEResult GraphicDevice::InitDevice()
         return AEResult::CreateDXDefaultRTDSFail;
     }
 
-    //Create Viewport
-    InitViewport();
+    //Create Editor Viewport
+    InitEditorViewport();
+
+#endif
+
+    //Create Game Render Targets
+    if(InitGameRTDS() != AEResult::Ok)
+    {
+        ReleaseCOM(m_DeviceDX);
+        ReleaseCOM(m_DeviceContextDX);
+
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Graphics, "DX_11_FAIL_RENDER_TARGETS_ERR_MSG", __FUNCTION__);
+
+        return AEResult::CreateDXDefaultRTDSFail;
+    }
+
+    //Create Game Viewport
+    InitGameViewport();
 
 #if defined(AE_GRAPHIC_DEBUG_DEVICE)
 
@@ -1814,9 +1821,62 @@ void GraphicDevice::SetEventmarker(const std::string& eventName)
 
 #ifdef AE_EDITOR_MODE
 
-/// <summary>
-/// Sets the Defaults Render Targets 
-/// </summary>
+void GraphicDevice::ResetGameRenderTargetView()
+{
+    CleanUpGameDepthStencil();
+    CleanUpGameRenderTargets();
+
+    InitGameRTDS();
+
+    InitGameViewport();
+}
+
+void GraphicDevice::InitEditorViewport()
+{
+    AETODO("Check if we need this, ImGui might have its own viewport");
+    m_EditorViewportDX.TopLeftX = 0;
+    m_EditorViewportDX.TopLeftY = 0;
+    m_EditorViewportDX.Width = static_cast<float>(m_GraphicPP.m_EditorBackBufferWidth);
+    m_EditorViewportDX.Height = static_cast<float>(m_GraphicPP.m_EditorBackBufferHeight);
+    m_EditorViewportDX.MinDepth = 0.0f;
+    m_EditorViewportDX.MaxDepth = 1.0f;
+
+    m_DeviceContextDX->RSSetViewports(1, &m_EditorViewportDX);
+}
+
+AEResult GraphicDevice::CreateEditorRenderTarget()
+{
+    ID3D11Texture2D* backBuffer = nullptr;
+
+    HRESULT hr = m_SwapChainDX->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
+    if (hr != S_OK)
+    {
+        DisplayError(hr);
+        return AEResult::Fail;
+    }
+
+    hr = m_DeviceDX->CreateRenderTargetView(backBuffer, 0, &m_EditorRenderTargetViewDX);
+    ReleaseCOM(backBuffer);
+    if (hr != S_OK)
+    {
+        DisplayError(hr);
+        return AEResult::Fail;
+    }
+    AEGraphicHelpers::SetDebugObjectName(m_EditorRenderTargetViewDX, AE_DEBUG_EDITOR_RTV_NAME);
+
+    return AEResult::Ok;
+}
+
+void GraphicDevice::ResizeEditor(uint32_t width, uint32_t height)
+{
+    AEAssert(m_IsReady);
+
+    m_GraphicPP.m_EditorBackBufferWidth   = width;
+    m_GraphicPP.m_EditorBackBufferHeight  = height;
+
+    ResetDevice();
+}
+
 void GraphicDevice::SetEditorRenderTargetAndViewPort()
 {
     AEAssert(m_IsReady);

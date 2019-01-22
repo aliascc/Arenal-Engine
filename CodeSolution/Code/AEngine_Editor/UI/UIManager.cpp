@@ -56,7 +56,7 @@ UIManager::~UIManager()
 
 AEResult UIManager::AddEditorWidgets()
 {
-    m_UIRenderWidget = new UIRenderWidget();
+    m_UIRenderWidget = new UIRenderWidget(m_GameApp, m_GameApp.GetGraphicsDevice());
     m_UIRenderWidget->SetIsVisible(true);
 
     m_ImGuiManager.AddImGuiWindow(m_UIRenderWidget);

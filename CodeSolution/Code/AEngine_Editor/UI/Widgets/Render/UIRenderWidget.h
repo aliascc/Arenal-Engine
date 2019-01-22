@@ -33,6 +33,8 @@
 /********************
 *   Forward Decls   *
 *********************/
+class GameApp;
+class GraphicDevice;
 
 /*****************
 *   Class Decl   *
@@ -42,11 +44,30 @@ class UIRenderWidget sealed : public ImGuiWindow
 {
 private:
 
+    /// <summary>
+    /// Game App Instance
+    /// </summary>
+    GameApp& m_GameApp;
+
+    /// <summary>
+    /// Graphic Device
+    /// </summary>
+    GraphicDevice& m_GraphicDevice;
+
     /// <see cref="ImGuiWindow::UpdateWindow(const TimerParams&)"/>
     void UpdateWindow(const TimerParams& timerParams) override;
 
 public:
 
-    UIRenderWidget();
+    /// <summary>
+    /// Constructor for UIRenderWidget
+    /// </summary>
+    /// <param name="gameApp">Game App Instance</param>
+    /// <param name="graphicDevice">Graphic Device of the application</param>
+    UIRenderWidget(GameApp& gameApp, GraphicDevice& graphicDevice);
+
+    /// <summary>
+    /// Destructor for UIRenderWidget
+    /// </summary>
     ~UIRenderWidget();
 };

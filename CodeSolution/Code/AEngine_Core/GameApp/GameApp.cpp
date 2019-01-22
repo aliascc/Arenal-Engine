@@ -932,12 +932,23 @@ void GameApp::OnResize(uint32_t width, uint32_t heigth)
     glm::ivec2 newSize = { width, heigth };
 
 #ifdef AE_EDITOR_MODE
-    ResizeEditorCommand* rc = new ResizeEditorCommand(*m_GraphicDevice, *m_ImGuiManager, newSize);
+    ResizeEditorCommand* rc = new ResizeEditorCommand(*this, newSize);
 #else
-    ResizeCommand* rc = new ResizeCommand(*this, newSize);
+    ResizeCommand* rc       = new ResizeCommand(*this, newSize);
 #endif
 
     GameCommandManager::GetInstance().AddCommand(rc);
+}
+
+void GameApp::Resize(uint32_t width, uint32_t heigth)
+{
+    AEAssert(m_IsReady);
+
+    InternalOnLostDevice();
+
+    m_GraphicDevice->Resize(width, heigth);
+
+    InternalOnResetDevice();
 }
 
 #ifndef AE_EDITOR_MODE
@@ -1005,13 +1016,17 @@ void GameApp::SetFullScreen(bool fullScreenEnable)
 }
 #endif
 
-void GameApp::OnLostDevice()
+void GameApp::InternalOnLostDevice()
 {
+    OnLostDevice();
+
     m_GameComponentCollection->OnLostDeviceCollection();
 }
 
-void GameApp::OnResetDevice()
+void GameApp::InternalOnResetDevice()
 {
+    OnResetDevice();
+
     m_GameComponentCollection->OnResetDeviceCollection();
 }
 
@@ -1425,7 +1440,6 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
     }
 #endif
 
-
     RECT clientRect = {0, 0, 0, 0};
     uint32_t width  = 0;
     uint32_t height = 0;
@@ -1587,6 +1601,17 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 #ifdef AE_EDITOR_MODE
+
+void GameApp::ResizeEditor(uint32_t width, uint32_t heigth)
+{
+    AEAssert(m_IsReady);
+
+    m_ImGuiManager->OnLostDevice();
+
+    m_GraphicDevice->ResizeEditor(width, heigth);
+
+    m_ImGuiManager->OnResetDevice();
+}
 
 AEResult GameApp::EditorPlay()
 {

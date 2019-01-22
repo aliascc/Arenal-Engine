@@ -92,6 +92,10 @@ private:
 
     void InternalPostUpdate(const TimerParams& timerParams);
 
+    void InternalOnLostDevice();
+
+    void InternalOnResetDevice();
+
     //Static Callback function for Windows Message Loop
     static LRESULT CALLBACK MainWndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -508,6 +512,8 @@ public:
 
     AEResult CreateProjectFolder(const std::string& projectFolder, const std::string& projectName, bool createFolder);
 
+    void Resize(uint32_t width, uint32_t heigth);
+
     virtual void Initialize() = 0;
 
     virtual void LoadContent() = 0;
@@ -533,6 +539,9 @@ public:
     }
 
 #ifdef AE_EDITOR_MODE
+
+    void ResizeEditor(uint32_t width, uint32_t heigth);
+
     /// <summary>
     /// Starts the game simulation
     /// </summary>
@@ -550,6 +559,7 @@ public:
     /// </summary>
     /// <returns>AEResult::Ok on successful, otherwise error code.</returns>
     AEResult EditorStop();
+
 #endif //AE_EDITOR_MODE
 
 #pragma endregion

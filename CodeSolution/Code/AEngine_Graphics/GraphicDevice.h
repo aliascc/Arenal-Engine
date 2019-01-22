@@ -185,13 +185,16 @@ private:
 
     AEResult CreateSwapChain();
 
-    void InitViewport();
+    /// <summary>
+    /// Initializes the Game Viewport
+    /// </summary>
+    void InitGameViewport();
 
-    AEResult CreateDefaultRTDS();
+    AEResult InitGameRTDS();
 
-    AEResult CreateDefaultDepthStencil();
+    AEResult CreateGameDepthStencil();
 
-    AEResult CreateDefaultRenderTarget();
+    AEResult CreateGameRenderTarget();
 
     AEResult InitPreGraphicObjects();
 
@@ -214,30 +217,48 @@ private:
 #ifdef AE_EDITOR_MODE
 
     /// <summary>
+    /// Creates the Render Targets needed for the Editor
+    /// </summary>
+    /// <returns>AEResult::Ok if successful, otherwise an error code</returns>
+    AEResult CreateEditorRenderTarget();
+
+    /// <summary>
     /// Resets the Game Render Target View
     /// </summary>
     void ResetGameRenderTargetView();
 
+    /// <summary>
+    /// Initializes the Editor Viewport
+    /// </summary>
+    void InitEditorViewport();
+
+    /// <summary>
+    /// Cleans up the Editor Render Targets
+    /// </summary>
+    inline void CleanUpEditorRenderTargets()
+    {
+        ReleaseCOM(m_EditorRenderTargetViewDX);
+    }
+
 #endif
 
     /// <summary>
-    /// Cleans up the Default Depth Stencils
+    /// Cleans up the Game Depth Stencils
     /// </summary>
-    inline void CleanUpDefaultDepthStencil()
+    inline void CleanUpGameDepthStencil()
     {
         ReleaseCOM(m_GameDepthStencilViewDX);
         ReleaseCOM(m_GameDepthStencilBufferDX);
     }
 
     /// <summary>
-    /// Cleans up the Default Render Targets
+    /// Cleans up the Game Render Targets
     /// </summary>
-    inline void CleanUpDefaultRenderTargets()
+    inline void CleanUpGameRenderTargets()
     {
         ReleaseCOM(m_GameRenderTargetViewDX);
 
 #ifdef AE_EDITOR_MODE
-        ReleaseCOM(m_EditorRenderTargetViewDX);
         ReleaseCOM(m_GameRenderTargetSRV);
         ReleaseCOM(m_GameRenderTargetBufferDX);
 #endif
@@ -425,6 +446,21 @@ public:
 #endif
 
 #ifdef AE_EDITOR_MODE
+
+    /// <summary>
+    /// Gets the SRV for the Game Render Target
+    /// </summary>
+    ID3D11ShaderResourceView* GetGameRenderTargetSRV()
+    {
+        return m_GameRenderTargetSRV;
+    }
+
+    /// <summary>
+    /// Resize the Editor Targets
+    /// </summary>
+    /// <param name="width">Width of the new size</param>
+    /// <param name="height">Height of the new size</param>
+    void ResizeEditor(uint32_t width, uint32_t height);
 
     /// <summary>
     /// Sets the Editor Render Targets and Viewport

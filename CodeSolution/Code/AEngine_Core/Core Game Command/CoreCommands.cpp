@@ -46,7 +46,6 @@
 
 ResizeCommand::ResizeCommand(GameApp& gameApp, const glm::ivec2& newSize)
     : m_GameApp(gameApp)
-    , m_GraphicDevice(gameApp.GetGraphicsDevice())
     , m_NewSize(newSize)
 {
 }
@@ -57,11 +56,7 @@ ResizeCommand::~ResizeCommand()
 
 void ResizeCommand::Execute()
 {
-    m_GameApp.OnLostDevice();
-
-    m_GraphicDevice.Resize(m_NewSize.x, m_NewSize.y);
-
-    m_GameApp.OnResetDevice();
+    m_GameApp.Resize(m_NewSize.x, m_NewSize.y);
 }
 
 /**********************************
@@ -88,9 +83,8 @@ void GCSortCommand::Execute()
 *   Resize Editor Class Decl   *
 ********************************/
 
-ResizeEditorCommand::ResizeEditorCommand(GraphicDevice& graphicDevice, ImGuiManager& imGuiManager, const glm::ivec2& newSize)
-    : m_GraphicDevice(graphicDevice)
-    , m_ImGuiManager(imGuiManager)
+ResizeEditorCommand::ResizeEditorCommand(GameApp& gameApp, const glm::ivec2& newSize)
+    : m_GameApp(gameApp)
     , m_NewSize(newSize)
 {
 }
@@ -101,14 +95,7 @@ ResizeEditorCommand::~ResizeEditorCommand()
 
 void ResizeEditorCommand::Execute()
 {
-    GraphicsPresentationParameters& graphicPP = m_GraphicDevice.GetGraphicPP();
-
-    graphicPP.m_EditorBackBufferWidth   = m_NewSize.x;
-    graphicPP.m_EditorBackBufferHeight  = m_NewSize.y;
-
-    m_ImGuiManager.OnLostDevice();
-    m_GraphicDevice.ResetDevice();
-    m_ImGuiManager.OnResetDevice();
+    m_GameApp.ResizeEditor(m_NewSize.x, m_NewSize.y);
 }
 
 #endif

@@ -52,11 +52,6 @@ private:
     GameApp& m_GameApp;
 
     /// <summary>
-    /// Graphic Device
-    /// </summary>
-    GraphicDevice& m_GraphicDevice;
-
-    /// <summary>
     /// New size that is been requested
     /// </summary>
     glm::ivec2 m_NewSize;
@@ -67,7 +62,7 @@ public:
     /// ResizeCommand Constructor
     /// </summary>
     /// <param name="gameApp">Current Game App</param>
-    /// <param name="m_NewSize">Resize requested</param>
+    /// <param name="newSize">Resize requested</param>
     ResizeCommand(GameApp& gameApp, const glm::ivec2& newSize);
 
     /// <summary>
@@ -121,14 +116,9 @@ class ResizeEditorCommand sealed : public GameCommand
 private:
 
     /// <summary>
-    /// Graphic Device
+    /// Game App Instance
     /// </summary>
-    GraphicDevice& m_GraphicDevice;
-
-    /// <summary>
-    /// ImGui Manager
-    /// </summary>
-    ImGuiManager& m_ImGuiManager;
+    GameApp& m_GameApp;
 
     /// <summary>
     /// New size that is been requested
@@ -140,10 +130,9 @@ public:
     /// <summary>
     /// ResizeEditorCommand Constructor
     /// </summary>
-    /// <param name="graphicDevice">Graphic Device</param>
-    /// <param name="imGuiManager">ImGui Manager</param>
-    /// <param name="m_NewSize">Resize requested</param>
-    ResizeEditorCommand(GraphicDevice& graphicDevice, ImGuiManager& imGuiManager, const glm::ivec2& newSize);
+    /// <param name="gameApp">Current Game App</param>
+    /// <param name="newSize">Resize requested</param>
+    ResizeEditorCommand(GameApp& gameApp, const glm::ivec2& newSize);
 
     /// <summary>
     /// Default ResizeEditorCommand Destructor

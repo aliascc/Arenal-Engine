@@ -32,7 +32,11 @@
 *   Game Engine Includes   *
 ****************************/
 #include "UI/UIDefs.h"
+#include "GraphicDevice.h"
 #include "UIRenderWidget.h"
+#include "GameApp/GameApp.h"
+#include "Core Game Command/CoreCommands.h"
+#include "Game Command/GameCommandManager.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -41,8 +45,10 @@
 *   Function Defs   *
 *********************/
 
-UIRenderWidget::UIRenderWidget()
+UIRenderWidget::UIRenderWidget(GameApp& gameApp, GraphicDevice& graphicDevice)
     : ImGuiWindow("Render Window", AE_LITERAL_UI_RENDER_WINDOW_NAME, AE_UI_RENDER_WINDOW_PRIORITY)
+    , m_GameApp(gameApp)
+    , m_GraphicDevice(graphicDevice)
 {
 }
 
@@ -52,4 +58,26 @@ UIRenderWidget::~UIRenderWidget()
 
 void UIRenderWidget::UpdateWindow(const TimerParams& timerParams)
 {
+    const ImVec2 pos    = ImGui::GetCursorScreenPos();
+    const ImVec2 pos2   = ImGui::GetContentRegionAvail();
+
+    const ImVec2 size   = ImVec2(pos.x + pos2.x, pos.y + pos2.y);
+
+    const ImVec2 windowSize = ImGui::GetWindowSize();
+
+    GraphicsPresentationParameters& graphicPP = m_GraphicDevice.GetGraphicPP();
+
+    if (graphicPP.m_GameBackBufferWidth != windowSize.x || graphicPP.m_GameBackBufferHeight != windowSize.y)
+    {
+        glm::ivec2 newSize = { windowSize.x, windowSize.y };
+        ResizeCommand* rc = new ResizeCommand(m_GameApp, newSize);
+        GameCommandManager::GetInstance().AddCommand(rc);
+    }
+
+    //////////////////////
+    // Adds the Render Target to the List of Images for the Window
+    // to render
+    ImTextureID user_texture_id = m_GraphicDevice.GetGameRenderTargetSRV();
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+    draw_list->AddImage(user_texture_id, pos, size);
 }
