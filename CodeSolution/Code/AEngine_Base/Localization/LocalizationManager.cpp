@@ -172,14 +172,10 @@ AEResult LocalizationManager::ReloadEngineWithoutLock(const std::string& engineP
     ClearAllMaps();
 
     AEXMLParser localizationXML = newFile[AE_LOC_LOCALIZATION_NODE_NAME];
-    if (localizationXML.IsReady())
+    if (localizationXML.HasElement())
     {
-        uint16_t l_Count = localizationXML.GetNumChildren();
-
-        for (uint16_t i = 0; i < l_Count; ++i)
+        for (AEXMLParser child = localizationXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
         {
-            AEXMLParser child = localizationXML(i);
-
             std::string l_Type = child.GetName();
 
             if (l_Type.compare(AE_LOC_DEFAULT_LANG_NODE_NAME) == 0)
@@ -256,14 +252,10 @@ AEResult LocalizationManager::ReloadProjectWithoutLock(const std::string& projec
     CleanProjectInfo();
 
     AEXMLParser localizationXML = newFile[AE_LOC_LOCALIZATION_NODE_NAME];
-    if (localizationXML.IsReady())
+    if (localizationXML.HasElement())
     {
-        uint16_t l_Count = localizationXML.GetNumChildren();
-
-        for (uint16_t i = 0; i < l_Count; ++i)
+        for (AEXMLParser child = localizationXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
         {
-            AEXMLParser child = localizationXML(i);
-
             std::string l_Type = child.GetName();
 
             if (l_Type.compare(AE_LOC_LANGUAGE_NODE_NAME) == 0)
@@ -314,7 +306,7 @@ AEResult LocalizationManager::LoadLanguageLiterals(const std::string& name, cons
 
     AEXMLParser languageXML = newFile[AE_LOC_LANGUAGE_NODE_NAME];
 
-    if ( languageXML.IsReady() )
+    if ( languageXML.HasElement() )
     {
         if (m_LanguagesMap.find(name) == m_LanguagesMap.end())
         {
@@ -325,11 +317,8 @@ AEResult LocalizationManager::LoadLanguageLiterals(const std::string& name, cons
         //Get Reference to add Literals to the Map
         LiteralMap& litMap = m_LanguagesMap[name];
 
-        uint16_t l_Count = languageXML.GetNumChildren();
-        for( uint16_t i = 0; i < l_Count; ++i )
+        for (AEXMLParser child = languageXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
         {
-            AEXMLParser child = languageXML(i);
-
             std::string l_Type = child.GetName();
 
             if (l_Type.compare(AE_LOC_LITERAL_NODE_NAME) == 0)
@@ -380,7 +369,7 @@ AEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::string& na
 
     AEXMLParser languageXML = newFile[AE_LOC_LANGUAGE_NODE_NAME];
 
-    if (languageXML.IsReady())
+    if (languageXML.HasElement())
     {
         if (m_LanguagesMap.find(name) == m_LanguagesMap.end())
         {
@@ -397,11 +386,8 @@ AEResult LocalizationManager::LoadExtendedLanguageLiterals(const std::string& na
         LiteralMap& litMap = m_LanguagesMap[name];
         LiteralsSet& litSet = m_ExtendedLiteralsMap[name];
 
-        uint16_t l_Count = languageXML.GetNumChildren();
-        for (uint16_t i = 0; i < l_Count; ++i)
+        for (AEXMLParser child = languageXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
         {
-            AEXMLParser child = languageXML(i);
-
             std::string l_Type = child.GetName();
 
             if (l_Type.compare(AE_LOC_LITERAL_NODE_NAME) == 0)

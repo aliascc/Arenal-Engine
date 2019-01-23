@@ -122,17 +122,10 @@ AEResult FPRPreZ::RenderPreZ()
 
     RenderTarget* rts[1] = { nullptr };
 
-    ret = m_GraphicDevice.SetRenderTargetsAndDepthStencil(1, rts, m_ForwardPlusRendering->GetForwardPlusDS());
-
-    if(ret != AEResult::Ok)
-    {
-        AETODO("Add log");
-
-        return ret;
-    }
+    m_GraphicDevice.SetRenderTargetsAndDepthStencil(1, rts, m_ForwardPlusRendering->GetForwardPlusDS());
 
     AETODO("check return");
-    ret = m_GraphicDevice.Clear(false);
+    m_GraphicDevice.Clear(false);
 
     ret = m_ForwardPlusZPrePassMaterial->Apply();
 
@@ -148,14 +141,7 @@ AEResult FPRPreZ::RenderPreZ()
 
     DrawGameObjects();
 
-    ret = m_GraphicDevice.ResetRenderTargetAndSetDepthStencil();
-
-    if(ret != AEResult::Ok)
-    {
-        AETODO("Add log");
-
-        return ret;
-    }
+    m_GraphicDevice.ResetRenderTargetAndSetDepthStencil();
 
     return AEResult::Ok;
 }

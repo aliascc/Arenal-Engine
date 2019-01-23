@@ -65,23 +65,13 @@ AEResult LightShape::DrawLightShape()
         return AEResult::NotReady;
     }
 
-    AETODO("add better return codes");
     for (size_t i = 0; i < m_VertexBufferVector.size(); i++)
     {
-        if (m_GraphicDevice.SetVertexBuffer(m_VertexBufferVector[i]) != AEResult::Ok)
-        {
-            return AEResult::Fail;
-        }
+        m_GraphicDevice.SetVertexBuffer(m_VertexBufferVector[i]);
 
-        if (m_GraphicDevice.SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST) != AEResult::Ok)
-        {
-            return AEResult::Fail;
-        }
+        m_GraphicDevice.SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
-        if (m_GraphicDevice.Draw(m_VertexBufferVector[i]->GetSize(), 0) != AEResult::Ok)
-        {
-            return AEResult::Fail;
-        }
+        m_GraphicDevice.Draw(m_VertexBufferVector[i]->GetSize(), 0);
     }
 
     return AEResult::Ok;

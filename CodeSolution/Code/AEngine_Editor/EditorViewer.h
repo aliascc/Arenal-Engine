@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _EDITOR_VIEWER_H
-#define _EDITOR_VIEWER_H
-
 /**********************
 *   System Includes   *
 ***********************/
@@ -37,6 +34,7 @@
 *   Forward Decls   *
 *********************/
 class Console;
+class UIManager;
 class DebugStats;
 class InputHandler;
 struct TimerParams;
@@ -74,6 +72,7 @@ class EditorViewer sealed : public GameApp
         GameAudioUpdate* m_GameAudioUpdate = nullptr;
         GamePhysicsUpdate* m_GamePhysicsUpdate = nullptr;
         ImGuiComponent* m_ImGuiComponent = nullptr;
+        UIManager* m_UIManager = nullptr;
 
     public:
         //Constructor and Destroyer
@@ -91,5 +90,3 @@ class EditorViewer sealed : public GameApp
         void PostUpdate(const TimerParams& timerParams) override;
         void Render(const TimerParams& timerParams) override;
 };
-
-#endif

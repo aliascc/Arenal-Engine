@@ -46,6 +46,15 @@ enum class ImGuiMenuObjectType : uint32_t
 *   Defines   *
 ***************/
 
-#define AE_IMGUI_MENU_LITERAL_MAIN_MENU     "AE_MENU_LITERAL_MAIN_MENU"
+#define AE_LITERAL_UI_MAIN_MENU_NAME        "AE_UI_MAIN_MENU_NAME"
+
+#define AE_DOCKING_SPACE_NAME               "AE Docking Space"
+
+#define AE_DOCKING_SPACE_WINDOW_NAME        "AE Docking Space Window"
+
+/**************
+*   Typedef   *
+***************/
+typedef std::function<void(uint64_t)> MenuItemClicked;
 
 #endif //AE_EDITOR_MODE

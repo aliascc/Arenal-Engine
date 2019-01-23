@@ -49,11 +49,12 @@ public:
     /// <summary>
     /// ImGuiMenuSeparator Constructor
     /// </summary>
+    /// <param name="imGuiManager">ImGuiManager Instance</param>
     /// <param name="name">Name of the Menu Item</param>
     /// <param name="menuNameLiteral">Literal for the Menu Item Name</param>
     /// <param name="renderPriority">Render Priority for the menu item</param>
     /// <param name="visible">Determines if the menu item is visible or not</param>
-    ImGuiMenuSeparator(const std::string& name, uint32_t renderPriority, bool visible = true);
+    ImGuiMenuSeparator(ImGuiManager& imGuiManager, const std::string& name, uint32_t renderPriority, bool visible = true);
 
     /// <summary>
     /// Default ImGuiMenuSeparator Destructor

@@ -37,43 +37,47 @@
 ******************/
 class ImGuiMenuItem : public ImGuiMenuObject
 {
+    typedef std::unordered_map<uint64_t, MenuItemClicked> MenuItemClickedMap;
+
 private:
 
-    std::string m_MenuNameLiteral;
+    /// <summary>
+    /// Callback Map for when the Menu Item is clicked
+    /// </summary>
+    MenuItemClickedMap m_MenuItemClickedMap;
 
 public:
-
-    /***************************************
-    *   Constructor & Destructor Methods   *
-    ****************************************/
-#pragma region Constructor & Destructor Methods
 
     /// <summary>
     /// ImGuiMenuItem Constructor
     /// </summary>
+    /// <param name="imGuiManager">ImGuiManager Instance</param>
     /// <param name="name">Name of the Menu Item</param>
     /// <param name="menuNameLiteral">Literal for the Menu Item Name</param>
     /// <param name="renderPriority">Render Priority for the menu item</param>
     /// <param name="visible">Determines if the menu item is visible or not</param>
-    ImGuiMenuItem(const std::string& name, const std::string& menuNameLiteral, uint32_t renderPriority, bool visible = true);
+    ImGuiMenuItem(ImGuiManager& imGuiManager, const std::string& name, const std::string& menuNameLiteral, uint32_t renderPriority, bool visible = true);
 
     /// <summary>
     /// Default ImGuiMenuItem Destructor
     /// </summary>
     virtual ~ImGuiMenuItem();
 
-#pragma endregion
-
-    /************************
-    *   Framework Methods   *
-    *************************/
-#pragma region Framework Methods
-
-    /// <see cref="ImGuiObject::UpdateWindow(const TimerParams&)"/>
+    /// <see cref="ImGuiObject::Update(const TimerParams&)"/>
     void Update(const TimerParams& timerParams) override;
 
-#pragma endregion
-
+    /// <summary>
+    /// Registers a method to be callback when the Menu Item is selcted
+    /// </summary>
+    /// <param name="id">ID of the class Registering this callback</param>
+    /// <param name="callback">Function to be called when the Menu item is selcted</param>
+    void RegisterOnClickCallback(uint64_t id, const MenuItemClicked& callback);
+    
+    /// <summary>
+    /// Unregisters a method to be callback when the Menu Item is selcted
+    /// </summary>
+    /// <param name="id">ID of the class that registered the callback</param>
+    void UnRegisterOnClickCallback(uint64_t id);
 };
 
 #endif //AE_EDITOR_MODE

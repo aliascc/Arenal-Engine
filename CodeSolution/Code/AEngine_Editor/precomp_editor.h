@@ -87,8 +87,7 @@
 
 #include "boost\filesystem.hpp"
 
-#include "libxml\parser.h"
-#include "libxml\xmlwriter.h"
+#include "tinyxml2.h"
 
 #include "SFML\Audio.hpp"
 
@@ -98,6 +97,10 @@
 
 #include "DirectXTK\SpriteFont.h"
 #include "DirectXTK\SpriteBatch.h"
+
+#include "imgui\imgui.h"
+#include "imgui\imgui_impl_dx11.h"
+#include "imgui\imgui_impl_win32.h"
 
 /***************************
 *   Game Engine Includes   *

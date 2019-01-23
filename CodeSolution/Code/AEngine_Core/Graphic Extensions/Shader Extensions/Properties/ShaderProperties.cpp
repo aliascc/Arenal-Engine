@@ -1418,26 +1418,13 @@ AEResult ShaderProperties::ApplyAll()
         return AEResult::Fail;
     }
 
-    if(ApplyTextureBindings() != AEResult::Ok)
-    {
-        return AEResult::SetTextureFailed;
-    }
+    ApplyTextureBindings();
 
-    if (ApplyTextureArrays() != AEResult::Ok)
-    {
-        AETODO("Change return value");
-        return AEResult::SetTextureFailed;
-    }
+    ApplyTextureArrays();
 
-    if(ApplySimpleBuffers() != AEResult::Ok)
-    {
-        return AEResult::SetSimpleBufferFailed;
-    }
+    ApplySimpleBuffers();
 
-    if(ApplyStructuredBuffers() != AEResult::Ok)
-    {
-        return AEResult::SetStructuredBufferFailed;
-    }
+    ApplyStructuredBuffers();
 
     return AEResult::Ok;
 }
@@ -1448,23 +1435,14 @@ AEResult ShaderProperties::ApplyConstantBuffers()
     {
         ConstantBuffer* cb = cbIt.second;
 
-        AEResult ret = AEResult::Ok;
-
-        ret = cb->Apply();
-
+        AEResult ret = cb->Apply();
         if(ret != AEResult::Ok)
         {
             AETODO("Set debug message");
             return ret;
         }
 
-        ret = m_GraphicDevice.SetConstantBuffer(m_ShaderType, cb);
-
-        if(ret != AEResult::Ok)
-        {
-            AETODO("Set debug message");
-            return ret;
-        }
+        m_GraphicDevice.SetConstantBuffer(m_ShaderType, cb);
     }
 
     return AEResult::Ok;
@@ -1481,10 +1459,10 @@ AEResult ShaderProperties::ApplySamplers()
         if (sampler->NeedsReinit())
         {
             ret = sampler->Reinitialize();
-
             if (ret != AEResult::Ok)
             {
                 AETODO("Log error");
+                return ret;
             }
         }
 
@@ -1500,20 +1478,14 @@ AEResult ShaderProperties::ApplySamplers()
                 bindIndex = samplerIt.second->m_BindIndex;
             }
 
-            ret = m_GraphicDevice.SetSampler(m_ShaderType, sampler, overrideBindIndex, bindIndex);
-
-            if (ret != AEResult::Ok)
-            {
-                AETODO("Set debug message");
-                return ret;
-            }
+            m_GraphicDevice.SetSampler(m_ShaderType, sampler, overrideBindIndex, bindIndex);
         }
     }
 
     return AEResult::Ok;
 }
 
-AEResult ShaderProperties::ApplySimpleBuffers()
+void ShaderProperties::ApplySimpleBuffers()
 {
     for(auto simpleBufferIt : m_SimpleBufferMap)
     {
@@ -1521,8 +1493,6 @@ AEResult ShaderProperties::ApplySimpleBuffers()
 
         if(simpleBuffer->IsReady())
         {
-            AEResult ret = AEResult::Ok;
-
             //////////////////////////////////////////////////
             //Get RW Enabled
             bool overrideRW = simpleBufferIt.second->m_IsOverrideRW;
@@ -1549,7 +1519,7 @@ AEResult ShaderProperties::ApplySimpleBuffers()
             {
                 if(m_ShaderType == ShaderType::ComputeShader)
                 {
-                    ret = m_GraphicDevice.SetShaderRWBufferToCS(simpleBuffer, overrideBindIndex, bindIndex);
+                    m_GraphicDevice.SetShaderRWBufferToCS(simpleBuffer, overrideBindIndex, bindIndex);
                 }
                 else
                 {
@@ -1559,21 +1529,13 @@ AEResult ShaderProperties::ApplySimpleBuffers()
             }
             else
             {
-                ret = m_GraphicDevice.SetShaderBuffer(m_ShaderType, simpleBuffer, overrideBindIndex, bindIndex);
-            }
-
-            if(ret != AEResult::Ok)
-            {
-                AETODO("Set debug message");
-                return ret;
+                m_GraphicDevice.SetShaderBuffer(m_ShaderType, simpleBuffer, overrideBindIndex, bindIndex);
             }
         }
     }
-
-    return AEResult::Ok;
 }
 
-AEResult ShaderProperties::ApplyStructuredBuffers()
+void ShaderProperties::ApplyStructuredBuffers()
 {
     for(auto structuredBufferIt : m_StructuredBufferMap)
     {
@@ -1581,8 +1543,6 @@ AEResult ShaderProperties::ApplyStructuredBuffers()
 
         if(structuredBuffer->IsReady())
         {
-            AEResult ret = AEResult::Ok;
-
             //////////////////////////////////////////////////
             //Get RW Enabled
             bool overrideRW = structuredBufferIt.second->m_IsOverrideRW;
@@ -1609,7 +1569,7 @@ AEResult ShaderProperties::ApplyStructuredBuffers()
             {
                 if(m_ShaderType == ShaderType::ComputeShader)
                 {
-                    ret = m_GraphicDevice.SetShaderRWBufferToCS(structuredBuffer, overrideBindIndex, bindIndex);
+                    m_GraphicDevice.SetShaderRWBufferToCS(structuredBuffer, overrideBindIndex, bindIndex);
                 }
                 else
                 {
@@ -1619,21 +1579,13 @@ AEResult ShaderProperties::ApplyStructuredBuffers()
             }
             else
             {
-                ret = m_GraphicDevice.SetShaderBuffer(m_ShaderType, structuredBuffer, overrideBindIndex, bindIndex);
-            }
-
-            if(ret != AEResult::Ok)
-            {
-                AETODO("Set debug message");
-                return ret;
+                m_GraphicDevice.SetShaderBuffer(m_ShaderType, structuredBuffer, overrideBindIndex, bindIndex);
             }
         }
     }
-
-    return AEResult::Ok;
 }
 
-AEResult ShaderProperties::ApplyTextureBindings()
+void ShaderProperties::ApplyTextureBindings()
 {
     for(auto stbIt : m_TextureBindingMap)
     {
@@ -1645,18 +1597,11 @@ AEResult ShaderProperties::ApplyTextureBindings()
             textureBinding = m_GraphicDevice.GetDefaultTexture2D();
         }
 
-        AEResult ret = m_GraphicDevice.SetTexture(m_ShaderType, stb->GetBindIndex(), textureBinding);
-        if (ret != AEResult::Ok)
-        {
-            AETODO("Set debug message");
-            return ret;
-        }
+        m_GraphicDevice.SetTexture(m_ShaderType, stb->GetBindIndex(), textureBinding);
     }
-
-    return AEResult::Ok;
 }
 
-AEResult ShaderProperties::ApplyTextureArrays()
+void ShaderProperties::ApplyTextureArrays()
 {
     for (auto textureArrayIt : m_TextureArrayMap)
     {
@@ -1664,8 +1609,6 @@ AEResult ShaderProperties::ApplyTextureArrays()
 
         if (textureArray->IsReady())
         {
-            AEResult ret = AEResult::Ok;
-
             //////////////////////////////////////////////////
             //Get Bind Index
             bool overrideBindIndex = textureArrayIt.second->m_IsOverrideBindIndex;
@@ -1676,82 +1619,40 @@ AEResult ShaderProperties::ApplyTextureArrays()
                 bindIndex = textureArrayIt.second->m_BindIndex;
             }
 
-            ret = m_GraphicDevice.SetTextureArray(m_ShaderType, bindIndex, textureArray);
-
-            if (ret != AEResult::Ok)
-            {
-                AETODO("Set debug message");
-                return ret;
-            }
+            m_GraphicDevice.SetTextureArray(m_ShaderType, bindIndex, textureArray);
         }
     }
-
-    return AEResult::Ok;
 }
 
-AEResult ShaderProperties::UnApplyAll()
+void ShaderProperties::UnApplyAll()
 {
-    if(UnApplyConstantBuffers() != AEResult::Ok)
-    {
-        return AEResult::SetConstantBufferFailed;
-    }
+    UnApplyConstantBuffers();
 
-    if (UnApplySamplers() != AEResult::Ok)
-    {
-        AETODO("Change return value");
-        return AEResult::Fail;
-    }
+    UnApplySamplers();
 
-    if(UnApplyTextureBindings() != AEResult::Ok)
-    {
-        return AEResult::SetTextureFailed;
-    }
+    UnApplyTextureBindings();
 
-    if (UnApplyTextureArrays() != AEResult::Ok)
-    {
-        AETODO("Change return value");
-        return AEResult::SetTextureFailed;
-    }
+    UnApplyTextureArrays();
 
-    if(UnApplySimpleBuffers() != AEResult::Ok)
-    {
-        return AEResult::SetSimpleBufferFailed;
-    }
+    UnApplySimpleBuffers();
 
-    if(UnApplyStructuredBuffers() != AEResult::Ok)
-    {
-        return AEResult::SetStructuredBufferFailed;
-    }
-
-    return AEResult::Ok;
+    UnApplyStructuredBuffers();
 }
 
-AEResult ShaderProperties::UnApplyConstantBuffers()
+void ShaderProperties::UnApplyConstantBuffers()
 {
-    AEResult ret = AEResult::Ok;
-
     for(auto cbIt : m_ConstantBufferMap)
     {
         ConstantBuffer* cb = cbIt.second;
 
-        ret = m_GraphicDevice.SetConstantBuffer(m_ShaderType, nullptr, true, cb->GetBindIndex());
-
-        if(ret != AEResult::Ok)
-        {
-            AETODO("Set debug message");
-            return ret;
-        }
+        m_GraphicDevice.SetConstantBuffer(m_ShaderType, nullptr, true, cb->GetBindIndex());
     }
-
-    return AEResult::Ok;
 }
 
-AEResult ShaderProperties::UnApplySamplers()
+void ShaderProperties::UnApplySamplers()
 {
     for (auto samplerIt : m_SamplerMap)
     {
-        AEResult ret = AEResult::Ok;
-
         Sampler* sampler = samplerIt.second->m_Object;
 
         if (sampler->IsReady())
@@ -1766,20 +1667,12 @@ AEResult ShaderProperties::UnApplySamplers()
                 bindIndex = samplerIt.second->m_BindIndex;
             }
 
-            ret = m_GraphicDevice.SetSampler(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
-
-            if (ret != AEResult::Ok)
-            {
-                AETODO("Set debug message");
-                return ret;
-            }
+            m_GraphicDevice.SetSampler(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
         }
     }
-
-    return AEResult::Ok;
 }
 
-AEResult ShaderProperties::UnApplySimpleBuffers()
+void ShaderProperties::UnApplySimpleBuffers()
 {
     for(auto simpleBufferIt : m_SimpleBufferMap)
     {
@@ -1787,8 +1680,6 @@ AEResult ShaderProperties::UnApplySimpleBuffers()
 
         if(simpleBuffer->IsReady())
         {
-            AEResult ret = AEResult::Ok;
-
             //////////////////////////////////////////////////
             //Get RW Enabled
             bool overrideRW = simpleBufferIt.second->m_IsOverrideRW;
@@ -1815,7 +1706,7 @@ AEResult ShaderProperties::UnApplySimpleBuffers()
             {
                 if(m_ShaderType == ShaderType::ComputeShader)
                 {
-                    ret = m_GraphicDevice.SetShaderRWBufferToCS(nullptr, overrideBindIndex, bindIndex);
+                    m_GraphicDevice.SetShaderRWBufferToCS(nullptr, overrideBindIndex, bindIndex);
                 }
                 else
                 {
@@ -1825,21 +1716,13 @@ AEResult ShaderProperties::UnApplySimpleBuffers()
             }
             else
             {
-                ret = m_GraphicDevice.SetShaderBuffer(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
-            }
-
-            if(ret != AEResult::Ok)
-            {
-                AETODO("Set debug message");
-                return ret;
+                m_GraphicDevice.SetShaderBuffer(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
             }
         }
     }
-
-    return AEResult::Ok;
 }
 
-AEResult ShaderProperties::UnApplyStructuredBuffers()
+void ShaderProperties::UnApplyStructuredBuffers()
 {
     for(auto structuredBufferIt : m_StructuredBufferMap)
     {
@@ -1847,8 +1730,6 @@ AEResult ShaderProperties::UnApplyStructuredBuffers()
 
         if(structuredBuffer->IsReady())
         {
-            AEResult ret = AEResult::Ok;
-
             //////////////////////////////////////////////////
             //Get RW Enabled
             bool overrideRW = structuredBufferIt.second->m_IsOverrideRW;
@@ -1875,7 +1756,7 @@ AEResult ShaderProperties::UnApplyStructuredBuffers()
             {
                 if(m_ShaderType == ShaderType::ComputeShader)
                 {
-                    ret = m_GraphicDevice.SetShaderRWBufferToCS(nullptr, overrideBindIndex, bindIndex);
+                    m_GraphicDevice.SetShaderRWBufferToCS(nullptr, overrideBindIndex, bindIndex);
                 }
                 else
                 {
@@ -1885,21 +1766,13 @@ AEResult ShaderProperties::UnApplyStructuredBuffers()
             }
             else
             {
-                ret = m_GraphicDevice.SetShaderBuffer(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
-            }
-
-            if(ret != AEResult::Ok)
-            {
-                AETODO("Set debug message");
-                return ret;
+                m_GraphicDevice.SetShaderBuffer(m_ShaderType, nullptr, overrideBindIndex, bindIndex);
             }
         }
     }
-
-    return AEResult::Ok;
 }
 
-AEResult ShaderProperties::UnApplyTextureBindings()
+void ShaderProperties::UnApplyTextureBindings()
 {
     for(auto stbIt : m_TextureBindingMap)
     {
@@ -1907,20 +1780,12 @@ AEResult ShaderProperties::UnApplyTextureBindings()
 
         if(stb->GetTexture() != nullptr)
         {
-            AEResult ret = m_GraphicDevice.SetTexture(m_ShaderType, stb->GetBindIndex(), nullptr);
-
-            if(ret != AEResult::Ok)
-            {
-                AETODO("Set debug message");
-                return ret;
-            }
+            m_GraphicDevice.SetTexture(m_ShaderType, stb->GetBindIndex(), nullptr);
         }
     }
-
-    return AEResult::Ok;
 }
 
-AEResult ShaderProperties::UnApplyTextureArrays()
+void ShaderProperties::UnApplyTextureArrays()
 {
     for (auto textureArrayIt : m_TextureArrayMap)
     {
@@ -1928,8 +1793,6 @@ AEResult ShaderProperties::UnApplyTextureArrays()
 
         if (textureArray->IsReady())
         {
-            AEResult ret = AEResult::Ok;
-
             //////////////////////////////////////////////////
             //Get Bind Index
             bool overrideBindIndex = textureArrayIt.second->m_IsOverrideBindIndex;
@@ -1940,15 +1803,7 @@ AEResult ShaderProperties::UnApplyTextureArrays()
                 bindIndex = textureArrayIt.second->m_BindIndex;
             }
 
-            ret = m_GraphicDevice.SetTextureArray(m_ShaderType, bindIndex, nullptr);
-
-            if (ret != AEResult::Ok)
-            {
-                AETODO("Set debug message");
-                return ret;
-            }
+            m_GraphicDevice.SetTextureArray(m_ShaderType, bindIndex, nullptr);
         }
     }
-
-    return AEResult::Ok;
 }

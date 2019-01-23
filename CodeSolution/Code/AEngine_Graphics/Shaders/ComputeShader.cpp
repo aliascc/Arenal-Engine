@@ -78,7 +78,7 @@ AEResult ComputeShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32
     ReleaseCOM(m_CSDX);
     m_CSDX = tempDX;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ComputeShader>(m_CSDX, AE_DEBUG_CS_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_CSDX, AE_DEBUG_CS_NAME_PREFIX + m_Name);
     
     return AEResult::Ok;
 }

@@ -107,7 +107,7 @@ AEResult Texture2D::CreateTexture(uint32_t width, uint32_t height, DXGI_FORMAT f
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Shader Resource View
@@ -130,7 +130,7 @@ AEResult Texture2D::CreateTexture(uint32_t width, uint32_t height, DXGI_FORMAT f
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Finish
@@ -209,7 +209,7 @@ AEResult Texture2D::CreateColorTexture(uint32_t width, uint32_t height, const Co
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Shader Resource View
@@ -232,7 +232,7 @@ AEResult Texture2D::CreateColorTexture(uint32_t width, uint32_t height, const Co
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Finish
@@ -327,7 +327,7 @@ AEResult Texture2D::Load()
 
     m_TextureDX = reinterpret_cast<ID3D11Texture2D*>(resource);
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_TextureDX, AE_DEBUG_TEX_2D_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Shader Resource View
@@ -350,7 +350,7 @@ AEResult Texture2D::Load()
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_ShaderResourceView, AE_DEBUG_TEX_2D_SRV_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Set Width and Height

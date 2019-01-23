@@ -39,67 +39,29 @@
 /*****************
 *   Class Decl   *
 ******************/
+
 class ImGuiMainMenu sealed : public ImGuiMenu
 {
 private:
 
-    /************************
-    *   Private Variables   *
-    *************************/
-#pragma region Private Variables
-
-#pragma endregion
-
-    /**********************
-    *   Private Methods   *
-    ***********************/
-#pragma region Private Methods
-
-#pragma endregion
-
 public:
-
-    /***************************************
-    *   Constructor & Destructor Methods   *
-    ****************************************/
-#pragma region Constructor & Destructor Methods
 
     /// <summary>
     /// ImGUIObject Constructor
     /// </summary>
-    ImGuiMainMenu();
+    /// <param name="imGuiManager">ImGuiManager Instance</param>
+    ImGuiMainMenu(ImGuiManager& imGuiManager);
 
     /// <summary>
     /// Default ImGUIObject Destructor
     /// </summary>
     virtual ~ImGuiMainMenu();
 
-#pragma endregion
+    /// <see cref="ImGuiMenu::Initialize(const TimerParams&)"/>
+    AEResult Initialize() override;
 
-    /******************
-    *   Get Methods   *
-    *******************/
-#pragma region Get Methods
-
-#pragma endregion
-
-    /******************
-    *   Set Methods   *
-    *******************/
-#pragma region Set Methods
-
-#pragma endregion
-
-    /************************
-    *   Framework Methods   *
-    *************************/
-#pragma region Framework Methods
-
-    /// <see cref="ImGuiObject::UpdateWindow(const TimerParams&)"/>
+    /// <see cref="ImGuiObject::Update(const TimerParams&)"/>
     void Update(const TimerParams& timerParams) override;
-
-#pragma endregion
-
 };
 
 #endif //AE_EDITOR_MODE

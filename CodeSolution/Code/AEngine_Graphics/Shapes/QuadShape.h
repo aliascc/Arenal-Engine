@@ -83,7 +83,7 @@ class QuadShape abstract : public AEObject
         //Framework Methods
         virtual AEResult BuildQuad() = 0;
 
-        AEResult DrawQuad();
+        void DrawQuad();
 };
 
 #endif

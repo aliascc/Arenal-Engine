@@ -536,27 +536,27 @@ class ShaderProperties sealed : public AEObject
 
         AEResult ApplySamplers();
 
-        AEResult ApplyStructuredBuffers();
+        void ApplyStructuredBuffers();
 
-        AEResult ApplySimpleBuffers();
+        void ApplySimpleBuffers();
 
-        AEResult ApplyTextureBindings();
+        void ApplyTextureBindings();
 
-        AEResult ApplyTextureArrays();
+        void ApplyTextureArrays();
 
-        AEResult UnApplyAll();
+        void UnApplyAll();
 
-        AEResult UnApplyConstantBuffers();
+        void UnApplyConstantBuffers();
 
-        AEResult UnApplySamplers();
+        void UnApplySamplers();
 
-        AEResult UnApplyStructuredBuffers();
+        void UnApplyStructuredBuffers();
 
-        AEResult UnApplySimpleBuffers();
+        void UnApplySimpleBuffers();
 
-        AEResult UnApplyTextureBindings();
+        void UnApplyTextureBindings();
 
-        AEResult UnApplyTextureArrays();
+        void UnApplyTextureArrays();
 
 #pragma endregion
 

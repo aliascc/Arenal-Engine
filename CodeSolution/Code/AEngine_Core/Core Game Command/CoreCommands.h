@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _RESIZE_COMMAND_H
-#define _RESIZE_COMMAND_H
-
 /**********************
 *   System Includes   *
 ***********************/
@@ -37,6 +34,8 @@
 *   Forward Decls   *
 *********************/
 class GameApp;
+class ImGuiManager;
+class GraphicDevice;
 class GameComponentCollection;
 
 /*******************************
@@ -63,7 +62,7 @@ public:
     /// ResizeCommand Constructor
     /// </summary>
     /// <param name="gameApp">Current Game App</param>
-    /// <param name="m_NewSize">Resize requested</param>
+    /// <param name="newSize">Resize requested</param>
     ResizeCommand(GameApp& gameApp, const glm::ivec2& newSize);
 
     /// <summary>
@@ -99,6 +98,46 @@ public:
     /// Default GCSortCommand Destructor
     /// </summary>
     virtual ~GCSortCommand();
+
+    /// <summary>
+    /// Executes the Game Command
+    /// </summary>
+    void Execute() override;
+};
+
+#ifdef AE_EDITOR_MODE
+
+/*******************************
+*   Resize Editor Class Decl   *
+********************************/
+
+class ResizeEditorCommand sealed : public GameCommand
+{
+private:
+
+    /// <summary>
+    /// Game App Instance
+    /// </summary>
+    GameApp& m_GameApp;
+
+    /// <summary>
+    /// New size that is been requested
+    /// </summary>
+    glm::ivec2 m_NewSize;
+
+public:
+
+    /// <summary>
+    /// ResizeEditorCommand Constructor
+    /// </summary>
+    /// <param name="gameApp">Current Game App</param>
+    /// <param name="newSize">Resize requested</param>
+    ResizeEditorCommand(GameApp& gameApp, const glm::ivec2& newSize);
+
+    /// <summary>
+    /// Default ResizeEditorCommand Destructor
+    /// </summary>
+    virtual ~ResizeEditorCommand();
 
     /// <summary>
     /// Executes the Game Command

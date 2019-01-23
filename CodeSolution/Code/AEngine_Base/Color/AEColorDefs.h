@@ -239,6 +239,7 @@ namespace AEColors
     extern const Color DeepSkyBlue;                 ///< Color that represents Deep Sky Blue
     extern const Color DimGray;                     ///< Color that represents Dim Gray
     extern const Color DodgerBlue;                  ///< Color that represents Dodger Blue
+    extern const Color EditorBackground;            ///< Color that represents Editor Background
     extern const Color Firebrick;                   ///< Color that represents Firebrick
     extern const Color FloralWhite;                 ///< Color that represents Floral White
     extern const Color ForestGreen;                 ///< Color that represents Forest Green

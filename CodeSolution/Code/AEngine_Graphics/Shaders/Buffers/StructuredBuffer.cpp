@@ -105,7 +105,7 @@ AEResult StructuredBuffer::InitializeBuffer(uint32_t structSize, uint32_t numEle
         return AEResult::StructuredBufferInitFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_BufferDX, AE_DEBUG_SB_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_BufferDX, AE_DEBUG_SB_NAME_PREFIX + m_Name);
 
     /******************************************
     *3. Create SRV for Structured Buffer
@@ -130,7 +130,7 @@ AEResult StructuredBuffer::InitializeBuffer(uint32_t structSize, uint32_t numEle
         return AEResult::StructuredBufferInitFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_SB_SRV_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_BufferSRVDX, AE_DEBUG_SB_SRV_NAME_PREFIX + m_Name);
 
     /******************************************
     *4. Create UAV for Buffer if flag is set
@@ -159,7 +159,7 @@ AEResult StructuredBuffer::InitializeBuffer(uint32_t structSize, uint32_t numEle
             return AEResult::StructuredBufferInitFailed;
         }
 
-        AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_SB_UAV_NAME_PREFIX + m_Name);
+        AEGraphicHelpers::SetDebugObjectName(m_BufferSRVDX, AE_DEBUG_SB_UAV_NAME_PREFIX + m_Name);
     }
 
     /******************************************

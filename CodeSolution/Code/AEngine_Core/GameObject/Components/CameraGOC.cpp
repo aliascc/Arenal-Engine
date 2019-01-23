@@ -53,7 +53,7 @@ CameraGOC::CameraGOC(GameObject& gameObject, CameraManager& cameraManager, Graph
 {
     AETODO("See how to add better name");
     AETODO("Far and Near Att");
-    glm::ivec2 dimension(m_GraphicDevice.GetGraphicPP().m_BackBufferWidth, m_GraphicDevice.GetGraphicPP().m_BackBufferHeight);
+    glm::ivec2 dimension(m_GraphicDevice.GetGraphicPP().m_GameBackBufferWidth, m_GraphicDevice.GetGraphicPP().m_GameBackBufferHeight);
     m_Camera = new GameObjectCamera("Game Object Camera", AEMathHelpers::Vec3fZero, AEMathHelpers::Vec3fFwrZP, AEMathHelpers::Vec3fUp, dimension, 45.0f, 1.0f, 1000.0f);
 
     if (m_Camera != nullptr)

@@ -51,13 +51,9 @@ class ImGuiManager sealed : public AEObject
     //Typedef for STL Game Component List 
     typedef std::vector<ImGuiWindow*>                   ImGuiWindowVector;
     typedef std::unordered_map<uint64_t, ImGuiWindow*>  ImGuiWindowMap;
+    typedef std::unordered_map<std::string, uint64_t>   ImGuiWindowNameMap;
 
 private:
-
-    /************************
-    *   Private Variables   *
-    *************************/
-#pragma region Private Variables
 
     /// <summary>
     /// Graphic Device of the Game App
@@ -68,27 +64,35 @@ private:
 
     ImGuiWindowVector m_ImGuiWindows;
     ImGuiWindowMap m_ImGuiWindowMap;
+    ImGuiWindowNameMap m_ImGuiWindowNameMap;
 
-#pragma endregion
+    /// <summary>
+    /// ImGui Docking Flags
+    /// </summary>
+    ImGuiWindowFlags m_DockingFlags = ImGuiWindowFlags_None;
 
-    /**********************
-    *   Private Methods   *
-    ***********************/
-#pragma region Private Methods
+    /// <summary>
+    /// ImGui Docking WIndow Flags
+    /// </summary>
+    ImGuiDockNodeFlags m_DockingWindowFlags = ImGuiDockNodeFlags_None;
+
+    /// <summary>
+    /// Declares if the Manager has been initialized and
+    /// it is ready to run.
+    /// </summary>
+    bool m_IsReady = false;
 
     /// <summary>
     /// Clean up ImGuiManager resources
     /// </summary>
     void CleanUp();
 
-#pragma endregion
+    /// <summary>
+    /// Update Docking Space
+    /// </summary>
+    void UpdateDockingSpace();
 
 public:
-
-    /***************************************
-    *   Constructor & Destructor Methods   *
-    ****************************************/
-#pragma region Constructor & Destructor Methods
 
     /// <summary>
     /// ImGuiManager Constructor
@@ -105,12 +109,18 @@ public:
     ImGuiManager(const ImGuiManager&) = delete;
     ImGuiManager& operator=(const ImGuiManager&) = delete;
 
-#pragma endregion
+    /// <summary>
+    /// Determines if the Manager has been initialize
+    /// </summary>
+    inline bool IsReady() const
+    {
+        return m_IsReady;
+    }
 
-    /************************
-    *   Framework Methods   *
-    *************************/
-#pragma region Framework Methods
+    inline ImGuiMainMenu& GetImGuiMainMenu()
+    {
+        return *m_ImGuiMainMenu;
+    }
 
     /// <summary>
     /// Sorts the Windows
@@ -129,7 +139,14 @@ public:
     /// </summary>
     /// <param name="imGuiObjectID">Unique ID of the ImGui Window to remove</param>
     /// <returns>OK if the ImGui Window was removed from the manager, otherwise error code</returns>
-    AEResult RemoveImGuiWindow(const uint64_t imGuiWindowID);
+    AEResult RemoveImGuiWindow(uint64_t imGuiWindowID);
+
+    /// <summary>
+    /// Gets and ImGui Window
+    /// </summary>
+    /// <param name="windowName">Name of the Window</param>
+    /// <returns>ImGui Window pointer if found, otherwise nullptr</returns>
+    ImGuiWindow* GetImGuiWindow(const std::string& windowName);
 
     /// <summary>
     /// Initializes Im Gui
@@ -149,8 +166,15 @@ public:
     /// <param name="timerParams">Game Timer Parameters</param>
     void Render(const TimerParams& timerParams);
 
-#pragma endregion
+    /// <summary>
+    /// When the Graphic Device is going to a reset mode
+    /// </summary>
+    void OnLostDevice();
 
+    /// <summary>
+    /// When the Graphic Device is coming out of a reset mode
+    /// </summary>
+    void OnResetDevice();
 };
 
-#endif // AE_EDITOR_MODE
+#endif //AE_EDITOR_MODE

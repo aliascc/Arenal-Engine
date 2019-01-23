@@ -51,7 +51,7 @@
 AETODO("Make H & W params")
 Console::Console(GameApp& gameApp, const std::string& gameComponentName, const std::string& inputHandlerServiceName, uint32_t callOrder)
     : DrawableGameComponent(gameApp, gameComponentName, callOrder)
-    , m_ConsoleWidth(m_GraphicDevice.GetGraphicPP().m_BackBufferWidth)
+    , m_ConsoleWidth(m_GraphicDevice.GetGraphicPP().m_GameBackBufferWidth)
     , m_InputHandlerServiceName(inputHandlerServiceName)
 {
     ZeroMemory(m_ConsoleLine, AE_CONSOLE_MAX_LINE_CHARS);
@@ -597,7 +597,7 @@ void Console::OnLostDevice()
 void Console::OnResetDevice()
 {
     //Set New m_ConsoleWidth
-    m_ConsoleWidth = m_GraphicDevice.GetGraphicPP().m_BackBufferWidth;
+    m_ConsoleWidth = m_GraphicDevice.GetGraphicPP().m_GameBackBufferWidth;
 }
 
 AEResult Console::RegisterConsoleScriptInfo()

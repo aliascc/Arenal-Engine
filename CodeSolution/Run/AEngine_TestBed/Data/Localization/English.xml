@@ -50,6 +50,10 @@
   AE XML Errors
   #############
   -->
+
+  <Literal  name="XML_PARSE_FILE_ERR_MSG"                       msg="XML Parse File Error." />
+  <Literal  name="XML_WRITER_SAVE_FILE_ERR_MSG"                 msg="Failed to save XML file: {0}." />
+  <Literal  name="XML_API_ERR_DBG_MSG"                          msg="API XML Error: {0}" />
   <Literal  name="XML_DEFAULT_VALUE_USE_MSG"                    msg="{0}: has use the default value of {1} for tag {2}" />
   <Literal  name="XML_DEFAULT_VALUE_USE_VECTOR_2_MSG"           msg="{0}: has use the default value of ({1}, {2}) for tag {3}" />
   <Literal  name="XML_DEFAULT_VALUE_USE_VECTOR_3_MSG"           msg="{0}: has use the default value of ({1}, {2}, {3}) for tag {4}" />
@@ -261,5 +265,17 @@
   -->
 
   <Literal  name="PROJECT_CONFIG_ERR_MSG"                       msg="Project properties could not be loaded." />
+
+  <!--
+  #############
+  UI
+  #############
+  -->
+
+  <Literal  name="AE_UI_MAIN_MENU_NAME"                         msg="Main Menu" />
+  <Literal  name="AE_UI_FILE_MENU_NAME"                         msg="File" />
+  <Literal  name="AE_UI_VIEW_MENU_NAME"                         msg="View" />
+  <Literal  name="AE_UI_VIEW_MENU_RENDER_WINDOW_NAME"           msg="Render Window" />
+  <Literal  name="AE_UI_RENDER_WINDOW_NAME"                     msg="Render Window" />
 
 </Language>

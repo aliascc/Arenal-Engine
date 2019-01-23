@@ -272,7 +272,7 @@ AEResult SimpleBuffer::InitializeBuffer(uint32_t numElements, GraphicBufferUsage
         return AEResult::SimpleBufferInitFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_BufferDX, AE_DEBUG_B_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_BufferDX, AE_DEBUG_B_NAME_PREFIX + m_Name);
 
     /******************************************
     *3. Create SRV for Buffer
@@ -297,7 +297,7 @@ AEResult SimpleBuffer::InitializeBuffer(uint32_t numElements, GraphicBufferUsage
         return AEResult::SimpleBufferInitFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_B_SRV_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_BufferSRVDX, AE_DEBUG_B_SRV_NAME_PREFIX + m_Name);
 
     /******************************************
     *4. Create UAV for Buffer if flag is set
@@ -326,7 +326,7 @@ AEResult SimpleBuffer::InitializeBuffer(uint32_t numElements, GraphicBufferUsage
             return AEResult::SimpleBufferInitFailed;
         }
 
-        AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_BufferSRVDX, AE_DEBUG_B_UAV_NAME_PREFIX + m_Name);
+        AEGraphicHelpers::SetDebugObjectName(m_BufferSRVDX, AE_DEBUG_B_UAV_NAME_PREFIX + m_Name);
     }
 
     /******************************************

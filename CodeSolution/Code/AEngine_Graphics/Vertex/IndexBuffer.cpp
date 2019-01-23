@@ -203,7 +203,7 @@ AEResult IndexBuffer::BuildIndexBuffer()
         return AEResult::FailIndexBufferInit;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_IndexBufferDX, AE_DEBUG_IB_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_IndexBufferDX, AE_DEBUG_IB_NAME_PREFIX + m_Name);
 
     m_IsReady = true;
 

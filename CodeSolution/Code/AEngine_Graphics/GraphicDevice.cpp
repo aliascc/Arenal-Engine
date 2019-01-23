@@ -65,31 +65,40 @@ GraphicDevice::GraphicDevice(HWND hMainWnd, const GraphicOptsPreferred& graphicO
 {
     AEAssert(hMainWnd != nullptr);
 
-    ZeroMemory(&m_ScreenViewportDX, sizeof(D3D11_VIEWPORT));
+    m_GraphicPP.m_DeviceWindow =  hMainWnd;
 
-    m_gPP.m_DeviceWindow =  hMainWnd;
+    m_GraphicPP.m_SingleThreaded = graphicOpts.m_SingleThreaded;
 
-    m_gPP.m_SingleThreaded = graphicOpts.m_SingleThreaded;
-
+#ifndef AE_EDITOR_MODE
     if(graphicOpts.m_FullScreen)
     {
-        m_gPP.m_BackBufferWidth = graphicOpts.m_ScreenResolution.x;
-        m_gPP.m_BackBufferHeight = graphicOpts.m_ScreenResolution.y;
+        m_gPP.m_GameBackBufferWidth         = graphicOpts.m_ScreenResolution.x;
+        m_gPP.m_GameBackBufferHeight        = graphicOpts.m_ScreenResolution.y;
 
-        m_gPP.m_BackBufferFormatFullScreen = AEGraphicHelpers::GetPXFormatFromString(graphicOpts.m_BackBufferFormatFullScreen);
+        m_gPP.m_BackBufferFormatFullScreen  = AEGraphicHelpers::GetPXFormatFromString(graphicOpts.m_BackBufferFormatFullScreen);
 
         m_gPP.m_Windowed = false;
     }
     else 
+#endif
     {
         glm::ivec2 wndSize = AEGraphicHelpers::GetWindowSize(hMainWnd);
-        
-        m_gPP.m_BackBufferWidth = wndSize.x;
-        m_gPP.m_BackBufferHeight = wndSize.y;
-        
-        m_gPP.m_BackBufferFormatWindowed = AEGraphicHelpers::GetPXFormatFromString(graphicOpts.m_BackBufferFormatWindowed);
 
-        m_gPP.m_Windowed = true;
+#ifdef AE_EDITOR_MODE
+        m_GraphicPP.m_EditorBackBufferWidth   = wndSize.x;
+        m_GraphicPP.m_EditorBackBufferHeight  = wndSize.y;
+
+        AETODO("Check default sizes");
+        m_GraphicPP.m_GameBackBufferWidth     = 256;
+        m_GraphicPP.m_GameBackBufferHeight    = 256;
+#else
+        m_gPP.m_GameBackBufferWidth     = wndSize.x;
+        m_gPP.m_GameBackBufferHeight    = wndSize.y;
+#endif
+        
+        m_GraphicPP.m_BackBufferFormatWindowed = AEGraphicHelpers::GetPXFormatFromString(graphicOpts.m_BackBufferFormatWindowed);
+
+        m_GraphicPP.m_Windowed = true;
     }
 
     m_QuadShape2D = new QuadShape2D(*this, true);
@@ -107,10 +116,14 @@ GraphicDevice::~GraphicDevice()
 
     DeleteMemArr(m_CurrentRenderTargetViewsDX);
 
-    ReleaseCOM(m_DefaultRenderTargetViewDX);
-    ReleaseCOM(m_DefaultDepthStencilViewDX);
+    CleanUpGameDepthStencil();
+    CleanUpGameRenderTargets();
+
+#ifdef AE_EDITOR_MODE
+    CleanUpEditorRenderTargets();
+#endif
+
     ReleaseCOM(m_SwapChainDX);
-    ReleaseCOM(m_DefaultDepthStencilBufferDX);
 
 #if defined(AE_GRAPHIC_DEBUG_DEVICE)
     ReleaseCOM(m_UserDefinedAnnotationDX);
@@ -179,72 +192,44 @@ AEResult GraphicDevice::CreateDefaultTextures()
     return AEResult::Ok;
 }
 
-AEResult GraphicDevice::ReleaseDefaultTextures()
+void GraphicDevice::ReleaseDefaultTextures()
 {
     AERelease(m_DefaultTexture2D);
-
-    return AEResult::Ok;
 }
 
 void GraphicDevice::ResetHalfPixel()
 {
-    m_HalfPixel.x = (0.5f / (float)m_gPP.m_BackBufferWidth);
-    m_HalfPixel.y = (0.5f / (float)m_gPP.m_BackBufferHeight);
+    m_HalfPixel.x = (0.5f / (float)m_GraphicPP.m_GameBackBufferWidth);
+    m_HalfPixel.y = (0.5f / (float)m_GraphicPP.m_GameBackBufferHeight);
 }
 
-AEResult GraphicDevice::OnLostDevice()
+void GraphicDevice::OnLostDevice()
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     //First all Related to the Graphic Device
-    ReleaseDefaultRTDS();
-
-    return AEResult::Ok;
+#ifdef AE_EDITOR_MODE
+    CleanUpEditorRenderTargets();
+#else
+    CleanUpGameDepthStencil();
+    CleanUpGameRenderTargets();
+#endif
 }
 
-AEResult GraphicDevice::OnResetDevice()
-{    
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+void GraphicDevice::OnResetDevice()
+{
+    AEAssert(m_IsReady);
 
     //First all Related to the Graphic Device
-    CreateDefaultRTDS();
+
+#ifdef AE_EDITOR_MODE
+    CreateEditorRenderTarget();
+#else
+    InitGameRTDS();
+#endif
 
     //Second The Rest
     ResetHalfPixel();
-    
-    return AEResult::Ok;
-}
-
-AEResult GraphicDevice::DrawFullScreenQuad(const glm::vec4& texCoord)
-{
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
-
-    RECT size = { 0, 0, (LONG)m_gPP.m_BackBufferWidth, (LONG)m_gPP.m_BackBufferHeight };
-
-    return DrawQuad2D(size, texCoord);
-}
-
-AEResult GraphicDevice::DrawQuad2D(const RECT& size, const glm::vec4& texCoord)
-{
-    AEAssert(m_QuadShape2D != nullptr);
-
-    if(!m_IsReady || m_QuadShape2D == nullptr)
-    {
-        return AEResult::NotReady;
-    }
-
-    m_QuadShape2D->Resize(size, texCoord);
-
-    return m_QuadShape2D->DrawQuad();
 }
 
 AEResult GraphicDevice::CheckDevCaps(const std::string& file)
@@ -261,17 +246,13 @@ AEResult GraphicDevice::CheckDevCaps(const std::string& file)
     }
 
     AEXMLParser devCapsXML = newFile["DevCaps"];
-    if ( !devCapsXML.IsReady() )
+    if ( !devCapsXML.HasElement() )
     {
         return AEResult::Fail;
     }
 
-    uint16_t l_Count = devCapsXML.GetNumChildren();
-
-    for( uint16_t i = 0; i < l_Count; ++i )
+    for (AEXMLParser child = devCapsXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = devCapsXML(i);
-
         std::string l_Type = child.GetName();
 
         if( l_Type.compare("PixelShader") == 0 )
@@ -314,58 +295,69 @@ AEResult GraphicDevice::CheckDevCaps(const std::string& file)
         }
     }
 
-    return this->CheckDevCaps(devCaps);
+    return CheckDevCaps(devCaps);
+}
+
+AEResult GraphicDevice::CheckDevCaps(const GraphicsCheckDevCaps& devCaps)
+{
+    AEAssert(m_IsReady);
+
+    AEAssert(!"Not implemented");
+
+    return AEResult::Fail;
 }
 
 AEResult GraphicDevice::InitDXConfiguration()
 {
-    if(InitSwapChainDesc() != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    InitSwapChainDesc();
 
     return AEResult::Ok;
 }
 
-AEResult GraphicDevice::InitSwapChainDesc()
+void GraphicDevice::InitSwapChainDesc()
 {
     ZeroMemory(&m_SwapChainDescDX, sizeof(DXGI_SWAP_CHAIN_DESC));
     
     //Fill out a DXGI_SWAP_CHAIN_DESC to describe our swap chain.
-    m_SwapChainDescDX.BufferDesc.Width                      = m_gPP.m_BackBufferWidth;
-    m_SwapChainDescDX.BufferDesc.Height                     = m_gPP.m_BackBufferHeight;
+#ifdef AE_EDITOR_MODE
+    m_SwapChainDescDX.BufferDesc.Width                      = m_GraphicPP.m_EditorBackBufferWidth;
+    m_SwapChainDescDX.BufferDesc.Height                     = m_GraphicPP.m_EditorBackBufferHeight;
+#else
+    m_SwapChainDescDX.BufferDesc.Width                      = m_GraphicPP.m_GameBackBufferWidth;
+    m_SwapChainDescDX.BufferDesc.Height                     = m_GraphicPP.m_GameBackBufferHeight;
+#endif
+
     AETODO("Check into Scaling");
     m_SwapChainDescDX.BufferDesc.Scaling                    = DXGI_MODE_SCALING_UNSPECIFIED;
     m_SwapChainDescDX.BufferDesc.ScanlineOrdering           = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+
     AETODO("Check Numerator and Denominator for Refresh Rate");
     m_SwapChainDescDX.BufferDesc.RefreshRate.Numerator      = 60;
     m_SwapChainDescDX.BufferDesc.RefreshRate.Denominator    = 1;
 
-    if(m_gPP.m_Windowed)
+    if(m_GraphicPP.m_Windowed)
     {
-        m_SwapChainDescDX.BufferDesc.Format = m_gPP.m_BackBufferFormatWindowed;
+        m_SwapChainDescDX.BufferDesc.Format = m_GraphicPP.m_BackBufferFormatWindowed;
     }
     else
     {
-        m_SwapChainDescDX.BufferDesc.Format = m_gPP.m_BackBufferFormatFullScreen;
+        m_SwapChainDescDX.BufferDesc.Format = m_GraphicPP.m_BackBufferFormatFullScreen;
     }
 
-    m_SwapChainDescDX.OutputWindow          = m_gPP.m_DeviceWindow;
-    m_SwapChainDescDX.Windowed              = m_gPP.m_Windowed;
-    m_SwapChainDescDX.SampleDesc            = m_gPP.m_MultiSample;
+    m_SwapChainDescDX.OutputWindow          = m_GraphicPP.m_DeviceWindow;
+    m_SwapChainDescDX.Windowed              = m_GraphicPP.m_Windowed;
+    m_SwapChainDescDX.SampleDesc            = m_GraphicPP.m_MultiSample;
 
     AETODO("Check into Usage Render Target Output");
     AETODO("Add option to Back Buffer");
-    m_SwapChainDescDX.BufferCount           = m_gPP.m_BackBufferCount; // = 2;                               // Use double buffering to minimize latency.
+    m_SwapChainDescDX.BufferCount           = m_GraphicPP.m_BackBufferCount; // = 2;                               // Use double buffering to minimize latency.
     m_SwapChainDescDX.BufferUsage           = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     
     //DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL; // All Metro style apps must use this SwapEffect.
-    m_SwapChainDescDX.SwapEffect            = m_gPP.m_SwapEffect;
+    m_SwapChainDescDX.SwapEffect            = m_GraphicPP.m_SwapEffect;
     
     AETODO("Check into Swap Chain Flags");
     m_SwapChainDescDX.Flags                 = 0;
-    
-    return AEResult::Ok;
 }
 
 AEResult GraphicDevice::CreateSwapChain()
@@ -374,9 +366,9 @@ AEResult GraphicDevice::CreateSwapChain()
     // used to create the device.  If we tried to use a different IDXGIFactory instance
     // (by calling CreateDXGIFactory), we get an error: "IDXGIFactory::CreateSwapChain: 
     // This function is being called with a device from a different IDXGIFactory."
-    IDXGIDevice* dxgiDevice = nullptr;
-    IDXGIAdapter* dxgiAdapter = nullptr;
-    IDXGIFactory* dxgiFactory = nullptr;
+    IDXGIDevice* dxgiDevice     = nullptr;
+    IDXGIAdapter* dxgiAdapter   = nullptr;
+    IDXGIFactory* dxgiFactory   = nullptr;
     HRESULT hr = S_OK;
 
     hr = m_DeviceDX->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&dxgiDevice));
@@ -424,9 +416,9 @@ AEResult GraphicDevice::CreateSwapChain()
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<IDXGISwapChain>(m_SwapChainDX, AE_DEBUG_MAIN_SC_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_SwapChainDX, AE_DEBUG_MAIN_SC_NAME);
 
-    //AETODO("Check into this");
+    AETODO("Check into this");
     //// Ensure that DXGI does not queue more than one frame at a time. This both reduces
     //// latency and ensures that the application will only render after each VSync, minimizing
     //// power consumption.
@@ -439,32 +431,29 @@ AEResult GraphicDevice::CreateSwapChain()
     return AEResult::Ok;
 }
 
-AEResult GraphicDevice::InitViewport()
+void GraphicDevice::InitGameViewport()
 {
     // Set the viewport Transform.
-    m_ScreenViewportDX.TopLeftX = 0;
-    m_ScreenViewportDX.TopLeftY = 0;
-    m_ScreenViewportDX.Width    = static_cast<float>(m_gPP.m_BackBufferWidth);
-    m_ScreenViewportDX.Height   = static_cast<float>(m_gPP.m_BackBufferHeight);
-    m_ScreenViewportDX.MinDepth = 0.0f;
-    m_ScreenViewportDX.MaxDepth = 1.0f;
+    m_GameViewportDX.TopLeftX = 0;
+    m_GameViewportDX.TopLeftY = 0;
+    m_GameViewportDX.Width    = static_cast<float>(m_GraphicPP.m_GameBackBufferWidth);
+    m_GameViewportDX.Height   = static_cast<float>(m_GraphicPP.m_GameBackBufferHeight);
+    m_GameViewportDX.MinDepth = 0.0f;
+    m_GameViewportDX.MaxDepth = 1.0f;
 
-    m_DeviceContextDX->RSSetViewports(1, &m_ScreenViewportDX);
-
-    return AEResult::Ok;
+    m_DeviceContextDX->RSSetViewports(1, &m_GameViewportDX);
 }
 
-AEResult GraphicDevice::CreateDefaultRTDS()
+AEResult GraphicDevice::InitGameRTDS()
 {    
-    if(CreateDepthStencil() == AEResult::Fail)
+    if(CreateGameDepthStencil() == AEResult::Fail)
     {
         return AEResult::Fail;
     }
 
-    if(CreateRenderTarget() == AEResult::Fail)
+    if(CreateGameRenderTarget() == AEResult::Fail)
     {
-        ReleaseCOM(m_DefaultDepthStencilBufferDX);
-        ReleaseCOM(m_DefaultDepthStencilViewDX);
+        CleanUpGameDepthStencil();
 
         return AEResult::Fail;
     }
@@ -472,29 +461,30 @@ AEResult GraphicDevice::CreateDefaultRTDS()
     //////////////////////////////////////////////////////////////////////////////////
     //Bind the render target view and depth/stencil view to the pipeline.
     memset(m_CurrentRenderTargetViewsDX, 0, sizeof(ID3D11RenderTargetView*) * m_MaxNumRenderTargets);
-    m_CurrentRenderTargetViewsDX[0] = m_DefaultRenderTargetViewDX;
-    m_HighestRenderTargetStage = 1;
 
-    m_CurrentDepthStencilViewDX = m_DefaultDepthStencilViewDX;
+    m_CurrentRenderTargetViewsDX[0] = m_GameRenderTargetViewDX;
+    m_HighestRenderTargetStage      = 1;
+
+    m_CurrentDepthStencilViewDX     = m_GameDepthStencilViewDX;
 
     m_DeviceContextDX->OMSetRenderTargets(m_HighestRenderTargetStage, m_CurrentRenderTargetViewsDX, m_CurrentDepthStencilViewDX);
 
     return AEResult::Ok;
 }
 
-AEResult GraphicDevice::CreateDepthStencil()
+AEResult GraphicDevice::CreateGameDepthStencil()
 {
     D3D11_TEXTURE2D_DESC depthStencilDesc = { 0 };
 
-    depthStencilDesc.Format             = m_gPP.m_DepthStencilFormat;
+    depthStencilDesc.Format             = m_GraphicPP.m_DepthStencilFormat;
 
-    depthStencilDesc.Width              = m_gPP.m_BackBufferWidth;
-    depthStencilDesc.Height             = m_gPP.m_BackBufferHeight;
+    depthStencilDesc.Width              = m_GraphicPP.m_GameBackBufferWidth;
+    depthStencilDesc.Height             = m_GraphicPP.m_GameBackBufferHeight;
 
     depthStencilDesc.MipLevels          = 1; //Depth Stencil for Default has 1 Mip Map
     depthStencilDesc.ArraySize          = 1; //Depth Stencil for Default has 1 Array Size
     
-    depthStencilDesc.SampleDesc         = m_gPP.m_MultiSample;
+    depthStencilDesc.SampleDesc         = m_GraphicPP.m_MultiSample;
 
     AETODO("Check Flags");
     depthStencilDesc.Usage              = D3D11_USAGE_DEFAULT;
@@ -502,128 +492,150 @@ AEResult GraphicDevice::CreateDepthStencil()
     depthStencilDesc.CPUAccessFlags     = 0; 
     depthStencilDesc.MiscFlags          = 0;
 
-    HRESULT hr = S_OK;
-
-    hr = m_DeviceDX->CreateTexture2D(&depthStencilDesc, nullptr, &m_DefaultDepthStencilBufferDX);
-    
+    HRESULT hr = m_DeviceDX->CreateTexture2D(&depthStencilDesc, nullptr, &m_GameDepthStencilBufferDX);
     if(hr != S_OK)
     {
         DisplayError(hr);
-
         return AEResult::Fail;
     }
+    AEGraphicHelpers::SetDebugObjectName(m_GameDepthStencilBufferDX, AE_DEBUG_GAME_DST_NAME);
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_DefaultDepthStencilBufferDX, AE_DEBUG_MAIN_DST_NAME);
-    
     AETODO("Check Depth Stencil View Desc");
-    hr = m_DeviceDX->CreateDepthStencilView(m_DefaultDepthStencilBufferDX, 0, &m_DefaultDepthStencilViewDX);
-    
+    hr = m_DeviceDX->CreateDepthStencilView(m_GameDepthStencilBufferDX, 0, &m_GameDepthStencilViewDX);
     if(hr != S_OK)
     {
+        CleanUpGameDepthStencil();
+
         DisplayError(hr);
-
-        ReleaseCOM(m_DefaultDepthStencilBufferDX);
-
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11DepthStencilView>(m_DefaultDepthStencilViewDX, AE_DEBUG_MAIN_DSV_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_GameDepthStencilViewDX, AE_DEBUG_GAME_DSV_NAME);
 
     return AEResult::Ok;
 }
 
-AEResult GraphicDevice::CreateRenderTarget()
+AEResult GraphicDevice::CreateGameRenderTarget()
 {
+#ifdef AE_EDITOR_MODE
+    D3D11_TEXTURE2D_DESC dxDesc = { 0 };
+
+    dxDesc.Width                = m_GraphicPP.m_GameBackBufferWidth;
+    dxDesc.Height               = m_GraphicPP.m_GameBackBufferHeight;
+    dxDesc.MipLevels            = 1;
+    dxDesc.ArraySize            = 1;
+    dxDesc.Usage                = D3D11_USAGE_DEFAULT;
+    dxDesc.BindFlags            = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+    dxDesc.CPUAccessFlags       = 0;
+    dxDesc.Format               = m_GraphicPP.m_BackBufferFormatWindowed;    
+    dxDesc.MiscFlags            = 0;
+    dxDesc.SampleDesc.Count     = 1;
+    dxDesc.SampleDesc.Quality   = 0;
+    AETODO("Check multisample");
+    AETODO("Check other flags for RT and if Mip Map is needed");
+
+    HRESULT hr = m_DeviceDX->CreateTexture2D(&dxDesc, nullptr, &m_GameRenderTargetBufferDX);
+    if (hr != S_OK)
+    {
+        CleanUpGameRenderTargets();
+        DisplayError(hr);
+        return AEResult::CreateTextureFailed;
+    }
+    AEGraphicHelpers::SetDebugObjectName(m_GameRenderTargetBufferDX, AE_DEBUG_GAME_RTT_NAME);
+
+    hr = m_DeviceDX->CreateShaderResourceView(m_GameRenderTargetBufferDX, nullptr, &m_GameRenderTargetSRV);
+    if (hr != S_OK)
+    {
+        CleanUpGameRenderTargets();
+        DisplayError(hr);
+        return AEResult::CreateSRViewFailed;
+    }
+    AEGraphicHelpers::SetDebugObjectName(m_GameRenderTargetSRV, AE_DEBUG_GAME_SRV_NAME);
+
+    AETODO("Check Render Target Desc");
+    hr = m_DeviceDX->CreateRenderTargetView(m_GameRenderTargetBufferDX, nullptr, &m_GameRenderTargetViewDX);
+    if (hr != S_OK)
+    {
+        CleanUpGameRenderTargets();
+        DisplayError(hr);
+        return AEResult::CreateRTViewFailed;
+    }
+    AEGraphicHelpers::SetDebugObjectName(m_GameRenderTargetViewDX, AE_DEBUG_GAME_RTV_NAME);
+
+#else
+
     ID3D11Texture2D* backBuffer = nullptr;
 
-    HRESULT hr = S_OK;
-
-    hr = m_SwapChainDX->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
-    
-    if(hr != S_OK)
+    HRESULT hr = m_SwapChainDX->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
+    if (hr != S_OK)
     {
         DisplayError(hr);
-
         return AEResult::Fail;
     }
 
-    hr = m_DeviceDX->CreateRenderTargetView(backBuffer, 0, &m_DefaultRenderTargetViewDX);
-    
+    hr = m_DeviceDX->CreateRenderTargetView(backBuffer, 0, &m_GameRenderTargetViewDX);
     ReleaseCOM(backBuffer);
-
-    if(hr != S_OK)
+    if (hr != S_OK)
     {
         DisplayError(hr);
-
         return AEResult::Fail;
     }
-    
-    AEGraphicHelpers::SetDebugObjectName<ID3D11RenderTargetView>(m_DefaultRenderTargetViewDX, AE_DEBUG_MAIN_RTV_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_GameRenderTargetViewDX, AE_DEBUG_GAME_RTV_NAME);
+
+#endif
 
     return AEResult::Ok;
 }
 
-void GraphicDevice::ReleaseDefaultRTDS()
+void GraphicDevice::ResetDevice()
 {
-    ReleaseCOM(m_DefaultDepthStencilBufferDX);
-    ReleaseCOM(m_DefaultDepthStencilViewDX);
-    ReleaseCOM(m_DefaultRenderTargetViewDX);
-}
-
-AEResult GraphicDevice::ResetDevice()
-{
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     HRESULT hr = S_OK;
 
     //Do anything that needs to be done with graphic device when it is lost
-    if(OnLostDevice() != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    OnLostDevice();
 
     AETODO("Check to see reset failures to Device");
 
     //Resize Swap Chain
     AETODO("Check to see if we are in full screen or window");
     AETODO("Check Swap Chain Flags");
-    hr = m_SwapChainDX->ResizeBuffers(1, m_gPP.m_BackBufferWidth, m_gPP.m_BackBufferHeight, m_gPP.m_BackBufferFormatFullScreen, 0);
+#ifdef AE_EDITOR_MODE
+    hr = m_SwapChainDX->ResizeBuffers(1, m_GraphicPP.m_EditorBackBufferWidth, m_GraphicPP.m_EditorBackBufferHeight, m_GraphicPP.m_BackBufferFormatFullScreen, 0);
+#else
+    hr = m_SwapChainDX->ResizeBuffers(1, m_GraphicPP.m_GameBackBufferWidth, m_GraphicPP.m_GameBackBufferHeight, m_GraphicPP.m_BackBufferFormatFullScreen, 0);
+#endif
 
+    AEAssert(hr == S_OK);
     if(hr != S_OK)
     {
         DisplayError(hr);
-
-        return AEResult::Fail;
+        return;
     }
 
-    if(InitViewport() != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+#ifdef AE_EDITOR_MODE
+    InitEditorViewport();
+#else
+    InitGameViewport();
+#endif
 
     //Do Anything that needs to be done when Graphic Device is reset
-    if(OnResetDevice() != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
-
-    return AEResult::Ok;
+    OnResetDevice();
 }
 
-AEResult GraphicDevice::Resize(uint32_t width, uint32_t height)
+void GraphicDevice::Resize(uint32_t width, uint32_t height)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
-    m_gPP.m_BackBufferWidth = width;
-    m_gPP.m_BackBufferHeight = height;
+    m_GraphicPP.m_GameBackBufferWidth     = width;
+    m_GraphicPP.m_GameBackBufferHeight    = height;
 
-    return ResetDevice();
+#ifdef AE_EDITOR_MODE
+    ResetGameRenderTargetView();
+#else
+    ResetDevice();
+#endif
 }
 
 AEResult GraphicDevice::InitDevice()
@@ -648,7 +660,7 @@ AEResult GraphicDevice::InitDevice()
     createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-    if(m_gPP.m_SingleThreaded)
+    if(m_GraphicPP.m_SingleThreaded)
     {
         createDeviceFlags |= D3D11_CREATE_DEVICE_SINGLETHREADED;
     }
@@ -686,8 +698,8 @@ AEResult GraphicDevice::InitDevice()
     }
 
     //Add names to DX Objects for Debugging
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Device>(m_DeviceDX, AE_DEBUG_MAIN_GD_NAME);
-    AEGraphicHelpers::SetDebugObjectName<ID3D11DeviceContext>(m_DeviceContextDX, AE_DEBUG_MAIN_DC_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_DeviceDX, AE_DEBUG_MAIN_GD_NAME);
+    AEGraphicHelpers::SetDebugObjectName(m_DeviceContextDX, AE_DEBUG_MAIN_DC_NAME);
 
     AETODO("CHECK Device1 and other stuff, it is only available in windows 8");
     //hr = device->QueryInterface(__uuidof(ID3D11Device1), (void**)&m_DX3D11Device);
@@ -749,8 +761,10 @@ AEResult GraphicDevice::InitDevice()
         return AEResult::CreateDXSwapChainFail;
     }
 
-    //Create Default Render Targets
-    if(CreateDefaultRTDS() != AEResult::Ok)
+#ifdef AE_EDITOR_MODE
+
+    //Create Editor Render Targets
+    if (CreateEditorRenderTarget() != AEResult::Ok)
     {
         ReleaseCOM(m_DeviceDX);
         ReleaseCOM(m_DeviceContextDX);
@@ -760,16 +774,24 @@ AEResult GraphicDevice::InitDevice()
         return AEResult::CreateDXDefaultRTDSFail;
     }
 
-    //Create Viewport
-    if(InitViewport() != AEResult::Ok)
+    //Create Editor Viewport
+    InitEditorViewport();
+
+#endif
+
+    //Create Game Render Targets
+    if(InitGameRTDS() != AEResult::Ok)
     {
         ReleaseCOM(m_DeviceDX);
         ReleaseCOM(m_DeviceContextDX);
 
-        AELogHelpers::Log(LogLevel::Error, LogSystem::Graphics, "DX_11_FAIL_VIEWPORT_ERR_MSG", __FUNCTION__);
+        AELogHelpers::Log(LogLevel::Error, LogSystem::Graphics, "DX_11_FAIL_RENDER_TARGETS_ERR_MSG", __FUNCTION__);
 
-        return AEResult::InitViewportFail;
+        return AEResult::CreateDXDefaultRTDSFail;
     }
+
+    //Create Game Viewport
+    InitGameViewport();
 
 #if defined(AE_GRAPHIC_DEBUG_DEVICE)
 
@@ -836,27 +858,22 @@ AEResult GraphicDevice::InitGraphicObjects()
     return AEResult::Ok;
 }
 
-AEResult GraphicDevice::Clear(bool target, uint32_t rt_stage_id, bool depth, bool stencil, const Color& color, float depthVal, uint8_t stencilVal)
+void GraphicDevice::Clear(bool target, uint32_t rt_stage_id, bool depth, bool stencil, const Color& color, float depthVal, uint8_t stencilVal)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     if(target)
     {
         AEAssert(rt_stage_id < m_MaxNumRenderTargets);
         if(rt_stage_id >= m_MaxNumRenderTargets)
         {
-            AETODO("Add better return error and log");
-            return AEResult::OutsideRange;
+            return;
         }
 
         AEAssert(m_CurrentRenderTargetViewsDX[rt_stage_id] != nullptr);
         if(m_CurrentRenderTargetViewsDX[rt_stage_id] == nullptr)
         {
-            AETODO("Add better return error and log");
-            return AEResult::NullObj;
+            return;
         }
 
         AETODO("Back buffer color argb order check");
@@ -887,16 +904,11 @@ AEResult GraphicDevice::Clear(bool target, uint32_t rt_stage_id, bool depth, boo
 
         m_DeviceContextDX->ClearDepthStencilView(m_CurrentDepthStencilViewDX, cFlag, depthVal, stencilVal);
     }
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::Present()
+void GraphicDevice::Present()
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     AETODO("Check Present1");
     //AETODO("CHECK DXGI_PRESENT_PARAMETERS");
@@ -911,62 +923,42 @@ AEResult GraphicDevice::Present()
     AETODO("Correct Parameters pass to Present to make it more flexible");
     HRESULT hr = m_SwapChainDX->Present(0, 0);
 
+    AEAssert(hr == S_OK)
     if(hr != S_OK)
     {
         DisplayError(hr);
-
-        return AEResult::Fail;
     }
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::CheckDevCaps(const GraphicsCheckDevCaps& devCaps)
+void GraphicDevice::SetRenderTarget(uint32_t stage_id, RenderTarget* rt)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
-
-    AEAssert(!"Not implemented");
-
-    return AEResult::Ok;
-}
-
-AEResult GraphicDevice::SetRenderTarget(uint32_t stage_id, RenderTarget* rt)
-{
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ///////////////////////////////////////
     //Verify that it does not past max num of render target
-    if(stage_id >= m_MaxNumRenderTargets)
+    AEAssert(stage_id < m_MaxNumRenderTargets);
+    if (stage_id >= m_MaxNumRenderTargets)
     {
-        AETODO("Set better fail error");
-        return AEResult::OutsideRange;
+        return;
+    }
+    
+    ID3D11RenderTargetView* rtDX = nullptr;
+
+    ///////////////////////////////////////
+    //Set Render Target
+    if(rt != nullptr)
+    {
+        rtDX = rt->GetDXRenderTargetView();
+        AEAssert(rtDX != nullptr);
     }
 
     ///////////////////////////////////////
     //Set Render Target
-    if(rt == nullptr)
-    {
-        m_CurrentRenderTargetViewsDX[stage_id] = nullptr;
-    }
-    else
-    {
-        m_CurrentRenderTargetViewsDX[stage_id] = rt->GetDXRenderTargetView();
-
-        if(m_CurrentRenderTargetViewsDX[stage_id] == nullptr)
-        {
-            AETODO("Log warning");
-        }
-    }
+    m_CurrentRenderTargetViewsDX[stage_id] = rtDX;
 
     ///////////////////////////////////////
     //Set Highest Render Target Stage
-    m_HighestRenderTargetStage = ( (stage_id + 1) > m_HighestRenderTargetStage) ? (stage_id + 1) : m_HighestRenderTargetStage;
+    m_HighestRenderTargetStage = ((stage_id + 1) > m_HighestRenderTargetStage) ? (stage_id + 1) : m_HighestRenderTargetStage;
 
     ///////////////////////////////////////
     //Set Render Targets and Depth Stencil
@@ -975,34 +967,29 @@ AEResult GraphicDevice::SetRenderTarget(uint32_t stage_id, RenderTarget* rt)
     ///////////////////////////////////////
     //Set Highest Render Target Stage if
     //the last render target was null
-    if(m_CurrentRenderTargetViewsDX[stage_id] == nullptr && stage_id == m_HighestRenderTargetStage)
+    if (m_CurrentRenderTargetViewsDX[stage_id] == nullptr && stage_id == m_HighestRenderTargetStage)
     {
         bool setNewHigh = false;
 
         for (uint32_t i = stage_id; i >= 0 && !setNewHigh; i--)
         {
-            if(m_CurrentRenderTargetViewsDX[i] != nullptr)
+            if (m_CurrentRenderTargetViewsDX[i] != nullptr)
             {
                 m_HighestRenderTargetStage = i;
                 setNewHigh = true;
             }
         }
 
-        if(!setNewHigh)
+        if (!setNewHigh)
         {
             m_HighestRenderTargetStage = 0;
         }
     }
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetDepthStencil(DepthStencilSurface* depthStencilSurface)
+void GraphicDevice::SetDepthStencil(DepthStencilSurface* depthStencilSurface)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ///////////////////////////////////////
     //Set Depth Stencil
@@ -1010,6 +997,7 @@ AEResult GraphicDevice::SetDepthStencil(DepthStencilSurface* depthStencilSurface
     {
         m_CurrentDepthStencilViewDX = nullptr;
     }
+    else
     {
         m_CurrentDepthStencilViewDX = depthStencilSurface->GetDXDepthStencilView();
     }
@@ -1017,34 +1005,32 @@ AEResult GraphicDevice::SetDepthStencil(DepthStencilSurface* depthStencilSurface
     ///////////////////////////////////////
     //Set Render Targets and Depth Stencil
     m_DeviceContextDX->OMSetRenderTargets(m_HighestRenderTargetStage, m_CurrentRenderTargetViewsDX, m_CurrentDepthStencilViewDX);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetRenderTargetsAndDepthStencil(uint32_t numRTs, RenderTarget* rts[], DepthStencilSurface* depthStencilSurface)
+void GraphicDevice::SetRenderTargetsAndDepthStencil(uint32_t numRTs, RenderTarget* rts[], DepthStencilSurface* depthStencilSurface)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     AEAssert(rts != nullptr);
     if (rts == nullptr)
     {
-        return AEResult::NullParameter;
+        return;
     }
 
     ///////////////////////////////////////
     //Verify that it does not past max num of render target
-    if(numRTs >= m_MaxNumRenderTargets)
+    AEAssert(numRTs <= m_MaxNumRenderTargets)
+    if(numRTs > m_MaxNumRenderTargets)
     {
-        AETODO("Set better fail error");
-        return AEResult::OutsideRange;
+        return;
     }
 
     ///////////////////////////////////////
     //Clear Render Targets
-    memset(m_CurrentRenderTargetViewsDX, 0, sizeof(ID3D11RenderTargetView*) * m_MaxNumRenderTargets);
+    for (uint32_t i = 0; i < m_MaxNumRenderTargets; ++i)
+    {
+        m_CurrentRenderTargetViewsDX[i] = nullptr;
+    }
 
     ///////////////////////////////////////
     //Set Render Targets
@@ -1077,49 +1063,44 @@ AEResult GraphicDevice::SetRenderTargetsAndDepthStencil(uint32_t numRTs, RenderT
     ///////////////////////////////////////
     //Set Render Targets and Depth Stencil
     m_DeviceContextDX->OMSetRenderTargets(m_HighestRenderTargetStage, m_CurrentRenderTargetViewsDX, m_CurrentDepthStencilViewDX);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetRenderTargets(uint32_t numRTs, uint32_t idxs[], Texture2DArray* rtArray)
+void GraphicDevice::SetRenderTargets(uint32_t numRTs, uint32_t idxs[], Texture2DArray* rtArray)
 {
-    ///////////////////////////////////////
-    //Pre-checks
-    if (!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
-    AEAssert(rtArray != nullptr);
-    AEAssert(idxs != nullptr);
+    AEAssert(rtArray != nullptr && idxs != nullptr);
     if (rtArray == nullptr || idxs == nullptr)
     {
-        return AEResult::NullParameter;
+        return;
     }
 
     AEAssert(rtArray->GetTextureBindOption() == TextureBindOption::RenderTarget);
     if (rtArray->GetTextureBindOption() != TextureBindOption::RenderTarget)
     {
-        return AEResult::InvalidObjType;
+        return;
     }
 
     AEAssert(numRTs <= rtArray->GetSize())
     if (numRTs > rtArray->GetSize())
     {
-        return AEResult::OutsideRange;
+        return;
     }
 
     ///////////////////////////////////////
     //Verify that it does not past max num of render target
-    if (numRTs >= m_MaxNumRenderTargets)
+    AEAssert(numRTs <= m_MaxNumRenderTargets)
+    if (numRTs > m_MaxNumRenderTargets)
     {
-        AETODO("Set better fail error");
-        return AEResult::OutsideRange;
+        return;
     }
 
     ///////////////////////////////////////
     //Clear Render Targets
-    memset(m_CurrentRenderTargetViewsDX, 0, sizeof(ID3D11RenderTargetView*)* m_MaxNumRenderTargets);
+    for (uint32_t i = 0; i < m_MaxNumRenderTargets; ++i)
+    {
+        m_CurrentRenderTargetViewsDX[i] = nullptr;
+    }
 
     ///////////////////////////////////////
     //Set Render Targets
@@ -1135,24 +1116,22 @@ AEResult GraphicDevice::SetRenderTargets(uint32_t numRTs, uint32_t idxs[], Textu
     ///////////////////////////////////////
     //Set Render Targets and Depth Stencil
     m_DeviceContextDX->OMSetRenderTargets(m_HighestRenderTargetStage, m_CurrentRenderTargetViewsDX, m_CurrentDepthStencilViewDX);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::ResetRenderTarget()
+void GraphicDevice::ResetRenderTarget()
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ///////////////////////////////////////
     //Clear Render Targets
-    memset(m_CurrentRenderTargetViewsDX, 0, sizeof(ID3D11RenderTargetView*) * m_MaxNumRenderTargets);
+    for (uint32_t i = 0; i < m_MaxNumRenderTargets; ++i)
+    {
+        m_CurrentRenderTargetViewsDX[i] = nullptr;
+    }
 
     ///////////////////////////////////////
     //Set Default Render Targets
-    m_CurrentRenderTargetViewsDX[0] = m_DefaultRenderTargetViewDX;
+    m_CurrentRenderTargetViewsDX[0] = m_GameRenderTargetViewDX;
 
     ///////////////////////////////////////
     //Set Highest Render Target Stage 
@@ -1161,42 +1140,35 @@ AEResult GraphicDevice::ResetRenderTarget()
     ///////////////////////////////////////
     //Set Render Targets and Depth Stencil
     m_DeviceContextDX->OMSetRenderTargets(m_HighestRenderTargetStage, m_CurrentRenderTargetViewsDX, m_CurrentDepthStencilViewDX);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::ResetDepthStencil()
+void GraphicDevice::ResetDepthStencil()
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ///////////////////////////////////////
     //Set Default Depth Stencil
-    m_CurrentDepthStencilViewDX = m_DefaultDepthStencilViewDX;
+    m_CurrentDepthStencilViewDX = m_GameDepthStencilViewDX;
 
     ///////////////////////////////////////
     //Set Render Targets and Depth Stencil
     m_DeviceContextDX->OMSetRenderTargets(m_HighestRenderTargetStage, m_CurrentRenderTargetViewsDX, m_CurrentDepthStencilViewDX);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::ResetRenderTargetAndSetDepthStencil()
+void GraphicDevice::ResetRenderTargetAndSetDepthStencil()
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ///////////////////////////////////////
     //Clear Render Targets
-    memset(m_CurrentRenderTargetViewsDX, 0, sizeof(ID3D11RenderTargetView*) * m_MaxNumRenderTargets);
+    for (uint32_t i = 0; i < m_MaxNumRenderTargets; ++i)
+    {
+        m_CurrentRenderTargetViewsDX[i] = nullptr;
+    }
 
     ///////////////////////////////////////
     //Set Default Render Targets
-    m_CurrentRenderTargetViewsDX[0] = m_DefaultRenderTargetViewDX;
+    m_CurrentRenderTargetViewsDX[0] = m_GameRenderTargetViewDX;
 
     ///////////////////////////////////////
     //Set Highest Render Target Stage 
@@ -1204,78 +1176,62 @@ AEResult GraphicDevice::ResetRenderTargetAndSetDepthStencil()
 
     ///////////////////////////////////////
     //Set Default Depth Stencil
-    m_CurrentDepthStencilViewDX = m_DefaultDepthStencilViewDX;
+    m_CurrentDepthStencilViewDX = m_GameDepthStencilViewDX;
 
     ///////////////////////////////////////
     //Set Render Targets and Depth Stencil
     m_DeviceContextDX->OMSetRenderTargets(m_HighestRenderTargetStage, m_CurrentRenderTargetViewsDX, m_CurrentDepthStencilViewDX);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetViewport(Viewport* viewport)
+void GraphicDevice::SetViewport(Viewport* viewport)
 {
-    if (!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     const D3D11_VIEWPORT viewportDX[1] = { viewport->GetViewportDX() };
 
     m_DeviceContextDX->RSSetViewports(1, viewportDX);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetViewport(uint32_t viewportNums, Viewport* viewports[])
+void GraphicDevice::SetViewport(uint32_t viewportNums, Viewport* viewports[])
 {
-    if (!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
-
-    if (viewportNums >= 8)
-    {
-        return AEResult::OutsideRange;
-    }
+    AEAssert(m_IsReady);
 
     AETODO("Check where to set max available viewports");
+    AEAssert(viewportNums < 8);
+    if (viewportNums >= 8)
+    {
+        return;
+    }
+
     D3D11_VIEWPORT viewportsDX[8] = { 0 };
 
-    for (uint32_t i = 0; i < viewportNums; i++)
+    for (uint32_t i = 0; i < viewportNums; ++i)
     {
         viewportsDX[i] = viewports[i]->GetViewportDX();
     }
 
     m_DeviceContextDX->RSSetViewports(viewportNums, viewportsDX);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::ResetViewport()
+void GraphicDevice::ResetViewport()
 {
-    if (!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
-    m_DeviceContextDX->RSSetViewports(1, &m_ScreenViewportDX);
-
-    return AEResult::Ok;
+#ifdef AE_EDITOR_MODE
+    m_DeviceContextDX->RSSetViewports(1, &m_GameViewportDX);
+#else
+    m_DeviceContextDX->RSSetViewports(1, &m_EditorViewportDX);
+#endif
 }
 
-AEResult GraphicDevice::SetIndexBuffer(IndexBuffer* ib, uint32_t offset)
+void GraphicDevice::SetIndexBuffer(IndexBuffer* ib, uint32_t offset)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
     
     AEAssert(ib != nullptr);
-
     if(ib == nullptr)
     {
-        return AEResult::NullParameter;
+        return;
     }
 
     if(!ib->IsReady())
@@ -1284,12 +1240,11 @@ AEResult GraphicDevice::SetIndexBuffer(IndexBuffer* ib, uint32_t offset)
 
         if(ret != AEResult::Ok)
         {
-            return AEResult::Fail;
+            return;
         }
     }
 
     DXGI_FORMAT dxFormat = DXGI_FORMAT_R16_UINT;
-
     if(ib->GetIndexBufferType() == IndexBufferType::Index32)
     {
         dxFormat = DXGI_FORMAT_R32_UINT;
@@ -1297,136 +1252,142 @@ AEResult GraphicDevice::SetIndexBuffer(IndexBuffer* ib, uint32_t offset)
     //Else it is 16
 
     m_DeviceContextDX->IASetIndexBuffer(ib->GetDXBuffer(), dxFormat, offset);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetVertexBuffer(IVertexBuffer* vb, uint32_t stream, uint32_t offset)
+void GraphicDevice::SetVertexBuffer(IVertexBuffer* vb, uint32_t stream, uint32_t offset)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
-    
-    AEAssert(vb != nullptr);
+    AEAssert(m_IsReady);
 
+    AEAssert(vb != nullptr);
     if(vb == nullptr)
     {
-        return AEResult::NullParameter;
+        return;
     }
 
     if(!vb->IsReady())
     {
         AEResult ret = vb->BuildVertexBuffer();
 
+        AEAssert(ret == AEResult::Ok);
         if(ret != AEResult::Ok)
         {
-            return AEResult::Fail;
+            return;
         }
     }
 
     const VertexLayout* vtxLayout = vb->GetVertexLayout();
 
+    AEAssert(vtxLayout != nullptr);
     if(vtxLayout == nullptr)
     {
-        return AEResult::Fail;
+        return;
     }
 
+    AEAssert(vtxLayout->IsReady());
     if(!vtxLayout->IsReady())
     {
-        return AEResult::Fail;
+        return;
     }
 
     m_DeviceContextDX->IASetInputLayout(vtxLayout->GetDXLayout());
 
-    uint32_t vbSize = vb->VertexSize();
-    ID3D11Buffer* vbDx = vb->GetDXBuffer();
+    uint32_t vbSize     = vb->VertexSize();
+    ID3D11Buffer* vbDx  = vb->GetDXBuffer();
 
     m_DeviceContextDX->IASetVertexBuffers(stream, 1, &vbDx, &vbSize, &offset);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY primitive)
+void GraphicDevice::SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY primitive)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     m_DeviceContextDX->IASetPrimitiveTopology(primitive);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::Draw(uint32_t vertexCount, uint32_t startVertex)
+void GraphicDevice::Draw(uint32_t vertexCount, uint32_t startVertex)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     m_DeviceContextDX->Draw(vertexCount, startVertex);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::DrawIndexed(uint32_t startVertex, uint32_t startIndex, uint32_t indexCount)
+void GraphicDevice::DrawIndexed(uint32_t startVertex, uint32_t startIndex, uint32_t indexCount)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     m_DeviceContextDX->DrawIndexed(indexCount, startIndex, startVertex);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::DispatchComputeShader(uint32_t threadGroupCountX, uint32_t threadGroupCountY, uint32_t threadGroupCountZ)
+void GraphicDevice::DrawFullScreenQuad(const glm::vec4& texCoord)
 {
-    if(!m_IsReady)
+    AEAssert(m_IsReady);
+
+    RECT size = { 0, 0, (LONG)m_GraphicPP.m_GameBackBufferWidth, (LONG)m_GraphicPP.m_GameBackBufferHeight };
+
+    DrawQuad2D(size, texCoord);
+}
+
+void GraphicDevice::DrawQuad2D(const RECT& size, const glm::vec4& texCoord)
+{
+    AEAssert(m_IsReady);
+
+    AEAssert(m_QuadShape2D != nullptr);
+    if (m_QuadShape2D == nullptr)
     {
-        return AEResult::NotReady;
+        return;
     }
+
+    m_QuadShape2D->Resize(size, texCoord);
+
+    m_QuadShape2D->DrawQuad();
+}
+
+void GraphicDevice::DispatchComputeShader(uint32_t threadGroupCountX, uint32_t threadGroupCountY, uint32_t threadGroupCountZ)
+{
+    AEAssert(m_IsReady);
 
     m_DeviceContextDX->Dispatch(threadGroupCountX, threadGroupCountY, threadGroupCountZ);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetShader(Shader* shader)
+void GraphicDevice::SetShader(Shader* shader)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     switch (shader->GetShaderType())
     {
         case ShaderType::VertexShader:
-            return SetVertexShader(reinterpret_cast<VertexShader*>(shader));
+            SetVertexShader(reinterpret_cast<VertexShader*>(shader));
+            break;
+
         case ShaderType::PixelShader:
-            return SetPixelShader(reinterpret_cast<PixelShader*>(shader));
+            SetPixelShader(reinterpret_cast<PixelShader*>(shader));
+            break;
+
         case ShaderType::GeometryShader:
-            return SetGeometryShader(reinterpret_cast<GeometryShader*>(shader));
+            SetGeometryShader(reinterpret_cast<GeometryShader*>(shader));
+            break;
+
         case ShaderType::HullShader:
-            return SetHullShader(reinterpret_cast<HullShader*>(shader));
+            SetHullShader(reinterpret_cast<HullShader*>(shader));
+            break;
+
         case ShaderType::ComputeShader:
-            return SetComputeShader(reinterpret_cast<ComputeShader*>(shader));
+            SetComputeShader(reinterpret_cast<ComputeShader*>(shader));
+            break;
+
         case ShaderType::DomainShader:
-            return SetDomainShader(reinterpret_cast<DomainShader*>(shader));
+            SetDomainShader(reinterpret_cast<DomainShader*>(shader));
+            break;
+
         default:
-            return AEResult::InvalidShaderType;
+            AEAssert(false);
+            break;
     }
 }
 
-AEResult GraphicDevice::SetVertexShader(VertexShader* vs)
+void GraphicDevice::SetVertexShader(VertexShader* vs)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11VertexShader* vsDX = nullptr;
 
@@ -1437,16 +1398,11 @@ AEResult GraphicDevice::SetVertexShader(VertexShader* vs)
 
     AETODO("Check Effect instances");
     m_DeviceContextDX->VSSetShader(vsDX, nullptr, 0);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetPixelShader(PixelShader* ps)
+void GraphicDevice::SetPixelShader(PixelShader* ps)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11PixelShader* psDX = nullptr;
 
@@ -1457,16 +1413,11 @@ AEResult GraphicDevice::SetPixelShader(PixelShader* ps)
 
     AETODO("Check Effect instances");
     m_DeviceContextDX->PSSetShader(psDX, nullptr, 0);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetGeometryShader(GeometryShader* gs)
+void GraphicDevice::SetGeometryShader(GeometryShader* gs)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11GeometryShader* gsDX = nullptr;
 
@@ -1477,16 +1428,11 @@ AEResult GraphicDevice::SetGeometryShader(GeometryShader* gs)
 
     AETODO("Check Effect instances");
     m_DeviceContextDX->GSSetShader(gsDX, nullptr, 0);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetHullShader(HullShader* hs)
+void GraphicDevice::SetHullShader(HullShader* hs)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11HullShader* hsDX = nullptr;
 
@@ -1497,16 +1443,11 @@ AEResult GraphicDevice::SetHullShader(HullShader* hs)
 
     AETODO("Check Effect instances");
     m_DeviceContextDX->HSSetShader(hsDX, nullptr, 0);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetDomainShader(DomainShader* ds)
+void GraphicDevice::SetDomainShader(DomainShader* ds)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11DomainShader* dsDX = nullptr;
 
@@ -1517,16 +1458,11 @@ AEResult GraphicDevice::SetDomainShader(DomainShader* ds)
 
     AETODO("Check Effect instances");
     m_DeviceContextDX->DSSetShader(dsDX, nullptr, 0);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetComputeShader(ComputeShader* cs)
+void GraphicDevice::SetComputeShader(ComputeShader* cs)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11ComputeShader* csDX = nullptr;
 
@@ -1537,16 +1473,11 @@ AEResult GraphicDevice::SetComputeShader(ComputeShader* cs)
 
     AETODO("Check Effect instances");
     m_DeviceContextDX->CSSetShader(csDX, nullptr, 0);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetTexture(ShaderType type, uint32_t index, Texture* texture)
+void GraphicDevice::SetTexture(ShaderType type, uint32_t index, Texture* texture)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11ShaderResourceView* textureSRV = nullptr;
 
@@ -1555,15 +1486,12 @@ AEResult GraphicDevice::SetTexture(ShaderType type, uint32_t index, Texture* tex
         textureSRV = texture->GetDXShaderResourceView();
     }
 
-    return SetShaderResourceView(type, index, textureSRV);
+    SetShaderResourceView(type, index, textureSRV);
 }
 
-AEResult GraphicDevice::SetTextureArray(ShaderType type, uint32_t index, TextureArray* textureArray)
+void GraphicDevice::SetTextureArray(ShaderType type, uint32_t index, TextureArray* textureArray)
 {
-    if (!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11ShaderResourceView* textureSRV = nullptr;
 
@@ -1572,15 +1500,12 @@ AEResult GraphicDevice::SetTextureArray(ShaderType type, uint32_t index, Texture
         textureSRV = textureArray->GetDXTextureArraySRV();
     }
 
-    return SetShaderResourceView(type, index, textureSRV);
+    SetShaderResourceView(type, index, textureSRV);
 }
 
-AEResult GraphicDevice::SetSampler(ShaderType type, Sampler* sampler, bool overrideBindIndex, uint32_t newIndex)
+void GraphicDevice::SetSampler(ShaderType type, Sampler* sampler, bool overrideBindIndex, uint32_t newIndex)
 {
-    if (!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11SamplerState* dxSamplers[1] = { nullptr };
     uint32_t bindIndex = 0;
@@ -1616,35 +1541,28 @@ AEResult GraphicDevice::SetSampler(ShaderType type, Sampler* sampler, bool overr
             m_DeviceContextDX->DSSetSamplers(bindIndex, 1, dxSamplers);
             break;
         default:
-            return AEResult::InvalidShaderType;
+            AEAssert(false);
+            break;
     }
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetShaderResourceView(ShaderType type, uint32_t index, ID3D11ShaderResourceView* srv)
+void GraphicDevice::SetShaderResourceView(ShaderType type, uint32_t index, ID3D11ShaderResourceView* srv)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11ShaderResourceView* arrDX[] = { srv };
 
-    return SetShaderResourceViews(type, index, 1, arrDX);
+    SetShaderResourceViews(type, index, 1, arrDX);
 }
 
-AEResult GraphicDevice::SetShaderResourceViews(ShaderType type, uint32_t index, uint32_t numView, ID3D11ShaderResourceView** srv)
+void GraphicDevice::SetShaderResourceViews(ShaderType type, uint32_t index, uint32_t numView, ID3D11ShaderResourceView** srv)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     AEAssert(srv != nullptr);
     if(srv == nullptr)
     {
-        return AEResult::NullParameter;
+        return;
     }
 
     switch (type)
@@ -1668,22 +1586,14 @@ AEResult GraphicDevice::SetShaderResourceViews(ShaderType type, uint32_t index, 
             m_DeviceContextDX->DSSetShaderResources(index, numView, srv);
             break;
         default:
-            AETODO("Add log here");
-
-            return AEResult::InvalidShaderType;
-
+            AEAssert(false);
             break;
     }
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetShaderBuffer(ShaderType type, ShaderBuffer* shaderBuffer, bool overrideBindIndex, uint32_t newIndex)
+void GraphicDevice::SetShaderBuffer(ShaderType type, ShaderBuffer* shaderBuffer, bool overrideBindIndex, uint32_t newIndex)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11ShaderResourceView* bufferSRV[1] = { nullptr };
     uint32_t bindIndex = 0;
@@ -1709,15 +1619,12 @@ AEResult GraphicDevice::SetShaderBuffer(ShaderType type, ShaderBuffer* shaderBuf
         }
     }
 
-    return this->SetShaderResourceViews(type, bindIndex, 1, bufferSRV);
+    SetShaderResourceViews(type, bindIndex, 1, bufferSRV);
 }
 
-AEResult GraphicDevice::SetShaderRWBufferToCS(ShaderBuffer* shaderBuffer, bool overrideBindIndex, uint32_t newIndex)
+void GraphicDevice::SetShaderRWBufferToCS(ShaderBuffer* shaderBuffer, bool overrideBindIndex, uint32_t newIndex)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11UnorderedAccessView* bufferUAV[1] = { nullptr };
     uint32_t bindIndex = 0;
@@ -1743,16 +1650,11 @@ AEResult GraphicDevice::SetShaderRWBufferToCS(ShaderBuffer* shaderBuffer, bool o
     }
 
     m_DeviceContextDX->CSSetUnorderedAccessViews(bindIndex, 1, bufferUAV, nullptr);
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetConstantBuffer(ShaderType type, ConstantBuffer* cb, bool overrideBindIndex, uint32_t newIndex)
+void GraphicDevice::SetConstantBuffer(ShaderType type, ConstantBuffer* cb, bool overrideBindIndex, uint32_t newIndex)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     ID3D11Buffer* arrDX[1] = { nullptr };
     uint32_t bindIndex = 0;
@@ -1797,47 +1699,34 @@ AEResult GraphicDevice::SetConstantBuffer(ShaderType type, ConstantBuffer* cb, b
             m_DeviceContextDX->DSSetConstantBuffers(bindIndex, 1, arrDX);
             break;
         default:
-            AETODO("Add log here");
-
-            return AEResult::InvalidShaderType;
-
+            AEAssert(false);
             break;
     }
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::SetSamplerState(ShaderType type, uint32_t index, ID3D11SamplerState* sampler)
+void GraphicDevice::SetSamplerState(ShaderType type, uint32_t index, ID3D11SamplerState* sampler)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
     
     AEAssert(sampler != nullptr);
-
     if(sampler == nullptr)
     {
-        return AEResult::NullParameter;
+        return;
     }
 
     ID3D11SamplerState* arrDX[] = { sampler };
 
-    return SetSamplerStates(type, index, 1, arrDX);
+    SetSamplerStates(type, index, 1, arrDX);
 }
     
-AEResult GraphicDevice::SetSamplerStates(ShaderType type, uint32_t index, uint32_t numStates, ID3D11SamplerState** sampler)
+void GraphicDevice::SetSamplerStates(ShaderType type, uint32_t index, uint32_t numStates, ID3D11SamplerState** sampler)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
     
     AEAssert(sampler != nullptr);
-
     if(sampler == nullptr)
     {
-        return AEResult::NullParameter;
+        return;
     }
 
     switch (type)
@@ -1861,23 +1750,16 @@ AEResult GraphicDevice::SetSamplerStates(ShaderType type, uint32_t index, uint32
             m_DeviceContextDX->DSSetSamplers(index, numStates, sampler);
             break;
         default:
-            AETODO("Add log here");
-
-            return AEResult::InvalidShaderType;
-
+            AEAssert(false);
             break;
     }
-
-    return AEResult::Ok;
 }
 
-AEResult GraphicDevice::GetBlendState(ID3D11BlendState** blendState, glm::vec4& blendFactor, uint32_t& sampleMask)
+void GraphicDevice::GetBlendState(ID3D11BlendState** blendState, glm::vec4& blendFactor, uint32_t& sampleMask)
 {
-    if (!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
+    AEAssert(false);
     AETODO("Implement");
     AETODO("Get adds a ref");
 
@@ -1891,32 +1773,23 @@ AEResult GraphicDevice::GetBlendState(ID3D11BlendState** blendState, glm::vec4& 
     //FLOAT* tempBlendFactor = reinterpret_cast<FLOAT*>(&blendFactor);
 
     //m_DeviceContextDX->OMGetBlendState(blendState, tempBlendFactor, &sampleMask);
-
-    return AEResult::Fail;
 }
 
-AEResult GraphicDevice::SetBlendState(ID3D11BlendState* blendState, const glm::vec4& blendFactor, uint32_t sampleMask)
+void GraphicDevice::SetBlendState(ID3D11BlendState* blendState, const glm::vec4& blendFactor, uint32_t sampleMask)
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
     AETODO("Check that this works correctly");
     const FLOAT* tempBlendFactor = reinterpret_cast<const FLOAT*>(&blendFactor);
 
     m_DeviceContextDX->OMSetBlendState(blendState, tempBlendFactor, sampleMask); 
-
-    return AEResult::Ok;
 }
 
 #if defined(AE_GRAPHIC_DEBUG_DEVICE)
 void GraphicDevice::BeginEvent(const std::string& eventName)
 {
-    if (!m_IsReady || m_UserDefinedAnnotationDX == nullptr)
-    {
-        return;
-    }
+    AEAssert(m_IsReady);
+    AEAssert(m_UserDefinedAnnotationDX != nullptr);
 
     std::wstring eventNameW = AE_Base::String2WideStr(eventName);
     if (m_UserDefinedAnnotationDX->BeginEvent(eventNameW.c_str()) != 0)
@@ -1927,10 +1800,8 @@ void GraphicDevice::BeginEvent(const std::string& eventName)
 
 void GraphicDevice::EndEvent()
 {
-    if (!m_IsReady || m_UserDefinedAnnotationDX == nullptr)
-    {
-        return;
-    }
+    AEAssert(m_IsReady);
+    AEAssert(m_UserDefinedAnnotationDX != nullptr);
 
     if (m_UserDefinedAnnotationDX->EndEvent() != 0)
     {
@@ -1940,12 +1811,80 @@ void GraphicDevice::EndEvent()
 
 void GraphicDevice::SetEventmarker(const std::string& eventName)
 {
-    if (!m_IsReady || m_UserDefinedAnnotationDX == nullptr)
-    {
-        return;
-    }
+    AEAssert(m_IsReady);
+    AEAssert(m_UserDefinedAnnotationDX != nullptr);
 
     std::wstring eventNameW = AE_Base::String2WideStr(eventName);
     m_UserDefinedAnnotationDX->SetMarker(eventNameW.c_str());
 }
 #endif // defined(AE_GRAPHIC_DEBUG_DEVICE)
+
+#ifdef AE_EDITOR_MODE
+
+void GraphicDevice::ResetGameRenderTargetView()
+{
+    CleanUpGameDepthStencil();
+    CleanUpGameRenderTargets();
+
+    InitGameRTDS();
+
+    InitGameViewport();
+}
+
+void GraphicDevice::InitEditorViewport()
+{
+    AETODO("Check if we need this, ImGui might have its own viewport");
+    m_EditorViewportDX.TopLeftX = 0;
+    m_EditorViewportDX.TopLeftY = 0;
+    m_EditorViewportDX.Width = static_cast<float>(m_GraphicPP.m_EditorBackBufferWidth);
+    m_EditorViewportDX.Height = static_cast<float>(m_GraphicPP.m_EditorBackBufferHeight);
+    m_EditorViewportDX.MinDepth = 0.0f;
+    m_EditorViewportDX.MaxDepth = 1.0f;
+
+    m_DeviceContextDX->RSSetViewports(1, &m_EditorViewportDX);
+}
+
+AEResult GraphicDevice::CreateEditorRenderTarget()
+{
+    ID3D11Texture2D* backBuffer = nullptr;
+
+    HRESULT hr = m_SwapChainDX->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
+    if (hr != S_OK)
+    {
+        DisplayError(hr);
+        return AEResult::Fail;
+    }
+
+    hr = m_DeviceDX->CreateRenderTargetView(backBuffer, 0, &m_EditorRenderTargetViewDX);
+    ReleaseCOM(backBuffer);
+    if (hr != S_OK)
+    {
+        DisplayError(hr);
+        return AEResult::Fail;
+    }
+    AEGraphicHelpers::SetDebugObjectName(m_EditorRenderTargetViewDX, AE_DEBUG_EDITOR_RTV_NAME);
+
+    return AEResult::Ok;
+}
+
+void GraphicDevice::ResizeEditor(uint32_t width, uint32_t height)
+{
+    AEAssert(m_IsReady);
+
+    m_GraphicPP.m_EditorBackBufferWidth   = width;
+    m_GraphicPP.m_EditorBackBufferHeight  = height;
+
+    ResetDevice();
+}
+
+void GraphicDevice::SetEditorRenderTargetAndViewPort()
+{
+    AEAssert(m_IsReady);
+
+    m_HighestRenderTargetStage = 1;
+    m_CurrentRenderTargetViewsDX[0] = m_EditorRenderTargetViewDX;
+    m_DeviceContextDX->OMSetRenderTargets(m_HighestRenderTargetStage, m_CurrentRenderTargetViewsDX, nullptr);
+    m_DeviceContextDX->RSSetViewports(1, &m_EditorViewportDX);
+}
+
+#endif

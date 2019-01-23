@@ -50,16 +50,6 @@ AEXMLWriter::AEXMLWriter()
 
 AEXMLWriter::~AEXMLWriter()
 {
-    CleanUp();
-}
-
-void AEXMLWriter::CleanUp()
-{
-    m_InMemory = false;
-    m_IsReady = false;
-
-    AEXMLTextWriterFree(m_XMLWriter);
-    AEXMLBufferFree(m_XMLBuffer);
 }
 
 AEResult AEXMLWriter::CreateXML(const std::string& file, bool inMemory)
@@ -75,47 +65,7 @@ AEResult AEXMLWriter::CreateXML(const std::string& file, bool inMemory)
         return AEResult::EmptyFilename;
     }
 
-    if (inMemory)
-    {
-        m_XMLBuffer = xmlBufferCreate();
-        if (xmlBufferCreate == nullptr) 
-        {
-            AETODO("Better return code");
-            return AEResult::Fail;
-        }
-
-        m_XMLWriter = xmlNewTextWriterMemory(m_XMLBuffer, 0);
-        if (m_XMLWriter == NULL)
-        {
-            CleanUp();
-
-            AETODO("Better return code");
-            return AEResult::Fail;
-        }
-
-        m_InMemory = true;
-    }
-    else
-    {
-        m_XMLWriter = xmlNewTextWriterFilename(file.c_str(), 0);
-        if (m_XMLWriter == NULL)
-        {
-            AETODO("Better return code");
-            return AEResult::Fail;
-        }
-    }
-
-    int ret = xmlTextWriterStartDocument(m_XMLWriter, NULL, AE_XML_ENCODING, NULL);
-    if (ret < 0)
-    {
-        CleanUp();
-
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
-
     m_Filename = file;
-
     m_IsReady = true;
 
     return AEResult::Ok;
@@ -128,12 +78,20 @@ AEResult AEXMLWriter::StartNode(const std::string& name)
         return AEResult::NotReady;
     }
 
-    int ret = xmlTextWriterStartElement(m_XMLWriter, BAD_CAST name.c_str());
-    if (ret < 0)
+
+    tinyxml2::XMLElement* newXMLElement = m_XMLDoc.NewElement(name.c_str());
+
+    if (m_XMLElement != nullptr)
     {
-        AETODO("Better return code");
-        return AEResult::Fail;
+        m_XMLElement->InsertEndChild(newXMLElement);
     }
+    else
+    {
+        m_XMLDoc.InsertEndChild(newXMLElement);
+    }
+
+    m_XMLElement = newXMLElement;
+    m_XMLElementStack.push(m_XMLElement);
 
     return AEResult::Ok;
 }
@@ -145,11 +103,15 @@ AEResult AEXMLWriter::EndNode()
         return AEResult::NotReady;
     }
 
-    int ret = xmlTextWriterEndElement(m_XMLWriter);
-    if (ret < 0)
+    m_XMLElementStack.pop();
+
+    if (m_XMLElementStack.empty())
     {
-        AETODO("Better return code");
-        return AEResult::Fail;
+        m_XMLElement = nullptr;
+    }
+    else
+    {
+        m_XMLElement = m_XMLElementStack.top();
     }
 
     return AEResult::Ok;
@@ -162,524 +124,396 @@ AEResult AEXMLWriter::FinalizeXML()
         return AEResult::NotReady;
     }
 
-    AEResult ret = AEResult::Ok;
+    AEAssert(m_XMLElementStack.empty());
 
-    int rsc = xmlTextWriterEndDocument(m_XMLWriter);
-    if (rsc < 0)
+    tinyxml2::XMLError xmlRes = m_XMLDoc.SaveFile(m_Filename.c_str());
+    if (xmlRes != tinyxml2::XMLError::XML_SUCCESS)
     {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+        AELogHelpers::LogError(LogSystem::XML, "XML_WRITER_SAVE_FILE_ERR_MSG", m_Filename);
+        AELogHelpers::LogDebug(LogSystem::XML, "XML_API_ERR_DBG_MSG", m_XMLDoc.ErrorStr());
 
-    if (m_InMemory)
-    {
-        std::ofstream xmlFile(m_Filename);
-        if (xmlFile.is_open())
-        {
-            xmlFile << (const char *)m_XMLBuffer->content;
-            xmlFile.close();
-        }
-        else
-        {
-            ret = AEResult::OpenFileFail;
-        }
-    }
-
-    CleanUp();
-
-    return ret;
-}
-
-AEResult AEXMLWriter::WriteString(const std::string& propName, const std::string& value)
-{
-    if (!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
-
-    int rsc = xmlTextWriterWriteAttribute(m_XMLWriter, BAD_CAST propName.c_str(), BAD_CAST value.c_str());
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
+        return AEResult::WriteToFileFailed;
     }
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteInt8(const std::string& propName, int8_t value)
+AEResult AEXMLWriter::WriteString(const std::string& attributeName, const std::string& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%hh", value);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), value.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteUInt8(const std::string& propName, uint8_t value)
+AEResult AEXMLWriter::WriteInt8(const std::string& attributeName, int8_t value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%hhu", value);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), value);
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteInt16(const std::string& propName, int16_t value)
+AEResult AEXMLWriter::WriteUInt8(const std::string& attributeName, uint8_t value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%h", value);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), value);
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteUInt16(const std::string& propName, uint16_t value)
+AEResult AEXMLWriter::WriteInt16(const std::string& attributeName, int16_t value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%hu", value);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), value);
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteInt(const std::string& propName, int32_t value)
+AEResult AEXMLWriter::WriteUInt16(const std::string& attributeName, uint16_t value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%d", value);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), value);
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteUInt(const std::string& propName, uint32_t value)
+AEResult AEXMLWriter::WriteInt(const std::string& attributeName, int32_t value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%u", value);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), value);
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteInt64(const std::string& propName, int64_t value)
+AEResult AEXMLWriter::WriteUInt(const std::string& attributeName, uint32_t value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%ll", value);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), value);
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteUInt64(const std::string& propName, uint64_t value)
+AEResult AEXMLWriter::WriteInt64(const std::string& attributeName, int64_t value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%llu", value);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), value);
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteFloat(const std::string& propName, float value)
+AEResult AEXMLWriter::WriteUInt64(const std::string& attributeName, uint64_t value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.4f", value);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), std::to_string(value).c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteDouble(const std::string& propName, double value)
+AEResult AEXMLWriter::WriteFloat(const std::string& attributeName, float value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.6f", value);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), value);
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteBool(const std::string& propName, bool value)
+AEResult AEXMLWriter::WriteDouble(const std::string& attributeName, double value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    std::string valueStr = (value ? "true" : "false");
-
-    int rsc = xmlTextWriterWriteAttribute(m_XMLWriter, BAD_CAST propName.c_str(), BAD_CAST valueStr.c_str());
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), value);
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect2f(const std::string& propName, const glm::vec2& value)
+AEResult AEXMLWriter::WriteBool(const std::string& attributeName, bool value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.4f %.4f", value.x, value.y);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    const char* valueStr = (value ? "true" : "false");
+
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr);
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect3f(const std::string& propName, const glm::vec3& value)
+AEResult AEXMLWriter::WriteVect2f(const std::string& attributeName, const glm::vec2& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.4f %.4f %.4f", value.x, value.y, value.z);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    std::string valueStr = fmt::format("{:.4g} {:.4g}", value.x, value.y);
+
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect4f(const std::string& propName, const glm::vec4& value)
+AEResult AEXMLWriter::WriteVect3f(const std::string& attributeName, const glm::vec3& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.4f %.4f %.4f %.4f", value.x, value.y, value.z, value.w);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    std::string valueStr = fmt::format("{:.4g} {:.4g} {:.4g}", value.x, value.y, value.z);
+
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect2d(const std::string& propName, const glm::dvec2& value)
+AEResult AEXMLWriter::WriteVect4f(const std::string& attributeName, const glm::vec4& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.6f %.6f", value.x, value.y);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    std::string valueStr = fmt::format("{:.4g} {:.4g} {:.4g} {:.4g}", value.x, value.y, value.z, value.w);
+
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect3d(const std::string& propName, const glm::dvec3& value)
+AEResult AEXMLWriter::WriteVect2d(const std::string& attributeName, const glm::dvec2& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.6f %.6f %.6f", value.x, value.y, value.z);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    std::string valueStr = fmt::format("{:.6g} {:.6g}", value.x, value.y);
+
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect4d(const std::string& propName, const glm::dvec4& value)
+AEResult AEXMLWriter::WriteVect3d(const std::string& attributeName, const glm::dvec3& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%.6f %.6f %.6f %.6f", value.x, value.y, value.z, value.w);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    std::string valueStr = fmt::format("{:.6g} {:.6g} {:.6g}", value.x, value.y, value.z);
+
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect2b(const std::string& propName, const glm::bvec2& value)
+AEResult AEXMLWriter::WriteVect4d(const std::string& attributeName, const glm::dvec4& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    std::string valueStrX = (value.x ? "true" : "false");
-    std::string valueStrY = (value.y ? "true" : "false");
+    std::string valueStr = fmt::format("{:.6g} {:.6g} {:.6g} {:.6g}", value.x, value.y, value.z, value.w);
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%s %s", valueStrX, valueStrY);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect3b(const std::string& propName, const glm::bvec3& value)
+AEResult AEXMLWriter::WriteVect2b(const std::string& attributeName, const glm::bvec2& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    std::string valueStrX = (value.x ? "true" : "false");
-    std::string valueStrY = (value.y ? "true" : "false");
-    std::string valueStrZ = (value.z ? "true" : "false");
+    std::string valueStr = fmt::format("{} {}",
+                                       (value.x ? "true" : "false"),
+                                       (value.y ? "true" : "false"));
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%s %s %s", valueStrX, valueStrY, valueStrZ);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect4b(const std::string& propName, const glm::bvec4& value)
+AEResult AEXMLWriter::WriteVect3b(const std::string& attributeName, const glm::bvec3& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    std::string valueStrX = (value.x ? "true" : "false");
-    std::string valueStrY = (value.y ? "true" : "false");
-    std::string valueStrZ = (value.z ? "true" : "false");
-    std::string valueStrW = (value.w ? "true" : "false");
+    std::string valueStr = fmt::format("{} {} {}",
+                                       (value.x ? "true" : "false"),
+                                       (value.y ? "true" : "false"),
+                                       (value.z ? "true" : "false"));
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%s %s %s %s", valueStrX, valueStrY, valueStrZ, valueStrW);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect2i(const std::string& propName, const glm::ivec2& value)
+AEResult AEXMLWriter::WriteVect4b(const std::string& attributeName, const glm::bvec4& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%d %d", value.x, value.y);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    std::string valueStr = fmt::format("{} {} {} {}",
+                                       (value.x ? "true" : "false"),
+                                       (value.y ? "true" : "false"),
+                                       (value.z ? "true" : "false"),
+                                       (value.w ? "true" : "false"));
+
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect3i(const std::string& propName, const glm::ivec3& value)
+AEResult AEXMLWriter::WriteVect2i(const std::string& attributeName, const glm::ivec2& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%d %d %d", value.x, value.y, value.z);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    std::string valueStr = fmt::format("{} {}", value.x, value.y);
+
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteVect4i(const std::string& propName, const glm::ivec4& value)
+AEResult AEXMLWriter::WriteVect3i(const std::string& attributeName, const glm::ivec3& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(), "%d %d %d %d", value.x, value.y, value.z, value.w);
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    std::string valueStr = fmt::format("{} {} {}", value.x, value.y, value.z);
+
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteMat2f(const std::string& propName, const glm::mat2& value)
+AEResult AEXMLWriter::WriteVect4i(const std::string& attributeName, const glm::ivec4& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(),
-        "%.4f %.4f "
-        "%.4f %.4f"
-        , value[0].x, value[0].y
-        , value[1].x, value[1].y);
+    std::string valueStr = fmt::format("{} {} {} {}", value.x, value.y, value.z, value.w);
 
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteMat3f(const std::string& propName, const glm::mat3& value)
+AEResult AEXMLWriter::WriteMat2f(const std::string& attributeName, const glm::mat2& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(),
-                "%.4f %.4f %.4f "
-                "%.4f %.4f %.4f "
-                "%.4f %.4f %.4f"
-                , value[0].x, value[0].y, value[0].z
-                , value[1].x, value[1].y, value[1].z
-                , value[2].x, value[2].y, value[2].z);
+    std::string valueStr = fmt::format("{:.4g} {:.4g} "
+                                       "{:.4g} {:.4g}"
+                                       , value[0].x, value[0].y
+                                       , value[1].x, value[1].y);
 
-    if (rsc < 0)
-    {
-        AETODO("Better return code");
-        return AEResult::Fail;
-    }
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }
 
-AEResult AEXMLWriter::WriteMat4f(const std::string& propName, const glm::mat4& value)
+AEResult AEXMLWriter::WriteMat3f(const std::string& attributeName, const glm::mat3& value)
 {
-    if (!m_IsReady)
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
         return AEResult::NotReady;
     }
 
-    int rsc = xmlTextWriterWriteFormatAttribute(m_XMLWriter, BAD_CAST propName.c_str(),
-                "%.4f %.4f %.4f %.4f "
-                "%.4f %.4f %.4f %.4f "
-                "%.4f %.4f %.4f %.4f "
-                "%.4f %.4f %.4f %.4f"
-                , value[0].x, value[0].y, value[0].z, value[0].w
-                , value[1].x, value[1].y, value[1].z, value[1].w
-                , value[2].x, value[2].y, value[2].z, value[2].w
-                , value[3].x, value[3].y, value[3].z, value[3].w);
+    std::string valueStr = fmt::format("{:.4g} {:.4g} {:.4g} "
+                                       "{:.4g} {:.4g} {:.4g} "
+                                       "{:.4g} {:.4g} {:.4g}"
+                                       , value[0].x, value[0].y, value[0].z
+                                       , value[1].x, value[1].y, value[1].z
+                                       , value[2].x, value[2].y, value[2].z);
 
-    if (rsc < 0)
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
+
+    return AEResult::Ok;
+}
+
+AEResult AEXMLWriter::WriteMat4f(const std::string& attributeName, const glm::mat4& value)
+{
+    if (!m_IsReady || m_XMLElement == nullptr)
     {
-        AETODO("Better return code");
-        return AEResult::Fail;
+        return AEResult::NotReady;
     }
+
+    std::string valueStr = fmt::format("{:.4g} {:.4g} {:.4g} {:.4g} "
+                                       "{:.4g} {:.4g} {:.4g} {:.4g} "
+                                       "{:.4g} {:.4g} {:.4g} {:.4g} "
+                                       "{:.4g} {:.4g} {:.4g} {:.4g}"
+                                       , value[0].x, value[0].y, value[0].z, value[0].w
+                                       , value[1].x, value[1].y, value[1].z, value[1].w
+                                       , value[2].x, value[2].y, value[2].z, value[2].w
+                                       , value[3].x, value[3].y, value[3].z, value[3].w);
+
+    m_XMLElement->SetAttribute(attributeName.c_str(), valueStr.c_str());
 
     return AEResult::Ok;
 }

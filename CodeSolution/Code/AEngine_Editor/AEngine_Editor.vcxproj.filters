@@ -4,9 +4,56 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="EditorViewer.cpp" />
     <ClCompile Include="precomp_editor.cpp" />
+    <ClCompile Include="UI\Main Menu\UIMainMenu.cpp">
+      <Filter>UI\Main Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIManager.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\Render\UIRenderWidget.cpp">
+      <Filter>UI\Widgets\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Main Menu\UIViewMenu.cpp">
+      <Filter>UI\Main Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Main Menu\UIFileMenu.cpp">
+      <Filter>UI\Main Menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorViewer.h" />
     <ClInclude Include="precomp_editor.h" />
+    <ClInclude Include="UI\Main Menu\UIMainMenu.h">
+      <Filter>UI\Main Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIManager.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\Render\UIRenderWidget.h">
+      <Filter>UI\Widgets\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIDefs.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Main Menu\UIViewMenu.h">
+      <Filter>UI\Main Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Main Menu\UIFileMenu.h">
+      <Filter>UI\Main Menu</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="UI">
+      <UniqueIdentifier>{5121bd02-55e7-4509-9b78-16ca0e7eb3b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Main Menu">
+      <UniqueIdentifier>{f05ef449-da5b-441d-a96e-b4084b2567ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Widgets">
+      <UniqueIdentifier>{50e3108a-048b-4a88-9bc0-513034c6806c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Widgets\Render">
+      <UniqueIdentifier>{8e9dfcc6-6191-457b-83de-d1736b72c0f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

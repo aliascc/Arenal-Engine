@@ -32,6 +32,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "CoreCommands.h"
+#include "ImGuiManager.h"
 #include "GraphicDevice.h"
 #include "GameApp/GameApp.h"
 #include "GameUtils/GameComponentCollection.h"
@@ -55,11 +56,7 @@ ResizeCommand::~ResizeCommand()
 
 void ResizeCommand::Execute()
 {
-    m_GameApp.OnLostDevice();
-
-    m_GameApp.GetGraphicsDevice().Resize(m_NewSize.x, m_NewSize.y);
-
-    m_GameApp.OnResetDevice();
+    m_GameApp.Resize(m_NewSize.x, m_NewSize.y);
 }
 
 /**********************************
@@ -79,3 +76,26 @@ void GCSortCommand::Execute()
 {
     m_GameComponentCollection.SortContainer();
 }
+
+#ifdef AE_EDITOR_MODE
+
+/*******************************
+*   Resize Editor Class Decl   *
+********************************/
+
+ResizeEditorCommand::ResizeEditorCommand(GameApp& gameApp, const glm::ivec2& newSize)
+    : m_GameApp(gameApp)
+    , m_NewSize(newSize)
+{
+}
+
+ResizeEditorCommand::~ResizeEditorCommand()
+{
+}
+
+void ResizeEditorCommand::Execute()
+{
+    m_GameApp.ResizeEditor(m_NewSize.x, m_NewSize.y);
+}
+
+#endif

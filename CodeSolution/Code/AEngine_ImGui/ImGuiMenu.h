@@ -57,11 +57,6 @@ protected:
     ImGuiMenuObjectVector m_ImGuiMenuObjectVector;
 
     /// <summary>
-    /// Menu Name Literal
-    /// </summary>
-    std::string m_MenuNameLiteral;
-
-    /// <summary>
     /// Calls the Update Methods for the Menu Objects this menu contains
     /// </summary>
     /// <param name="timerParams">Game Timer Parameters</param>
@@ -72,11 +67,12 @@ public:
     /// <summary>
     /// ImGuiMenu Constructor
     /// </summary>
+    /// <param name="imGuiManager">ImGuiManager Instance</param>
     /// <param name="name">Name of the Menu</param>
-    /// <param name="menuNameLiteral">Literal for the Menu Name</param>
+    /// <param name="literalName">Literal for the Menu Name</param>
     /// <param name="renderPriority">Render Priority for the menu</param>
     /// <param name="visible">Determines if the menu is visible or not</param>
-    ImGuiMenu(const std::string& name, const std::string& menuNameLiteral, uint32_t renderPriority, bool visible = true);
+    ImGuiMenu(ImGuiManager& imGuiManager, const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible = true);
 
     /// <summary>
     /// Default ImGuiMenu Destructor
@@ -124,9 +120,14 @@ public:
     /// <returns>AEResult::Ok if successful otherwise an error code</returns>
     AEResult GetSubMenuLeaf(const std::string& menuTree, ImGuiMenu** subMenu);
 
-    /// <see cref="ImGuiObject::UpdateWindow(const TimerParams&)"/>
+    /// <see cref="ImGuiObject::Update(const TimerParams&)"/>
     virtual void Update(const TimerParams& timerParams) override;
 
+    /// <summary>
+    /// Initializes the ImGui Menu
+    /// </summary>
+    /// <returns>AEResult::Ok if successful otherwise an error code</returns>
+    virtual AEResult Initialize() = 0;
 };
 
 #endif //AE_EDITOR_MODE

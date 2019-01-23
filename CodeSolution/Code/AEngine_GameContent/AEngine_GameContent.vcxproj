@@ -110,7 +110,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\AEngine_Base\;$(SolutionDir)\Code\AEngine_Shaders\;$(SolutionDir)\Code\AEngine_Graphics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(FBXSDK_INCLUDE)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\AEngine_Base\;$(SolutionDir)\Code\AEngine_Shaders\;$(SolutionDir)\Code\AEngine_Graphics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\TinyXML2\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(FBXSDK_INCLUDE)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -132,7 +132,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\AEngine_Base\;$(SolutionDir)\Code\AEngine_Shaders\;$(SolutionDir)\Code\AEngine_Graphics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\LibXML2\include;$(SolutionDir)\Code\3rdParty\LibIconv\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(FBXSDK_INCLUDE)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Code\$(ProjectName)\;$(SolutionDir)\Code\AEngine_Base\;$(SolutionDir)\Code\AEngine_Shaders\;$(SolutionDir)\Code\AEngine_Graphics\;$(SolutionDir)\Code\3rdParty\Boost\include;$(SolutionDir)\Code\3rdParty\TinyXML2\include;$(SolutionDir)\Code\3rdParty\CPPFormat\include;$(SolutionDir)\Code\3rdParty\GLM\include;$(SolutionDir)\Code\3rdParty\Assimp\include;$(SolutionDir)\Code\3rdParty\AngelScript\include;$(FBXSDK_INCLUDE)</AdditionalIncludeDirectories>
       <MinimalRebuild>
       </MinimalRebuild>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>

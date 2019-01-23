@@ -82,12 +82,15 @@
 #include "glm\gtx\transform.hpp"
 #include "glm\gtc\quaternion.hpp"
 
+#include "imgui\imgui.h"
+#include "imgui\imgui_impl_dx11.h"
+#include "imgui\imgui_impl_win32.h"
+
 #include "cppformat\format.h"
 
 #include "boost\filesystem.hpp"
 
-#include "libxml\parser.h"
-#include "libxml\xmlwriter.h"
+#include "tinyxml2.h"
 
 #include "assimp\scene.h"
 

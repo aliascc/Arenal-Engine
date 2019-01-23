@@ -1,0 +1,7 @@
+Tool:          TinyXML 2
+Last Updated:  January 16 2019
+Last Built:    January 16 2019
+Version:       7.0.1
+
+Notes:
+ - Download: https://github.com/leethomason/tinyxml2/releases

@@ -69,7 +69,7 @@ AEResult VertexLayout::BuildVertexLayout(GraphicDevice& graphicDevice, const BYT
 
     m_Name = name;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11InputLayout>(m_VertexLayoutDX, AE_DEBUG_VIL_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_VertexLayoutDX, AE_DEBUG_VIL_NAME_PREFIX + m_Name);
     
     m_IsReady = true;
 

@@ -143,7 +143,7 @@ AEResult Texture2DArray::Initialize(uint32_t arraySize, uint32_t width, uint32_t
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureArrayDX, AE_DEBUG_TEX_2D_ARRAY_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_TextureArrayDX, AE_DEBUG_TEX_2D_ARRAY_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Texture Array Shader Resource View
@@ -168,7 +168,7 @@ AEResult Texture2DArray::Initialize(uint32_t arraySize, uint32_t width, uint32_t
         return AEResult::Fail;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_TextureArraySRV, AE_DEBUG_TEX_2D_ARRAY_SRV_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_TextureArraySRV, AE_DEBUG_TEX_2D_ARRAY_SRV_NAME_PREFIX + m_Name);
 
     /////////////////////////////////////////////////////////////
     //Create Render Target Views
@@ -202,7 +202,7 @@ AEResult Texture2DArray::Initialize(uint32_t arraySize, uint32_t width, uint32_t
 
             m_RenderTargetViewsVector.push_back(rtv);
 
-            AEGraphicHelpers::SetDebugObjectName<ID3D11RenderTargetView>(rtv, AE_DEBUG_TEX_2D_ARRAY_RTVS_NAME_PREFIX + m_Name);
+            AEGraphicHelpers::SetDebugObjectName(rtv, AE_DEBUG_TEX_2D_ARRAY_RTVS_NAME_PREFIX + m_Name);
         }
     }
 

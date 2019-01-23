@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _AE_XML_PARSER_H
-#define _AE_XML_PARSER_H
-
 /**********************
 *   System Includes   *
 ***********************/
@@ -32,6 +29,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "Base\Base.h"
+#include "AEXMLDefs.h"
 #include "Base\AEObject.h"
 #include "Math\AEMathDefs.h"
 
@@ -48,385 +46,337 @@
 ******************/
 class AEXMLParser sealed : public AEObject
 {
-    private:
+private:
 
-        /************************
-        *   Private Variables   *
-        *************************/
-#pragma region Private Variables
+    /// <summary>
+    /// XML Parsed File
+    /// </summary>
+    tinyxml2::XMLDocument* m_XMLDoc = nullptr;
 
-        /// <summary>
-        /// Defines if the XML Parser 
-        /// is initialized and ready to use
-        /// </summary>
-        bool m_IsReady = false;
+    /// <summary>
+    /// Current XML Element
+    /// </summary>
+    const tinyxml2::XMLElement* m_XMLElement = nullptr;
 
-        /// <summary>
-        /// Defines if the current
-        /// node is the parent node
-        /// </summary>
-        bool m_ParentNode = false;
+    /// <summary>
+    /// Defines if this is the Parent 
+    /// </summary>
+    XMLType m_Type = XMLType::Empty;
 
-        /// <summary>
-        /// XML Parsed File
-        /// </summary>
-        xmlDocPtr m_LibXMLDoc = nullptr;
+    /// <summary>
+    /// Gets the Attribute from the Node
+    /// </summary>
+    /// <param name="attributeName">Name of the Attribute</param>
+    /// <returns>Returns the Attribute</returns>
+    const char* GetNodeAttribute(const std::string& attributeName) const;
 
-        /// <summary>
-        /// Current XML Node
-        /// </summary>
-        xmlNodePtr m_LibXMLNode = nullptr;
+public:
 
-#pragma endregion
+    /// <summary>
+    /// AEXMLParser Constructor
+    /// </summary>
+    AEXMLParser();
 
-        /**********************
-        *   Private Methods   *
-        ***********************/
-#pragma region Private Methods
+    /// <summary>
+    /// Default AEXMLParser Destructor
+    /// </summary>
+    virtual ~AEXMLParser();
 
-        /// <summary>
-        /// Clean up the current memory used
-        /// by the XML Parsed File
-        /// </summary>
-        void CleanUp();
+    /// <summary>
+    /// Gets if the Parser currently has  an Element
+    /// </summary>
+    inline bool HasElement() const
+    {
+        return (m_Type != XMLType::Empty);
+    }
 
-        /// <summary>
-        /// Finds a Node in the XML
-        /// </summary>
-        /// <param name="nodeNameMB">XML Node Name</param>
-        /// <param name="xmlLibNode">Current XML Node from where to search</param>
-        /// <param name="node">Current Parser of the Node</param>
-        AEResult FindNode(const xmlChar* nodeNameMB, xmlNodePtr xmlLibNode, AEXMLParser& node);
-
-        /// <summary>
-        /// Gets the Property value of the Node
-        /// </summary>
-        /// <param name="propName">Property Name</param>
-        xmlChar* GetNodeProperty(const std::string& propName);
-
-#pragma endregion
-
-    public:
-
-        /***************************************
-        *   Constructor & Destructor Methods   *
-        ****************************************/
-#pragma region Constructor & Destructor Methods
-
-        /// <summary>
-        /// AEXMLParser Constructor
-        /// </summary>
-        AEXMLParser();
-
-        /// <summary>
-        /// Default AEXMLParser Destructor
-        /// </summary>
-        virtual ~AEXMLParser();
-
-#pragma endregion
-
-        /************************
-        *   Framework Methods   *
-        *************************/
-#pragma region Framework Methods
-
-        /// <summary>
-        /// Defines if the XML Parser is ready
-        /// </summary>
-        inline bool IsReady() const
+    /// <summary>
+    /// Gets the Name of current Element
+    /// </summary>
+    inline std::string GetName() const
+    {
+        if (m_Type != XMLType::Element)
         {
-            return m_IsReady;
+            return "";
         }
 
-        /// <summary>
-        /// Loads a XML File
-        /// </summary>
-        /// <param name="file">Name of the XML File</param>
-        /// <returns>AEResult::OK if successful</returns>
-        AEResult LoadFile(const std::string& file);
+        return m_XMLElement->Name();
+    }
 
-        /// <summary>
-        /// Gets a node from the XML
-        /// </summary>
-        /// <param name="nodeName">Name of Node</param>
-        /// <param name="node">Node where to set the result</param>
-        /// <returns>AEResult::OK if successful</returns>
-        AEResult GetNode(const std::string& nodeName, AEXMLParser& node);
+    /// <summary>
+    /// Loads a XML File
+    /// </summary>
+    /// <param name="file">Name of the XML File</param>
+    /// <returns>AEResult::OK if successful</returns>
+    AEResult LoadFile(const std::string& file);
 
-        /// <summary>
-        /// Loads a XML File
-        /// </summary>
-        /// <param name="index">Index of the node</param>
-        /// <param name="node">Node where to set the result</param>
-        /// <returns>AEResult::OK if successful</returns>
-        AEResult GetChildNode(uint32_t index, AEXMLParser& node);
+    /// <summary>
+    /// Gets an Element from the Parser
+    /// </summary>
+    /// <param name="elementName">Name of the Element</param>
+    /// <returns>XML Element</returns>
+    AEXMLParser GetChildElement(const std::string& elementName) const;
 
-        /// <summary>
-        /// Gets the number of child nodes
-        /// </summary>
-        uint32_t GetNumChildren();
+    /// <summary>
+    /// Gets an Element from the Parser
+    /// </summary>
+    /// <returns>XML Element</returns>
+    AEXMLParser GetFirstChildElement() const;
 
-        /// <summary>
-        /// Gets the Name of current node
-        /// </summary>
-        std::string GetName();
+    /// <summary>
+    /// Gets an Element from the Parser
+    /// </summary>
+    /// <returns>XML Element</returns>
+    AEXMLParser GetNextSiblingElement() const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        int8_t GetInt8(const std::string& propName, int8_t defaultValue = 0, bool warning = true);
+    /// <summary>
+    /// [] Operator Overload
+    /// </summary>
+    /// <param name="elementName">Element Name</param>
+    /// <returns>XML Element</returns>
+    AEXMLParser operator[](const std::string& elementName) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        uint8_t GetUInt8(const std::string& propName, uint8_t defaultValue = 0, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    int8_t GetInt8(const std::string& attributeName, int8_t defaultValue = 0, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        int16_t GetInt16(const std::string& propName, int16_t defaultValue = 0, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    uint8_t GetUInt8(const std::string& attributeName, uint8_t defaultValue = 0, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        uint16_t GetUInt16(const std::string& propName, uint16_t defaultValue = 0, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    int16_t GetInt16(const std::string& attributeName, int16_t defaultValue = 0, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        int32_t GetInt(const std::string& propName, int32_t defaultValue = 0, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    uint16_t GetUInt16(const std::string& attributeName, uint16_t defaultValue = 0, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        uint32_t GetUInt(const std::string& propName, uint32_t defaultValue = 0, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    int32_t GetInt(const std::string& attributeName, int32_t defaultValue = 0, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        int64_t GetInt64(const std::string& propName, int64_t defaultValue = 0, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    uint32_t GetUInt(const std::string& attributeName, uint32_t defaultValue = 0, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        uint64_t GetUInt64(const std::string& propName, uint64_t defaultValue = 0, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    int64_t GetInt64(const std::string& attributeName, int64_t defaultValue = 0, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        float GetFloat(const std::string& propName, float defaultValue = 0.0f, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    uint64_t GetUInt64(const std::string& attributeName, uint64_t defaultValue = 0, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        double GetDouble(const std::string& propName, double defaultValue = 0.0, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    float GetFloat(const std::string& attributeName, float defaultValue = 0.0f, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        bool GetBool(const std::string& propName, bool defaultValue = false, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    double GetDouble(const std::string& attributeName, double defaultValue = 0.0, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        std::string GetString(const std::string& propName, const std::string& defaultValue = "", bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    bool GetBool(const std::string& attributeName, bool defaultValue = false, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::vec2 GetVect2f(const std::string& propName, const glm::vec2& defaultValue = AEMathHelpers::Vec2fZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    std::string GetString(const std::string& attributeName, const std::string& defaultValue = "", bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::vec3 GetVect3f(const std::string& propName, const glm::vec3& defaultValue = AEMathHelpers::Vec3fZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::vec2 GetVect2f(const std::string& attributeName, const glm::vec2& defaultValue = AEMathHelpers::Vec2fZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::vec4 GetVect4f(const std::string& propName, const glm::vec4& defaultValue = AEMathHelpers::Vec4fZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::vec3 GetVect3f(const std::string& attributeName, const glm::vec3& defaultValue = AEMathHelpers::Vec3fZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::dvec2 GetVect2d(const std::string& propName, const glm::dvec2& defaultValue = AEMathHelpers::Vec2dZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::vec4 GetVect4f(const std::string& attributeName, const glm::vec4& defaultValue = AEMathHelpers::Vec4fZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::dvec3 GetVect3d(const std::string& propName, const glm::dvec3& defaultValue = AEMathHelpers::Vec3dZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::dvec2 GetVect2d(const std::string& attributeName, const glm::dvec2& defaultValue = AEMathHelpers::Vec2dZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::dvec4 GetVect4d(const std::string& propName, const glm::dvec4& defaultValue = AEMathHelpers::Vec4dZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::dvec3 GetVect3d(const std::string& attributeName, const glm::dvec3& defaultValue = AEMathHelpers::Vec3dZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::bvec2 GetVect2b(const std::string& propName, const glm::bvec2& defaultValue = AEMathHelpers::Vec2bZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::dvec4 GetVect4d(const std::string& attributeName, const glm::dvec4& defaultValue = AEMathHelpers::Vec4dZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::bvec3 GetVect3b(const std::string& propName, const glm::bvec3& defaultValue = AEMathHelpers::Vec3bZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::bvec2 GetVect2b(const std::string& attributeName, const glm::bvec2& defaultValue = AEMathHelpers::Vec2bZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::bvec4 GetVect4b(const std::string& propName, const glm::bvec4& defaultValue = AEMathHelpers::Vec4bZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::bvec3 GetVect3b(const std::string& attributeName, const glm::bvec3& defaultValue = AEMathHelpers::Vec3bZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::ivec2 GetVect2i(const std::string& propName, const glm::ivec2& defaultValue = AEMathHelpers::Vec2iZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::bvec4 GetVect4b(const std::string& attributeName, const glm::bvec4& defaultValue = AEMathHelpers::Vec4bZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::ivec3 GetVect3i(const std::string& propName, const glm::ivec3& defaultValue = AEMathHelpers::Vec3iZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::ivec2 GetVect2i(const std::string& attributeName, const glm::ivec2& defaultValue = AEMathHelpers::Vec2iZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::ivec4 GetVect4i(const std::string& propName, const glm::ivec4& defaultValue = AEMathHelpers::Vec4iZero, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::ivec3 GetVect3i(const std::string& attributeName, const glm::ivec3& defaultValue = AEMathHelpers::Vec3iZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::mat2 GetMat2f(const std::string& propName, const glm::mat2& defaultValue = AEMathHelpers::Mat2Identity, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::ivec4 GetVect4i(const std::string& attributeName, const glm::ivec4& defaultValue = AEMathHelpers::Vec4iZero, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::mat3 GetMat3f(const std::string& propName, const glm::mat3& defaultValue = AEMathHelpers::Mat3Identity, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::mat2 GetMat2f(const std::string& attributeName, const glm::mat2& defaultValue = AEMathHelpers::Mat2Identity, bool warning = true) const;
 
-        /// <summary>
-        /// Get the value of the property
-        /// </summary>
-        /// <param name="propName">Name of the property</param>
-        /// <param name="defaultValue">Default value for the property if not found</param>
-        /// <param name="warning">Writes a warning to the log if the property was not found</param>
-        /// <returns>Value of the property</returns>
-        glm::mat4 GetMat4f(const std::string& propName, const glm::mat4& defaultValue = AEMathHelpers::Mat4Identity, bool warning = true);
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::mat3 GetMat3f(const std::string& attributeName, const glm::mat3& defaultValue = AEMathHelpers::Mat3Identity, bool warning = true) const;
 
-        /// <summary>
-        /// Gets a node from the XML using the name 
-        /// of the index
-        /// </summary>
-        AEXMLParser operator[] (const std::string& nodeName);
-
-        /// <summary>
-        /// Gets a node from the XML an index
-        /// </summary>
-        AEXMLParser operator() (uint32_t index);
-
-#pragma endregion
+    /// <summary>
+    /// Get the value of the property
+    /// </summary>
+    /// <param name="attributeName">Name of the property</param>
+    /// <param name="defaultValue">Default value for the property if not found</param>
+    /// <param name="warning">Writes a warning to the log if the property was not found</param>
+    /// <returns>Value of the property</returns>
+    glm::mat4 GetMat4f(const std::string& attributeName, const glm::mat4& defaultValue = AEMathHelpers::Mat4Identity, bool warning = true) const;
 
 };
-
-#endif

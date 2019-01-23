@@ -63,19 +63,39 @@ class GraphicDevice;
 #define AE_DEBUG_MAIN_SC_NAME                        "AEngine Main Swap Chain"
 
 /// <summary>
-/// Debug Name for AEngine Main Render Target View for DirectX Graphic Debugger
+/// Debug Name for AEngine Game Render Target View for DirectX Graphic Debugger
 /// </summary>
-#define AE_DEBUG_MAIN_RTV_NAME                        "AEngine Main Render Target View"
+#define AE_DEBUG_GAME_RTV_NAME                        "AEngine Game Render Target View"
 
 /// <summary>
-/// Debug Name for AEngine Main Depth Stencil Texture for DirectX Graphic Debugger
+/// Debug Name for AEngine Game Depth Stencil Texture for DirectX Graphic Debugger
 /// </summary>
-#define AE_DEBUG_MAIN_DST_NAME                        "AEngine Main Depth Stencil Texture"
+#define AE_DEBUG_GAME_DST_NAME                        "AEngine Game Depth Stencil Texture"
 
 /// <summary>
-/// Debug Name for AEngine Main Depth Stencil View for DirectX Graphic Debugger
+/// Debug Name for AEngine Game Depth Stencil View for DirectX Graphic Debugger
 /// </summary>
-#define AE_DEBUG_MAIN_DSV_NAME                        "AEngine Main Depth Stencil View"
+#define AE_DEBUG_GAME_DSV_NAME                        "AEngine Game Depth Stencil View"
+
+#ifdef AE_EDITOR_MODE
+
+/// <summary>
+/// Debug Name for AEngine Editor Render Target View for DirectX Graphic Debugger
+/// </summary>
+#define AE_DEBUG_EDITOR_RTV_NAME                      "AEngine Editor Render Target View"
+
+/// <summary>
+/// Debug Name for AEngine Game Render Target Texture for DirectX Graphic Debugger
+/// </summary>
+#define AE_DEBUG_GAME_RTT_NAME                        "AEngine Game Render Target Texture"
+
+/// <summary>
+/// Debug Name for AEngine Game Render Target Shader Resource View for DirectX Graphic Debugger
+/// </summary>
+#define AE_DEBUG_GAME_SRV_NAME                        "AEngine Game Render Target SRV"
+
+#endif
+
 
 /// <summary>
 /// Debug Name for AEngine Default Blend State for DirectX Graphic Debugger
@@ -329,7 +349,6 @@ struct GraphicOptsPreferred sealed : public AEObject
 
     ///<summary>
     ///Creates the Graphic Device in Single Threaded Mode.
-    ///Not supported on DirectX 9 Runtime
     ///</summary>
     bool m_SingleThreaded = false;
 
@@ -338,13 +357,33 @@ struct GraphicOptsPreferred sealed : public AEObject
 
 struct GraphicsPresentationParameters sealed : public AEObject
 {
-    uint32_t m_BackBufferWidth = 0;
+    /// <summary>
+    /// The Game Back Buffer Width of the Game App
+    /// </summary>
+    uint32_t m_GameBackBufferWidth              = 0;
 
-    uint32_t m_BackBufferHeight = 0;
+    /// <summary>
+    /// The Game Back Buffer Height of the Game App
+    /// </summary>
+    uint32_t m_GameBackBufferHeight             = 0;
 
-    DXGI_FORMAT m_BackBufferFormatWindowed = DXGI_FORMAT_R8G8B8A8_UNORM;
+#ifdef AE_EDITOR_MODE
 
-    DXGI_FORMAT m_BackBufferFormatFullScreen = DXGI_FORMAT_R8G8B8A8_UNORM;
+    /// <summary>
+    /// The Editor Back Buffer Width of the Game App
+    /// </summary>
+    uint32_t m_EditorBackBufferWidth            = 0;
+
+    /// <summary>
+    /// The Editor Back Buffer Height of the Game App
+    /// </summary>
+    uint32_t m_EditorBackBufferHeight           = 0;
+
+#endif
+
+    DXGI_FORMAT m_BackBufferFormatWindowed      = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+    DXGI_FORMAT m_BackBufferFormatFullScreen    = DXGI_FORMAT_R8G8B8A8_UNORM;
 
     uint32_t m_BackBufferCount = 2;
 
@@ -441,10 +480,10 @@ namespace AEGraphicHelpers
 
     extern TextureType GetTextureTypeString(std::string textureType);
 
-    template<class T>
-    inline void SetDebugObjectName(T* resource, const std::string& name)
-    {
 #if defined(AE_GRAPHIC_DEBUG_DEVICE)
+    template<class T>
+    inline void SetDebugObjectName(T resource, const std::string& name)
+    {
         AEAssert(resource != nullptr);
 
         if(resource == nullptr)
@@ -455,8 +494,13 @@ namespace AEGraphicHelpers
         uint32_t size = (uint32_t)name.size();
 
         resource->SetPrivateData(WKPDID_D3DDebugObjectName, size, name.c_str());
-#endif
     }
+#else
+    template<class T>
+    inline void SetDebugObjectName(T resource, const std::string& name)
+    {
+    }
+#endif
 }
 
 #endif

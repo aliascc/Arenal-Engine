@@ -198,18 +198,15 @@ AEResult GameApp::ExtractGameEngineConfig()
     }
 
     AEXMLParser configXML = newFile[AE_ENGINE_CONFIG_MAIN_NODE];
-    if (!configXML.IsReady())
+    if (!configXML.HasElement())
     {
         return AEResult::XMLReadError;
     }
 
     m_GameProject.m_EngineLocation = boost::filesystem::current_path().string();
 
-    uint32_t l_Count = configXML.GetNumChildren();
-    for (uint32_t i = 0; i < l_Count; ++i)
+    for (AEXMLParser child = configXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = configXML(i);
-
         std::string l_Type = child.GetName();
         
         if (l_Type.compare(AE_ENGINE_LOCALIZATION_NODE) == 0)
@@ -237,7 +234,7 @@ AEResult GameApp::ExtractGameProjectConfig()
     }
 
     AEXMLParser configXML = newFile[AE_PROJ_CONFIG_MAIN_NODE];
-    if (!configXML.IsReady())
+    if (!configXML.HasElement())
     {
         return AEResult::XMLReadError;
     }
@@ -245,11 +242,8 @@ AEResult GameApp::ExtractGameProjectConfig()
     std::size_t foundPos = m_GameProject.m_ProjectConfigFile.find(AE_PROJ_CONFIG_PROJ_FILE);
     m_GameProject.m_ProjectLocation = m_GameProject.m_ProjectConfigFile.erase(foundPos);
 
-    uint32_t l_Count = configXML.GetNumChildren();
-    for (uint32_t i = 0; i < l_Count; ++i)
+    for (AEXMLParser child = configXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = configXML(i);
-
         std::string l_Type = child.GetName();
 
         if (l_Type.compare(AE_PROJ_DEV_CAPS_NODE) == 0)
@@ -348,16 +342,13 @@ AEResult GameApp::ExtractGameAppOpts()
     }
 
     AEXMLParser gameOptXML = newFile["GameOpts"];
-    if (!gameOptXML.IsReady())
+    if (!gameOptXML.HasElement())
     {
         return AEResult::XMLReadError;
     }
 
-    uint32_t l_Count = gameOptXML.GetNumChildren();
-    for (uint32_t i = 0; i < l_Count; ++i)
+    for (AEXMLParser child = gameOptXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
     {
-        AEXMLParser child = gameOptXML(i);
-
         std::string l_Type = child.GetName();
             
         if (l_Type.compare("WindowsPosition") == 0)
@@ -740,7 +731,8 @@ AEResult GameApp::InitMainWindow()
 
     SetWindowLongPtr(m_MainWnd, GWLP_USERDATA, (LONG_PTR)this);
 
-    ShowWindow(m_MainWnd, SW_SHOW);
+    ShowWindow(m_MainWnd, SW_SHOWMAXIMIZED);
+
     UpdateWindow(m_MainWnd);
 
     return AEResult::Ok;
@@ -756,7 +748,6 @@ AEResult GameApp::Init3D_Device()
     //if(m_GraphicDevice->CheckDevCaps(m_GameConfig.m_DevCapFile) != AEResult::Ok)
     //{
     //    std::string msgerr = fmt::format(m_LocalizationManager->GetLiteral("CHECK_DEV_CAPS_ERR_MSG"), __FUNCTION__);
-
     //    m_Logger->AddNewLog(LogLevel::Error, msgerr);
     //    return AEResult::Fail;
     //}
@@ -940,12 +931,28 @@ void GameApp::OnResize(uint32_t width, uint32_t heigth)
 
     glm::ivec2 newSize = { width, heigth };
 
-    ResizeCommand* rc = new ResizeCommand(*this, newSize);
+#ifdef AE_EDITOR_MODE
+    ResizeEditorCommand* rc = new ResizeEditorCommand(*this, newSize);
+#else
+    ResizeCommand* rc       = new ResizeCommand(*this, newSize);
+#endif
 
     GameCommandManager::GetInstance().AddCommand(rc);
 }
 
-AEResult GameApp::SetFullScreen(bool fullScreenEnable)
+void GameApp::Resize(uint32_t width, uint32_t heigth)
+{
+    AEAssert(m_IsReady);
+
+    InternalOnLostDevice();
+
+    m_GraphicDevice->Resize(width, heigth);
+
+    InternalOnResetDevice();
+}
+
+#ifndef AE_EDITOR_MODE
+void GameApp::SetFullScreen(bool fullScreenEnable)
 {
     GraphicsPresentationParameters* gpp = &m_GraphicDevice->GetGraphicPP();
     
@@ -953,7 +960,7 @@ AEResult GameApp::SetFullScreen(bool fullScreenEnable)
     {
         if(!gpp->m_Windowed)
         {
-            return AEResult::Ok;
+            return;
         }
         
         //Set Windowed to false
@@ -970,14 +977,14 @@ AEResult GameApp::SetFullScreen(bool fullScreenEnable)
                     m_GraphicOptsPreferred.m_ScreenResolution.y, 
                     SWP_NOZORDER | SWP_SHOWWINDOW);    
         
-        gpp->m_BackBufferWidth = m_GraphicOptsPreferred.m_ScreenResolution.x;
-        gpp->m_BackBufferHeight = m_GraphicOptsPreferred.m_ScreenResolution.y;
+        gpp->m_GameBackBufferWidth  = m_GraphicOptsPreferred.m_ScreenResolution.x;
+        gpp->m_GameBackBufferHeight = m_GraphicOptsPreferred.m_ScreenResolution.y;
     }
     else
     {
         if(gpp->m_Windowed)
         {
-            return AEResult::Ok;
+            return;
         }
         
         //Set Windowed to true
@@ -1003,23 +1010,23 @@ AEResult GameApp::SetFullScreen(bool fullScreenEnable)
     //Signal Everything that we need to reset device
     OnLostDevice();
     
-    if(m_GraphicDevice->ResetDevice() != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice->ResetDevice();
 
     OnResetDevice();
-    
-    return AEResult::Ok;
 }
+#endif
 
-void GameApp::OnLostDevice()
+void GameApp::InternalOnLostDevice()
 {
+    OnLostDevice();
+
     m_GameComponentCollection->OnLostDeviceCollection();
 }
 
-void GameApp::OnResetDevice()
+void GameApp::InternalOnResetDevice()
 {
+    OnResetDevice();
+
     m_GameComponentCollection->OnResetDeviceCollection();
 }
 
@@ -1236,24 +1243,6 @@ void GameApp::InternalPostUpdate(const TimerParams& timerParams)
     m_GameComponentCollection->PostUpdateCollection(timerParams);
 }
 
-void GameApp::InternalOnLostDevice()
-{
-    //Game App Update
-    OnLostDevice();
-
-    //Game Component Update
-    m_GameComponentCollection->OnLostDeviceCollection();
-}
-
-void GameApp::InternalOnResetDevice()
-{
-    //Game App Update
-    OnResetDevice();
-
-    //Game Component Update
-    m_GameComponentCollection->OnResetDeviceCollection();
-}
-
 AEResult GameApp::SaveGameInfo()
 {
     if (!m_IsReady)
@@ -1436,8 +1425,21 @@ AEResult GameApp::CreateProjectFolder(const std::string& projectFolder, const st
     return AEResult::Ok;
 }
 
+
+#ifdef AE_EDITOR_MODE
+// ImGui Implementation to handle Windows Events
+IMGUI_IMPL_API LRESULT  ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+#endif
+
 LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+#ifdef AE_EDITOR_MODE
+    if (ImGui_ImplWin32_WndProcHandler(m_MainWnd, msg, wParam, lParam))
+    {
+        return true;
+    }
+#endif
+
     RECT clientRect = {0, 0, 0, 0};
     uint32_t width  = 0;
     uint32_t height = 0;
@@ -1484,7 +1486,7 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
         // WM_SIZE is sent when the user resizes the window.  
         case WM_SIZE:
-
+        {
             width  = LOWORD(lParam);
             height = HIWORD(lParam);
 
@@ -1513,6 +1515,7 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
                 {
                     m_AppInactive = false;
                     m_Minimized = false;
+
                     OnResize(width, height);
                 }
                 // Restoring from maximized state?
@@ -1520,6 +1523,7 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
                 {
                     m_AppInactive = false;
                     m_Maximized = false;
+
                     OnResize(width, height);
                 }
                 else if(m_Resizing)
@@ -1540,6 +1544,7 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
             }
 
             return 0;
+        }
 
         case WM_ENTERSIZEMOVE:
             m_AppInactive = true;
@@ -1549,23 +1554,28 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
         // WM_EXITSIZEMOVE is sent when the user releases the resize bars.
         // Here we reset everything based on the new window dimensions.
         case WM_EXITSIZEMOVE:
+        {
             GetClientRect(m_MainWnd, &clientRect);
 
-            width  = (uint32_t)clientRect.right;
-            height = (uint32_t)clientRect.bottom;
+            width           = (uint32_t)clientRect.right;
+            height          = (uint32_t)clientRect.bottom;
 
-            m_AppInactive = false;
-            m_Resizing  = false;
+            m_AppInactive   = false;
+            m_Resizing      = false;
 
             OnResize(width, height);
 
             return 0;
+        }
 
         // WM_CLOSE is sent when the user presses the 'X' button in the
         // caption bar menu.
         case WM_CLOSE:
+        {
+            AETODO("Verify we need this or we can call it from outside");
             DestroyWindow(m_MainWnd);
             return 0;
+        }
 
         // WM_DESTROY is sent when the window is being destroyed.
         case WM_DESTROY:
@@ -1591,6 +1601,17 @@ LRESULT GameApp::MsgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 #ifdef AE_EDITOR_MODE
+
+void GameApp::ResizeEditor(uint32_t width, uint32_t heigth)
+{
+    AEAssert(m_IsReady);
+
+    m_ImGuiManager->OnLostDevice();
+
+    m_GraphicDevice->ResizeEditor(width, heigth);
+
+    m_ImGuiManager->OnResetDevice();
+}
 
 AEResult GameApp::EditorPlay()
 {

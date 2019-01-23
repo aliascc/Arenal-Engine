@@ -288,16 +288,9 @@ AEResult FrustumShape::DrawFrustumShape(bool simple)
         return AEResult::NotReady;
     }
 
-    AETODO("add better return codes");
-    if (m_GraphicDevice.SetVertexBuffer(m_VB) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice.SetVertexBuffer(m_VB);
 
-    if (m_GraphicDevice.SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice.SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
     uint32_t vtxSize = m_VB->GetSize();
 
@@ -306,10 +299,7 @@ AEResult FrustumShape::DrawFrustumShape(bool simple)
         vtxSize = AE_FRUSTUM_SIMPLE_SHAPE_SIZE;
     }
 
-    if (m_GraphicDevice.Draw(vtxSize, 0) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice.Draw(vtxSize, 0);
 
     return AEResult::Ok;
 }

@@ -315,7 +315,7 @@ class VertexBuffer sealed : public IVertexBuffer
                 return AEResult::Fail;
             }
 
-            AEGraphicHelpers::SetDebugObjectName<ID3D11Buffer>(m_VertexBufferDX, AE_DEBUG_VB_NAME_PREFIX + m_Name);
+            AEGraphicHelpers::SetDebugObjectName(m_VertexBufferDX, AE_DEBUG_VB_NAME_PREFIX + m_Name);
 
             m_IsReady = true;
 

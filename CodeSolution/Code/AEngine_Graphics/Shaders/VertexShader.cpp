@@ -76,7 +76,7 @@ AEResult VertexShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_
     ReleaseCOM(m_VSDX);
     m_VSDX = tempDX;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11VertexShader>(m_VSDX, AE_DEBUG_VS_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_VSDX, AE_DEBUG_VS_NAME_PREFIX + m_Name);
     
     return AEResult::Ok;
 }

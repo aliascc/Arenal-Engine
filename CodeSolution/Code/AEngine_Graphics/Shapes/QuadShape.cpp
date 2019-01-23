@@ -49,33 +49,15 @@ QuadShape::~QuadShape()
     DeleteMem(m_VB);
 }
 
-AEResult QuadShape::DrawQuad()
+void QuadShape::DrawQuad()
 {
-    if(!m_IsReady)
-    {
-        return AEResult::NotReady;
-    }
+    AEAssert(m_IsReady);
 
-    AETODO("add better return codes");
-    if(m_GraphicDevice.SetVertexBuffer(m_VB) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice.SetVertexBuffer(m_VB);
 
-    if(m_GraphicDevice.SetIndexBuffer(m_IB) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice.SetIndexBuffer(m_IB);
 
-    if(m_GraphicDevice.SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice.SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-    if(m_GraphicDevice.DrawIndexed(0, 0, m_IB->GetSize()) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
-
-    return AEResult::Ok;
+    m_GraphicDevice.DrawIndexed(0, 0, m_IB->GetSize());
 }

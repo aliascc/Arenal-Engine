@@ -32,6 +32,7 @@
 *   Game Engine Includes   *
 ****************************/
 #include "EditorViewer.h"
+#include "UI\UIManager.h"
 #include "Camera\EditorCamera.h"
 #include "GameUtils\GameComponent.h"
 #include "GameObject\GameObjectManager.h"
@@ -43,6 +44,7 @@
 /********************
 *   Function Defs   *
 *********************/
+
 EditorViewer::EditorViewer(HINSTANCE hInstance)
     : GameApp(hInstance)
 {
@@ -57,7 +59,7 @@ void EditorViewer::Initialize()
     m_InputHandler = new InputHandler(*this);
     this->AddComponent(m_InputHandler);
 
-    glm::ivec2 dimension(m_GraphicDevice->GetGraphicPP().m_BackBufferWidth, m_GraphicDevice->GetGraphicPP().m_BackBufferHeight);
+    glm::ivec2 dimension(m_GraphicDevice->GetGraphicPP().m_GameBackBufferWidth, m_GraphicDevice->GetGraphicPP().m_GameBackBufferHeight);
     EditorCamera* editorCamera = new EditorCamera(AE_CAMERA_EDITOR_ENG_DEFAULT_NAME, glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), AEMathHelpers::Vec3fUp, dimension, 45.0f, 1.0f, 1000.0f);
 
     m_CameraManager->AddCamera(editorCamera);
@@ -104,6 +106,9 @@ void EditorViewer::Initialize()
 
     m_ImGuiComponent = new ImGuiComponent(*this);
     this->AddComponent(m_ImGuiComponent);
+
+    m_UIManager = new UIManager(*this);
+    m_UIManager->AddEditorWidgets();
 }
 
 void EditorViewer::LoadContent()
@@ -139,6 +144,8 @@ void EditorViewer::UnLoadContent()
     DeleteMem(m_GameObjectCameraUpdate);
     DeleteMem(m_GameAudioUpdate);
     DeleteMem(m_ImGuiComponent);
+
+    DeleteMem(m_UIManager);
 }
 
 void EditorViewer::OnLostDevice()

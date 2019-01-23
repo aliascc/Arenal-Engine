@@ -89,7 +89,7 @@ AEResult MeshAsset::LoadAssetResource()
         {
             AETODO("Check if we always need to reload");
             AETODO("Check return value");
-            m_Mesh->Load();
+            //m_Mesh->Load();
 
             return AEResult::Ok;
         }

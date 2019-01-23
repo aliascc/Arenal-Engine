@@ -78,7 +78,7 @@ AEResult DomainShader::LoadShaderWithoutLock(const BYTE* shaderByteCode, uint32_
     ReleaseCOM(m_DSDX);
     m_DSDX = tempDX;
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11DomainShader>(m_DSDX, AE_DEBUG_DS_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_DSDX, AE_DEBUG_DS_NAME_PREFIX + m_Name);
     
     return AEResult::Ok;
 }

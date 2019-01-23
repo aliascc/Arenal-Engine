@@ -71,8 +71,8 @@ AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint
 
     dxDesc.Width                = width;
     dxDesc.Height               = height;
-    dxDesc.MipLevels            = 1;//Depth Stencil for Default has 1 Mip Map
-    dxDesc.ArraySize            = 1;//Depth Stencil for Default has 1 Array Size
+    dxDesc.MipLevels            = 1;    //Depth Stencil for Default has 1 Mip Map
+    dxDesc.ArraySize            = 1;    //Depth Stencil for Default has 1 Array Size
     dxDesc.Format               = formatDST;
 
     AETODO("Check Multisampling in DS");
@@ -98,7 +98,7 @@ AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint
         return AEResult::CreateTextureFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11Texture2D>(m_TextureDX, AE_DEBUG_DEPTH_T_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_TextureDX, AE_DEBUG_DEPTH_T_NAME_PREFIX + m_Name);
 
     D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
     memset(&srvDesc, 0, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
@@ -111,6 +111,7 @@ AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint
     srvDesc.Texture2D.MostDetailedMip    = 0;
 
     AETODO("Check Shader Resource Desc");
+    AETODO("Do not bind if RT is not needed as shader input");
     hr = m_GraphicDevice.GetDeviceDX()->CreateShaderResourceView(m_TextureDX, &srvDesc, &m_ShaderResourceView);
 
     if(hr != S_OK)
@@ -123,7 +124,7 @@ AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint
         return AEResult::CreateSRViewFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11ShaderResourceView>(m_ShaderResourceView, AE_DEBUG_DEPTH_SRV_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_ShaderResourceView, AE_DEBUG_DEPTH_SRV_NAME_PREFIX + m_Name);
 
     D3D11_DEPTH_STENCIL_VIEW_DESC dsDesc;
     memset(&dsDesc, 0, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
@@ -150,7 +151,7 @@ AEResult DepthStencilSurface::InitializeDepthStencilSurface(uint32_t width, uint
         return AEResult::CreateDSViewFailed;
     }
 
-    AEGraphicHelpers::SetDebugObjectName<ID3D11DepthStencilView>(m_DepthStencilDX, AE_DEBUG_DEPTH_S_NAME_PREFIX + m_Name);
+    AEGraphicHelpers::SetDebugObjectName(m_DepthStencilDX, AE_DEBUG_DEPTH_S_NAME_PREFIX + m_Name);
 
     m_Width = width;
     m_Height = height;

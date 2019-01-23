@@ -66,11 +66,13 @@ void InputHandler::Update(const TimerParams& timerParams)
         {
             if (keyboard->WasKeyPressed(AEKeys::NUMPADENTER))
             {
-                m_GameApp.SetFullScreen(true);
+                AETODO("send as command to command manager");
+                //m_GameApp.SetFullScreen(true);
             }
             if (keyboard->WasKeyPressed(AEKeys::ENTER))
             {
-                m_GameApp.SetFullScreen(false);
+                AETODO("send as command to command manager");
+                //m_GameApp.SetFullScreen(false);
             }
         }
     }

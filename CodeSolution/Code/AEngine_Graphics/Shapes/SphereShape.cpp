@@ -394,26 +394,13 @@ AEResult SphereShape::DrawSphere()
         return AEResult::Fail;
     }
 
-    AETODO("add better return codes");
-    if(m_GraphicDevice.SetVertexBuffer(m_VB) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice.SetVertexBuffer(m_VB);
 
-    if(m_GraphicDevice.SetIndexBuffer(m_IB) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice.SetIndexBuffer(m_IB);
 
-    if(m_GraphicDevice.SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice.SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-    if(m_GraphicDevice.DrawIndexed(0, 0, m_IB->GetSize()) != AEResult::Ok)
-    {
-        return AEResult::Fail;
-    }
+    m_GraphicDevice.DrawIndexed(0, 0, m_IB->GetSize());
 
     return AEResult::Ok;
 }
