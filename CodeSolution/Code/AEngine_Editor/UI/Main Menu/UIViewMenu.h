@@ -28,56 +28,49 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "ImGuiMenu.h"
 
-/*******************
-*   Forward Decl   *
-********************/
-class GameApp;
-class UIMainMenu;
-class ImGuiManager;
-class UIRenderWidget;
+/********************
+*   Forward Decls   *
+*********************/
+class ImGuiMenuItem;
 
-/****************
-*   Class Def   *
-*****************/
+/*****************
+*   Class Decl   *
+******************/
 
-class UIManager : public AEObject
+/// <summary>
+/// UI View Menu
+/// </summary>
+class UIViewMenu sealed : public ImGuiMenu
 {
 private:
 
-    GameApp& m_GameApp;
+    /// <summary>
+    /// Menu Item to view the Render Window
+    /// </summary>
+    ImGuiMenuItem* m_ViewRenderWindow;
 
     /// <summary>
-    /// ImGui Manager Instance
+    /// Callback of the View Render Menu Item on Clicked
     /// </summary>
-    ImGuiManager& m_ImGuiManager;
-
-    /// <summary>
-    /// UI Render Widget
-    /// </summary>
-    UIRenderWidget* m_UIRenderWidget = nullptr;
-
-    /// <summary>
-    /// UI Main Menu
-    /// </summary>
-    UIMainMenu* m_UIMainMenu = nullptr;
+    /// <param name="id">ID of the Menu Item</param>
+    void ViewRenderWindowClicked(uint64_t id);
 
 public:
 
     /// <summary>
-    /// Default Constructor for UIManager
+    /// UIViewMenu Constructor
     /// </summary>
-    /// <param name="gameApp">Game App Instance</param>
-    UIManager(GameApp& gameApp);
+    /// <param name="imGuiManager">ImGuiManager Instance</param>
+    /// <param name="renderPriority">Render Priority of the Menu</param>
+    UIViewMenu(ImGuiManager& imGuiManager, uint32_t renderPriority);
 
     /// <summary>
-    /// Destructor for UIManager
+    /// UIViewMenu Destructor
     /// </summary>
-    ~UIManager();
+    ~UIViewMenu();
 
-    /// <summary>
-    /// Adds the Editor Widgets to the ImGui Manager
-    /// </summary>
-    /// <returns>Returns AEResult::Ok if successful, otherwise an error code</returns>
-    AEResult AddEditorWidgets();
+    /// <see cref="ImGuiMenu::Initialize(const TimerParams&)"/>
+    AEResult Initialize() override;
 };

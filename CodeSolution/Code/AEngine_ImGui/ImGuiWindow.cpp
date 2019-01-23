@@ -42,8 +42,8 @@
 
 #ifdef AE_EDITOR_MODE
 
-ImGuiWindow::ImGuiWindow(const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible, ImGuiWindowFlags flags, bool showCloseIcon)
-    : ImGuiObject(name, literalName, renderPriority, visible)
+ImGuiWindow::ImGuiWindow(ImGuiManager& imGuiManager, const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible, ImGuiWindowFlags flags, bool showCloseIcon)
+    : ImGuiObject(imGuiManager, name, literalName, renderPriority, visible)
     , m_Flags(flags)
     , m_ShowCloseIcon(showCloseIcon)
 {

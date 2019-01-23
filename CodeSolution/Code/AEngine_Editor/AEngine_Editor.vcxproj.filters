@@ -13,6 +13,12 @@
     <ClCompile Include="UI\Widgets\Render\UIRenderWidget.cpp">
       <Filter>UI\Widgets\Render</Filter>
     </ClCompile>
+    <ClCompile Include="UI\Main Menu\UIViewMenu.cpp">
+      <Filter>UI\Main Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Main Menu\UIFileMenu.cpp">
+      <Filter>UI\Main Menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorViewer.h" />
@@ -28,6 +34,12 @@
     </ClInclude>
     <ClInclude Include="UI\UIDefs.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Main Menu\UIViewMenu.h">
+      <Filter>UI\Main Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Main Menu\UIFileMenu.h">
+      <Filter>UI\Main Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

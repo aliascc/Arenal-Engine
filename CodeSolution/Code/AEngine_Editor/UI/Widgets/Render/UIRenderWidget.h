@@ -62,9 +62,10 @@ public:
     /// <summary>
     /// Constructor for UIRenderWidget
     /// </summary>
+    /// <param name="imGuiManager">ImGuiManager Instance</param>
     /// <param name="gameApp">Game App Instance</param>
     /// <param name="graphicDevice">Graphic Device of the application</param>
-    UIRenderWidget(GameApp& gameApp, GraphicDevice& graphicDevice);
+    UIRenderWidget(ImGuiManager& imGuiManager, GameApp& gameApp, GraphicDevice& graphicDevice);
 
     /// <summary>
     /// Destructor for UIRenderWidget

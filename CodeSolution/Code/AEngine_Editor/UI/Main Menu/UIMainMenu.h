@@ -17,12 +17,68 @@
 
 #pragma once
 
+/**********************
+*   System Includes   *
+***********************/
+
+/*************************
+*   3rd Party Includes   *
+**************************/
+
+/***************************
+*   Game Engine Includes   *
+****************************/
+
+/********************
+*   Forward Decls   *
+*********************/
+class UIFileMenu;
+class UIViewMenu;
+class ImGuiMainMenu;
+
+/*****************
+*   Class Decl   *
+******************/
+
 class UIMainMenu : public AEObject
 {
 private:
 
+    /// <summary>
+    /// ImGui Manager Instance
+    /// </summary>
+    ImGuiManager& m_ImGuiManager;
+
+    /// <summary>
+    /// ImGui Main Menu
+    /// </summary>
+    ImGuiMainMenu& m_ImGuiMainMenu;
+
+    /// <summary>
+    /// File Menu
+    /// </summary>
+    UIFileMenu* m_FileMenu = nullptr;
+
+    /// <summary>
+    /// View Menu
+    /// </summary>
+    UIViewMenu* m_ViewMenu = nullptr;
+
 public:
 
-    UIMainMenu();
+    /// <summary>
+    /// UIMain Menu Constructor
+    /// </summary>
+    /// <param name="imGuiManage">ImGui Manager</param>
+    UIMainMenu(ImGuiManager& imGuiManager);
+
+    /// <summary>
+    /// UIMain Menu Destructor
+    /// </summary>
     ~UIMainMenu();
+
+    /// <summary>
+    /// Add the Editor Menus
+    /// </summary>
+    void AddEditorMenus();
 };

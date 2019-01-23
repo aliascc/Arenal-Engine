@@ -37,6 +37,26 @@
 *   Defines   *
 ***************/
 
-#define AE_LITERAL_UI_RENDER_WINDOW_NAME    "AE_UI_RENDER_WINDOW_NAME"
+#define AE_UI_FILE_MENU_NAME                        "File Menu"
+#define AE_UI_VIEW_MENU_NAME                        "View Menu"
+#define AE_UI_RENDER_WINDOW_NAME                    "Render Window"
+#define AE_UI_VIEW_RENDER_WINDOW_NAME               "View Render Window"
 
-#define AE_UI_RENDER_WINDOW_PRIORITY        0
+// Main Menu Priorities
+
+#define AE_UI_FILE_MENU_PRIORITY                    0
+#define AE_UI_VIEW_MENU_PRIORITY                    1
+
+// View Menu Priorities
+
+#define AE_UI_VIEW_MENU_RENDER_WINDOW_PRIORITY      0
+
+#define AE_LITERAL_UI_RENDER_WINDOW_NAME            "AE_UI_RENDER_WINDOW_NAME"
+#define AE_LITERAL_UI_FILE_MENU_NAME                "AE_UI_FILE_MENU_NAME"
+#define AE_LITERAL_UI_VIEW_MENU_NAME                "AE_UI_VIEW_MENU_NAME"
+#define AE_LITERAL_UI_VIEW_MENU_RENDER_WINDOW_NAME  "AE_UI_VIEW_MENU_RENDER_WINDOW_NAME"
+
+
+// Widget Priorities
+
+#define AE_UI_RENDER_WINDOW_PRIORITY                0

@@ -31,7 +31,12 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
+#include "UI/UIDefs.h"
 #include "UIMainMenu.h"
+#include "ImGuiManager.h"
+#include "ImGuiMainMenu.h"
+#include "UI/Main Menu/UIFileMenu.h"
+#include "UI/Main Menu/UIViewMenu.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
@@ -40,10 +45,25 @@
 *   Function Defs   *
 *********************/
 
-UIMainMenu::UIMainMenu()
+UIMainMenu::UIMainMenu(ImGuiManager& imGuiManager)
+    : m_ImGuiManager(imGuiManager)
+    , m_ImGuiMainMenu(imGuiManager.GetImGuiMainMenu())
 {
 }
 
 UIMainMenu::~UIMainMenu()
 {
+    DeleteMem(m_FileMenu);
+    DeleteMem(m_ViewMenu);
+}
+
+void UIMainMenu::AddEditorMenus()
+{
+    m_FileMenu = new UIFileMenu(m_ImGuiManager, AE_UI_FILE_MENU_PRIORITY);
+    m_FileMenu->Initialize();
+    m_ImGuiMainMenu.AddMenuObject(m_FileMenu);
+
+    m_ViewMenu = new UIViewMenu(m_ImGuiManager, AE_UI_VIEW_MENU_PRIORITY);
+    m_ViewMenu->Initialize();
+    m_ImGuiMainMenu.AddMenuObject(m_ViewMenu);
 }

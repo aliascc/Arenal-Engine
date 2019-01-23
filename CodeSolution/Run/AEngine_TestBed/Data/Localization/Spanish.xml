@@ -273,6 +273,9 @@
   -->
 
   <Literal  name="AE_UI_MAIN_MENU_NAME"                         msg="Menu Principal" />
+  <Literal  name="AE_UI_FILE_MENU_NAME"                         msg="Archivo" />
+  <Literal  name="AE_UI_VIEW_MENU_NAME"                         msg="Ver" />
+  <Literal  name="AE_UI_VIEW_MENU_RENDER_WINDOW_NAME"           msg="Ventana de Renderizado" />
   <Literal  name="AE_UI_RENDER_WINDOW_NAME"                     msg="Ventana de Renderizado" />
 
 </Language>

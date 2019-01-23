@@ -15,10 +15,7 @@
 * limitations under the License.
 */
 
-/*************************
-*   Precompiled Header   *
-**************************/
-#include "precomp_editor.h"
+#pragma once
 
 /**********************
 *   System Includes   *
@@ -31,40 +28,38 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "UIManager.h"
-#include "ImGuiManager.h"
-#include "GameApp/GameApp.h"
-#include "Main Menu/UIMainMenu.h"
-#include "UI/Widgets/Render/UIRenderWidget.h"
-
-//Always include last
-#include "Memory\MemLeaks.h"
+#include "ImGuiMenu.h"
 
 /********************
-*   Function Defs   *
+*   Forward Decls   *
 *********************/
+class ImGuiMenuItem;
 
-UIManager::UIManager(GameApp& gameApp)
-    : m_GameApp(gameApp)
-    , m_ImGuiManager(gameApp.GetImGuiManager())
+/*****************
+*   Class Decl   *
+******************/
+
+/// <summary>
+/// UI View Menu
+/// </summary>
+class UIFileMenu sealed : public ImGuiMenu
 {
-}
+private:
 
-UIManager::~UIManager()
-{
-    DeleteMem(m_UIRenderWidget);
-    DeleteMem(m_UIMainMenu);
-}
+public:
 
-AEResult UIManager::AddEditorWidgets()
-{
-    m_UIMainMenu = new UIMainMenu(m_ImGuiManager);
-    m_UIMainMenu->AddEditorMenus();
+    /// <summary>
+    /// UIFileMenu Constructor
+    /// </summary>
+    /// <param name="imGuiManager">ImGuiManager Instance</param>
+    /// <param name="renderPriority">Render Priority of the Menu</param>
+    UIFileMenu(ImGuiManager& imGuiManager, uint32_t renderPriority);
 
-    m_UIRenderWidget = new UIRenderWidget(m_ImGuiManager, m_GameApp, m_GameApp.GetGraphicsDevice());
-    m_UIRenderWidget->SetIsVisible(true);
+    /// <summary>
+    /// UIFileMenu Destructor
+    /// </summary>
+    ~UIFileMenu();
 
-    m_ImGuiManager.AddImGuiWindow(m_UIRenderWidget);
-
-    return AEResult::Ok;
-}
+    /// <see cref="ImGuiMenu::Initialize(const TimerParams&)"/>
+    AEResult Initialize() override;
+};

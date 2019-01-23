@@ -273,6 +273,9 @@
   -->
 
   <Literal  name="AE_UI_MAIN_MENU_NAME"                         msg="Main Menu" />
+  <Literal  name="AE_UI_FILE_MENU_NAME"                         msg="File" />
+  <Literal  name="AE_UI_VIEW_MENU_NAME"                         msg="View" />
+  <Literal  name="AE_UI_VIEW_MENU_RENDER_WINDOW_NAME"           msg="Render Window" />
   <Literal  name="AE_UI_RENDER_WINDOW_NAME"                     msg="Render Window" />
 
 </Language>

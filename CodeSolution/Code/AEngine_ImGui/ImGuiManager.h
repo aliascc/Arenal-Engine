@@ -51,6 +51,7 @@ class ImGuiManager sealed : public AEObject
     //Typedef for STL Game Component List 
     typedef std::vector<ImGuiWindow*>                   ImGuiWindowVector;
     typedef std::unordered_map<uint64_t, ImGuiWindow*>  ImGuiWindowMap;
+    typedef std::unordered_map<std::string, uint64_t>   ImGuiWindowNameMap;
 
 private:
 
@@ -63,6 +64,7 @@ private:
 
     ImGuiWindowVector m_ImGuiWindows;
     ImGuiWindowMap m_ImGuiWindowMap;
+    ImGuiWindowNameMap m_ImGuiWindowNameMap;
 
     /// <summary>
     /// ImGui Docking Flags
@@ -107,9 +109,17 @@ public:
     ImGuiManager(const ImGuiManager&) = delete;
     ImGuiManager& operator=(const ImGuiManager&) = delete;
 
+    /// <summary>
+    /// Determines if the Manager has been initialize
+    /// </summary>
     inline bool IsReady() const
     {
         return m_IsReady;
+    }
+
+    inline ImGuiMainMenu& GetImGuiMainMenu()
+    {
+        return *m_ImGuiMainMenu;
     }
 
     /// <summary>
@@ -129,7 +139,14 @@ public:
     /// </summary>
     /// <param name="imGuiObjectID">Unique ID of the ImGui Window to remove</param>
     /// <returns>OK if the ImGui Window was removed from the manager, otherwise error code</returns>
-    AEResult RemoveImGuiWindow(const uint64_t imGuiWindowID);
+    AEResult RemoveImGuiWindow(uint64_t imGuiWindowID);
+
+    /// <summary>
+    /// Gets and ImGui Window
+    /// </summary>
+    /// <param name="windowName">Name of the Window</param>
+    /// <returns>ImGui Window pointer if found, otherwise nullptr</returns>
+    ImGuiWindow* GetImGuiWindow(const std::string& windowName);
 
     /// <summary>
     /// Initializes Im Gui

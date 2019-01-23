@@ -43,8 +43,8 @@
 
 #ifdef AE_EDITOR_MODE
 
-ImGuiMenu::ImGuiMenu(const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible)
-    : ImGuiMenuObject(ImGuiMenuObjectType::Menu, name, literalName, renderPriority, visible)
+ImGuiMenu::ImGuiMenu(ImGuiManager& imGuiManager, const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible)
+    : ImGuiMenuObject(imGuiManager, ImGuiMenuObjectType::Menu, name, literalName, renderPriority, visible)
 {
 }
 

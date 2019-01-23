@@ -84,6 +84,7 @@ namespace AEColors
     const Color DeepSkyBlue             =    Color(0.0f,         0.74902f,      1.0f,       1.0f);
     const Color DimGray                 =    Color(0.411765f,    0.411765f,     0.411765f,  1.0f);
     const Color DodgerBlue              =    Color(0.117647f,    0.564706f,     1.0f,       1.0f);
+    const Color EditorBackground        =    Color(0.235294f,    0.235294f,     0.235294f,  1.0f);
     const Color Firebrick               =    Color(0.698039f,    0.133333f,     0.133333f,  1.0f);
     const Color FloralWhite             =    Color(1.0f,         0.980392f,     0.941176f,  1.0f);
     const Color ForestGreen             =    Color(0.133333f,    0.545098f,     0.133333f,  1.0f);
@@ -181,7 +182,7 @@ namespace AEColors
     const Color Wheat                   =    Color(0.960784f,    0.870588f,     0.701961f,  1.0f);
     const Color White                   =    Color(1.0f,         1.0f,          1.0f,       1.0f);
     const Color WhiteSmoke              =    Color(0.960784f,    0.960784f,     0.960784f,  1.0f);
-    const Color WorldEngineBackground   =    Color(0.2745f,      0.2745f,       0.2745f,    1.0f);
+    const Color WorldEngineBackground   =    Color(0.30f,        0.30f,         0.30f,      1.0f);
     const Color Yellow                  =    Color(1.0f,         1.0f,          0.0f,       1.0f);
     const Color YellowGreen             =    Color(0.603922f,    0.803922f,     0.196078f,  1.0f);
 

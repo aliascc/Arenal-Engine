@@ -91,13 +91,14 @@ AEResult ImGuiManager::AddImGuiWindow(ImGuiWindow* imGuiWindow)
 
     const uint64_t imGuiWindowID    = imGuiWindow->GetUniqueID();
 
-    m_ImGuiWindowMap[imGuiWindowID] = imGuiWindow;
+    m_ImGuiWindowMap[imGuiWindowID]                 = imGuiWindow;
+    m_ImGuiWindowNameMap[imGuiWindow->GetName()]    = imGuiWindowID;
     m_ImGuiWindows.push_back(imGuiWindow);
 
     return AEResult::Ok;
 }
 
-AEResult ImGuiManager::RemoveImGuiWindow(const uint64_t imGuiWindowID)
+AEResult ImGuiManager::RemoveImGuiWindow(uint64_t imGuiWindowID)
 {
     AEAssert(m_IsReady);
 
@@ -108,9 +109,22 @@ AEResult ImGuiManager::RemoveImGuiWindow(const uint64_t imGuiWindowID)
     auto it = m_ImGuiWindows.begin();
     for (; (*it)->GetUniqueID() != imGuiWindowID && it != m_ImGuiWindows.end(); it++);
     AEAssert(it != m_ImGuiWindows.end());
+
+    m_ImGuiWindowNameMap.erase((*it)->GetName());
     m_ImGuiWindows.erase(it);
 
     return AEResult::Ok;
+}
+
+ImGuiWindow* ImGuiManager::GetImGuiWindow(const std::string& windowName)
+{
+    auto it = m_ImGuiWindowNameMap.find(windowName);
+    if (it == m_ImGuiWindowNameMap.end())
+    {
+        return nullptr;
+    }
+
+    return m_ImGuiWindowMap[it->second];
 }
 
 AEResult ImGuiManager::Initialize()
@@ -168,7 +182,7 @@ AEResult ImGuiManager::Initialize()
 
     //////////////////////////////////
     // Creatte Main Menu
-    m_ImGuiMainMenu = new ImGuiMainMenu();
+    m_ImGuiMainMenu = new ImGuiMainMenu(*this);
 
     m_IsReady = true;
 
@@ -239,7 +253,7 @@ void ImGuiManager::Render(const TimerParams& timerParams)
     ///////////////////////////
     // Set Editor Render Target and clear
     m_GraphicDevice.SetEditorRenderTargetAndViewPort();
-    m_GraphicDevice.Clear(true, 0, false, false);
+    m_GraphicDevice.Clear(true, 0, false, false, AEColors::EditorBackground);
 
     ///////////////////////////
     // Render to DirectX

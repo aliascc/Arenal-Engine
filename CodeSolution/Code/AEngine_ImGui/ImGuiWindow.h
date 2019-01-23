@@ -80,13 +80,14 @@ public:
     /// <summary>
     /// ImGUIObject Constructor
     /// </summary>
+    /// <param name="imGuiManager">ImGuiManager Instance</param>
     /// <param name="name">Name of the Window</param>
     /// <param name="literalName">Literal Name of the Window</param>
     /// <param name="renderPriority">Render Priority of the Window</param>
     /// <param name="visible">Determines if the window is visible or not</param>
     /// <param name="flags">Im Gui Window Flags</param>
     /// <param name="showCloseIcon">Determines if the Close Icon will be shown</param>
-    ImGuiWindow(const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible = true, ImGuiWindowFlags flags = ImGuiWindowFlags_None, bool showCloseIcon = true);
+    ImGuiWindow(ImGuiManager& imGuiManager, const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible = true, ImGuiWindowFlags flags = ImGuiWindowFlags_None, bool showCloseIcon = true);
 
     /// <summary>
     /// Default ImGUIObject Destructor

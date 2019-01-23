@@ -1218,9 +1218,9 @@ void GraphicDevice::ResetViewport()
     AEAssert(m_IsReady);
 
 #ifdef AE_EDITOR_MODE
-    m_DeviceContextDX->RSSetViewports(1, &m_EditorViewportDX);
+    m_DeviceContextDX->RSSetViewports(1, &m_GameViewportDX);
 #else
-    m_DeviceContextDX->RSSetViewports(1, &m_ScreenViewportDX);
+    m_DeviceContextDX->RSSetViewports(1, &m_EditorViewportDX);
 #endif
 }
 

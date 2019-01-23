@@ -32,13 +32,24 @@
 ****************************/
 #include "Base/Named.h"
 
+/***************************
+*   Game Engine Includes   *
+****************************/
+
 /*****************
 *   Class Decl   *
 ******************/
+class ImGuiManager;
+
+/// <summary>
+/// ImGui Base Object Class
+/// </summary>
 class ImGuiObject : public Named
 {
 
 protected:
+
+    ImGuiManager& m_ImGuiManager;
 
     /// <summary>
     /// Literal Name of the ImGui Object
@@ -60,12 +71,14 @@ public:
     /// <summary>
     /// ImGUIObject Constructor
     /// </summary>
+    /// <param name="imGuiManager">ImGuiManager Instance</param>
     /// <param name="name">Name of the object</param>
     /// <param name="literalName">Literal Name of the object</param>
     /// <param name="renderPriority">Render Priority of the object</param>
     /// <param name="visible">Determines if the object is visible or not</param>
-    ImGuiObject(const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible = true)
+    ImGuiObject(ImGuiManager& imGuiManager, const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible = true)
         : Named(name)
+        , m_ImGuiManager(imGuiManager)
         , m_LiteralName(literalName)
         , m_Visible(visible)
         , m_RenderPriority(renderPriority)

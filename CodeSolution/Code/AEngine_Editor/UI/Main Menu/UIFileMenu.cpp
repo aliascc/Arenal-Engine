@@ -31,40 +31,30 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "UIManager.h"
+#include "UI/UIDefs.h"
+#include "ImGuiWindow.h"
 #include "ImGuiManager.h"
-#include "GameApp/GameApp.h"
-#include "Main Menu/UIMainMenu.h"
-#include "UI/Widgets/Render/UIRenderWidget.h"
+#include "ImGuiMenuItem.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
+#include "UIFileMenu.h"
 
 /********************
 *   Function Defs   *
 *********************/
 
-UIManager::UIManager(GameApp& gameApp)
-    : m_GameApp(gameApp)
-    , m_ImGuiManager(gameApp.GetImGuiManager())
+UIFileMenu::UIFileMenu(ImGuiManager& imGuiManager, uint32_t renderPriority)
+    : ImGuiMenu(imGuiManager, AE_UI_FILE_MENU_NAME, AE_LITERAL_UI_FILE_MENU_NAME, renderPriority)
 {
 }
 
-UIManager::~UIManager()
+UIFileMenu::~UIFileMenu()
 {
-    DeleteMem(m_UIRenderWidget);
-    DeleteMem(m_UIMainMenu);
 }
 
-AEResult UIManager::AddEditorWidgets()
+AEResult UIFileMenu::Initialize()
 {
-    m_UIMainMenu = new UIMainMenu(m_ImGuiManager);
-    m_UIMainMenu->AddEditorMenus();
-
-    m_UIRenderWidget = new UIRenderWidget(m_ImGuiManager, m_GameApp, m_GameApp.GetGraphicsDevice());
-    m_UIRenderWidget->SetIsVisible(true);
-
-    m_ImGuiManager.AddImGuiWindow(m_UIRenderWidget);
-
     return AEResult::Ok;
 }
+

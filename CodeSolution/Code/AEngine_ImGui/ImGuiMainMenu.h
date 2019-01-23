@@ -49,16 +49,19 @@ public:
     /// <summary>
     /// ImGUIObject Constructor
     /// </summary>
-    ImGuiMainMenu();
+    /// <param name="imGuiManager">ImGuiManager Instance</param>
+    ImGuiMainMenu(ImGuiManager& imGuiManager);
 
     /// <summary>
     /// Default ImGUIObject Destructor
     /// </summary>
     virtual ~ImGuiMainMenu();
 
-    /// <see cref="ImGuiObject::UpdateWindow(const TimerParams&)"/>
-    void Update(const TimerParams& timerParams) override;
+    /// <see cref="ImGuiMenu::Initialize(const TimerParams&)"/>
+    AEResult Initialize() override;
 
+    /// <see cref="ImGuiObject::Update(const TimerParams&)"/>
+    void Update(const TimerParams& timerParams) override;
 };
 
 #endif //AE_EDITOR_MODE

@@ -43,8 +43,8 @@
 
 #ifdef AE_EDITOR_MODE
 
-ImGuiMenuItem::ImGuiMenuItem(const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible)
-    : ImGuiMenuObject(ImGuiMenuObjectType::Item, name, literalName, renderPriority, visible)
+ImGuiMenuItem::ImGuiMenuItem(ImGuiManager& imGuiManager, const std::string& name, const std::string& literalName, uint32_t renderPriority, bool visible)
+    : ImGuiMenuObject(imGuiManager, ImGuiMenuObjectType::Item, name, literalName, renderPriority, visible)
 {
 }
 
@@ -58,8 +58,27 @@ void ImGuiMenuItem::Update(const TimerParams& timerParams)
 
     if (ImGui::MenuItem(menuName.c_str()))
     {
-        AETODO("Add callback for when click is selected");
+        for (const auto& it : m_MenuItemClickedMap)
+        {
+            it.second(GetUniqueID());
+        }
     }
+}
+
+void ImGuiMenuItem::RegisterOnClickCallback(uint64_t id, const MenuItemClicked & callback)
+{
+    m_MenuItemClickedMap[id] = callback;
+}
+
+void ImGuiMenuItem::UnRegisterOnClickCallback(uint64_t id)
+{
+    auto it = m_MenuItemClickedMap.find(id);
+    if (it == m_MenuItemClickedMap.end())
+    {
+        return;
+    }
+
+    m_MenuItemClickedMap.erase(it);
 }
 
 #endif //AE_EDITOR_MODE

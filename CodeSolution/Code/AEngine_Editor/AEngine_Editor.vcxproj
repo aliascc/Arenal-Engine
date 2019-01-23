@@ -119,14 +119,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="UI\Main Menu\UIFileMenu.cpp" />
     <ClCompile Include="UI\Main Menu\UIMainMenu.cpp" />
+    <ClCompile Include="UI\Main Menu\UIViewMenu.cpp" />
     <ClCompile Include="UI\UIManager.cpp" />
     <ClCompile Include="UI\Widgets\Render\UIRenderWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorViewer.h" />
     <ClInclude Include="precomp_editor.h" />
+    <ClInclude Include="UI\Main Menu\UIFileMenu.h" />
     <ClInclude Include="UI\Main Menu\UIMainMenu.h" />
+    <ClInclude Include="UI\Main Menu\UIViewMenu.h" />
     <ClInclude Include="UI\UIDefs.h" />
     <ClInclude Include="UI\UIManager.h" />
     <ClInclude Include="UI\Widgets\Render\UIRenderWidget.h" />

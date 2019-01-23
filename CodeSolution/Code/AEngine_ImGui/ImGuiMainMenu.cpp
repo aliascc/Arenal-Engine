@@ -43,13 +43,18 @@
 
 #ifdef AE_EDITOR_MODE
 
-ImGuiMainMenu::ImGuiMainMenu()
-    : ImGuiMenu("Main Menu", AE_LITERAL_UI_MAIN_MENU_NAME, 0, true)
+ImGuiMainMenu::ImGuiMainMenu(ImGuiManager& imGuiManager)
+    : ImGuiMenu(imGuiManager, "Main Menu", AE_LITERAL_UI_MAIN_MENU_NAME, 0, true)
 {
 }
 
 ImGuiMainMenu::~ImGuiMainMenu()
 {
+}
+
+AEResult ImGuiMainMenu::Initialize()
+{
+    return AEResult::Ok;
 }
 
 void ImGuiMainMenu::Update(const TimerParams& timerParams)

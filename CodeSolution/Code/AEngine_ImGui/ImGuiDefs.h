@@ -52,4 +52,9 @@ enum class ImGuiMenuObjectType : uint32_t
 
 #define AE_DOCKING_SPACE_WINDOW_NAME        "AE Docking Space Window"
 
+/**************
+*   Typedef   *
+***************/
+typedef std::function<void(uint64_t)> MenuItemClicked;
+
 #endif //AE_EDITOR_MODE

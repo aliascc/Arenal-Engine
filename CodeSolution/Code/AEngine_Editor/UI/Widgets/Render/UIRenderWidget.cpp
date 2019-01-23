@@ -45,8 +45,8 @@
 *   Function Defs   *
 *********************/
 
-UIRenderWidget::UIRenderWidget(GameApp& gameApp, GraphicDevice& graphicDevice)
-    : ImGuiWindow("Render Window", AE_LITERAL_UI_RENDER_WINDOW_NAME, AE_UI_RENDER_WINDOW_PRIORITY)
+UIRenderWidget::UIRenderWidget(ImGuiManager& imGuiManager, GameApp& gameApp, GraphicDevice& graphicDevice)
+    : ImGuiWindow(imGuiManager, AE_UI_RENDER_WINDOW_NAME, AE_LITERAL_UI_RENDER_WINDOW_NAME, AE_UI_RENDER_WINDOW_PRIORITY)
     , m_GameApp(gameApp)
     , m_GraphicDevice(graphicDevice)
 {
