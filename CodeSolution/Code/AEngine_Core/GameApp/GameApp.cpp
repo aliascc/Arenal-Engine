@@ -40,6 +40,7 @@
 #include "GraphicsDefs.h"
 #include "GraphicDevice.h"
 #include "AudioListener.h"
+#include "GraphicDebugDX.h"
 #include "PhysicsManager.h"
 #include "Lights\LightManager.h"
 #include "Camera\CameraManager.h"
@@ -149,12 +150,6 @@ void GameApp::CleanUp()
     DeleteMem(m_GraphicDevice);
 
 #if defined(AE_GRAPHIC_DEBUG_DEVICE)
-
-    //Report Live Objects and then Delete Graphic Debug
-    if (m_GraphicDebugDX != nullptr)
-    {
-        m_GraphicDebugDX->Report();
-    }
 
     DeleteMem(m_GraphicDebugDX);
 

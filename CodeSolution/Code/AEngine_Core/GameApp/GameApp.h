@@ -48,6 +48,7 @@ class AudioManager;
 class GraphicDevice;
 class GameComponent;
 class CameraManager;
+class GraphicDebugDX;
 class PhysicsManager;
 class ResourceManager;
 class GameAssetManager;
