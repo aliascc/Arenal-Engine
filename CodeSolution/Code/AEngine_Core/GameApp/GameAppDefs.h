@@ -56,7 +56,6 @@
 #define AE_PROJ_GAME_OBJECT_MANAGER_NODE    "GameObjectManager"
 #define AE_PROJ_LOCALIZATION_NODE           "Localization"
 #define AE_PROJ_INPUT_NODE                  "Input"
-#define AE_PROJ_DEV_CAPS_NODE               "DevCaps"
 #define AE_PROJ_GRAPHIC_OPTS_NODE           "GraphicOpts"
 #define AE_PROJ_CONFIG_NAME_PROP            "name"
 #define AE_PROJ_CONFIG_FILE_PROP            "file"

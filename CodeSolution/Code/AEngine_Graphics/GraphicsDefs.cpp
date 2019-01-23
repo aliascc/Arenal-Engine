@@ -65,16 +65,9 @@ GraphicsCheckFormat::GraphicsCheckFormat()
 {
 }
 
-/***************************
-*   GraphicsCheckDevCaps   *
-****************************/
-GraphicsCheckDevCaps::GraphicsCheckDevCaps()
-{
-}
-
-/***************************
-*   GraphicsCheckDevCaps   *
-****************************/
+/*************************
+*   GraphicBlendStates   *
+**************************/
 ID3D11BlendState* GraphicBlendStates::m_DefaultState            = nullptr;
 ID3D11BlendState* GraphicBlendStates::m_AdditiveState           = nullptr;
 ID3D11BlendState* GraphicBlendStates::m_AlphaBlendState         = nullptr;

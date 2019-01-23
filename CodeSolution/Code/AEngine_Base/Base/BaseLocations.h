@@ -96,8 +96,6 @@
 
 #define AE_PROJ_IPUT_FILE                       "Input.xml"
 
-#define AE_PROJ_DEVCAPS_FILE                    "DevCaps.xml"
-
 #define AE_PROJ_GAME_OBJECT_MANAGER_FILE        "GameObjectManager.xml"
 
 #define AE_PROJ_LOG_FILE                        "Logs.txt"
@@ -127,8 +125,6 @@
 #define AE_PROJ_INPUT_FILE_LOC                  (AE_PROJ_DATA_DIR "/" AE_PROJ_LOCALIZATION_DIR "/" AE_PROJ_IPUT_FILE)
 
 #define AE_PROJ_GRAPHIC_OPTS_FILE_LOC           (AE_PROJ_DATA_DIR "/" AE_PROJ_LOCALIZATION_DIR "/" AE_PROJ_GRAPHIC_OPTS_FILE)
-
-#define AE_PROJ_DEVCAPS_FILE_LOC                (AE_PROJ_DATA_DIR "/" AE_PROJ_LOCALIZATION_DIR "/" AE_PROJ_DEVCAPS_FILE)
 
 #define AE_PROJ_LOG_FILE_LOC                    (AE_PROJ_DATA_DIR "/" AE_PROJ_LOG_DIR "/" AE_PROJ_LOG_FILE)
 

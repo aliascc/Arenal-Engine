@@ -241,11 +241,7 @@ AEResult GameApp::ExtractGameProjectConfig()
     {
         std::string l_Type = child.GetName();
 
-        if (l_Type.compare(AE_PROJ_DEV_CAPS_NODE) == 0)
-        {
-            m_GameProject.m_GameProjectConfig.m_DevCapFile              = m_GameProject.m_ProjectLocation + child.GetString(AE_PROJ_CONFIG_FILE_PROP);
-        }
-        else if (l_Type.compare(AE_PROJ_CONFIG_NODE) == 0)
+        if (l_Type.compare(AE_PROJ_CONFIG_NODE) == 0)
         {
             m_GameProject.m_ProjectName                                 = child.GetString(AE_PROJ_CONFIG_NAME_PROP);
         }
@@ -737,15 +733,6 @@ AEResult GameApp::Init3D_Device()
 {
     //Create Graphics Device
     m_GraphicDevice = new GraphicDevice(m_MainWnd, m_GraphicOptsPreferred);
-
-    AETODO("Examine Check Caps");
-    //Check for Graphic Device Capabilities Support
-    //if(m_GraphicDevice->CheckDevCaps(m_GameConfig.m_DevCapFile) != AEResult::Ok)
-    //{
-    //    std::string msgerr = fmt::format(m_LocalizationManager->GetLiteral("CHECK_DEV_CAPS_ERR_MSG"), __FUNCTION__);
-    //    m_Logger->AddNewLog(LogLevel::Error, msgerr);
-    //    return AEResult::Fail;
-    //}
 
     //Initialize Device
     if(m_GraphicDevice->InitDevice() != AEResult::Ok)

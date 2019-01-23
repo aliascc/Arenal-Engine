@@ -313,7 +313,6 @@ public:
 
     void Clear(bool target = true, uint32_t rt_stage_id = 0, bool depth = true, bool stencil = true, const Color& color = AEColors::WorldEngineBackground, float depthVal = 1.0f, uint8_t stencilVal = 0);
     void Present();
-    AEResult CheckDevCaps(const GraphicsCheckDevCaps& devCaps);
 
     void SetPixelShader(PixelShader* ps);
     void SetVertexShader(VertexShader* vs);
@@ -432,8 +431,6 @@ public:
     void DrawQuad2D(const RECT& size, const glm::vec4& texCoord = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 
     void DispatchComputeShader(uint32_t threadGroupCountX, uint32_t threadGroupCountY, uint32_t threadGroupCountZ);
-
-    AEResult CheckDevCaps(const std::string& file);
 
 #if defined(AE_GRAPHIC_DEBUG_DEVICE)
     void BeginEvent(const std::string& eventName);

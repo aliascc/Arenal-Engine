@@ -385,26 +385,6 @@ struct GraphicsCheckFormat sealed : public AEObject
     GraphicsCheckFormat();
 };
 
-struct GraphicsCheckDevCaps sealed : public AEObject
-{
-    glm::ivec2 PS_V = glm::ivec2(2, 0);
-
-    glm::ivec2 VS_V = glm::ivec2(2, 0);
-
-    bool PureDevice = false;
-
-    bool HWTransformedLight = false;
-
-    bool ScissorTest = false;
-
-    uint32_t MaxSimultaneousRTs = 4;
-
-    std::vector<GraphicsCheckFormat> CheckFormatsVect;
-
-    //Constructor
-    GraphicsCheckDevCaps();
-};
-
 struct GraphicBlendStates sealed : public AEObject
 {
     friend class GraphicDevice;

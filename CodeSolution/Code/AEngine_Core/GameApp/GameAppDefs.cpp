@@ -84,7 +84,6 @@ namespace XEGameAppHelpers
         xmlFile << "<"        << AE_PROJ_CONFIG_MAIN_NODE          << ">";
 
         xmlFile << "<"        << AE_PROJ_CONFIG_NODE               << " " << AE_PROJ_CONFIG_NAME_PROP << "=\""       << projectName                              << "\" />";
-        xmlFile << "<"        << AE_PROJ_DEV_CAPS_NODE             << " " << AE_PROJ_CONFIG_FILE_PROP << " = \""     << AE_PROJ_DEVCAPS_FILE_LOC                 << "\" />";
         xmlFile << "<"        << AE_PROJ_GRAPHIC_OPTS_NODE         << " " << AE_PROJ_CONFIG_FILE_PROP << " = \""     << AE_PROJ_GRAPHIC_OPTS_FILE_LOC            << "\" />";
         xmlFile << "<"        << AE_PROJ_INPUT_NODE                << " " << AE_PROJ_CONFIG_FILE_PROP << " = \""     << AE_PROJ_INPUT_FILE_LOC                   << "\" />";
         xmlFile << "<"        << AE_PROJ_LOCALIZATION_NODE         << " " << AE_PROJ_CONFIG_FILE_PROP << " = \""     << AE_PROJ_LOCALIZATION_PROJ_FILE_LOC       << "\" />";
