@@ -113,6 +113,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Editor Reply Buffer\EditorCommands.cpp" />
+    <ClCompile Include="Editor Reply Buffer\EditorReplayBuffer.cpp" />
+    <ClCompile Include="Editor Reply Buffer\EditorReplayCommand.cpp" />
     <ClCompile Include="EditorViewer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="precomp_editor.cpp">
@@ -126,6 +129,10 @@
     <ClCompile Include="UI\Widgets\Render\UIRenderWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Editor Reply Buffer\EditorCommands.h" />
+    <ClInclude Include="Editor Reply Buffer\EditorReplayBuffer.h" />
+    <ClInclude Include="Editor Reply Buffer\EditorReplayCommand.h" />
+    <ClInclude Include="Editor Reply Buffer\EditorReplayDefs.h" />
     <ClInclude Include="EditorViewer.h" />
     <ClInclude Include="precomp_editor.h" />
     <ClInclude Include="UI\Main Menu\UIFileMenu.h" />

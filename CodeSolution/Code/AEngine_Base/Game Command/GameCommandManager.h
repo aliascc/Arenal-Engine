@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _GAME_COMMAND_MANAGER_H
-#define _GAME_COMMAND_MANAGER_H
-
 /**********************
 *   System Includes   *
 ***********************/
@@ -41,6 +38,10 @@ class GameCommand;
 /*****************
 *   Class Decl   *
 ******************/
+
+/// <summary>
+/// Game Command Manager Class
+/// </summary>
 class GameCommandManager sealed : public Singleton<GameCommandManager>
 {
     friend class Singleton<GameCommandManager>;
@@ -49,29 +50,10 @@ class GameCommandManager sealed : public Singleton<GameCommandManager>
 
 private:
 
-    /************************
-    *   Private Variables   *
-    *************************/
-#pragma region Private Variables
-
     /// <summary>
     /// Game Command List to execute
     /// </summary>
     GameCommandList m_GameCommandList;
-
-#pragma endregion
-
-    /**********************
-    *   Private Methods   *
-    ***********************/
-#pragma region Private Methods
-
-#pragma endregion
-
-    /***********************************************
-    *   Private Constructor & Destructor Methods   *
-    ************************************************/
-#pragma region Constructor & Destructor Methods
 
     /// <summary>
     /// GameCommandManager Constructor
@@ -87,43 +69,17 @@ private:
     GameCommandManager(const GameCommandManager&) = delete;
     GameCommandManager& operator=(const GameCommandManager&) = delete;
 
-#pragma endregion
-
 public:
-
-    /******************
-    *   Get Methods   *
-    *******************/
-#pragma region Get Methods
-
-#pragma endregion
-
-    /******************
-    *   Set Methods   *
-    *******************/
-#pragma region Set Methods
-
-#pragma endregion
-
-    /************************
-    *   Framework Methods   *
-    *************************/
-#pragma region Framework Methods
 
     /// <summary>
     /// Adds a new Game Command to execute at the end of the frame
     /// </summary>
     /// <param name="cmd">Game Command to execute</param>
-    /// <returns>OK if command was added, otherwise error code</returns>
-    AEResult AddCommand(GameCommand* cmd);
+    void AddCommand(GameCommand* cmd);
 
     /// <summary>
     /// Execute Game Commands
     /// </summary>
     void ExecuteCommands();
 
-#pragma endregion
-
 };
-
-#endif

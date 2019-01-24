@@ -19,6 +19,15 @@
     <ClCompile Include="UI\Main Menu\UIFileMenu.cpp">
       <Filter>UI\Main Menu</Filter>
     </ClCompile>
+    <ClCompile Include="Editor Reply Buffer\EditorCommands.cpp">
+      <Filter>Editor Reply Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor Reply Buffer\EditorReplayBuffer.cpp">
+      <Filter>Editor Reply Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor Reply Buffer\EditorReplayCommand.cpp">
+      <Filter>Editor Reply Buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorViewer.h" />
@@ -41,6 +50,18 @@
     <ClInclude Include="UI\Main Menu\UIFileMenu.h">
       <Filter>UI\Main Menu</Filter>
     </ClInclude>
+    <ClInclude Include="Editor Reply Buffer\EditorCommands.h">
+      <Filter>Editor Reply Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor Reply Buffer\EditorReplayBuffer.h">
+      <Filter>Editor Reply Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor Reply Buffer\EditorReplayCommand.h">
+      <Filter>Editor Reply Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor Reply Buffer\EditorReplayDefs.h">
+      <Filter>Editor Reply Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">
@@ -54,6 +75,9 @@
     </Filter>
     <Filter Include="UI\Widgets\Render">
       <UniqueIdentifier>{8e9dfcc6-6191-457b-83de-d1736b72c0f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor Reply Buffer">
+      <UniqueIdentifier>{28e9d390-1202-4697-9fd2-be1d56997313}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
