@@ -82,7 +82,7 @@
 #include "glm\gtx\transform.hpp"
 #include "glm\gtc\quaternion.hpp"
 
-#include "cppformat\format.h"
+#include "fmt\format.h"
 
 #include "boost\filesystem.hpp"
 #include "boost\algorithm\string.hpp"

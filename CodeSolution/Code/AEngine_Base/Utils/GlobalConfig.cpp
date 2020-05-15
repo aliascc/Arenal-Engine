@@ -42,7 +42,7 @@ namespace AE_GlobalConfig
 {
     static AEResult OpenRegistry(HKEY& hKey)
     {
-        LONG res = RegOpenKeyEx(HKEY_CURRENT_USER, AE_GC_EDITOR_REGISTRY_SUBKEY, 0, KEY_READ, &hKey);
+        LONG res = RegOpenKeyExA(HKEY_CURRENT_USER, AE_GC_EDITOR_REGISTRY_SUBKEY, 0, KEY_READ, &hKey);
         if (res != ERROR_SUCCESS)
         {
             return AEResult::ConfigLoadError;
@@ -71,7 +71,7 @@ namespace AE_GlobalConfig
 
         DWORD sizeOfBuffer = 0;
 
-        ULONG errorCode = RegQueryValueEx(hKey, attributeName.c_str(), 0, nullptr, nullptr, &sizeOfBuffer);
+        ULONG errorCode = RegQueryValueExA(hKey, attributeName.c_str(), 0, nullptr, nullptr, &sizeOfBuffer);
         if (errorCode != ERROR_SUCCESS)
         {
             CloseRegistry(hKey);
@@ -79,7 +79,7 @@ namespace AE_GlobalConfig
         }
 
         char* buffer = new char[sizeOfBuffer];
-        errorCode = RegQueryValueEx(hKey, attributeName.c_str(), 0, nullptr, (LPBYTE)buffer, &sizeOfBuffer);
+        errorCode = RegQueryValueExA(hKey, attributeName.c_str(), 0, nullptr, (LPBYTE)buffer, &sizeOfBuffer);
         if (errorCode != ERROR_SUCCESS)
         {
             DeleteMem(buffer);
@@ -100,7 +100,7 @@ namespace AE_GlobalConfig
     {
         DWORD sizeOfBuffer = (DWORD)(value.length() + 1) * sizeof(wchar_t);
 
-        LONG status = RegSetKeyValue(HKEY_LOCAL_MACHINE, AE_GC_EDITOR_REGISTRY_SUBKEY,
+        LONG status = RegSetKeyValueA(HKEY_LOCAL_MACHINE, AE_GC_EDITOR_REGISTRY_SUBKEY,
                                      attributeName.c_str(), REG_SZ, value.c_str(), sizeOfBuffer);
         if (status != ERROR_SUCCESS)
         {

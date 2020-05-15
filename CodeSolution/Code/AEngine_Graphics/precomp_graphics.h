@@ -81,7 +81,7 @@
 #include "glm\gtc\quaternion.hpp"
 #include "glm\gtx\compatibility.hpp"
 
-#include "cppformat\format.h"
+#include "fmt\format.h"
 
 #include "boost\filesystem.hpp"
 #include "boost\algorithm\string.hpp"

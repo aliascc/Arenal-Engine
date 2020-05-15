@@ -1,7 +1,7 @@
 Tool:           Dear ImGui
-Last Updated:   January 1 2019
+Last Updated:   May 15 2020
 Version:        imgui-docking-238321c
-Last Build:     January 1 2019
+Last Build:     May 15 2020
 
 Comments:
  - Download: https://github.com/ocornut/imgui/tree/docking

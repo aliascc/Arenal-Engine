@@ -177,8 +177,9 @@ AEResult ImGuiManager::Initialize()
                             ImGuiWindowFlags_NoBringToFrontOnFocus  | ImGuiWindowFlags_NoNavFocus   |
                             ImGuiWindowFlags_NoBackground;
 
-    // When using ImGuiDockNodeFlags_PassthruDockspace, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
-    m_DockingFlags = ImGuiDockNodeFlags_PassthruDockspace;
+    // When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background
+    // and handle the pass-thru hole, so we ask Begin() to not render a background.
+    m_DockingFlags = ImGuiDockNodeFlags_PassthruCentralNode;
 
     //////////////////////////////////
     // Creatte Main Menu

@@ -47,7 +47,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
     if(editorViewer.InitGameApp("../ConfigEngine.xml", errorMsg) != AEResult::Ok)
     {
-        MessageBox(0, errorMsg.c_str(), 0, 0);
+        MessageBoxA(0, errorMsg.c_str(), 0, 0);
 
         return EXIT_FAILURE;
     }

@@ -69,12 +69,12 @@ private:
     /// <summary>
     /// ImGui Docking Flags
     /// </summary>
-    ImGuiWindowFlags m_DockingFlags = ImGuiWindowFlags_None;
+    ImGuiWindowFlags m_DockingWindowFlags = ImGuiWindowFlags_None;
 
     /// <summary>
     /// ImGui Docking WIndow Flags
     /// </summary>
-    ImGuiDockNodeFlags m_DockingWindowFlags = ImGuiDockNodeFlags_None;
+    ImGuiDockNodeFlags m_DockingFlags = ImGuiDockNodeFlags_None;
 
     /// <summary>
     /// Declares if the Manager has been initialized and

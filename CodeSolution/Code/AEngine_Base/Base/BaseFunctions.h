@@ -60,7 +60,7 @@
                             std::string errorStr = "";                                                                              \
                             std::string file(__FILE__);                                                                             \
                             std::string line(AESTR(__LINE__));                                                                      \
-                            FormatMessage(                                                                                          \
+                            FormatMessageA(                                                                                          \
                                 FORMAT_MESSAGE_FROM_SYSTEM     | FORMAT_MESSAGE_ALLOCATE_BUFFER  | FORMAT_MESSAGE_IGNORE_INSERTS,   \
                                 nullptr,                                                                                            \
                                 hr,                                                                                                 \
@@ -71,7 +71,7 @@
                             errorStr = file + "(" + line + "): " + std::string(errorText);                                          \
                             LocalFree(errorText);                                                                                   \
                             errorText = nullptr;                                                                                    \
-                            OutputDebugString(errorStr.c_str());                                                                    \
+                            OutputDebugStringA(errorStr.c_str());                                                                    \
                         }
 #else
 #define DisplayError(x)

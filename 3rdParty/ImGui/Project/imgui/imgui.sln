@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui", "imgui.vcxproj", "{77BD270A-5CEB-423F-A739-39E3A26FF736}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui", "imgui\imgui.vcxproj", "{37031458-C32C-41C5-9CFA-DA6C746CBEF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{77BD270A-5CEB-423F-A739-39E3A26FF736}.Debug|x64.ActiveCfg = Release|x64
-		{77BD270A-5CEB-423F-A739-39E3A26FF736}.Debug|x64.Build.0 = Release|x64
-		{77BD270A-5CEB-423F-A739-39E3A26FF736}.Release|x64.ActiveCfg = Release|x64
-		{77BD270A-5CEB-423F-A739-39E3A26FF736}.Release|x64.Build.0 = Release|x64
+		{37031458-C32C-41C5-9CFA-DA6C746CBEF3}.Debug|x64.ActiveCfg = Debug|x64
+		{37031458-C32C-41C5-9CFA-DA6C746CBEF3}.Debug|x64.Build.0 = Debug|x64
+		{37031458-C32C-41C5-9CFA-DA6C746CBEF3}.Release|x64.ActiveCfg = Release|x64
+		{37031458-C32C-41C5-9CFA-DA6C746CBEF3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F7D9AAE1-1878-4454-ADE6-AB9F8932014E}
+		SolutionGuid = {09A2D38C-192C-4D4E-9A3F-E29CE29C04B6}
 	EndGlobalSection
 EndGlobal

@@ -1,7 +1,7 @@
 Tool:           ASSIMP (Open Assert Import Library)
 Last Updated:   January 9 2018
 Version:        4.1.0
-Last Build:     January 1 2019
+Last Build:     May 15 2020
 
 Comments:
  - Download: https://github.com/assimp/assimp/releases

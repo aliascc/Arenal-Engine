@@ -1,6 +1,6 @@
 Tool:           OpenGL Mathematics
-Last Updated:   January 1 2019
-Version:        0.9.9.3
+Last Updated:   May 150 2020
+Version:        0.9.9.8
 1
 Comments:
 

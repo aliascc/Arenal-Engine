@@ -35,7 +35,7 @@
 #include "GraphicsDefs.h"
 #include "VertexLayout.h"
 #include "IVertexBuffer.h"
-#include "cppformat\format.h"
+#include "fmt\format.h"
 
 /********************
 *   Forward Decls   *

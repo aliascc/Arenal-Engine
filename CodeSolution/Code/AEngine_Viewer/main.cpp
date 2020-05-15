@@ -45,7 +45,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
     //if(app.InitGameApp(errorMsg) != AEResult::Ok)
     {
-        MessageBox(0, errorMsg.c_str(), 0, 0);
+        MessageBoxA(0, errorMsg.c_str(), 0, 0);
 
         return EXIT_FAILURE;
     }

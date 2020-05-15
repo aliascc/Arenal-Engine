@@ -1,7 +1,7 @@
 Tool:          Angel Script
-Last Updated:  January 1 2019
-Version:       2.33.0
-Last Build:    January 1 2019
+Last Updated:  May 13 2020
+Version:       2.34.0
+Last Build:    May 13 2020
 
 Comments:
  - Download: http://www.angelcode.com/angelscript/downloads.html
@@ -9,7 +9,7 @@ Comments:
  - For VS:
   - Create Project for Add ons "angelscript_addons"
    - Add AngelScript.h to include folder in VS Project
-   - Change name in project to match _x64 & _x86 libs when compiling the library	
+   - Change name in project to match _x64 libs when compiling the library	
    - Enable multiprocessor build and no minimal generation
    - Make sure the library type is MTD/MTDd multri threaded dll
    - Set Multi Byte Character Set

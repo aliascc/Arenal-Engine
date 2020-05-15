@@ -520,13 +520,13 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
 
     if (ExtractGameEngineConfig() != AEResult::Ok)
     {
-        MessageBox(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, "Unable to extract engine configuration.", 0, 0);
+        MessageBoxA(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, "Unable to extract engine configuration.", 0, 0);
         return AEResult::Fail;
     }
 
     if (InitLocalizationManager() != AEResult::Ok)
     {
-        MessageBox(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, "Localization Parameters could not be initialize.", 0, 0);
+        MessageBoxA(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, "Localization Parameters could not be initialize.", 0, 0);
         return AEResult::Fail;
     }
 
@@ -534,7 +534,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
     {
         std::string errMsg = AELOCMAN.GetLiteral("EXTRACT_GAME_OPTS_ERR_MSG");
 
-        MessageBox(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, errMsg.c_str(), 0, 0);
+        MessageBoxA(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, errMsg.c_str(), 0, 0);
 
         return AEResult::Fail;
     }
@@ -543,7 +543,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
     {
         std::string errMsg = AELOCMAN.GetLiteral("LOGGER_INIT_ERR_MSG");
 
-        MessageBox(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, errMsg.c_str(), 0, 0);
+        MessageBoxA(m_GraphicDevice->GetGraphicPP().m_DeviceWindow, errMsg.c_str(), 0, 0);
 
         return AEResult::Fail;
     }
@@ -664,7 +664,7 @@ AEResult GameApp::InitGameApp(const std::string& configEngineFile, std::string& 
 
 AEResult GameApp::InitMainWindow()
 {
-    WNDCLASS wc;
+    WNDCLASSA wc;
     wc.style            = CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc      = MainWndProc; 
     wc.cbClsExtra       = 0;
@@ -676,7 +676,7 @@ AEResult GameApp::InitMainWindow()
     wc.lpszMenuName     = 0;
     wc.lpszClassName    = m_GameAppOpts.m_WinClassName.c_str();
 
-    if( !RegisterClass(&wc) )
+    if( !RegisterClassA(&wc) )
     {
         AELogHelpers::Log(LogLevel::Error, LogSystem::Core, "REGISTER_CLASS_FAIL_MSG", __FUNCTION__);
 
@@ -700,7 +700,7 @@ AEResult GameApp::InitMainWindow()
 
     AdjustWindowRect(&R, wsOpt, false);
         
-    m_MainWnd = CreateWindow(   m_GameAppOpts.m_WinClassName.c_str(), 
+    m_MainWnd = CreateWindowA(  m_GameAppOpts.m_WinClassName.c_str(), 
                                 m_GameAppOpts.m_WinCaption.c_str(), 
                                 wsOpt, 
                                 m_GameAppOpts.m_InitialWinPos.x, 

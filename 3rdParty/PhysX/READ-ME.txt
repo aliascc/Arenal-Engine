@@ -1,7 +1,7 @@
 Tool:          nVidia PhysX
-Last Updated:  January 1 2019
-Version:       4.0.0
-Last Build:    January 1 2019
+Last Updated:  May 15 2020
+Version:       4.1
+Last Build:    May 15 2020
 
 Comments:
 

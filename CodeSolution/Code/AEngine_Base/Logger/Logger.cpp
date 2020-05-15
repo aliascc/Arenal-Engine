@@ -28,7 +28,7 @@
 *   3rd Party Includes   *
 **************************/
 #include "angelscript.h"
-#include "cppformat\format.h"
+#include "fmt\format.h"
 
 /***************************
 *   Game Engine Includes   *

@@ -71,7 +71,7 @@ AEResult GraphicDebugDX::Initialize()
         return AEResult::Fail;
     }
 
-    m_HandleDXGIDebugDLL = LoadLibrary("dxgidebug.dll");
+    m_HandleDXGIDebugDLL = LoadLibraryA("dxgidebug.dll");
 
     if (m_HandleDXGIDebugDLL == nullptr)
     {
@@ -122,17 +122,17 @@ void GraphicDebugDX::ReleaseAndReport()
 {
     if (m_D3D11Debug != nullptr)
     {
-        OutputDebugString("\n\n--------AEngine Calling ReportLiveDeviceObjects--------\n\n\n");
+        OutputDebugStringA("\n\n--------AEngine Calling ReportLiveDeviceObjects--------\n\n\n");
         m_D3D11Debug->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL);
-        OutputDebugString("\n\n--------AEngine End Call ReportLiveDeviceObjects--------\n\n\n");
+        OutputDebugStringA("\n\n--------AEngine End Call ReportLiveDeviceObjects--------\n\n\n");
     }
     ReleaseCOM(m_D3D11Debug);
 
     if (m_DXGIDebug != nullptr)
     {
-        OutputDebugString("\n\n--------AEngine Calling ReportLiveObjects--------\n\n\n");
+        OutputDebugStringA("\n\n--------AEngine Calling ReportLiveObjects--------\n\n\n");
         m_DXGIDebug->ReportLiveObjects(DXGI_DEBUG_ALL, (DXGI_DEBUG_RLO_FLAGS)(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_DETAIL));
-        OutputDebugString("\n\n--------AEngine End Call ReportLiveObjects--------\n\n\n");
+        OutputDebugStringA("\n\n--------AEngine End Call ReportLiveObjects--------\n\n\n");
     }
 
     ReleaseCOM(m_DXGIDebug);
