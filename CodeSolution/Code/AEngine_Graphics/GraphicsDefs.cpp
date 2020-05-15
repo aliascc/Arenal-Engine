@@ -41,99 +41,6 @@
 *   Function Defs   *
 *********************/
 
-#if defined(AE_GRAPHIC_DEBUG_DEVICE)
-
-/*********************
-*   GraphicDebugDX   *
-**********************/
-GraphicDebugDX::GraphicDebugDX(GraphicDevice* graphicDevice)
-    : m_GraphicDevice(graphicDevice)
-{
-    AEAssert(graphicDevice != nullptr);
-}
-
-AEResult GraphicDebugDX::Initialize()
-{
-    if(m_GraphicDevice == nullptr)
-    {
-        return AEResult::Fail;
-    }
-
-    m_HandleDXGIDebugDLL = LoadLibrary("dxgidebug.dll");
-    
-    if(m_HandleDXGIDebugDLL == nullptr)
-    {
-        //Library failed to load...
-
-        AETODO("Add log error");
-
-        return AEResult::Fail;
-    }
-
-    typedef HRESULT(__stdcall *fPtr)(const IID&, void**);  
-    fPtr DXGIGetDebugInterface = (fPtr)GetProcAddress(m_HandleDXGIDebugDLL, "DXGIGetDebugInterface");  
-
-    if(DXGIGetDebugInterface  == nullptr)
-    {
-        FreeLibrary(m_HandleDXGIDebugDLL);
-    
-        return AEResult::Fail;
-    }
-
-    m_GraphicDevice->GetDeviceDX()->QueryInterface(__uuidof(ID3D11Debug), (void**)&m_D3D11Debug);
-
-    if(m_D3D11Debug == nullptr)
-    {
-        AETODO("Add log");
-
-        return AEResult::Fail;
-    }
-
-    DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&m_DXGIDebug);
-    DXGIGetDebugInterface(__uuidof(IDXGIInfoQueue), (void**)&m_DXGIInfoQueue);
-    
-    if(m_DXGIDebug == nullptr || m_DXGIInfoQueue == nullptr)
-    {
-        FreeLibrary(m_HandleDXGIDebugDLL);
-        ReleaseCOM(m_D3D11Debug);
-        
-        return AEResult::Fail;
-    }
-
-    return AEResult::Ok;
-}
-
-void GraphicDebugDX::Report()
-{
-    if(m_D3D11Debug != nullptr)
-    {
-        OutputDebugString("\n\n--------AEngine Calling ReportLiveDeviceObjects--------\n\n\n");
-        m_D3D11Debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-        OutputDebugString("\n\n--------AEngine End Call ReportLiveDeviceObjects--------\n\n\n");
-    }
-
-    if(m_DXGIDebug != nullptr)
-    {        
-        OutputDebugString("\n\n--------AEngine Calling ReportLiveObjects--------\n\n\n");
-        m_DXGIDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
-        OutputDebugString("\n\n--------AEngine End Call ReportLiveObjects--------\n\n\n");
-    }
-}
-
-GraphicDebugDX::~GraphicDebugDX()
-{    
-    ReleaseCOM(m_D3D11Debug);
-    ReleaseCOM(m_DXGIDebug);
-    ReleaseCOM(m_DXGIInfoQueue);
-
-    if(m_HandleDXGIDebugDLL != nullptr)
-    {
-        FreeLibrary(m_HandleDXGIDebugDLL);
-    }
-}
-
-#endif
-
 /***************************
 *   GraphicOptsPreferred   *
 ****************************/
@@ -158,16 +65,9 @@ GraphicsCheckFormat::GraphicsCheckFormat()
 {
 }
 
-/***************************
-*   GraphicsCheckDevCaps   *
-****************************/
-GraphicsCheckDevCaps::GraphicsCheckDevCaps()
-{
-}
-
-/***************************
-*   GraphicsCheckDevCaps   *
-****************************/
+/*************************
+*   GraphicBlendStates   *
+**************************/
 ID3D11BlendState* GraphicBlendStates::m_DefaultState            = nullptr;
 ID3D11BlendState* GraphicBlendStates::m_AdditiveState           = nullptr;
 ID3D11BlendState* GraphicBlendStates::m_AlphaBlendState         = nullptr;

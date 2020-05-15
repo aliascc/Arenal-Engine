@@ -17,6 +17,8 @@
 
 #pragma once
 
+#if defined(AE_GRAPHIC_DEBUG_DEVICE)
+
 /**********************
 *   System Includes   *
 ***********************/
@@ -28,58 +30,59 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Utils/Singleton.h"
+
+/************
+*   Using   *
+*************/
 
 /********************
 *   Forward Decls   *
 *********************/
-class GameCommand;
+class GraphicDevice;
 
 /*****************
 *   Class Decl   *
 ******************/
 
 /// <summary>
-/// Game Command Manager Class
+/// Graphic Device Helpers to debug the game app
 /// </summary>
-class GameCommandManager sealed : public Singleton<GameCommandManager>
+class GraphicDebugDX sealed : public AEObject
 {
-    friend class Singleton<GameCommandManager>;
-
-    typedef std::list<GameCommand*> GameCommandList;
-
 private:
 
     /// <summary>
-    /// Game Command List to execute
+    /// DirectX Debugger, Helper to debug
     /// </summary>
-    GameCommandList m_GameCommandList;
+    ID3D11Debug* m_D3D11Debug = nullptr;
 
     /// <summary>
-    /// GameCommandManager Constructor
+    /// DirectX DXGI Debugger, Helper to debug
     /// </summary>
-    GameCommandManager();
+    IDXGIDebug* m_DXGIDebug = nullptr;
 
-    /// <summary>
-    /// Default GameCommandManager Destructor
-    /// </summary>
-    virtual ~GameCommandManager();
+    HMODULE m_HandleDXGIDebugDLL = nullptr;
 
-    // Prevent copy-construction / assignment
-    GameCommandManager(const GameCommandManager&) = delete;
-    GameCommandManager& operator=(const GameCommandManager&) = delete;
+    IDXGIInfoQueue* m_DXGIInfoQueue = nullptr;
+
+    GraphicDevice* m_GraphicDevice = nullptr;
+
+    void ReleaseAndReport();
 
 public:
 
     /// <summary>
-    /// Adds a new Game Command to execute at the end of the frame
+    /// Constructor for GraphicDebugDX
     /// </summary>
-    /// <param name="cmd">Game Command to execute</param>
-    void AddCommand(GameCommand* cmd);
+    /// <param name="graphicDevice"></param>
+    GraphicDebugDX(GraphicDevice* graphicDevice);
 
     /// <summary>
-    /// Execute Game Commands
+    /// Destructor for GraphicDebugDX
     /// </summary>
-    void ExecuteCommands();
+    virtual ~GraphicDebugDX();
 
+    AEResult Initialize();
 };
+
+#endif //AE_GRAPHIC_DEBUG_DEVICE

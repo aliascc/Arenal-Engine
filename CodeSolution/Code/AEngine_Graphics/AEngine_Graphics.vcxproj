@@ -16,6 +16,7 @@
     <ClInclude Include="Camera\CameraManager.h" />
     <ClInclude Include="Camera\GameObjectCamera.h" />
     <ClInclude Include="Camera\EditorCamera.h" />
+    <ClInclude Include="GraphicDebugDX.h" />
     <ClInclude Include="GraphicDevice.h" />
     <ClInclude Include="GraphicsDefs.h" />
     <ClInclude Include="Lights\DirectionalLight.h" />
@@ -107,6 +108,7 @@
     <ClCompile Include="Camera\CameraManager.cpp" />
     <ClCompile Include="Camera\GameObjectCamera.cpp" />
     <ClCompile Include="Camera\EditorCamera.cpp" />
+    <ClCompile Include="GraphicDebugDX.cpp" />
     <ClCompile Include="GraphicDevice.cpp" />
     <ClCompile Include="GraphicsDefs.cpp" />
     <ClCompile Include="Lights\DirectionalLight.cpp" />

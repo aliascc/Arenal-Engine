@@ -17,9 +17,6 @@
 
 #pragma once
 
-#ifndef _GRAPHICS_DEFS_H
-#define _GRAPHICS_DEFS_H
-
 /**********************
 *   System Includes   *
 ***********************/
@@ -308,38 +305,6 @@ enum class GraphicResourceMap : uint32_t
 *   Struct   *
 **************/
 
-#if defined(AE_GRAPHIC_DEBUG_DEVICE)
-
-/// <summary>
-/// Graphic Device Helpers to debug the game app
-/// </summary>
-struct GraphicDebugDX sealed : public AEObject
-{
-    /// <summary>
-    /// DirectX Debugger, Helper to debug
-    /// </summary>
-    ID3D11Debug* m_D3D11Debug = nullptr;
-
-    /// <summary>
-    /// DirectX DXGI Debugger, Helper to debug
-    /// </summary>
-    IDXGIDebug* m_DXGIDebug = nullptr;
-
-    HMODULE m_HandleDXGIDebugDLL = nullptr;
-
-    IDXGIInfoQueue* m_DXGIInfoQueue = nullptr;
-
-    GraphicDevice* m_GraphicDevice = nullptr;
-
-    GraphicDebugDX(GraphicDevice* graphicDevice);
-    virtual ~GraphicDebugDX();
-
-    AEResult Initialize();
-    void Report();
-};
-
-#endif //AE_GRAPHIC_DEBUG_DEVICE
-
 struct GraphicOptsPreferred sealed : public AEObject
 {
     std::string m_BackBufferFormatWindowed = "";
@@ -420,26 +385,6 @@ struct GraphicsCheckFormat sealed : public AEObject
     GraphicsCheckFormat();
 };
 
-struct GraphicsCheckDevCaps sealed : public AEObject
-{
-    glm::ivec2 PS_V = glm::ivec2(2, 0);
-
-    glm::ivec2 VS_V = glm::ivec2(2, 0);
-
-    bool PureDevice = false;
-
-    bool HWTransformedLight = false;
-
-    bool ScissorTest = false;
-
-    uint32_t MaxSimultaneousRTs = 4;
-
-    std::vector<GraphicsCheckFormat> CheckFormatsVect;
-
-    //Constructor
-    GraphicsCheckDevCaps();
-};
-
 struct GraphicBlendStates sealed : public AEObject
 {
     friend class GraphicDevice;
@@ -502,5 +447,3 @@ namespace AEGraphicHelpers
     }
 #endif
 }
-
-#endif

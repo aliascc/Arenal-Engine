@@ -28,37 +28,21 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "Base/AEObject.h"
 
-/********************
-*   Forward Decls   *
-*********************/
+/************
+*   Enums   *
+*************/
 
-/*****************
-*   Class Decl   *
-******************/
+/**************
+*   Defines   *
+***************/
 
 /// <summary>
-/// Game Command Base class
+/// Max Default redo commands to buffer
 /// </summary>
-class GameCommand abstract : public AEObject
-{
-protected:
+#define AE_EDITOR_REPLAY_REDO_MAX_COMMANDS      50
 
-public:
-
-    /// <summary>
-    /// GameCommand Constructor
-    /// </summary>
-    GameCommand();
-
-    /// <summary>
-    /// Default GameCommand Destructor
-    /// </summary>
-    virtual ~GameCommand();
-
-    /// <summary>
-    /// Executes the Game Command
-    /// </summary>
-    virtual void Execute() = 0;
-};
+/// <summary>
+/// Max Default undo commands to buffer
+/// </summary>
+#define AE_EDITOR_REPLAY_UNDO_MAX_COMMANDS      50

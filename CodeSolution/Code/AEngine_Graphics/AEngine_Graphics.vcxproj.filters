@@ -318,6 +318,7 @@
       <Filter>Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="precomp_graphics.h" />
+    <ClInclude Include="GraphicDebugDX.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicDevice.cpp" />
@@ -527,5 +528,6 @@
       <Filter>Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="precomp_graphics.cpp" />
+    <ClCompile Include="GraphicDebugDX.cpp" />
   </ItemGroup>
 </Project>

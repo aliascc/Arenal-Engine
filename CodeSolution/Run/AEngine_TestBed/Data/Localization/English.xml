@@ -14,7 +14,6 @@
   <Literal  name="DX_MULTI_SAMPLE_TYPE_NOT_FOUND_ERR_MSG"       msg="{0}: DirectX Multi Sample Type '{1}' has not been found, returning {2} as default" />
   <Literal  name="DX_PRESENTATION_PARAMETER_NOT_FOUND_ERR_MSG"  msg="{0}: DirectX Presentation Parameter '{1}' has not been found, returning {2} as default" />
   <Literal  name="DX_OBJECT_CREAT_FAIL_ERR_MSG"                 msg="{0}: DirectX Object Creation Failed" />
-  <Literal  name="CHECK_DEV_CAPS_ERR_MSG"                       msg="{0}: Check Device Capabilities failed." />
   <Literal  name="INIT_INPUT_DEVICES_FAIL_ERR_MSG"              msg="Could not initialize the Input Devices." />
   <Literal  name="INPUT_DEVICE_FAIL_CREATE_ERR_MSG"             msg="{0}: Could not create input device." />
   <Literal  name="DX_INPUT_KEY_NOT_FOUND_ERR_MSG"               msg="{0}: DirectX Input Key '{1}' has not been found, returning {2} as default" />

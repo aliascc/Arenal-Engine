@@ -15,10 +15,7 @@
 * limitations under the License.
 */
 
-/*************************
-*   Precompiled Header   *
-**************************/
-#include "precomp_base.h"
+#pragma once
 
 /**********************
 *   System Includes   *
@@ -31,53 +28,43 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameCommand.h"
-#include "GameCommandManager.h"
-
-//Always include last
-#include "Memory\MemLeaks.h"
+#include "Base/AEObject.h"
 
 /********************
-*   Function Defs   *
+*   Forward Decls   *
 *********************/
 
-GameCommandManager::GameCommandManager()
+/*****************
+*   Class Decl   *
+******************/
+
+/// <summary>
+/// Editor Reply Command Base class
+/// </summary>
+class EditorReplayCommand abstract : public AEObject
 {
-}
+protected:
 
-GameCommandManager::~GameCommandManager()
-{
-    for (GameCommand* gc : m_GameCommandList)
-    {
-        DeleteMem(gc);
-    }
+public:
 
-    m_GameCommandList.clear();
-}
+    /// <summary>
+    /// EditorReplayCommand Constructor
+    /// </summary>
+    EditorReplayCommand();
 
-void GameCommandManager::AddCommand(GameCommand* cmd)
-{
-    if (cmd == nullptr)
-    {
-        return;
-    }
+    /// <summary>
+    /// Default EditorReplayCommand Destructor
+    /// </summary>
+    virtual ~EditorReplayCommand();
 
-    m_GameCommandList.push_back(cmd);
-}
+    /// <summary>
+    /// Executes the Editor Command
+    /// </summary>
+    virtual void Execute() = 0;
 
-void GameCommandManager::ExecuteCommands()
-{
-    if (m_GameCommandList.size() == 0)
-    {
-        return;
-    }
+    /// <summary>
+    /// Undos the the Editor Command
+    /// </summary>
+    virtual void Undo() = 0;
 
-    for (GameCommand* gc : m_GameCommandList)
-    {
-        gc->Execute();
-
-        DeleteMem(gc);
-    }
-
-    m_GameCommandList.clear();
-}
+};

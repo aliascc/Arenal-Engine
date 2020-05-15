@@ -232,81 +232,6 @@ void GraphicDevice::OnResetDevice()
     ResetHalfPixel();
 }
 
-AEResult GraphicDevice::CheckDevCaps(const std::string& file)
-{
-    AEAssert(!file.empty());
-
-    GraphicsCheckDevCaps devCaps;
-
-    AEXMLParser newFile;
-    if (newFile.LoadFile(file) != AEResult::Ok)
-    {
-        AELogHelpers::Log(LogLevel::Error, LogSystem::Graphics, "INIT_COULDNT_READ_FILE_MSG", __FUNCTION__, file);
-        return AEResult::Fail;
-    }
-
-    AEXMLParser devCapsXML = newFile["DevCaps"];
-    if ( !devCapsXML.HasElement() )
-    {
-        return AEResult::Fail;
-    }
-
-    for (AEXMLParser child = devCapsXML.GetFirstChildElement(); child.HasElement(); child = child.GetNextSiblingElement())
-    {
-        std::string l_Type = child.GetName();
-
-        if( l_Type.compare("PixelShader") == 0 )
-        {
-            devCaps.PS_V = child.GetVect2i("Ver", glm::ivec2(2, 0), false);
-        }
-        else if ( l_Type.compare("VertexShader") == 0 )
-        {
-            devCaps.VS_V = child.GetVect2i("Ver", glm::ivec2(2, 0), false);
-        }
-        else if( l_Type.compare("PureDevice") == 0 )
-        {
-            devCaps.PureDevice = true;
-        }
-        else if( l_Type.compare("HWTransformedLight") == 0 )
-        {
-            devCaps.HWTransformedLight = true;
-        }
-        else if( l_Type.compare("ScissorTest") == 0 )
-        {
-            devCaps.ScissorTest = true;
-        }
-        else if( l_Type.compare("PixelFormat") == 0 )
-        {
-            std::string displayFormat = child.GetString("DisplayFormat", "NOT_FOUND");
-            std::string backFufferFormat = child.GetString("BackBufferFormat", "NOT_FOUND");
-            bool windowed = child.GetBool("Windowed");
-
-            GraphicsCheckFormat chFmt;
-
-            chFmt.Windowed            = windowed;
-            chFmt.BackBufferFormat    = AEGraphicHelpers::GetPXFormatFromString(backFufferFormat);
-            chFmt.DisplayFormat        = AEGraphicHelpers::GetPXFormatFromString(displayFormat);
-
-            devCaps.CheckFormatsVect.push_back(chFmt);
-        }
-        else if( l_Type.compare("MAXRTS") == 0 )
-        {
-            devCaps.MaxSimultaneousRTs = child.GetUInt("num", 4, false);
-        }
-    }
-
-    return CheckDevCaps(devCaps);
-}
-
-AEResult GraphicDevice::CheckDevCaps(const GraphicsCheckDevCaps& devCaps)
-{
-    AEAssert(m_IsReady);
-
-    AEAssert(!"Not implemented");
-
-    return AEResult::Fail;
-}
-
 AEResult GraphicDevice::InitDXConfiguration()
 {
     InitSwapChainDesc();
@@ -665,9 +590,8 @@ AEResult GraphicDevice::InitDevice()
         createDeviceFlags |= D3D11_CREATE_DEVICE_SINGLETHREADED;
     }
 
-    AETODO("Check Feature Levels");
     D3D_FEATURE_LEVEL featureLevelsArr[] = {
-        D3D_FEATURE_LEVEL_11_1,  
+        D3D_FEATURE_LEVEL_11_1,
         D3D_FEATURE_LEVEL_11_0
     };
     const uint32_t numFeatureLeves = _countof(featureLevelsArr);
@@ -675,9 +599,7 @@ AEResult GraphicDevice::InitDevice()
     D3D_FEATURE_LEVEL featureLevel;
 
     D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE_HARDWARE;
-    
-    AETODO("Give option to default adapter");
-    AETODO("Give option to Driver Type");
+
     hr = D3D11CreateDevice(
         nullptr,                    //Default adapter
         driverType,                 //Driver Type
@@ -700,33 +622,6 @@ AEResult GraphicDevice::InitDevice()
     //Add names to DX Objects for Debugging
     AEGraphicHelpers::SetDebugObjectName(m_DeviceDX, AE_DEBUG_MAIN_GD_NAME);
     AEGraphicHelpers::SetDebugObjectName(m_DeviceContextDX, AE_DEBUG_MAIN_DC_NAME);
-
-    AETODO("CHECK Device1 and other stuff, it is only available in windows 8");
-    //hr = device->QueryInterface(__uuidof(ID3D11Device1), (void**)&m_DX3D11Device);
-    //if(hr != S_OK)
-    //{
-    //    ReleaseCOM(device);
-    //    ReleaseCOM(deviceContext);
-
-    //    DisplayError(hr);
-
-    //    return AEResult::Fail;
-    //}
-    //
-    //ReleaseCOM(device);
-
-    //hr = deviceContext->QueryInterface(__uuidof(ID3D11DeviceContext1), (void**)&m_DX3DImmediateContext);
-    //if(hr != S_OK)
-    //{
-    //    ReleaseCOM(m_DX3D11Device);
-    //    ReleaseCOM(deviceContext);
-
-    //    DisplayError(hr);
-
-    //    return AEResult::Fail;
-    //}
-    
-    //ReleaseCOM(deviceContext);
 
     if(featureLevel != D3D_FEATURE_LEVEL_11_0 && featureLevel != D3D_FEATURE_LEVEL_11_1)
     {

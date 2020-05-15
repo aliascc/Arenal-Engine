@@ -18,7 +18,7 @@
 /*************************
 *   Precompiled Header   *
 **************************/
-#include "precomp_base.h"
+#include "precomp_editor.h"
 
 /**********************
 *   System Includes   *
@@ -31,53 +31,11 @@
 /***************************
 *   Game Engine Includes   *
 ****************************/
-#include "GameCommand.h"
-#include "GameCommandManager.h"
+#include "EditorCommands.h"
 
 //Always include last
 #include "Memory\MemLeaks.h"
 
-/********************
+/**********************************
 *   Function Defs   *
-*********************/
-
-GameCommandManager::GameCommandManager()
-{
-}
-
-GameCommandManager::~GameCommandManager()
-{
-    for (GameCommand* gc : m_GameCommandList)
-    {
-        DeleteMem(gc);
-    }
-
-    m_GameCommandList.clear();
-}
-
-void GameCommandManager::AddCommand(GameCommand* cmd)
-{
-    if (cmd == nullptr)
-    {
-        return;
-    }
-
-    m_GameCommandList.push_back(cmd);
-}
-
-void GameCommandManager::ExecuteCommands()
-{
-    if (m_GameCommandList.size() == 0)
-    {
-        return;
-    }
-
-    for (GameCommand* gc : m_GameCommandList)
-    {
-        gc->Execute();
-
-        DeleteMem(gc);
-    }
-
-    m_GameCommandList.clear();
-}
+***********************************/
